@@ -2,7 +2,7 @@
 node_modules/
 globals.d.ts
 .gitignore
-tsconfig.json
+moxb/tsconfig.json
 tslint.json
 Makefile
 yarn.lock

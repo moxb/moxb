@@ -151,8 +151,7 @@ all-dependencies: \
 	$(M)/src-node_modules \
 	src/node_modules \
 	$(M)/npm-dependencies \
-	$(M)/optional-modules-dependencies \
-	_tsc
+	$(M)/optional-modules-dependencies
 
 
 npm-check-updates:
@@ -178,46 +177,18 @@ format-code:
 ##### Begin tsc hack ###################################################################################################
 # TODO add src/__mocks__ here
 # It does not work, because there are problems with tsc
-TSC_TS_DIRS = \
-	src/moxb
 
-# all typescript files
-TSC_TS_FILES = $(shell find $(TSC_TS_DIRS) -type f \( -name '*.ts' -o -name '*.tsx' \))
-
-tsc-watch:  all-dependencies _tsc-clean-generated-js-files-if-needed
+tsc-watch:  all-dependencies
 	$(ACTIVATE) \
-		&& cd src \
+		&& cd src/moxb \
 		&& tsc --watch --preserveWatchOutput
 
 tsc-clean-generated-js-files:
-	find $(TSC_TS_DIRS) -name '*.ts'
-#find $(TSC_TS_DIRS) -name '*.js' | xargs rm
+	rm -rf src/build
 
-# all JS files found in the
-TSC_JS_FILES = $(shell find $(TSC_TS_DIRS) -type f -name '*.js' | sort )
-
-# the names of the generated ja files
-TSC_TS_TO_JS = $(shell find $(TSC_TS_DIRS) -type f  \( -name '*.ts' -o -name '*.tsx' \) \
-           	| sed s/\.ts$$/.js/g \
-           	| sed s/\.tsx$$/.js/g \
-           	| sort \
-           	)
-
-# we check if the list of generated files is the same as the list of
-# actual files. If not, we remove all generated files...
-_tsc-clean-generated-js-files-if-needed:
-	@if [ "$(TSC_JS_FILES)" != "$(TSC_TS_TO_JS)" ]; then \
-		make tsc-clean-generated-js-files; \
-	fi
-
-_tsc: _tsc-clean-generated-js-files-if-needed
+tsc:  all-dependencies
 	$(ACTIVATE) \
-		&& cd src \
-		&& (tsc || echo typescript ERRORS found but ignored)
-
-tsc:  all-dependencies _tsc
-	$(ACTIVATE) \
-		&& cd src \
+		&& cd src/moxb \
 		&& (tsc || echo typescript ERRORS found but ignored)
 
 #####  END tsc hack ####################################################################################################

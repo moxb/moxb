@@ -9,20 +9,22 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strict": true,
+        "outDir": "../build",
+        "declaration": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
         "removeComments": false
     },
     "compilerOptions": {
-        "baseUrl": ".",
+        "baseUrl": "",
         "paths": {
             "*": [
                 "*",
-                "../optional-modules/node_modules/*"
+                "../../optional-modules/node_modules/*"
             ]
         }
     },
     "exclude": [
-        "node_modules"
+        "../node_modules"
     ]
 }
