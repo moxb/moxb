@@ -1,6 +1,6 @@
 all:
-	cd .. && $(MAKE)
+	cd ../.. && $(MAKE)
 
 # this will forward any other make goal to the parent makefile
 $(MAKECMDGOALS):
-	cd .. && $(MAKE) $(MAKECMDGOALS)
+	cd ../.. && $(MAKE) $(MAKECMDGOALS)

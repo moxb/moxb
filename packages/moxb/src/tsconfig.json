@@ -20,7 +20,7 @@
         "paths": {
             "*": [
                 "*",
-                "../../optional-modules/node_modules/*"
+                "../../../optional-modules/node_modules/*"
             ]
         }
     },

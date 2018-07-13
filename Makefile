@@ -59,7 +59,7 @@ pre-commit: all-dependencies _check-for-only
 	$(MAKE) run-unit-tests
 
 _check-for-only:
-	@!( grep '\.only(' `find src/moxb -name '*.test.*'`)
+	@!( grep '\.only(' `find packages/moxb/src -name '*.test.*'`)
 
 
 # create a helper directory with files for the makefile
@@ -180,7 +180,7 @@ format-code:
 
 tsc-watch:  all-dependencies
 	$(ACTIVATE) \
-		&& cd src/moxb \
+		&& cd packages/moxb/src \
 		&& tsc --watch --preserveWatchOutput
 
 tsc-clean-generated-js-files:
@@ -188,18 +188,15 @@ tsc-clean-generated-js-files:
 
 tsc:  all-dependencies
 	$(ACTIVATE) \
-		&& cd src/moxb \
+		&& cd packages/moxb/src \
 		&& (tsc || echo typescript ERRORS found but ignored)
 
 #####  END tsc hack ####################################################################################################
 ########################################################################################################################
 
 # all typescript files
-## TODO add
-#    src/__mocks__
-# here when tsc is removed (remove also `__mocks__` form the excludes in `tsconfig.json`!)
 TS_DIRS = \
-	src/moxb
+	packages/moxb/src
 
 # all typescript files
 TS_FILES = $(shell find $(TS_DIRS) -type f \( -name '*.ts' -o -name '*.tsx' \))
