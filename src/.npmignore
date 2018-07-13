@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+node_modules/
+globals.d.ts
+.gitignore
+tsconfig.json
+tslint.json
+Makefile
+yarn.lock
+

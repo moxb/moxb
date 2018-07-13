@@ -1,0 +1,10 @@
+#!/bin/sh
+# exit with error if when sub command fails
+set -e
+cd "$(dirname "$0")"
+cd ../..
+echo '\nuse `git push --no-verify` if you want to skip the pre-push hook!\n'
+
+#printf "\033[31m"
+make pre-commit
+#printf "\033[0m"

@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionUi html should match snapshot 1`] = `
+"<div class=\\"field\\">
+  <button id=\\"action-id\\" class=\\"ui button\\" role=\\"button\\"></button>
+</div>"
+`;
+
+exports[`ActionUi should match snapshot 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ActionUi
+    operation={
+      bound ActionImpl {
+        "_error": undefined,
+        "constructor": [Function],
+        "doClearError": [Function],
+        "doOnValidate": [Function],
+        "domId": "the_id",
+        "getDisabled": [Function],
+        "getError": [Function],
+        "getHelp": [Function],
+        "getInvisible": [Function],
+        "getLabel": [Function],
+        "getReadonly": [Function],
+        "id": "TheId",
+        "impl": Object {
+          "fire": [Function],
+          "id": "TheId",
+        },
+        "setError": [Function],
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "function",
+    "props": Object {
+      "as": [Function],
+      "children": undefined,
+      "color": undefined,
+      "control": [Function],
+      "disabled": false,
+      "id": "the_id",
+      "onClick": [Function],
+      "readOnly": false,
+      "size": undefined,
+      "width": undefined,
+    },
+    "ref": null,
+    "rendered": null,
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "as": [Function],
+        "children": undefined,
+        "color": undefined,
+        "control": [Function],
+        "disabled": false,
+        "id": "the_id",
+        "onClick": [Function],
+        "readOnly": false,
+        "size": undefined,
+        "width": undefined,
+      },
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

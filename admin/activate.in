@@ -1,0 +1,2 @@
+
+export PATH="$MOXB_ROOT/admin/yarn-installation/installation/current/bin:$MOXB_ROOT/admin/bin_tools:$PATH"

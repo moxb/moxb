@@ -1,0 +1,41 @@
+{
+  "name": "@moxb/moxb",
+  "version": "0.1.0",
+  "description": "MobX data binding",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moxb/moxb.git"
+  },
+  "author": "moxb (moxb.org)",
+  "license": "MIT",
+  "dependencies": {
+    "tslib": "^1.9.3"
+  },
+  "peerDependencies": {
+    "mobx": "^4.3.0",
+    "mobx-react": "^5.2.3",
+    "semantic-ui-react": "^0.81.0"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.1.11",
+    "@types/jest": "^23.1.5",
+    "@types/marked": "^0.4.0",
+    "@types/meteor": "^1.4.16",
+    "@types/react": "^16.4.6",
+    "enzyme": "^3.3.0",
+    "jest": "^23.3.0",
+    "ts-jest": "^23.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/moxb/moxb/issues"
+  },
+  "homepage": "https://github.com/moxb/moxb#readme",
+  "main": "index.js",
+  "keywords": [
+    "mobx",
+    "UI"
+  ]
+}
