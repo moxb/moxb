@@ -2,7 +2,7 @@ import { action, observable } from 'mobx';
 import { Table } from './Table';
 import { SortDirection, TableColumn } from './TableColumn';
 
-interface TableColumnOptions {
+export interface TableColumnOptions {
     header: string;
     accessor?: string;
     sortable?: boolean;

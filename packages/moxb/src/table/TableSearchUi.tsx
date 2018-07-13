@@ -5,7 +5,7 @@ import { ActionButtonUi, ActionUi } from '../action/ActionUi';
 import { TextUi } from '../text/TextUi';
 import { TableSearch } from './TableSearch';
 
-interface BindTableSearchUiProps {
+export interface BindTableSearchUiProps {
     search: TableSearch;
     style?: {};
     noAlignment?: boolean;

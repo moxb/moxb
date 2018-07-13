@@ -6,7 +6,7 @@ import { TableColumn } from './TableColumn';
 
 import './TableUi.styles.less';
 
-interface TableUiProps extends TableProps {
+export interface TableUiProps extends TableProps {
     table: MoxbTable<any>;
     hideHeader?: boolean;
 }

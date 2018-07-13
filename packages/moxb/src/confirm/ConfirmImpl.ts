@@ -3,7 +3,7 @@ import { Bind } from '../bind/Bind';
 import { t } from '../i18n/i18n';
 import { Confirm } from './Confirm';
 
-interface ConfirmOptions<T> {
+export interface ConfirmOptions<T> {
     cancelButton: Bind;
     confirmButton: Bind;
     content?(data: T): string;

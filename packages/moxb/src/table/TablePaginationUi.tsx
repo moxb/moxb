@@ -4,7 +4,7 @@ import { Dropdown, Pagination } from 'semantic-ui-react';
 import { t } from '../i18n/i18n';
 import { TablePagination } from './TablePagination';
 
-interface BindTablePaginationUiProps {
+export interface BindTablePaginationUiProps {
     pagination: TablePagination;
     noAlignment?: boolean;
 }

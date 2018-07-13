@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import { TablePagination } from './TablePagination';
 
-interface TablePaginationOptions {
+export interface TablePaginationOptions {
     totalAmount(): number;
 }
 

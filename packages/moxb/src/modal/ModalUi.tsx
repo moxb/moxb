@@ -4,7 +4,7 @@ import { Modal, ModalProps } from 'semantic-ui-react';
 import { ActionButtonUi } from '../action/ActionUi';
 import { Modal as MoxbModal } from './Modal';
 
-interface BindModalUiProps<T> extends ModalProps {
+export interface BindModalUiProps<T> extends ModalProps {
     modal: MoxbModal<T>;
 }
 

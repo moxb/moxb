@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Confirm, ConfirmProps } from 'semantic-ui-react';
 import { Confirm as MoxbConfirm } from './Confirm';
 
-interface BindConfirmUiProps extends ConfirmProps {
+export interface BindConfirmUiProps extends ConfirmProps {
     confirm: MoxbConfirm<any>;
 }
 

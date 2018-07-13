@@ -1,6 +1,6 @@
 import { Tracker } from 'meteor/tracker';
 
-type Autorun = (
+export type Autorun = (
     runFunc: (computation: Tracker.Computation) => void,
     options?: {
         onError?: Function;

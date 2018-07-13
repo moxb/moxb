@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/moxb/moxb.git"
@@ -15,7 +16,7 @@
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "mobx": "^4.3.0",
+    "mobx": "^4.3.1 || ^5.0.0",
     "mobx-react": "^5.2.3",
     "semantic-ui-react": "^0.81.0"
   },
@@ -33,7 +34,6 @@
     "url": "https://github.com/moxb/moxb/issues"
   },
   "homepage": "https://github.com/moxb/moxb#readme",
-  "main": "index.js",
   "keywords": [
     "mobx",
     "UI"

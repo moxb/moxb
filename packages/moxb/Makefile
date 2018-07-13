@@ -62,6 +62,29 @@ $(M)/optional-dependencies-dependencies: optional-dependencies/package.json opti
 		&& yarn --ignore-engines
 	@touch $@
 
+########################################################################################################################
+##### Begin tsc hack ###################################################################################################
+# TODO add src/__mocks__ here
+# It does not work, because there are problems with tsc
+
+tsc-watch:  all-dependencies
+	$(ACTIVATE) \
+		&& cd src \
+		&& tsc --watch --preserveWatchOutput
+
+tsc-clean-generated-js-files:
+	rm -rf build
+
+tsc:  all-dependencies
+	$(ACTIVATE) \
+		&& cd src \
+		&& (tsc || echo typescript ERRORS found but ignored)
+
+#####  END tsc hack ####################################################################################################
+########################################################################################################################
+
+
+
 all-dependencies: \
 	$(M) \
 	all-tools \

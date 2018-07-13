@@ -2,7 +2,7 @@ import { action, observable } from 'mobx';
 import { Action } from '../action/Action';
 import { Modal } from './Modal';
 
-interface ModalOptions<T> {
+export interface ModalOptions<T> {
     header?(data: T): string;
     actions?(data: T): Action[];
     onClose?(): void;
