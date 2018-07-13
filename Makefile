@@ -28,8 +28,7 @@ help:
 	@$(MORE) MakeHelp.md
 
 clean: _clean-obsolete _clean-generated-files
-	$(RM) -rf src/node_modules
-	$(RM) -rf optional-modules/node_modules
+	cd packages/moxb && $(MAKE) clean
 	$(RM) -rf admin/bin_node
 	$(RM) -rf admin/bin_tools
 	$(RM) -rf admin/node_modules
@@ -148,10 +147,6 @@ all-dependencies: \
 	admin/bin_tools \
 	$(M)/yarn-installation \
 	$(M)/bin-tools \
-	$(M)/src-node_modules \
-	src/node_modules \
-	$(M)/npm-dependencies \
-	$(M)/optional-modules-dependencies
 
 
 npm-check-updates:
