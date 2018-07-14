@@ -1,6 +1,6 @@
 {
   "name": "@moxb/semui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "moxb semantic-ui bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -43,6 +43,8 @@
   "homepage": "https://github.com/moxb/moxb#readme",
   "keywords": [
     "mobx",
+    "semantic-ui-react",
+    "react",
     "UI"
   ]
 }
