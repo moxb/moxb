@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Confirm, ConfirmProps } from 'semantic-ui-react';
-import { Confirm as MoxbConfirm } from './Confirm';
+import { Confirm as MoxbConfirm } from '@moxb/moxb';
 
 export interface BindConfirmUiProps extends ConfirmProps {
     confirm: MoxbConfirm<any>;

@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES5",
+        "jsx": "react",
+        "lib": ["DOM","ES6","ES2015","ES2017", "DOM.Iterable","ScriptHost"],
+        "importHelpers":true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strict": true,
+        "outDir": "../build",
+        "declaration": true,
+        "skipLibCheck": true,
+        "strictNullChecks": true,
+        "removeComments": false
+    },
+    "compilerOptions": {
+        "baseUrl": "",
+        "paths": {
+            "*": [
+                "*",
+                "../optional-dependencies/node_modules/*"
+            ]
+        }
+    },
+    "exclude": [
+        "../node_modules"
+    ]
+}

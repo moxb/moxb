@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Dropdown, DropdownProps, Form, FormCheckboxProps } from 'semantic-ui-react';
-import { BindUiProps, labelWithHelp, parseProps } from '../bind/BindUi';
-import { Bool } from './Bool';
+import { BindUiProps, labelWithHelp, parseProps } from './BindUi';
+import { Bool } from '@moxb/moxb';
 
 @observer
 export class BoolUi extends React.Component<{ operation: Bool } & FormCheckboxProps> {

@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Button, Dropdown, DropdownProps, Form, FormButtonProps } from 'semantic-ui-react';
-import { BindUiProps, parseProps } from '../bind/BindUi';
-import { Action } from './Action';
+import { BindUiProps, parseProps } from './BindUi';
+import { Action } from '@moxb/moxb';
 
 export type BindActionUiProps = BindUiProps<Action> & FormButtonProps;
 

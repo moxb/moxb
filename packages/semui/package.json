@@ -1,14 +1,15 @@
 {
-  "name": "@moxb/moxb",
-  "version": "0.1.0",
-  "description": "MobX data binding",
+  "name": "@moxb/semui",
+  "version": "0.1.1",
+  "description": "moxb semantic-ui bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "main": "build",
   "typings": "build/",
   "files": [
-    "build/**/*"
+    "build/",
+    "src/**/*.less"
   ],
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   "author": "moxb (moxb.org)",
   "license": "MIT",
   "dependencies": {
+    "@moxb/moxb": "file:../moxb",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
@@ -25,9 +27,14 @@
     "semantic-ui-react": "^0.81.0"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.1.11",
     "@types/jest": "^23.1.5",
+    "@types/marked": "^0.4.0",
     "@types/meteor": "^1.4.16",
+    "@types/react": "^16.4.6",
+    "enzyme": "^3.3.0",
     "jest": "^23.3.0",
+    "pretty": "^2.0.0",
     "ts-jest": "^23.0.0"
   },
   "bugs": {

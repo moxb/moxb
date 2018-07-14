@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Table, TableProps } from 'semantic-ui-react';
-import { Table as MoxbTable } from './Table';
-import { TableColumn } from './TableColumn';
+import { Table as MoxbTable } from '@moxb/moxb';
+import { TableColumn } from '@moxb/moxb';
 
-import './TableUi.styles.less';
+//import './TableUi.styles.less';
 
 export interface TableUiProps extends TableProps {
     table: MoxbTable<any>;

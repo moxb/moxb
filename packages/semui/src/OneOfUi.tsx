@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Form, FormFieldProps, FormRadioProps } from 'semantic-ui-react';
-import { idToDomId } from '../bind/BindImpl';
-import { BindUiProps, parseProps } from '../bind/BindUi';
-import { OneOf } from './OneOf';
+import { idToDomId } from '@moxb/moxb';
+import { BindUiProps, parseProps } from './BindUi';
+import { OneOf } from '@moxb/moxb';
 
 @observer
 export class OneOfUi extends React.Component<BindUiProps<OneOf> & FormRadioProps> {

@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Form, FormInputProps } from 'semantic-ui-react';
-import { BindUiProps, parseProps } from '../bind/BindUi';
-import { Numeric } from './Numeric';
+import { BindUiProps, parseProps } from './BindUi';
+import { Numeric } from '@moxb/moxb';
 
 @observer
 export class NumericUi extends React.Component<BindUiProps<Numeric> & FormInputProps> {

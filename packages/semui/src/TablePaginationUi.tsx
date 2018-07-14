@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Dropdown, Pagination } from 'semantic-ui-react';
-import { t } from '../i18n/i18n';
-import { TablePagination } from './TablePagination';
+import { t } from '@moxb/moxb';
+import { TablePagination } from '@moxb/moxb';
 
 export interface BindTablePaginationUiProps {
     pagination: TablePagination;

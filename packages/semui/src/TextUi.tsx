@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Form, FormInputProps } from 'semantic-ui-react';
-import { labelWithHelp, parseProps } from '../bind/BindUi';
-import { Text } from './Text';
+import { labelWithHelp, parseProps } from './BindUi';
+import { Text } from '@moxb/moxb';
 
 export interface BindStringUiProps extends React.HTMLProps<HTMLFormElement> {
     operation: Text;
