@@ -1,7 +1,7 @@
 {
-  "name": "@moxb/moxb",
+  "name": "@moxb/meteor",
   "version": "0.1.4-beta.1",
-  "description": "MobX data binding",
+  "description": "MobX meteor binding",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,10 +23,8 @@
     "mobx": "^4.3.0 || ^5.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^23.1.5",
-    "jest": "^23.3.0",
+    "@types/meteor": "^1.4.16",
     "prettier": "^1.13.7",
-    "ts-jest": "^23.0.0",
     "typescript": "^2.9.2"
   },
   "bugs": {
@@ -35,6 +33,6 @@
   "homepage": "https://github.com/moxb/moxb#readme",
   "keywords": [
     "mobx",
-    "UI"
+    "meteor"
   ]
 }

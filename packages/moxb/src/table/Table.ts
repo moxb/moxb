@@ -1,9 +1,14 @@
-import { Mongo } from 'meteor/mongo';
 /**
  * This is a representation of the table with extended functionality:
  * https://react.semantic-ui.com/modules/tables
  */
 import { SortDirection, TableColumn } from './TableColumn';
+
+export interface TableSortField {
+    [id: string]: SortDirection;
+}
+
+
 
 export interface Table<T> {
     /**
@@ -37,5 +42,5 @@ export interface Table<T> {
     /**
      * The sortOption defines the sorting options for the table query.
      */
-    readonly sortOptions: Mongo.FindOptions;
+    readonly sortOptions: TableSortField[];
 }

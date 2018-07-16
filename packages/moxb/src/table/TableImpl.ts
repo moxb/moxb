@@ -1,6 +1,5 @@
-import { Mongo } from 'meteor/mongo';
 import { action, computed, observable } from 'mobx';
-import { Table } from './Table';
+import { Table, TableSortField } from './Table';
 import { SortDirection, TableColumn } from './TableColumn';
 
 export interface TableOptions<T> {
@@ -37,11 +36,9 @@ export class TableImpl<T> implements Table<T> {
 
     @computed
     get sortOptions() {
-        const sorting: Mongo.FindOptions = {};
+        const sorting: TableSortField[] = [];
         if (this.sortAccessor) {
-            // mongo uses -1 or 1 for sorting
-            const sortDirection = this.sortDirection === 'ascending' ? -1 : 1;
-            sorting.sort = { [this.sortAccessor]: sortDirection };
+            sorting.push({[this.sortAccessor]: this.sortDirection });
         }
         return sorting;
     }
