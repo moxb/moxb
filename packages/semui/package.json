@@ -34,8 +34,10 @@
     "@types/react": "^16.4.6",
     "enzyme": "^3.3.0",
     "jest": "^23.3.0",
+    "prettier": "^1.13.7",
     "pretty": "^2.0.0",
-    "ts-jest": "^23.0.0"
+    "ts-jest": "^23.0.0",
+    "typescript": "^2.9.2"
   },
   "bugs": {
     "url": "https://github.com/moxb/moxb/issues"

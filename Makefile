@@ -29,9 +29,7 @@ help:
 
 clean: _clean-obsolete _clean-generated-files
 	cd packages/moxb && $(MAKE) clean
-	$(RM) -rf admin/bin_node
-	$(RM) -rf admin/bin_tools
-	$(RM) -rf admin/node_modules
+	$(RM) -rf admin/node-tools/node_modules
 	$(RM) -rf admin/yarn-installation/installation/current
 	$(RM) -rf admin/yarn-installation/installation/yarn-*
 	$(RM) -rf admin/activate
@@ -46,6 +44,8 @@ _clean-generated-files: tsc-clean-generated-js-files
 # Because previous versions of this project have used them, they are here to keep things
 # clean when going back and forth in history
 _clean-obsolete:
+	$(RM) -rf admin/bin_tools
+
 
 admin/activate: admin/activate.in admin/bin/write-activate.sh
 	admin/bin/write-activate.sh
@@ -71,61 +71,7 @@ $(M):
 .git/hooks/pre-commit: hooks/pre-commit
 	$(CP) hooks/pre-commit .git/hooks/
 
-##########################################################
-# meteor related
-
-admin/bin_tools:
-	make $(M)/bin-tools
-
-$(M)/bin-tools: Makefile
-	rm -rf admin/bin_tools
-	mkdir -p admin/bin_tools
-	ln -sf ../../src/node_modules/.bin/tsc admin/bin_tools/
-	ln -sf ../../src/node_modules/.bin/tslint admin/bin_tools/
-	ln -sf ../../src/node_modules/.bin/prettier admin/bin_tools/
-	ln -sf ../../src/node_modules/.bin/chimp admin/bin_tools/
-	ln -sf ../../src/node_modules/.bin/ts-node admin/bin_tools/
-	ln -sf ../../src/node_modules/.bin/jest admin/bin_tools/
-	@touch $@
-
-###### src/node_module
-src/node_modules:
-	rm -rf $(M)/npm-dependencies
-	$(MAKE) $(M)/npm-dependencies
-
-# reinstall node modules when yarn version changes
-$(M)/src-node_modules: admin/yarn-installation/.yarn-version
-	rm -rf src/node_modules $(M)/npm-dependencies
-	$(MAKE) $(M)/npm-dependencies
-	@touch $@
-
-$(M)/npm-dependencies: src/package.json src/yarn.lock
-	@echo "Installing NPM dependencies for the meteor server..."
-	$(ACTIVATE) \
-		&& cd src \
-		&& yarn --ignore-engines
-	rm -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
-	@touch $@
-
-
-###### optional-modules/node_module
-optional-modules/node_modules:
-	rm -rf $(M)/optional-modules-node_module
-	$(MAKE) $(M)/optional-modules-node_module
-
-# reinstall node modules when yarn version changes
-$(M)/optional-modules-node_modules: admin/yarn-installation/.yarn-version
-	rm -rf optional-modules/node_modules $(M)/optional-modules-dependencies
-	$(MAKE) $(M)/optional-modules-dependencies
-	@touch $@
-
-$(M)/optional-modules-dependencies: optional-modules/package.json optional-modules/yarn.lock
-	@echo "Installing NPM dependencies for the meteor server..."
-	$(ACTIVATE) \
-		&& cd optional-modules \
-		&& yarn --ignore-engines
-	@touch $@
-
+### yarn ########################################
 
 $(M)/yarn-installation: admin/yarn-installation/.yarn-version admin/bin/install-yarn.sh
 	@echo "Installing yarn..."
@@ -144,13 +90,8 @@ all-dependencies: \
 	.git/hooks/pre-push \
 	.git/hooks/pre-commit \
 	admin/activate \
-	admin/bin_tools \
-	$(M)/yarn-installation \
-	$(M)/bin-tools \
+	$(M)/yarn-installation
 
-
-npm-check-updates:
-	$(ACTIVATE) && cd src && (yarn outdated || true)
 
 run-unit-tests: run-unit-tests-jest
 
@@ -243,7 +184,6 @@ webstorm-before-commit:
 	pre-push \
 	pre-commit \
 	all-dependencies \
-	npm-check-updates \
 	run-unit-tests \
 	run-unit-tests-jest \
 	format-code \
