@@ -1,6 +1,6 @@
 {
   "name": "@moxb/semui",
-  "version": "0.1.4-beta.1",
+  "version": "0.1.4-beta.2",
   "description": "moxb semantic-ui bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +17,24 @@
   },
   "author": "moxb (moxb.org)",
   "license": "MIT",
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "setupTestFrameworkScriptFile": "./jest/jestAdapter.js",
+    "transform": {
+      "^.+\\.(css|less)$": "./jest/jestMockStyle.js",
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testMatch": [
+      "**/src/**/__tests__/*.(ts|tsx)"
+    ]
+  },
   "dependencies": {
     "@moxb/moxb": "^0.1.3",
     "tslib": "^1.9.3"
@@ -33,6 +51,7 @@
     "@types/meteor": "^1.4.16",
     "@types/react": "^16.4.6",
     "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^23.3.0",
     "prettier": "^1.13.7",
     "pretty": "^2.0.0",

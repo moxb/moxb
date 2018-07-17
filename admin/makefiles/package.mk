@@ -2,8 +2,9 @@ M = .makehelper
 
 #ROOT = ../..
 ROOT = $(shell cd ../.. && pwd)
+PROJECT = $(shell pwd)
 ADMIN = $(ROOT)/admin
-TOOLS = $(shell pwd)/node_modules/.bin
+TOOLS = $(PROJECT)/node_modules/.bin
 
 ACTIVATE = . $(ADMIN)/activate
 
@@ -12,6 +13,7 @@ RM = rm
 TOUCH = touch
 TSC = $(TOOLS)/tsc
 YARN = $(ADMIN)/yarn-installation/installation/current/bin/yarn
+JEST = NODE_PATH='$(PROJECT)/node_modules:$(PROJECT)/optional-dependencies/node_modules' jest
 
 # create a helper directory with files for the makefile
 $(M):
@@ -63,6 +65,17 @@ $(M)/optional-dependencies-dependencies: optional-dependencies/package.json opti
 		&& cd optional-dependencies \
 		&& $(YARN) --ignore-engines
 	@$(TOUCH) $@
+
+########################################################################################################################
+run-unit-tests: all-dependencies
+	$(ACTIVATE) \
+		&& cd src \
+		&& $(JEST)
+
+run-unit-tests-verbose: all-dependencies
+	$(ACTIVATE) \
+		&& cd src \
+		&& $(JEST) --verbose
 
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################

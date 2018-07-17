@@ -1,6 +1,6 @@
 {
   "name": "@moxb/moxb",
-  "version": "0.1.4-beta.1",
+  "version": "0.1.4-beta.2",
   "description": "MobX data binding",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +16,22 @@
   },
   "author": "moxb (moxb.org)",
   "license": "MIT",
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testMatch": [
+      "**/src/**/__tests__/*.(ts|tsx)"
+    ]
+  },
   "dependencies": {
     "tslib": "^1.9.3"
   },

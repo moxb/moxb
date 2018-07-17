@@ -20,15 +20,26 @@ PRETTIER_FORMAT= $(ACTIVATE) \
 RM = rm
 MORE = more
 
+PACKAGE_DIRS= \
+   packages/moxb \
+   packages/semui \
+   packages/meteor \
+
+
 TSLINT = tslint --config src/tslint.json --project src/tsconfig.json
 
 all: tsc-watch
 
+test:
+
+
 help:
 	@$(MORE) MakeHelp.md
 
-clean: _clean-obsolete _clean-generated-files
-	cd packages/moxb && $(MAKE) clean
+clean:
+	for d in $(PACKAGE_DIRS); \
+	   do cd $$p && $(MAKE) clean; \
+	done
 	$(RM) -rf admin/node-tools/node_modules
 	$(RM) -rf admin/yarn-installation/installation/current
 	$(RM) -rf admin/yarn-installation/installation/yarn-*
@@ -36,15 +47,6 @@ clean: _clean-obsolete _clean-generated-files
 	$(RM) -rf .git/hooks/pre-push
 	$(RM) -rf .git/hooks/pre-commit
 	$(RM) -rf $(M)
-
-# clean generated files
-_clean-generated-files: tsc-clean-generated-js-files
-
-# The following files and directories do not exist in the current version of the project.
-# Because previous versions of this project have used them, they are here to keep things
-# clean when going back and forth in history
-_clean-obsolete:
-	$(RM) -rf admin/bin_tools
 
 
 admin/activate: admin/activate.in admin/bin/write-activate.sh
@@ -58,7 +60,7 @@ pre-commit: all-dependencies _check-for-only
 	$(MAKE) run-unit-tests
 
 _check-for-only:
-	@!( grep '\.only(' `find packages/moxb/src -name '*.test.*'`)
+	@!( grep '\.only(' `find $(PACKAGE_DIRS) -name '*.test.*'`)
 
 
 # create a helper directory with files for the makefile
@@ -85,7 +87,6 @@ _check-if-commands-exist:
 
 all-dependencies: \
 	$(M) \
-	_clean-obsolete \
 	_check-if-commands-exist \
 	.git/hooks/pre-push \
 	.git/hooks/pre-commit \
@@ -93,11 +94,10 @@ all-dependencies: \
 	$(M)/yarn-installation
 
 
-run-unit-tests: run-unit-tests-jest
-
-run-unit-tests-jest: all-dependencies
+run-unit-tests: all-dependencies
 	$(ACTIVATE) \
-		&& cd src \
+		&& echo $$NODE_PATH
+	$(ACTIVATE) \
 		&& jest
 
 run-unit-tests-verbose: all-dependencies

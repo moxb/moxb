@@ -12,6 +12,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 - extracted new package `@moxb/meteor` for meteor related code.
 
+- jest can now run all projects in parallel:
+  see https://github.com/paularmstrong/jest-multi-project-example
+
 ### Removed
 
 ### Fixed
