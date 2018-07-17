@@ -8,7 +8,6 @@ ADMIN = $(ROOT)/admin
 TOUCH = touch
 CP = cp
 YARN = yarn
-JEST = yest
 
 MKDIR = mkdir
 RM = rm
@@ -34,7 +33,7 @@ clean:
 		$(MAKE) -C $$dir clean; \
 	done
 	$(RM) -rf admin/activate
-	$(RM) -rf admin/node-tools/node_modules
+	$(RM) -rf admin/bin-tools
 	$(RM) -rf node_modules
 	$(RM) -rf admin/yarn-installation/installation/current
 	$(RM) -rf admin/yarn-installation/installation/yarn-*
@@ -49,10 +48,10 @@ admin/activate: admin/activate.in admin/bin/write-activate.sh
 pre-push: pre-commit
 
 pre-commit: all-dependencies _check-for-only
-	$(MAKE) run-unit-tests
+	$(MAKE) test
 
 _check-for-only:
-	@!( grep '\.only(' `find $(PACKAGE_DIRS) -name '*.test.*'`)
+	@!( grep '\.only(' `find $(PACKAGE_DIRS) -name '*.test.ts*'`)
 
 
 # create a helper directory with files for the makefile
@@ -95,6 +94,18 @@ $(M)/npm-dependencies: package.json yarn.lock
 	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
 	@$(TOUCH) $@
 
+###### bin-tools ###################################
+
+admin/bin-tools:
+	make $(M)/bin-tools
+
+$(M)/bin-tools: Makefile 
+	rm -rf admin/bin-tools
+	mkdir -p admin/bin-tools
+	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
+	@touch $@
+
+
 ###### all-dependencie #############################
 
 all-dependencies: \
@@ -103,19 +114,12 @@ all-dependencies: \
 	admin/activate \
 	$(M)/yarn-installation \
 	node_modules \
+	admin/bin-tools \
+	$(M)/bin-tools \
 	$(M)/src-node_modules \
 	.git/hooks/pre-push \
 	.git/hooks/pre-commit \
 
-
-run-unit-tests: all-dependencies
-	$(ACTIVATE) \
-		&& jest
-
-run-unit-tests-verbose: all-dependencies
-	$(ACTIVATE) \
-		&& cd src \
-		&& jest --verbose
 
 .PHONY: \
 	all \
@@ -124,13 +128,4 @@ run-unit-tests-verbose: all-dependencies
 	pre-push \
 	pre-commit \
 	all-dependencies \
-	run-unit-tests \
-	run-unit-tests-jest \
-	format-code \
-	tsc-clean-generated-js-files \
-	tsc \
-	tsc-watch \
-	tslint \
-	tslint-fix \
-	format-file
 
