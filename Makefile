@@ -38,12 +38,13 @@ help:
 
 clean:
 	for d in $(PACKAGE_DIRS); \
-	   do cd $$p && $(MAKE) clean; \
+	   do (cd $$d && $(MAKE) clean); \
 	done
+	$(RM) -rf admin/activate
 	$(RM) -rf admin/node-tools/node_modules
+	$(RM) -rf node_modules
 	$(RM) -rf admin/yarn-installation/installation/current
 	$(RM) -rf admin/yarn-installation/installation/yarn-*
-	$(RM) -rf admin/activate
 	$(RM) -rf .git/hooks/pre-push
 	$(RM) -rf .git/hooks/pre-commit
 	$(RM) -rf $(M)
