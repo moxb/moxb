@@ -13,7 +13,7 @@ RM = rm
 TOUCH = touch
 TSC = $(TOOLS)/tsc
 YARN = $(ADMIN)/yarn-installation/installation/current/bin/yarn
-JEST = NODE_PATH='$(PROJECT)/node_modules:$(PROJECT)/optional-dependencies/node_modules' jest
+JEST = jest
 
 # create a helper directory with files for the makefile
 $(M):

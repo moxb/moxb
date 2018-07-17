@@ -30,6 +30,9 @@
     },
     "testMatch": [
       "**/src/**/__tests__/*.(ts|tsx)"
+    ],
+    "modulePaths": [
+      "<rootDir>/optional-dependencies/node_modules"
     ]
   },
   "dependencies": {
