@@ -1,15 +1,10 @@
 {
-  "name": "@moxb/moxb",
+  "name": "moxb",
   "version": "0.1.4-beta.2",
-  "description": "MobX data binding",
+  "description": "moxb semantic-ui bindings",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
-  "main": "build",
-  "typings": "build/",
-  "files": [
-    "build/**/*"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/moxb/moxb.git"
@@ -25,28 +20,19 @@
       "json",
       "node"
     ],
+    "setupTestFrameworkScriptFile": "./jest/jestAdapter.js",
     "transform": {
+      "^.+\\.(css|less)$": "./jest/jestMockStyle.js",
       "^.+\\.(ts|tsx)$": "ts-jest"
     },
     "testMatch": [
       "**/src/**/__tests__/*.(ts|tsx)"
     ],
-    "modulePaths": [
-      "<rootDir>/optional-dependencies/node_modules"
-    ]
-  },
-  "dependencies": {
-    "tslib": "^1.9.3"
-  },
-  "peerDependencies": {
-    "mobx": "^4.3.0 || ^5.0.0"
+    "projects": ["<rootDir>/pakages/*"]
+
   },
   "devDependencies": {
-    "@types/jest": "^23.1.5",
-    "jest": "^23.3.0",
-    "prettier": "^1.13.7",
-    "ts-jest": "^23.0.0",
-    "typescript": "^2.9.2"
+    "jest": "^23.3.0"
   },
   "bugs": {
     "url": "https://github.com/moxb/moxb/issues"
@@ -54,6 +40,8 @@
   "homepage": "https://github.com/moxb/moxb#readme",
   "keywords": [
     "mobx",
+    "semantic-ui-react",
+    "react",
     "UI"
   ]
 }

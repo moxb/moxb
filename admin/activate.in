@@ -1,2 +1,3 @@
 
-export PATH="$MOXB_ROOT/admin/yarn-installation/installation/current/bin:$MOXB_ROOT/admin/bin_tools:$PATH"
+export PATH="$MOXB_ROOT/admin/yarn-installation/installation/current/bin:$PATH"
+export NODE_PATH=$MOXB_ROOT/packages/moxb/optional-dependencies/node_modules:$MOXB_ROOT/packages/meteor/optional-dependencies/node_modules:$MOXB_ROOT/packages/semui/optional-dependencies/node_modules

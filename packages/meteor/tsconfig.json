@@ -9,14 +9,14 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strict": true,
-        "outDir": "../build",
+        "outDir": "./build",
         "declaration": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
         "removeComments": false
     },
     "compilerOptions": {
-        "baseUrl": "",
+        "baseUrl": "./src",
         "paths": {
             "*": [
                 "*",
@@ -25,6 +25,6 @@
         }
     },
     "exclude": [
-        "../node_modules"
+        "./node_modules"
     ]
 }
