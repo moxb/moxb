@@ -2,21 +2,15 @@
 M = .makehelper
 
 ACTIVATE = . $(shell pwd)/admin/activate
+ROOT = $(shell pwd)
+ADMIN = $(ROOT)/admin
 
 TOUCH = touch
 CP = cp
+YARN = yarn
+JEST = yest
 
 MKDIR = mkdir
-
-# see https://prettier.io/docs/en/options.html
-PRETTIER_FORMAT= $(ACTIVATE) \
-	&& prettier --parser typescript \
-		--single-quote true \
-		--print-width 120 \
-		--bracket-spacing true \
-		--trailing-comma es5 \
-		--tab-width 4
-
 RM = rm
 MORE = more
 
@@ -25,20 +19,19 @@ PACKAGE_DIRS= \
    packages/semui \
    packages/meteor \
 
-
-TSLINT = tslint --config src/tslint.json --project src/tsconfig.json
-
-all: tsc-watch
-
-test:
-
+# recursively makes all targets before the :
+all test: all-dependencies
+	for dir in $(PACKAGE_DIRS); do \
+		echo '=======================================' $$dir '======================================='; \
+		$(MAKE) -C $$dir -f Makefile $@; \
+	done
 
 help:
 	@$(MORE) MakeHelp.md
 
 clean:
-	for d in $(PACKAGE_DIRS); \
-	   do (cd $$d && $(MAKE) clean); \
+	for dir in $(PACKAGE_DIRS); do \
+		$(MAKE) -C $$dir clean; \
 	done
 	$(RM) -rf admin/activate
 	$(RM) -rf admin/node-tools/node_modules
@@ -56,8 +49,6 @@ admin/activate: admin/activate.in admin/bin/write-activate.sh
 pre-push: pre-commit
 
 pre-commit: all-dependencies _check-for-only
-	$(MAKE) $(M)/formatted PRETTIER_OP=--list-different || (echo '\033[31mrun `make format-code` and commit the changes!\033[0m' && false)
-	$(MAKE) $(M)/tslinted || (echo '\033[31mrun `make tslint-fix` and commit the changes!\033[0m' && false)
 	$(MAKE) run-unit-tests
 
 _check-for-only:
@@ -85,19 +76,39 @@ $(M)/yarn-installation: admin/yarn-installation/.yarn-version admin/bin/install-
 _check-if-commands-exist:
 	@admin/bin/check-if-commands-exist.sh node
 
+###### node_module #############################
+
+node_modules:
+	$(RM) -rf $(M)/npm-dependencies
+	$(MAKE) $(M)/npm-dependencies
+
+# reinstall node modules when yarn version changes
+$(M)/src-node_modules: $(ADMIN)/yarn-installation/.yarn-version
+	$(RM) -rf node_modules $(M)/npm-dependencies
+	$(MAKE) $(M)/npm-dependencies
+	@$(TOUCH) $@
+
+$(M)/npm-dependencies: package.json yarn.lock
+	@echo "Installing NPM dependencies for the meteor server..."
+	$(ACTIVATE) \
+		&& $(YARN) --ignore-engines
+	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
+	@$(TOUCH) $@
+
+###### all-dependencie #############################
 
 all-dependencies: \
 	$(M) \
 	_check-if-commands-exist \
+	admin/activate \
+	$(M)/yarn-installation \
+	node_modules \
+	$(M)/src-node_modules \
 	.git/hooks/pre-push \
 	.git/hooks/pre-commit \
-	admin/activate \
-	$(M)/yarn-installation
 
 
 run-unit-tests: all-dependencies
-	$(ACTIVATE) \
-		&& echo $$NODE_PATH
 	$(ACTIVATE) \
 		&& jest
 
@@ -105,78 +116,6 @@ run-unit-tests-verbose: all-dependencies
 	$(ACTIVATE) \
 		&& cd src \
 		&& jest --verbose
-
-format-code:
-	$(MAKE) PRETTIER_OP=--write $(M)/formatted
-	@touch $(M)/formatted
-
-########################################################################################################################
-##### Begin tsc hack ###################################################################################################
-# TODO add src/__mocks__ here
-# It does not work, because there are problems with tsc
-
-tsc-watch:  all-dependencies
-	$(ACTIVATE) \
-		&& cd packages/moxb/src \
-		&& tsc --watch --preserveWatchOutput
-
-tsc-clean-generated-js-files:
-	rm -rf src/build
-
-tsc:  all-dependencies
-	$(ACTIVATE) \
-		&& cd packages/moxb/src \
-		&& (tsc || echo typescript ERRORS found but ignored)
-
-#####  END tsc hack ####################################################################################################
-########################################################################################################################
-
-# all typescript files
-TS_DIRS = \
-	packages/moxb/src
-
-# all typescript files
-TS_FILES = $(shell find $(TS_DIRS) -type f \( -name '*.ts' -o -name '*.tsx' \))
-
-# in this rule $? refers only to the files that have changed since $(M)/formatted has been touched
-$(M)/formatted: $(TS_FILES)
-	@echo "$(PRETTIER_FORMAT) $(PRETTIER_OP) ALL_CHANGED_FILES"
-	@$(PRETTIER_FORMAT) $(PRETTIER_OP) $?
-	@touch $@ # we can touch the file since there was no error....
-
-# in this rule $? refers only to the files that have changed since $(M)/formatted has been touched
-$(M)/tslinted: $(TS_FILES)
-	@echo "$(PRETTIER_FORMAT) $(PRETTIER_OP) ALL_CHANGED_FILES"
-	$(ACTIVATE) && $(TSLINT) $?
-	@touch $@ # we can touch the file since there was no error....
-
-tslint: $(M)/tslinted-all
-
-# The second run of tslint with the `--format verbose` option is to show the rule in the output.
-# However, webstrom does not recognize this line and does not link to the location.
-# Therefore, we have the first run without the rule...
-$(M)/tslinted-all:  $(TS_FILES) src/tslint.json
-	$(ACTIVATE) && $(TSLINT)  \
-		|| $(TSLINT) --format verbose
-	@touch $@
-
-tslint-fix:
-	$(ACTIVATE) && $(TSLINT) --fix
-
-format-file:
-	@test -n "$(FILE)" || (echo 'Call make with `make $@ FILE=path/to/file`' && exit -1)
-	@$(PRETTIER_FORMAT) --write $(FILE)
-
-# this formats the output of tslint so that webstorm shows clickable links in the external tools window
-#  exit ${PIPESTATUS[0]} make sure the command exits when there are errors
-#  see https://stackoverflow.com/a/4968688/2297345
-tslint-for-webstorm:
-	bash -c '$(MAKE) tslint | sed -E "s/ERROR: ([^\[]+)\[([0-9]+), ([0-9]+)...(.*)/at \4 (\1:\2:\3)/"; exit $${PIPESTATUS[0]}'
-
-# show an alert on mac: https://developer.apple.com/library/content/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/DisplayDialogsandAlerts.html#//apple_ref/doc/uid/TP40016239-CH15-SW1
-webstorm-before-commit:
-	$(MAKE) format-code tslint-for-webstorm run-unit-tests ||  osascript -e 'display dialog "make webstorm-before-commit FAILED"'
-
 
 .PHONY: \
 	all \

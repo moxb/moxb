@@ -67,6 +67,8 @@ $(M)/optional-dependencies-dependencies: optional-dependencies/package.json opti
 	@$(TOUCH) $@
 
 ########################################################################################################################
+test: run-unit-tests
+
 run-unit-tests: all-dependencies
 	$(ACTIVATE) \
 		&& cd src \
