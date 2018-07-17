@@ -35,6 +35,7 @@
       "**/src/**/__tests__/*.(ts|tsx)"
     ],
     "modulePaths": [
+      "<rootDir>/../moxb/optional-dependencies/node_modules",
       "<rootDir>/optional-dependencies/node_modules"
     ]
   },
