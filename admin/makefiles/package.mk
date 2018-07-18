@@ -27,7 +27,7 @@ build:
 clean:
 	$(RM) -rf $(M)
 	$(RM) -rf node_modules
-	$(RM) -rf optional-dependencies/node_modules
+	$(RM) -rf peer-dependencies/node_modules
 	$(RM) -rf build
 
 ###### node_module
@@ -48,21 +48,21 @@ $(M)/npm-dependencies: package.json yarn.lock
 	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
 	@$(TOUCH) $@
 
-###### optional-dependencies/node_module
-optional-dependencies/node_modules:
-	$(RM) -rf $(M)/optional-dependencies-node_module
-	$(MAKE) $(M)/optional-dependencies-node_module
+###### peer-dependencies/node_module
+peer-dependencies/node_modules:
+	$(RM) -rf $(M)/peer-dependencies-node_module
+	$(MAKE) $(M)/peer-dependencies-node_module
 
 # reinstall node modules when yarn version changes
-$(M)/optional-dependencies-node_modules: admin/yarn-installation/.yarn-version
-	$(RM) -rf optional-dependencies/node_modules $(M)/optional-dependencies-dependencies
-	$(MAKE) $(M)/optional-dependencies-dependencies
+$(M)/peer-dependencies-node_modules: admin/yarn-installation/.yarn-version
+	$(RM) -rf peer-dependencies/node_modules $(M)/peer-dependencies-dependencies
+	$(MAKE) $(M)/peer-dependencies-dependencies
 	@$(TOUCH) $@
 
-$(M)/optional-dependencies-dependencies: optional-dependencies/package.json optional-dependencies/yarn.lock
+$(M)/peer-dependencies-dependencies: peer-dependencies/package.json peer-dependencies/yarn.lock
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
-		&& cd optional-dependencies \
+		&& cd peer-dependencies \
 		&& $(YARN) --ignore-engines
 	@$(TOUCH) $@
 
@@ -107,7 +107,7 @@ all-dependencies: \
 	all-tools \
 	node_modules \
 	$(M)/npm-dependencies \
-	$(M)/optional-dependencies-dependencies
+	$(M)/peer-dependencies-dependencies
 
 all-tools:
 	cd $(ROOT) && $(MAKE) all-dependencies

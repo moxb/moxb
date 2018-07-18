@@ -20,7 +20,7 @@
         "paths": {
             "*": [
                 "*",
-                "../optional-dependencies/node_modules/*"
+                "../peer-dependencies/node_modules/*"
             ]
         }
     },
