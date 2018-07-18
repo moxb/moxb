@@ -11,26 +11,7 @@
   },
   "author": "moxb (moxb.org)",
   "license": "MIT",
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "setupTestFrameworkScriptFile": "./jest/jestAdapter.js",
-    "transform": {
-      "^.+\\.(css|less)$": "./jest/jestMockStyle.js",
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    },
-    "testMatch": [
-      "**/src/**/__tests__/*.(ts|tsx)"
-    ],
-    "projects": ["<rootDir>/pakages/*"]
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "jest": "^23.3.0"
   },

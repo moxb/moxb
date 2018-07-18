@@ -20,11 +20,12 @@
         "paths": {
             "*": [
                 "*",
-                "../optional-dependencies/node_modules/*"
+                "../peer-dependencies/node_modules/*"
             ]
         }
     },
     "exclude": [
-        "./node_modules"
+        "./node_modules",
+        "./build"
     ]
 }
