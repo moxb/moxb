@@ -4,6 +4,6 @@ nvm
 admin_node_bin
 meteor_node_bin
 logs
-bin_tools
+bin-tools
 
 /token.json
