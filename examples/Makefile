@@ -11,9 +11,8 @@ ACTIVATE = . $(ADMIN)/activate
 MKDIR = mkdir
 RM = rm
 TOUCH = touch
-TSC = $(TOOLS)/tsc
 YARN = $(ADMIN)/yarn-installation/installation/current/bin/yarn
-JEST = jest
+WEBPACK = $(PROJECT)/node_modules/webpack/bin/webpack.js
 
 # create a helper directory with files for the makefile
 $(M):
@@ -21,7 +20,7 @@ $(M):
 
 build:  all-dependencies
 	$(ACTIVATE) \
-		&& ($(TSC) || echo typescript ERRORS found but ignored)
+		&& $(WEBPACK) --mode production
 
 #include $(ADMIN)/makefiles/clean.mk
 clean:
@@ -51,7 +50,7 @@ $(M)/npm-dependencies: package.json yarn.lock
 
 watch:  all-dependencies
 	$(ACTIVATE) \
-		&& $(TSC) --watch --preserveWatchOutput
+		&& $(WEBPACK) --mode development --watch
 
 clean-generated-js-files:
 	$(RM) -rf build

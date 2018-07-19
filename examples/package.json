@@ -1,14 +1,21 @@
 {
   "name": "moxb-examples",
   "version": "1.0.0",
-  "description": "",
+  "description": "moxb examples",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "author": "",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@moxb/semui": "^0.1.3",
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "ts-loader": "^4.4.2",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
+  },
   "devDependencies": {
     "typescript": "^2.9.2"
   }
