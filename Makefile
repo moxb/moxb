@@ -17,11 +17,19 @@ PACKAGE_DIRS= \
    packages/moxb \
    packages/semui \
    packages/meteor \
+   examples \
+
+## Some Colors for the output
+NC='\033[0m'
+RED='\033[0;31m'
+CYAN='\033[00;36m'
+LIGHT_GREEN='\033[1;32m'
+LIGHT_BLUE='\033[1;34m'
 
 # recursively makes all targets before the :
 all test: all-dependencies
 	for dir in $(PACKAGE_DIRS); do \
-		echo '=======================================' $$dir '======================================='; \
+		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@; \
 	done
 
@@ -99,7 +107,7 @@ $(M)/npm-dependencies: package.json yarn.lock
 admin/bin-tools:
 	make $(M)/bin-tools
 
-$(M)/bin-tools: Makefile 
+$(M)/bin-tools: Makefile
 	rm -rf admin/bin-tools
 	mkdir -p admin/bin-tools
 	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
