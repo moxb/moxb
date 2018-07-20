@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionButtonUi, ActionUi, BoolUi, ActionDropdownItemUi, ConfirmUi } from '@moxb/semui';
+import { ActionButtonUi, ActionUi, BoolUi, ActionDropdownItemUi, ConfirmUi, ManyOfUi } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 import { Dropdown } from 'semantic-ui-react';
@@ -35,6 +35,12 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
             <h3>ConfirmUI Component</h3>
             <ConfirmUi confirm={application!.testConfirm} />
             <ActionUi size="tiny" operation={application!.newConfirmAction()} />
+            <br/>
+
+            <h3>ManyOfUi Component</h3>
+            <div style={{width: '350px'}}>
+                <ManyOfUi fluid multiple selection operation={application!.testManyOf} />
+            </div>
         </>) ;
     }
 }

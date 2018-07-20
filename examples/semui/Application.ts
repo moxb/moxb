@@ -1,4 +1,4 @@
-import { Action, Bool, Confirm } from '@moxb/moxb';
+import { Action, Bool, Confirm, ManyOf } from '@moxb/moxb';
 
 export interface Application {
     readonly showCheckbox: boolean;
@@ -6,4 +6,5 @@ export interface Application {
     readonly testAction: Action;
     readonly testBool: Bool;
     readonly testConfirm: Confirm<any>;
+    readonly testManyOf: ManyOf;
 }

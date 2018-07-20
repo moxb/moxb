@@ -1,10 +1,12 @@
 import { Application } from './Application';
-import { Action, BindImpl, Bool, Confirm, ConfirmImpl } from '@moxb/moxb';
+import { Action, BindImpl, Bool, Confirm, ConfirmImpl, ManyOf, ManyOfImpl } from '@moxb/moxb';
 import { BindActionButtonImpl, BoolImpl } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
 export class ApplicationImpl implements Application {
     @observable showCheckbox: boolean;
+    @observable manyChoices: any[];
+    readonly allChoices:{ label:string; value:string }[];
 
     readonly testAction: Action = new BindActionButtonImpl({
         id: 'ApplicationImpl.testButton',
@@ -32,6 +34,14 @@ export class ApplicationImpl implements Application {
         confirm: () => alert('You confirmed the action'),
     });
 
+    readonly testManyOf: ManyOf = new ManyOfImpl({
+        id: 'ApplicationImpl.testManyOf',
+        label: 'Choose your snack',
+        choices: () => this.allChoices,
+        initialValue: () => this.manyChoices,
+        onSave: () => {}
+    });
+
     @action.bound
     setShowCheckbox(show: boolean) {
         this.showCheckbox = show;
@@ -39,6 +49,13 @@ export class ApplicationImpl implements Application {
 
     constructor() {
         this.showCheckbox = false;
+        this.manyChoices = [];
+
+        this.allChoices = [
+            { label: 'Banana', value: 'b'},
+            { label: 'Apples', value: 'a'},
+            { label: 'Peaches', value: 'p'},
+        ]
     }
 
     newConfirmAction() {
