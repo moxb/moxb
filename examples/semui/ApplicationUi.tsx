@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionButtonUi } from '@moxb/semui';
+import { ActionButtonUi, ActionUi, BoolUi } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 
@@ -10,9 +10,19 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
         const application = this.props.app;
 
         return (<>
+            <h1>Semantic UI Components</h1>
+            <h3>ActionButton UI Component</h3>
+            <ActionButtonUi color="blue" size="large" operation={application!.testAction} />
+
             <h3>Action UI Bindings</h3>
-            <ActionButtonUi color="green" fluid size="large" operation={application!.bindAction} />
-            <hr/>
+            <ActionUi color="blue" size="large" operation={application!.testAction} />
+            <br/>
+
+            <h3>Bool UI Bindings</h3>
+            <BoolUi operation={application!.testBool} />
+            {application!.showCheckbox &&
+                <p><br/>Additional text is visible now!</p>
+            }
         </>) ;
     }
 }
