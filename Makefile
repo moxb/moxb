@@ -121,7 +121,6 @@ $(M)/bin-tools: Makefile
 	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
 	@touch $@
 
-
 ###### all-dependencie #############################
 
 all-dependencies: \
