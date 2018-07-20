@@ -18,11 +18,16 @@ WEBPACK = $(PROJECT)/node_modules/webpack/bin/webpack.js
 $(M):
 	$(MKDIR) $@
 
+.PHONY: all
+all: build
+
+.PHONY: build
 build:  all-dependencies
 	$(ACTIVATE) \
 		&& $(WEBPACK) --mode production
 
 #include $(ADMIN)/makefiles/clean.mk
+.PHONY: clean
 clean:
 	$(RM) -rf $(M)
 	$(RM) -rf node_modules
@@ -48,23 +53,28 @@ $(M)/npm-dependencies: package.json yarn.lock
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################
 
+.PHONY: watch
 watch:  all-dependencies
 	$(ACTIVATE) \
 		&& $(WEBPACK) --mode development --watch
 
+.PHONY: clean-generated-js-files
 clean-generated-js-files:
 	$(RM) -rf build
 
 #####  END tsc ####################################################################################################
 ########################################################################################################################
+.PHONY: test
 test:
 	echo 'No tests for examples needed'
 
+.PHONY: all-dependencies
 all-dependencies: \
 	$(M) \
 	all-tools \
 	node_modules \
 	$(M)/npm-dependencies \
 
+.PHONY: all-tools
 all-tools:
 	cd $(ROOT) && $(MAKE) all-dependencies
