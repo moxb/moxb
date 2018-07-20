@@ -11,7 +11,7 @@ import {
 } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
-import { Dropdown, Container, Table } from 'semantic-ui-react';
+import { Container, Dropdown, Form, Table } from 'semantic-ui-react';
 
 @inject('app')
 @observer
@@ -19,7 +19,7 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app;
 
-        return (<Container>
+        return (<Container text><Form>
             <h1>Semantic UI Components</h1>
             <hr/>
 
@@ -95,6 +95,6 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
             <br/>
 
             <div id="spacer" style={{paddingBottom: '100px'}} />
-        </Container>) ;
+        </Form></Container>) ;
     }
 }
