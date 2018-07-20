@@ -7,11 +7,11 @@ import {
     ConfirmUi,
     ManyOfUi,
     ModalUi,
-    TextUi, NumericUi, OneOfUi, OneOfSelectUi
+    TextUi, NumericUi, OneOfUi, OneOfSelectUi, TableUi, TableSearchUi
 } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
-import { Dropdown, Container } from 'semantic-ui-react';
+import { Dropdown, Container, Table } from 'semantic-ui-react';
 
 @inject('app')
 @observer
@@ -79,7 +79,21 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
             <h3>OneOf - Select Component</h3>
             <OneOfSelectUi operation={application!.testOfOne} />
             <br/>
-            
+
+            <h3>Table Component</h3>
+            {/*TODO: Search and sorting is not working correctly now, needs rework from TablePage!*/}
+            {/*<TableSearchUi search={application!.search} />*/}
+            <TableUi table={application!.testTable}>
+                {application!.testTable.data!.map((tableData:any) => (
+                    <Table.Row key={tableData._id}>
+                        <Table.Cell>{tableData.email}</Table.Cell>
+                        <Table.Cell>{tableData.fullName}</Table.Cell>
+                        <Table.Cell>{tableData.createdAt}</Table.Cell>
+                    </Table.Row>
+                ))}
+            </TableUi>
+            <br/>
+
             <div id="spacer" style={{paddingBottom: '100px'}} />
         </Container>) ;
     }

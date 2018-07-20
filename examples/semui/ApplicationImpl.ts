@@ -8,7 +8,7 @@ import {
     ManyOf,
     ManyOfImpl,
     Modal,
-    ModalImpl, Numeric, NumericImpl, OneOfImpl,
+    ModalImpl, Numeric, NumericImpl, OneOfImpl, Table, TableColumnImpl, TableImpl, TableSearch, TableSearchImpl,
     Text,
     TextImpl
 } from '@moxb/moxb';
@@ -18,6 +18,7 @@ import { action, observable } from 'mobx';
 export class ApplicationImpl implements Application {
     @observable showCheckbox: boolean;
     @observable manyChoices: any[];
+    @observable data:{ _id:string; email:string; fullName:string, createdAt:string }[];
     readonly allChoices:{ label:string; value:string }[];
 
     readonly testAction: Action = new BindActionButtonImpl({
@@ -107,6 +108,39 @@ export class ApplicationImpl implements Application {
         choices: () => this.allChoices
     });
 
+    readonly testTable: Table<any> = new TableImpl<any>({
+        data: () => this.data,
+        columns: bind => [
+            new TableColumnImpl(
+                {
+                    header: 'E-Mail',
+                    accessor: 'emails',
+                    sortable: true,
+                    isInitialSort: true,
+                },
+                bind
+            ),
+            new TableColumnImpl(
+                {
+                    header: 'Full Name',
+                    accessor: 'fullName',
+                    sortable: true
+                },
+                bind
+            ),
+            new TableColumnImpl(
+                {
+                    header: 'Joined',
+                    accessor: 'createdAt',
+                    sortable: true
+                },
+                bind
+            )
+        ]
+    });
+
+    readonly search: TableSearch = new TableSearchImpl();
+
     @action.bound
     setShowCheckbox(show: boolean) {
         this.showCheckbox = show;
@@ -125,7 +159,12 @@ export class ApplicationImpl implements Application {
             { label: 'Banana', value: 'b'},
             { label: 'Apples', value: 'a'},
             { label: 'Peaches', value: 'p'},
-        ]
+        ];
+        this.data = [
+            { _id: '1', email: 'john@doe.com', fullName: 'John Doe', createdAt: '2018-01-01'},
+            { _id: '2', email: 'johanna@yahoo.com', fullName: 'Johanna Doe', createdAt: '2018-05-01'},
+            { _id: '3', email: 'jake@gmail.com', fullName: 'Jake Doe', createdAt: '2018-10-01'}
+        ];
     }
 
     newConfirmAction() {
