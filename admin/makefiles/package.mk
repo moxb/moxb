@@ -24,6 +24,7 @@ build:
 
 #include $(ADMIN)/makefiles/clean.mk
 
+.PHONY: clean
 clean:
 	$(RM) -rf $(M)
 	$(RM) -rf node_modules
@@ -67,13 +68,16 @@ $(M)/peer-dependencies-dependencies: peer-dependencies/package.json peer-depende
 	@$(TOUCH) $@
 
 ########################################################################################################################
+.PHONY: test
 test: run-unit-tests
 
+.PHONY: run-unit-tests
 run-unit-tests: all-dependencies
 	$(ACTIVATE) \
 		&& cd src \
 		&& $(JEST)
 
+.PHONY: run-unit-tests-verbose
 run-unit-tests-verbose: all-dependencies
 	$(ACTIVATE) \
 		&& cd src \
@@ -84,14 +88,17 @@ run-unit-tests-verbose: all-dependencies
 # TODO add src/__mocks__ here
 # It does not work, because there are problems with tsc
 
+.PHONY: watch
 watch:  all-dependencies
 	$(ACTIVATE) \
 		&& cd src \
 		&& $(TSC) --watch --preserveWatchOutput
 
+.PHONY: clean-generated-js-files
 clean-generated-js-files:
 	$(RM) -rf build
 
+.PHONY: build-all
 build-all:  all-dependencies
 	$(ACTIVATE) \
 		&& cd src \
@@ -101,6 +108,7 @@ build-all:  all-dependencies
 ########################################################################################################################
 
 
+.PHONY: all-dependencies
 all-dependencies: \
 	$(M) \
 	build \
@@ -109,5 +117,6 @@ all-dependencies: \
 	$(M)/npm-dependencies \
 	$(M)/peer-dependencies-dependencies
 
+.PHONY: all-tools
 all-tools:
 	cd $(ROOT) && $(MAKE) all-dependencies
