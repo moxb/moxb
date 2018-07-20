@@ -1,7 +1,7 @@
 {
   "name": "moxb-examples",
   "version": "1.0.0",
-  "description": "moxb examples",
+  "description": "moxb semui examples",
   "main": "index.js",
   "scripts": {},
   "author": "",
@@ -9,20 +9,20 @@
   "dependencies": {
     "@moxb/moxb": "^0.1.3",
     "@moxb/semui": "^0.1.3",
-    "@types/react": "^16.4.6",
-    "@types/react-dom": "^16.0.6",
     "marked": "^0.4.0",
     "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "semantic-ui-react": "^0.82.0",
-    "ts-loader": "^4.4.2",
-    "webpack": "^4.16.1",
-    "webpack-cli": "^3.1.0"
+    "semantic-ui-react": "^0.81.0"
   },
   "devDependencies": {
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
     "react-code-prettify": "^0.0.1",
-    "typescript": "^2.9.2"
+    "ts-loader": "^4.4.2",
+    "typescript": "^2.9.2",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
   }
 }
