@@ -1,3 +1,4 @@
+export PATH="$MOXB_ROOT/admin/node-installation/installation/current/bin:$PATH"
 export PATH="$MOXB_ROOT/admin/yarn-installation/installation/current/bin:$PATH"
 export PATH="$MOXB_ROOT/admin/bin-tools:$PATH"
 

@@ -43,8 +43,8 @@ clean:
 	$(RM) -rf admin/activate
 	$(RM) -rf admin/bin-tools
 	$(RM) -rf node_modules
-	$(RM) -rf admin/yarn-installation/installation/current
-	$(RM) -rf admin/yarn-installation/installation/yarn-*
+	$(RM) -rf admin/node-installation/installation
+	$(RM) -rf admin/yarn-installation/installation
 	$(RM) -rf .git/hooks/pre-push
 	$(RM) -rf .git/hooks/pre-commit
 	$(RM) -rf $(M)
@@ -74,14 +74,22 @@ $(M):
 
 ### yarn ########################################
 
-$(M)/yarn-installation: admin/yarn-installation/.yarn-version admin/bin/install-yarn.sh
+$(M)/yarn-installation: admin/yarn-installation/.yarn-version admin/yarn-installation/install.sh
 	@echo "Installing yarn..."
-	@$(ACTIVATE) && admin/bin/install-yarn.sh
+	@$(ACTIVATE) && admin/yarn-installation/install.sh
 	@touch $@
 
+### node ########################################
+
+$(M)/node-installation: admin/node-installation/.node-version admin/node-installation/install.sh
+	@echo "Installing node..."
+	@$(ACTIVATE) && admin/node-installation/install.sh
+	@touch $@
+
+#################################################
 
 _check-if-commands-exist:
-	@admin/bin/check-if-commands-exist.sh node
+	@admin/bin/check-if-commands-exist.sh wget
 
 ###### node_module #############################
 
@@ -120,6 +128,7 @@ all-dependencies: \
 	$(M) \
 	_check-if-commands-exist \
 	admin/activate \
+	$(M)/node-installation \
 	$(M)/yarn-installation \
 	node_modules \
 	admin/bin-tools \
