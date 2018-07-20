@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { ActionButtonUi, ActionUi, BoolUi, ActionDropdownItemUi, ConfirmUi, ManyOfUi } from '@moxb/semui';
+import {
+    ActionButtonUi,
+    ActionUi,
+    BoolUi,
+    ActionDropdownItemUi,
+    ConfirmUi,
+    ManyOfUi,
+    ModalUi,
+    TextUi
+} from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 import { Dropdown } from 'semantic-ui-react';
@@ -41,6 +50,22 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
             <div style={{width: '350px'}}>
                 <ManyOfUi fluid multiple selection operation={application!.testManyOf} />
             </div>
+            <br/>
+
+            <h3>ModalUi Component</h3>
+            <ActionUi size="tiny" color="green" operation={application!.newModalAction()} />
+            <ModalUi modal={application!.testModal}>
+                <TextUi fluid operation={application!.testText} />
+            </ModalUi>
+            <br/>
+
+            <h3>TextUi - Input Component</h3>
+            <TextUi fluid operation={application!.testTextfield} />
+
+            <h3>TextUi - Textarea Component</h3>
+            <TextUi fluid operation={application!.testTextarea} />
+            <br/>
+
         </>) ;
     }
 }

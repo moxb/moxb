@@ -1,5 +1,17 @@
 import { Application } from './Application';
-import { Action, BindImpl, Bool, Confirm, ConfirmImpl, ManyOf, ManyOfImpl } from '@moxb/moxb';
+import {
+    Action,
+    BindImpl,
+    Bool,
+    Confirm,
+    ConfirmImpl,
+    ManyOf,
+    ManyOfImpl,
+    Modal,
+    ModalImpl,
+    Text,
+    TextImpl
+} from '@moxb/moxb';
 import { BindActionButtonImpl, BoolImpl } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
@@ -42,9 +54,53 @@ export class ApplicationImpl implements Application {
         onSave: () => {}
     });
 
+    readonly testText: Text = new TextImpl({
+        id: 'ApplicationImpl.name',
+        initialValue: () => '',
+        label: 'Name',
+    });
+
+    readonly testTextfield: Text = new TextImpl({
+        id: 'ApplicationImpl.textfield',
+        initialValue: () => '',
+        label: 'Textfield',
+    });
+
+    readonly testTextarea: Text = new TextImpl({
+        id: 'ApplicationImpl.textarea',
+        initialValue: () => '',
+        control: 'textarea',
+        label: 'Textarea',
+    });
+
+    readonly action1Modal: Action = new BindActionButtonImpl({
+        id: 'ApplicationImpl.modalAction1',
+        label: 'Action with value',
+        fire: ()=> { alert(`Action executed with value: ${this.testText.value!}`)},
+    });
+
+    private actionCancelModal(modal: Modal<any>): Action {
+        return new BindActionButtonImpl({
+            id: 'ApplicationImpl.cancelModalButton',
+            label: 'Cancel',
+            fire: () => modal.close(),
+        });
+    }
+
+    readonly testModal: Modal<any> = new ModalImpl<any>({
+        actions: () => [this.action1Modal, this.actionCancelModal(this.testModal)],
+        size: 'small',
+        header: () => 'New Modal Header',
+    });
+
     @action.bound
     setShowCheckbox(show: boolean) {
         this.showCheckbox = show;
+    }
+
+    @action.bound
+    private showModalDialog() {
+        this.testModal.show();
     }
 
     constructor() {
@@ -61,8 +117,16 @@ export class ApplicationImpl implements Application {
     newConfirmAction() {
         return new BindActionButtonImpl({
             id: 'ApplicationImpl.actionConfirm',
-            label: 'Show confirm window',
+            label: 'Show confirm dialog',
             fire: () => this.showConfirmDialog(),
+        });
+    }
+
+    newModalAction() {
+        return new BindActionButtonImpl({
+            id: 'ApplicationImpl.actionModal',
+            label: 'Show modal dialog',
+            fire: () => this.showModalDialog(),
         });
     }
 
