@@ -8,7 +8,7 @@ import {
     ManyOf,
     ManyOfImpl,
     Modal,
-    ModalImpl,
+    ModalImpl, Numeric, NumericImpl, OneOfImpl,
     Text,
     TextImpl
 } from '@moxb/moxb';
@@ -91,6 +91,20 @@ export class ApplicationImpl implements Application {
         actions: () => [this.action1Modal, this.actionCancelModal(this.testModal)],
         size: 'small',
         header: () => 'New Modal Header',
+    });
+
+    readonly testNumeric: Numeric = new NumericImpl({
+        id: 'ApplicationImpl.number',
+        onlyInteger: true,
+        initialValue: 999,
+        label: 'Only numbers'
+    });
+
+    readonly testOfOne = new OneOfImpl({
+        id: 'ApplicationImpl.testRadioOfOne',
+        label: 'Select one of',
+        placeholder: '...',
+        choices: () => this.allChoices
     });
 
     @action.bound

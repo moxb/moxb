@@ -7,11 +7,11 @@ import {
     ConfirmUi,
     ManyOfUi,
     ModalUi,
-    TextUi
+    TextUi, NumericUi, OneOfUi, OneOfSelectUi
 } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Container } from 'semantic-ui-react';
 
 @inject('app')
 @observer
@@ -19,8 +19,10 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app;
 
-        return (<>
+        return (<Container>
             <h1>Semantic UI Components</h1>
+            <hr/>
+
             <h3>ActionButtonUI Component</h3>
             <ActionButtonUi color="blue" size="large" operation={application!.testAction} />
 
@@ -66,6 +68,19 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
             <TextUi fluid operation={application!.testTextarea} />
             <br/>
 
-        </>) ;
+            <h3>NumericUi Component</h3>
+            <NumericUi required operation={application!.testNumeric} />
+            <br/>
+
+            <h3>OneOf - RadioBox Component</h3>
+            <OneOfUi operation={application!.testOfOne} />
+            <br/>
+
+            <h3>OneOf - Select Component</h3>
+            <OneOfSelectUi operation={application!.testOfOne} />
+            <br/>
+            
+            <div id="spacer" style={{paddingBottom: '100px'}} />
+        </Container>) ;
     }
 }
