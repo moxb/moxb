@@ -1,10 +1,21 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { Provider } from 'mobx-react';
+import { ApplicationUi } from './ApplicationUi';
+import { StoreImpl } from './Store';
 
-class Application extends React.Component {
+const model = new StoreImpl();
+(window as any).model = model;
+(window as any).store = model;
+
+class App extends React.Component {
     render() {
-        return <div>TEST</div>;
+        return (<>
+            <Provider {...model}>
+                <ApplicationUi />
+            </Provider>
+        </>) ;
     }
 }
 
-ReactDOM.render(<Application />, document.getElementById('example-app'));
+ReactDOM.render(<App />, document.getElementById('example-app'));
