@@ -12,7 +12,7 @@ MKDIR = mkdir
 RM = rm
 TOUCH = touch
 NPM = npm install --preserve-symlinks
-WEBPACK = $(PROJECT)/node_modules/webpack/bin/webpack.js
+PACREL = ./node_modules/.bin/parcel
 
 # create a helper directory with files for the makefile
 $(M):
@@ -24,7 +24,12 @@ all: build
 .PHONY: build
 build:  all-dependencies
 	$(ACTIVATE) \
-		&& $(WEBPACK) --mode production
+		&& $(PACREL) build index.html
+
+.PHONY: dev
+dev:  all-dependencies
+	$(ACTIVATE) \
+		&& $(PACREL) index.html
 
 #include $(ADMIN)/makefiles/clean.mk
 .PHONY: clean
@@ -37,7 +42,7 @@ node_modules:
 	$(RM) -rf $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
 
-# reinstall node modules when yarn version changes
+# reinstall node modules when version changes
 $(M)/src-node_modules:
 	$(RM) -rf node_modules $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
@@ -63,7 +68,7 @@ npm-link-dependencies:
 .PHONY: watch
 watch:  all-dependencies
 	$(ACTIVATE) \
-		&& $(WEBPACK) --mode development --watch
+		&& $(PACREL) watch index.html
 
 .PHONY: clean-generated-js-files
 clean-generated-js-files:

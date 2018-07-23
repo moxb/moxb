@@ -5,5 +5,4 @@ src/globals.d.ts
 moxb/tsconfig.json
 tslint.json
 Makefile
-yarn.lock
-
+package-lock.json

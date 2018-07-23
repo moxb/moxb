@@ -11,6 +11,7 @@ CP = cp
 MKDIR = mkdir
 RM = rm
 MORE = more
+NPM = npm install --preserve-symlinks
 
 PACKAGE_DIRS= \
    packages/moxb \
@@ -49,7 +50,6 @@ clean:
 	$(RM) -rf admin/bin-tools
 	$(RM) -rf node_modules
 	$(RM) -rf admin/node-installation/installation
-	$(RM) -rf admin/yarn-installation/installation
 	$(RM) -rf .git/hooks/pre-push
 	$(RM) -rf .git/hooks/pre-commit
 	$(RM) -rf $(M)
@@ -102,7 +102,7 @@ node_modules:
 	$(RM) -rf $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
 
-# reinstall node modules when yarn version changes
+# reinstall node modules when version changes
 $(M)/src-node_modules:
 	$(RM) -rf node_modules $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
@@ -111,7 +111,7 @@ $(M)/src-node_modules:
 $(M)/npm-dependencies: package.json package-lock.json
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
-		&& $(YARN) --ignore-engines
+		&& $(NPM)
 	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
 	@$(TOUCH) $@
 

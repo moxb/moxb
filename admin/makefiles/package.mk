@@ -36,7 +36,7 @@ node_modules:
 	$(RM) -rf $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
 
-# reinstall node modules when yarn version changes
+# reinstall node modules when version changes
 $(M)/src-node_modules:
 	$(RM) -rf node_modules $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
@@ -54,7 +54,7 @@ peer-dependencies/node_modules:
 	$(RM) -rf $(M)/peer-dependencies-node_module
 	$(MAKE) $(M)/peer-dependencies-node_module
 
-# reinstall node modules when yarn version changes
+# reinstall node modules when version changes
 $(M)/peer-dependencies-node_modules:
 	$(RM) -rf peer-dependencies/node_modules $(M)/peer-dependencies-dependencies
 	$(MAKE) $(M)/peer-dependencies-dependencies
