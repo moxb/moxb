@@ -68,7 +68,7 @@ npm-link-dependencies:
 .PHONY: watch
 watch:  all-dependencies
 	$(ACTIVATE) \
-		&& $(PACREL) watch index.html
+		&& $(PACREL) index.html
 
 .PHONY: clean-generated-js-files
 clean-generated-js-files:

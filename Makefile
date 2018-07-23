@@ -17,7 +17,11 @@ PACKAGE_DIRS= \
    packages/moxb \
    packages/semui \
    packages/meteor \
+
+EXAMPLE_DIRS= \
    examples \
+
+SUB_DIRS= $(PACKAGE_DIRS) $(EXAMPLE_DIRS)
 
 ## Some Colors for the output
 NC='\033[0m'
@@ -32,7 +36,7 @@ LIGHT_BLUE='\033[1;34m'
 
 .PHONY: all
 all test: all-dependencies
-	for dir in $(PACKAGE_DIRS); do \
+	for dir in $(SUB_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@; \
 	done
@@ -43,7 +47,7 @@ help:
 
 .PHONY: clean
 clean:
-	for dir in $(PACKAGE_DIRS); do \
+	for dir in $(SUB_DIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
 	$(RM) -rf admin/activate
@@ -70,7 +74,7 @@ pre-commit: all-dependencies _check-for-only
 
 .PHONY: _check-for-only
 _check-for-only:
-	@!( grep '\.only(' `find $(PACKAGE_DIRS) -name '*.test.ts*'`)
+	@!( grep '\.only(' `find $(SUB_DIRS) -name '*.test.ts*'`)
 
 
 # create a helper directory with files for the makefile
@@ -115,14 +119,20 @@ $(M)/npm-dependencies: package.json package-lock.json
 	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
 	@$(TOUCH) $@
 
+###### npm-link ###################################
+$(M)/npm-linked:
+	$(MAKE) npm-link
+	@$(TOUCH) $@
+
 .PHONY: npm-link
-npm-link:
-	for dir in $(PACKAGE_DIRS); do \
+npm-link: all-dependencies
+	for dir in $(SUB_DIRS); do \
 		(cd $$dir && $(ACTIVATE) && npm link); \
 	done
-	for dir in $(PACKAGE_DIRS); do \
+	for dir in $(SUB_DIRS); do \
 		$(MAKE) -C $$dir npm-link-dependencies; \
 	done
+	@$(TOUCH) $(M)/npm-linked
 
 ###### bin-tools ###################################
 
@@ -134,6 +144,13 @@ $(M)/bin-tools: Makefile
 	mkdir -p admin/bin-tools
 	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
 	@touch $@
+
+###### watch-all ###################################
+
+.PHONY: watch-all
+watch-all: all $(M)/npm-linked
+# the first argument is the one we are waiting for!
+	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
 ###### all-dependencie #############################
 
