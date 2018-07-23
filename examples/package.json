@@ -12,6 +12,7 @@
     "marked": "^0.4.0",
     "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
+    "parcel": "^1.9.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "semantic-ui-react": "^0.81.0"
