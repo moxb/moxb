@@ -143,6 +143,7 @@ $(M)/bin-tools: Makefile
 	rm -rf admin/bin-tools
 	mkdir -p admin/bin-tools
 	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
+	ln -sf ../../node_modules/.bin/npm-check admin/bin-tools/
 	@touch $@
 
 ###### watch-all ###################################

@@ -32,6 +32,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 - new top level makefile target: `link-all`
 
+- use `npm-check --update` instead of `yarn update-interactive`
+
 ### Removed
 
 ### Fixed
