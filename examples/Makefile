@@ -60,7 +60,8 @@ $(M)/npm-dependencies: package.json package-lock.json
 npm-link-dependencies:
 	$(ACTIVATE) \
 		&& npm link @moxb/moxb \
-		&& npm link @moxb/semui
+		&& npm link @moxb/semui \
+		&& npm link @moxb/antd
 
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################

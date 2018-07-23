@@ -16,6 +16,7 @@ NPM = npm install --preserve-symlinks
 PACKAGE_DIRS= \
    packages/moxb \
    packages/semui \
+   packages/antd \
    packages/meteor \
 
 EXAMPLE_DIRS= \
