@@ -7,7 +7,6 @@ ADMIN = $(ROOT)/admin
 
 TOUCH = touch
 CP = cp
-YARN = yarn
 
 MKDIR = mkdir
 RM = rm
@@ -84,13 +83,6 @@ $(M):
 .git/hooks/pre-commit: hooks/pre-commit
 	$(CP) hooks/pre-commit .git/hooks/
 
-### yarn ########################################
-
-$(M)/yarn-installation: admin/yarn-installation/.yarn-version admin/yarn-installation/install.sh
-	@echo "Installing yarn..."
-	@$(ACTIVATE) && admin/yarn-installation/install.sh
-	@touch $@
-
 ### node ########################################
 
 $(M)/node-installation: admin/node-installation/.node-version admin/node-installation/install.sh
@@ -111,17 +103,26 @@ node_modules:
 	$(MAKE) $(M)/npm-dependencies
 
 # reinstall node modules when yarn version changes
-$(M)/src-node_modules: $(ADMIN)/yarn-installation/.yarn-version
+$(M)/src-node_modules:
 	$(RM) -rf node_modules $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
 	@$(TOUCH) $@
 
-$(M)/npm-dependencies: package.json yarn.lock
+$(M)/npm-dependencies: package.json package-lock.json
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
 		&& $(YARN) --ignore-engines
 	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
 	@$(TOUCH) $@
+
+.PHONY: npm-link
+npm-link:
+	for dir in $(PACKAGE_DIRS); do \
+		(cd $$dir && $(ACTIVATE) && npm link); \
+	done
+	for dir in $(PACKAGE_DIRS); do \
+		$(MAKE) -C $$dir npm-link-dependencies; \
+	done
 
 ###### bin-tools ###################################
 
@@ -142,7 +143,6 @@ all-dependencies: \
 	_check-if-commands-exist \
 	admin/activate \
 	$(M)/node-installation \
-	$(M)/yarn-installation \
 	node_modules \
 	admin/bin-tools \
 	$(M)/bin-tools \

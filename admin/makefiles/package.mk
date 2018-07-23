@@ -12,7 +12,7 @@ MKDIR = mkdir
 RM = rm
 TOUCH = touch
 TSC = $(TOOLS)/tsc
-YARN = $(ADMIN)/yarn-installation/installation/current/bin/yarn
+NPM = npm install --preserve-symlinks
 JEST = jest
 
 # create a helper directory with files for the makefile
@@ -37,15 +37,15 @@ node_modules:
 	$(MAKE) $(M)/npm-dependencies
 
 # reinstall node modules when yarn version changes
-$(M)/src-node_modules: $(ADMIN)/yarn-installation/.yarn-version
+$(M)/src-node_modules:
 	$(RM) -rf node_modules $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
 	@$(TOUCH) $@
 
-$(M)/npm-dependencies: package.json yarn.lock
+$(M)/npm-dependencies: package.json package-lock.json
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
-		&& $(YARN) --ignore-engines
+		&& $(NPM)
 	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
 	@$(TOUCH) $@
 
@@ -55,16 +55,16 @@ peer-dependencies/node_modules:
 	$(MAKE) $(M)/peer-dependencies-node_module
 
 # reinstall node modules when yarn version changes
-$(M)/peer-dependencies-node_modules: admin/yarn-installation/.yarn-version
+$(M)/peer-dependencies-node_modules:
 	$(RM) -rf peer-dependencies/node_modules $(M)/peer-dependencies-dependencies
 	$(MAKE) $(M)/peer-dependencies-dependencies
 	@$(TOUCH) $@
 
-$(M)/peer-dependencies-dependencies: peer-dependencies/package.json peer-dependencies/yarn.lock
+$(M)/peer-dependencies-dependencies: peer-dependencies/package.json peer-dependencies/package-lock.json
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
 		&& cd peer-dependencies \
-		&& $(YARN) --ignore-engines
+		&& $(NPM)
 	@$(TOUCH) $@
 
 ########################################################################################################################
