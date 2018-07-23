@@ -12,7 +12,7 @@ import {
     Text,
     TextImpl
 } from '@moxb/moxb';
-import { BindActionButtonImpl, BoolImpl } from '@moxb/moxb';
+import { ActionButtonImpl, BoolImpl } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
 export class ApplicationImpl implements Application {
@@ -21,7 +21,7 @@ export class ApplicationImpl implements Application {
     @observable data:{ _id:string; email:string; fullName:string, createdAt:string }[];
     readonly allChoices:{ label:string; value:string }[];
 
-    readonly testAction: Action = new BindActionButtonImpl({
+    readonly testAction: Action = new ActionButtonImpl({
         id: 'ApplicationImpl.testButton',
         label: 'Hello Button',
         fire: ()=> { alert('Hello Button')},
@@ -74,14 +74,14 @@ export class ApplicationImpl implements Application {
         label: 'Textarea',
     });
 
-    readonly action1Modal: Action = new BindActionButtonImpl({
+    readonly action1Modal: Action = new ActionButtonImpl({
         id: 'ApplicationImpl.modalAction1',
         label: 'Action with value',
         fire: ()=> { alert(`Action executed with value: ${this.testText.value!}`)},
     });
 
     private actionCancelModal(modal: Modal<any>): Action {
-        return new BindActionButtonImpl({
+        return new ActionButtonImpl({
             id: 'ApplicationImpl.cancelModalButton',
             label: 'Cancel',
             fire: () => modal.close(),
@@ -168,7 +168,7 @@ export class ApplicationImpl implements Application {
     }
 
     newConfirmAction() {
-        return new BindActionButtonImpl({
+        return new ActionButtonImpl({
             id: 'ApplicationImpl.actionConfirm',
             label: 'Show confirm dialog',
             fire: () => this.showConfirmDialog(),
@@ -176,7 +176,7 @@ export class ApplicationImpl implements Application {
     }
 
     newModalAction() {
-        return new BindActionButtonImpl({
+        return new ActionButtonImpl({
             id: 'ApplicationImpl.actionModal',
             label: 'Show modal dialog',
             fire: () => this.showModalDialog(),

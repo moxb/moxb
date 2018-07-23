@@ -11,8 +11,8 @@ ACTIVATE = . $(ADMIN)/activate
 MKDIR = mkdir
 RM = rm
 TOUCH = touch
-YARN = $(ADMIN)/yarn-installation/installation/current/bin/yarn
-WEBPACK = $(PROJECT)/node_modules/webpack/bin/webpack.js
+NPM = npm install --preserve-symlinks
+PACREL = ./node_modules/.bin/parcel
 
 # create a helper directory with files for the makefile
 $(M):
@@ -24,7 +24,12 @@ all: build
 .PHONY: build
 build:  all-dependencies
 	$(ACTIVATE) \
-		&& $(WEBPACK) --mode production
+		&& $(PACREL) build index.html
+
+.PHONY: dev
+dev:  all-dependencies
+	$(ACTIVATE) \
+		&& $(PACREL) index.html
 
 #include $(ADMIN)/makefiles/clean.mk
 .PHONY: clean
@@ -37,18 +42,25 @@ node_modules:
 	$(RM) -rf $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
 
-# reinstall node modules when yarn version changes
-$(M)/src-node_modules: $(ADMIN)/yarn-installation/.yarn-version
+# reinstall node modules when version changes
+$(M)/src-node_modules:
 	$(RM) -rf node_modules $(M)/npm-dependencies
 	$(MAKE) $(M)/npm-dependencies
 	@$(TOUCH) $@
 
-$(M)/npm-dependencies: package.json yarn.lock
+$(M)/npm-dependencies: package.json package-lock.json
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
-		&& $(YARN) --ignore-engines
+		&& $(NPM)
 	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
 	@$(TOUCH) $@
+
+
+.PHONY: npm-link-dependencies
+npm-link-dependencies:
+	$(ACTIVATE) \
+		&& npm link @moxb/moxb \
+		&& npm link @moxb/semui
 
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################
@@ -56,7 +68,7 @@ $(M)/npm-dependencies: package.json yarn.lock
 .PHONY: watch
 watch:  all-dependencies
 	$(ACTIVATE) \
-		&& $(WEBPACK) --mode development --watch
+		&& $(PACREL) index.html
 
 .PHONY: clean-generated-js-files
 clean-generated-js-files:

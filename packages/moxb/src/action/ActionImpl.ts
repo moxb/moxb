@@ -21,7 +21,7 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
     }
 }
 
-export class BindActionButtonImpl extends ActionImpl implements Action {
+export class ActionButtonImpl extends ActionImpl implements Action {
     constructor(impl: ActionOptions) {
         super(impl);
     }
