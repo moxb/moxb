@@ -26,16 +26,22 @@ CYAN='\033[00;36m'
 LIGHT_GREEN='\033[1;32m'
 LIGHT_BLUE='\033[1;34m'
 
+### main targets ###################################
+
 # recursively makes all targets before the :
+
+.PHONY: all
 all test: all-dependencies
 	for dir in $(PACKAGE_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@; \
 	done
 
+.PHONY: help
 help:
 	@$(MORE) MakeHelp.md
 
+.PHONY: clean
 clean:
 	for dir in $(PACKAGE_DIRS); do \
 		$(MAKE) -C $$dir clean; \
@@ -43,21 +49,27 @@ clean:
 	$(RM) -rf admin/activate
 	$(RM) -rf admin/bin-tools
 	$(RM) -rf node_modules
-	$(RM) -rf admin/yarn-installation/installation/current
-	$(RM) -rf admin/yarn-installation/installation/yarn-*
+	$(RM) -rf admin/node-installation/installation
+	$(RM) -rf admin/yarn-installation/installation
 	$(RM) -rf .git/hooks/pre-push
 	$(RM) -rf .git/hooks/pre-commit
 	$(RM) -rf $(M)
 
+### activate ###################################
 
 admin/activate: admin/activate.in admin/bin/write-activate.sh
 	admin/bin/write-activate.sh
 
+### git hooks ###################################
+
+.PHONY: pre-push
 pre-push: pre-commit
 
+.PHONY: pre-commit
 pre-commit: all-dependencies _check-for-only
 	$(MAKE) test
 
+.PHONY: _check-for-only
 _check-for-only:
 	@!( grep '\.only(' `find $(PACKAGE_DIRS) -name '*.test.ts*'`)
 
@@ -74,14 +86,23 @@ $(M):
 
 ### yarn ########################################
 
-$(M)/yarn-installation: admin/yarn-installation/.yarn-version admin/bin/install-yarn.sh
+$(M)/yarn-installation: admin/yarn-installation/.yarn-version admin/yarn-installation/install.sh
 	@echo "Installing yarn..."
-	@$(ACTIVATE) && admin/bin/install-yarn.sh
+	@$(ACTIVATE) && admin/yarn-installation/install.sh
 	@touch $@
 
+### node ########################################
 
+$(M)/node-installation: admin/node-installation/.node-version admin/node-installation/install.sh
+	@echo "Installing node..."
+	@$(ACTIVATE) && admin/node-installation/install.sh
+	@touch $@
+
+#################################################
+
+.PHONY: _check-if-commands-exist
 _check-if-commands-exist:
-	@admin/bin/check-if-commands-exist.sh node
+	@admin/bin/check-if-commands-exist.sh wget
 
 ###### node_module #############################
 
@@ -113,13 +134,14 @@ $(M)/bin-tools: Makefile
 	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
 	@touch $@
 
-
 ###### all-dependencie #############################
 
+.PHONY: all-dependencies
 all-dependencies: \
 	$(M) \
 	_check-if-commands-exist \
 	admin/activate \
+	$(M)/node-installation \
 	$(M)/yarn-installation \
 	node_modules \
 	admin/bin-tools \
@@ -128,12 +150,4 @@ all-dependencies: \
 	.git/hooks/pre-push \
 	.git/hooks/pre-commit \
 
-
-.PHONY: \
-	all \
-	help \
-	clean \
-	pre-push \
-	pre-commit \
-	all-dependencies \
 
