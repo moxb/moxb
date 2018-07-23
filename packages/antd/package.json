@@ -1,0 +1,74 @@
+{
+  "name": "@moxb/antd",
+  "version": "0.1.4-beta.2",
+  "description": "moxb ant design bindings",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "build",
+  "typings": "build/",
+  "files": [
+    "build/",
+    "src/**/*.less"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moxb/moxb.git"
+  },
+  "author": "moxb (moxb.org)",
+  "license": "MIT",
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "setupTestFrameworkScriptFile": "./jest/jestAdapter.js",
+    "transform": {
+      "^.+\\.(css|less)$": "./jest/jestMockStyle.js",
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testMatch": [
+      "**/src/**/__tests__/*.(ts|tsx)"
+    ],
+    "modulePaths": [
+      "<rootDir>/../moxb/peer-dependencies/node_modules",
+      "<rootDir>/peer-dependencies/node_modules"
+    ]
+  },
+  "dependencies": {
+    "@moxb/moxb": "^0.1.3",
+    "tslib": "^1.9.3"
+  },
+  "peerDependencies": {
+    "mobx": "^4.3.0 || ^5.0.0",
+    "mobx-react": "^5.2.3",
+    "antd": "^3.7.1"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.1.11",
+    "@types/jest": "^23.1.5",
+    "@types/react": "^16.4.6",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jest": "^23.3.0",
+    "prettier": "^1.13.7",
+    "pretty": "^2.0.0",
+    "ts-jest": "^23.0.0",
+    "typescript": "^2.9.2"
+  },
+  "bugs": {
+    "url": "https://github.com/moxb/moxb/issues"
+  },
+  "homepage": "https://github.com/moxb/moxb#readme",
+  "keywords": [
+    "mobx",
+    "antd",
+    "ant-design",
+    "react",
+    "UI"
+  ]
+}
