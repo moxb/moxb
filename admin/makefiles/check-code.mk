@@ -16,6 +16,8 @@ TSLINT = tslint --project tsconfig.json
 # all typescript files
 TS_FILES = $(shell find $(TS_DIRS) -type f \( -name '*.ts' -o -name '*.tsx' \))
 
+###### code formatting
+
 .PHONY: format-code
 format-code:
 	$(MAKE) PRETTIER_OP=--write .makehelper/formatted
@@ -34,6 +36,7 @@ format-check:
 	$(PRETTIER_FORMAT) $(PRETTIER_OP) $?
 	@touch $@ # we can touch the file since there was no error....
 
+###### tslint
 
 .PHONY: tslint
 tslint: .makehelper/tsling-cfg .makehelper/tslinted
