@@ -116,21 +116,20 @@ describe('interface Bind', function() {
             expect(bind.disabled).toBe(false);
         });
         it('should return true or the result of the disabled function', function() {
-            function testDisabledTrue(value:any) {
+            function testDisabledTrue(value: any) {
                 const disabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
                     id: 'test',
                     disabled,
                 });
                 expect(bind.disabled).toBe(true);
-
             }
             testDisabledTrue(true);
             testDisabledTrue('x');
             testDisabledTrue(1);
         });
         it('should return true or the result of the disabled function', function() {
-            function testDisabledFalse(value:any) {
+            function testDisabledFalse(value: any) {
                 const disabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
                     id: 'test',
@@ -145,7 +144,7 @@ describe('interface Bind', function() {
             testDisabledFalse(0);
         });
         it('should be not enabled', function() {
-            function testDisabledFalse(value:any) {
+            function testDisabledFalse(value: any) {
                 const enabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
                     id: 'test',
@@ -153,7 +152,7 @@ describe('interface Bind', function() {
                 });
                 expect(bind.disabled).toBe(false);
             }
-           function testDisabledTrue(value:any) {
+            function testDisabledTrue(value: any) {
                 const enabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
                     id: 'test',
@@ -191,7 +190,7 @@ describe('interface Bind', function() {
             expect(bind.enabled).toBe(true);
         });
         it('should be false by default', function() {
-            function testEnabledToDisabled(value:any, expected:boolean) {
+            function testEnabledToDisabled(value: any, expected: boolean) {
                 const enabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
                     id: 'test',
@@ -210,7 +209,7 @@ describe('interface Bind', function() {
             testEnabledToDisabled(1, false);
         });
         it('should take the value as falsly/truly', function() {
-            function testEnabled(value:any, expected:boolean) {
+            function testEnabled(value: any, expected: boolean) {
                 const enabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
                     id: 'test',
@@ -229,7 +228,7 @@ describe('interface Bind', function() {
             testEnabled(1, true);
         });
         it('should be not disabled', function() {
-            function testDisabledToEnabled(value:any, expected:boolean) {
+            function testDisabledToEnabled(value: any, expected: boolean) {
                 const disabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
                     id: 'test',
@@ -278,7 +277,7 @@ describe('interface Bind', function() {
             expect(bind.readOnly).toBe(false);
         });
         it('should return false or the result of the readOnly function', function() {
-            function testReadOnly(value:any, expected:boolean) {
+            function testReadOnly(value: any, expected: boolean) {
                 const readOnly = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
                     id: 'test',
@@ -318,7 +317,7 @@ describe('interface Bind', function() {
             expect(bind.invisible).toBe(false);
         });
         it('should return false or the result of the invisible function', function() {
-            function testInvidible(value:any, expected:boolean) {
+            function testInvidible(value: any, expected: boolean) {
                 const invisible = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
                     id: 'test',

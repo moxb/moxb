@@ -8,9 +8,17 @@ import {
     ManyOf,
     ManyOfImpl,
     Modal,
-    ModalImpl, Numeric, NumericImpl, OneOfImpl, Table, TableColumnImpl, TableImpl, TableSearch, TableSearchImpl,
+    ModalImpl,
+    Numeric,
+    NumericImpl,
+    OneOfImpl,
+    Table,
+    TableColumnImpl,
+    TableImpl,
+    TableSearch,
+    TableSearchImpl,
     Text,
-    TextImpl
+    TextImpl,
 } from '@moxb/moxb';
 import { ActionButtonImpl, BoolImpl } from '@moxb/moxb';
 import { action, observable } from 'mobx';
@@ -18,13 +26,15 @@ import { action, observable } from 'mobx';
 export class ApplicationImpl implements Application {
     @observable showCheckbox: boolean;
     @observable manyChoices: any[];
-    @observable data:{ _id:string; email:string; fullName:string, createdAt:string }[];
-    readonly allChoices:{ label:string; value:string }[];
+    @observable data: { _id: string; email: string; fullName: string; createdAt: string }[];
+    readonly allChoices: { label: string; value: string }[];
 
     readonly testAction: Action = new ActionButtonImpl({
         id: 'ApplicationImpl.testButton',
         label: 'Hello Button',
-        fire: ()=> { alert('Hello Button')},
+        fire: () => {
+            alert('Hello Button');
+        },
     });
 
     readonly testBool: Bool = new BoolImpl({
@@ -52,7 +62,7 @@ export class ApplicationImpl implements Application {
         label: 'Choose your snack',
         choices: () => this.allChoices,
         initialValue: () => this.manyChoices,
-        onSave: () => {}
+        onSave: () => {},
     });
 
     readonly testText: Text = new TextImpl({
@@ -77,7 +87,9 @@ export class ApplicationImpl implements Application {
     readonly action1Modal: Action = new ActionButtonImpl({
         id: 'ApplicationImpl.modalAction1',
         label: 'Action with value',
-        fire: ()=> { alert(`Action executed with value: ${this.testText.value!}`)},
+        fire: () => {
+            alert(`Action executed with value: ${this.testText.value!}`);
+        },
     });
 
     private actionCancelModal(modal: Modal<any>): Action {
@@ -98,14 +110,14 @@ export class ApplicationImpl implements Application {
         id: 'ApplicationImpl.number',
         onlyInteger: true,
         initialValue: 999,
-        label: 'Only numbers'
+        label: 'Only numbers',
     });
 
     readonly testOfOne = new OneOfImpl({
         id: 'ApplicationImpl.testRadioOfOne',
         label: 'Select one of',
         placeholder: '...',
-        choices: () => this.allChoices
+        choices: () => this.allChoices,
     });
 
     readonly testTable: Table<any> = new TableImpl<any>({
@@ -124,7 +136,7 @@ export class ApplicationImpl implements Application {
                 {
                     header: 'Full Name',
                     accessor: 'fullName',
-                    sortable: true
+                    sortable: true,
                 },
                 bind
             ),
@@ -132,11 +144,11 @@ export class ApplicationImpl implements Application {
                 {
                     header: 'Joined',
                     accessor: 'createdAt',
-                    sortable: true
+                    sortable: true,
                 },
                 bind
-            )
-        ]
+            ),
+        ],
     });
 
     readonly search: TableSearch = new TableSearchImpl();
@@ -156,14 +168,14 @@ export class ApplicationImpl implements Application {
         this.manyChoices = [];
 
         this.allChoices = [
-            { label: 'Banana', value: 'b'},
-            { label: 'Apples', value: 'a'},
-            { label: 'Peaches', value: 'p'},
+            { label: 'Banana', value: 'b' },
+            { label: 'Apples', value: 'a' },
+            { label: 'Peaches', value: 'p' },
         ];
         this.data = [
-            { _id: '1', email: 'john@doe.com', fullName: 'John Doe', createdAt: '2018-01-01'},
-            { _id: '2', email: 'johanna@yahoo.com', fullName: 'Johanna Doe', createdAt: '2018-05-01'},
-            { _id: '3', email: 'jake@gmail.com', fullName: 'Jake Doe', createdAt: '2018-10-01'}
+            { _id: '1', email: 'john@doe.com', fullName: 'John Doe', createdAt: '2018-01-01' },
+            { _id: '2', email: 'johanna@yahoo.com', fullName: 'Johanna Doe', createdAt: '2018-05-01' },
+            { _id: '3', email: 'jake@gmail.com', fullName: 'Jake Doe', createdAt: '2018-10-01' },
         ];
     }
 

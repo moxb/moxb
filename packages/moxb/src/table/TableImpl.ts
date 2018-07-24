@@ -38,7 +38,7 @@ export class TableImpl<T> implements Table<T> {
     get sortOptions() {
         const sorting: TableSortField[] = [];
         if (this.sortAccessor) {
-            sorting.push({[this.sortAccessor]: this.sortDirection });
+            sorting.push({ [this.sortAccessor]: this.sortDirection });
         }
         return sorting;
     }

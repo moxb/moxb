@@ -10,11 +10,13 @@ const model = new StoreImpl();
 
 class App extends React.Component {
     render() {
-        return (<>
-            <Provider {...model}>
-                <ApplicationUi />
-            </Provider>
-        </>) ;
+        return (
+            <>
+                <Provider {...model}>
+                    <ApplicationUi />
+                </Provider>
+            </>
+        );
     }
 }
 
