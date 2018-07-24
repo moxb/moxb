@@ -36,13 +36,13 @@ format-check:
 	$(PRETTIER_FORMAT) $(PRETTIER_OP) $?
 	@touch $@ # we can touch the file since there was no error....
 
-###### tslint
+###### tslint ########################################################
 
 .PHONY: tslint
 tslint: .makehelper/tsling-cfg .makehelper/tslinted
 
 .makehelper/tsling-cfg: tslint.json tsconfig.json
-	rm .makehelper/tslinted
+	rm -f .makehelper/tslinted
 	@touch $@
 
 
@@ -81,4 +81,4 @@ tslint-for-webstorm:
 # show an alert on mac: https://developer.apple.com/library/content/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/DisplayDialogsandAlerts.html#//apple_ref/doc/uid/TP40016239-CH15-SW1
 .PHONY: webstorm-before-commit
 webstorm-before-commit:
-	$(MAKE) format-code tslint-for-webstorm run-unit-tests ||  osascript -e 'display dialog "make webstorm-before-commit FAILED"'
+	$(MAKE) format-code tslint-for-webstorm run-unit-tests ||  (osascript -e 'display dialog "make webstorm-before-commit FAILED"' && false)

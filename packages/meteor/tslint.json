@@ -4,10 +4,8 @@
         "no-inferrable-types": true,
         "no-internal-module": true,
         "quotemark": [true, "single", "jsx-double", "avoid-escape", "avoid-escape"],
-        "no-unused-variable": true,
         "prefer-object-spread": true,
 //        "ordered-imports": true
-        "no-unnecessary-type-assertion": true,
         "curly": true,
         "no-debugger": true,
         "no-duplicate-super": true,
