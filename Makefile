@@ -65,12 +65,11 @@ admin/activate: admin/activate.in admin/bin/write-activate.sh
 ### git hooks ###################################
 
 .PHONY: pre-push
-pre-push:
-	$(MAKE) format-check
+pre-push: pre-commit
 
 .PHONY: pre-commit
 pre-commit: all-dependencies _check-for-only
-	$(MAKE) format-code
+	$(MAKE) format-check
 	$(MAKE) test
 
 .PHONY: _check-for-only
