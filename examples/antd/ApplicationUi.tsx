@@ -10,14 +10,18 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app;
 
-        return (<Row><Col span={12}>
-            <h1>Ant design Components</h1>
-            <hr/>
+        return (
+            <Row>
+                <Col span={12}>
+                    <h1>Ant design Components</h1>
+                    <hr />
 
-            <h3>ActionButtonUI Component</h3>
-            <ActionButtonUi type="primary" operation={application!.testAction} />
+                    <h3>ActionButtonUI Component</h3>
+                    <ActionButtonUi type="primary" operation={application!.testAction} />
 
-            <div id="spacer" style={{paddingBottom: '100px'}} />
-        </Col></Row>) ;
+                    <div id="spacer" style={{ paddingBottom: '100px' }} />
+                </Col>
+            </Row>
+        );
     }
 }

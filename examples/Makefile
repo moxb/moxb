@@ -12,7 +12,7 @@ TOUCH = touch
 NPM = npm install --preserve-symlinks
 PACREL = ./node_modules/.bin/parcel
 
-override TS_DIRS = semui
+override TS_DIRS = semui antd
 include ../admin/makefiles/check-code.mk
 
 # create a helper directory with files for the makefile
@@ -86,6 +86,9 @@ clean-generated-js-files:
 ########################################################################################################################
 .PHONY: test
 test:
+	echo 'No tests for examples needed'
+
+run-unit-tests:
 	echo 'No tests for examples needed'
 
 .PHONY: all-dependencies

@@ -6,9 +6,10 @@ export class ApplicationImpl implements Application {
     readonly testAction: Action = new ActionImpl({
         id: 'ApplicationImpl.testButton',
         label: 'Hello Button',
-        fire: ()=> { alert('Hello Button')},
+        fire: () => {
+            alert('Hello Button');
+        },
     });
 
-    constructor() {
-    }
+    constructor() {}
 }
