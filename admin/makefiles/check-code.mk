@@ -19,16 +19,16 @@ TS_FILES = $(shell find $(TS_DIRS) -type f \( -name '*.ts' -o -name '*.tsx' \))
 ###### code formatting
 
 .PHONY: format-code
-format-code:
+format-code: all-dependencies
 	$(MAKE) PRETTIER_OP=--write .makehelper/formatted
 
 .PHONY: format-force
-format-force:
+format-force: all-dependencies
 	rm -f .makehelper/formatted
 	$(MAKE) PRETTIER_OP=--write .makehelper/formatted
 
 .PHONY: format-check
-format-check:
+format-check: all-dependencies
 	@$(MAKE) .makehelper/formatted PRETTIER_OP=--list-different || (echo '\033[31mrun `make format-code` and commit the changes!\033[0m' && false)
 
 # in this rule $? refers only to the files that have changed since .makehelper/formatted has been touched
@@ -39,9 +39,9 @@ format-check:
 ###### tslint ########################################################
 
 .PHONY: tslint
-tslint: .makehelper/tsling-cfg .makehelper/tslinted
+tslint: all-dependencies .makehelper/tsling-cfg .makehelper/tslinted
 
-.makehelper/tsling-cfg: tslint.json tsconfig.json
+.makehelper/tsling-cfg: all-dependencies tslint.json tsconfig.json
 	rm -f .makehelper/tslinted
 	@touch $@
 
@@ -57,17 +57,17 @@ tslint-all: .makehelper/tslinted-all
 # The second run of tslint with the `--format verbose` option is to show the rule in the output.
 # However, webstrom does not recognize this line and does not link to the location.
 # Therefore, we have the first run without the rule...
-.makehelper/tslinted-all:  $(TS_FILES) tslint.json tsconfig.json
+.makehelper/tslinted-all: all-dependencies $(TS_FILES) tslint.json tsconfig.json
 	$(ACTIVATE) && $(TSLINT) $(TS_FILES) \
 		|| $(TSLINT) --format verbose $(TS_FILES)
 	@touch $@
 
 .PHONY: tslint-fix
-tslint-fix:
+tslint-fix: all-dependencies
 	$(ACTIVATE) && $(TSLINT) --fix
 
 .PHONY: format-file
-format-file:
+format-file: all-dependencies
 	@test -n "$(FILE)" || (echo 'Call make with `make $@ FILE=path/to/file`' && exit -1)
 	@$(PRETTIER_FORMAT) --write $(FILE)
 

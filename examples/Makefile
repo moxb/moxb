@@ -37,6 +37,8 @@ dev:  all-dependencies
 clean:
 	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
+	$(RM) -rf .cache
+	$(RM) -rf dist
 
 ###### node_module
 node_modules:
