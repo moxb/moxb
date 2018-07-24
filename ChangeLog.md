@@ -12,6 +12,11 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
   - `make test`
   - `make clean`
 
+- makefiles can now format code
+  - `make format-code` formats changed files
+  - `make format-check` checks if files need to be formatted
+  - `make format-force` checks if files need to be formatted
+  
 ### Changed
 
 - use a common makefile [admin/makefiles/package.mk](admin/makefiles/package.mk) that is included in all package Makefiles.
@@ -33,6 +38,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 - new top level makefile target: `link-all`
 
 - use `npm-check --update` instead of `yarn update-interactive`
+
+- Makefiles: eliminated the `$(M)` variable: use the name of the directory `.makehelper` directly
+  (this simplifies makefile editing and works better with the webstorm makefile plugin)
 
 ### Removed
 

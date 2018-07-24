@@ -33,8 +33,8 @@ LIGHT_BLUE='\033[1;34m'
 
 # recursively makes all targets before the :
 
-.PHONY: all
-all test: all-dependencies
+.PHONY: all test format-code format-check format-force
+all test format-code format-check format-force: all-dependencies
 	for dir in $(SUB_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@; \
@@ -65,10 +65,12 @@ admin/activate: admin/activate.in admin/bin/write-activate.sh
 ### git hooks ###################################
 
 .PHONY: pre-push
-pre-push: pre-commit
+pre-push:
+	$(MAKE) format-check
 
 .PHONY: pre-commit
 pre-commit: all-dependencies _check-for-only
+	$(MAKE) format-code
 	$(MAKE) test
 
 .PHONY: _check-for-only
@@ -120,6 +122,7 @@ node_modules:
 	@$(TOUCH) $@
 
 ###### npm-link ###################################
+## Links npm projects so that they are updated when souce changes...
 .makehelper/npm-linked:
 	$(MAKE) npm-link
 	@$(TOUCH) $@
@@ -144,6 +147,9 @@ admin/bin-tools:
 	mkdir -p admin/bin-tools
 	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
 	ln -sf ../../node_modules/.bin/npm-check admin/bin-tools/
+	ln -sf ../../node_modules/.bin/prettier admin/bin-tools/
+	ln -sf ../../node_modules/.bin/tsc admin/bin-tools/
+	ln -sf ../../node_modules/.bin/tslint admin/bin-tools/
 	@touch $@
 
 ###### watch-all ###################################
