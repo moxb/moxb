@@ -136,24 +136,28 @@ npm-update:
 
 ###### npm-link ###################################
 ## Links npm projects so that they are updated when souce changes...
-.makehelper/npm-linked:
-	$(MAKE) npm-link
-	@$(TOUCH) $@
 
-.PHONY: npm-link
-npm-link: all-dependencies
+
+.makehelper/npm-linked:
+	# prepare all subdirs for linking
+	# it's ok to do it once!
 	for dir in $(SUB_DIRS); do \
 		(cd $$dir && $(ACTIVATE) && npm link); \
 	done
-	for dir in $(SUB_DIRS); do \
+	@$(TOUCH) $@
+
+.PHONY: npm-link
+npm-link: all-dependencies .makehelper/npm-linked
+	# needs to be done every time -- if dependencies are already linked it is a cheap operation
+	@for dir in $(SUB_DIRS); do \
+		echo ${LIGHT_BLUE}'=======================================' npm-link $$dir '======================================='${NC}; \
 		$(MAKE) -C $$dir npm-link-dependencies; \
 	done
-	@$(TOUCH) .makehelper/npm-linked
 
 ###### bin-tools ###################################
 
 admin/bin-tools:
-	make .makehelper/bin-tools
+	$(MAKE) .makehelper/bin-tools
 
 .makehelper/bin-tools: Makefile
 	rm -rf admin/bin-tools
@@ -166,10 +170,23 @@ admin/bin-tools:
 	@touch $@
 
 ###### watch-all ###################################
+.PHONY: _build-packages
+_build-packages: all-dependencies
+	# first build the packages
+	@for dir in $(PACKAGE_DIRS); do \
+		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
+		$(MAKE) -C $$dir -f Makefile all || exit 1; \
+	done
+	# then make all dependenceis of the example
+	@for dir in $(EXAMPLE_DIRS); do \
+		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
+		$(MAKE) -C $$dir -f Makefile all-dependencies || exit 1; \
+	done
 
+# we first build all packages
 .PHONY: watch-all
-watch-all: all .makehelper/npm-linked
-# the first argument is the one we are waiting for!
+watch-all: _build-packages npm-link
+	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
 ###### all-dependencie #############################
