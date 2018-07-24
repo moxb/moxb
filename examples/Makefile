@@ -1,5 +1,3 @@
-M = .makehelper
-
 #ROOT = ../..
 ROOT = $(shell cd .. && pwd)
 PROJECT = $(shell pwd)
@@ -15,7 +13,7 @@ NPM = npm install --preserve-symlinks
 PACREL = ./node_modules/.bin/parcel
 
 # create a helper directory with files for the makefile
-$(M):
+.makehelper:
 	$(MKDIR) $@
 
 .PHONY: all
@@ -34,25 +32,25 @@ dev:  all-dependencies
 #include $(ADMIN)/makefiles/clean.mk
 .PHONY: clean
 clean:
-	$(RM) -rf $(M)
+	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
 
 ###### node_module
 node_modules:
-	$(RM) -rf $(M)/npm-dependencies
-	$(MAKE) $(M)/npm-dependencies
+	$(RM) -rf .makehelper/npm-dependencies
+	$(MAKE) .makehelper/npm-dependencies
 
 # reinstall node modules when version changes
-$(M)/src-node_modules:
-	$(RM) -rf node_modules $(M)/npm-dependencies
-	$(MAKE) $(M)/npm-dependencies
+.makehelper/src-node_modules:
+	$(RM) -rf node_modules .makehelper/npm-dependencies
+	$(MAKE) .makehelper/npm-dependencies
 	@$(TOUCH) $@
 
-$(M)/npm-dependencies: package.json package-lock.json
+.makehelper/npm-dependencies: package.json package-lock.json
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
 		&& $(NPM)
-	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
+	$(RM) -rf .makehelper/formatted .makehelper/tslinted  .makehelper/tslinted-all
 	@$(TOUCH) $@
 
 
@@ -83,10 +81,10 @@ test:
 
 .PHONY: all-dependencies
 all-dependencies: \
-	$(M) \
+	.makehelper \
 	all-tools \
 	node_modules \
-	$(M)/npm-dependencies \
+	.makehelper/npm-dependencies \
 
 .PHONY: all-tools
 all-tools:

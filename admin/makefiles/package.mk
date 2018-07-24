@@ -1,5 +1,3 @@
-M = .makehelper
-
 #ROOT = ../..
 ROOT = $(shell cd ../.. && pwd)
 PROJECT = $(shell pwd)
@@ -16,7 +14,7 @@ NPM = npm install --preserve-symlinks
 JEST = jest
 
 # create a helper directory with files for the makefile
-$(M):
+.makehelper:
 	$(MKDIR) $@
 
 build:
@@ -26,41 +24,41 @@ build:
 
 .PHONY: clean
 clean:
-	$(RM) -rf $(M)
+	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
 	$(RM) -rf peer-dependencies/node_modules
 	$(RM) -rf build
 
 ###### node_module
 node_modules:
-	$(RM) -rf $(M)/npm-dependencies
-	$(MAKE) $(M)/npm-dependencies
+	$(RM) -rf .makehelper/npm-dependencies
+	$(MAKE) .makehelper/npm-dependencies
 
 # reinstall node modules when version changes
-$(M)/src-node_modules:
-	$(RM) -rf node_modules $(M)/npm-dependencies
-	$(MAKE) $(M)/npm-dependencies
+.makehelper/src-node_modules:
+	$(RM) -rf node_modules .makehelper/npm-dependencies
+	$(MAKE) .makehelper/npm-dependencies
 	@$(TOUCH) $@
 
-$(M)/npm-dependencies: package.json package-lock.json
+.makehelper/npm-dependencies: package.json package-lock.json
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
 		&& $(NPM)
-	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
+	$(RM) -rf .makehelper/formatted .makehelper/tslinted  .makehelper/tslinted-all
 	@$(TOUCH) $@
 
 ###### peer-dependencies/node_module
 peer-dependencies/node_modules:
-	$(RM) -rf $(M)/peer-dependencies-node_module
-	$(MAKE) $(M)/peer-dependencies-node_module
+	$(RM) -rf .makehelper/peer-dependencies-node_module
+	$(MAKE) .makehelper/peer-dependencies-node_module
 
 # reinstall node modules when version changes
-$(M)/peer-dependencies-node_modules:
-	$(RM) -rf peer-dependencies/node_modules $(M)/peer-dependencies-dependencies
-	$(MAKE) $(M)/peer-dependencies-dependencies
+.makehelper/peer-dependencies-node_modules:
+	$(RM) -rf peer-dependencies/node_modules .makehelper/peer-dependencies-dependencies
+	$(MAKE) .makehelper/peer-dependencies-dependencies
 	@$(TOUCH) $@
 
-$(M)/peer-dependencies-dependencies: peer-dependencies/package.json peer-dependencies/package-lock.json
+.makehelper/peer-dependencies-dependencies: peer-dependencies/package.json peer-dependencies/package-lock.json
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
 		&& cd peer-dependencies \
@@ -110,12 +108,12 @@ build-all:  all-dependencies
 
 .PHONY: all-dependencies
 all-dependencies: \
-	$(M) \
+	.makehelper \
 	build \
 	all-tools \
 	node_modules \
-	$(M)/npm-dependencies \
-	$(M)/peer-dependencies-dependencies
+	.makehelper/npm-dependencies \
+	.makehelper/peer-dependencies-dependencies
 
 .PHONY: all-tools
 all-tools:

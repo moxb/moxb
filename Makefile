@@ -1,5 +1,3 @@
-# the helper directory with all the touched files to check timestamps
-M = .makehelper
 
 ACTIVATE = . $(shell pwd)/admin/activate
 ROOT = $(shell pwd)
@@ -57,7 +55,7 @@ clean:
 	$(RM) -rf admin/node-installation/installation
 	$(RM) -rf .git/hooks/pre-push
 	$(RM) -rf .git/hooks/pre-commit
-	$(RM) -rf $(M)
+	$(RM) -rf .makehelper
 
 ### activate ###################################
 
@@ -79,7 +77,8 @@ _check-for-only:
 
 
 # create a helper directory with files for the makefile
-$(M):
+# a directory with all the touched files to check timestamps
+.makehelper:
 	$(MKDIR) $@
 
 .git/hooks/pre-push: hooks/pre-push
@@ -90,7 +89,7 @@ $(M):
 
 ### node ########################################
 
-$(M)/node-installation: admin/node-installation/.node-version admin/node-installation/install.sh
+.makehelper/node-installation: admin/node-installation/.node-version admin/node-installation/install.sh
 	@echo "Installing node..."
 	@$(ACTIVATE) && admin/node-installation/install.sh
 	@touch $@
@@ -104,24 +103,24 @@ _check-if-commands-exist:
 ###### node_module #############################
 
 node_modules:
-	$(RM) -rf $(M)/npm-dependencies
-	$(MAKE) $(M)/npm-dependencies
+	$(RM) -rf .makehelper/npm-dependencies
+	$(MAKE) .makehelper/npm-dependencies
 
 # reinstall node modules when version changes
-$(M)/src-node_modules:
-	$(RM) -rf node_modules $(M)/npm-dependencies
-	$(MAKE) $(M)/npm-dependencies
+.makehelper/src-node_modules:
+	$(RM) -rf node_modules .makehelper/npm-dependencies
+	$(MAKE) .makehelper/npm-dependencies
 	@$(TOUCH) $@
 
-$(M)/npm-dependencies: package.json package-lock.json
+.makehelper/npm-dependencies: package.json package-lock.json
 	@echo "Installing NPM dependencies for the meteor server..."
 	$(ACTIVATE) \
 		&& $(NPM)
-	$(RM) -rf $(M)/formatted $(M)/tslinted  $(M)/tslinted-all
+	$(RM) -rf .makehelper/formatted .makehelper/tslinted  .makehelper/tslinted-all
 	@$(TOUCH) $@
 
 ###### npm-link ###################################
-$(M)/npm-linked:
+.makehelper/npm-linked:
 	$(MAKE) npm-link
 	@$(TOUCH) $@
 
@@ -133,14 +132,14 @@ npm-link: all-dependencies
 	for dir in $(SUB_DIRS); do \
 		$(MAKE) -C $$dir npm-link-dependencies; \
 	done
-	@$(TOUCH) $(M)/npm-linked
+	@$(TOUCH) .makehelper/npm-linked
 
 ###### bin-tools ###################################
 
 admin/bin-tools:
-	make $(M)/bin-tools
+	make .makehelper/bin-tools
 
-$(M)/bin-tools: Makefile
+.makehelper/bin-tools: Makefile
 	rm -rf admin/bin-tools
 	mkdir -p admin/bin-tools
 	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
@@ -150,7 +149,7 @@ $(M)/bin-tools: Makefile
 ###### watch-all ###################################
 
 .PHONY: watch-all
-watch-all: all $(M)/npm-linked
+watch-all: all .makehelper/npm-linked
 # the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
@@ -158,14 +157,14 @@ watch-all: all $(M)/npm-linked
 
 .PHONY: all-dependencies
 all-dependencies: \
-	$(M) \
+	.makehelper \
 	_check-if-commands-exist \
 	admin/activate \
-	$(M)/node-installation \
+	.makehelper/node-installation \
 	node_modules \
 	admin/bin-tools \
-	$(M)/bin-tools \
-	$(M)/src-node_modules \
+	.makehelper/bin-tools \
+	.makehelper/src-node_modules \
 	.git/hooks/pre-push \
 	.git/hooks/pre-commit \
 
