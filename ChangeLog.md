@@ -17,6 +17,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
   - `make format-check` checks if files need to be formatted
   - `make format-force` checks if files need to be formatted
   
+- makefile can now update all dependencies:
+  - `make npm-update` recursively updates npm dependencies interactively
+  
 ### Changed
 
 - use a common makefile [admin/makefiles/package.mk](admin/makefiles/package.mk) that is included in all package Makefiles.

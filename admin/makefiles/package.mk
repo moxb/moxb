@@ -47,6 +47,12 @@ node_modules:
 	$(RM) -rf .makehelper/formatted .makehelper/tslinted  .makehelper/tslinted-all
 	@$(TOUCH) $@
 
+# the :: means that multiple target with this name are allowed
+.PHONY: npm-update
+npm-update::
+	$(ACTIVATE) \
+        && npm-check --update
+
 ###### peer-dependencies/node_module
 peer-dependencies/node_modules:
 	$(RM) -rf .makehelper/peer-dependencies-node_module
@@ -64,6 +70,14 @@ peer-dependencies/node_modules:
 		&& cd peer-dependencies \
 		&& $(NPM)
 	@$(TOUCH) $@
+
+# the :: means that multiple target with this name are allowed
+.PHONY: npm-update
+npm-update::
+	$(ACTIVATE) \
+ 		&& cd peer-dependencies \
+       	&& npm-check --update
+
 
 ########################################################################################################################
 .PHONY: test

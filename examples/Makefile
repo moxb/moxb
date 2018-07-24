@@ -56,6 +56,10 @@ node_modules:
 	$(RM) -rf .makehelper/formatted .makehelper/tslinted  .makehelper/tslinted-all
 	@$(TOUCH) $@
 
+PHONY: npm-update
+npm-update:
+	$(ACTIVATE) \
+        		&& npm-check --update
 
 .PHONY: npm-link-dependencies
 npm-link-dependencies:

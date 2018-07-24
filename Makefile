@@ -107,6 +107,20 @@ node_modules:
 	$(RM) -rf .makehelper/npm-dependencies
 	$(MAKE) .makehelper/npm-dependencies
 
+package-lock.json:
+	$(RM) -rf node_modules
+	$(ACTIVATE) \
+    		&& $(NPM)
+
+.PHONY: npm-update
+npm-update:
+	$(ACTIVATE) \
+        && npm-check --update
+	for dir in $(SUB_DIRS); do \
+		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
+		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
+	done
+
 # reinstall node modules when version changes
 .makehelper/src-node_modules:
 	$(RM) -rf node_modules .makehelper/npm-dependencies
