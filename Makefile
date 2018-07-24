@@ -37,7 +37,7 @@ LIGHT_BLUE='\033[1;34m'
 all test format-code format-check format-force: all-dependencies
 	for dir in $(SUB_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
-		$(MAKE) -C $$dir -f Makefile $@; \
+		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
 	done
 
 .PHONY: help
