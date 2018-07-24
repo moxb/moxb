@@ -24,12 +24,12 @@ all: build
 .PHONY: build
 build:  all-dependencies
 	$(ACTIVATE) \
-		&& $(PACREL) build index.html
+		&& $(PACREL) build antd/index.html
 
 .PHONY: dev
 dev:  all-dependencies
 	$(ACTIVATE) \
-		&& $(PACREL) index.html
+		&& $(PACREL) antd/index.html
 
 #include $(ADMIN)/makefiles/clean.mk
 .PHONY: clean
@@ -60,7 +60,8 @@ $(M)/npm-dependencies: package.json package-lock.json
 npm-link-dependencies:
 	$(ACTIVATE) \
 		&& npm link @moxb/moxb \
-		&& npm link @moxb/semui
+		&& npm link @moxb/semui \
+		&& npm link @moxb/antd
 
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################
