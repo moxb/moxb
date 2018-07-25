@@ -19,7 +19,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
   
 - makefile can now update all dependencies:
   - `make npm-update` recursively updates npm dependencies interactively
-  
+
+- [ant design](https://ant.design/docs/react/introduce) example
+
 ### Changed
 
 - use a common makefile [admin/makefiles/package.mk](admin/makefiles/package.mk) that is included in all package Makefiles.
