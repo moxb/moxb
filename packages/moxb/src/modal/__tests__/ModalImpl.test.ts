@@ -67,7 +67,7 @@ describe('actions', function() {
     });
     it('should be of type BindAction', function() {
         expect(bindModal.actions).toEqual([testAction]);
-        expect(bindModal.actions[0]).toBeInstanceOf(ActionImpl);
+        expect(bindModal.actions![0]).toBeInstanceOf(ActionImpl);
         expect(bindModal.actions![0].fire).toBeDefined();
     });
 });
