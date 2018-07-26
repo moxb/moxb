@@ -8,8 +8,6 @@ export interface TableSortField {
     [id: string]: SortDirection;
 }
 
-
-
 export interface Table<T> {
     /**
      * The data that is associated with the dialog

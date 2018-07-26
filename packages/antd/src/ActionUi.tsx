@@ -10,7 +10,7 @@ export type BindActionUiProps = BindUiProps<Action> & ButtonProps;
 @observer
 export class ActionButtonUi extends React.Component<BindActionUiProps> {
     render() {
-        const { operation, invisible, children, ...props } = parseProps(this.props);
+        const { operation, invisible, children, label, ...props } = parseProps(this.props, this.props.operation);
         if (invisible || operation.invisible) {
             return null;
         }
@@ -23,7 +23,7 @@ export class ActionButtonUi extends React.Component<BindActionUiProps> {
                 shape={this.props.shape as ButtonShape}
                 type={this.props.type as ButtonType}
             >
-                {children}
+                {children != null ? children : label}
             </Button>
         );
     }

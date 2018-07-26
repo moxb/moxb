@@ -1,6 +1,4 @@
-
-export interface TablePaginationFilterOptions {
-}
+export interface TablePaginationFilterOptions {}
 
 export interface TablePagination {
     /**
