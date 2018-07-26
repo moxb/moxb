@@ -9,6 +9,7 @@
   "author": "Michael Scharf <npm@scharf.gr> (http://michaelscharf.blogspot.com)",
   "license": "MIT",
   "dependencies": {
+    "@moxb/moxb": "^0.1.4-beta.3",
     "@types/antd": "^1.0.0",
     "antd": "^3.7.1",
     "mobx": "^5.0.3",

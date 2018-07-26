@@ -9,11 +9,11 @@
   "author": "Michael Scharf <npm@scharf.gr> (http://michaelscharf.blogspot.com)",
   "license": "MIT",
   "dependencies": {
-    "markd": "^1.2.0",
+    "@moxb/moxb": "^0.1.4-beta.3",
     "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "semantic-ui-react": "^0.82.0"
+    "semantic-ui-react": "^0.82.1"
   }
 }
