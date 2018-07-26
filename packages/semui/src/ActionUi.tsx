@@ -4,10 +4,10 @@ import { Button, Dropdown, DropdownProps, Form, FormButtonProps } from 'semantic
 import { BindUiProps, parseProps } from './BindUi';
 import { Action } from '@moxb/moxb';
 
-export type BindActionUiProps = BindUiProps<Action> & FormButtonProps;
+export type ActionUiProps = BindUiProps<Action> & FormButtonProps;
 
 @observer
-export class ActionUi extends React.Component<BindActionUiProps> {
+export class ActionFormButtonUi extends React.Component<ActionUiProps> {
     render() {
         const { operation, id, label, invisible, children, color, size, width, ...props } = parseProps(this.props);
         if (invisible || operation.invisible) {
@@ -30,7 +30,7 @@ export class ActionUi extends React.Component<BindActionUiProps> {
 }
 
 @observer
-export class ActionButtonUi extends React.Component<BindActionUiProps> {
+export class ActionButtonUi extends React.Component<ActionUiProps> {
     render() {
         const { operation, id, label, invisible, children, color, size, width, ...props } = parseProps(this.props);
         if (invisible || operation.invisible) {

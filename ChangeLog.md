@@ -26,6 +26,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Changed
 
+- Refactor the `ActionUi` component to `ActionFormButtonUi`, because it describes the nested html element more clearly and exact.
+
 - use a common makefile [admin/makefiles/package.mk](admin/makefiles/package.mk) that is included in all package Makefiles.
 
 - extracted new package `@moxb/meteor` for meteor related code.

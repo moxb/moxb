@@ -2,15 +2,15 @@ import { mount, ReactWrapper, shallow } from 'enzyme';
 import * as React from 'react';
 import { Form } from 'semantic-ui-react';
 import { ActionImpl } from '@moxb/moxb';
-import { ActionUi, BindActionUiProps } from '../ActionUi';
+import { ActionFormButtonUi, ActionUiProps } from '../ActionUi';
 import pretty = require('pretty');
 
-describe('ActionUi', () => {
-    let props: BindActionUiProps | undefined;
+describe('ActionFormButtonUi', () => {
+    let props: ActionUiProps | undefined;
     let mountedLockScreen: any;
     const component = (): ReactWrapper<any, any> => {
         if (!mountedLockScreen && props) {
-            mountedLockScreen = mount(<ActionUi {...props} />);
+            mountedLockScreen = mount(<ActionFormButtonUi {...props} />);
         }
         return mountedLockScreen;
     };
@@ -36,7 +36,7 @@ describe('ActionUi', () => {
         expect(component().children().length).toBe(1);
         expect(component().find('button').length).toBe(1);
         expect(component().find('div').length).toBe(1);
-        expect(shallow(<ActionUi {...props} />).find('#the-id').length).toBe(1);
+        expect(shallow(<ActionFormButtonUi {...props} />).find('#the-id').length).toBe(1);
         expect(component().find('#the-id').length).toBeGreaterThan(0);
     });
     it('should match snapshot', function() {
@@ -46,7 +46,7 @@ describe('ActionUi', () => {
                 fire: jest.fn(),
             }),
         };
-        expect(shallow(<ActionUi {...props} />)).toMatchSnapshot();
+        expect(shallow(<ActionFormButtonUi {...props} />)).toMatchSnapshot();
     });
     it('html should match snapshot', function() {
         props = {
@@ -57,7 +57,7 @@ describe('ActionUi', () => {
             }),
         };
         // we use pretty to make it multi line...
-        expect(pretty(mount(<ActionUi {...props} />).html())).toMatchSnapshot();
+        expect(pretty(mount(<ActionFormButtonUi {...props} />).html())).toMatchSnapshot();
     });
     it('should fire on button click', function() {
         const fire = jest.fn();
@@ -67,7 +67,7 @@ describe('ActionUi', () => {
                 fire,
             }),
         };
-        shallow(<ActionUi {...props} />)
+        shallow(<ActionFormButtonUi {...props} />)
             .find('#the_id')
             .simulate('click');
         expect(fire).toBeCalled();
@@ -81,7 +81,7 @@ describe('ActionUi', () => {
                 disabled,
             }),
         };
-        shallow(<ActionUi {...props} />);
+        shallow(<ActionFormButtonUi {...props} />);
         expect(disabled).toBeCalled();
     });
     it('should call enabled', function() {
@@ -97,7 +97,7 @@ describe('ActionUi', () => {
                 enabled,
             }),
         };
-        const wrapper = shallow(<ActionUi {...props} />);
+        const wrapper = shallow(<ActionFormButtonUi {...props} />);
         expect(wrapper.render().find('button.disabled').length).toBe(1);
         expect(enabled).toBeCalled();
         wrapper.find('#action-id').simulate('click');
@@ -116,7 +116,7 @@ describe('ActionUi', () => {
                 enabled,
             }),
         };
-        const wrapper = shallow(<ActionUi {...props} />);
+        const wrapper = shallow(<ActionFormButtonUi {...props} />);
         expect(wrapper.render().find('button.disabled').length).toBe(1);
         expect(enabled).toBeCalled();
         wrapper.find('#action-id').simulate('click');
@@ -132,7 +132,7 @@ describe('ActionUi', () => {
                 enabled,
             }),
         };
-        const wrapper = shallow(<ActionUi {...props} />);
+        const wrapper = shallow(<ActionFormButtonUi {...props} />);
         expect(wrapper.find(Form.Button).length).toBe(1);
         expect(
             wrapper

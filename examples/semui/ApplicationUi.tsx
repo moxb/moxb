@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
     ActionButtonUi,
-    ActionUi,
+    ActionFormButtonUi,
     BoolUi,
     ActionDropdownItemUi,
     ConfirmUi,
@@ -41,7 +41,7 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <ActionButtonUi color="blue" size="large" operation={application!.testAction} />
 
                     <h3>ActionUI Component</h3>
-                    <ActionUi color="red" operation={application!.testAction} />
+                    <ActionFormButtonUi color="red" operation={application!.testAction} />
 
                     <h3>ActionDropdownItemUi Component</h3>
                     <Dropdown item text="Test dropdown">
@@ -62,7 +62,7 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
 
                     <h3>ConfirmUI Component</h3>
                     <ConfirmUi confirm={application!.testConfirm} />
-                    <ActionUi size="tiny" operation={application!.newConfirmAction()} />
+                    <ActionFormButtonUi size="tiny" operation={application!.newConfirmAction()} />
                     <br />
 
                     <h3>ManyOfUi Component</h3>
@@ -72,7 +72,7 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <br />
 
                     <h3>ModalUi Component</h3>
-                    <ActionUi size="tiny" color="green" operation={application!.newModalAction()} />
+                    <ActionFormButtonUi size="tiny" color="green" operation={application!.newModalAction()} />
                     <ModalUi modal={application!.testModal}>
                         <TextUi fluid operation={application!.testText} />
                     </ModalUi>

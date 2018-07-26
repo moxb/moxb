@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionUi html should match snapshot 1`] = `
+exports[`ActionFormButtonUi html should match snapshot 1`] = `
 "<div class=\\"field\\">
   <button id=\\"action-id\\" class=\\"ui button\\" role=\\"button\\"></button>
 </div>"
 `;
 
-exports[`ActionUi should match snapshot 1`] = `
+exports[`ActionFormButtonUi should match snapshot 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <ActionUi
+  Symbol(enzyme.__unrendered__): <ActionFormButtonUi
     operation={
       bound ActionImpl {
         "_error": undefined,

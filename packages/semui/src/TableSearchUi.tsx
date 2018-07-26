@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Form, Icon } from 'semantic-ui-react';
-import { ActionButtonUi, ActionUi } from './ActionUi';
+import { ActionButtonUi, ActionFormButtonUi } from './ActionUi';
 import { TextUi } from './TextUi';
 import { TableSearch } from '@moxb/moxb';
 
@@ -19,7 +19,7 @@ export class TableSearchUi extends React.Component<BindTableSearchUiProps> {
             <Form style={this.props.style} className={noAlignment ? undefined : 'container'}>
                 <Form.Group inline>
                     <TextUi operation={search.searchField} style={{ minWidth: '250px' }} />
-                    <ActionUi type="submit" operation={search.searchAction} />
+                    <ActionFormButtonUi type="submit" operation={search.searchAction} />
                     <ActionButtonUi operation={search.clearSearch} className="clearBtn">
                         <Icon name="x" style={{ marginLeft: '5px' }} />
                     </ActionButtonUi>
