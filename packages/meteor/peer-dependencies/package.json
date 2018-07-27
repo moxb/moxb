@@ -10,6 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "@moxb/moxb": "^0.1.4-beta.3",
-    "mobx": "^5.0.3"
+    "mobx": "^4.3.1"
   }
 }
