@@ -1,13 +1,12 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Table, TableProps } from 'semantic-ui-react';
-import { Table as MoxbTable } from '@moxb/moxb';
-import { TableColumn } from '@moxb/moxb';
+import * as moxb from '@moxb/moxb';
 
 //import './TableUi.styles.less';
 
 export interface TableUiProps extends TableProps {
-    table: MoxbTable<any>;
+    table: moxb.Table<any>;
     hideHeader?: boolean;
 }
 
@@ -20,27 +19,17 @@ export class TableUi extends React.Component<TableUiProps> {
                 {!hideHeader && (
                     <Table.Header className="tye_bindTable">
                         <Table.Row>
-                            {table.columns!.map((column: TableColumn, idx: number) => {
-                                if (!column.sortable) {
-                                    return (
-                                        <Table.HeaderCell key={idx} width={column.width as any}>
-                                            {column.header}
-                                        </Table.HeaderCell>
-                                    );
-                                } else {
-                                    return (
-                                        <Table.HeaderCell
-                                            key={idx}
-                                            onClick={column.onClick}
-                                            sorted={column.sortDirection}
-                                            className="sortable"
-                                            width={column.width as any}
-                                        >
-                                            {column.header}
-                                        </Table.HeaderCell>
-                                    );
-                                }
-                            })}
+                            {table.columns!.map((column, idx: number) => (
+                                <Table.HeaderCell
+                                    key={idx}
+                                    onClick={column.toggleSort}
+                                    sorted={column.sortDirection}
+                                    className={column.sortDirection ? 'sortable' : ''}
+                                    width={column.width as any}
+                                >
+                                    {column.label}
+                                </Table.HeaderCell>
+                            ))}
                         </Table.Row>
                     </Table.Header>
                 )}

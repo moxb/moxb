@@ -12,7 +12,7 @@ export class TableSortImpl implements TableSort {
             return;
         }
         let sortDirection = preferredSortDirection;
-        if (this.sort[0] && this.sort[0].column === column) {
+        if (this.sort.length && this.sort[0].column === column) {
             sortDirection = this.sort[0].sortDirection === 'ascending' ? 'descending' : 'ascending';
         }
         this.setSort(column, sortDirection);

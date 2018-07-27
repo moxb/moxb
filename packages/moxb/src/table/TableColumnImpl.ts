@@ -25,10 +25,15 @@ export class TableColumnImpl extends BindImpl<TableColumnOptions> implements Tab
     get preferredSortDirection() {
         return this.impl.preferredSortDirection;
     }
-
+    get sortable() {
+        return !!this.impl.preferredSortDirection;
+    }
     get sortDirection() {
+        if (this.table.sort.sort.length === 0) {
+            return undefined;
+        }
         const sort = this.table.sort.sort[0];
-        if (sort && sort.column === this.column) {
+        if (sort.column === this.column) {
             return sort.sortDirection;
         }
         return undefined;

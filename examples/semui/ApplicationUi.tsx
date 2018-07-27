@@ -17,6 +17,12 @@ import {
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 import { Container, Dropdown, Form, Table } from 'semantic-ui-react';
+import { toJSON } from '@moxb/moxb';
+
+// helper function to print recursive mobx trees
+(window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {
+    return toJSON(value, ignore);
+};
 
 @inject('app')
 @observer

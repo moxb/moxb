@@ -144,7 +144,7 @@ export class ApplicationImpl implements Application {
                 {
                     id: 'createdAt',
                     label: 'Joined',
-                    preferredSortDirection: 'ascending',
+                    preferredSortDirection: 'descending',
                 },
                 bind
             ),
@@ -176,6 +176,7 @@ export class ApplicationImpl implements Application {
             { _id: '1', email: 'john@doe.com', fullName: 'John Doe', createdAt: '2018-01-01' },
             { _id: '2', email: 'johanna@yahoo.com', fullName: 'Johanna Doe', createdAt: '2018-05-01' },
             { _id: '3', email: 'jake@gmail.com', fullName: 'Jake Doe', createdAt: '2018-10-01' },
+            { _id: '4', email: 'max@mustermann.com', fullName: 'Max Mustermann', createdAt: '2017-13-07' },
         ];
     }
 

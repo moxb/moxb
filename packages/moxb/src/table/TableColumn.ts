@@ -8,11 +8,6 @@ export interface TableColumn extends Bind {
     readonly column: string;
 
     /**
-     * the header is the title in the table header row.
-     */
-    readonly header?: string;
-
-    /**
      * Should be called when the column is clicked to sort on this column. If the column is not sortable, nothing
      * happens.
      */
@@ -22,6 +17,8 @@ export interface TableColumn extends Bind {
      * If column is not sortable, this is undefined. Else this is the preferred (natural) sort direction.
      */
     readonly preferredSortDirection?: SortDirection;
+
+    readonly sortable: boolean;
 
     /**
      * The current sort direction if it the column is the primary sort column
