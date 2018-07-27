@@ -56,6 +56,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 - `toJSON` helper function added to print `mobx` trees. Quite useful in the console...
 
+- reworked `Table`:
+  - it now has pagination, sorting and search built in
+
 ### Removed
 
 ### Fixed

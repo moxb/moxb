@@ -8,6 +8,7 @@ export * from './numeric/Numeric';
 export * from './one-of/OneOf';
 export * from './table/TableColumn';
 export * from './table/TablePagination';
+export * from './table/TableSort';
 export * from './table/TableSearch';
 export * from './table/Table';
 export * from './text/Text';

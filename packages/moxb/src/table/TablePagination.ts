@@ -1,4 +1,7 @@
-export interface TablePaginationFilterOptions {}
+export interface TablePaginationFilterOptions {
+    skip?: number;
+    limit?: number;
+}
 
 export interface TablePagination {
     /**

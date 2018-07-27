@@ -2,43 +2,28 @@
  * This is a representation of the table with extended functionality:
  * https://react.semantic-ui.com/modules/tables
  */
-import { SortDirection, TableColumn } from './TableColumn';
+import { TableColumn } from './TableColumn';
+import { TableSort } from './TableSort';
+import { TablePagination } from './TablePagination';
+import { TableSearch } from './TableSearch';
+import { Bind } from '../bind/Bind';
 
-export interface TableSortField {
-    [id: string]: SortDirection;
-}
+export interface Table<T> extends Bind {
+    readonly ready: boolean;
 
-export interface Table<T> {
     /**
-     * The data that is associated with the dialog
+     * The metadata about the columns in the table
      */
-    readonly columns?: TableColumn[];
+    readonly columns: TableColumn[];
 
     /**
      * The data that is associated with the table
      */
-    readonly data?: T[] | undefined;
+    readonly data: T[];
 
-    /**
-     * The sortAccessor saves the currently selected sorting column of the table.
-     */
-    readonly sortAccessor?: string;
+    readonly sort: TableSort;
 
-    /**
-     * Sets the sort column || may be undefined to clear the sorting
-     * @param sortAccessor
-     */
-    setSortAccessor(sortAccessor: string | undefined): void;
+    readonly pagination?: TablePagination;
 
-    /**
-     * The sortDirection defines the sorting direction of the current sorting column.
-     */
-    readonly sortDirection: SortDirection;
-
-    setSortDirection(sortDirection: SortDirection): void;
-
-    /**
-     * The sortOption defines the sorting options for the table query.
-     */
-    readonly sortOptions: TableSortField[];
+    readonly search?: TableSearch;
 }

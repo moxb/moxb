@@ -121,30 +121,30 @@ export class ApplicationImpl implements Application {
     });
 
     readonly testTable: Table<any> = new TableImpl<any>({
+        id: 'table',
         data: () => this.data,
         columns: bind => [
             new TableColumnImpl(
                 {
-                    header: 'E-Mail',
-                    accessor: 'emails',
-                    sortable: true,
-                    isInitialSort: true,
+                    id: 'emails',
+                    label: 'E-Mail',
+                    preferredSortDirection: 'ascending',
                 },
                 bind
             ),
             new TableColumnImpl(
                 {
-                    header: 'Full Name',
-                    accessor: 'fullName',
-                    sortable: true,
+                    id: 'fullName',
+                    label: 'Full Name',
+                    preferredSortDirection: 'ascending',
                 },
                 bind
             ),
             new TableColumnImpl(
                 {
-                    header: 'Joined',
-                    accessor: 'createdAt',
-                    sortable: true,
+                    id: 'createdAt',
+                    label: 'Joined',
+                    preferredSortDirection: 'ascending',
                 },
                 bind
             ),
