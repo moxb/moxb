@@ -20,6 +20,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 - makefile can now update all dependencies:
   - `make npm-update` recursively updates npm dependencies interactively
 
+- `make watch-packages` now watches all packages. This is useful when linking the packages...
+
 - [ant design](https://ant.design/docs/react/introduce) example
 
 ### Changed

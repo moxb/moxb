@@ -189,6 +189,12 @@ watch-all: _build-packages npm-link
 	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
+# we first build all packages
+.PHONY: watch-packages
+watch-packages: _build-packages npm-link
+	# the first argument is the one we are waiting for!
+	admin/bin/watch-packages.sh $(PACKAGE_DIRS)
+
 ###### all-dependencie #############################
 
 .PHONY: all-dependencies
