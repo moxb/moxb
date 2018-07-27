@@ -54,6 +54,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 - `bindAllTo` function does not access getters anymore. The problem was that getters is that getters could do all
   kind of compilcated stuff and we don't want this to happen in during the bind.
 
+- `toJSON` helper function added to print `mobx` trees. Quite useful in the console...
+
 ### Removed
 
 ### Fixed
