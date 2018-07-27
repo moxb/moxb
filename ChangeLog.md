@@ -58,6 +58,14 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 - reworked `Table`:
   - it now has pagination, sorting and search built in
+  
+- removed `peer-dependencies`! We now install some of the peer dependencies in the top level `node_modules` as
+  `devDependencies`. This seems to work better and is simpler. 
+  
+  We also add some `peerDependencies` as `devDependencies` in the module itself. I made some experiments
+  with [`npm-install-peers`](https://github.com/spatie/npm-install-peers#readme) and the documentation says
+  > You probably don't need this package! It's generally a better idea to have your peerDependencies contents as 
+  > devDependencies too.
 
 ### Removed
 

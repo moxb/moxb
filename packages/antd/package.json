@@ -49,12 +49,15 @@
     "antd": "^3.7.1"
   },
   "devDependencies": {
+    "@moxb/moxb": "^0.1.4-beta.3",
     "@types/enzyme": "^3.1.11",
     "@types/jest": "^23.1.5",
     "@types/react": "^16.4.7",
+    "antd": "^3.7.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^23.3.0",
+    "mobx-react": "^5.2.3",
     "prettier": "^1.13.7",
     "pretty": "^2.0.0",
     "ts-jest": "^23.0.0",

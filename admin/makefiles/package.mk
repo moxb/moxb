@@ -26,7 +26,7 @@ build:
 clean:
 	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
-	$(RM) -rf peer-dependencies/node_modules
+	$(RM) -rf peer-dependencies
 	$(RM) -rf build
 
 ###### node_module
@@ -52,31 +52,6 @@ node_modules:
 npm-update::
 	$(ACTIVATE) \
         && npm-check --update
-
-###### peer-dependencies/node_module
-peer-dependencies/node_modules:
-	$(RM) -rf .makehelper/peer-dependencies-node_module
-	$(MAKE) .makehelper/peer-dependencies-node_module
-
-# reinstall node modules when version changes
-.makehelper/peer-dependencies-node_modules:
-	$(RM) -rf peer-dependencies/node_modules .makehelper/peer-dependencies-dependencies
-	$(MAKE) .makehelper/peer-dependencies-dependencies
-	@$(TOUCH) $@
-
-.makehelper/peer-dependencies-dependencies: peer-dependencies/package.json peer-dependencies/package-lock.json
-	@echo "Installing NPM dependencies for the meteor server..."
-	$(ACTIVATE) \
-		&& cd peer-dependencies \
-		&& $(NPM)
-	@$(TOUCH) $@
-
-# the :: means that multiple target with this name are allowed
-.PHONY: npm-update
-npm-update::
-	$(ACTIVATE) \
- 		&& cd peer-dependencies \
-       	&& npm-check --update
 
 
 ########################################################################################################################
@@ -126,8 +101,7 @@ all-dependencies: \
 	build \
 	all-tools \
 	node_modules \
-	.makehelper/npm-dependencies \
-	.makehelper/peer-dependencies-dependencies
+	.makehelper/npm-dependencies
 
 .PHONY: all-tools
 all-tools:
