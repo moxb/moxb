@@ -48,6 +48,11 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 - Makefiles: eliminated the `$(M)` variable: use the name of the directory `.makehelper` directly
   (this simplifies makefile editing and works better with the webstorm makefile plugin)
+  
+- exported `bindAllTo` function
+
+- `bindAllTo` function does not access getters anymore. The problem was that getters is that getters could do all
+  kind of compilcated stuff and we don't want this to happen in during the bind.
 
 ### Removed
 
