@@ -15,5 +15,8 @@ export * from './value/ValueImpl';
 export * from './validation/SimpleSchemaValidationImpl';
 export * from './wizard/WizardImpl';
 export * from './wizard/WizardStepImpl';
+export * from './util/bindAllTo';
+export * from './util/cycle';
 export * from './util/toId';
+export * from './util/toJSON';
 export { t, tr, setTFunction } from './i18n/i18n';

@@ -1,47 +1,32 @@
-export interface TableColumn {
+import { SortDirection } from './TableSort';
+import { Bind } from '..';
+
+export interface TableColumn extends Bind {
     /**
-     * the header is the title in the table header row.
+     * The name of the column in the table.
      */
-    readonly header?: string;
+    readonly column: string;
 
     /**
-     * Called by the UI when the column header is clicked.
+     * Should be called when the column is clicked to sort on this column. If the column is not sortable, nothing
+     * happens.
      */
-    onClick(): void;
+    toggleSort(): void;
 
     /**
-     * The sorted property can be either the sort direction or undefined for no sorting at all.
+     * If column is not sortable, this is undefined. Else this is the preferred (natural) sort direction.
+     */
+    readonly preferredSortDirection?: SortDirection;
+
+    readonly sortable: boolean;
+
+    /**
+     * The current sort direction if it the column is the primary sort column
      */
     readonly sortDirection?: SortDirection;
-
-    /**
-     * Sets the sort direction
-     * @param sortDirection
-     */
-    setSortDirection(sortDirection: SortDirection): void;
-
-    /**
-     * This property must be set to be sort the table according to this column
-     */
-    readonly sortable?: boolean;
-
-    /**
-     * Should be set true for the initial column sorting
-     */
-    readonly isInitialSort?: boolean;
-
-    /**
-     * The accessor is the database property name, which will be used for sorting the table.
-     */
-    readonly accessor?: string;
 
     /**
      * The width is used in the Table.HeaderCell to manually set the column width
      */
     readonly width?: number;
 }
-
-/**
- *  The SortDirection defines the sorting direction an will be used in the Semantic UI table header
- */
-export type SortDirection = 'ascending' | 'descending' | undefined;

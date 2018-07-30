@@ -20,6 +20,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 - makefile can now update all dependencies:
   - `make npm-update` recursively updates npm dependencies interactively
 
+- `make watch-packages` now watches all packages. This is useful when linking the packages...
+
 - [ant design](https://ant.design/docs/react/introduce) example
 
 ### Changed
@@ -46,6 +48,24 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 - Makefiles: eliminated the `$(M)` variable: use the name of the directory `.makehelper` directly
   (this simplifies makefile editing and works better with the webstorm makefile plugin)
+  
+- exported `bindAllTo` function
+
+- `bindAllTo` function does not access getters anymore. The problem was that getters is that getters could do all
+  kind of compilcated stuff and we don't want this to happen in during the bind.
+
+- `toJSON` helper function added to print `mobx` trees. Quite useful in the console...
+
+- reworked `Table`:
+  - it now has pagination, sorting and search built in
+  
+- removed `peer-dependencies`! We now install some of the peer dependencies in the top level `node_modules` as
+  `devDependencies`. This seems to work better and is simpler. 
+  
+  We also add some `peerDependencies` as `devDependencies` in the module itself. I made some experiments
+  with [`npm-install-peers`](https://github.com/spatie/npm-install-peers#readme) and the documentation says
+  > You probably don't need this package! It's generally a better idea to have your peerDependencies contents as 
+  > devDependencies too.
 
 ### Removed
 

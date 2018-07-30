@@ -13,14 +13,12 @@
         "declaration": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
-        "removeComments": false
-    },
-    "compilerOptions": {
+        "removeComments": false,
         "baseUrl": "./src",
         "paths": {
             "*": [
                 "*",
-                "../peer-dependencies/node_modules/*"
+                "../../../node_modules/*"
             ]
         }
     },

@@ -58,8 +58,10 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^23.3.0",
+    "mobx-react": "^5.2.3",
     "prettier": "^1.13.7",
     "pretty": "^2.0.0",
+    "semantic-ui-react": "^0.82.1",
     "ts-jest": "^23.0.0",
     "typescript": "^2.9.2"
   },

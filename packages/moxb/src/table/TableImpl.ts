@@ -1,46 +1,40 @@
 import { action, computed, observable } from 'mobx';
-import { Table, TableSortField } from './Table';
-import { SortDirection, TableColumn } from './TableColumn';
+import { Table } from './Table';
+import { TableColumn } from './TableColumn';
+import { TablePagination } from './TablePagination';
+import { TableSearch } from './TableSearch';
+import { SortColumn, TableSort } from './TableSort';
+import { TableSortImpl } from './TableSortImpl';
+import { BindImpl, BindOptions } from '../bind/BindImpl';
 
-export interface TableOptions<T> {
-    columns?(bind: any): TableColumn[];
-    data?(): T[] | undefined;
+export interface TableOptions<T> extends BindOptions {
+    columns(bind: TableImpl<T>): TableColumn[];
+    data(bind: TableImpl<T>): T[];
+    ready?(bind: TableImpl<T>): boolean;
+    error?(bind: TableImpl<T>): any;
+    readonly pagination?: TablePagination;
+    readonly search?: TableSearch;
+    readonly initialSort?: SortColumn[];
 }
 
-export class TableImpl<T> implements Table<T> {
-    protected readonly impl: TableOptions<T>;
-    @observable sortAccessor? = '_id';
-    @observable sortDirection: SortDirection = 'descending';
+export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> {
+    readonly sort: TableSort;
 
     constructor(impl: TableOptions<T>) {
-        this.impl = impl;
-
-        if (this.columns) {
-            this.columns.forEach(column => {
-                if (column.isInitialSort) {
-                    this.sortAccessor = column.accessor!;
-                }
-            });
-        }
-    }
-
-    @action
-    setSortAccessor(sortAccessor?: string): void {
-        this.sortAccessor = sortAccessor;
-    }
-
-    @action
-    setSortDirection(sortDirection: SortDirection): void {
-        this.sortDirection = sortDirection;
+        super(impl);
+        this.sort = new TableSortImpl(impl.initialSort);
     }
 
     @computed
-    get sortOptions() {
-        const sorting: TableSortField[] = [];
-        if (this.sortAccessor) {
-            sorting.push({ [this.sortAccessor]: this.sortDirection });
+    get ready() {
+        return this.getReady();
+    }
+
+    protected getReady(): boolean {
+        if (this.impl.ready) {
+            return this.impl.ready(this);
         }
-        return sorting;
+        return true;
     }
 
     @computed
@@ -48,21 +42,32 @@ export class TableImpl<T> implements Table<T> {
         return this.getColumns();
     }
 
-    protected getColumns() {
+    protected getColumns(): TableColumn[] {
         if (this.impl.columns) {
             return this.impl.columns(this);
         }
-        return undefined;
+        return [];
     }
+
     @computed
     get data() {
         return this.getData();
     }
 
-    protected getData() {
+    protected getData(): T[] {
         if (this.impl.data) {
-            return this.impl.data();
+            return this.impl.data(this);
         }
-        return undefined;
+        return [];
+    }
+
+    @computed
+    get pagination() {
+        return this.impl.pagination;
+    }
+
+    @computed
+    get search() {
+        return this.impl.search;
     }
 }
