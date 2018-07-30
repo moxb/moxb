@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionButtonUi, BoolUi, ConfirmUi } from '@moxb/antd';
+import { ActionButtonUi, BoolUi, ConfirmUi, ModalUi, TextFormUi } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 import { Row, Col } from 'antd';
@@ -33,6 +33,15 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <h3>ConfirmUI Component</h3>
                     <ConfirmUi confirm={application!.testConfirm} />
                     <ActionButtonUi operation={application!.newConfirmAction()} />
+                    <br />
+                    <br />
+
+                    <h3>ModalUi Component</h3>
+                    <ActionButtonUi color="green" operation={application!.newModalAction()} />
+                    <ModalUi modal={application!.testModal}>
+                        <TextFormUi operation={application!.testText} />
+                    </ModalUi>
+                    <br />
                     <br />
 
                     <div id="spacer" style={{ paddingBottom: '100px' }} />

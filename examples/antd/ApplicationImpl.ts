@@ -1,6 +1,6 @@
 import { Application } from './Application';
-import { Action, Bool, Confirm } from '@moxb/moxb';
-import { ActionImpl, BoolImpl, ConfirmImpl, BindImpl } from '@moxb/moxb';
+import { Action, Bool, Confirm, Modal, Text } from '@moxb/moxb';
+import { ActionImpl, BoolImpl, ConfirmImpl, BindImpl, ModalImpl, TextImpl } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
 export class ApplicationImpl implements Application {
@@ -35,6 +35,34 @@ export class ApplicationImpl implements Application {
         confirm: () => alert('You confirmed the action'),
     });
 
+    readonly testModal: Modal<any> = new ModalImpl<any>({
+        actions: () => [this.action1Modal, this.actionCancelModal(this.testModal)],
+        header: () => 'New Modal Header',
+    });
+
+    readonly action1Modal: Action = new ActionImpl({
+        id: 'ApplicationImpl.modalAction1',
+        label: 'Action with value',
+        fire: () => {
+            alert(`Action executed with value: ${this.testText.value!}`);
+        },
+    });
+
+    private actionCancelModal(modal: Modal<any>): Action {
+        return new ActionImpl({
+            id: 'ApplicationImpl.cancelModalButton',
+            label: 'Cancel',
+            fire: () => modal.close(),
+        });
+    }
+
+    readonly testText: Text = new TextImpl({
+        id: 'ApplicationImpl.name',
+        initialValue: () => '',
+        placeholder: () => 'Enter a value for later processing...',
+        label: 'Name',
+    });
+
     constructor() {
         this.showCheckbox = false;
     }
@@ -44,6 +72,14 @@ export class ApplicationImpl implements Application {
             id: 'ApplicationImpl.actionConfirm',
             label: 'Show confirm dialog',
             fire: () => this.testConfirm.show(),
+        });
+    }
+
+    newModalAction() {
+        return new ActionImpl({
+            id: 'ApplicationImpl.actionModal',
+            label: 'Show modal dialog',
+            fire: () => this.testModal.show(),
         });
     }
 
