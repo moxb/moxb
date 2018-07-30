@@ -25,7 +25,7 @@ all: build
 .PHONY: build
 build:  all-dependencies
 	$(ACTIVATE) \
-		&& $(PACREL) build antd/index.html
+		&& $(PACREL) index.html
 
 #include $(ADMIN)/makefiles/clean.mk
 .PHONY: clean
