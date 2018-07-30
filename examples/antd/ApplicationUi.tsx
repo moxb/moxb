@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionButtonUi, BoolUi, ConfirmUi, ModalUi, TextFormUi } from '@moxb/antd';
+import { ActionButtonUi, BoolUi, ConfirmUi, ModalUi, TextFormUi, ManyOfUi } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 import { Row, Col } from 'antd';
@@ -41,6 +41,16 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <ModalUi modal={application!.testModal}>
                         <TextFormUi operation={application!.testText} />
                     </ModalUi>
+                    <br />
+                    <br />
+
+                    <h3>ManyOfUi Component</h3>
+                    <ManyOfUi style={{ width: '200px' }} operation={application!.testManyOf} />
+                    <br />
+                    <br />
+
+                    <h3>ManyOfUi Component - multiple selection</h3>
+                    <ManyOfUi style={{ width: '200px' }} mode="multiple" operation={application!.testManyOf} />
                     <br />
                     <br />
 

@@ -1,10 +1,13 @@
 import { Application } from './Application';
-import { Action, Bool, Confirm, Modal, Text } from '@moxb/moxb';
-import { ActionImpl, BoolImpl, ConfirmImpl, BindImpl, ModalImpl, TextImpl } from '@moxb/moxb';
+import { Action, Bool, Confirm, Modal, Text, ManyOf } from '@moxb/moxb';
+import { ActionImpl, BoolImpl, ConfirmImpl, BindImpl, ModalImpl, TextImpl, ManyOfImpl } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
 export class ApplicationImpl implements Application {
     @observable showCheckbox: boolean;
+    @observable manyChoices: any[];
+    @observable data: { _id: string; email: string; fullName: string; createdAt: string }[];
+    readonly allChoices: { label: string; value: string }[];
 
     readonly testAction: Action = new ActionImpl({
         id: 'ApplicationImpl.testButton',
@@ -33,6 +36,15 @@ export class ApplicationImpl implements Application {
         content: () => 'Do you really want to execute the action?',
         header: () => 'Confirm dialog',
         confirm: () => alert('You confirmed the action'),
+    });
+
+    readonly testManyOf: ManyOf = new ManyOfImpl({
+        id: 'ApplicationImpl.testManyOf',
+        label: 'Choose your snack',
+        choices: () => this.allChoices,
+        initialValue: () => this.manyChoices,
+        placeholder: () => 'Please select',
+        onSave: () => {},
     });
 
     readonly testModal: Modal<any> = new ModalImpl<any>({
@@ -65,6 +77,21 @@ export class ApplicationImpl implements Application {
 
     constructor() {
         this.showCheckbox = false;
+
+        this.manyChoices = [];
+
+        this.allChoices = [
+            { label: 'Banana', value: 'b' },
+            { label: 'Apples', value: 'a' },
+            { label: 'Peaches', value: 'p' },
+        ];
+
+        this.data = [
+            { _id: '1', email: 'john@doe.com', fullName: 'John Doe', createdAt: '2018-01-01' },
+            { _id: '2', email: 'johanna@yahoo.com', fullName: 'Johanna Doe', createdAt: '2018-05-01' },
+            { _id: '3', email: 'jake@gmail.com', fullName: 'Jake Doe', createdAt: '2018-10-01' },
+            { _id: '4', email: 'max@mustermann.com', fullName: 'Max Mustermann', createdAt: '2017-13-07' },
+        ];
     }
 
     newConfirmAction() {
