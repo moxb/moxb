@@ -1,6 +1,7 @@
 {
   "name": "moxb",
   "version": "0.1.4-beta.2",
+  "private": true,
   "description": "moxb semantic-ui bindings",
   "scripts": {
     "test": "jest"
@@ -13,6 +14,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@moxb/moxb": "^0.1.4-beta.4",
     "jest": "^23.4.1",
     "mobx": "^4.3.1",
     "npm-check": "^5.7.1",

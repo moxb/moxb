@@ -1,6 +1,6 @@
 {
   "name": "@moxb/meteor",
-  "version": "0.1.4-beta.3",
+  "version": "0.1.4-beta.4",
   "description": "MobX meteor binding",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -41,10 +41,10 @@
   },
   "peerDependencies": {
     "mobx": "^4.3.0 || ^5.0.0",
-    "@moxb/moxb": "^0.1.4-beta.3"
+    "@moxb/moxb": "^0.1.4-beta.4"
   },
   "devDependencies": {
-    "@moxb/moxb": "^0.1.4-beta.3",
+    "@moxb/moxb": "^0.1.4-beta.4",
     "@types/meteor": "^1.4.16",
     "@types/jest": "^23.1.5",
     "jest": "^23.3.0",
