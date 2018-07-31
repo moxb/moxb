@@ -22,24 +22,21 @@ function convertSortDirection(preferredSortDirection: any) {
 export class TableUi extends React.Component<TableUiProps> {
     render() {
         const { table, ...tableProps } = this.props;
-        const columns = table.columns.map(column => {
-            const id = column.id.replace(table.id + '.', '');
-            return {
-                title: column.label,
-                dataIndex: id,
-                key: id,
-                defaultSortOrder: convertSortDirection(column.preferredSortDirection),
-                sorter: (a: any, b: any) => {
-                    if (a[id] < b[id]) {
-                        return -1;
-                    }
-                    if (a[id] > b[id]) {
-                        return 1;
-                    }
-                    return 0;
-                },
-            };
-        });
+        const columns = table.columns.map(column => ({
+            title: column.label,
+            dataIndex: column.column,
+            key: column.column,
+            defaultSortOrder: convertSortDirection(column.preferredSortDirection),
+            sorter: (a: any, b: any) => {
+                if (a[column.column] < b[column.column]) {
+                    return -1;
+                }
+                if (a[column.column] > b[column.column]) {
+                    return 1;
+                }
+                return 0;
+            },
+        }));
         const dataSource = this.props.table.data.map((data, idx: number) =>
             Object.assign({ key: idx.toString() }, ...data)
         );
