@@ -108,6 +108,7 @@ function sort(data: any[], sortOrder: SortColumn[]) {
 export class MemTableImpl implements MemTable {
     readonly rows: moxb.Numeric = new moxb.NumericImpl({
         id: 'memtable.rows',
+        label: 'Number of rows',
         initialValue: 10,
     });
     readonly table = new moxb.TableImpl<MemTableData>({
