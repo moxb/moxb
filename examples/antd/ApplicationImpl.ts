@@ -47,6 +47,20 @@ export class ApplicationImpl implements Application {
         onSave: () => {},
     });
 
+    readonly testTextfield: Text = new TextImpl({
+        id: 'ApplicationImpl.textfield',
+        initialValue: () => '',
+        label: 'Textfield',
+        inputType: 'text',
+    });
+
+    readonly testTextarea: Text = new TextImpl({
+        id: 'ApplicationImpl.textarea',
+        initialValue: () => '',
+        inputType: 'textarea',
+        label: 'Textarea',
+    });
+
     readonly testModal: Modal<any> = new ModalImpl<any>({
         actions: () => [this.action1Modal, this.actionCancelModal(this.testModal)],
         header: () => 'New Modal Header',
@@ -73,6 +87,36 @@ export class ApplicationImpl implements Application {
         initialValue: () => '',
         placeholder: () => 'Enter a value for later processing...',
         label: 'Name',
+    });
+
+    readonly formUserText: Text = new TextImpl({
+        id: 'ApplicationImpl.formUserText',
+        initialValue: () => '',
+        label: 'Username',
+        placeholder: () => 'Username',
+    });
+
+    readonly formPasswordText: Text = new TextImpl({
+        id: 'ApplicationImpl.formPasswordText',
+        initialValue: () => '',
+        label: 'Password',
+        placeholder: () => 'Password',
+        help: () => 'Help me with this text.',
+    });
+
+    readonly formRememberBool: Bool = new BoolImpl({
+        id: 'ApplicationImpl.formRememberBool',
+        label: 'Remember me',
+        getValue: () => this.showCheckbox,
+        setValue: this.setShowCheckbox,
+    });
+
+    readonly formSubmitButton: Action = new ActionImpl({
+        id: 'ApplicationImpl.formSubmitButton',
+        label: 'Log in',
+        fire: () => {
+            alert('You will be logged in, soon...');
+        },
     });
 
     constructor() {

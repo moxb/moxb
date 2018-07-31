@@ -10,4 +10,10 @@ export interface Application {
     readonly testModal: Modal<any>;
     readonly testText: Text;
     readonly testManyOf: ManyOf;
+    readonly testTextfield: Text;
+    readonly testTextarea: Text;
+    readonly formUserText: Text;
+    readonly formPasswordText: Text;
+    readonly formRememberBool: Bool;
+    readonly formSubmitButton: Action;
 }
