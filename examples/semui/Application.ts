@@ -1,4 +1,5 @@
 import { Action, Bool, Confirm, ManyOf, Modal, Text, Numeric, OneOf, Table, TableSearch } from '@moxb/moxb';
+import { MemTable } from './memtable/MemTable';
 
 export interface Application {
     readonly showCheckbox: boolean;
@@ -14,6 +15,4 @@ export interface Application {
     readonly testTextarea: Text;
     readonly testNumeric: Numeric;
     readonly testOfOne: OneOf;
-    readonly testTable: Table<any>;
-    readonly search: TableSearch;
 }
