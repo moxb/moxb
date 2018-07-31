@@ -10,6 +10,7 @@ import {
     BoolFormUi,
     NumericUi,
     OneOfUi,
+    TableUi,
 } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
@@ -23,7 +24,7 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
 
         return (
             <Row>
-                <Col span={12}>
+                <Col span={16}>
                     <h1>Ant design Components</h1>
                     <hr />
 
@@ -103,6 +104,12 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                             <ActionButtonUi type="primary" operation={application!.formSubmitButton} />
                         </Form>
                     </section>
+                    <br />
+                    <br />
+
+                    <h3>Table Component</h3>
+                    <TableUi table={application!.testTable} />
+                    <br />
 
                     <div id="spacer" style={{ paddingBottom: '100px' }} />
                 </Col>

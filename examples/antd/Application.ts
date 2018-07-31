@@ -1,4 +1,4 @@
-import { Action, Bool, Confirm, Modal, Text, ManyOf, Numeric, OneOf } from '@moxb/moxb';
+import { Action, Bool, Confirm, Modal, Text, ManyOf, Numeric, OneOf, Table } from '@moxb/moxb';
 
 export interface Application {
     readonly showCheckbox: boolean;
@@ -18,4 +18,5 @@ export interface Application {
     readonly formRememberBool: Bool;
     readonly formSubmitButton: Action;
     readonly testOfOne: OneOf;
+    readonly testTable: Table<any>;
 }

@@ -7,3 +7,4 @@ export * from './TextUi';
 export * from './ManyOfUi';
 export * from './NumericUi';
 export * from './OneOfUi';
+export * from './TableUi';

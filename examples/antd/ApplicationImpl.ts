@@ -1,5 +1,5 @@
 import { Application } from './Application';
-import { Action, Bool, Confirm, Modal, Text, ManyOf, Numeric } from '@moxb/moxb';
+import { Action, Bool, Confirm, Modal, Text, ManyOf, Numeric, Table } from '@moxb/moxb';
 import {
     ActionImpl,
     BoolImpl,
@@ -10,6 +10,8 @@ import {
     ManyOfImpl,
     NumericImpl,
     OneOfImpl,
+    TableImpl,
+    TableColumnImpl,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
@@ -141,6 +143,37 @@ export class ApplicationImpl implements Application {
         fire: () => {
             alert('You will be logged in, soon...');
         },
+    });
+
+    readonly testTable: Table<any> = new TableImpl<any>({
+        id: 'table',
+        data: () => this.data,
+        columns: bind => [
+            new TableColumnImpl(
+                {
+                    id: 'email',
+                    label: 'E-Mail',
+                    preferredSortDirection: 'ascending',
+                },
+                bind
+            ),
+            new TableColumnImpl(
+                {
+                    id: 'fullName',
+                    label: 'Full Name',
+                    preferredSortDirection: 'ascending',
+                },
+                bind
+            ),
+            new TableColumnImpl(
+                {
+                    id: 'createdAt',
+                    label: 'Joined',
+                    preferredSortDirection: 'descending',
+                },
+                bind
+            ),
+        ],
     });
 
     constructor() {
