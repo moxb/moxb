@@ -1,4 +1,6 @@
+import * as React from 'react';
 import { Bind } from '@moxb/moxb';
+import { Tooltip, Icon } from 'antd';
 
 export interface BindUiProps<T extends Bind> {
     operation: T;
@@ -26,4 +28,19 @@ export function parseProps<T, O>(bindProps: T, op: O): T & O {
         children,
         ...props,
     };
+}
+
+export function labelWithHelp(label: any, help?: string) {
+    if (help && typeof label === 'string') {
+        return (
+            <span>
+                {label}{' '}
+                <Tooltip title={help}>
+                    <Icon type="question-circle-o" />
+                </Tooltip>
+            </span>
+        );
+    } else {
+        return label;
+    }
 }
