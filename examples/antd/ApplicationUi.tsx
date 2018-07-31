@@ -15,6 +15,7 @@ import {
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 import { Row, Col, Form, Icon } from 'antd';
+import { MemTableUi } from './memtable/MemTableUi';
 
 @inject('app')
 @observer
@@ -111,6 +112,9 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <TableUi table={application!.testTable} />
                     <br />
 
+                    <h3>Table Component</h3>
+                    <MemTableUi />
+                    <br />
                     <div id="spacer" style={{ paddingBottom: '100px' }} />
                 </Col>
             </Row>
