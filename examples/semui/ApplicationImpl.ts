@@ -12,11 +12,6 @@ import {
     Numeric,
     NumericImpl,
     OneOfImpl,
-    Table,
-    TableColumnImpl,
-    TableImpl,
-    TableSearch,
-    TableSearchImpl,
     Text,
     TextImpl,
 } from '@moxb/moxb';
@@ -26,7 +21,6 @@ import { action, observable } from 'mobx';
 export class ApplicationImpl implements Application {
     @observable showCheckbox: boolean;
     @observable manyChoices: any[];
-    @observable data: { _id: string; email: string; fullName: string; createdAt: string }[];
     readonly allChoices: { label: string; value: string }[];
 
     readonly testAction: Action = new ActionButtonImpl({
@@ -120,39 +114,6 @@ export class ApplicationImpl implements Application {
         choices: () => this.allChoices,
     });
 
-    readonly testTable: Table<any> = new TableImpl<any>({
-        id: 'table',
-        data: () => this.data,
-        columns: bind => [
-            new TableColumnImpl(
-                {
-                    id: 'emails',
-                    label: 'E-Mail',
-                    preferredSortDirection: 'ascending',
-                },
-                bind
-            ),
-            new TableColumnImpl(
-                {
-                    id: 'fullName',
-                    label: 'Full Name',
-                    preferredSortDirection: 'ascending',
-                },
-                bind
-            ),
-            new TableColumnImpl(
-                {
-                    id: 'createdAt',
-                    label: 'Joined',
-                    preferredSortDirection: 'descending',
-                },
-                bind
-            ),
-        ],
-    });
-
-    readonly search: TableSearch = new TableSearchImpl();
-
     @action.bound
     setShowCheckbox(show: boolean) {
         this.showCheckbox = show;
@@ -171,12 +132,6 @@ export class ApplicationImpl implements Application {
             { label: 'Banana', value: 'b' },
             { label: 'Apples', value: 'a' },
             { label: 'Peaches', value: 'p' },
-        ];
-        this.data = [
-            { _id: '1', email: 'john@doe.com', fullName: 'John Doe', createdAt: '2018-01-01' },
-            { _id: '2', email: 'johanna@yahoo.com', fullName: 'Johanna Doe', createdAt: '2018-05-01' },
-            { _id: '3', email: 'jake@gmail.com', fullName: 'Jake Doe', createdAt: '2018-10-01' },
-            { _id: '4', email: 'max@mustermann.com', fullName: 'Max Mustermann', createdAt: '2017-13-07' },
         ];
     }
 

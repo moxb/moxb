@@ -204,6 +204,7 @@ all-dependencies: \
 	admin/activate \
 	.makehelper/node-installation \
 	node_modules \
+	.makehelper/npm-dependencies \
 	admin/bin-tools \
 	.makehelper/bin-tools \
 	.makehelper/src-node_modules \

@@ -18,6 +18,7 @@ import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 import { Container, Dropdown, Form, Table } from 'semantic-ui-react';
 import { toJSON } from '@moxb/moxb';
+import { MemTableUi } from './memtable/MemTableUi';
 
 // helper function to print recursive mobx trees
 (window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {
@@ -97,17 +98,7 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <br />
 
                     <h3>Table Component</h3>
-                    {/*TODO: Search and sorting is not working correctly now, needs rework from TablePage!*/}
-                    {/*<TableSearchUi search={application!.search} />*/}
-                    <TableUi table={application!.testTable}>
-                        {application!.testTable.data!.map((tableData: any) => (
-                            <Table.Row key={tableData._id}>
-                                <Table.Cell>{tableData.email}</Table.Cell>
-                                <Table.Cell>{tableData.fullName}</Table.Cell>
-                                <Table.Cell>{tableData.createdAt}</Table.Cell>
-                            </Table.Row>
-                        ))}
-                    </TableUi>
+                    <MemTableUi />
                     <br />
 
                     <div id="spacer" style={{ paddingBottom: '100px' }} />
