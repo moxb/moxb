@@ -1,6 +1,16 @@
 import { Application } from './Application';
 import { Action, Bool, Confirm, Modal, Text, ManyOf, Numeric } from '@moxb/moxb';
-import { ActionImpl, BoolImpl, ConfirmImpl, BindImpl, ModalImpl, TextImpl, ManyOfImpl, NumericImpl } from '@moxb/moxb';
+import {
+    ActionImpl,
+    BoolImpl,
+    ConfirmImpl,
+    BindImpl,
+    ModalImpl,
+    TextImpl,
+    ManyOfImpl,
+    NumericImpl,
+    OneOfImpl,
+} from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
 export class ApplicationImpl implements Application {
@@ -66,6 +76,13 @@ export class ApplicationImpl implements Application {
         onlyInteger: true,
         initialValue: 999,
         label: 'Only numbers',
+    });
+
+    readonly testOfOne = new OneOfImpl({
+        id: 'ApplicationImpl.testRadioOfOne',
+        label: 'Select one of',
+        placeholder: '...',
+        choices: () => this.allChoices,
     });
 
     readonly testModal: Modal<any> = new ModalImpl<any>({

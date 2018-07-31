@@ -9,6 +9,7 @@ import {
     ManyOfUi,
     BoolFormUi,
     NumericUi,
+    OneOfUi,
 } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
@@ -75,6 +76,11 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
 
                     <h3>ManyOfUi Component - multiple selection</h3>
                     <ManyOfUi style={{ width: '200px' }} mode="multiple" operation={application!.testManyOf} />
+                    <br />
+                    <br />
+
+                    <h3>OneOf - RadioBox Component</h3>
+                    <OneOfUi operation={application!.testOfOne} />
                     <br />
                     <br />
 

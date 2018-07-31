@@ -29,7 +29,11 @@ export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & SelectProps>
                 mode={typeof mode === 'undefined' ? 'default' : mode}
                 {...props}
             >
-                {operation.choices.map(opt => <Option key={opt.value}>{opt.label}</Option>)}
+                {operation.choices.map(opt => (
+                    <Option key={opt.value} value={opt.value}>
+                        {opt.label}
+                    </Option>
+                ))}
                 {children}
             </Select>
         );
