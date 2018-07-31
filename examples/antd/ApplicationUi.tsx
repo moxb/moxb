@@ -1,5 +1,15 @@
 import * as React from 'react';
-import { ActionButtonUi, BoolUi, ConfirmUi, ModalUi, TextFormUi, TextUi, ManyOfUi, BoolFormUi } from '@moxb/antd';
+import {
+    ActionButtonUi,
+    BoolUi,
+    ConfirmUi,
+    ModalUi,
+    TextFormUi,
+    TextUi,
+    ManyOfUi,
+    BoolFormUi,
+    NumericUi,
+} from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 import { Row, Col, Form, Icon } from 'antd';
@@ -50,6 +60,11 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <br />
                     <h3>TextUi - Textarea Component</h3>
                     <TextUi operation={application!.testTextarea} />
+                    <br />
+                    <br />
+
+                    <h3>NumericUi Component</h3>
+                    <NumericUi required operation={application!.testNumeric} />
                     <br />
                     <br />
 

@@ -1,6 +1,6 @@
 import { Application } from './Application';
-import { Action, Bool, Confirm, Modal, Text, ManyOf } from '@moxb/moxb';
-import { ActionImpl, BoolImpl, ConfirmImpl, BindImpl, ModalImpl, TextImpl, ManyOfImpl } from '@moxb/moxb';
+import { Action, Bool, Confirm, Modal, Text, ManyOf, Numeric } from '@moxb/moxb';
+import { ActionImpl, BoolImpl, ConfirmImpl, BindImpl, ModalImpl, TextImpl, ManyOfImpl, NumericImpl } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
 export class ApplicationImpl implements Application {
@@ -59,6 +59,13 @@ export class ApplicationImpl implements Application {
         initialValue: () => '',
         inputType: 'textarea',
         label: 'Textarea',
+    });
+
+    readonly testNumeric: Numeric = new NumericImpl({
+        id: 'ApplicationImpl.number',
+        onlyInteger: true,
+        initialValue: 999,
+        label: 'Only numbers',
     });
 
     readonly testModal: Modal<any> = new ModalImpl<any>({
