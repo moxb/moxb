@@ -148,12 +148,18 @@ export class MemTableImpl implements MemTable {
         ],
         data: () => this.data,
         search: new moxb.TableSearchImpl(),
+        pagination: new moxb.TablePaginationImpl({
+            totalAmount: () => this.filteredData.length,
+        }),
     });
     @computed
     get data() {
-        const data = [...this.rawData];
+        const data = [...this.filteredData];
         sort(data, this.table.sort.sort);
-        return this.filter(data);
+        return this.getCurrentPage(data);
+    }
+    private get filteredData() {
+        return this.filter(this.rawData);
     }
     @computed
     private get rawData() {
@@ -172,5 +178,15 @@ export class MemTableImpl implements MemTable {
         } else {
             return data;
         }
+    }
+
+    private getCurrentPage(data: MemTableData[]): MemTableData[] {
+        if (this.table.pagination) {
+            const fo = this.table.pagination.filterOptions;
+            if (fo.skip != null && fo.limit != null) {
+                return data.slice(fo.skip, fo.skip + fo.limit);
+            }
+        }
+        return data;
     }
 }

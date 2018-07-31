@@ -31,6 +31,7 @@ export class MemTableUi extends React.Component<{ memTable?: MemTable }> {
                         </Table.Row>
                     ))}
                 </semui.TableUi>
+                <semui.TablePaginationUi pagination={memTable.table.pagination!} />
             </>
         );
     }
