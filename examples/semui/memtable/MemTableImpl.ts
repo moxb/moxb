@@ -1,7 +1,6 @@
 import * as moxb from '@moxb/moxb';
 import { MemTable, MemTableData } from './MemTable';
 import { computed } from 'mobx';
-import { SortColumn } from '../../../packages/moxb/src/table/TableSort';
 
 const firstNames = [
     'James',
@@ -85,7 +84,7 @@ function createData(n: number): MemTableData[] {
     return result;
 }
 
-function sort(data: any[], sortOrder: SortColumn[]) {
+function sort(data: any[], sortOrder: moxb.SortColumn[]) {
     if (sortOrder.length) {
         data.sort((a, b) => {
             for (let i = 0; i < sortOrder.length; i++) {
@@ -148,15 +147,30 @@ export class MemTableImpl implements MemTable {
             ),
         ],
         data: () => this.data,
+        search: new moxb.TableSearchImpl(),
     });
     @computed
     get data() {
         const data = [...this.rawData];
         sort(data, this.table.sort.sort);
-        return data;
+        return this.filter(data);
     }
     @computed
-    get rawData() {
+    private get rawData() {
         return createData(this.rows.value || 0);
+    }
+    private filter(data: MemTableData[]): MemTableData[] {
+        if (this.table.search && this.table.search.query) {
+            //simple algorithm: seach for each query independently
+            const queries = this.table.search.query.split(/\s+/);
+            const fields = this.table.columns.map(c => c.column);
+            for (const query of queries) {
+                // we treat the fields as strings and check if the value is included
+                data = data.filter((d: any) => fields.findIndex(f => (d[f] + '').includes(query)) >= 0);
+            }
+            return data;
+        } else {
+            return data;
+        }
     }
 }

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { TableUi, NumericUi } from '@moxb/semui';
+import * as semui from '@moxb/semui';
+import { TableSearchUi } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import { Form, Table } from 'semantic-ui-react';
 import { MemTable } from './MemTable';
@@ -11,8 +12,11 @@ export class MemTableUi extends React.Component<{ memTable?: MemTable }> {
         const memTable = this.props.memTable!;
         return (
             <>
-                <NumericUi required operation={memTable.rows} />
-                <TableUi table={memTable.table}>
+                <semui.NumericUi required operation={memTable.rows} />
+                <Form.Group inline>
+                    <TableSearchUi search={memTable.table.search!} />
+                </Form.Group>
+                <semui.TableUi table={memTable.table}>
                     {memTable.table.data.map(tableData => (
                         <Table.Row key={tableData.id}>
                             <Table.Cell>{tableData.email}</Table.Cell>
@@ -26,7 +30,7 @@ export class MemTableUi extends React.Component<{ memTable?: MemTable }> {
                             </Table.Cell>
                         </Table.Row>
                     ))}
-                </TableUi>
+                </semui.TableUi>
             </>
         );
     }
