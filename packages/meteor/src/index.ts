@@ -1,3 +1,4 @@
+export * from './MeteorCall';
 export * from './MeteorDataFetcher';
 export * from './MeteorSubscription';
 export * from './MeteorDependencies';
