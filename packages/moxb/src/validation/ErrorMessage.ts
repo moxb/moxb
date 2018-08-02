@@ -3,6 +3,7 @@ export interface ErrorMessage {
     readonly value?: any;
     readonly key: string;
     readonly message: string;
+    readonly reason: string;
     readonly code?: number;
 }
 
@@ -43,6 +44,7 @@ export function extractErrorMessage(error: any): ErrorMessage[] {
         if (!message) {
             message = key;
         }
-        return [{ key, message, code }];
+        const reason = error.reason || message;
+        return [{ key, message, reason, code }];
     }
 }

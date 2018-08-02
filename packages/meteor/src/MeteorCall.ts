@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+// import { Meteor } from 'meteor/meteor';
 
 export type MeteorCallback<T> = (error?: any, result?: T) => void;
 
