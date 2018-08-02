@@ -17,12 +17,16 @@ export interface BindStringUiProps extends React.HTMLProps<HTMLFormElement> {
 
 @observer
 export class TextUi extends React.Component<InputProps & BindStringUiProps> {
+    // tslint:disable-next-line:cyclomatic-complexity
     render() {
-        const { operation, id, type, value, size, prefix, invisible } = parseProps(this.props, this.props.operation);
+        const { operation, id, inputType, value, size, prefix, invisible, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
-        if ((type || operation.inputType) === 'textarea') {
+        if ((inputType || operation.inputType) === 'textarea') {
             return (
                 <TextArea
                     id={id}
@@ -33,6 +37,7 @@ export class TextUi extends React.Component<InputProps & BindStringUiProps> {
                     prefix={prefix}
                     onChange={(e: any) => operation.setValue(e.target.value)}
                     rows={this.props.rows}
+                    {...props as any}
                 />
             );
         } else {
@@ -46,6 +51,7 @@ export class TextUi extends React.Component<InputProps & BindStringUiProps> {
                     prefix={prefix}
                     onChange={(e: any) => operation.setValue(e.target.value)}
                     size={size}
+                    {...props as any}
                 />
             );
         }
@@ -55,13 +61,13 @@ export class TextUi extends React.Component<InputProps & BindStringUiProps> {
 @observer
 export class TextFormUi extends React.Component<FormItemProps & BindStringUiProps> {
     render() {
-        const { operation, label, invisible, prefix } = parseProps(this.props, this.props.operation);
+        const { operation, label, invisible, prefix, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
             <FormItem label={labelWithHelp(label != null ? label : operation.label, operation.help)}>
-                <TextUi operation={operation} prefix={prefix} />
+                <TextUi operation={operation} prefix={prefix} {...props as any} />
             </FormItem>
         );
     }

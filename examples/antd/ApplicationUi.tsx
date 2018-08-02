@@ -61,6 +61,12 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <TextUi operation={application!.testTextfield} />
                     <br />
                     <br />
+
+                    <h3>TextUi - Password Input Component</h3>
+                    <TextUi type="password" operation={application!.testTextfield} />
+                    <br />
+                    <br />
+
                     <h3>TextUi - Textarea Component</h3>
                     <TextUi operation={application!.testTextarea} />
                     <br />
