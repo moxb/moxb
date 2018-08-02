@@ -69,6 +69,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
   > You probably don't need this package! It's generally a better idea to have your peerDependencies contents as 
   > devDependencies too.
 
+-  `@moxb/meteor` is now using the global `Meteor` and `Tracker` variables, because `meteor/meteor` is not a real
+   package and therefore there are some problems with dependencies....
+
 ### Removed
 
 ### Fixed
