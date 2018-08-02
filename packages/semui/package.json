@@ -1,6 +1,6 @@
 {
   "name": "@moxb/semui",
-  "version": "0.1.4-beta.4",
+  "version": "0.1.4-beta.5",
   "description": "moxb semantic-ui bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -46,7 +46,7 @@
   "peerDependencies": {
     "mobx": "^4.3.0 || ^5.0.0",
     "mobx-react": "^5.2.3",
-    "@moxb/moxb": "^0.1.4-beta.4",
+    "@moxb/moxb": "^0.1.4-beta.5",
     "semantic-ui-react": "^0.82.1"
   },
   "devDependencies": {
