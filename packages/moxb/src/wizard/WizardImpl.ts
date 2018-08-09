@@ -14,7 +14,8 @@ const KEY_CURRENT_STEP = '.wizard.stepId';
 export abstract class WizardImpl implements Wizard {
     readonly wizardId: string;
     readonly steps: WizardStep[];
-    @observable currentStep: WizardStep;
+    @observable
+    currentStep: WizardStep;
     readonly actionBack: Action;
     readonly actionCancel: Action;
     readonly actionNext: Action;

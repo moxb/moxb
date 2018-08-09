@@ -24,7 +24,7 @@ export class ModalUi<T> extends React.Component<BindModalUiProps<T>> {
 
         return (
             <Modal
-                {...modalProps}
+                {...modalProps as any}
                 visible={open}
                 onCancel={actions![0].fire}
                 onOk={actions![1].fire}

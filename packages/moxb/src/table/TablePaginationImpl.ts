@@ -7,9 +7,12 @@ export interface TablePaginationOptions {
 
 export class TablePaginationImpl implements TablePagination {
     private readonly impl: TablePaginationOptions;
-    @observable private _activePage = 1;
-    @observable pageSize = 10;
-    @observable pageSizes = [10, 25, 50, 100];
+    @observable
+    private _activePage = 1;
+    @observable
+    pageSize = 10;
+    @observable
+    pageSizes = [10, 25, 50, 100];
 
     constructor(impl: TablePaginationOptions) {
         this.impl = impl;

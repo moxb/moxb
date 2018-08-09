@@ -4,8 +4,10 @@ import { meteorAutorun } from './MeteorDependencies';
 import { MeteorSubscription } from './MeteorSubscription';
 
 export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
-    @observable private nSubscriptions = 0;
-    @observable private _isSubscriptionReady = false;
+    @observable
+    private nSubscriptions = 0;
+    @observable
+    private _isSubscriptionReady = false;
 
     private subscriptionTracker?: Tracker.Computation;
     private mobxAutoRun?: IReactionDisposer;

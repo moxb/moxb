@@ -6,7 +6,8 @@ import { TextImpl } from '../text/TextImpl';
 import { TableSearch } from './TableSearch';
 
 export class TableSearchImpl implements TableSearch {
-    @observable query = '';
+    @observable
+    query = '';
 
     readonly searchField: Text = new TextImpl({
         id: 'TableSearch.searchField',

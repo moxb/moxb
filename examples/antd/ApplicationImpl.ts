@@ -16,9 +16,12 @@ import {
 import { action, observable } from 'mobx';
 
 export class ApplicationImpl implements Application {
-    @observable showCheckbox: boolean;
-    @observable manyChoices: any[];
-    @observable data: { _id: string; email: string; fullName: string; createdAt: string }[];
+    @observable
+    showCheckbox: boolean;
+    @observable
+    manyChoices: any[];
+    @observable
+    data: { _id: string; email: string; fullName: string; createdAt: string }[];
     readonly allChoices: { label: string; value: string }[];
 
     readonly testAction: Action = new ActionImpl({

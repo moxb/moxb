@@ -58,8 +58,10 @@ export abstract class ValueImpl<B, T, Options extends ValueOptions<B, T>> extend
     /**
      * default value impl
      */
-    @observable _value?: T | undefined;
-    @observable _isSaving = false;
+    @observable
+    _value?: T | undefined;
+    @observable
+    _isSaving = false;
 
     constructor(impl: Options) {
         super(impl);

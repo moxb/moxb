@@ -29,11 +29,14 @@ class CancelableDone<D> {
 export abstract class MethodDataFetcherImpl<Q, D extends Object> implements MeteorDataFetcher<Q, D> {
     private autorunDisposer!: IReactionDisposer;
     private dataFetcherFunction: MeteorDataFetcherFunction<D> | undefined;
-    @observable private _data: D;
-    @observable private _error: any;
+    @observable
+    private _data: D;
+    @observable
+    private _error: any;
 
     // we start with not ready, because the data has to be loaded at least once.
-    @observable _dataReady = false;
+    @observable
+    _dataReady = false;
     private currentRequestDone: CancelableDone<D> | undefined;
 
     constructor() {
