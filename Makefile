@@ -182,9 +182,6 @@ all-dependencies: \
 	admin/bin-tools \
 	.makehelper/bin-tools \
 	.git/hooks/pre-push \
-	.git/hooks/pre-commit \
-#	node_modules \
-#	.makehelper/src-node_modules \
-#	.makehelper/npm-dependencies \
+	.git/hooks/pre-commit
 
 
