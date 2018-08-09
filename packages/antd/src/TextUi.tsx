@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react';
+import { CSSProperties } from 'react';
 import * as React from 'react';
 import { labelWithHelp, parseProps } from './BindUi';
 import { Input, Form } from 'antd';
@@ -13,6 +14,7 @@ export interface BindStringUiProps extends React.HTMLProps<HTMLFormElement> {
     operation: Text;
     useDoubleClickToEdit?: boolean;
     help?: string;
+    formStyle?: CSSProperties;
 }
 
 @observer
@@ -61,12 +63,18 @@ export class TextUi extends React.Component<InputProps & BindStringUiProps> {
 @observer
 export class TextFormUi extends React.Component<FormItemProps & BindStringUiProps> {
     render() {
-        const { operation, label, invisible, prefix, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, label, invisible, prefix, formStyle, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         return (
-            <FormItem label={labelWithHelp(label != null ? label : operation.label, operation.help)}>
+            <FormItem
+                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
+                style={formStyle || undefined}
+            >
                 <TextUi operation={operation} prefix={prefix} {...props as any} />
             </FormItem>
         );

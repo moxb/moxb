@@ -9,7 +9,9 @@ CP = cp
 MKDIR = mkdir
 RM = rm
 MORE = more
-NPM = npm install --preserve-symlinks
+NPM = npm
+LERNA = lerna
+JEST = jest
 
 PACKAGE_DIRS= \
    packages/moxb \
@@ -33,8 +35,8 @@ LIGHT_BLUE='\033[1;34m'
 
 # recursively makes all targets before the :
 
-.PHONY: all test format-code format-check format-force tslint tslint-all webstorm-before-commit
-all test format-code format-check format-force tslint tslint-all webstorm-before-commit: all-dependencies
+.PHONY: all format-code format-check format-force tslint tslint-all webstorm-before-commit
+all format-code format-check format-force tslint tslint-all webstorm-before-commit: all-dependencies
 	for dir in $(SUB_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
@@ -46,12 +48,14 @@ help:
 
 .PHONY: clean
 clean:
+	$(LERNA) clean --yes
 	for dir in $(SUB_DIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
 	$(RM) -rf admin/activate
 	$(RM) -rf admin/bin-tools
 	$(RM) -rf node_modules
+	$(RM) -rf coverage
 	$(RM) -rf admin/node-installation/installation
 	$(RM) -rf .git/hooks/pre-push
 	$(RM) -rf .git/hooks/pre-commit
@@ -95,6 +99,14 @@ _check-for-only:
 	@$(ACTIVATE) && admin/node-installation/install.sh
 	@touch $@
 
+### lerna ########################################
+
+.makehelper/lerna-installation: .makehelper/node-installation
+	@echo "Installing lerna and jest..."
+	@$(ACTIVATE) && $(NPM) install --global lerna@2.11.0 jest
+	@$(ACTIVATE) && lerna bootstrap --hoist
+	@touch $@
+
 #################################################
 
 .PHONY: _check-if-commands-exist
@@ -103,56 +115,19 @@ _check-if-commands-exist:
 
 ###### node_module #############################
 
-node_modules:
-	$(RM) -rf .makehelper/npm-dependencies
-	$(MAKE) .makehelper/npm-dependencies
-
-package-lock.json:
-	$(RM) -rf node_modules
-	$(ACTIVATE) \
-    		&& $(NPM)
-
 .PHONY: npm-update
 npm-update:
 	$(ACTIVATE) \
-        && npm-check --update
-	for dir in $(SUB_DIRS); do \
-		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
-		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
-	done
-
-# reinstall node modules when version changes
-.makehelper/src-node_modules:
-	$(RM) -rf node_modules .makehelper/npm-dependencies
-	$(MAKE) .makehelper/npm-dependencies
-	@$(TOUCH) $@
-
-.makehelper/npm-dependencies: package.json package-lock.json
-	@echo "Installing NPM dependencies for the meteor server..."
-	$(ACTIVATE) \
-		&& $(NPM)
-	$(RM) -rf .makehelper/formatted .makehelper/tslinted  .makehelper/tslinted-all
-	@$(TOUCH) $@
-
-###### npm-link ###################################
-## Links npm projects so that they are updated when souce changes...
+        && $(LERNA) exec -- npm-check --update
 
 
-.makehelper/npm-linked:
-	# prepare all subdirs for linking
-	# it's ok to do it once!
-	for dir in $(SUB_DIRS); do \
-		(cd $$dir && $(ACTIVATE) && npm link); \
-	done
-	@$(TOUCH) $@
+########################################################################################################################
+.PHONY: test
+test: run-unit-tests
 
-.PHONY: npm-link
-npm-link: all-dependencies .makehelper/npm-linked
-	# needs to be done every time -- if dependencies are already linked it is a cheap operation
-	@for dir in $(SUB_DIRS); do \
-		echo ${LIGHT_BLUE}'=======================================' npm-link $$dir '======================================='${NC}; \
-		$(MAKE) -C $$dir npm-link-dependencies; \
-	done
+.PHONY: run-unit-tests
+run-unit-tests: all-dependencies
+	$(ACTIVATE) && $(JEST)
 
 ###### bin-tools ###################################
 
@@ -162,11 +137,11 @@ admin/bin-tools:
 .makehelper/bin-tools: Makefile
 	rm -rf admin/bin-tools
 	mkdir -p admin/bin-tools
-	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
-	ln -sf ../../node_modules/.bin/npm-check admin/bin-tools/
-	ln -sf ../../node_modules/.bin/prettier admin/bin-tools/
-	ln -sf ../../node_modules/.bin/tsc admin/bin-tools/
-	ln -sf ../../node_modules/.bin/tslint admin/bin-tools/
+	ln -sf ./node_modules/.bin/jest admin/bin-tools/
+	ln -sf ./node_modules/.bin/npm-check admin/bin-tools/
+	ln -sf ./node_modules/.bin/prettier admin/bin-tools/
+	ln -sf ./node_modules/.bin/tsc admin/bin-tools/
+	ln -sf ./node_modules/.bin/tslint admin/bin-tools/
 	@touch $@
 
 ###### watch-all ###################################
@@ -178,20 +153,20 @@ _build-packages: all-dependencies
 		$(MAKE) -C $$dir -f Makefile all || exit 1; \
 	done
 	# then make all dependenceis of the example
-	@for dir in $(EXAMPLE_DIRS); do \
-		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
-		$(MAKE) -C $$dir -f Makefile all-dependencies || exit 1; \
-	done
+#	@for dir in $(EXAMPLE_DIRS); do \
+#		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
+#		$(MAKE) -C $$dir -f Makefile all-dependencies || exit 1; \
+#	done
 
 # we first build all packages
 .PHONY: watch-all
-watch-all: _build-packages npm-link
+watch-all: _build-packages
 	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
 # we first build all packages
 .PHONY: watch-packages
-watch-packages: _build-packages npm-link
+watch-packages: _build-packages
 	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(PACKAGE_DIRS)
 
@@ -203,12 +178,10 @@ all-dependencies: \
 	_check-if-commands-exist \
 	admin/activate \
 	.makehelper/node-installation \
-	node_modules \
-	.makehelper/npm-dependencies \
+	.makehelper/lerna-installation \
 	admin/bin-tools \
 	.makehelper/bin-tools \
-	.makehelper/src-node_modules \
 	.git/hooks/pre-push \
-	.git/hooks/pre-commit \
+	.git/hooks/pre-commit
 
 

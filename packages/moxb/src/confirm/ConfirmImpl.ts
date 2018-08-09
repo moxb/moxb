@@ -13,8 +13,10 @@ export interface ConfirmOptions<T> {
 }
 
 export class ConfirmImpl<T> implements Confirm<T> {
-    @observable open = false;
-    @observable data!: T;
+    @observable
+    open = false;
+    @observable
+    data!: T;
     private readonly impl: ConfirmOptions<T>;
 
     constructor(impl: ConfirmOptions<T>) {

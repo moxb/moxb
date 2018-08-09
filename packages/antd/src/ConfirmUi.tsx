@@ -15,7 +15,7 @@ export class ConfirmUi extends React.Component<BindConfirmUiProps> {
         const { confirmButton, cancelButton, onConfirm, onCancel } = confirm;
         return (
             <Modal
-                {...confirmProps}
+                {...confirmProps as any}
                 onOk={onConfirm}
                 visible={confirm.open}
                 onCancel={onCancel}

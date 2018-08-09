@@ -2,7 +2,8 @@ import { action, observable, toJS } from 'mobx';
 import { SortColumn, SortDirection, TableSort } from './TableSort';
 
 export class TableSortImpl implements TableSort {
-    @observable sort: SortColumn[];
+    @observable
+    sort: SortColumn[];
     constructor(sort?: SortColumn[]) {
         this.sort = sort || [];
     }

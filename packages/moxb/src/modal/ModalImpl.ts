@@ -10,8 +10,10 @@ export interface ModalOptions<T> {
 }
 
 export class ModalImpl<T> implements Modal<T> {
-    @observable open = false;
-    @observable data!: T;
+    @observable
+    open = false;
+    @observable
+    data!: T;
     private readonly impl: ModalOptions<T>;
 
     constructor(impl: ModalOptions<T>) {

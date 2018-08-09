@@ -19,8 +19,10 @@ import { ActionButtonImpl, BoolImpl } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
 export class ApplicationImpl implements Application {
-    @observable showCheckbox: boolean;
-    @observable manyChoices: any[];
+    @observable
+    showCheckbox: boolean;
+    @observable
+    manyChoices: any[];
     readonly allChoices: { label: string; value: string }[];
 
     readonly testAction: Action = new ActionButtonImpl({

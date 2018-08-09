@@ -86,7 +86,8 @@ export class BindImpl<Options extends BindOptions> implements Bind {
     readonly id: string;
     readonly domId: string;
     protected readonly impl: Options;
-    @observable _error?: string | undefined | null;
+    @observable
+    _error?: string | undefined | null;
 
     constructor(impl: Options) {
         // tslint commplains about Object.assign and typescript can not spread interfaces:

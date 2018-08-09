@@ -8,7 +8,6 @@ exports[`ActionFormButtonUi html should match snapshot 1`] = `
 
 exports[`ActionFormButtonUi should match snapshot 1`] = `
 ShallowWrapper {
-  "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <ActionFormButtonUi
     operation={
@@ -30,6 +29,31 @@ ShallowWrapper {
           "id": "TheId",
         },
         "setError": [Function],
+        Symbol(mobx did run lazy initializers): true,
+        Symbol(mobx administration): ObservableObjectAdministration$$1 {
+          "defaultEnhancer": [Function],
+          "keysAtom": Atom$$1 {
+            "diffValue": 0,
+            "isBeingObserved": false,
+            "isPendingUnobservation": false,
+            "lastAccessedBy": 0,
+            "lowestObserverState": 2,
+            "name": "bound ActionImpl@12.keys",
+            "observers": Set {},
+          },
+          "name": "bound ActionImpl@12",
+          "target": [Circular],
+          "values": Map {
+            "_error" => undefined,
+            "label" => undefined,
+            "disabled" => false,
+            "enabled" => true,
+            "invisible" => false,
+            "readOnly" => false,
+            "help" => undefined,
+            "error" => undefined,
+          },
+        },
       }
     }
   />,
@@ -86,8 +110,16 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getSnapshotBeforeUpdate": true,
+        },
       },
     },
+    "attachTo": undefined,
+    "hydrateIn": undefined,
   },
 }
 `;

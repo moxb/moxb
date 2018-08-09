@@ -10,7 +10,6 @@ MKDIR = mkdir
 RM = rm
 TOUCH = touch
 TSC = $(TOOLS)/tsc
-NPM = npm install --preserve-symlinks
 JEST = jest
 
 # create a helper directory with files for the makefile
@@ -20,39 +19,11 @@ JEST = jest
 build:
 	$(MKDIR) build
 
-#include $(ADMIN)/makefiles/clean.mk
-
 .PHONY: clean
 clean:
 	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
-	$(RM) -rf peer-dependencies
 	$(RM) -rf build
-
-###### node_module
-node_modules:
-	$(RM) -rf .makehelper/npm-dependencies
-	$(MAKE) .makehelper/npm-dependencies
-
-# reinstall node modules when version changes
-.makehelper/src-node_modules:
-	$(RM) -rf node_modules .makehelper/npm-dependencies
-	$(MAKE) .makehelper/npm-dependencies
-	@$(TOUCH) $@
-
-.makehelper/npm-dependencies: package.json package-lock.json
-	@echo "Installing NPM dependencies for the meteor server..."
-	$(ACTIVATE) \
-		&& $(NPM)
-	$(RM) -rf .makehelper/formatted .makehelper/tslinted  .makehelper/tslinted-all
-	@$(TOUCH) $@
-
-# the :: means that multiple target with this name are allowed
-.PHONY: npm-update
-npm-update::
-	$(ACTIVATE) \
-        && npm-check --update
-
 
 ########################################################################################################################
 .PHONY: test
@@ -98,11 +69,4 @@ build-all:  all-dependencies
 .PHONY: all-dependencies
 all-dependencies: \
 	.makehelper \
-	build \
-	all-tools \
-	node_modules \
-	.makehelper/npm-dependencies
-
-.PHONY: all-tools
-all-tools:
-	cd $(ROOT) && $(MAKE) all-dependencies
+	build

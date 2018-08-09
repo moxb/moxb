@@ -55,7 +55,8 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <BoolUi operation={application!.testBool} />
                     {application!.showCheckbox && (
                         <p>
-                            <br />Additional text is visible now!
+                            <br />
+                            Additional text is visible now!
                         </p>
                     )}
                     <br />
