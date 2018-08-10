@@ -58,7 +58,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                     <br />
 
                     <h3>TextAnt - Input Component</h3>
-                    <TextAnt id={application.testTextfield+'-1'} operation={application.testTextfield} />
+                    <TextAnt id={application.testTextfield + '-1'} operation={application.testTextfield} />
                     <br />
                     <br />
 
