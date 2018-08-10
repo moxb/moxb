@@ -1,25 +1,25 @@
 import * as React from 'react';
 import {
-    ActionButtonUi,
-    BoolUi,
-    ConfirmUi,
-    ModalUi,
-    TextFormUi,
-    TextUi,
-    ManyOfUi,
-    BoolFormUi,
-    NumericUi,
-    OneOfUi,
-    TableUi,
+    ActionButtonAnt,
+    BoolAnt,
+    ConfirmAnt,
+    ModalAnt,
+    TextFormAnt,
+    TextAnt,
+    ManyOfAnt,
+    BoolFormAnt,
+    NumericAnt,
+    OneOfAnt,
+    TableAnt,
 } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { Application } from './Application';
 import { Row, Col, Form, Icon } from 'antd';
-import { MemTableUi } from './memtable/MemTableUi';
+import { MemTableAnt } from './memtable/MemTableAnt';
 
 @inject('app')
 @observer
-export class ApplicationUi extends React.Component<{ app?: Application }> {
+export class ApplicationAnt extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app;
 
@@ -30,12 +30,12 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <hr />
 
                     <h3>ActionButtonUI Component</h3>
-                    <ActionButtonUi type="primary" operation={application!.testAction} />
+                    <ActionButtonAnt type="primary" operation={application!.testAction} />
                     <br />
                     <br />
 
                     <h3>BoolUI Component</h3>
-                    <BoolUi operation={application!.testBool} />
+                    <BoolAnt operation={application!.testBool} />
                     {application!.showCheckbox && (
                         <p>
                             <br />
@@ -45,51 +45,51 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <br />
 
                     <h3>ConfirmUI Component</h3>
-                    <ConfirmUi confirm={application!.testConfirm} />
-                    <ActionButtonUi operation={application!.newConfirmAction()} />
+                    <ConfirmAnt confirm={application!.testConfirm} />
+                    <ActionButtonAnt operation={application!.newConfirmAction()} />
                     <br />
                     <br />
 
-                    <h3>ModalUi Component</h3>
-                    <ActionButtonUi color="green" operation={application!.newModalAction()} />
-                    <ModalUi modal={application!.testModal}>
-                        <TextFormUi operation={application!.testText} />
-                    </ModalUi>
+                    <h3>ModalAnt Component</h3>
+                    <ActionButtonAnt color="green" operation={application!.newModalAction()} />
+                    <ModalAnt modal={application!.testModal}>
+                        <TextFormAnt operation={application!.testText} />
+                    </ModalAnt>
                     <br />
                     <br />
 
-                    <h3>TextUi - Input Component</h3>
-                    <TextUi operation={application!.testTextfield} />
+                    <h3>TextAnt - Input Component</h3>
+                    <TextAnt operation={application!.testTextfield} />
                     <br />
                     <br />
 
-                    <h3>TextUi - Password Input Component</h3>
-                    <TextUi type="password" operation={application!.testTextfield} />
+                    <h3>TextAnt - Password Input Component</h3>
+                    <TextAnt type="password" operation={application!.testTextfield} />
                     <br />
                     <br />
 
-                    <h3>TextUi - Textarea Component</h3>
-                    <TextUi operation={application!.testTextarea} />
+                    <h3>TextAnt - Textarea Component</h3>
+                    <TextAnt operation={application!.testTextarea} />
                     <br />
                     <br />
 
-                    <h3>NumericUi Component</h3>
-                    <NumericUi required operation={application!.testNumeric} />
+                    <h3>NumericAnt Component</h3>
+                    <NumericAnt required operation={application!.testNumeric} />
                     <br />
                     <br />
 
-                    <h3>ManyOfUi Component</h3>
-                    <ManyOfUi style={{ width: '200px' }} operation={application!.testManyOf} />
+                    <h3>ManyOfAnt Component</h3>
+                    <ManyOfAnt style={{ width: '200px' }} operation={application!.testManyOf} />
                     <br />
                     <br />
 
-                    <h3>ManyOfUi Component - multiple selection</h3>
-                    <ManyOfUi style={{ width: '200px' }} mode="multiple" operation={application!.testManyOf} />
+                    <h3>ManyOfAnt Component - multiple selection</h3>
+                    <ManyOfAnt style={{ width: '200px' }} mode="multiple" operation={application!.testManyOf} />
                     <br />
                     <br />
 
                     <h3>OneOf - RadioBox Component</h3>
-                    <OneOfUi operation={application!.testOfOne} />
+                    <OneOfAnt operation={application!.testOfOne} />
                     <br />
                     <br />
 
@@ -100,27 +100,27 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     >
                         <h3>Login Form</h3>
                         <Form onSubmit={() => {}} className="login-form">
-                            <TextFormUi
+                            <TextFormAnt
                                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} /> as any}
                                 operation={application!.formUserText}
                             />
-                            <TextFormUi
+                            <TextFormAnt
                                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} /> as any}
                                 operation={application!.formPasswordText}
                             />
-                            <BoolFormUi operation={application!.formRememberBool} />
-                            <ActionButtonUi type="primary" operation={application!.formSubmitButton} />
+                            <BoolFormAnt operation={application!.formRememberBool} />
+                            <ActionButtonAnt type="primary" operation={application!.formSubmitButton} />
                         </Form>
                     </section>
                     <br />
                     <br />
 
                     <h3>Table Component</h3>
-                    <TableUi table={application!.testTable} />
+                    <TableAnt table={application!.testTable} />
                     <br />
 
                     <h3>Table Component</h3>
-                    <MemTableUi />
+                    <MemTableAnt />
                     <br />
                     <div id="spacer" style={{ paddingBottom: '100px' }} />
                 </Col>
