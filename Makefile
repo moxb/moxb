@@ -35,8 +35,8 @@ LIGHT_BLUE='\033[1;34m'
 
 # recursively makes all targets before the :
 
-.PHONY: all format-code format-check format-force tslint tslint-all webstorm-before-commit
-all format-code format-check format-force tslint tslint-all webstorm-before-commit: all-dependencies
+.PHONY: all format-code format-check format-force tslint tslint-all webstorm-before-commit clean-build
+all format-code format-check format-force tslint tslint-all webstorm-before-commit clean-build: all-dependencies
 	for dir in $(SUB_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
@@ -160,7 +160,7 @@ _build-packages: all-dependencies
 
 # we first build all packages
 .PHONY: watch-all
-watch-all: _build-packages
+watch-all: clean-build _build-packages
 	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 

@@ -27,13 +27,17 @@ build:  all-dependencies
 	$(ACTIVATE) \
 		&& $(PACREL) build index.html
 
+.PHONY: clean-build
+clean-build:
+	@echo nothing to do
+
+
 #include $(ADMIN)/makefiles/clean.mk
 .PHONY: clean
-clean:
+clean: clean-build
 	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
 	$(RM) -rf .cache
-	$(RM) -rf dist
 
 ###### node_module
 node_modules:

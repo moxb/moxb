@@ -19,11 +19,14 @@ JEST = jest
 build:
 	$(MKDIR) build
 
+.PHONY: clean-build
+clean-build:
+	$(RM) -rf build
+
 .PHONY: clean
-clean:
+clean: clean-build
 	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
-	$(RM) -rf build
 
 ########################################################################################################################
 .PHONY: test
