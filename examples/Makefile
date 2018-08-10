@@ -60,16 +60,18 @@ npm-update:
 
 .PHONY: npm-link-dependencies
 npm-link-dependencies:
-	$(ACTIVATE) \
-		&& npm link @moxb/moxb \
-		&& npm link @moxb/semui \
-		&& npm link @moxb/antd
+	rm -rf node_modules/@moxb/* \
+    		&& cd node_modules/@moxb \
+    		&& ln -s ../../../packages/moxb  \
+    		&& ln -s ../../../packages/semui  \
+    		&& ln -s ../../../packages/antd  \
+
 
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################
 
 .PHONY: watch
-watch:  all-dependencies
+watch:  all-dependencies npm-link-dependencies
 	$(ACTIVATE) \
 		&& $(PACREL) index.html
 
