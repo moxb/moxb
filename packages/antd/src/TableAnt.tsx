@@ -4,7 +4,7 @@ import * as moxb from '@moxb/moxb';
 import { Table, Pagination } from 'antd';
 import { TableProps } from 'antd/lib/table/interface';
 
-export interface TableUiProps extends TableProps<any> {
+export interface TableAntProps extends TableProps<any> {
     table: moxb.Table<any>;
     hideHeader?: boolean;
 }
@@ -16,7 +16,7 @@ function toCell(x: any) {
     return x + '';
 }
 @observer
-export class TableUi extends React.Component<TableUiProps> {
+export class TableAnt extends React.Component<TableAntProps> {
     render() {
         const { table, ...tableProps } = this.props;
         const columns = table.columns.map(column => ({

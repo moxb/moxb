@@ -4,12 +4,12 @@ import { Modal } from 'antd';
 import { ModalFuncProps } from 'antd/lib/modal';
 import { Confirm as MoxbConfirm } from '@moxb/moxb';
 
-export interface BindConfirmUiProps extends ModalFuncProps {
+export interface BindConfirmAntProps extends ModalFuncProps {
     confirm: MoxbConfirm<any>;
 }
 
 @observer
-export class ConfirmUi extends React.Component<BindConfirmUiProps> {
+export class ConfirmAnt extends React.Component<BindConfirmAntProps> {
     render() {
         const { confirm, ...confirmProps } = this.props;
         const { confirmButton, cancelButton, onConfirm, onCancel } = confirm;

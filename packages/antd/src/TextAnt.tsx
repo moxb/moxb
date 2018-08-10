@@ -1,16 +1,13 @@
 import { observer } from 'mobx-react';
 import { CSSProperties } from 'react';
 import * as React from 'react';
-import { labelWithHelp, parseProps } from './BindUi';
+import { labelWithHelp, parseProps } from './BindAnt';
 import { Input, Form } from 'antd';
 import { InputProps } from 'antd/lib/input';
 import { Text } from '@moxb/moxb';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 
-const FormItem = Form.Item;
-const { TextArea } = Input;
-
-export interface BindStringUiProps extends React.HTMLProps<HTMLFormElement> {
+export interface BindStringAntProps extends React.HTMLProps<HTMLFormElement> {
     operation: Text;
     useDoubleClickToEdit?: boolean;
     help?: string;
@@ -18,7 +15,7 @@ export interface BindStringUiProps extends React.HTMLProps<HTMLFormElement> {
 }
 
 @observer
-export class TextUi extends React.Component<InputProps & BindStringUiProps> {
+export class TextAnt extends React.Component<InputProps & BindStringAntProps> {
     // tslint:disable-next-line:cyclomatic-complexity
     render() {
         const { operation, id, inputType, value, size, prefix, invisible, ...props } = parseProps(
@@ -30,7 +27,7 @@ export class TextUi extends React.Component<InputProps & BindStringUiProps> {
         }
         if ((inputType || operation.inputType) === 'textarea') {
             return (
-                <TextArea
+                <Input.TextArea
                     id={id}
                     placeholder={operation.placeholder}
                     onFocus={operation.onEnterField}
@@ -61,7 +58,7 @@ export class TextUi extends React.Component<InputProps & BindStringUiProps> {
 }
 
 @observer
-export class TextFormUi extends React.Component<FormItemProps & BindStringUiProps> {
+export class TextFormAnt extends React.Component<FormItemProps & BindStringAntProps> {
     render() {
         const { operation, label, invisible, prefix, formStyle, ...props } = parseProps(
             this.props,
@@ -71,12 +68,12 @@ export class TextFormUi extends React.Component<FormItemProps & BindStringUiProp
             return null;
         }
         return (
-            <FormItem
+            <Form.Item
                 label={labelWithHelp(label != null ? label : operation.label, operation.help)}
                 style={formStyle || undefined}
             >
-                <TextUi operation={operation} prefix={prefix} {...props as any} />
-            </FormItem>
+                <TextAnt operation={operation} prefix={prefix} {...props as any} />
+            </Form.Item>
         );
     }
 }

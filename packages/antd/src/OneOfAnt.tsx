@@ -3,50 +3,46 @@ import * as React from 'react';
 import { Select, Radio, Form } from 'antd';
 import { SelectProps } from 'antd/lib/select';
 import { RadioProps } from 'antd/lib/radio';
-import { BindUiProps, labelWithHelp, parseProps } from './BindUi';
+import { BindAntProps, labelWithHelp, parseProps } from './BindAnt';
 import { OneOf } from '@moxb/moxb';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 
-const Option = Select.Option;
-const RadioGroup = Radio.Group;
-const FormItem = Form.Item;
-
 @observer
-export class OneOfUi extends React.Component<BindUiProps<OneOf> & RadioProps> {
+export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps> {
     render() {
         const { operation, invisible, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <RadioGroup onChange={(selectionValue: any) => operation.setValue(selectionValue)} {...props}>
+            <Radio.Group onChange={(selectionValue: any) => operation.setValue(selectionValue)} {...props}>
                 {operation.choices.map(opt => (
                     <Radio key={opt.value} value={opt.value} checked={opt.value === operation.value}>
                         {opt.label}
                     </Radio>
                 ))}
-            </RadioGroup>
+            </Radio.Group>
         );
     }
 }
 
 @observer
-export class OneOfFormUi extends React.Component<BindUiProps<OneOf> & RadioProps & FormItemProps> {
+export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & FormItemProps> {
     render() {
         const { operation, label, invisible } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItem label={labelWithHelp(label != null ? label : operation.label, operation.help)}>
-                <OneOfUi operation={operation} />
-            </FormItem>
+            <Form.Item label={labelWithHelp(label != null ? label : operation.label, operation.help)}>
+                <OneOfAnt operation={operation} />
+            </Form.Item>
         );
     }
 }
 
 @observer
-export class OneOfSelectUi extends React.Component<BindUiProps<OneOf> & SelectProps> {
+export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & SelectProps> {
     render() {
         const { operation, invisible, value, placeholder, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
@@ -62,9 +58,9 @@ export class OneOfSelectUi extends React.Component<BindUiProps<OneOf> & SelectPr
                 {...props}
             >
                 {operation.choices.map(opt => (
-                    <Option key={opt.value} value={opt.value}>
+                    <Select.Option key={opt.value} value={opt.value}>
                         {opt.label}
-                    </Option>
+                    </Select.Option>
                 ))}
             </Select>
         );
@@ -72,16 +68,16 @@ export class OneOfSelectUi extends React.Component<BindUiProps<OneOf> & SelectPr
 }
 
 @observer
-export class OneOfSelectFormUi extends React.Component<BindUiProps<OneOf> & RadioProps & FormItemProps> {
+export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & FormItemProps> {
     render() {
         const { operation, label, invisible } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItem label={labelWithHelp(label != null ? label : operation.label, operation.help)}>
-                <OneOfSelectUi operation={operation} />
-            </FormItem>
+            <Form.Item label={labelWithHelp(label != null ? label : operation.label, operation.help)}>
+                <OneOfSelectAnt operation={operation} />
+            </Form.Item>
         );
     }
 }

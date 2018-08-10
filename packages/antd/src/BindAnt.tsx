@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Bind } from '@moxb/moxb';
 import { Tooltip, Icon } from 'antd';
 
-export interface BindUiProps<T extends Bind> {
+export interface BindAntProps<T extends Bind> {
     operation: T;
     invisible?: boolean;
 }
 
 /**
- * This function essentially merges the BindUiProps with the data that comes form the operation.
+ * This function essentially merges the BindAntProps with the data that comes form the operation.
  * The direct props override properties of the operation!
  */
 export function parseProps<T, O>(bindProps: T, op: O): T & O {

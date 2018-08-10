@@ -4,12 +4,12 @@ import { Modal as MoxbModal } from '@moxb/moxb';
 import { Modal } from 'antd';
 import { ModalFuncProps } from 'antd/lib/modal';
 
-export interface BindModalUiProps<T> extends ModalFuncProps {
+export interface BindModalAntProps<T> extends ModalFuncProps {
     modal: MoxbModal<any>;
 }
 
 @observer
-export class ModalUi<T> extends React.Component<BindModalUiProps<T>> {
+export class ModalAnt<T> extends React.Component<BindModalAntProps<T>> {
     /*
     * Ant Design has no concept for multiple actions in a modal dialog, it will always be an 'okButton' and
     * a 'cancelButton', so we will warn the user, that not more actions are available.
