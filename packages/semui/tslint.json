@@ -54,7 +54,7 @@
         "prefer-const": [true, {"destructuring": "all"}],
         "arrow-return-shorthand": [true, "multiline"],
         "eofline": true,
-        "linebreak-style": [true, "LF"],
-        "no-trailing-whitespace": [true, "ignore-comments"]
+        "linebreak-style": [true, "LF"]
+//        "no-trailing-whitespace": [true, "ignore-comments"]
     }
 }
