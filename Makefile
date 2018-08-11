@@ -17,12 +17,16 @@ PACKAGE_DIRS= \
    packages/moxb \
    packages/semui \
    packages/antd \
-   packages/meteor \
+   packages/meteor
 
 EXAMPLE_DIRS= \
-   examples \
+   examples
 
 SUB_DIRS= $(PACKAGE_DIRS) $(EXAMPLE_DIRS)
+
+# all node_modules in the packages directory but not the one in examples
+ALL_NODE_MODULES = $(patsubst %,%/node_modules,$(PACKAGE_DIRS))
+ALL_PACKAGE_JSON = $(patsubst %,%/package.json,$(PACKAGE_DIRS))
 
 ## Some Colors for the output
 NC='\033[0m'
@@ -104,8 +108,23 @@ _check-for-only:
 .makehelper/lerna-installation: .makehelper/node-installation
 	@echo "Installing lerna and jest..."
 	@$(ACTIVATE) && $(NPM) install --global lerna@2.11.0 jest
+	@touch $@
+
+# if the node_modules do not exist, then create them.
+# if we `make clean` in one of the packages, we have to re-install the node modules
+$(ALL_NODE_MODULES) node_modules:
+	@$(ACTIVATE) && lerna bootstrap --hoist
+
+# this is a bit tricky: if any of the package.json changes we have to call `lerna bootstrap`
+# BUT if we have called `npm install ...` in any of the packages dir, npm will install **all**
+# npm packages in the node_modules. This confuses the whole proces....
+# Therefore we remove the node modules in the `package/**/` directory and run `lerna`.
+# This is quite fast, because lerna only create a few links in the node_modules
+.makehelper/lerna-packages: $(ALL_NODE_MODULES) node_modules $(ALL_PACKAGE_JSON) package.json
+	rm -rf $(ALL_NODE_MODULES)
 	@$(ACTIVATE) && lerna bootstrap --hoist
 	@touch $@
+
 
 #################################################
 
@@ -119,7 +138,6 @@ _check-if-commands-exist:
 npm-update:
 	$(ACTIVATE) \
         && $(LERNA) exec -- npm-check --update
-
 
 ########################################################################################################################
 .PHONY: test
@@ -137,11 +155,11 @@ admin/bin-tools:
 .makehelper/bin-tools: Makefile
 	rm -rf admin/bin-tools
 	mkdir -p admin/bin-tools
-	ln -sf ./node_modules/.bin/jest admin/bin-tools/
-	ln -sf ./node_modules/.bin/npm-check admin/bin-tools/
-	ln -sf ./node_modules/.bin/prettier admin/bin-tools/
-	ln -sf ./node_modules/.bin/tsc admin/bin-tools/
-	ln -sf ./node_modules/.bin/tslint admin/bin-tools/
+	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
+	ln -sf ../../node_modules/.bin/npm-check admin/bin-tools/
+	ln -sf ../../node_modules/.bin/prettier admin/bin-tools/
+	ln -sf ../../node_modules/.bin/tsc admin/bin-tools/
+	ln -sf ../../node_modules/.bin/tslint admin/bin-tools/
 	@touch $@
 
 ###### watch-all ###################################
@@ -165,8 +183,8 @@ watch-all: clean-build _build-packages
 	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
 # we first build all packages
-.PHONY: watch-packages
-watch-packages: _build-packages
+.PHONY: watch
+watch: _build-packages
 	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(PACKAGE_DIRS)
 
@@ -181,6 +199,7 @@ all-dependencies: \
 	.makehelper/lerna-installation \
 	admin/bin-tools \
 	.makehelper/bin-tools \
+	.makehelper/lerna-packages \
 	.git/hooks/pre-push \
 	.git/hooks/pre-commit
 
