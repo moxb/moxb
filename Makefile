@@ -24,10 +24,6 @@ EXAMPLE_DIRS= \
 
 SUB_DIRS= $(PACKAGE_DIRS) $(EXAMPLE_DIRS)
 
-# all node_modules in the packages directory but not the one in examples
-ALL_NODE_MODULES = $(patsubst %,%/node_modules,$(PACKAGE_DIRS))
-ALL_PACKAGE_JSON = $(patsubst %,%/package.json,$(PACKAGE_DIRS))
-
 ## Some Colors for the output
 NC='\033[0m'
 RED='\033[0;31m'
@@ -105,25 +101,46 @@ _check-for-only:
 
 ### lerna ########################################
 
-.makehelper/lerna-installation: .makehelper/node-installation
-	@echo "Installing lerna and jest..."
-	@$(ACTIVATE) && $(NPM) install --global lerna@2.11.0 jest
-	@touch $@
+# all node_modules in the packages directory but not the one in examples
+LERNA_NODE_MODULES = $(patsubst %,%/node_modules,$(PACKAGE_DIRS))
+LERNA_PACKAGE_JSON = $(patsubst %,%/package.json,$(PACKAGE_DIRS))
+LERNA_PACKAGE_LOCK_JSON = $(patsubst %,%/package-lock.json,$(PACKAGE_DIRS))
 
 # if the node_modules do not exist, then create them.
 # if we `make clean` in one of the packages, we have to re-install the node modules
-$(ALL_NODE_MODULES) node_modules:
+$(LERNA_NODE_MODULES):
 	@$(ACTIVATE) && lerna bootstrap --hoist
 
-# this is a bit tricky: if any of the package.json changes we have to call `lerna bootstrap`
+# if any of those changes - `lerna bootstrap` has to run again
+LERNA_DEPENDENCIES = \
+	node_modules \
+	.makehelper/npm-dependencies \
+	$(LERNA_NODE_MODULES) \
+	$(LERNA_PACKAGE_JSON) \
+	$(LERNA_PACKAGE_LOCK_JSON)
+
+# this is a bit tricky: if any of the $(LERNA_DEPENDENCIES) changes we have to call `lerna bootstrap`
 # BUT if we have called `npm install ...` in any of the packages dir, npm will install **all**
 # npm packages in the node_modules. This confuses the whole proces....
 # Therefore we remove the node modules in the `package/**/` directory and run `lerna`.
 # This is quite fast, because lerna only create a few links in the node_modules
-.makehelper/lerna-packages: $(ALL_NODE_MODULES) node_modules $(ALL_PACKAGE_JSON) package.json
-	rm -rf $(ALL_NODE_MODULES)
+.makehelper/lerna-bootstrap: $(LERNA_DEPENDENCIES)
+	rm -rf $(LERNA_NODE_MODULES)
 	@$(ACTIVATE) && lerna bootstrap --hoist
 	@touch $@
+	@touch .makehelper/npm-dependencies # lerna touches package.json package-lock.json!
+
+
+###### node_module for global tools ##############
+node_modules:
+	$(RM) -rf .makehelper/npm-dependencies
+	$(MAKE) .makehelper/npm-dependencies
+
+.makehelper/npm-dependencies: package.json package-lock.json
+	@echo "Installing NPM dependencies for the meteor server..."
+	$(ACTIVATE) \
+		&& $(NPM) install
+	@$(TOUCH) $@
 
 
 #################################################
@@ -160,6 +177,7 @@ admin/bin-tools:
 	ln -sf ../../node_modules/.bin/prettier admin/bin-tools/
 	ln -sf ../../node_modules/.bin/tsc admin/bin-tools/
 	ln -sf ../../node_modules/.bin/tslint admin/bin-tools/
+	ln -sf ../../node_modules/.bin/lerna admin/bin-tools/
 	@touch $@
 
 ###### watch-all ###################################
@@ -196,10 +214,9 @@ all-dependencies: \
 	_check-if-commands-exist \
 	admin/activate \
 	.makehelper/node-installation \
-	.makehelper/lerna-installation \
 	admin/bin-tools \
 	.makehelper/bin-tools \
-	.makehelper/lerna-packages \
+	.makehelper/lerna-bootstrap \
 	.git/hooks/pre-push \
 	.git/hooks/pre-commit
 

@@ -2,14 +2,13 @@
 ROOT = $(shell cd ../.. && pwd)
 PROJECT = $(shell pwd)
 ADMIN = $(ROOT)/admin
-TOOLS = $(PROJECT)/node_modules/.bin
 
 ACTIVATE = . $(ADMIN)/activate
 
 MKDIR = mkdir
 RM = rm
 TOUCH = touch
-TSC = $(TOOLS)/tsc
+TSC = tsc
 JEST = jest
 
 # create a helper directory with files for the makefile
