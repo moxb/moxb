@@ -52,7 +52,7 @@ help:
 
 .PHONY: clean
 clean:
-	$(LERNA) clean --yes
+	$(LERNA) clean --yes || true
 	for dir in $(SUB_DIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
