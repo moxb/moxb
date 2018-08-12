@@ -48,6 +48,7 @@
   "devDependencies": {
     "@moxb/moxb": "^0.1.4-beta.5",
     "@types/jest": "^23.3.1",
+    "@types/meteor": "^1.4.16",
     "mobx": "^4.3.0 || ^5.0.0"
   },
   "dependencies": {
