@@ -96,6 +96,7 @@ _check-for-only:
 
 .makehelper/node-installation: admin/node-installation/.node-version admin/node-installation/install.sh
 	@echo "Installing node..."
+	@admin/bin/check-if-commands-exist.sh wget
 	@$(ACTIVATE) && admin/node-installation/install.sh
 	@touch $@
 
@@ -109,7 +110,7 @@ LERNA_PACKAGE_LOCK_JSON = $(patsubst %,%/package-lock.json,$(PACKAGE_DIRS))
 # if the node_modules do not exist, then create them.
 # if we `make clean` in one of the packages, we have to re-install the node modules
 $(LERNA_NODE_MODULES):
-	@$(ACTIVATE) && lerna bootstrap --hoist
+	mkdir -p $(LERNA_NODE_MODULES)
 
 # if any of those changes - `lerna bootstrap` has to run again
 LERNA_DEPENDENCIES = \
@@ -125,10 +126,11 @@ LERNA_DEPENDENCIES = \
 # Therefore we remove the node modules in the `package/**/` directory and run `lerna`.
 # This is quite fast, because lerna only create a few links in the node_modules
 .makehelper/lerna-bootstrap: $(LERNA_DEPENDENCIES)
-	rm -rf $(LERNA_NODE_MODULES)
-	@$(ACTIVATE) && lerna bootstrap --hoist
-	@touch $@
-	@touch .makehelper/npm-dependencies # lerna touches package.json package-lock.json!
+	rm -rf $(LERNA_NODE_MODULES) # remove all modules
+	mkdir -p $(LERNA_NODE_MODULES) # create empty dirs, lerna may not create it if there is no content!
+	$(ACTIVATE) && lerna bootstrap --hoist
+	touch $@
+	touch .makehelper/npm-dependencies # lerna touches package.json package-lock.json!
 
 
 ###### node_module for global tools ##############
@@ -142,12 +144,6 @@ node_modules:
 		&& $(NPM) install
 	@$(TOUCH) $@
 
-
-#################################################
-
-.PHONY: _check-if-commands-exist
-_check-if-commands-exist:
-	@admin/bin/check-if-commands-exist.sh wget
 
 ###### node_module #############################
 
@@ -211,7 +207,6 @@ watch: _build-packages
 .PHONY: all-dependencies
 all-dependencies: \
 	.makehelper \
-	_check-if-commands-exist \
 	admin/activate \
 	.makehelper/node-installation \
 	admin/bin-tools \
