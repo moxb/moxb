@@ -34,7 +34,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
             column: column.column,
             title: column.label,
             dataIndex: column.column,
-            key: column.column,
+            key: column.tableColumn,
             sorter: column.sortable,
             render: toCell,
         }));

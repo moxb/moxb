@@ -1,3 +1,4 @@
+import { toJS } from 'mobx';
 import { Table } from '../Table';
 import { TableColumn } from '../TableColumn';
 import { TableColumnImpl } from '../TableColumnImpl';
@@ -43,6 +44,10 @@ describe('sortable', function() {
                 new TableColumnImpl({ id: 'col1' }, table),
                 new TableColumnImpl({ id: 'col.asc', preferredSortDirection: 'ascending' }, table),
                 new TableColumnImpl({ id: 'col.desc', preferredSortDirection: 'descending' }, table),
+                new TableColumnImpl(
+                    { id: 'col.desc', tableColumn: 'tcol', preferredSortDirection: 'descending' },
+                    table
+                ),
             ],
             data: () => [],
         });
@@ -69,5 +74,10 @@ describe('sortable', function() {
         column.toggleSort();
         expect(thisClick).not.toBeUndefined();
         expect(column.toggleSort).toBeCalled();
+    });
+    it('should sort on tableColumn', function() {
+        const column = bindTable.columns[3];
+        column.toggleSort();
+        expect(toJS(bindTable.sort.sort)).toEqual([{ column: 'tcol', sortDirection: 'descending' }]);
     });
 });
