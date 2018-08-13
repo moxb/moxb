@@ -1,10 +1,17 @@
 #!/bin/sh
 # exit with error if when sub command fails
 set -e
-cd "$(dirname "$0")"
-cd ../..
-echo '\nuse `git push --no-verify` if you want to skip the pre-push hook!\n'
 
-#printf "\033[31m"
-make pre-commit
-#printf "\033[0m"
+# see https://gmurphey.github.io/2013/02/02/ignoring-git-hooks-when-rebasing.html#.W3Db7C2B2L4
+BRANCH_NAME=$(git branch | grep '*' | sed 's/* //')
+
+if [ $BRANCH_NAME != '(no branch)' ]
+then
+    cd "$(dirname "$0")"
+    cd ../..
+    echo '\nuse `git push --no-verify` if you want to skip the pre-push hook!\n'
+
+    #printf "\033[31m"
+    make pre-commit
+    #printf "\033[0m"
+fi

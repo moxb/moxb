@@ -1,12 +1,33 @@
 module.exports = {
     collectCoverage: true,
     collectCoverageFrom: [
-        'packages/**/*.{js}',
+        'packages/**/*.{ts}',
+        'packages/**/*.{tsx}',
+        '!**/*.d.ts',
+        '!**/build/**',
         '!**/node_modules/**',
     ],
     testEnvironment: "node",
+    // we have to list all roots here, else the heuristics which tests to run in watch mode does not work
     roots: [
-        'packages/',
+        'packages/antd',
+        'packages/moxb',
+        'packages/meteor',
+        'packages/semui',
+    ],
+    moduleFileExtensions: [
+        "ts",
+        "tsx",
+        "js",
+        "jsx",
+        "json",
+        "node"
+    ],
+    transform: {
+        "^.+\\.(ts|tsx)$": "ts-jest",
+    },
+    testMatch: [
+        "**/src/**/__tests__/*.(ts|tsx)",
     ],
     setupTestFrameworkScriptFile: "./jest/jestAdapter.js",
     transform: {

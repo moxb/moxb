@@ -1,10 +1,12 @@
-import { action, observable } from 'mobx';
+import { action } from 'mobx';
 import { Table } from './Table';
 import { TableColumn } from './TableColumn';
 import { SortDirection } from './TableSort';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 
 export interface TableColumnOptions extends BindOptions {
+    column?: string;
+    tableColumn?: string;
     sortable?: boolean;
     preferredSortDirection?: SortDirection;
     width?: number;
@@ -12,14 +14,16 @@ export interface TableColumnOptions extends BindOptions {
 
 export class TableColumnImpl extends BindImpl<TableColumnOptions> implements TableColumn {
     readonly column: string;
+    readonly tableColumn: string;
     constructor(impl: TableColumnOptions, private readonly table: Table<any>) {
         super({ ...impl, id: table.id + '.' + impl.id });
-        this.column = impl.id;
+        this.column = impl.column || impl.id;
+        this.tableColumn = impl.tableColumn || this.column;
     }
 
     @action.bound
     toggleSort() {
-        this.table.sort.toggleSort(this.column, this.preferredSortDirection);
+        this.table.sort.toggleSort(this.tableColumn, this.preferredSortDirection);
     }
 
     get preferredSortDirection() {
@@ -33,7 +37,7 @@ export class TableColumnImpl extends BindImpl<TableColumnOptions> implements Tab
             return undefined;
         }
         const sort = this.table.sort.sort[0];
-        if (sort.column === this.column) {
+        if (sort.column === this.tableColumn) {
             return sort.sortDirection;
         }
         return undefined;

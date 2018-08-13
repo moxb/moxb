@@ -25,7 +25,7 @@ export class TablePaginationImpl implements TablePagination {
 
     @action.bound
     setPageSize(pageSize: number) {
-        this.pageSize = pageSize as any;
+        this.pageSize = pageSize;
     }
 
     @computed

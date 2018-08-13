@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import { ApplicationUi } from './ApplicationUi';
+import { ApplicationAnt } from './ApplicationAnt';
 import { StoreImpl } from './Store';
 
 const model = new StoreImpl();
@@ -13,7 +13,7 @@ class App extends React.Component {
         return (
             <>
                 <Provider {...model}>
-                    <ApplicationUi />
+                    <ApplicationAnt />
                 </Provider>
             </>
         );

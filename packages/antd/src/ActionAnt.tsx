@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { BindUiProps, parseProps } from './BindUi';
+import { BindAntProps, parseProps } from './BindAnt';
 import { Action } from '@moxb/moxb';
 import { Button, Form } from 'antd';
 import { ButtonSize, ButtonType, ButtonShape } from 'antd/lib/button';
@@ -8,10 +8,10 @@ import { FormItemProps } from 'antd/lib/form/FormItem';
 import { NativeButtonProps } from 'antd/lib/button/button';
 
 const FormItem = Form.Item;
-export type BindActionUiProps = BindUiProps<Action> & NativeButtonProps;
+export type BindActionAntProps = BindAntProps<Action> & NativeButtonProps;
 
 @observer
-export class ActionButtonUi extends React.Component<BindActionUiProps> {
+export class ActionButtonAnt extends React.Component<BindActionAntProps> {
     render() {
         const { operation, invisible, children, label, id, size, shape, htmlType, type, ...props } = parseProps(
             this.props,
@@ -37,11 +37,11 @@ export class ActionButtonUi extends React.Component<BindActionUiProps> {
 }
 
 @observer
-export class ActionFormButtonUi extends React.Component<BindUiProps<Action> & FormItemProps & NativeButtonProps> {
+export class ActionFormButtonAnt extends React.Component<BindAntProps<Action> & FormItemProps & NativeButtonProps> {
     render() {
         return (
             <FormItem>
-                <ActionButtonUi operation={this.props.operation} htmlType="submit" />
+                <ActionButtonAnt operation={this.props.operation} htmlType="submit" />
             </FormItem>
         );
     }

@@ -2,14 +2,12 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Select } from 'antd';
-import { BindUiProps, parseProps } from './BindUi';
+import { BindAntProps, parseProps } from './BindAnt';
 import { ManyOf } from '@moxb/moxb';
 import { SelectProps } from 'antd/lib/select';
 
-const Option = Select.Option;
-
 @observer
-export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & SelectProps> {
+export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {
     render() {
         const { operation, invisible, mode, children, defaultValue, placeholder, ...props } = parseProps(
             this.props,
@@ -30,9 +28,9 @@ export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & SelectProps>
                 {...props}
             >
                 {operation.choices.map(opt => (
-                    <Option key={opt.value} value={opt.value}>
+                    <Select.Option key={opt.value} value={opt.value}>
                         {opt.label}
-                    </Option>
+                    </Select.Option>
                 ))}
                 {children}
             </Select>

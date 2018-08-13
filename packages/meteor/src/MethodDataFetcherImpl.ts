@@ -80,6 +80,7 @@ export abstract class MethodDataFetcherImpl<Q, D extends Object> implements Mete
         }
         this.dataFetcherFunction = func;
         onBecomeObserved(this, '_data', () => {
+            console.log('Observing=', JSON.stringify({}, null, 2));
             // it's important to get the autorunDisposer here...
             this.autorunDisposer = autorun(() => this.runDataFetcherFunction());
         });

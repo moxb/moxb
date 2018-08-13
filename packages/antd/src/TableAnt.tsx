@@ -1,32 +1,47 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as moxb from '@moxb/moxb';
-import { Table, Pagination } from 'antd';
-import { TableProps } from 'antd/lib/table/interface';
+import { Table } from 'antd';
+import { ColumnProps, TableProps } from 'antd/lib/table/interface';
 
-export interface TableUiProps extends TableProps<any> {
-    table: moxb.Table<any>;
-    hideHeader?: boolean;
+export interface ColumnAntProps<T> extends ColumnProps<T> {
+    dataIndex: string;
+    column: string;
 }
 
-function toCell(x: any) {
+export interface TableAntProps<T> extends TableProps<any> {
+    table: moxb.Table<T>;
+    hideHeader?: boolean;
+
+    /**
+     * Setup the column
+     * @param column
+     */
+    setupColumn?(column: ColumnAntProps<T>): void;
+}
+
+function toCell(x: any, record: any) {
     if (React.isValidElement(x)) {
         return x;
     }
     return x + '';
 }
 @observer
-export class TableUi extends React.Component<TableUiProps> {
+export class TableAnt<T> extends React.Component<TableAntProps<T>> {
     render() {
         const { table, ...tableProps } = this.props;
         const columns = table.columns.map(column => ({
+            column: column.column,
             title: column.label,
             dataIndex: column.column,
-            key: column.column,
+            key: column.tableColumn,
             sorter: column.sortable,
             render: toCell,
         }));
-        const dataSource = table.data.map((data, idx: number) => ({ key: idx + '', ...data }));
+        if (this.props.setupColumn) {
+            columns.forEach(column => this.props.setupColumn!(column));
+        }
+        const dataSource = table.data.map((data, idx: number) => ({ key: idx + '', ...(data as any) }));
         return (
             <Table
                 columns={columns}

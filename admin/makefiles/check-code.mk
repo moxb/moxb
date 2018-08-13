@@ -4,14 +4,14 @@ TS_DIRS = src
 
 # see https://prettier.io/docs/en/options.html
 PRETTIER_FORMAT= $(ACTIVATE) \
-	&& ./node_modules/.bin/prettier --parser typescript \
+	&& prettier --parser typescript \
 		--single-quote true \
 		--print-width 120 \
 		--bracket-spacing true \
 		--trailing-comma es5 \
 		--tab-width 4
 
-TSLINT = ./node_modules/.bin/tslint --project tsconfig.json
+TSLINT = tslint --project tsconfig.json
 
 # all typescript files
 TS_FILES = $(shell find $(TS_DIRS) -type f \( -name '*.ts' -o -name '*.tsx' \))
