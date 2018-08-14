@@ -34,8 +34,8 @@ describe('parseQuery', function() {
                 { $or: [{ foo: { $options: 'i', $regex: 'a' } }, { 'bar.baz': { $options: 'i', $regex: 'a' } }] },
                 {
                     $and: [
-                        { foo: { $not: { $options: 'i', $regex: 'b' } } },
-                        { 'bar.baz': { $not: { $options: 'i', $regex: 'b' } } },
+                        { foo: { $options: 'i', $regex: '^((?!b).)*$' } },
+                        { 'bar.baz': { $options: 'i', $regex: '^((?!b).)*$' } },
                     ],
                 },
                 { $or: [{ foo: { $options: 'i', $regex: 'c.*' } }, { 'bar.baz': { $options: 'i', $regex: 'c.*' } }] },
@@ -49,8 +49,8 @@ describe('parseQuery', function() {
                 { $or: [{ foo: { $options: 'i', $regex: 'a' } }, { 'bar.baz': { $options: 'i', $regex: 'a' } }] },
                 {
                     $and: [
-                        { foo: { $not: { $options: 'i', $regex: 'b' } } },
-                        { 'bar.baz': { $not: { $options: 'i', $regex: 'b' } } },
+                        { foo: { $options: 'i', $regex: '^((?!b).)*$' } },
+                        { 'bar.baz': { $options: 'i', $regex: '^((?!b).)*$' } },
                     ],
                 },
                 { $or: [{ foo: { $options: 'i', $regex: 'c.*' } }, { 'bar.baz': { $options: 'i', $regex: 'c.*' } }] },

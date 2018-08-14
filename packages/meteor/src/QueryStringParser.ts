@@ -288,7 +288,8 @@ function extractExpr(regexString: string) {
     let andOr: string;
     // negate by '-' before the regex
     if (regexString[0] === '-') {
-        expr = { $not: new RegExp(regexString.slice(1), 'i') };
+        const regex = regexString.slice(1);
+        expr = new RegExp(`^((?!${regex}).)*$`, 'i');
         andOr = '$and';
     } else {
         expr = new RegExp(regexString, 'i');
