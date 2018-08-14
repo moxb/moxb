@@ -35,10 +35,11 @@ LIGHT_BLUE='\033[1;34m'
 
 # recursively makes all targets before the :
 
-.PHONY: all format-code format-check format-force tslint tslint-all webstorm-before-commit clean-build
-all format-code format-check format-force tslint tslint-all webstorm-before-commit clean-build: all-dependencies
+.PHONY: \
+all format-code format-check format-force tslint tslint-fix tslint-all webstorm-before-commit clean-build
+all format-code format-check format-force tslint tslint-all tslint-fix webstorm-before-commit clean-build: all-dependencies
 	for dir in $(SUB_DIRS); do \
-		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
+		echo ${LIGHT_BLUE}'=======================================' $$dir $@ '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
 	done
 
