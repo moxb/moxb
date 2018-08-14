@@ -21,6 +21,15 @@ function extractErrorKey(error: any) {
     return key;
 }
 
+function extractMessage(error: any) {
+    let message;
+    if (typeof error.error === 'string') {
+        message = error.error;
+    }
+    message = message || error.message || error.reason;
+    return message;
+}
+
 /**
  * Extracts an error form
  * @param error
@@ -32,7 +41,7 @@ export function extractErrorMessages(error: any): ErrorMessage[] {
         // this is a simple schema error
         return error.details.map((e: any) => ({ key: e.type, fieldName: e.name, message: e.message, value: e.value }));
     } else {
-        let message = error.message || error.reason;
+        let message = extractMessage(error);
         let code;
         if (typeof error.error === 'number') {
             code = error.error;
