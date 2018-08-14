@@ -25,15 +25,20 @@ describe('parseQuery', function() {
 
     it('should return regex for each field on a search term', function() {
         expect(parseQuery('test', undefined, ['bar.baz', 'name'])).toEqual({
-            $or: [{ 'bar.baz': /test/i }, { name: /test/i }],
+            $or: [{ 'bar.baz': { $options: 'i', $regex: 'test' } }, { name: { $options: 'i', $regex: 'test' } }],
         });
     });
     it('should return regex for each field', function() {
         expect(parseQuery('a -b c.*', undefined, ['foo', 'bar.baz'])).toEqual({
             $and: [
-                { $or: [{ foo: /a/i }, { 'bar.baz': /a/i }] },
-                { $and: [{ foo: { $not: /b/i } }, { 'bar.baz': { $not: /b/i } }] },
-                { $or: [{ foo: /c.*/i }, { 'bar.baz': /c.*/i }] },
+                { $or: [{ foo: { $options: 'i', $regex: 'a' } }, { 'bar.baz': { $options: 'i', $regex: 'a' } }] },
+                {
+                    $and: [
+                        { foo: { $not: { $options: 'i', $regex: 'b' } } },
+                        { 'bar.baz': { $not: { $options: 'i', $regex: 'b' } } },
+                    ],
+                },
+                { $or: [{ foo: { $options: 'i', $regex: 'c.*' } }, { 'bar.baz': { $options: 'i', $regex: 'c.*' } }] },
             ],
         });
     });
@@ -41,10 +46,20 @@ describe('parseQuery', function() {
     it('should combine all three', function() {
         expect(parseQuery('a -b c.* foo>3 -date:>@2017', { whatever: 'xxx' }, ['foo', 'bar.baz'])).toEqual({
             $and: [
-                { $or: [{ foo: /a/i }, { 'bar.baz': /a/i }] },
-                { $and: [{ foo: { $not: /b/i } }, { 'bar.baz': { $not: /b/i } }] },
-                { $or: [{ foo: /c.*/i }, { 'bar.baz': /c.*/i }] },
-                { $or: [{ foo: /foo>3/i }, { 'bar.baz': /foo>3/i }] },
+                { $or: [{ foo: { $options: 'i', $regex: 'a' } }, { 'bar.baz': { $options: 'i', $regex: 'a' } }] },
+                {
+                    $and: [
+                        { foo: { $not: { $options: 'i', $regex: 'b' } } },
+                        { 'bar.baz': { $not: { $options: 'i', $regex: 'b' } } },
+                    ],
+                },
+                { $or: [{ foo: { $options: 'i', $regex: 'c.*' } }, { 'bar.baz': { $options: 'i', $regex: 'c.*' } }] },
+                {
+                    $or: [
+                        { foo: { $options: 'i', $regex: 'foo>3' } },
+                        { 'bar.baz': { $options: 'i', $regex: 'foo>3' } },
+                    ],
+                },
                 { date: { $not: { $gt: new Date('2017-01-01T00:00:00.000Z') } } },
                 { whatever: 'xxx' },
             ],

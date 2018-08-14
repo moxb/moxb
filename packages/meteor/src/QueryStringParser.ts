@@ -226,8 +226,7 @@ export function parseQuery<T>(
             .filter(s => !!s)
             .map(regex => getSearchStringFilter(regex, fields)),
     };
-
-    return combineWithAnd(searchFilters, filter, additionalFilter);
+    return replaceRegexObject(combineWithAnd(searchFilters, filter, additionalFilter));
 }
 
 /**
