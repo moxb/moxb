@@ -27,7 +27,7 @@ function extractErrorKey(error: any) {
  * @returns {ErrorMessage[]}
  * @constructor
  */
-export function extractErrorMessage(error: any): ErrorMessage[] {
+export function extractErrorMessages(error: any): ErrorMessage[] {
     if (error.details && error.details.length) {
         // this is a simple schema error
         return error.details.map((e: any) => ({ key: e.type, fieldName: e.name, message: e.message, value: e.value }));
@@ -47,4 +47,17 @@ export function extractErrorMessage(error: any): ErrorMessage[] {
         const reason = error.reason || message;
         return [{ key, message, reason, code }];
     }
+}
+
+/**
+ * Creates a (potentially muliline) error message string.
+ * @param error
+ */
+export function extractErrorString(error: any): string {
+    if (!error) {
+        return '';
+    }
+    return extractErrorMessages(error)
+        .map(e => e.message || e.reason || 'Error')
+        .join('\n');
 }

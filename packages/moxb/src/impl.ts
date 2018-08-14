@@ -13,6 +13,7 @@ export * from './table/TableImpl';
 export * from './text/TextImpl';
 export * from './value/ValueImpl';
 export * from './validation/SimpleSchemaValidationImpl';
+export * from './validation/ErrorMessage';
 export * from './wizard/WizardImpl';
 export * from './wizard/WizardStepImpl';
 export * from './util/bindAllTo';
