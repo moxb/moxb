@@ -158,8 +158,8 @@ function extractSort(sortTerms: string[]): SortTerm | undefined {
     return sort;
 }
 
-export type SortTerm = { [field: string]: number };
-export interface ParsedQuery {
+type SortTerm = { [field: string]: number };
+interface ParsedQuery {
     // text search string to be used on some text fields
     search?: string;
     // a mongo query
@@ -167,7 +167,7 @@ export interface ParsedQuery {
     sort?: SortTerm;
 }
 
-export function getTerms(query: string): string[] {
+function getTerms(query: string): string[] {
     const splitTerms = query.split(termSplitRegex);
     // we now remove any empty string, null or undefined
     return splitTerms.filter(s => s);
@@ -184,7 +184,7 @@ export function getTerms(query: string): string[] {
  * @param query
  * @returns {any}
  */
-export function parseQueryString(query: string): ParsedQuery {
+function parseQueryString(query: string): ParsedQuery {
     const terms = getTerms(query);
     // all non fields (which does not contain a :) is joined to the search part of the query
     const search = terms.filter(s => !s.match(fieldRegExp)).join(' ');
@@ -214,7 +214,11 @@ export function parseQueryString(query: string): ParsedQuery {
  * @param {string[]} fields that should be searched
  * @returns {{$and:any[]} | {}}
  */
-export function parseQuery(queryString: string, additionalFilter: object | undefined | null, fields: string[]) {
+export function parseQuery<T>(
+    queryString: string,
+    additionalFilter: object | undefined | null,
+    fields: string[]
+): Mongo.Selector<T> {
     const { filter, search } = parseQueryString(queryString);
     const searchFilters = {
         $and: (search || '')
@@ -255,7 +259,7 @@ function getSearchStringFilter(regexString: string | undefined, fields: string[]
  * @param filters combines a list of filters with and
  * @returns {any}
  */
-export function combineWithAnd(...filters: any[]) {
+function combineWithAnd(...filters: any[]) {
     const andFilters: any[] = [];
     for (const filter of filters) {
         // only non empty filters
@@ -294,7 +298,7 @@ function extractExpr(regexString: string) {
     return { expr, andOr };
 }
 
-export function setSearchField(query: string, field: string, value?: string): string {
+function setSearchField(query: string, field: string, value?: string): string {
     const terms = getTerms(query);
     const regExp = getFieldRegex(field);
 
@@ -318,7 +322,7 @@ function quoteRegex(field: string) {
     return field.replace(/\./, '\\.');
 }
 
-export function getFieldRegex(field: string, excludeNegations = false) {
+function getFieldRegex(field: string, excludeNegations = false) {
     if (excludeNegations) {
         return new RegExp(`^${quoteRegex(field)}:`);
     } else {
@@ -338,7 +342,7 @@ function getFieldValueRaw(query: string, field: string, excludeNegations = false
     return undefined;
 }
 
-export function getFieldValueString(query: string, field: string): string | undefined {
+function getFieldValueString(query: string, field: string): string | undefined {
     const value = getFieldValueRaw(query, field, true);
     if (value == null) {
         return undefined;
@@ -346,7 +350,7 @@ export function getFieldValueString(query: string, field: string): string | unde
     return unquoteSting(value);
 }
 
-export function getFieldValue(query: string, field: string, excludeNegations = false): string | undefined {
+function getFieldValue(query: string, field: string, excludeNegations = false): string | undefined {
     const value = getFieldValueRaw(query, field, excludeNegations);
     if (value === undefined) {
         return undefined;
@@ -354,13 +358,13 @@ export function getFieldValue(query: string, field: string, excludeNegations = f
     return toValue(value);
 }
 
-export function containsFieldValue(query: string, field: string, excludeNegations = false): boolean {
+function containsFieldValue(query: string, field: string, excludeNegations = false): boolean {
     const terms = getTerms(query);
     const regExp = getFieldRegex(field, excludeNegations);
     return terms.findIndex(term => !!term.match(regExp)) > -1;
 }
 
-export function replaceRegexObject(obj: any) {
+function replaceRegexObject(obj: any) {
     const toReturn = obj;
     for (const key in obj) {
         const v = obj[key];
@@ -402,7 +406,7 @@ function isObject(value: any) {
     return value && typeof value === 'object' && value.constructor === Object;
 }
 
-export function getTopLevelFields(fields: any) {
+function getTopLevelFields(fields: any) {
     const obj: any = {};
 
     for (const key in fields) {
@@ -412,7 +416,7 @@ export function getTopLevelFields(fields: any) {
     return obj;
 }
 
-export function flattenKeepSpecial(obj: any) {
+function flattenKeepSpecial(obj: any) {
     const toReturn: any = flattenKeepKeys(obj);
     for (const key in toReturn) {
         const newKey = key
@@ -461,7 +465,17 @@ function flattenKeepKeys(obj: any) {
  * to properly make subscription on the query work.
  * @param query
  */
-export function getFieldFilter(query: any) {
+export function getFieldFilter(query: Mongo.Selector<any>) {
     const newObj = flattenKeepSpecial(query);
     return getTopLevelFields(newObj);
 }
+
+export const _forTest = {
+    containsFieldValue,
+    getFieldValue,
+    getFieldValueString,
+    getTopLevelFields,
+    parseQueryString,
+    replaceRegexObject,
+    setSearchField,
+};

@@ -1,14 +1,12 @@
-import {
-    containsFieldValue,
-    getFieldFilter,
-    getFieldValue,
-    getFieldValueString,
-    getTopLevelFields,
-    parseQuery,
-    parseQueryString,
-    replaceRegexObject,
-    setSearchField,
-} from '../QueryStringParser';
+import { getFieldFilter, parseQuery, _forTest } from '../QueryStringParser';
+
+const containsFieldValue = _forTest.containsFieldValue;
+const getFieldValue = _forTest.getFieldValue;
+const getFieldValueString = _forTest.getFieldValueString;
+const getTopLevelFields = _forTest.getTopLevelFields;
+const parseQueryString = _forTest.parseQueryString;
+const replaceRegexObject = _forTest.replaceRegexObject;
+const setSearchField = _forTest.setSearchField;
 
 describe('parseQuery', function() {
     it('should return empty query on empty string', function() {
@@ -307,6 +305,19 @@ describe('replaceRegexObject', function() {
 });
 
 describe('getFieldFilter', function() {
+    it('should find simple levels', function() {
+        const nestedObj = {
+            foo: 'first',
+            'foo.bar': '3',
+            'bar.baz': 1,
+            $and: [{ 'x1.a.b.c': 3 }],
+        };
+        expect(getFieldFilter(nestedObj)).toEqual({
+            bar: 1,
+            foo: 1,
+            x1: 1,
+        });
+    });
     it('should find all top level fields', function() {
         const nestedObj = {
             top: 'first',
@@ -314,12 +325,12 @@ describe('getFieldFilter', function() {
             'a.b.c': 1,
             $and: [
                 { 'x.y': 'bla' },
-                'm.s',
+                { 'not.equal': { $ne: 1 } },
                 {
                     $or: [
                         { g: 3 },
                         {
-                            $and: { 'hello.happy.world': 'cool' },
+                            $and: [{ 'hello.happy.world': 'cool' }],
                         },
                     ],
                 },
@@ -331,6 +342,7 @@ describe('getFieldFilter', function() {
             x: 1,
             g: 1,
             hello: 1,
+            not: 1,
         });
     });
 });
