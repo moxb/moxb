@@ -7,3 +7,4 @@ export * from './MeteorTableFetcher';
 export * from './MeteorTableImpl';
 export * from './MeteorTableFetcherImpl';
 export * from './MethodDataFetcherImpl';
+export * from './QueryStringParser';
