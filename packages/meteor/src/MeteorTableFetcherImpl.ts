@@ -14,6 +14,12 @@ export class MeteorTableFetcherImpl<T> extends MethodDataFetcherImpl<MeteorTable
     }
     @action.bound
     callFetchData(query: MeteorTableQuery, done: MeteorDataFetcherDone<MeteorTableData<T>>): void {
-        this._fetchData(query, done);
+        this._fetchData(query, (error, data) => {
+            // if there is an error, we set the error in the data
+            if (error) {
+                return done(error, { error, ...this.getInitialData() });
+            }
+            return done(error, data);
+        });
     }
 }

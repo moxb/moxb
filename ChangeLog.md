@@ -29,6 +29,15 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 - with the function `parseQuery` a string query can turned into a mongo query
 
+- `MeteorTableData` contains now an optional `error` of type `Meteor.Error`. If it is defined, `MeteorTableImpl`
+   derives its  `error` string from this attribute. 
+   
+   The reason this was needed, because else the `mobx.onBecomeObserved`, is called all the time if there is an error.
+   The code is a bit too complex and we should simplify it. However sit seems to work now.
+   
+- `TableAnt` now shows an error message, if there was a server error.
+  
+
 ### Changed
 
 - Refactor the `ActionUi` component to `ActionFormButtonUi`, because it describes the nested html element more clearly and exact.
@@ -78,6 +87,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
    package and therefore there are some problems with dependencies....
 
 - rename `extractErrorMessage` to `extractErrorMessages` and added `extractErrorString` function
+
 ### Removed
 
 ### Fixed
