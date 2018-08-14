@@ -24,6 +24,11 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 - [ant design](https://ant.design/docs/react/introduce) example
 
+- For meteor there is now `MeteorTableImpl` for a simple table implementation that only requires a meteor method
+  for the results.
+
+- with the function `parseQuery` a string query can turned into a mongo query
+
 ### Changed
 
 - Refactor the `ActionUi` component to `ActionFormButtonUi`, because it describes the nested html element more clearly and exact.
