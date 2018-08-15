@@ -219,14 +219,19 @@ export function parseQuery<T>(
     additionalFilter: object | undefined | null,
     fields: string[]
 ): Mongo.Selector<T> {
-    const { filter, search } = parseQueryString(queryString);
-    const searchFilters = {
-        $and: (search || '')
-            .split(/\s+/)
-            .filter(s => !!s)
-            .map(regex => getSearchStringFilter(regex, fields)),
-    };
-    return replaceRegexObject(combineWithAnd(searchFilters, filter, additionalFilter));
+    try {
+        const { filter, search } = parseQueryString(queryString);
+        const searchFilters = {
+            $and: (search || '')
+                .split(/\s+/)
+                .filter(s => !!s)
+                .map(regex => getSearchStringFilter(regex, fields)),
+        };
+        return replaceRegexObject(combineWithAnd(searchFilters, filter, additionalFilter));
+    } catch (e) {
+        // we turn the error into a meteor error. This may happen if there is a syntax error in the regex
+        throw new Meteor.Error(e.message);
+    }
 }
 
 /**

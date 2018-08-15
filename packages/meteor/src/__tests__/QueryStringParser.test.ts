@@ -65,6 +65,15 @@ describe('parseQuery', function() {
             ],
         });
     });
+    it('should throw error on invalid regex', function() {
+        // we patch/fake Meteor.Error
+        (global as any).Meteor = {
+            Error: function(error: string, reason?: string, details?: string) {
+                return new Error(error);
+            },
+        };
+        expect(() => parseQuery('???', null, ['field', 'nested.field'])).toThrow(/Invalid regular expression/);
+    });
 });
 
 describe('parseQueryString', function() {

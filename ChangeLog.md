@@ -37,6 +37,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
    
 - `TableAnt` now shows an error message, if there was a server error.
   
+- `parseQuery` throws an `Meteor.Error` if something goes wrong (like one of the search strings is an invalid regex)
 
 ### Changed
 
