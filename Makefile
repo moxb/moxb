@@ -49,7 +49,8 @@ help:
 
 .PHONY: clean
 clean:
-	$(LERNA) clean --yes || true
+	($(ACTIVATE) && jest --clearCache --yes) || true
+	($(ACTIVATE) && $(LERNA) clean --yes) || true
 	for dir in $(SUB_DIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
