@@ -1,15 +1,15 @@
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Select } from 'antd';
-import { BindAntProps, parseProps } from './BindAnt';
+import { Form, Select } from 'antd';
+import { BindAntFormProps, BindAntProps, labelWithHelp, parseProps } from './BindAnt';
 import { ManyOf } from '@moxb/moxb';
 import { SelectProps } from 'antd/lib/select';
 
 @observer
 export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {
     render() {
-        const { operation, invisible, mode, children, defaultValue, placeholder, ...props } = parseProps(
+        const { operation, invisible, mode, children, defaultValue, label, help, placeholder, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -34,6 +34,21 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
                 ))}
                 {children}
             </Select>
+        );
+    }
+}
+
+@observer
+export class ManyOfFormAnt extends React.Component<BindAntFormProps & SelectProps & BindAntProps<ManyOf>> {
+    render() {
+        const { operation, label, help, invisible, formStyle, ...props } = parseProps(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
+        return (
+            <Form.Item label={label} help={help} style={formStyle || undefined}>
+                <ManyOfAnt operation={operation} {...props as any} />
+            </Form.Item>
         );
     }
 }
