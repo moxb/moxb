@@ -11,12 +11,10 @@ import {
     NumericUi,
     OneOfUi,
     OneOfSelectUi,
-    TableUi,
-    TableSearchUi,
 } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
-import { Application } from './Application';
-import { Container, Dropdown, Form, Table } from 'semantic-ui-react';
+import { Application } from '../store/Application';
+import { Container, Dropdown, Form } from 'semantic-ui-react';
 import { toJSON } from '@moxb/moxb';
 import { MemTableUi } from './memtable/MemTableUi';
 

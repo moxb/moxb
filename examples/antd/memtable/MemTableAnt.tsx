@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NumericFormAnt, TableAnt, ColumnAntProps } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
-import { MemTable, MemTableData } from './MemTable';
+import { MemTable, MemTableData } from '../../store/MemTable';
 
 @inject('memTable')
 @observer

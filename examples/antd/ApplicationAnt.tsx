@@ -13,7 +13,7 @@ import {
     TableAnt,
 } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
-import { Application } from './Application';
+import { Application } from '../store/Application';
 import { Row, Col, Form, Icon } from 'antd';
 import { MemTableAnt } from './memtable/MemTableAnt';
 
