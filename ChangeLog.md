@@ -24,6 +24,21 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 - [ant design](https://ant.design/docs/react/introduce) example
 
+- For meteor there is now `MeteorTableImpl` for a simple table implementation that only requires a meteor method
+  for the results.
+
+- with the function `parseQuery` a string query can turned into a mongo query
+
+- `MeteorTableData` contains now an optional `error` of type `Meteor.Error`. If it is defined, `MeteorTableImpl`
+   derives its  `error` string from this attribute. 
+   
+   The reason this was needed, because else the `mobx.onBecomeObserved`, is called all the time if there is an error.
+   The code is a bit too complex and we should simplify it. However sit seems to work now.
+   
+- `TableAnt` now shows an error message, if there was a server error.
+  
+- `parseQuery` throws an `Meteor.Error` if something goes wrong (like one of the search strings is an invalid regex)
+
 ### Changed
 
 - Refactor the `ActionUi` component to `ActionFormButtonUi`, because it describes the nested html element more clearly and exact.
@@ -71,6 +86,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 -  `@moxb/meteor` is now using the global `Meteor` and `Tracker` variables, because `meteor/meteor` is not a real
    package and therefore there are some problems with dependencies....
+
+- rename `extractErrorMessage` to `extractErrorMessages` and added `extractErrorString` function
 
 ### Removed
 

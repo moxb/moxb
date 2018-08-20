@@ -1,8 +1,8 @@
 module.exports = {
     collectCoverage: true,
     collectCoverageFrom: [
-        'packages/**/*.{ts}',
-        'packages/**/*.{tsx}',
+        'packages/src/*.{ts}',
+        'packages/src/*.{tsx}',
         '!**/*.d.ts',
         '!**/build/**',
         '!**/node_modules/**',

@@ -4,6 +4,7 @@ import { MeteorDataFetcher } from './MeteorDataFetcher';
 export interface MeteorTableData<T> {
     readonly totalCount: number;
     readonly data: T[];
+    readonly error?: Meteor.Error;
 }
 
 export interface MeteorTableQuery {

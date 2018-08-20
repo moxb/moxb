@@ -11,12 +11,12 @@ PRETTIER_FORMAT= $(ACTIVATE) \
 		--trailing-comma es5 \
 		--tab-width 4
 
-TSLINT = tslint --project tsconfig.json
+TSLINT = $(ACTIVATE) && tslint --project tsconfig.json
 
 # all typescript files
 TS_FILES = $(shell find $(TS_DIRS) -type f \( -name '*.ts' -o -name '*.tsx' \))
 
-###### code formatting
+###### code formatting  ########################################################
 
 .PHONY: format-code
 format-code: all-dependencies
@@ -31,6 +31,11 @@ format-force: all-dependencies
 format-check: all-dependencies
 	@$(MAKE) .makehelper/formatted PRETTIER_OP=--list-different || (echo '\033[31mrun `make format-code` and commit the changes!\033[0m' && false)
 
+.PHONY: format-file
+format-file: all-dependencies
+	@test -n "$(FILE)" || (echo 'Call make with `make $@ FILE=path/to/file`' && exit -1)
+	@$(PRETTIER_FORMAT) --write $(FILE)
+
 # in this rule $? refers only to the files that have changed since .makehelper/formatted has been touched
 .makehelper/formatted: $(TS_FILES)
 	$(PRETTIER_FORMAT) $(PRETTIER_OP) $?
@@ -39,16 +44,16 @@ format-check: all-dependencies
 ###### tslint ########################################################
 
 .PHONY: tslint
-tslint: all-dependencies .makehelper/tsling-cfg .makehelper/tslinted
+tslint: all-dependencies .makehelper/tslint-cfg .makehelper/tslinted
 
-.makehelper/tsling-cfg: all-dependencies tslint.json tsconfig.json
-	rm -f .makehelper/tslinted
+.makehelper/tslint-cfg: tslint.json tsconfig.json
+	rm -f .makehelper/tslinted .makehelper/tslint-fixed
 	@touch $@
 
 
 # in this rule $? refers only to the files that have changed since .makehelper/formatted has been touched
 .makehelper/tslinted: $(TS_FILES)
-	$(ACTIVATE) && $(TSLINT) $?
+	$(TSLINT) $?
 	@touch $@ # we can touch the file since there was no error....
 
 .PHONY: tslint-all
@@ -58,18 +63,17 @@ tslint-all: .makehelper/tslinted-all
 # However, webstrom does not recognize this line and does not link to the location.
 # Therefore, we have the first run without the rule...
 .makehelper/tslinted-all: all-dependencies $(TS_FILES) tslint.json tsconfig.json
-	$(ACTIVATE) && $(TSLINT) $(TS_FILES) \
+	$(TSLINT) $(TS_FILES) \
 		|| $(TSLINT) --format verbose $(TS_FILES)
 	@touch $@
 
 .PHONY: tslint-fix
-tslint-fix: all-dependencies
-	$(ACTIVATE) && $(TSLINT) --fix
+tslint-fix: all-dependencies .makehelper/tslint-cfg .makehelper/tslint-fixed
 
-.PHONY: format-file
-format-file: all-dependencies
-	@test -n "$(FILE)" || (echo 'Call make with `make $@ FILE=path/to/file`' && exit -1)
-	@$(PRETTIER_FORMAT) --write $(FILE)
+# in this rule $? refers only to the files that have changed since .makehelper/formatted has been touched
+.makehelper/tslint-fixed: $(TS_FILES)
+	$(TSLINT) --fix $?
+	@touch $@ # we can touch the file since there was no error....
 
 # this formats the output of tslint so that webstorm shows clickable links in the external tools window
 #  exit ${PIPESTATUS[0]} make sure the command exits when there are errors

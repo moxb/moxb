@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import { BindImpl, BindOptions, StringOrFunction, ValueOrFunction } from '../bind/BindImpl';
 import { t } from '../i18n/i18n';
-import { extractErrorMessage } from '../validation/ErrorMessage';
+import { extractErrorString } from '../validation/ErrorMessage';
 import { Value } from './Value';
 
 export interface ValueOptions<B, T> extends BindOptions {
@@ -175,11 +175,7 @@ export abstract class ValueImpl<B, T, Options extends ValueOptions<B, T>> extend
     @action.bound
     private saveDone(error: any) {
         if (error) {
-            this.setError(
-                extractErrorMessage(error)
-                    .map(e => e.message)
-                    .join('\n')
-            );
+            this.setError(extractErrorString(error));
         } else {
             this.clearError();
         }

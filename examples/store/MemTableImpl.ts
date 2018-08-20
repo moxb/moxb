@@ -117,7 +117,6 @@ export class MemTableImpl implements MemTable {
                 {
                     id: 'email',
                     label: 'E-Mail',
-                    preferredSortDirection: 'ascending',
                 },
                 table
             ),
@@ -168,11 +167,11 @@ export class MemTableImpl implements MemTable {
     private filter(data: MemTableData[]): MemTableData[] {
         if (this.table.search && this.table.search.query) {
             //simple algorithm: seach for each query independently
-            const queries = this.table.search.query.split(/\s+/);
+            const queries = this.table.search.query.split(/\s+/).map(s => new RegExp(s, 'i'));
             const fields = this.table.columns.map(c => c.column);
             for (const query of queries) {
                 // we treat the fields as strings and check if the value is included
-                data = data.filter((d: any) => fields.findIndex(f => (d[f] + '').includes(query)) >= 0);
+                data = data.filter((d: any) => fields.findIndex(f => query.test(d[f] + '')) >= 0);
             }
             return data;
         } else {

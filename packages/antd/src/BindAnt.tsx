@@ -1,10 +1,17 @@
+import { CSSProperties } from 'react';
 import * as React from 'react';
 import { Bind } from '@moxb/moxb';
 import { Tooltip, Icon } from 'antd';
+import { FormItemProps } from 'antd/lib/form';
 
 export interface BindAntProps<T extends Bind> {
     operation: T;
     invisible?: boolean;
+}
+
+export interface BindAntFormProps extends FormItemProps {
+    // should be part of ant design
+    formStyle?: CSSProperties;
 }
 
 /**

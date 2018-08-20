@@ -1,9 +1,8 @@
 import * as React from 'react';
-import * as semui from '@moxb/semui';
-import { TableSearchUi } from '@moxb/semui';
+import { NumericUi, TableSearchUi, TableUi, TablePaginationUi } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import { Form, Table } from 'semantic-ui-react';
-import { MemTable } from './MemTable';
+import { MemTable } from '../../store/MemTable';
 
 @inject('memTable')
 @observer
@@ -12,11 +11,11 @@ export class MemTableUi extends React.Component<{ memTable?: MemTable }> {
         const memTable = this.props.memTable!;
         return (
             <>
-                <semui.NumericUi required operation={memTable.rows} />
+                <NumericUi required operation={memTable.rows} />
                 <Form.Group inline>
                     <TableSearchUi search={memTable.table.search!} />
                 </Form.Group>
-                <semui.TableUi table={memTable.table}>
+                <TableUi table={memTable.table}>
                     {memTable.table.data.map(tableData => (
                         <Table.Row key={tableData.id}>
                             <Table.Cell>{tableData.email}</Table.Cell>
@@ -30,8 +29,8 @@ export class MemTableUi extends React.Component<{ memTable?: MemTable }> {
                             </Table.Cell>
                         </Table.Row>
                     ))}
-                </semui.TableUi>
-                <semui.TablePaginationUi pagination={memTable.table.pagination!} />
+                </TableUi>
+                <TablePaginationUi pagination={memTable.table.pagination!} />
             </>
         );
     }

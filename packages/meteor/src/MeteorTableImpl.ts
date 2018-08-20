@@ -1,4 +1,4 @@
-import { SortColumn, TableImpl, TableOptions, TablePaginationImpl } from '@moxb/moxb';
+import { SortColumn, t, extractErrorString, toId, TableImpl, TableOptions, TablePaginationImpl } from '@moxb/moxb';
 import { Mongo } from 'meteor/mongo';
 import { MeteorDataFetcherDone } from './MeteorDataFetcher';
 import { MeteorTableData, MeteorTableFetcher, MeteorTableQuery } from './MeteorTableFetcher';
@@ -53,4 +53,11 @@ export class MeteorTableImpl<T> extends TableImpl<T> {
     private readonly tableFetcher: MeteorTableFetcher<T> = new MeteorTableFetcherImpl((query, done) =>
         this.meteorImpl.fetchData(query, done)
     );
+    getError() {
+        if (this.tableFetcher.data.error) {
+            const error = extractErrorString(this.tableFetcher.data.error);
+            return t(toId(this.id + '.serverError.' + error), error);
+        }
+        return super.getError();
+    }
 }

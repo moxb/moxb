@@ -1,6 +1,13 @@
 import { Application } from './Application';
-import { Action, Bool, Confirm, Modal, Text, ManyOf, Numeric, Table } from '@moxb/moxb';
 import {
+    Action,
+    Bool,
+    Confirm,
+    Modal,
+    Text,
+    ManyOf,
+    Numeric,
+    Table,
     ActionImpl,
     BoolImpl,
     ConfirmImpl,

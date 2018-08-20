@@ -1,6 +1,6 @@
 import { computed } from 'mobx';
 import { t } from '../i18n/i18n';
-import { ErrorMessage, extractErrorMessage } from './ErrorMessage';
+import { ErrorMessage, extractErrorMessages } from './ErrorMessage';
 import { FieldErrorMessages, SimpleSchemaValidation } from './SimpleSchemaValidation';
 
 export class SimpleSchemaValidationImpl implements SimpleSchemaValidation {
@@ -22,7 +22,7 @@ export class SimpleSchemaValidationImpl implements SimpleSchemaValidation {
         const errors: FieldErrorMessages = {};
         const error = this.getValidationErrors();
         if (error) {
-            extractErrorMessage(error)
+            extractErrorMessages(error)
                 .filter(e => !!e.fieldName)
                 .forEach(err => (errors[err.fieldName || ''] = err));
         }
