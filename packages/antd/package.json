@@ -51,7 +51,7 @@
     "@moxb/moxb": "^0.1.4-beta.5",
     "mobx": "^4.3.0 || ^5.0.0",
     "mobx-react": "^5.2.3",
-    "antd": "^3.7.1"
+    "antd": "^3.7.2"
   },
   "devDependencies": {
     "@moxb/moxb": "^0.1.4-beta.5",
