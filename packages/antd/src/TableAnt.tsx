@@ -71,7 +71,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                                 table.pagination.setActivePage(pagination.current);
                             }
                         }
-                        if (sorter) {
+                        if (sorter && sorter.columnKey) {
                             table.sort.setSort(
                                 sorter.columnKey,
                                 sorter.order === 'ascend' ? 'ascending' : 'descending'
