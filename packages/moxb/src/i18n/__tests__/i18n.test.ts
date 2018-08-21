@@ -15,6 +15,9 @@ describe('expandT', function() {
             expandT('{{foo.bar.baz}}={{foo.bar.hallo}}', { foo: { bar: { baz: 'answer', hallo: 42 } }, bar: undefined })
         ).toBe('answer=42');
     });
+    it('should expand simple values', function() {
+        expect(expandT('{{name}}, {{_id}}', { name: 'Name', _id: 'ID' })).toBe('Name, ID');
+    });
     it('should deal with empty options', function() {
         expect(expandT('{{foo.bar.baz}}-{{foo.bar.hallo}}')).toBe('-');
     });
