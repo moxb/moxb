@@ -36,15 +36,19 @@ export class MeteorTableImpl<T> extends TableImpl<T> {
         } as any);
         this.meteorImpl = impl;
         this.tableFetcher.setDataFetcher(done => {
-            this.tableFetcher.callFetchData(
-                {
-                    queryString: this.search ? this.search.query || '' : '',
-                    options: {
-                        sort: sortToMongo(this.sort.sort),
-                    },
+            let paginationFilterOptions = {};
+            if (this.pagination) {
+                paginationFilterOptions = this.pagination.filterOptions;
+            }
+            const query = {
+                queryString: this.search ? this.search.query || '' : '',
+                options: {
+                    sort: sortToMongo(this.sort.sort),
+                    ...paginationFilterOptions,
                 },
-                done
-            );
+            };
+
+            this.tableFetcher.callFetchData(query, done);
         });
     }
     getData() {
