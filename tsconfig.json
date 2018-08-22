@@ -3,7 +3,7 @@
         "module": "commonjs",
         "target": "ES5",
         "jsx": "react",
-        "lib": ["DOM","ES6","ES2015","ES2017", "DOM.Iterable","ScriptHost"],
+        "lib": ["dom","es6","es2015","es2017", "dom.iterable","scripthost"],
         "importHelpers":true,
         "experimentalDecorators": true,
         "noImplicitAny": true,
@@ -16,6 +16,8 @@
     },
     "exclude": [
         "./node_modules",
-        "./build"
+        "./build",
+        "**/__tests__/**",
+        "**/__mocks__/**"
     ]
 }
