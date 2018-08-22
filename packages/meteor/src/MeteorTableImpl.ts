@@ -15,6 +15,7 @@ type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export interface MeteorTableOptions<T> extends Omit<TableOptions<T>, 'data' | 'ready' | 'pagination'> {
     fetchData(query: MeteorTableQuery, done: MeteorDataFetcherDone<MeteorTableData<T>>): void;
     noPagination?: boolean;
+    selector?(): Mongo.Selector<T> | undefined;
 }
 
 /**
@@ -36,19 +37,30 @@ export class MeteorTableImpl<T> extends TableImpl<T> {
         } as any);
         this.meteorImpl = impl;
         this.tableFetcher.setDataFetcher(done => {
-            this.tableFetcher.callFetchData(
-                {
-                    queryString: this.search ? this.search.query || '' : '',
-                    options: {
-                        sort: sortToMongo(this.sort.sort),
-                    },
+            let paginationFilterOptions = {};
+            if (this.pagination) {
+                paginationFilterOptions = this.pagination.filterOptions;
+            }
+            const query = {
+                queryString: this.search ? this.search.query || '' : '',
+                selector: this.getSelector(),
+                options: {
+                    sort: sortToMongo(this.sort.sort),
+                    ...paginationFilterOptions,
                 },
-                done
-            );
+            };
+
+            this.tableFetcher.callFetchData(query, done);
         });
     }
     getData() {
         return this.tableFetcher.data.data;
+    }
+    private getSelector() {
+        if (this.meteorImpl.selector) {
+            return this.meteorImpl.selector();
+        }
+        return {};
     }
     private readonly tableFetcher: MeteorTableFetcher<T> = new MeteorTableFetcherImpl((query, done) =>
         this.meteorImpl.fetchData(query, done)

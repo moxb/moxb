@@ -39,6 +39,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
   
 - `parseQuery` throws an `Meteor.Error` if something goes wrong (like one of the search strings is an invalid regex)
 
+- `MeteorTableImpl` can now take an additional `selector` of the query.
+
 ### Changed
 
 - Refactor the `ActionUi` component to `ActionFormButtonUi`, because it describes the nested html element more clearly and exact.

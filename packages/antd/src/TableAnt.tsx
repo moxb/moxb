@@ -42,7 +42,6 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
             columns.forEach(column => this.props.setupColumn!(column));
         }
         const dataSource = table.data.map((data, idx: number) => ({ key: idx + '', ...(data as any) }));
-        console.log('table.error=', JSON.stringify(table.error, null, 2));
         return (
             <>
                 {table.error && (
@@ -72,7 +71,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                                 table.pagination.setActivePage(pagination.current);
                             }
                         }
-                        if (sorter) {
+                        if (sorter && sorter.columnKey) {
                             table.sort.setSort(
                                 sorter.columnKey,
                                 sorter.order === 'ascend' ? 'ascending' : 'descending'
