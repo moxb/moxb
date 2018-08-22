@@ -13,7 +13,11 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable }> {
                 <NumericFormAnt required operation={memTable.rows} />
                 {memTable.table.search && (
                     <>
-                        <TextFormAnt required operation={memTable.table.search!.searchField} />
+                        <TextFormAnt
+                            required
+                            operation={memTable.table.search!.searchField}
+                            onPressEnter={() => memTable.table.search!.searchAction.fire()}
+                        />
                         <ActionButtonAnt operation={memTable.table.search!.searchAction} />
                         <ActionButtonAnt operation={memTable.table.search!.clearSearch} />
                     </>
