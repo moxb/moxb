@@ -15,6 +15,11 @@ export interface BindStringAntProps extends React.HTMLProps<HTMLFormElement> {
     onPressEnter?(): void;
 }
 
+export interface BindSearchStringAntProps extends BindStringAntProps {
+    enterButton?: string;
+    onSearch?(): void;
+}
+
 @observer
 export class TextAnt extends React.Component<InputProps & BindStringAntProps> {
     // tslint:disable-next-line:cyclomatic-complexity
@@ -57,6 +62,36 @@ export class TextAnt extends React.Component<InputProps & BindStringAntProps> {
                 />
             );
         }
+    }
+}
+
+@observer
+export class TextSearchAnt extends React.Component<InputProps & BindSearchStringAntProps> {
+    // tslint:disable-next-line:cyclomatic-complexity
+    render() {
+        const Search = Input.Search;
+        const { operation, id, value, size, prefix, invisible, onSearch, enterButton, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
+        if (invisible) {
+            return null;
+        }
+        return (
+            <Search
+                id={id}
+                placeholder={operation.placeholder}
+                onFocus={operation.onEnterField}
+                onBlur={operation.onExitField}
+                value={operation.value || value || ''}
+                prefix={prefix}
+                enterButton={enterButton}
+                onChange={(e: any) => operation.setValue(e.target.value)}
+                onSearch={onSearch}
+                size={size}
+                {...props as any}
+            />
+        );
     }
 }
 
