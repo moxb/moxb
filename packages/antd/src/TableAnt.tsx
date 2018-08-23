@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as moxb from '@moxb/moxb';
 import { Alert, Table } from 'antd';
 import { ColumnProps, TableProps } from 'antd/lib/table/interface';
+import { TextSearchAnt } from './TextAnt';
 
 export interface ColumnAntProps<T> extends ColumnProps<T> {
     dataIndex: string;
@@ -47,7 +48,15 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                 {table.error && (
                     <Alert message={moxb.t('Table.Error.title', 'Error')} description={table.error} type="error" />
                 )}
-
+                {table.search && (
+                    <TextSearchAnt
+                        required
+                        style={{ marginBottom: '1.5em' }}
+                        enterButton={moxb.t('Table.Search.title', 'Search')}
+                        operation={table.search!.searchField}
+                        onPressEnter={() => table.search!.searchAction.fire()}
+                    />
+                )}
                 <Table
                     columns={columns}
                     dataSource={dataSource}

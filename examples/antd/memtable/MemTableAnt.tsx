@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionButtonAnt, TextFormAnt, NumericFormAnt, TableAnt, ColumnAntProps } from '@moxb/antd';
+import { NumericFormAnt, TableAnt, ColumnAntProps } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { MemTable, MemTableData } from '../../store/MemTable';
 
@@ -11,13 +11,6 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable }> {
         return (
             <>
                 <NumericFormAnt required operation={memTable.rows} />
-                {memTable.table.search && (
-                    <>
-                        <TextFormAnt required operation={memTable.table.search!.searchField} />
-                        <ActionButtonAnt operation={memTable.table.search!.searchAction} />
-                        <ActionButtonAnt operation={memTable.table.search!.clearSearch} />
-                    </>
-                )}
                 <TableAnt table={memTable.table} setupColumn={column => this.renderColumn(column)} />
             </>
         );

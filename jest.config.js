@@ -23,9 +23,6 @@ module.exports = {
         "json",
         "node"
     ],
-    transform: {
-        "^.+\\.(ts|tsx)$": "ts-jest",
-    },
     testMatch: [
         "**/src/**/__tests__/*.(ts|tsx)",
     ],
