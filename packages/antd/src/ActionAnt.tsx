@@ -1,14 +1,21 @@
+import { ColProps } from 'antd/lib/grid';
+import { CSSProperties } from 'react';
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { Action } from '@moxb/moxb';
 import { Button, Form } from 'antd';
 import { ButtonSize, ButtonType, ButtonShape } from 'antd/lib/button';
-import { FormItemProps } from 'antd/lib/form/FormItem';
 import { NativeButtonProps } from 'antd/lib/button/button';
 
 const FormItem = Form.Item;
 export type BindActionAntProps = BindAntProps<Action> & NativeButtonProps;
+
+export interface ActionFormButtonAntProps extends BindActionAntProps {
+    formStyle?: CSSProperties;
+    wrapperCol?: ColProps;
+    labelCol?: ColProps;
+}
 
 @observer
 export class ActionButtonAnt extends React.Component<BindActionAntProps> {
@@ -37,11 +44,15 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
 }
 
 @observer
-export class ActionFormButtonAnt extends React.Component<BindAntProps<Action> & FormItemProps & NativeButtonProps> {
+export class ActionFormButtonAnt extends React.Component<ActionFormButtonAntProps> {
     render() {
+        const { invisible, formStyle, labelCol, wrapperCol, ...props } = parseProps(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
         return (
-            <FormItem>
-                <ActionButtonAnt operation={this.props.operation} htmlType="submit" />
+            <FormItem style={formStyle || undefined} labelCol={labelCol} wrapperCol={wrapperCol}>
+                <ActionButtonAnt operation={this.props.operation} htmlType="submit" {...props as any} />
             </FormItem>
         );
     }
