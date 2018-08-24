@@ -1,15 +1,16 @@
+import { ManyOf } from '@moxb/moxb';
+import { Form, Select, Checkbox, Row, Col } from 'antd';
+import { SelectProps } from 'antd/lib/select';
+import { CheckboxGroupProps } from 'antd/lib/checkbox';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Form, Select } from 'antd';
-import { BindAntFormProps, BindAntProps, labelWithHelp, parseProps } from './BindAnt';
-import { ManyOf } from '@moxb/moxb';
-import { SelectProps } from 'antd/lib/select';
+import { BindAntFormProps, BindAntProps, parseProps } from './BindAnt';
 
 @observer
 export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {
     render() {
-        const { operation, invisible, mode, children, defaultValue, label, help, placeholder, ...props } = parseProps(
+        const { operation, invisible, mode, children, defaultValue, placeholder, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -34,6 +35,35 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
                 ))}
                 {children}
             </Select>
+        );
+    }
+}
+
+@observer
+export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & CheckboxGroupProps> {
+    render() {
+        const { operation, invisible, children, defaultValue, ...props } = parseProps(this.props, this.props.operation);
+        if (invisible || operation.invisible) {
+            return null;
+        }
+        // make sure the value is not a mobx object...
+        const value = toJS(operation.value);
+        return (
+            <Checkbox.Group
+                onChange={(selectionValue: any) => operation.setValue(selectionValue)}
+                value={value}
+                defaultValue={defaultValue}
+                {...props}
+            >
+                <Row>
+                    {operation.choices.map(opt => (
+                        <Col key={opt.value}>
+                            <Checkbox value={opt.value}>{opt.label}</Checkbox>
+                        </Col>
+                    ))}
+                    {children}
+                </Row>
+            </Checkbox.Group>
         );
     }
 }

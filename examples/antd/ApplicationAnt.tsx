@@ -7,6 +7,7 @@ import {
     TextFormAnt,
     TextAnt,
     ManyOfAnt,
+    ManyOfCheckboxAnt,
     BoolFormAnt,
     NumericAnt,
     OneOfAnt,
@@ -84,6 +85,11 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
 
                     <h3>ManyOfAnt Component - multiple selection</h3>
                     <ManyOfAnt style={{ width: '200px' }} mode="multiple" operation={application.testManyOf} />
+                    <br />
+                    <br />
+
+                    <h3>ManyOfCheckboxAnt Component - multiple selection with checkboxes</h3>
+                    <ManyOfCheckboxAnt style={{ width: '200px' }} operation={application.testManyOf} />
                     <br />
                     <br />
 
