@@ -12,6 +12,7 @@ import {
     NumericAnt,
     OneOfAnt,
     TableAnt,
+    DatePickerAnt,
 } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { Application } from '../store/Application';
@@ -23,6 +24,7 @@ import { MemTableAnt } from './memtable/MemTableAnt';
 export class ApplicationAnt extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app!;
+        console.log('application.testDate', application.testDate);
         return (
             <Row>
                 <Col span={16}>
@@ -95,6 +97,11 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
 
                     <h3>OneOf - RadioBox Component</h3>
                     <OneOfAnt operation={application.testOfOne} />
+                    <br />
+                    <br />
+
+                    <h3>DatePicker Component</h3>
+                    <DatePickerAnt operation={application.testDate} />
                     <br />
                     <br />
 
