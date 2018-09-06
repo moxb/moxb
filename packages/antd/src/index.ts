@@ -8,3 +8,4 @@ export * from './ManyOfAnt';
 export * from './NumericAnt';
 export * from './OneOfAnt';
 export * from './TableAnt';
+export * from './DatePickerAnt';

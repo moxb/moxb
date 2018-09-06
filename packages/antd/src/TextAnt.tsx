@@ -1,3 +1,4 @@
+import { ColProps } from 'antd/lib/grid';
 import { observer } from 'mobx-react';
 import { CSSProperties } from 'react';
 import * as React from 'react';
@@ -13,6 +14,8 @@ export interface BindStringAntProps extends React.HTMLProps<HTMLFormElement> {
     help?: string;
     formStyle?: CSSProperties;
     onPressEnter?(): void;
+    wrapperCol?: ColProps;
+    labelCol?: ColProps;
 }
 
 export interface BindSearchStringAntProps extends BindStringAntProps {
@@ -98,10 +101,17 @@ export class TextSearchAnt extends React.Component<InputProps & BindSearchString
 @observer
 export class TextFormAnt extends React.Component<FormItemProps & BindStringAntProps> {
     render() {
-        const { operation, label, invisible, prefix, formStyle, onPressEnter, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const {
+            operation,
+            label,
+            invisible,
+            prefix,
+            formStyle,
+            labelCol,
+            wrapperCol,
+            onPressEnter,
+            ...props
+        } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
@@ -109,6 +119,8 @@ export class TextFormAnt extends React.Component<FormItemProps & BindStringAntPr
             <Form.Item
                 label={labelWithHelp(label != null ? label : operation.label, operation.help)}
                 style={formStyle || undefined}
+                labelCol={labelCol}
+                wrapperCol={wrapperCol}
             >
                 <TextAnt operation={operation} prefix={prefix} onPressEnter={onPressEnter} {...props as any} />
             </Form.Item>

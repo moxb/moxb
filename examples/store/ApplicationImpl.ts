@@ -5,6 +5,7 @@ import {
     Confirm,
     Modal,
     Text,
+    Date,
     ManyOf,
     Numeric,
     Table,
@@ -19,6 +20,7 @@ import {
     OneOfImpl,
     TableImpl,
     TableColumnImpl,
+    DateImpl,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
@@ -184,6 +186,11 @@ export class ApplicationImpl implements Application {
                 bind
             ),
         ],
+    });
+
+    readonly testDate: Date = new DateImpl({
+        id: 'ApplicationImpl.testDate',
+        placeholder: () => 'Deadline',
     });
 
     constructor() {

@@ -1,10 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionFormButtonUi html should match snapshot 1`] = `
-"<div class=\\"field\\">
-  <button id=\\"action-id\\" class=\\"ui button\\" role=\\"button\\"></button>
-</div>"
-`;
+exports[`ActionFormButtonUi html should match snapshot 1`] = `"<div class=\\"field\\"><button id=\\"action-id\\" class=\\"ui button\\" role=\\"button\\"></button></div>"`;
 
 exports[`ActionFormButtonUi should match snapshot 1`] = `
 ShallowWrapper {
@@ -61,6 +57,7 @@ ShallowWrapper {
     "batchedUpdates": [Function],
     "getNode": [Function],
     "render": [Function],
+    "simulateError": [Function],
     "simulateEvent": [Function],
     "unmount": [Function],
   },
@@ -114,7 +111,11 @@ ShallowWrapper {
           "componentDidUpdate": Object {
             "onSetState": true,
           },
+          "getDerivedStateFromProps": true,
           "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
         },
       },
     },
