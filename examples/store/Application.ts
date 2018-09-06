@@ -1,4 +1,15 @@
-import { Action, Bool, Confirm, Modal, Text, ManyOf, Numeric, OneOf, Table, Date } from '../../packages/moxb/build/index';
+import {
+    Action,
+    Bool,
+    Confirm,
+    Modal,
+    Text,
+    ManyOf,
+    Numeric,
+    OneOf,
+    Table,
+    Date,
+} from '../../packages/moxb/build/index';
 
 export interface Application {
     readonly showCheckbox: boolean;
