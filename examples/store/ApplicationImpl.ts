@@ -9,6 +9,7 @@ import {
     ManyOf,
     Numeric,
     Table,
+    Time,
     ActionImpl,
     BoolImpl,
     ConfirmImpl,
@@ -21,6 +22,7 @@ import {
     TableImpl,
     TableColumnImpl,
     DateImpl,
+    TimeImpl
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 
@@ -191,6 +193,11 @@ export class ApplicationImpl implements Application {
     readonly testDate: Date = new DateImpl({
         id: 'ApplicationImpl.testDate',
         placeholder: () => 'Deadline',
+    });
+
+    readonly testTime: Time = new TimeImpl({
+        id: 'ApplicationImpl.testTime',
+        placeholder: () => 'Select a time',
     });
 
     constructor() {

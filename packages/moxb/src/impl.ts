@@ -5,6 +5,7 @@ export * from './confirm/ConfirmImpl';
 export * from './many-of/ManyOfImpl';
 export * from './modal/ModalImpl';
 export * from './date/DateImpl';
+export * from './time/TimeImpl';
 export * from './numeric/NumericImpl';
 export * from './one-of/OneOfImpl';
 export * from './table/TableColumnImpl';

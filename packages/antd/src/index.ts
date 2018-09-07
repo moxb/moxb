@@ -9,3 +9,4 @@ export * from './NumericAnt';
 export * from './OneOfAnt';
 export * from './TableAnt';
 export * from './DatePickerAnt';
+export * from './TimePickerAnt';

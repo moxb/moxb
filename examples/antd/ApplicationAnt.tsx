@@ -13,6 +13,7 @@ import {
     OneOfAnt,
     TableAnt,
     DatePickerAnt,
+    TimePickerAnt,
 } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { Application } from '../store/Application';
@@ -102,6 +103,11 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
 
                     <h3>DatePicker Component</h3>
                     <DatePickerAnt operation={application.testDate} />
+                    <br />
+                    <br />
+
+                    <h3>TimePicker Component</h3>
+                    <TimePickerAnt operation={application.testTime} />
                     <br />
                     <br />
 

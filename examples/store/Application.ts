@@ -9,6 +9,7 @@ import {
     OneOf,
     Table,
     Date,
+    Time,
 } from '../../packages/moxb/build/index';
 
 export interface Application {
@@ -21,6 +22,7 @@ export interface Application {
     readonly testModal: Modal<any>;
     readonly testText: Text;
     readonly testDate: Date;
+    readonly testTime: Time;
     readonly testManyOf: ManyOf;
     readonly testTextfield: Text;
     readonly testTextarea: Text;
