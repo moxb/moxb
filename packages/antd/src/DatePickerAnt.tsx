@@ -16,7 +16,7 @@ export class DatePickerAnt extends React.Component<DatePickerProps & BindDatePic
         return (
             <DatePicker
                 placeholder={operation.placeholder}
-                onChange={(e: any) => operation.setValue(e.target.value)}
+                onChange={(date: any, dateString: string) => operation.setValue(dateString)}
                 {...props as any}
             />
         );
