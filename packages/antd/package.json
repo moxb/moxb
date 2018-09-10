@@ -48,13 +48,12 @@
     ]
   },
   "peerDependencies": {
-    "@moxb/moxb": "^0.1.4-beta.5",
+    "@moxb/moxb": "^0.2.0-beta.3",
     "antd": "^3.7.2",
     "mobx": "^4.3.0 || ^5.0.0",
     "mobx-react": "^5.2.3"
   },
   "devDependencies": {
-    "@moxb/moxb": "^0.2.0-beta.3",
     "@types/enzyme": "^3.1.13",
     "@types/jest": "^23.3.1",
     "enzyme": "^3.4.1",
@@ -66,7 +65,6 @@
     "react-dom": "^16.4.2"
   },
   "dependencies": {
-    "@moxb/moxb": "^0.2.0-beta.3",
     "antd": "^3.8.0"
   }
 }
