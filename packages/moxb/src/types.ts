@@ -6,6 +6,7 @@ export * from './many-of/ManyOf';
 export * from './modal/Modal';
 export * from './numeric/Numeric';
 export * from './date/Date';
+export * from './time/Time';
 export * from './one-of/OneOf';
 export * from './table/TableColumn';
 export * from './table/TablePagination';
