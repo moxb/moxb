@@ -37,10 +37,10 @@
       "json",
       "node"
     ],
-    "setupTestFrameworkScriptFile": "./jest/jestAdapter.js",
+    "setupTestFrameworkScriptFile": "../../jest/jestAdapter.js",
     "testEnvironment": "node",
     "transform": {
-      "^.+\\.(css|less)$": "./jest/jestMockStyle.js",
+      "^.+\\.(css|less)$": "../../jest/jestMockStyle.js",
       "^.+\\.(ts|tsx)$": "ts-jest"
     },
     "testMatch": [
