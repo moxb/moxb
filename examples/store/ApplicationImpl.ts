@@ -22,7 +22,7 @@ import {
     TableImpl,
     TableColumnImpl,
     DateImpl,
-    TimeImpl
+    TimeImpl,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 

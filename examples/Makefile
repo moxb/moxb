@@ -12,7 +12,7 @@ TOUCH = touch
 NPM = npm install --preserve-symlinks
 PACREL = ./node_modules/.bin/parcel
 
-override TS_DIRS = semui antd
+override TS_DIRS = semui antd store
 include ../admin/makefiles/check-code.mk
 
 # create a helper directory with files for the makefile
