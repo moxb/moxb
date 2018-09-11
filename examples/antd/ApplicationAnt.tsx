@@ -1,3 +1,4 @@
+import { toJSON } from '@moxb/moxb';
 import * as React from 'react';
 import {
     ActionButtonAnt,
@@ -19,6 +20,11 @@ import { inject, observer } from 'mobx-react';
 import { Application } from '../store/Application';
 import { Row, Col, Form, Icon } from 'antd';
 import { MemTableAnt } from './memtable/MemTableAnt';
+
+// helper function to print recursive mobx trees
+(window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {
+    return toJSON(value, ignore);
+};
 
 @inject('app')
 @observer

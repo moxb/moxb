@@ -49,7 +49,7 @@ help:
 
 .PHONY: clean
 clean:
-	($(ACTIVATE) && jest --clearCache --yes) || true
+	($(ACTIVATE) && jest --clearCache) || true
 	($(ACTIVATE) && $(LERNA) clean --yes) || true
 	for dir in $(SUB_DIRS); do \
 		$(MAKE) -C $$dir clean; \

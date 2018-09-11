@@ -1,6 +1,6 @@
 {
   "name": "@moxb/antd",
-  "version": "0.2.0-beta.2",
+  "version": "0.2.0-beta.4",
   "description": "moxb ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,10 +37,10 @@
       "json",
       "node"
     ],
-    "setupTestFrameworkScriptFile": "./jest/jestAdapter.js",
+    "setupTestFrameworkScriptFile": "../../jest/jestAdapter.js",
     "testEnvironment": "node",
     "transform": {
-      "^.+\\.(css|less)$": "./jest/jestMockStyle.js",
+      "^.+\\.(css|less)$": "../../jest/jestMockStyle.js",
       "^.+\\.(ts|tsx)$": "ts-jest"
     },
     "testMatch": [
@@ -48,15 +48,16 @@
     ]
   },
   "peerDependencies": {
-    "@moxb/moxb": "^0.1.4-beta.5",
+    "@moxb/moxb": ">0.2.0-beta.3",
     "antd": "^3.7.2",
     "mobx": "^4.3.0 || ^5.0.0",
     "mobx-react": "^5.2.3"
   },
   "devDependencies": {
-    "@moxb/moxb": "^0.2.0-beta.2",
+    "@moxb/moxb": "^0.2.0-beta.4",
     "@types/enzyme": "^3.1.13",
     "@types/jest": "^23.3.1",
+    "antd": "^3.8.0",
     "enzyme": "^3.4.1",
     "enzyme-adapter-react-16": "^1.2.0",
     "mobx": "^4.3.0 || ^5.0.0",
@@ -64,9 +65,5 @@
     "pretty": "^2.0.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
-  },
-  "dependencies": {
-    "@moxb/moxb": "^0.2.0-beta.2",
-    "antd": "^3.8.0"
   }
 }
