@@ -31,13 +31,16 @@ build:  all-dependencies
 clean-build:
 	@echo nothing to do
 
+clean-js-files:
+	$(RM) -f  `find $(TS_DIRS) -name '*.js'`
 
 #include $(ADMIN)/makefiles/clean.mk
 .PHONY: clean
-clean: clean-build
+clean: clean-build clean-js-files
 	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
 	$(RM) -rf .cache
+
 
 ###### node_module
 node_modules:
