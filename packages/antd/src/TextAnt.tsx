@@ -68,15 +68,14 @@ export class TextAnt extends React.Component<InputProps & BindStringAntProps> {
     }
 }
 
+/**
+ * Use `onSearch` for the search function! Then it will work with the Enter as well as with the search button!
+ */
 @observer
 export class TextSearchAnt extends React.Component<InputProps & BindSearchStringAntProps> {
-    // tslint:disable-next-line:cyclomatic-complexity
     render() {
         const Search = Input.Search;
-        const { operation, id, value, size, prefix, invisible, onSearch, enterButton, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, id, value, invisible, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
@@ -87,11 +86,7 @@ export class TextSearchAnt extends React.Component<InputProps & BindSearchString
                 onFocus={operation.onEnterField}
                 onBlur={operation.onExitField}
                 value={operation.value || value || ''}
-                prefix={prefix}
-                enterButton={enterButton}
                 onChange={(e: any) => operation.setValue(e.target.value)}
-                onSearch={onSearch}
-                size={size}
                 {...props as any}
             />
         );
