@@ -69,12 +69,19 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
 @observer
 export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & FormItemProps> {
     render() {
-        const { operation, label, invisible } = parseProps(this.props, this.props.operation);
+        const { operation, label, invisible, labelCol, wrapperCol, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         return (
-            <Form.Item label={labelWithHelp(label != null ? label : operation.label, operation.help)}>
+            <Form.Item
+                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
+                labelCol={labelCol}
+                wrapperCol={wrapperCol}
+            >
                 <OneOfSelectAnt operation={operation} />
             </Form.Item>
         );
