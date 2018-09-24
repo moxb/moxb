@@ -108,7 +108,7 @@ export class MemTableImpl implements MemTable {
     readonly rows: moxb.Numeric = new moxb.NumericImpl({
         id: 'memtable.rows',
         label: 'Number of rows',
-        initialValue: 10,
+        initialValue: 100,
     });
     readonly table = new moxb.TableImpl<MemTableData>({
         id: 'memtable.table',
