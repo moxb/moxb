@@ -1,5 +1,6 @@
-import { Application } from './Application';
+import { Application, ApplicationAPI } from './Application';
 import {
+    t,
     Action,
     Bool,
     Confirm,
@@ -10,6 +11,7 @@ import {
     Numeric,
     Table,
     Time,
+    Form,
     ActionImpl,
     BoolImpl,
     ConfirmImpl,
@@ -23,8 +25,10 @@ import {
     TableColumnImpl,
     DateImpl,
     TimeImpl,
+    FormImpl,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
+import { ApplicationMethods } from './ApplicationMethods';
 
 export class ApplicationImpl implements Application {
     @observable
@@ -134,6 +138,12 @@ export class ApplicationImpl implements Application {
         initialValue: () => '',
         label: 'Username',
         placeholder: () => 'Username',
+        onExitField: bind => {
+            if (bind.value !== '' && bind.value!.length < 3) {
+                bind.setError(t('ApplicationImpl.login.name', 'Username is too short, min. 3 characters.'));
+            }
+        },
+        onSave: (bind, done) => this.api.saveName(bind.value!, bind, done),
     });
 
     readonly formPasswordText: Text = new TextImpl({
@@ -142,21 +152,17 @@ export class ApplicationImpl implements Application {
         label: 'Password',
         placeholder: () => 'Password',
         help: () => 'Help me with this text.',
-    });
-
-    readonly formRememberBool: Bool = new BoolImpl({
-        id: 'ApplicationImpl.formRememberBool',
-        label: 'Remember me',
-        getValue: () => this.showCheckbox,
-        setValue: this.setShowCheckbox,
+        onSave: (bind, done) => this.api.savePassword(bind.value!, bind, done),
     });
 
     readonly formSubmitButton: Action = new ActionImpl({
         id: 'ApplicationImpl.formSubmitButton',
         label: 'Log in',
-        fire: () => {
-            alert('You will be logged in, soon...');
-        },
+        fire: () => {},
+    });
+    readonly testForm: Form = new FormImpl({
+        id: 'ApplicationImpl.testForm',
+        values: [this.formUserText, this.formPasswordText],
     });
 
     readonly testTable: Table<any> = new TableImpl<any>({
@@ -200,7 +206,7 @@ export class ApplicationImpl implements Application {
         placeholder: () => 'Select a time',
     });
 
-    constructor() {
+    constructor(private readonly api: ApplicationAPI = new ApplicationMethods()) {
         this.showCheckbox = false;
 
         this.manyChoices = [];

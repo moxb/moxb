@@ -10,6 +10,7 @@ import {
     Table,
     Date,
     Time,
+    Form,
 } from '../../packages/moxb/build/index';
 
 export interface Application {
@@ -29,8 +30,13 @@ export interface Application {
     readonly testNumeric: Numeric;
     readonly formUserText: Text;
     readonly formPasswordText: Text;
-    readonly formRememberBool: Bool;
     readonly formSubmitButton: Action;
     readonly testOfOne: OneOf;
     readonly testTable: Table<any>;
+    readonly testForm: Form;
+}
+
+export interface ApplicationAPI {
+    saveName(name: string, bind: any, done: Function): void;
+    savePassword(password: string, bind: any, done: Function): void;
 }

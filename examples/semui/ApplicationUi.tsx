@@ -16,6 +16,7 @@ import { inject, observer } from 'mobx-react';
 import { Application } from '../store/Application';
 import { Container, Dropdown, Form } from 'semantic-ui-react';
 import { toJSON } from '@moxb/moxb';
+import { LoginForm } from './form/LoginForm';
 import { MemTableUi } from './memtable/MemTableUi';
 
 // helper function to print recursive mobx trees
@@ -99,9 +100,17 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <h3>Table Component</h3>
                     <MemTableUi />
                     <br />
-
-                    <div id="spacer" style={{ paddingBottom: '100px' }} />
                 </Form>
+                <br />
+                <section>
+                    <h3>Login Form</h3>
+                    <p>
+                        Test login is <strong>username:</strong> demo, <strong>password:</strong> demo <br />
+                        Other inputs test the error validation.
+                    </p>
+                    <LoginForm />
+                </section>
+                <div id="spacer" style={{ paddingBottom: '100px' }} />
             </Container>
         );
     }
