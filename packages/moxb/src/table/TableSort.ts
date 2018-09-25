@@ -24,4 +24,11 @@ export interface TableSort {
      * @param sortColumn
      */
     setSort(column: string, sortDirection: SortDirection): void;
+
+    /**
+     * Sorts the data and returns a new sorted array unless <code>inline===true</code>
+     * @param data
+     * @param inline optional parameter to sort data directly and not returning a copy
+     */
+    sortData<T>(data: T[], inline?: boolean): T[];
 }

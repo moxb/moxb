@@ -161,7 +161,7 @@ export class ApplicationImpl implements Application {
 
     readonly testTable: Table<any> = new TableImpl<any>({
         id: 'table',
-        data: () => this.data,
+        data: tab => tab.sort.sortData(this.data),
         columns: bind => [
             new TableColumnImpl(
                 {

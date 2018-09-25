@@ -24,4 +24,24 @@ export class TableSortImpl implements TableSort {
         const sort = { column, sortDirection };
         this.sort = [sort, ...this.sort.filter(c => c.column !== sort.column)];
     }
+
+    sortData<T>(data: T[], inline?: boolean): T[] {
+        const sortData: any[] = inline ? data : data.slice();
+        sortData.sort((a: any, b: any) => {
+            for (let i = 0; i < this.sort.length; i++) {
+                const order = this.sort[i];
+                const mul = order.sortDirection === 'descending' ? 1 : -1;
+                const x = a[order.column];
+                const y = b[order.column];
+                if (x < y) {
+                    return mul;
+                }
+                if (x > y) {
+                    return -mul;
+                }
+            }
+            return 0;
+        });
+        return sortData;
+    }
 }

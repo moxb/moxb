@@ -11,6 +11,7 @@ export * from './one-of/OneOfImpl';
 export * from './table/TableColumnImpl';
 export * from './table/TablePaginationImpl';
 export * from './table/TableSearchImpl';
+export * from './table/TableSortImpl';
 export * from './table/TableImpl';
 export * from './text/TextImpl';
 export * from './value/ValueImpl';

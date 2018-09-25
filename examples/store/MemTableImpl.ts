@@ -84,26 +84,6 @@ function createData(n: number): MemTableData[] {
     return result;
 }
 
-function sort(data: any[], sortOrder: moxb.SortColumn[]) {
-    if (sortOrder.length) {
-        data.sort((a, b) => {
-            for (let i = 0; i < sortOrder.length; i++) {
-                const order = sortOrder[i];
-                const mul = order.sortDirection === 'descending' ? 1 : -1;
-                const x = a[order.column];
-                const y = b[order.column];
-                if (x < y) {
-                    return mul;
-                }
-                if (x > y) {
-                    return -mul;
-                }
-            }
-            return 0;
-        });
-    }
-}
-
 export class MemTableImpl implements MemTable {
     readonly rows: moxb.Numeric = new moxb.NumericImpl({
         id: 'memtable.rows',
@@ -153,8 +133,7 @@ export class MemTableImpl implements MemTable {
     });
     @computed
     get data() {
-        const data = [...this.filteredData];
-        sort(data, this.table.sort.sort);
+        const data: MemTableData[] = this.table.sort.sortData(this.filteredData);
         return this.getCurrentPage(data);
     }
     private get filteredData() {
