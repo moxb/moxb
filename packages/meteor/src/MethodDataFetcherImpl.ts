@@ -79,13 +79,13 @@ export abstract class MethodDataFetcherImpl<Q, D extends Object> implements Mete
             throw new Error('setDataFetcher can only be called once');
         }
         this.dataFetcherFunction = func;
-        onBecomeObserved(this, '_data', () => {
-            console.log('observing=', this.constructor.name);
+        onBecomeObserved(this, '_dataReady', () => {
+            console.log('observing _dataReady=', this.constructor.name);
             // it's important to get the autorunDisposer here...
             this.autorunDisposer = autorun(() => this.runDataFetcherFunction());
         });
-        onBecomeUnobserved(this, '_data', () => {
-            console.log('un-observing=', this.constructor.name);
+        onBecomeUnobserved(this, '_dataReady', () => {
+            console.log('un-observing _dataReady=', this.constructor.name);
             this.clearAllData();
             // we stop the auto update, since nobody is listening....
             this.autorunDisposer();

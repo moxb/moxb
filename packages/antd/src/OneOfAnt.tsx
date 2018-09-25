@@ -15,7 +15,7 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps> 
             return null;
         }
         return (
-            <Radio.Group onChange={(selectionValue: any) => operation.setValue(selectionValue)} {...props}>
+            <Radio.Group onChange={e => operation.setValue(e.target.value)} {...props}>
                 {operation.choices.map(opt => (
                     <Radio key={opt.value} value={opt.value} checked={opt.value === operation.value}>
                         {opt.label}
@@ -51,8 +51,7 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
         return (
             <Select
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
-                defaultValue={operation.value}
-                value={value}
+                value={this.props.operation.value || ''}
                 placeholder={placeholder}
                 mode="default"
                 {...props}
@@ -70,12 +69,19 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
 @observer
 export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & FormItemProps> {
     render() {
-        const { operation, label, invisible } = parseProps(this.props, this.props.operation);
+        const { operation, label, invisible, labelCol, wrapperCol, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         return (
-            <Form.Item label={labelWithHelp(label != null ? label : operation.label, operation.help)}>
+            <Form.Item
+                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
+                labelCol={labelCol}
+                wrapperCol={wrapperCol}
+            >
                 <OneOfSelectAnt operation={operation} />
             </Form.Item>
         );

@@ -54,7 +54,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                         style={{ marginBottom: '1.5em' }}
                         enterButton={moxb.t('Table.Search.title', 'Search')}
                         operation={table.search.searchField}
-                        onPressEnter={() => table.search!.searchAction.fire()}
+                        onSearch={() => table.search!.searchAction.fire()}
                     />
                 )}
                 <Table
