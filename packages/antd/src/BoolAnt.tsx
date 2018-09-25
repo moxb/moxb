@@ -32,8 +32,13 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
 @observer
 export class BoolFormAnt extends React.Component<BindAntProps<Bool> & FormItemProps & CheckboxProps> {
     render() {
+        const { operation, ...props } = parseProps(this.props, this.props.operation);
         return (
-            <Form.Item>
+            <Form.Item
+                hasFeedback={operation.error != null}
+                validateStatus={operation.error != null ? 'error' : undefined}
+                {...props as any}
+            >
                 <BoolAnt operation={this.props.operation} />
             </Form.Item>
         );
