@@ -19,3 +19,4 @@ export * from './validation/ErrorMessage';
 export * from './validation/SimpleSchemaValidation';
 export * from './wizard/Wizard';
 export * from './wizard/WizardStep';
+export * from './form/Form';
