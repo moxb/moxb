@@ -152,6 +152,11 @@ export class ApplicationImpl implements Application {
         label: 'Password',
         placeholder: () => 'Password',
         help: () => 'Help me with this text.',
+        onExitField: bind => {
+            if (bind.value !== '' && bind.value!.length < 7) {
+                bind.setError(t('ApplicationImpl.login.password', 'Password must have at least 6 characters.'));
+            }
+        },
         onSave: (bind, done) => this.api.savePassword(bind.value!, bind, done),
     });
 

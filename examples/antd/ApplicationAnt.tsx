@@ -20,6 +20,7 @@ import { Col, Form, Icon, Layout, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Application } from '../store/Application';
+import { LoginForm } from './form/LoginForm';
 import { MemTableAnt } from './memtable/MemTableAnt';
 // import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
@@ -128,16 +129,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <br />
                                     <section>
                                         <h3>Login Form</h3>
-                                        <TextFormAnt
-                                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} /> as any}
-                                            operation={application.formUserText}
-                                        />
-                                        <TextFormAnt
-                                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} /> as any}
-                                            operation={application.formPasswordText}
-                                        />
-                                        <BoolFormAnt operation={application.formRememberBool} />
-                                        <ActionButtonAnt type="primary" operation={application.formSubmitButton} />
+                                        <LoginForm />
                                     </section>
                                     <br />
                                     <hr />
