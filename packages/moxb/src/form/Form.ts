@@ -1,4 +1,6 @@
-export interface Form {
+import { Bind } from '..';
+
+export interface Form extends Bind {
     /**
      * Is it currently possible to submit the form?
      */

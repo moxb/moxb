@@ -2,18 +2,21 @@ import { MeteorCallback } from '../../packages/meteor/src';
 import { ApplicationAPI } from './Application';
 
 export class ApplicationMethods implements ApplicationAPI {
-    saveName(name: string, bind: any, done: MeteorCallback<void>) {
+    saveName(name: string, done: MeteorCallback<void>) {
         if (name !== 'demo') {
-            bind.setError('Username not correct');
-        } else {
-            console.log('Username correct!!!');
+            setTimeout(() => done(new Error('Username not correct')), 500);
         }
     }
-    savePassword(password: string, bind: any, done: MeteorCallback<void>) {
+    savePassword(password: string, done: MeteorCallback<void>) {
         if (password !== 'demo') {
-            bind.setError('Password not correct');
+            setTimeout(() => done(new Error('Password not correct')), 500);
+        }
+    }
+    submitLogin(name: string, password: string, done: MeteorCallback<void>) {
+        if (name === 'demo' && password === 'demo') {
+            setTimeout(() => done(alert(`You successfully logged in with ${name} ${password}`)), 500);
         } else {
-            console.log('Password correct!!!');
+            setTimeout(() => done(new Error('Login failed! Username or password incorrect!')), 500);
         }
     }
 }

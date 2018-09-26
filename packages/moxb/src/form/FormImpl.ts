@@ -1,16 +1,29 @@
 import { computed, action } from 'mobx';
-import { BindOptions, Value, t } from '..';
+import { Value, t, extractErrorString } from '..';
 import { Form } from './Form';
+import { BindImpl, BindOptions } from '../bind/BindImpl';
 
 export interface FormOptions extends BindOptions {
+    /**
+     *
+     */
     readonly values: Value<any>[];
+    /**
+     * Is called when Form.onSubmit is called
+     * `done` must be called else the binding stays in saving state.
+     *
+     * @param {value<T>} value
+     * @param {(error: any) => void} done
+     */
+    onSubmit?(value: any, done: (error?: any) => void): void;
 }
 
-export class FormImpl implements Form {
-    readonly impl: FormOptions;
-
+export class FormImpl extends BindImpl<FormOptions> implements Form {
     constructor(impl: FormOptions) {
-        this.impl = impl;
+        super(impl);
+        if (this.impl.values.length === 0) {
+            throw new Error('The form implementation must have defined children components.');
+        }
     }
 
     @computed
@@ -40,8 +53,19 @@ export class FormImpl implements Form {
     @action.bound
     onSubmitForm() {
         if (this.impl.values) {
-            console.log('onSubmitForm');
             this.impl.values.forEach(v => v.save());
+        }
+        if (this.impl.onSubmit) {
+            this.impl.onSubmit(this as any, this.submitDone);
+        }
+    }
+
+    @action.bound
+    private submitDone(error: any) {
+        if (error) {
+            this.setError(extractErrorString(error));
+        } else {
+            this.clearErrors();
         }
     }
 

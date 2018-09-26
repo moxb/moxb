@@ -129,6 +129,11 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <br />
                                     <section>
                                         <h3>Login Form</h3>
+                                        <p>
+                                            Test login is <strong>username:</strong> demo, <strong>password:</strong>{' '}
+                                            demo <br />
+                                            Other inputs test the error validation.
+                                        </p>
                                         <LoginForm />
                                     </section>
                                     <br />

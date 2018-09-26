@@ -20,3 +20,4 @@ export * from './validation/SimpleSchemaValidation';
 export * from './wizard/Wizard';
 export * from './wizard/WizardStep';
 export * from './form/Form';
+// export * from './error/Error';

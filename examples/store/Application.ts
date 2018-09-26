@@ -37,6 +37,7 @@ export interface Application {
 }
 
 export interface ApplicationAPI {
-    saveName(name: string, bind: any, done: Function): void;
-    savePassword(password: string, bind: any, done: Function): void;
+    saveName(name: string, done: Function): void;
+    savePassword(password: string, done: Function): void;
+    submitLogin(name: string, password: string, done: Function): void;
 }
