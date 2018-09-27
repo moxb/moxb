@@ -14,7 +14,7 @@ export interface Form extends Bind {
     /**
      * Contains the list of tracked errors by the children components
      */
-    errors: string[];
+    allErrors: string[];
 
     /**
      * The form submits and triggers in all components the save method, which also could cause errors from server methods.
@@ -24,5 +24,5 @@ export interface Form extends Bind {
     /**
      * Clear all validation errors from the children components
      */
-    clearErrors(): void;
+    clearAllErrors(): void;
 }

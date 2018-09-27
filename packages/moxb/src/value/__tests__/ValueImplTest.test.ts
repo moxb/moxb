@@ -593,7 +593,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                 bind.setValue('new Value');
                 bind.setError('some error');
                 bind.setValue('other Value');
-                expect(bind.error).toBeUndefined();
+                expect(bind.errors).toEqual([]);
             });
             it('should not clear error when value is unchanged', function() {
                 const bind: Value<string> = bindStringValue({
@@ -602,7 +602,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                 bind.setValue('new Value');
                 bind.setError('some error');
                 bind.setValue('new Value');
-                expect(bind.error).not.toBeUndefined();
+                expect(bind.errors).toEqual(['some error']);
             });
             it('should not clear error when setValue method is provided', function() {
                 let value: any;
@@ -614,7 +614,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                 bind.setValue('new Value');
                 bind.setError('some error');
                 bind.setValue('other Value');
-                expect(bind.error).not.toBeUndefined();
+                expect(bind.errors).toEqual(['some error']);
             });
         });
 
@@ -760,7 +760,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     });
                     bind.setValue('hello');
                     bind.save();
-                    expect(bind.error).toMatch(/some error/);
+                    expect(bind.errors).toContain('some error');
                 });
                 it('should clear error on save success', function() {
                     const onSave = jest.fn().mockImplementation(function(arg: any, done: any) {
@@ -773,7 +773,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     bind.setValue('hello');
                     bind.setError('some error');
                     bind.save();
-                    expect(bind.error).toBeUndefined();
+                    expect(bind.errors).toEqual([]);
                 });
             });
 

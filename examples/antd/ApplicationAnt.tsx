@@ -34,7 +34,6 @@ import { MemTableAnt } from './memtable/MemTableAnt';
 export class ApplicationAnt extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app!;
-        console.log('application.testDate', application.testDate);
         return (
             <Layout>
                 <Layout.Content>

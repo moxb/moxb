@@ -136,7 +136,7 @@ export abstract class ValueImpl<B, T, Options extends ValueOptions<B, T>> extend
                 const hasChanged = this._value !== value;
                 this._value = value;
                 if (hasChanged) {
-                    this.clearError();
+                    this.clearErrors();
                 }
             }
         } else {
@@ -177,7 +177,7 @@ export abstract class ValueImpl<B, T, Options extends ValueOptions<B, T>> extend
         if (error) {
             this.setError(extractErrorString(error));
         } else {
-            this.clearError();
+            this.clearErrors();
         }
         this._isSaving = false;
     }

@@ -35,9 +35,16 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
     }
 
     @computed
-    get errors(): string[] {
+    get allErrors(): string[] {
         if (this.impl.values) {
-            return this.impl.values.filter(v => !!v.error).map(v => v.label + ': ' + t(v.error!, v.error!));
+            const valuesWithErrors = this.impl.values.filter(v => !!v.errors);
+            const allErrors: string[] = [];
+            valuesWithErrors.forEach(v => {
+                v.errors!.forEach(error => {
+                    allErrors.push(v.label + ': ' + t(error, error));
+                });
+            });
+            return allErrors;
         }
         return [];
     }
@@ -45,7 +52,7 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
     @computed
     get hasErrors() {
         if (this.impl.values) {
-            return !!this.impl.values.find(v => !!v.error);
+            return !!this.impl.values.find(v => v.errors!.length > 0);
         }
         return false;
     }
@@ -70,9 +77,9 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
     }
 
     @action.bound
-    clearErrors() {
+    clearAllErrors() {
         if (this.impl.values) {
-            this.impl.values.forEach(v => v.clearError());
+            this.impl.values.forEach(v => v.clearErrors());
         }
     }
 }

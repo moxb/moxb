@@ -21,9 +21,9 @@ export class FormUi extends React.Component<FormProps & BindFormUiProps> {
                     negative
                 >
                     <Message.Header>
-                        {t('FormUi.errors.header', 'Errors', { count: operation.errors.length })}
+                        {t('FormUi.errors.header', 'Errors', { count: operation.allErrors.length })}
                     </Message.Header>
-                    <Message.List items={operation.errors} />
+                    <Message.List items={operation.allErrors} />
                 </Message>
             </Form>
         );

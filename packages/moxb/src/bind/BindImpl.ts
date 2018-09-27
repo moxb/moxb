@@ -61,9 +61,9 @@ export interface BindOptions {
      */
     help?: StringOrFunction;
 
-    getError?(): string | undefined | null;
+    getErrors?(): string[] | undefined;
     setError?(error: string | undefined | null): void;
-    clearError?(): void;
+    clearErrors?(): void;
     validateField?(): void;
 }
 
@@ -72,14 +72,15 @@ export class BindImpl<Options extends BindOptions> implements Bind {
     readonly domId: string;
     protected readonly impl: Options;
     @observable
-    _error?: string | undefined | null;
+    _errors?: string[] | undefined | null;
 
     constructor(impl: Options) {
-        // tslint commplains about Object.assign and typescript can not spread interfaces:
+        // tslint complains about Object.assign and typescript can not spread interfaces:
         //   TS2698: Spread types may only be created from object types.
         // tslint:disable-next-line prefer-object-spread
         this.impl = bindAllTo(this, Object.assign({}, impl));
         this.id = impl.id;
+        this._errors = [];
         if (!this.id.match(/^\w[\w\d.]*$/)) {
             throw new Error(`'${this.id}' is not a valid id!`);
         }
@@ -161,34 +162,34 @@ export class BindImpl<Options extends BindOptions> implements Bind {
     }
 
     @computed
-    get error() {
-        return this.getError();
+    get errors() {
+        return this.getErrors();
     }
     setError(error: string | undefined | null) {
         if (this.impl.setError) {
             this.impl.setError(error);
         } else {
-            this._error = error;
+            this._errors!.push(error!);
         }
     }
-    protected getError() {
-        if (this.impl.getError) {
-            return this.impl.getError();
+    protected getErrors() {
+        if (this.impl.getErrors) {
+            return this.impl.getErrors();
         } else {
-            return this._error;
+            return this._errors;
         }
     }
 
     @action.bound
-    clearError() {
-        this.doClearError();
+    clearErrors() {
+        this.doClearErrors();
     }
 
-    protected doClearError() {
-        if (this.impl.clearError) {
-            this.impl.clearError();
+    protected doClearErrors() {
+        if (this.impl.clearErrors) {
+            this.impl.clearErrors();
         }
-        this._error = undefined;
+        this._errors = [];
     }
 
     @action.bound
