@@ -58,8 +58,8 @@ export class ActionFormButtonAnt extends React.Component<ActionFormButtonAntProp
                 style={formStyle || undefined}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
-                hasFeedback={operation.error != null}
-                validateStatus={operation.error != null ? 'error' : undefined}
+                hasFeedback={operation.errors != null}
+                validateStatus={operation.errors != null ? 'error' : undefined}
             >
                 <ActionButtonAnt operation={this.props.operation} htmlType="submit" {...props as any} />
             </FormItem>

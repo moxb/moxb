@@ -35,8 +35,8 @@ export class BoolFormAnt extends React.Component<BindAntProps<Bool> & FormItemPr
         const { operation, ...props } = parseProps(this.props, this.props.operation);
         return (
             <Form.Item
-                hasFeedback={operation.error != null}
-                validateStatus={operation.error != null ? 'error' : undefined}
+                hasFeedback={operation.errors != null}
+                validateStatus={operation.errors != null ? 'error' : undefined}
                 {...props as any}
             >
                 <BoolAnt operation={this.props.operation} />

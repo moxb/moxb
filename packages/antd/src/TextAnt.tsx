@@ -116,8 +116,8 @@ export class TextFormAnt extends React.Component<FormItemProps & BindStringAntPr
                 style={formStyle || undefined}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
-                hasFeedback={operation.error != null}
-                validateStatus={operation.error != null ? 'error' : undefined}
+                hasFeedback={operation.errors != null}
+                validateStatus={operation.errors != null ? 'error' : undefined}
             >
                 <TextAnt operation={operation} prefix={prefix} onPressEnter={onPressEnter} {...props as any} />
             </Form.Item>

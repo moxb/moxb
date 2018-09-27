@@ -40,8 +40,8 @@ export class NumericFormAnt extends React.Component<BindAntProps<Numeric> & Inpu
         return (
             <Form.Item
                 label={labelWithHelp(label != null ? label : operation.label, operation.help)}
-                hasFeedback={operation.error != null}
-                validateStatus={operation.error != null ? 'error' : undefined}
+                hasFeedback={operation.errors != null}
+                validateStatus={operation.errors != null ? 'error' : undefined}
             >
                 <NumericAnt operation={operation} prefix={prefix} />
             </Form.Item>

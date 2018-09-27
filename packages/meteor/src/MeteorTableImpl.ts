@@ -70,6 +70,6 @@ export class MeteorTableImpl<T> extends TableImpl<T> {
             const error = extractErrorString(this.tableFetcher.data.error);
             return t(toId(this.id + '.serverError.' + error), error);
         }
-        return super.getError();
+        return super.getErrors();
     }
 }
