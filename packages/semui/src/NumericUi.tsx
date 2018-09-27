@@ -1,32 +1,62 @@
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Form, FormInputProps } from 'semantic-ui-react';
-import { BindUiProps, parseProps } from './BindUi';
-import { Numeric } from '@moxb/moxb';
+import { Form, FormInputProps, Input, Message } from 'semantic-ui-react';
+import { parseProps, labelWithHelp } from './BindUi';
+import { Numeric, t } from '@moxb/moxb';
+
+export interface BindNumericUiProps extends React.HTMLProps<HTMLFormElement> {
+    operation: Numeric;
+    help?: string;
+    showErrors?: boolean;
+}
 
 @observer
-export class NumericUi extends React.Component<BindUiProps<Numeric> & FormInputProps> {
+export class NumericUi extends React.Component<FormInputProps & BindNumericUiProps> {
     render() {
-        const { operation, id, label, invisible, children, width, size, ...props } = parseProps(this.props);
+        const { operation, id, label, invisible, required, hideErrors, width, size, ...props } = parseProps(this.props);
         if (invisible) {
             return null;
         }
         return (
-            <Form.Input
+            <Form.Field
                 id={id}
-                type={operation.inputType || this.props.type || 'number'}
-                error={operation.error != null}
-                step={operation.step}
-                min={operation.min}
-                max={operation.max}
-                value={operation.value}
-                label={children || label}
-                size={size as any}
+                error={operation.errors!.length > 0}
                 width={width as any}
-                placeholder="Interval"
-                onChange={e => operation.setValue(parseInt((e.target as any).value))}
-                {...props}
-            />
+                size={size as any}
+                required={required}
+            >
+                <label htmlFor={id + '_in'}>
+                    {labelWithHelp(label != null ? label : operation.label, operation.help)}
+                </label>
+
+                <Input
+                    id={id + '_in'}
+                    type={operation.inputType || this.props.type || 'number'}
+                    placeholder="Interval"
+                    value={operation.value}
+                    min={operation.min}
+                    max={operation.max}
+                    step={operation.step}
+                    onChange={e => operation.setValue(parseInt((e.target as any).value))}
+                    onFocus={operation.onEnterField}
+                    onBlur={operation.onExitField}
+                    {...props as any}
+                />
+
+                {!hideErrors && (
+                    <Message
+                        onDismiss={operation.errors!.length > 0 ? operation.clearErrors : undefined}
+                        hidden={!(operation.errors!.length > 0)}
+                        negative
+                    >
+                        <Message.Header>
+                            {t('NumericUi.errors.header', 'Errors', { count: operation.errors!.length })}
+                        </Message.Header>
+                        <Message.List items={toJS(operation.errors!)} />
+                    </Message>
+                )}
+            </Form.Field>
         );
     }
 }

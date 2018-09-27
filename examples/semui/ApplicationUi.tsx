@@ -16,7 +16,7 @@ import { inject, observer } from 'mobx-react';
 import { Application } from '../store/Application';
 import { Container, Dropdown, Form } from 'semantic-ui-react';
 import { toJSON } from '@moxb/moxb';
-import { LoginForm } from './form/LoginForm';
+import { LoginFormUi } from './form/LoginFormUi';
 import { MemTableUi } from './memtable/MemTableUi';
 
 // helper function to print recursive mobx trees
@@ -74,15 +74,15 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <h3>ModalUi Component</h3>
                     <ActionFormButtonUi size="tiny" color="green" operation={application!.newModalAction()} />
                     <ModalUi modal={application!.testModal}>
-                        <TextUi fluid operation={application!.testText} />
+                        <TextUi operation={application!.testText} />
                     </ModalUi>
                     <br />
 
                     <h3>TextUi - Input Component</h3>
-                    <TextUi fluid operation={application!.testTextfield} />
+                    <TextUi operation={application!.testTextfield} />
 
                     <h3>TextUi - Textarea Component</h3>
-                    <TextUi fluid operation={application!.testTextarea} />
+                    <TextUi operation={application!.testTextarea} />
                     <br />
 
                     <h3>NumericUi Component</h3>
@@ -108,7 +108,7 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                         Test login is <strong>username:</strong> demo, <strong>password:</strong> demo <br />
                         Other inputs test the error validation.
                     </p>
-                    <LoginForm />
+                    <LoginFormUi />
                 </section>
                 <div id="spacer" style={{ paddingBottom: '100px' }} />
             </Container>

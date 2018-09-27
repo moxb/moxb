@@ -80,14 +80,14 @@ export class ApplicationImpl implements Application {
     readonly testTextfield: Text = new TextImpl({
         id: 'ApplicationImpl.textfield',
         initialValue: () => '',
-        label: 'Textfield',
-        inputType: 'text',
+        label: 'Textinput',
+        control: 'input',
     });
 
     readonly testTextarea: Text = new TextImpl({
         id: 'ApplicationImpl.textarea',
         initialValue: () => '',
-        inputType: 'textarea',
+        control: 'textarea',
         label: 'Textarea',
     });
 
@@ -96,6 +96,11 @@ export class ApplicationImpl implements Application {
         onlyInteger: true,
         initialValue: 999,
         label: 'Only numbers',
+        onExitField: bind => {
+            if (bind.value! < 900) {
+                bind.setError(t('ApplicationImpl.numeric.error', 'The number must be greater than 900!'));
+            }
+        },
     });
 
     readonly testOfOne = new OneOfImpl({
