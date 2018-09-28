@@ -14,6 +14,7 @@ export interface Bind {
     readonly readOnly?: boolean; // if false just display the value
     readonly help?: string;
     readonly errors?: string[] | undefined | null;
+    readonly hasErrors?: boolean;
 
     setError(error: string | undefined | null): void;
     clearErrors(): void;

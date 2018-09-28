@@ -422,6 +422,7 @@ describe('interface Bind', function() {
             });
             expect(bind.domId).toBe('test');
             expect(bind.errors).toEqual([]);
+            expect(bind.hasErrors).toEqual(false);
         });
         it('should not be translated', function() {
             const bind: Bind = newBind({
@@ -429,6 +430,7 @@ describe('interface Bind', function() {
                 getErrors: jest.fn().mockReturnValue(['The Error']),
             });
             expect(bind.errors).toEqual(['The Error']);
+            expect(bind.hasErrors).toEqual(true);
         });
 
         it('should have the BindImpl as `this`', function() {
@@ -477,6 +479,7 @@ describe('interface Bind', function() {
             bind.setError('foo');
             bind.setError('bar');
             expect(bind.errors).toEqual(['foo', 'bar']);
+            expect(bind.hasErrors).toEqual(true);
         });
     });
 
@@ -501,6 +504,7 @@ describe('interface Bind', function() {
             bind.setError('something is wrong');
             bind.clearErrors();
             expect(bind.errors).toEqual([]);
+            expect(bind.hasErrors).toEqual(false);
         });
 
         it('should have the BindImpl as `this`', function() {

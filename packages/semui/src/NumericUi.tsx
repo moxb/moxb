@@ -21,7 +21,7 @@ export class NumericUi extends React.Component<FormInputProps & BindNumericUiPro
         return (
             <Form.Field
                 id={id}
-                error={operation.errors!.length > 0}
+                error={operation.hasErrors}
                 width={width as any}
                 size={size as any}
                 required={operation.required}
@@ -46,8 +46,8 @@ export class NumericUi extends React.Component<FormInputProps & BindNumericUiPro
 
                 {!hideErrors && (
                     <Message
-                        onDismiss={operation.errors!.length > 0 ? operation.clearErrors : undefined}
-                        hidden={!(operation.errors!.length > 0)}
+                        onDismiss={operation.hasErrors ? operation.clearErrors : undefined}
+                        hidden={!operation.hasErrors}
                         negative
                     >
                         <Message.Header>

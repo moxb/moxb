@@ -25,7 +25,7 @@ export class TextUi extends React.Component<FormInputProps & BindStringUiProps> 
         return (
             <Form.Field
                 id={id}
-                error={operation.errors!.length > 0}
+                error={operation.hasErrors}
                 width={width as any}
                 size={size as any}
                 required={operation.required}
@@ -61,8 +61,8 @@ export class TextUi extends React.Component<FormInputProps & BindStringUiProps> 
 
                 {!hideErrors && (
                     <Message
-                        onDismiss={operation.errors!.length > 0 ? operation.clearErrors : undefined}
-                        hidden={!(operation.errors!.length > 0)}
+                        onDismiss={operation.hasErrors ? operation.clearErrors : undefined}
+                        hidden={!operation.hasErrors}
                         negative
                     >
                         <Message.Header>

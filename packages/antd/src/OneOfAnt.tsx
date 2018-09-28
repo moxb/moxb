@@ -37,9 +37,9 @@ export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioPro
             <Form.Item
                 label={labelWithHelp(label != null ? label : operation.label, operation.help)}
                 required={operation.required}
-                hasFeedback={operation.errors!.length > 0}
-                validateStatus={operation.errors!.length > 0 ? 'error' : undefined}
-                help={operation.errors!.length > 0 ? getErrorMessages(operation.errors!) : null}
+                hasFeedback={operation.hasErrors}
+                validateStatus={operation.hasErrors ? 'error' : undefined}
+                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
             >
                 <OneOfAnt operation={operation} />
             </Form.Item>
@@ -88,9 +88,9 @@ export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & Ra
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
                 required={operation.required}
-                hasFeedback={operation.errors!.length > 0}
-                validateStatus={operation.errors!.length > 0 ? 'error' : undefined}
-                help={operation.errors!.length > 0 ? getErrorMessages(operation.errors!) : null}
+                hasFeedback={operation.hasErrors}
+                validateStatus={operation.hasErrors ? 'error' : undefined}
+                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
             >
                 <OneOfSelectAnt operation={operation} />
             </Form.Item>

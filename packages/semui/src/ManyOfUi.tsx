@@ -16,7 +16,7 @@ export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & FormFieldPro
         // make sure the value is not a mobx object...
         const value = toJS(operation.value);
         return (
-            <Form.Field id={id} error={operation.errors!.length > 0} required={operation.required}>
+            <Form.Field id={id} error={operation.hasErrors} required={operation.required}>
                 <label htmlFor={id + '_in'}>
                     {labelWithHelp(label != null ? label : operation.label, operation.help)}
                 </label>
@@ -33,8 +33,8 @@ export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & FormFieldPro
 
                 {!hideErrors && (
                     <Message
-                        onDismiss={operation.errors!.length > 0 ? operation.clearErrors : undefined}
-                        hidden={!(operation.errors!.length > 0)}
+                        onDismiss={operation.hasErrors ? operation.clearErrors : undefined}
+                        hidden={!operation.hasErrors}
                         negative
                     >
                         <Message.Header>

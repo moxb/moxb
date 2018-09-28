@@ -165,6 +165,12 @@ export class BindImpl<Options extends BindOptions> implements Bind {
     get errors() {
         return this.getErrors();
     }
+
+    @computed
+    get hasErrors() {
+        return this.errors!.length > 0;
+    }
+
     setError(error: string | undefined | null) {
         if (this.impl.setError) {
             this.impl.setError(error);

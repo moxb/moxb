@@ -14,7 +14,7 @@ export class OneOfUi extends React.Component<BindUiProps<OneOf> & FormRadioProps
             return null;
         }
         return (
-            <Form.Field id={id} error={operation.errors!.length > 0} required={operation.required}>
+            <Form.Field id={id} error={operation.hasErrors} required={operation.required}>
                 <label htmlFor={id + '_in'}>
                     {labelWithHelp(label != null ? label : operation.label, operation.help)}
                 </label>
@@ -36,8 +36,8 @@ export class OneOfUi extends React.Component<BindUiProps<OneOf> & FormRadioProps
 
                 {!hideErrors && (
                     <Message
-                        onDismiss={operation.errors!.length > 0 ? operation.clearErrors : undefined}
-                        hidden={!(operation.errors!.length > 0)}
+                        onDismiss={operation.hasErrors ? operation.clearErrors : undefined}
+                        hidden={!operation.hasErrors}
                         negative
                     >
                         <Message.Header>
@@ -60,7 +60,7 @@ export class OneOfSelectUi extends React.Component<BindUiProps<OneOf> & FormFiel
         }
         const options = operation.choices.map(c => ({ text: c.label, value: c.value }));
         return (
-            <Form.Field id={id} error={operation.errors!.length > 0} required={required}>
+            <Form.Field id={id} error={operation.hasErrors} required={required}>
                 <label htmlFor={id + '_in'}>
                     {labelWithHelp(label != null ? label : operation.label, operation.help)}
                 </label>
@@ -77,8 +77,8 @@ export class OneOfSelectUi extends React.Component<BindUiProps<OneOf> & FormFiel
 
                 {!hideErrors && (
                     <Message
-                        onDismiss={operation.errors!.length > 0 ? operation.clearErrors : undefined}
-                        hidden={!(operation.errors!.length > 0)}
+                        onDismiss={operation.hasErrors ? operation.clearErrors : undefined}
+                        hidden={!operation.hasErrors}
                         negative
                     >
                         <Message.Header>

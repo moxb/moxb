@@ -34,10 +34,10 @@ ShallowWrapper {
             "isPendingUnobservation": false,
             "lastAccessedBy": 0,
             "lowestObserverState": 2,
-            "name": "ActionImpl@11.keys",
+            "name": "ActionImpl@12.keys",
             "observers": Set {},
           },
-          "name": "ActionImpl@11",
+          "name": "ActionImpl@12",
           "target": [Circular],
           "values": Map {
             "_errors" => Array [],
@@ -48,6 +48,7 @@ ShallowWrapper {
             "readOnly" => false,
             "help" => undefined,
             "errors" => Array [],
+            "hasErrors" => false,
           },
         },
       }

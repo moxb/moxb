@@ -80,9 +80,9 @@ export class ManyOfFormAnt extends React.Component<BindAntFormProps & SelectProp
                 label={labelWithHelp(label != null ? label : operation.label, operation.help)}
                 style={formStyle || undefined}
                 required={operation.required}
-                hasFeedback={operation.errors!.length > 0}
-                validateStatus={operation.errors!.length > 0 ? 'error' : undefined}
-                help={operation.errors!.length > 0 ? getErrorMessages(operation.errors!) : null}
+                hasFeedback={operation.hasErrors}
+                validateStatus={operation.hasErrors ? 'error' : undefined}
+                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
             >
                 <ManyOfAnt operation={operation} {...props as any} />
             </Form.Item>

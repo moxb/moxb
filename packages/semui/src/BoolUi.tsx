@@ -15,7 +15,7 @@ export class BoolUi extends React.Component<{ operation: Bool } & FormCheckboxPr
         // a null value renders the checkbox in intermediate state!
         const indeterminate = operation.value == null;
         return (
-            <Form.Field id={id} error={operation.errors!.length > 0} required={operation.required}>
+            <Form.Field id={id} error={operation.hasErrors} required={operation.required}>
                 <label htmlFor={id + '_in'}>
                     {labelWithHelp(label != null ? label : operation.label, operation.help)}
                 </label>
@@ -32,8 +32,8 @@ export class BoolUi extends React.Component<{ operation: Bool } & FormCheckboxPr
 
                 {!hideErrors && (
                     <Message
-                        onDismiss={operation.errors!.length > 0 ? operation.clearErrors : undefined}
-                        hidden={!(operation.errors!.length > 0)}
+                        onDismiss={operation.hasErrors ? operation.clearErrors : undefined}
+                        hidden={!operation.hasErrors}
                         negative
                     >
                         <Message.Header>
