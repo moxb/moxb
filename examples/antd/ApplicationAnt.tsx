@@ -1,22 +1,21 @@
 import {
     ActionButtonAnt,
     BoolAnt,
-    BoolFormAnt,
     ConfirmAnt,
     DatePickerAnt,
     ManyOfAnt,
     ManyOfCheckboxAnt,
     ModalAnt,
-    NumericAnt,
     OneOfAnt,
     OneOfSelectAnt,
     TableAnt,
     TextAnt,
     TextFormAnt,
     TimePickerAnt,
+    NumericFormAnt,
 } from '@moxb/antd';
 import { toJSON } from '@moxb/moxb';
-import { Col, Form, Icon, Layout, Row } from 'antd';
+import { Col, Form, Layout, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Application } from '../store/Application';
@@ -90,7 +89,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <br />
                                     <br />
                                     <h3>NumericAnt Component</h3>
-                                    <NumericAnt required operation={application.testNumeric} />
+                                    <NumericFormAnt operation={application.testNumeric} />
                                     <br />
                                     <br />
                                     <h3>ManyOfAnt Component</h3>

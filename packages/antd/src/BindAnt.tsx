@@ -51,3 +51,11 @@ export function labelWithHelp(label: any, help?: string) {
         return label;
     }
 }
+
+export function getErrorMessages(errors: string[]) {
+    return errors.map((err, idx) => (
+        <div key={'err_' + idx} className="ant-form-explain">
+            {err}
+        </div>
+    ));
+}

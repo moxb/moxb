@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Form, InputNumber } from 'antd';
-import { BindAntProps, labelWithHelp, parseProps } from './BindAnt';
+import { BindAntProps, labelWithHelp, parseProps, getErrorMessages } from './BindAnt';
 import { Numeric } from '@moxb/moxb';
 import { InputNumberProps } from 'antd/lib/input-number';
 import { FormItemProps } from 'antd/lib/form/FormItem';
@@ -16,14 +16,16 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
         return (
             <InputNumber
                 id={id}
-                type={operation.inputType || this.props.type || 'number'}
                 step={operation.step}
                 min={operation.min}
                 max={operation.max}
                 value={operation.value}
                 size={size as any}
                 placeholder="Interval"
-                onChange={value => operation.setValue(parseInt(value as string))}
+                onChange={value => {
+                    operation.setValue(parseInt(value as string));
+                    operation.onExitField();
+                }}
                 {...props}
             />
         );
@@ -40,8 +42,10 @@ export class NumericFormAnt extends React.Component<BindAntProps<Numeric> & Inpu
         return (
             <Form.Item
                 label={labelWithHelp(label != null ? label : operation.label, operation.help)}
-                hasFeedback={operation.errors != null}
-                validateStatus={operation.errors != null ? 'error' : undefined}
+                required={operation.required}
+                hasFeedback={operation.errors!.length > 0}
+                validateStatus={operation.errors!.length > 0 ? 'error' : undefined}
+                help={operation.errors!.length > 0 ? getErrorMessages(operation.errors!) : null}
             >
                 <NumericAnt operation={operation} prefix={prefix} />
             </Form.Item>
