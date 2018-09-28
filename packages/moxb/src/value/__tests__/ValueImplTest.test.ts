@@ -806,5 +806,32 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                 });
             });
         });
+        describe('required', function() {
+            it('should create an error onSave, if required is true and no value was insert', function() {
+                const bind: Value<string> = bindStringValue({
+                    id: 'test',
+                    required: true,
+                });
+                bind.save();
+                expect(bind.errors!.length).toBe(1);
+                expect(bind.errors).toContain('[ValueImpl.error.required] This field is required and must be set');
+            });
+            it('should create an error onExitField, if required is true and no value was insert', function() {
+                const bind: Value<string> = bindStringValue({
+                    id: 'test',
+                    required: true,
+                });
+                bind.onExitField();
+                expect(bind.errors!.length).toBe(1);
+                expect(bind.errors).toContain('[ValueImpl.error.required] This field is required and must be set');
+            });
+            it('should not create an error, if required is not defined', function() {
+                const bind: Value<string> = bindStringValue({
+                    id: 'test',
+                });
+                bind.save();
+                expect(bind.errors!.length).toBe(0);
+            });
+        });
     });
 }

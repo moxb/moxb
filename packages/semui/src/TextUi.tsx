@@ -16,19 +16,9 @@ export interface BindStringUiProps extends React.HTMLProps<HTMLFormElement> {
 export class TextUi extends React.Component<FormInputProps & BindStringUiProps> {
     // tslint:disable-next-line:cyclomatic-complexity
     render() {
-        const {
-            operation,
-            id,
-            type,
-            width,
-            value,
-            label,
-            size,
-            invisible,
-            hideErrors,
-            required,
-            ...props
-        } = parseProps(this.props);
+        const { operation, id, type, width, value, label, size, invisible, hideErrors, ...props } = parseProps(
+            this.props
+        );
         if (invisible) {
             return null;
         }
@@ -38,7 +28,7 @@ export class TextUi extends React.Component<FormInputProps & BindStringUiProps> 
                 error={operation.errors!.length > 0}
                 width={width as any}
                 size={size as any}
-                required={required}
+                required={operation.required}
             >
                 <label htmlFor={id + '_in'}>
                     {labelWithHelp(label != null ? label : operation.label, operation.help)}

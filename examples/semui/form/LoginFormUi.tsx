@@ -10,7 +10,7 @@ export class LoginFormUi extends React.Component<{ app?: Application }> {
         const application = this.props.app;
         return (
             <FormUi operation={application!.testForm}>
-                <TextUi required operation={application!.formUserText} />
+                <TextUi operation={application!.formUserText} />
                 <TextUi operation={application!.formPasswordText} />
                 <ActionFormButtonUi type="primary" operation={application!.formSubmitButton} />
             </FormUi>

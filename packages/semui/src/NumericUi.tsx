@@ -14,7 +14,7 @@ export interface BindNumericUiProps extends React.HTMLProps<HTMLFormElement> {
 @observer
 export class NumericUi extends React.Component<FormInputProps & BindNumericUiProps> {
     render() {
-        const { operation, id, label, invisible, required, hideErrors, width, size, ...props } = parseProps(this.props);
+        const { operation, id, label, invisible, hideErrors, width, size, ...props } = parseProps(this.props);
         if (invisible) {
             return null;
         }
@@ -24,7 +24,7 @@ export class NumericUi extends React.Component<FormInputProps & BindNumericUiPro
                 error={operation.errors!.length > 0}
                 width={width as any}
                 size={size as any}
-                required={required}
+                required={operation.required}
             >
                 <label htmlFor={id + '_in'}>
                     {labelWithHelp(label != null ? label : operation.label, operation.help)}

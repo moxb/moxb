@@ -96,6 +96,7 @@ export class ApplicationImpl implements Application {
         onlyInteger: true,
         initialValue: 999,
         label: 'Only numbers',
+        required: true,
         onExitField: bind => {
             if (bind.value! < 900) {
                 bind.setError(t('ApplicationImpl.numeric.error', 'The number must be greater than 900!'));
@@ -142,6 +143,7 @@ export class ApplicationImpl implements Application {
         id: 'ApplicationImpl.formUserText',
         initialValue: () => '',
         label: 'Username',
+        required: true,
         placeholder: () => 'Username',
         onExitField: bind => {
             if (bind.value !== '' && bind.value!.length < 3) {

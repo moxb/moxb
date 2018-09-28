@@ -9,12 +9,12 @@ import { OneOf, t } from '@moxb/moxb';
 @observer
 export class OneOfUi extends React.Component<BindUiProps<OneOf> & FormRadioProps> {
     render() {
-        const { operation, id, label, invisible, hideErrors, type, width, required, ...props } = parseProps(this.props);
+        const { operation, id, label, invisible, hideErrors, type, width, ...props } = parseProps(this.props);
         if (invisible) {
             return null;
         }
         return (
-            <Form.Field id={id} error={operation.errors!.length > 0} required={required}>
+            <Form.Field id={id} error={operation.errors!.length > 0} required={operation.required}>
                 <label htmlFor={id + '_in'}>
                     {labelWithHelp(label != null ? label : operation.label, operation.help)}
                 </label>

@@ -86,7 +86,7 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <br />
 
                     <h3>NumericUi Component</h3>
-                    <NumericUi required operation={application!.testNumeric} />
+                    <NumericUi operation={application!.testNumeric} />
                     <br />
 
                     <h3>OneOf - RadioBox Component</h3>

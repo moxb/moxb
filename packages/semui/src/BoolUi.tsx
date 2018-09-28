@@ -8,14 +8,14 @@ import { Bool, t } from '@moxb/moxb';
 @observer
 export class BoolUi extends React.Component<{ operation: Bool } & FormCheckboxProps> {
     render() {
-        const { operation, id, invisible, children, required, hideErrors, label, ...props } = parseProps(this.props);
+        const { operation, id, invisible, children, hideErrors, label, ...props } = parseProps(this.props);
         if (invisible) {
             return null;
         }
         // a null value renders the checkbox in intermediate state!
         const indeterminate = operation.value == null;
         return (
-            <Form.Field id={id} error={operation.errors!.length > 0} required={required}>
+            <Form.Field id={id} error={operation.errors!.length > 0} required={operation.required}>
                 <label htmlFor={id + '_in'}>
                     {labelWithHelp(label != null ? label : operation.label, operation.help)}
                 </label>

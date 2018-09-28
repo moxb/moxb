@@ -6,6 +6,7 @@ import { Value } from './Value';
 
 export interface ValueOptions<B, T> extends BindOptions {
     inputType?: string;
+    required?: boolean;
 
     initialValue?: ValueOrFunction<T>;
 
@@ -117,6 +118,11 @@ export abstract class ValueImpl<B, T, Options extends ValueOptions<B, T>> extend
         return undefined;
     }
 
+    @computed
+    get required() {
+        return this.impl.required;
+    }
+
     @action.bound
     setValue(value: T) {
         if (this.impl.onSetValue) {
@@ -167,6 +173,9 @@ export abstract class ValueImpl<B, T, Options extends ValueOptions<B, T>> extend
 
     @action.bound
     save() {
+        if (this.impl.required && this.getInitialValue() === this.value) {
+            this.setError(t('ValueImpl.error.required', 'This field is required and must be set'));
+        }
         if (this.impl.onSave && !this.isInitialValue) {
             this._isSaving = true;
             this.impl.onSave(this as any, this.saveDone);
@@ -195,6 +204,9 @@ export abstract class ValueImpl<B, T, Options extends ValueOptions<B, T>> extend
     onExitField() {
         if (this.impl.onExitField) {
             this.impl.onExitField(this as any);
+        }
+        if (this.impl.required && this.getInitialValue() === this.value) {
+            this.setError(t('ValueImpl.error.required', 'This field is required and must be set'));
         }
     }
 }
