@@ -96,7 +96,7 @@ _check-for-only:
 
 ### node ########################################
 
-.makehelper/node-installation: admin/node-installation/.node-version admin/node-installation/install.sh
+.makehelper/node-installation: admin/node-installation/.node-version admin/node-installation/.npm-version admin/node-installation/install.sh
 	@echo "Installing node..."
 	@admin/bin/check-if-commands-exist.sh wget
 	@$(ACTIVATE) && admin/node-installation/install.sh
@@ -141,9 +141,9 @@ node_modules:
 	$(MAKE) .makehelper/npm-dependencies
 
 .makehelper/npm-dependencies: package.json package-lock.json
-	@echo "Installing NPM dependencies for the meteor server..."
+	@echo "Installing NPM dependencies..."
 	$(ACTIVATE) \
-		&& $(NPM) install
+		&& $(NPM) ci
 	@$(TOUCH) $@
 
 

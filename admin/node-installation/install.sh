@@ -30,3 +30,19 @@ wget $URL
 tar -zxf $TAR --strip-components 1 -C current
 
 rm -f $TAR
+
+
+
+# Install the specified version of npm
+NPM_VERSION=`cat $INSTALLATION/.npm-version | xargs`
+
+# to upgrade npm we need npm in the PATH....
+export PATH=$INSTALLATION/installation/current/bin:$PATH
+
+echo 'Before installing latest npm version'
+npm --version
+echo "Installing npm version npm@$NPM_VERSION (see $INSTALLATION/.npm-version)"
+
+npm install -g npm@$NPM_VERSION
+
+npm --version
