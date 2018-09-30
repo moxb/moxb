@@ -1,25 +1,25 @@
 import {
     ActionButtonAnt,
     BoolAnt,
-    BoolFormAnt,
     ConfirmAnt,
     DatePickerAnt,
     ManyOfAnt,
     ManyOfCheckboxAnt,
     ModalAnt,
-    NumericAnt,
     OneOfAnt,
     OneOfSelectAnt,
     TableAnt,
     TextAnt,
     TextFormAnt,
     TimePickerAnt,
+    NumericFormAnt,
 } from '@moxb/antd';
 import { toJSON } from '@moxb/moxb';
-import { Col, Form, Icon, Layout, Row } from 'antd';
+import { Col, Form, Layout, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Application } from '../store/Application';
+import { LoginForm } from './form/LoginForm';
 import { MemTableAnt } from './memtable/MemTableAnt';
 // import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
@@ -33,7 +33,6 @@ import { MemTableAnt } from './memtable/MemTableAnt';
 export class ApplicationAnt extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app!;
-        console.log('application.testDate', application.testDate);
         return (
             <Layout>
                 <Layout.Content>
@@ -90,7 +89,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <br />
                                     <br />
                                     <h3>NumericAnt Component</h3>
-                                    <NumericAnt required operation={application.testNumeric} />
+                                    <NumericFormAnt operation={application.testNumeric} />
                                     <br />
                                     <br />
                                     <h3>ManyOfAnt Component</h3>
@@ -128,16 +127,12 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <br />
                                     <section>
                                         <h3>Login Form</h3>
-                                        <TextFormAnt
-                                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} /> as any}
-                                            operation={application.formUserText}
-                                        />
-                                        <TextFormAnt
-                                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} /> as any}
-                                            operation={application.formPasswordText}
-                                        />
-                                        <BoolFormAnt operation={application.formRememberBool} />
-                                        <ActionButtonAnt type="primary" operation={application.formSubmitButton} />
+                                        <p>
+                                            Test login is <strong>username:</strong> demo, <strong>password:</strong>{' '}
+                                            demo <br />
+                                            Other inputs test the error validation.
+                                        </p>
+                                        <LoginForm />
                                     </section>
                                     <br />
                                     <hr />

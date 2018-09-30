@@ -1,6 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import { t } from '../i18n/i18n';
 import { bindAllTo } from '../util/bindAllTo';
+import { idToDomId } from '../util/idToDomId';
 import { Bind } from './Bind';
 
 export type ValueOrFunction<T> = T | (() => T | undefined) | undefined;
@@ -11,22 +12,6 @@ export function getValueOrFunction<T>(value: ValueOrFunction<T>): T | undefined 
     } else {
         return value;
     }
-}
-
-/**
- * Converts a string to a css id. Note that ids and classes in css are case insensitive, and therefore we convert
- * camel case into lower cases.
- * @param {string | null | undefined} id
- * @returns {string}
- */
-export function idToDomId(id: string | null | undefined) {
-    return (id || '')
-        .replace(/[^-\w\d]+/g, '-')
-        .replace(/\.?([A-Z]+)/g, (x, v) => '_' + v.toLowerCase()) // to camel case
-        .replace(/^([\d_-]+)/, '') // start with alpha numeric
-        .replace(/[-_]{2,}/g, '-') // no double dashes and _-
-        .replace(/^[-_]/g, '') // no _ - at the beginning
-        .replace(/[-_]$/g, ''); // no _ - at the end
 }
 
 export type StringOrFunction = ValueOrFunction<string>;
@@ -76,9 +61,9 @@ export interface BindOptions {
      */
     help?: StringOrFunction;
 
-    getError?(): string | undefined | null;
+    getErrors?(): string[] | undefined;
     setError?(error: string | undefined | null): void;
-    clearError?(): void;
+    clearErrors?(): void;
     validateField?(): void;
 }
 
@@ -87,14 +72,15 @@ export class BindImpl<Options extends BindOptions> implements Bind {
     readonly domId: string;
     protected readonly impl: Options;
     @observable
-    _error?: string | undefined | null;
+    _errors?: string[] | undefined | null;
 
     constructor(impl: Options) {
-        // tslint commplains about Object.assign and typescript can not spread interfaces:
+        // tslint complains about Object.assign and typescript can not spread interfaces:
         //   TS2698: Spread types may only be created from object types.
         // tslint:disable-next-line prefer-object-spread
         this.impl = bindAllTo(this, Object.assign({}, impl));
         this.id = impl.id;
+        this._errors = [];
         if (!this.id.match(/^\w[\w\d.]*$/)) {
             throw new Error(`'${this.id}' is not a valid id!`);
         }
@@ -176,34 +162,40 @@ export class BindImpl<Options extends BindOptions> implements Bind {
     }
 
     @computed
-    get error() {
-        return this.getError();
+    get errors() {
+        return this.getErrors();
     }
+
+    @computed
+    get hasErrors() {
+        return this.errors!.length > 0;
+    }
+
     setError(error: string | undefined | null) {
         if (this.impl.setError) {
             this.impl.setError(error);
         } else {
-            this._error = error;
+            this._errors!.push(error!);
         }
     }
-    protected getError() {
-        if (this.impl.getError) {
-            return this.impl.getError();
+    protected getErrors() {
+        if (this.impl.getErrors) {
+            return this.impl.getErrors();
         } else {
-            return this._error;
+            return this._errors;
         }
     }
 
     @action.bound
-    clearError() {
-        this.doClearError();
+    clearErrors() {
+        this.doClearErrors();
     }
 
-    protected doClearError() {
-        if (this.impl.clearError) {
-            this.impl.clearError();
+    protected doClearErrors() {
+        if (this.impl.clearErrors) {
+            this.impl.clearErrors();
         }
-        this._error = undefined;
+        this._errors = [];
     }
 
     @action.bound

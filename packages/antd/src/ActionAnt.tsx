@@ -46,12 +46,21 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
 @observer
 export class ActionFormButtonAnt extends React.Component<ActionFormButtonAntProps> {
     render() {
-        const { invisible, formStyle, labelCol, wrapperCol, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, formStyle, labelCol, wrapperCol, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         return (
-            <FormItem style={formStyle || undefined} labelCol={labelCol} wrapperCol={wrapperCol}>
+            <FormItem
+                style={formStyle || undefined}
+                labelCol={labelCol}
+                wrapperCol={wrapperCol}
+                hasFeedback={operation.errors != null}
+                validateStatus={operation.errors != null ? 'error' : undefined}
+            >
                 <ActionButtonAnt operation={this.props.operation} htmlType="submit" {...props as any} />
             </FormItem>
         );

@@ -5,7 +5,7 @@ import { CheckboxGroupProps } from 'antd/lib/checkbox';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { BindAntFormProps, BindAntProps, parseProps } from './BindAnt';
+import { BindAntFormProps, BindAntProps, parseProps, getErrorMessages, labelWithHelp } from './BindAnt';
 
 @observer
 export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {
@@ -76,7 +76,14 @@ export class ManyOfFormAnt extends React.Component<BindAntFormProps & SelectProp
             return null;
         }
         return (
-            <Form.Item label={label} help={help} style={formStyle || undefined}>
+            <Form.Item
+                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
+                style={formStyle || undefined}
+                required={operation.required}
+                hasFeedback={operation.hasErrors}
+                validateStatus={operation.hasErrors ? 'error' : undefined}
+                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
+            >
                 <ManyOfAnt operation={operation} {...props as any} />
             </Form.Item>
         );

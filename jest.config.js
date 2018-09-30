@@ -1,13 +1,15 @@
 module.exports = {
     collectCoverage: true,
     collectCoverageFrom: [
-        'packages/src/*.{ts}',
-        'packages/src/*.{tsx}',
+        '<rootDir>/packages/**/*.{ts,tsx}',
         '!**/*.d.ts',
+        '!**/index.ts',
+        '!**/impl.ts',
+        '!**/types.ts',
         '!**/build/**',
         '!**/node_modules/**',
     ],
-    testEnvironment: "node",
+    testEnvironment: 'node',
     // we have to list all roots here, else the heuristics which tests to run in watch mode does not work
     roots: [
         'packages/antd',
@@ -16,22 +18,22 @@ module.exports = {
         'packages/semui',
     ],
     moduleFileExtensions: [
-        "ts",
-        "tsx",
-        "js",
-        "jsx",
-        "json",
-        "node"
+        'ts',
+        'tsx',
+        'js',
+        'jsx',
+        'json',
+        'node'
     ],
     testMatch: [
-        "**/src/**/__tests__/*.(ts|tsx)",
+        '**/src/**/__tests__/*.(ts|tsx)',
     ],
-    setupTestFrameworkScriptFile: "./jest/jestAdapter.js",
+    setupTestFrameworkScriptFile: './jest/jestAdapter.js',
     transform: {
-        "^.+\\.(css|less)$": "./jest/jestMockStyle.js",
-        "^.+\\.(ts|tsx)$": "ts-jest"
+        '^.+\\.(css|less)$': './jest/jestMockStyle.js',
+        '^.+\\.(ts|tsx)$': 'ts-jest'
     },
     modulePaths: [
-        "<rootDir>/node_modules"
+        '<rootDir>/node_modules'
     ],
 };

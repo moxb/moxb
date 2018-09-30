@@ -1,26 +1,14 @@
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Form, FormFieldProps } from 'semantic-ui-react';
-import { BindUiProps, parseProps } from './BindUi';
-import { ManyOf } from '@moxb/moxb';
+import { Form, FormFieldProps, Message, Dropdown } from 'semantic-ui-react';
+import { BindUiProps, parseProps, labelWithHelp } from './BindUi';
+import { ManyOf, t } from '@moxb/moxb';
 
 @observer
 export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & FormFieldProps> {
     render() {
-        const {
-            operation,
-            id,
-            invisible,
-            type,
-            width,
-            children,
-            onBlur,
-            onClick,
-            scrolling,
-            defaultValue,
-            ...props
-        } = parseProps(this.props);
+        const { operation, id, invisible, type, width, hideErrors, label, ...props } = parseProps(this.props);
         if (invisible || operation.invisible) {
             return null;
         }
@@ -28,15 +16,34 @@ export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & FormFieldPro
         // make sure the value is not a mobx object...
         const value = toJS(operation.value);
         return (
-            <Form.Dropdown
-                id={id}
-                onChange={(e, data) => operation.setValue(data.value as string[])}
-                options={options}
-                value={value}
-                {...props}
-                width={width as any}
-                type={type as any}
-            />
+            <Form.Field id={id} error={operation.hasErrors} required={operation.required}>
+                <label htmlFor={id + '_in'}>
+                    {labelWithHelp(label != null ? label : operation.label, operation.help)}
+                </label>
+
+                <Dropdown
+                    id={id}
+                    onChange={(e, data) => operation.setValue(data.value as string[])}
+                    options={options}
+                    value={value}
+                    {...props}
+                    width={width as any}
+                    type={type as any}
+                />
+
+                {!hideErrors && (
+                    <Message
+                        onDismiss={operation.hasErrors ? operation.clearErrors : undefined}
+                        hidden={!operation.hasErrors}
+                        negative
+                    >
+                        <Message.Header>
+                            {t('ManyOfUi.errors.header', 'Errors', { count: operation.errors!.length })}
+                        </Message.Header>
+                        <Message.List items={toJS(operation.errors!)} />
+                    </Message>
+                )}
+            </Form.Field>
         );
     }
 }

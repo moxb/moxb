@@ -10,3 +10,4 @@ export * from './TablePaginationUi';
 export * from './TableSearchUi';
 export * from './TableUi';
 export * from './TextUi';
+export * from './FormUi';

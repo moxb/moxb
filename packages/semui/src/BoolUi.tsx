@@ -1,30 +1,48 @@
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Dropdown, DropdownProps, Form, FormCheckboxProps } from 'semantic-ui-react';
+import { Dropdown, DropdownProps, Form, FormCheckboxProps, Message, Checkbox } from 'semantic-ui-react';
 import { BindUiProps, labelWithHelp, parseProps } from './BindUi';
-import { Bool } from '@moxb/moxb';
+import { Bool, t } from '@moxb/moxb';
 
 @observer
 export class BoolUi extends React.Component<{ operation: Bool } & FormCheckboxProps> {
     render() {
-        const { operation, id, invisible, children, label, ...props } = parseProps(this.props);
+        const { operation, id, invisible, children, hideErrors, label, ...props } = parseProps(this.props);
         if (invisible) {
             return null;
         }
         // a null value renders the checkbox in intermediate state!
         const indeterminate = operation.value == null;
         return (
-            <Form.Checkbox
-                id={id}
-                error={operation.error != null}
-                checked={operation.value}
-                onChange={() => operation.toggle()}
-                indeterminate={indeterminate}
-                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
-                {...props}
-            >
+            <Form.Field id={id} error={operation.hasErrors} required={operation.required}>
+                <label htmlFor={id + '_in'}>
+                    {labelWithHelp(label != null ? label : operation.label, operation.help)}
+                </label>
+
+                <Checkbox
+                    id={id + '_in'}
+                    type={operation.inputType || this.props.type || 'checkbox'}
+                    checked={operation.value}
+                    onChange={() => operation.toggle()}
+                    indeterminate={indeterminate}
+                    {...props as any}
+                />
                 {children}
-            </Form.Checkbox>
+
+                {!hideErrors && (
+                    <Message
+                        onDismiss={operation.hasErrors ? operation.clearErrors : undefined}
+                        hidden={!operation.hasErrors}
+                        negative
+                    >
+                        <Message.Header>
+                            {t('BoolUi.errors.header', 'Errors', { count: operation.errors!.length })}
+                        </Message.Header>
+                        <Message.List items={toJS(operation.errors!)} />
+                    </Message>
+                )}
+            </Form.Field>
         );
     }
 }

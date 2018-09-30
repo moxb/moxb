@@ -1,4 +1,4 @@
-import { ActionImpl } from '../ActionImpl';
+import { ActionImpl, ActionButtonImpl } from '../ActionImpl';
 
 describe('interface BindAction', function() {
     describe('fire', function() {
@@ -49,6 +49,24 @@ describe('interface BindAction', function() {
             });
             bindAction.fire();
             expect(theThis).toBe(bindAction);
+        });
+    });
+
+    describe('constructor', function() {
+        it('should create an instance of ActionImpl', function() {
+            const bindAction = new ActionImpl({
+                id: 'bind.action',
+                fire: () => {},
+            });
+            expect(bindAction).toBeDefined();
+        });
+
+        it('should create an instance of ActionButtonImpl', function() {
+            const bindAction = new ActionButtonImpl({
+                id: 'bind.action',
+                fire: () => {},
+            });
+            expect(bindAction).toBeDefined();
         });
     });
 });

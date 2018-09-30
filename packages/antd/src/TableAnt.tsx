@@ -45,8 +45,8 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
         const dataSource = table.data.map((data, idx: number) => ({ key: idx + '', ...(data as any) }));
         return (
             <>
-                {table.error && (
-                    <Alert message={moxb.t('Table.Error.title', 'Error')} description={table.error} type="error" />
+                {table.errors!.length > 0 && (
+                    <Alert message={moxb.t('Table.Error.title', 'Error')} description={table.errors} type="error" />
                 )}
                 {table.search && (
                     <TextSearchAnt

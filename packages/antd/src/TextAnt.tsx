@@ -2,7 +2,7 @@ import { ColProps } from 'antd/lib/grid';
 import { observer } from 'mobx-react';
 import { CSSProperties } from 'react';
 import * as React from 'react';
-import { labelWithHelp, parseProps } from './BindAnt';
+import { labelWithHelp, parseProps, getErrorMessages } from './BindAnt';
 import { Input, Form } from 'antd';
 import { InputProps } from 'antd/lib/input';
 import { Text } from '@moxb/moxb';
@@ -34,7 +34,7 @@ export class TextAnt extends React.Component<InputProps & BindStringAntProps> {
         if (invisible) {
             return null;
         }
-        if ((inputType || operation.inputType) === 'textarea') {
+        if ((inputType || operation.control) === 'textarea') {
             return (
                 <Input.TextArea
                     id={id}
@@ -116,6 +116,10 @@ export class TextFormAnt extends React.Component<FormItemProps & BindStringAntPr
                 style={formStyle || undefined}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
+                required={operation.required}
+                hasFeedback={operation.hasErrors}
+                validateStatus={operation.hasErrors ? 'error' : undefined}
+                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
             >
                 <TextAnt operation={operation} prefix={prefix} onPressEnter={onPressEnter} {...props as any} />
             </Form.Item>

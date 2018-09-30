@@ -1,5 +1,6 @@
-import { Application } from './Application';
+import { Application, ApplicationAPI } from './Application';
 import {
+    t,
     Action,
     Bool,
     Confirm,
@@ -10,6 +11,7 @@ import {
     Numeric,
     Table,
     Time,
+    Form,
     ActionImpl,
     BoolImpl,
     ConfirmImpl,
@@ -23,8 +25,10 @@ import {
     TableColumnImpl,
     DateImpl,
     TimeImpl,
+    FormImpl,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
+import { ApplicationMethods } from './ApplicationMethods';
 
 export class ApplicationImpl implements Application {
     @observable
@@ -76,14 +80,14 @@ export class ApplicationImpl implements Application {
     readonly testTextfield: Text = new TextImpl({
         id: 'ApplicationImpl.textfield',
         initialValue: () => '',
-        label: 'Textfield',
-        inputType: 'text',
+        label: 'Textinput',
+        control: 'input',
     });
 
     readonly testTextarea: Text = new TextImpl({
         id: 'ApplicationImpl.textarea',
         initialValue: () => '',
-        inputType: 'textarea',
+        control: 'textarea',
         label: 'Textarea',
     });
 
@@ -92,6 +96,12 @@ export class ApplicationImpl implements Application {
         onlyInteger: true,
         initialValue: 999,
         label: 'Only numbers',
+        required: true,
+        onExitField: bind => {
+            if (bind.value! < 900) {
+                bind.setError(t('ApplicationImpl.numeric.error', 'The number must be greater than 900!'));
+            }
+        },
     });
 
     readonly testOfOne = new OneOfImpl({
@@ -133,7 +143,14 @@ export class ApplicationImpl implements Application {
         id: 'ApplicationImpl.formUserText',
         initialValue: () => '',
         label: 'Username',
+        required: true,
         placeholder: () => 'Username',
+        onExitField: bind => {
+            if (bind.value !== '' && bind.value!.length < 3) {
+                bind.setError(t('ApplicationImpl.login.name', 'Username is too short, min. 3 characters.'));
+            }
+        },
+        onSave: (bind, done) => this.api.saveName(bind.value!, done),
     });
 
     readonly formPasswordText: Text = new TextImpl({
@@ -142,21 +159,23 @@ export class ApplicationImpl implements Application {
         label: 'Password',
         placeholder: () => 'Password',
         help: () => 'Help me with this text.',
-    });
-
-    readonly formRememberBool: Bool = new BoolImpl({
-        id: 'ApplicationImpl.formRememberBool',
-        label: 'Remember me',
-        getValue: () => this.showCheckbox,
-        setValue: this.setShowCheckbox,
+        onExitField: bind => {
+            if (bind.value !== '' && bind.value!.length < 4) {
+                bind.setError(t('ApplicationImpl.login.password', 'Password must have at least 3 characters.'));
+            }
+        },
+        onSave: (bind, done) => this.api.savePassword(bind.value!, done),
     });
 
     readonly formSubmitButton: Action = new ActionImpl({
         id: 'ApplicationImpl.formSubmitButton',
         label: 'Log in',
-        fire: () => {
-            alert('You will be logged in, soon...');
-        },
+        fire: () => {},
+    });
+    readonly testForm: Form = new FormImpl({
+        id: 'ApplicationImpl.testForm',
+        values: [this.formUserText, this.formPasswordText],
+        onSubmit: (bind, done) => this.api.submitLogin(this.formUserText.value!, this.formPasswordText.value!, done),
     });
 
     readonly testTable: Table<any> = new TableImpl<any>({
@@ -200,7 +219,7 @@ export class ApplicationImpl implements Application {
         placeholder: () => 'Select a time',
     });
 
-    constructor() {
+    constructor(private readonly api: ApplicationAPI = new ApplicationMethods()) {
         this.showCheckbox = false;
 
         this.manyChoices = [];

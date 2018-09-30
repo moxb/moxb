@@ -1,6 +1,6 @@
 import { setTFunction, t, translateKeysDefault, translateKeysOnly } from '../../i18n/i18n';
 import { Bind } from '../Bind';
-import { BindImpl, BindOptions, getValueFromStringOrFunction, idToDomId } from '../BindImpl';
+import { BindImpl, BindOptions, getValueFromStringOrFunction } from '../BindImpl';
 
 describe('interface Bind', function() {
     function newBind(options: BindOptions) {
@@ -410,37 +410,39 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('error', function() {
+    describe('errors', function() {
         beforeEach(function() {
             setTFunction(translateKeysDefault);
         });
 
-        it('should be undefined by default', function() {
+        it('should be an empty array by default', function() {
             expect(t('key', 'The Default')).toBe('[key] The Default');
             const bind: Bind = newBind({
                 id: 'test',
             });
             expect(bind.domId).toBe('test');
-            expect(bind.error).toBeUndefined();
+            expect(bind.errors).toEqual([]);
+            expect(bind.hasErrors).toEqual(false);
         });
         it('should not be translated', function() {
             const bind: Bind = newBind({
                 id: 'test',
-                getError: jest.fn().mockReturnValue('The Error'),
+                getErrors: jest.fn().mockReturnValue(['The Error']),
             });
-            expect(bind.error).toBe('The Error');
+            expect(bind.errors).toEqual(['The Error']);
+            expect(bind.hasErrors).toEqual(true);
         });
 
         it('should have the BindImpl as `this`', function() {
             let theThis: any = undefined;
-            const getError = jest.fn().mockImplementation(function(this: any) {
+            const getErrors = jest.fn().mockImplementation(function(this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
                 id: 'test',
-                getError,
+                getErrors,
             });
-            bind.error;
+            bind.errors;
             expect(theThis).toBe(bind);
         });
     });
@@ -469,20 +471,30 @@ describe('interface Bind', function() {
             bind.setError('bar');
             expect(theThis).toBe(bind);
         });
-    });
 
-    describe('clearError', function() {
-        it('should be called', function() {
-            const clearError = jest.fn();
+        it('should store all error in the errors array', function() {
             const bind: Bind = newBind({
                 id: 'test',
-                clearError,
             });
-            bind.clearError();
+            bind.setError('foo');
+            bind.setError('bar');
+            expect(bind.errors).toEqual(['foo', 'bar']);
+            expect(bind.hasErrors).toEqual(true);
+        });
+    });
 
-            expect(clearError).toHaveBeenCalledTimes(1);
-            bind.clearError();
-            expect(clearError).toHaveBeenCalledTimes(2);
+    describe('clearErrors', function() {
+        it('should be called', function() {
+            const clearErrors = jest.fn();
+            const bind: Bind = newBind({
+                id: 'test',
+                clearErrors,
+            });
+            bind.clearErrors();
+
+            expect(clearErrors).toHaveBeenCalledTimes(1);
+            bind.clearErrors();
+            expect(clearErrors).toHaveBeenCalledTimes(2);
         });
 
         it('should clear error', function() {
@@ -490,20 +502,21 @@ describe('interface Bind', function() {
                 id: 'test',
             });
             bind.setError('something is wrong');
-            bind.clearError();
-            expect(bind.error).toBeUndefined();
+            bind.clearErrors();
+            expect(bind.errors).toEqual([]);
+            expect(bind.hasErrors).toEqual(false);
         });
 
         it('should have the BindImpl as `this`', function() {
             let theThis: any = undefined;
-            const clearError = jest.fn().mockImplementation(function(this: any) {
+            const clearErrors = jest.fn().mockImplementation(function(this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
                 id: 'test',
-                clearError,
+                clearErrors,
             });
-            bind.clearError();
+            bind.clearErrors();
             expect(theThis).toBe(bind);
         });
     });
@@ -549,43 +562,5 @@ describe('interface Bind', function() {
         it('should return null', function() {
             expect(getValueFromStringOrFunction(() => undefined)).toBeUndefined();
         });
-    });
-});
-
-describe('idToDomId', function() {
-    it('should return empty string if id is empty', function() {
-        expect(idToDomId('')).toBe('');
-    });
-    it('should return empty string if id is null or undefined', function() {
-        expect(idToDomId(null)).toBe('');
-        expect(idToDomId(undefined)).toBe('');
-    });
-    it('should convert camel case to lowercase underscore', function() {
-        expect(idToDomId('TheId')).toBe('the_id');
-        expect(idToDomId('TheIDBar')).toBe('the_idbar');
-        expect(idToDomId('notIBM')).toBe('not_ibm');
-    });
-    it('should prepend `x` if first character is not word', function() {
-        expect(idToDomId('3xxx')).toBe('xxx');
-        expect(idToDomId('_a')).toBe('a');
-    });
-    it('should replace non word or number or `-` to `-`', function() {
-        expect(idToDomId('*-fo(ba^5$3BaX')).toBe('fo-ba-5-3_ba_x');
-    });
-    it('should not allow double -', function() {
-        expect(idToDomId('---a*-*--*b()----c------d')).toBe('a-b-c-d');
-    });
-    it('should not allow _ or - at beginning', function() {
-        expect(idToDomId('_x')).toBe('x');
-        expect(idToDomId('-x')).toBe('x');
-        expect(idToDomId('-__-x')).toBe('x');
-        expect(idToDomId('Foo')).toBe('foo');
-    });
-    it('should not allow _ or - at end', function() {
-        expect(idToDomId('x_')).toBe('x');
-        expect(idToDomId('x-')).toBe('x');
-    });
-    it('should not allow _- or -_', function() {
-        expect(idToDomId('foo_--bar-__baz')).toBe('foo-bar-baz');
     });
 });

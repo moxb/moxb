@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Checkbox, Form } from 'antd';
 import { CheckboxProps } from 'antd/lib/checkbox';
-import { labelWithHelp, BindAntProps, parseProps } from './BindAnt';
+import { labelWithHelp, BindAntProps, parseProps, getErrorMessages } from './BindAnt';
 import { Bool } from '@moxb/moxb';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 
@@ -32,8 +32,15 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
 @observer
 export class BoolFormAnt extends React.Component<BindAntProps<Bool> & FormItemProps & CheckboxProps> {
     render() {
+        const { operation, ...props } = parseProps(this.props, this.props.operation);
         return (
-            <Form.Item>
+            <Form.Item
+                required={operation.required}
+                hasFeedback={operation.hasErrors}
+                validateStatus={operation.hasErrors ? 'error' : undefined}
+                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
+                {...props as any}
+            >
                 <BoolAnt operation={this.props.operation} />
             </Form.Item>
         );
