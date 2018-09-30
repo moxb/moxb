@@ -151,9 +151,10 @@ node_modules:
 
 .PHONY: npm-update
 npm-update:
+	$(ACTIVATE) && npm-check --update
 	$(ACTIVATE) \
-        && $(LERNA) exec -- npm-check --update
-
+        && $(LERNA)  --concurrency=1 exec -- npm-check --update
+	$(ACTIVATE) && cd examples && npm-check --update
 ########################################################################################################################
 .PHONY: test
 test: run-unit-tests
