@@ -9,7 +9,7 @@ module.exports = {
         '!**/build/**',
         '!**/node_modules/**',
     ],
-    testEnvironment: 'node',
+    testEnvironment: 'jsdom', // some of the packages (semui and antd) need `window`
     // we have to list all roots here, else the heuristics which tests to run in watch mode does not work
     roots: [
         'packages/antd',

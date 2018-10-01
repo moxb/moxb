@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextAnt should render text by default 1`] = `
+<span
+  className="ant-input-affix-wrapper"
+>
+  <input
+    className="ant-input"
+    disabled={false}
+    id="the_id"
+    label="oh"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    readOnly={false}
+    style={null}
+    type="text"
+    value=""
+  />
+</span>
+`;
+
+exports[`TextAnt should render textarea by default 1`] = `
+<textarea
+  className="ant-input"
+  disabled={false}
+  id="the_id"
+  label="oh"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  readOnly={false}
+  style={Object {}}
+  value=""
+/>
+`;

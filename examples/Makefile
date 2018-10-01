@@ -9,7 +9,6 @@ ACTIVATE = . $(ADMIN)/activate
 MKDIR = mkdir
 RM = rm
 TOUCH = touch
-NPM = npm install --preserve-symlinks
 PACREL = ./node_modules/.bin/parcel
 
 override TS_DIRS = semui antd store
@@ -54,9 +53,9 @@ node_modules:
 	@$(TOUCH) $@
 
 .makehelper/npm-dependencies: package.json package-lock.json
-	@echo "Installing NPM dependencies for the meteor server..."
+	@echo "Installing NPM dependencies..."
 	$(ACTIVATE) \
-		&& $(NPM)
+		&& npm ci --preserve-symlinks
 	$(RM) -rf .makehelper/formatted .makehelper/tslinted  .makehelper/tslinted-all
 	@$(TOUCH) $@
 
