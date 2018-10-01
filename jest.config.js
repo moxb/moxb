@@ -29,6 +29,7 @@ module.exports = {
         '**/src/**/__tests__/*.(ts|tsx)',
     ],
     setupTestFrameworkScriptFile: './jest/jestAdapter.js',
+    snapshotSerializers: ["enzyme-to-json/serializer"],
     transform: {
         '^.+\\.(css|less)$': './jest/jestMockStyle.js',
         '^.+\\.(ts|tsx)$': 'ts-jest'
