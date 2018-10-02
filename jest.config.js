@@ -26,7 +26,7 @@ module.exports = {
         'node'
     ],
     testMatch: [
-        '**/src/**/__tests__/*.(ts|tsx)',
+        '**/src/**/__tests__/*.test.(ts|tsx)',
     ],
     setupTestFrameworkScriptFile: './jest/jestAdapter.js',
     snapshotSerializers: ["enzyme-to-json/serializer"],
