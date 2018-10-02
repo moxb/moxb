@@ -195,13 +195,13 @@ _build-packages: all-dependencies
 
 # we first build all packages
 .PHONY: watch-all
-watch-all: clean-build _build-packages
+watch-all: all-dependencies
 	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
 # we first build all packages
 .PHONY: watch
-watch: _build-packages
+watch: all-dependencies
 	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(PACKAGE_DIRS)
 
