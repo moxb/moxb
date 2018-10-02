@@ -199,11 +199,19 @@ watch-all: all-dependencies
 	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
+.PHONY: watch-all-verbose
+watch-all-verbose:
+	MOXB_WATCH_ALL_VERBOSE=1 $(MAKE) watch-all
+
 # we first build all packages
 .PHONY: watch
 watch: all-dependencies
 	# the first argument is the one we are waiting for!
 	admin/bin/watch-packages.sh $(PACKAGE_DIRS)
+
+.PHONY: watch-verbose
+watch-verbose:
+	MOXB_WATCH_ALL_VERBOSE=1 MOXB_FIRST_VERBOSE=1 $(MAKE) watch
 
 ###### all-dependencie #############################
 
