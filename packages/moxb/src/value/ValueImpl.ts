@@ -30,10 +30,10 @@ export interface ValueOptions<B, T> extends BindOptions {
      * Is called when Value.save is called and Value.isInitialValue is false.
      * `done` must be called else the binding stays in saving state.
      *
-     * @param {Value<T>} value
+     * @param {Value<T>} bind
      * @param {(error: any) => void} done
      */
-    onSave?(value: B, done: (error?: any) => void): void;
+    onSave?(bind: B, done: (error?: any) => void): void;
 
     onExitField?(bind: B): void;
     onEnterField?(bind: B): void;

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import * as moxb from '@moxb/moxb';
+import { Table as MoxTable, t } from '@moxb/moxb';
 import { Alert, Table } from 'antd';
 import { ColumnProps, TableProps } from 'antd/lib/table/interface';
 import { TextSearchAnt } from './TextAnt';
@@ -11,9 +11,8 @@ export interface ColumnAntProps<T> extends ColumnProps<T> {
 }
 
 export interface TableAntProps<T> extends TableProps<any> {
-    table: moxb.Table<T>;
+    table: MoxTable<T>;
     hideHeader?: boolean;
-
     /**
      * Setup the column
      * @param column
@@ -31,7 +30,7 @@ function toCell(x: any, record: any) {
 export class TableAnt<T> extends React.Component<TableAntProps<T>> {
     render() {
         const { table, ...tableProps } = this.props;
-        const columns = table.columns.map(column => ({
+        const columns = table.columns.map((column: any) => ({
             column: column.column,
             title: column.label,
             dataIndex: column.column,
@@ -40,19 +39,19 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
             render: toCell,
         }));
         if (this.props.setupColumn) {
-            columns.forEach(column => this.props.setupColumn!(column));
+            columns.forEach((column: any) => this.props.setupColumn!(column));
         }
-        const dataSource = table.data.map((data, idx: number) => ({ key: idx + '', ...(data as any) }));
+        const dataSource = table.data.map((data: any, idx: number) => ({ key: idx + '', ...(data as any) }));
         return (
             <>
                 {table.errors!.length > 0 && (
-                    <Alert message={moxb.t('Table.Error.title', 'Error')} description={table.errors} type="error" />
+                    <Alert message={t('Table.Error.title', 'Error')} description={table.errors} type="error" />
                 )}
                 {table.search && (
                     <TextSearchAnt
                         required
                         style={{ marginBottom: '1.5em' }}
-                        enterButton={moxb.t('Table.Search.title', 'Search')}
+                        enterButton={t('Table.Search.title', 'Search')}
                         operation={table.search.searchField}
                         onSearch={() => table.search!.searchAction.fire()}
                     />

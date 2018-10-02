@@ -19,4 +19,9 @@ export interface Bind {
     setError(error: string | undefined | null): void;
     clearErrors(): void;
     validateField(): void;
+
+    /** @deprecated since version v0.2.0-beta.7 */
+    readonly error?: string | undefined | null;
+    /** @deprecated since version v0.2.0-beta.7 */
+    clearError(): void;
 }

@@ -1,21 +1,13 @@
-import { ColProps } from 'antd/lib/grid';
-import { CSSProperties } from 'react';
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { BindAntProps, parseProps } from './BindAnt';
-import { Action } from '@moxb/moxb';
-import { Button, Form } from 'antd';
+import { Button } from 'antd';
 import { ButtonSize, ButtonType, ButtonShape } from 'antd/lib/button';
 import { NativeButtonProps } from 'antd/lib/button/button';
+import { Action } from '@moxb/moxb';
+import { FormItemAnt, BindFormItemAntProps } from './FormItemAnt';
 
-const FormItem = Form.Item;
 export type BindActionAntProps = BindAntProps<Action> & NativeButtonProps;
-
-export interface ActionFormButtonAntProps extends BindActionAntProps {
-    formStyle?: CSSProperties;
-    wrapperCol?: ColProps;
-    labelCol?: ColProps;
-}
 
 @observer
 export class ActionButtonAnt extends React.Component<BindActionAntProps> {
@@ -44,9 +36,9 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
 }
 
 @observer
-export class ActionFormButtonAnt extends React.Component<ActionFormButtonAntProps> {
+export class ActionFormButtonAnt extends React.Component<BindActionAntProps & BindFormItemAntProps> {
     render() {
-        const { operation, invisible, formStyle, labelCol, wrapperCol, ...props } = parseProps(
+        const { operation, invisible, formStyle, label, labelCol, wrapperCol, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -54,15 +46,15 @@ export class ActionFormButtonAnt extends React.Component<ActionFormButtonAntProp
             return null;
         }
         return (
-            <FormItem
-                style={formStyle || undefined}
+            <FormItemAnt
+                operation={operation}
+                label={label}
+                formStyle={formStyle}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
-                hasFeedback={operation.errors != null}
-                validateStatus={operation.errors != null ? 'error' : undefined}
             >
                 <ActionButtonAnt operation={this.props.operation} htmlType="submit" {...props as any} />
-            </FormItem>
+            </FormItemAnt>
         );
     }
 }

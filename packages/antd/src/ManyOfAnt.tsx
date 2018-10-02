@@ -1,11 +1,12 @@
-import { ManyOf } from '@moxb/moxb';
-import { Form, Select, Checkbox, Row, Col } from 'antd';
+import { Select, Checkbox, Row, Col } from 'antd';
 import { SelectProps } from 'antd/lib/select';
 import { CheckboxGroupProps } from 'antd/lib/checkbox';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { BindAntFormProps, BindAntProps, parseProps, getErrorMessages, labelWithHelp } from './BindAnt';
+import { BindAntProps, parseProps } from './BindAnt';
+import { FormItemAnt, BindFormItemAntProps } from './FormItemAnt';
+import { ManyOf } from '@moxb/moxb';
 
 @observer
 export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {
@@ -14,7 +15,7 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
             this.props,
             this.props.operation
         );
-        if (invisible || operation.invisible) {
+        if (invisible) {
             return null;
         }
         // make sure the value is not a mobx object...
@@ -28,7 +29,7 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
                 mode={typeof mode === 'undefined' ? 'default' : mode}
                 {...props}
             >
-                {operation.choices.map(opt => (
+                {operation.choices.map((opt: any) => (
                     <Select.Option key={opt.value} value={opt.value}>
                         {opt.label}
                     </Select.Option>
@@ -56,7 +57,7 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
                 {...props}
             >
                 <Row>
-                    {operation.choices.map(opt => (
+                    {operation.choices.map((opt: any) => (
                         <Col key={opt.value}>
                             <Checkbox value={opt.value}>{opt.label}</Checkbox>
                         </Col>
@@ -69,23 +70,25 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
 }
 
 @observer
-export class ManyOfFormAnt extends React.Component<BindAntFormProps & SelectProps & BindAntProps<ManyOf>> {
+export class ManyOfFormAnt extends React.Component<SelectProps & BindAntProps<ManyOf> & BindFormItemAntProps> {
     render() {
-        const { operation, label, help, invisible, formStyle, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, label, labelCol, wrapperCol, invisible, formStyle, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         return (
-            <Form.Item
-                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
-                style={formStyle || undefined}
-                required={operation.required}
-                hasFeedback={operation.hasErrors}
-                validateStatus={operation.hasErrors ? 'error' : undefined}
-                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
+            <FormItemAnt
+                operation={operation}
+                label={label}
+                formStyle={formStyle}
+                labelCol={labelCol}
+                wrapperCol={wrapperCol}
             >
                 <ManyOfAnt operation={operation} {...props as any} />
-            </Form.Item>
+            </FormItemAnt>
         );
     }
 }

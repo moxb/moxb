@@ -1,13 +1,16 @@
 import { FormItemProps } from 'antd/lib/form';
 import { observer } from 'mobx-react';
+import { CSSProperties } from 'react';
 import * as React from 'react';
-import { DatePicker, Form } from 'antd';
+import { DatePicker } from 'antd';
 import { DatePickerProps } from 'antd/lib/date-picker/interface';
-import { parseProps, getErrorMessages } from './BindAnt';
+import { parseProps } from './BindAnt';
 import { Date } from '@moxb/moxb';
+import { FormItemAnt } from './FormItemAnt';
 
 export interface BindDatePickerAntProps extends DatePickerProps {
     operation: Date;
+    formStyle?: CSSProperties;
 }
 
 @observer
@@ -27,17 +30,23 @@ export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
 @observer
 export class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & FormItemProps> {
     render() {
-        const { operation, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, label, formStyle, wrapperCol, labelCol, invisible, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
+        if (invisible) {
+            return null;
+        }
         return (
-            <Form.Item
-                required={operation.required}
-                hasFeedback={operation.hasErrors}
-                validateStatus={operation.hasErrors ? 'error' : undefined}
-                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
-                {...props as any}
+            <FormItemAnt
+                operation={operation}
+                label={label}
+                formStyle={formStyle}
+                labelCol={labelCol}
+                wrapperCol={wrapperCol}
             >
-                <DatePickerAnt operation={this.props.operation} />
-            </Form.Item>
+                <DatePickerAnt operation={operation} {...props as any} />
+            </FormItemAnt>
         );
     }
 }

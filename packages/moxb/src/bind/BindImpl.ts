@@ -166,6 +166,16 @@ export class BindImpl<Options extends BindOptions> implements Bind {
         return this.getErrors();
     }
 
+    /** @deprecated since version v0.2.0-beta.7 */
+    @computed
+    get error() {
+        if (this.hasErrors) {
+            return (this.getErrors() as string[]).join(' ');
+        } else {
+            return undefined;
+        }
+    }
+
     @computed
     get hasErrors() {
         return this.errors!.length > 0;
@@ -188,6 +198,12 @@ export class BindImpl<Options extends BindOptions> implements Bind {
 
     @action.bound
     clearErrors() {
+        this.doClearErrors();
+    }
+
+    /** @deprecated since version v0.2.0-beta.7 */
+    @action.bound
+    clearError() {
         this.doClearErrors();
     }
 
