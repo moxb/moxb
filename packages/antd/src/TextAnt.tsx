@@ -1,21 +1,16 @@
-import { ColProps } from 'antd/lib/grid';
 import { observer } from 'mobx-react';
-import { CSSProperties } from 'react';
 import * as React from 'react';
-import { labelWithHelp, parseProps, getErrorMessages } from './BindAnt';
-import { Input, Form } from 'antd';
+import { parseProps, BindAntProps } from './BindAnt';
+import { Input } from 'antd';
 import { InputProps } from 'antd/lib/input';
 import { Text } from '@moxb/moxb';
-import { FormItemProps } from 'antd/lib/form/FormItem';
+import { FormItemAnt, BindFormItemAntProps } from './FormItemAnt';
 
-export interface BindStringAntProps extends React.HTMLProps<HTMLFormElement> {
+export interface BindStringAntProps extends BindAntProps<Text>, InputProps {
     operation: Text;
     useDoubleClickToEdit?: boolean;
     help?: string;
-    formStyle?: CSSProperties;
     onPressEnter?(): void;
-    wrapperCol?: ColProps;
-    labelCol?: ColProps;
 }
 
 export interface BindSearchStringAntProps extends BindStringAntProps {
@@ -24,13 +19,10 @@ export interface BindSearchStringAntProps extends BindStringAntProps {
 }
 
 @observer
-export class TextAnt extends React.Component<InputProps & BindStringAntProps> {
+export class TextAnt extends React.Component<BindStringAntProps> {
     // tslint:disable-next-line:cyclomatic-complexity
     render() {
-        const { operation, id, inputType, value, size, prefix, invisible, onPressEnter, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, id, inputType, value, invisible, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
@@ -42,10 +34,7 @@ export class TextAnt extends React.Component<InputProps & BindStringAntProps> {
                     onFocus={operation.onEnterField}
                     onBlur={operation.onExitField}
                     value={operation.value || value || ''}
-                    prefix={prefix}
                     onChange={(e: any) => operation.setValue(e.target.value)}
-                    onPressEnter={onPressEnter}
-                    rows={this.props.rows}
                     {...props as any}
                 />
             );
@@ -57,10 +46,7 @@ export class TextAnt extends React.Component<InputProps & BindStringAntProps> {
                     onFocus={operation.onEnterField}
                     onBlur={operation.onExitField}
                     value={operation.value || value || ''}
-                    prefix={prefix}
                     onChange={(e: any) => operation.setValue(e.target.value)}
-                    onPressEnter={onPressEnter}
-                    size={size}
                     {...props as any}
                 />
             );
@@ -72,7 +58,7 @@ export class TextAnt extends React.Component<InputProps & BindStringAntProps> {
  * Use `onSearch` for the search function! Then it will work with the Enter as well as with the search button!
  */
 @observer
-export class TextSearchAnt extends React.Component<InputProps & BindSearchStringAntProps> {
+export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
     render() {
         const Search = Input.Search;
         const { operation, id, value, invisible, ...props } = parseProps(this.props, this.props.operation);
@@ -94,35 +80,25 @@ export class TextSearchAnt extends React.Component<InputProps & BindSearchString
 }
 
 @observer
-export class TextFormAnt extends React.Component<FormItemProps & BindStringAntProps> {
+export class TextFormAnt extends React.Component<BindStringAntProps & BindFormItemAntProps> {
     render() {
-        const {
-            operation,
-            label,
-            invisible,
-            prefix,
-            formStyle,
-            labelCol,
-            wrapperCol,
-            onPressEnter,
-            ...props
-        } = parseProps(this.props, this.props.operation);
+        const { operation, label, formStyle, labelCol, wrapperCol, invisible, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         return (
-            <Form.Item
-                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
-                style={formStyle || undefined}
+            <FormItemAnt
+                operation={operation}
+                label={label}
+                formStyle={formStyle}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
-                required={operation.required}
-                hasFeedback={operation.hasErrors}
-                validateStatus={operation.hasErrors ? 'error' : undefined}
-                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
             >
-                <TextAnt operation={operation} prefix={prefix} onPressEnter={onPressEnter} {...props as any} />
-            </Form.Item>
+                <TextAnt operation={operation} {...props as any} />
+            </FormItemAnt>
         );
     }
 }

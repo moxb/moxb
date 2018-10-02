@@ -1,13 +1,16 @@
 import { FormItemProps } from 'antd/lib/form';
 import { observer } from 'mobx-react';
+import { CSSProperties } from 'react';
 import * as React from 'react';
-import { TimePicker, Form } from 'antd';
+import { TimePicker } from 'antd';
 import { TimePickerProps } from 'antd/lib/time-picker';
-import { parseProps, getErrorMessages } from './BindAnt';
+import { parseProps } from './BindAnt';
 import { Time } from '@moxb/moxb';
+import { FormItemAnt } from './FormItemAnt';
 
 export interface BindTimePickerAntProps extends TimePickerProps {
     operation: Time;
+    formStyle?: CSSProperties;
 }
 
 @observer
@@ -27,17 +30,23 @@ export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
 @observer
 export class TimePickerFormAnt extends React.Component<BindTimePickerAntProps & FormItemProps> {
     render() {
-        const { operation, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, label, formStyle, wrapperCol, labelCol, invisible, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
+        if (invisible) {
+            return null;
+        }
         return (
-            <Form.Item
-                required={operation.required}
-                hasFeedback={operation.hasErrors}
-                validateStatus={operation.hasErrors ? 'error' : undefined}
-                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
-                {...props as any}
+            <FormItemAnt
+                operation={operation}
+                label={label}
+                formStyle={formStyle}
+                labelCol={labelCol}
+                wrapperCol={wrapperCol}
             >
-                <TimePickerAnt operation={this.props.operation} />
-            </Form.Item>
+                <TimePickerAnt operation={operation} {...props as any} />
+            </FormItemAnt>
         );
     }
 }

@@ -7,7 +7,7 @@ import { parseProps, labelWithHelp, getErrorMessages } from './BindAnt';
 import { FormItem as MoxFormItem } from '@moxb/moxb';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 
-export interface BindFormItemAntProps extends React.HTMLProps<HTMLFormElement> {
+export interface BindFormItemAntProps extends FormItemProps {
     operation: MoxFormItem;
     formStyle?: CSSProperties;
     wrapperCol?: ColProps;
@@ -16,7 +16,7 @@ export interface BindFormItemAntProps extends React.HTMLProps<HTMLFormElement> {
 }
 
 @observer
-export class FormItemAnt extends React.Component<FormItemProps & BindFormItemAntProps> {
+export class FormItemAnt extends React.Component<BindFormItemAntProps> {
     render() {
         const { operation, children, label, formStyle, labelCol, wrapperCol, invisible, ...props } = parseProps(
             this.props,

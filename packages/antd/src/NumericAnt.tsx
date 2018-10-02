@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Form, InputNumber } from 'antd';
-import { BindAntProps, labelWithHelp, parseProps, getErrorMessages } from './BindAnt';
-import { Numeric } from '@moxb/moxb';
+import { InputNumber } from 'antd';
+import { BindAntProps, parseProps } from './BindAnt';
 import { InputNumberProps } from 'antd/lib/input-number';
 import { FormItemProps } from 'antd/lib/form/FormItem';
+import { FormItemAnt } from './FormItemAnt';
+import { Numeric } from '@moxb/moxb';
 
 @observer
 export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNumberProps> {
@@ -35,20 +36,23 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
 @observer
 export class NumericFormAnt extends React.Component<BindAntProps<Numeric> & InputNumberProps & FormItemProps> {
     render() {
-        const { operation, label, invisible, prefix } = parseProps(this.props, this.props.operation);
+        const { operation, label, invisible, formStyle, labelCol, wrapperCol, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         return (
-            <Form.Item
-                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
-                required={operation.required}
-                hasFeedback={operation.hasErrors}
-                validateStatus={operation.hasErrors ? 'error' : undefined}
-                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
+            <FormItemAnt
+                operation={operation}
+                label={label}
+                formStyle={formStyle}
+                labelCol={labelCol}
+                wrapperCol={wrapperCol}
             >
-                <NumericAnt operation={operation} prefix={prefix} />
-            </Form.Item>
+                <NumericAnt operation={operation} {...props as any} />
+            </FormItemAnt>
         );
     }
 }

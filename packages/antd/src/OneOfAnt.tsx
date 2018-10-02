@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Select, Radio, Form } from 'antd';
+import { Select, Radio } from 'antd';
 import { SelectProps } from 'antd/lib/select';
 import { RadioProps } from 'antd/lib/radio';
-import { BindAntProps, labelWithHelp, parseProps, getErrorMessages } from './BindAnt';
-import { OneOf } from '@moxb/moxb';
+import { BindAntProps, parseProps } from './BindAnt';
 import { FormItemProps } from 'antd/lib/form/FormItem';
+import { FormItemAnt, BindFormItemAntProps } from './FormItemAnt';
+import { OneOf } from '@moxb/moxb';
 
 @observer
 export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps> {
@@ -29,20 +30,23 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps> 
 @observer
 export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & FormItemProps> {
     render() {
-        const { operation, label, invisible } = parseProps(this.props, this.props.operation);
+        const { operation, label, formStyle, labelCol, wrapperCol, invisible } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         return (
-            <Form.Item
-                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
-                required={operation.required}
-                hasFeedback={operation.hasErrors}
-                validateStatus={operation.hasErrors ? 'error' : undefined}
-                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
+            <FormItemAnt
+                operation={operation}
+                label={label}
+                formStyle={formStyle}
+                labelCol={labelCol}
+                wrapperCol={wrapperCol}
             >
                 <OneOfAnt operation={operation} />
-            </Form.Item>
+            </FormItemAnt>
         );
     }
 }
@@ -73,9 +77,9 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
 }
 
 @observer
-export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & FormItemProps> {
+export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & BindFormItemAntProps> {
     render() {
-        const { operation, label, invisible, labelCol, wrapperCol, ...props } = parseProps(
+        const { operation, label, invisible, labelCol, wrapperCol, formStyle, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -83,17 +87,15 @@ export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & Ra
             return null;
         }
         return (
-            <Form.Item
-                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
+            <FormItemAnt
+                operation={operation}
+                label={label}
+                formStyle={formStyle}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
-                required={operation.required}
-                hasFeedback={operation.hasErrors}
-                validateStatus={operation.hasErrors ? 'error' : undefined}
-                help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
             >
-                <OneOfSelectAnt operation={operation} />
-            </Form.Item>
+                <OneOfSelectAnt operation={operation} {...props as any} />
+            </FormItemAnt>
         );
     }
 }

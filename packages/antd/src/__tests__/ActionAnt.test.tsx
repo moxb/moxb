@@ -1,6 +1,6 @@
 import { ActionImpl } from '@moxb/moxb';
 import * as React from 'react';
-import { ActionFormButtonAnt } from '../ActionAnt';
+import { ActionButtonAnt } from '../ActionAnt';
 const ReactTestRenderer = require('react-test-renderer');
 
 describe('ActionFormButtonAnt', function() {
@@ -12,8 +12,6 @@ describe('ActionFormButtonAnt', function() {
             disabled: () => true,
         });
 
-        // operation.setError('oops');
-        expect(ReactTestRenderer.create(<ActionFormButtonAnt operation={operation} />)).toMatchSnapshot();
-        // expect(ReactTestRenderer.create(<ActionFormButtonAntNew operation={operation} />)).toMatchSnapshot();
+        expect(ReactTestRenderer.create(<ActionButtonAnt operation={operation} />)).toMatchSnapshot();
     });
 });
