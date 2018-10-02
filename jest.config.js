@@ -25,6 +25,12 @@ module.exports = {
         'json',
         'node'
     ],
+    globals: {
+        'ts-jest': {
+            // see https://kulshekhar.github.io/ts-jest/user/config/tsConfig#examples
+            tsConfig: 'tsconfig.test.json'
+        }
+    },
     testMatch: [
         '**/src/**/__tests__/*.test.(ts|tsx)',
     ],
