@@ -38,6 +38,7 @@
     ],
     "setupTestFrameworkScriptFile": "../../jest/jestAdapter.js",
     "testEnvironment": "jsdom",
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
     "transform": {
       "^.+\\.(css|less)$": "../../jest/jestMockStyle.js",
       "^.+\\.(ts|tsx)$": "ts-jest"
