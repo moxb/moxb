@@ -20,4 +20,5 @@ export * from './validation/SimpleSchemaValidation';
 export * from './wizard/Wizard';
 export * from './wizard/WizardStep';
 export * from './form/Form';
+export * from './form/FormItem';
 // export * from './error/Error';
