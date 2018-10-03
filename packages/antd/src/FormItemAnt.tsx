@@ -31,6 +31,7 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
                 style={formStyle || undefined}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
+                required={operation.required}
                 hasFeedback={operation.hasErrors}
                 validateStatus={operation.hasErrors ? 'error' : undefined}
                 help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
