@@ -76,8 +76,9 @@ pre-push: pre-commit
 .PHONY: pre-commit
 pre-commit: all-dependencies _check-for-only
 	$(MAKE) format-check
-	$(MAKE) test
+	$(MAKE) build-packages test
 
+# is there an `only` in any of the tests
 .PHONY: _check-for-only
 _check-for-only:
 	@!( grep '\.only(' `find $(SUB_DIRS) -name '*.test.ts*'`)
@@ -180,8 +181,8 @@ admin/bin-tools:
 	@touch $@
 
 ###### watch-all ###################################
-.PHONY: _build-packages
-_build-packages: all-dependencies
+.PHONY: build-packages
+build-packages: all-dependencies
 	# first build the packages
 	@for dir in $(PACKAGE_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
@@ -197,7 +198,7 @@ _build-packages: all-dependencies
 .PHONY: watch-all
 watch-all: all-dependencies
 	# the first argument is the one we are waiting for!
-	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
+	MOXB_FIRST_VERBOSE=1 admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
 .PHONY: watch-all-verbose
 watch-all-verbose:
