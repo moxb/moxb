@@ -76,7 +76,7 @@ pre-push: pre-commit
 .PHONY: pre-commit
 pre-commit: all-dependencies _check-for-only
 	$(MAKE) format-check
-	$(MAKE) _build-packages test
+	$(MAKE) build-packages test
 
 # is there an `only` in any of the tests
 .PHONY: _check-for-only
@@ -181,8 +181,8 @@ admin/bin-tools:
 	@touch $@
 
 ###### watch-all ###################################
-.PHONY: _build-packages
-_build-packages: all-dependencies
+.PHONY: build-packages
+build-packages: all-dependencies
 	# first build the packages
 	@for dir in $(PACKAGE_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
