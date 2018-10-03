@@ -16,7 +16,10 @@ export interface BindTimePickerAntProps extends TimePickerProps {
 @observer
 export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
     render() {
-        const { operation, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, ...props } = parseProps(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
         return (
             <TimePicker
                 placeholder={operation.placeholder}

@@ -16,7 +16,10 @@ export interface BindDatePickerAntProps extends DatePickerProps {
 @observer
 export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
     render() {
-        const { operation, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, ...props } = parseProps(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
         return (
             <DatePicker
                 placeholder={operation.placeholder}
