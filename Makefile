@@ -197,7 +197,7 @@ _build-packages: all-dependencies
 .PHONY: watch-all
 watch-all: all-dependencies
 	# the first argument is the one we are waiting for!
-	admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
+	MOXB_FIRST_VERBOSE=1 admin/bin/watch-packages.sh $(EXAMPLE_DIRS) $(PACKAGE_DIRS)
 
 .PHONY: watch-all-verbose
 watch-all-verbose:
