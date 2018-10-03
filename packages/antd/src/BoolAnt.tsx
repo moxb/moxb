@@ -24,7 +24,7 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
                 {...props}
             >
                 {children}
-                {labelWithHelp(label != null ? label : operation.label, operation.help)}
+                {labelWithHelp(label, operation.help)}
             </Checkbox>
         );
     }

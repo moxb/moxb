@@ -27,7 +27,7 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
         }
         return (
             <Form.Item
-                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
+                label={labelWithHelp(label, operation.help)}
                 style={formStyle || undefined}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
