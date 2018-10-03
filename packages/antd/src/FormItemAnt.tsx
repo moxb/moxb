@@ -18,7 +18,7 @@ export interface BindFormItemAntProps extends FormItemProps {
 @observer
 export class FormItemAnt extends React.Component<BindFormItemAntProps> {
     render() {
-        const { operation, children, label, formStyle, labelCol, wrapperCol, invisible, ...props } = parseProps(
+        const { operation, id, children, label, formStyle, labelCol, wrapperCol, invisible } = parseProps(
             this.props,
             this.props.operation
         );
@@ -27,6 +27,7 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
         }
         return (
             <Form.Item
+                id={id + '-formItem'}
                 label={labelWithHelp(label, operation.help)}
                 style={formStyle || undefined}
                 labelCol={labelCol}
@@ -35,10 +36,19 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
                 hasFeedback={operation.hasErrors}
                 validateStatus={operation.hasErrors ? 'error' : undefined}
                 help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
-                {...props as any}
             >
                 {children}
             </Form.Item>
         );
     }
+}
+
+/**
+ * This function essentially merges the BindAntProps with the data that comes form the operation.
+ * The direct props override properties of the operation!
+ */
+export function parsePropsForChild<T, O>(bindProps: T, op: O): T & O {
+    // @ts-ignore
+    const { children, label, formStyle, labelCol, wrapperCol, ...props } = parseProps(bindProps, op);
+    return props;
 }
