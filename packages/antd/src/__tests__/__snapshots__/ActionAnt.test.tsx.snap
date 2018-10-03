@@ -1,16 +1,145 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionFormButtonAnt should render 1`] = `
-<button
-  className="ant-btn"
+exports[`ActionButtonAnt should render a button by default 1`] = `
+<Button
+  block={false}
   disabled={true}
+  ghost={false}
+  htmlType="button"
   id="the_id"
+  loading={false}
   onClick={[Function]}
+  prefixCls="ant-btn"
   readOnly={false}
-  type="button"
 >
-  <span>
-    aha
-  </span>
-</button>
+  aha
+</Button>
+`;
+
+exports[`ActionButtonAnt should render a button with children instead of a label 1`] = `
+<Button
+  block={false}
+  disabled={false}
+  ghost={false}
+  htmlType="button"
+  id="the_id"
+  loading={false}
+  onClick={[Function]}
+  prefixCls="ant-btn"
+  readOnly={false}
+>
+  FooButton
+</Button>
+`;
+
+exports[`ActionFormButtonAnt should render a button by default 1`] = `
+<FormItemAnt
+  operation={
+    bound ActionImpl {
+      "_errors": Array [],
+      "constructor": [Function],
+      "doClearErrors": [Function],
+      "doOnValidate": [Function],
+      "domId": "the_id",
+      "getDisabled": [Function],
+      "getErrors": [Function],
+      "getHelp": [Function],
+      "getInvisible": [Function],
+      "getLabel": [Function],
+      "getReadonly": [Function],
+      "id": "TheId",
+      "impl": Object {
+        "disabled": [Function],
+        "fire": [Function],
+        "id": "TheId",
+        "label": "aha",
+      },
+      "setError": [Function],
+      Symbol(mobx did run lazy initializers): true,
+      Symbol(mobx administration): ObservableObjectAdministration$$1 {
+        "defaultEnhancer": [Function],
+        "keysAtom": Atom$$1 {
+          "diffValue": 0,
+          "isBeingObserved": false,
+          "isPendingUnobservation": false,
+          "lastAccessedBy": 0,
+          "lowestObserverState": 2,
+          "name": "ActionImpl@56.keys",
+          "observers": Set {},
+        },
+        "name": "ActionImpl@56",
+        "target": [Circular],
+        "values": Map {
+          "_errors" => Array [],
+          "label" => "aha",
+          "disabled" => true,
+          "enabled" => false,
+          "invisible" => false,
+          "readOnly" => false,
+          "help" => undefined,
+          "errors" => Array [],
+          "error" => undefined,
+          "hasErrors" => false,
+        },
+      },
+    }
+  }
+>
+  <ActionButtonAnt
+    disabled={true}
+    htmlType="submit"
+    id="the_id"
+    operation={
+      bound ActionImpl {
+        "_errors": Array [],
+        "constructor": [Function],
+        "doClearErrors": [Function],
+        "doOnValidate": [Function],
+        "domId": "the_id",
+        "getDisabled": [Function],
+        "getErrors": [Function],
+        "getHelp": [Function],
+        "getInvisible": [Function],
+        "getLabel": [Function],
+        "getReadonly": [Function],
+        "id": "TheId",
+        "impl": Object {
+          "disabled": [Function],
+          "fire": [Function],
+          "id": "TheId",
+          "label": "aha",
+        },
+        "setError": [Function],
+        Symbol(mobx did run lazy initializers): true,
+        Symbol(mobx administration): ObservableObjectAdministration$$1 {
+          "defaultEnhancer": [Function],
+          "keysAtom": Atom$$1 {
+            "diffValue": 0,
+            "isBeingObserved": false,
+            "isPendingUnobservation": false,
+            "lastAccessedBy": 0,
+            "lowestObserverState": 2,
+            "name": "ActionImpl@56.keys",
+            "observers": Set {},
+          },
+          "name": "ActionImpl@56",
+          "target": [Circular],
+          "values": Map {
+            "_errors" => Array [],
+            "label" => "aha",
+            "disabled" => true,
+            "enabled" => false,
+            "invisible" => false,
+            "readOnly" => false,
+            "help" => undefined,
+            "errors" => Array [],
+            "error" => undefined,
+            "hasErrors" => false,
+          },
+        },
+      }
+    }
+    readOnly={false}
+  />
+</FormItemAnt>
 `;
