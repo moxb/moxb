@@ -76,8 +76,9 @@ pre-push: pre-commit
 .PHONY: pre-commit
 pre-commit: all-dependencies _check-for-only
 	$(MAKE) format-check
-	$(MAKE) test
+	$(MAKE) _build-packages test
 
+# is there an `only` in any of the tests
 .PHONY: _check-for-only
 _check-for-only:
 	@!( grep '\.only(' `find $(SUB_DIRS) -name '*.test.ts*'`)
