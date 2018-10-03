@@ -1,3 +1,4 @@
+/// <reference path="../src/globals.d.ts" />
 import { Mongo } from 'meteor/mongo';
 import { MeteorDataFetcher } from './MeteorDataFetcher';
 

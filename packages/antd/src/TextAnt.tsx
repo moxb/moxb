@@ -11,6 +11,7 @@ export interface BindStringAntProps extends BindAntProps<Text>, InputProps {
     useDoubleClickToEdit?: boolean;
     help?: string;
     onPressEnter?(): void;
+    rows?: number;
 }
 
 export interface BindSearchStringAntProps extends BindStringAntProps {

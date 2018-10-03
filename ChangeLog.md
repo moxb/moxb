@@ -9,10 +9,23 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 * Added required property for all ui components
 * Added form item components for datePicker and timePicker
 * Added some basic tests for ant design components
+* `make watch-all-verbose` and `make watch-verbose` and added: does not suppress the `tsc --watch` output.
 
 ### Changed
 * Updated npm version to version 6 so we can use `npm ci`
-
+* `make build` does not remove the `build` directory unless some typescript files have been added or removed since
+  the last build. The old version of the `Makefile` was pretty aggressive:
+  
+  - on make it always removed the `build` directories
+  - on `make watch` it 
+    - first removed the `build` directory 
+    - then did a full build (`tsc --watch` initially builds all 
+      files anyway, therefore this step is not needed)
+  
+  This is not really necessary. Now it removes the `build` directories only if some typescript files have been added 
+  or removed since the last build. It does it by comparing the list of `.ts` files with the list of `.js` files
+  ignoring `*.d.ts` files, because no `.js` file is build for those files.
+  
 ### Removed
 
 ### Fixed

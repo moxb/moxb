@@ -1,3 +1,5 @@
-import { Value } from '../value/Value';
+import { Bind } from '../bind/Bind';
 
-export interface FormItem extends Value<any> {}
+export interface FormItem extends Bind {
+    readonly required?: boolean;
+}

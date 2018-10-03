@@ -45,11 +45,28 @@ run-unit-tests-verbose: all-dependencies
 
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################
-# TODO add src/__mocks__ here
-# It does not work, because there are problems with tsc
+
+# all JS files found in the
+TSC_JS_FILES = $(shell cd build && find . -type f -name '*.js' | sort )
+
+# the names of the generated ja files
+TSC_TS_TO_JS = $(shell cd src && find . -type f  \( -name '*.ts' -o -name '*.tsx' \) \
+           	| grep -v '\.d\.ts' \
+           	| sed s/\.ts$$/.js/g \
+           	| sed s/\.tsx$$/.js/g \
+           	| sort \
+           	)
+
+# we check if the list of generated files is the same as the list of
+# actual files. If not, we remove all generated files...
+.PHONY: _tsc-clean-generated-js-files-if-needed
+_tsc-clean-generated-js-files-if-needed:
+	@if [ "$(TSC_JS_FILES)" != "$(TSC_TS_TO_JS)" ]; then \
+		$(MAKE) clean-generated-js-files; \
+	fi
 
 .PHONY: watch
-watch:  all-dependencies
+watch:  all-dependencies _tsc-clean-generated-js-files-if-needed
 	$(ACTIVATE) \
 		&& cd src \
 		&& $(TSC) --watch --preserveWatchOutput
@@ -59,7 +76,7 @@ clean-generated-js-files:
 	$(RM) -rf build
 
 .PHONY: build-all
-build-all:  all-dependencies
+build-all: all-dependencies _tsc-clean-generated-js-files-if-needed
 	$(ACTIVATE) \
 		&& cd src \
 		&& ($(TSC) || echo typescript ERRORS found but ignored)

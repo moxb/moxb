@@ -12,7 +12,19 @@ shift
 # we ignore the output of the backgorund watch processes
 for dir in "$@"
 do
-    make -C "$dir" watch >/dev/null &
+    if [ "$MOXB_WATCH_ALL_VERBOSE" != "" ]; then
+        echo 'make -C "'$dir'" watch &'
+        make -C "$dir" watch &
+    else
+        echo 'make -C "'$dir'" watch >/dev/null &'
+        make -C "$dir" watch >/dev/null &
+    fi
 done
 
-make -C "$first"  watch ;
+if [ "$MOXB_FIRST_VERBOSE" != "" ]; then
+    echo 'make -C "'$first'" watch'
+    make -C "$first" watch
+else
+    echo 'make -C "'$first'" watch >/dev/null'
+    make -C "$first" watch >/dev/null
+fi
