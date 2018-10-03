@@ -6,7 +6,7 @@ import { TimePicker } from 'antd';
 import { TimePickerProps } from 'antd/lib/time-picker';
 import { parseProps } from './BindAnt';
 import { Time } from '@moxb/moxb';
-import { FormItemAnt } from './FormItemAnt';
+import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 export interface BindTimePickerAntProps extends TimePickerProps {
     operation: Time;
@@ -30,22 +30,13 @@ export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
 @observer
 export class TimePickerFormAnt extends React.Component<BindTimePickerAntProps & FormItemProps> {
     render() {
-        const { operation, label, formStyle, wrapperCol, labelCol, invisible, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItemAnt
-                operation={operation}
-                label={label}
-                formStyle={formStyle}
-                labelCol={labelCol}
-                wrapperCol={wrapperCol}
-            >
-                <TimePickerAnt operation={operation} {...props as any} />
+            <FormItemAnt operation={operation} {...this.props as any}>
+                <TimePickerAnt operation={operation} {...props} />
             </FormItemAnt>
         );
     }

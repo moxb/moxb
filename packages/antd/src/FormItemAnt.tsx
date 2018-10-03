@@ -44,8 +44,8 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
 }
 
 /**
- * This function essentially merges the BindAntProps with the data that comes form the operation.
- * The direct props override properties of the operation!
+ * This function filters out the props, which are not needed by a FormItem children.
+ * It only passes the necessary props along to the children.
  */
 export function parsePropsForChild<T, O>(bindProps: T, op: O): T & O {
     // @ts-ignore

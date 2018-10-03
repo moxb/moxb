@@ -4,7 +4,7 @@ import { parseProps, BindAntProps } from './BindAnt';
 import { Input } from 'antd';
 import { InputProps } from 'antd/lib/input';
 import { Text } from '@moxb/moxb';
-import { FormItemAnt, BindFormItemAntProps } from './FormItemAnt';
+import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
 
 export interface BindStringAntProps extends BindAntProps<Text>, InputProps {
     operation: Text;
@@ -83,22 +83,13 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
 @observer
 export class TextFormAnt extends React.Component<BindStringAntProps & BindFormItemAntProps> {
     render() {
-        const { operation, label, formStyle, labelCol, wrapperCol, invisible, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItemAnt
-                operation={operation}
-                label={label}
-                formStyle={formStyle}
-                labelCol={labelCol}
-                wrapperCol={wrapperCol}
-            >
-                <TextAnt operation={operation} {...props as any} />
+            <FormItemAnt operation={operation} {...this.props as any}>
+                <TextAnt operation={operation} {...props} />
             </FormItemAnt>
         );
     }

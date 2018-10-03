@@ -31,7 +31,6 @@ exports[`TextAnt should render a textarea with the control option set 1`] = `
 
 exports[`TextFormAnt should render form item with a text input by default 1`] = `
 <FormItemAnt
-  label="oh"
   operation={
     bound TextImpl {
       "_errors": Array [],

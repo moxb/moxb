@@ -15,7 +15,6 @@ exports[`BoolAnt should render a checkbox by default 1`] = `
 
 exports[`BoolFormAnt should render a checkbox by default 1`] = `
 <FormItemAnt
-  label="oh"
   operation={
     bound BoolImpl {
       "_errors": Array [],

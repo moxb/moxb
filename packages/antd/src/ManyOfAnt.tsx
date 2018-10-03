@@ -5,8 +5,9 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
-import { FormItemAnt, BindFormItemAntProps } from './FormItemAnt';
+import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
 import { ManyOf } from '@moxb/moxb';
+import { TextAnt } from './TextAnt';
 
 @observer
 export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {
@@ -72,22 +73,13 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
 @observer
 export class ManyOfFormAnt extends React.Component<SelectProps & BindAntProps<ManyOf> & BindFormItemAntProps> {
     render() {
-        const { operation, label, labelCol, wrapperCol, invisible, formStyle, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItemAnt
-                operation={operation}
-                label={label}
-                formStyle={formStyle}
-                labelCol={labelCol}
-                wrapperCol={wrapperCol}
-            >
-                <ManyOfAnt operation={operation} {...props as any} />
+            <FormItemAnt operation={operation} {...this.props as any}>
+                <ManyOfAnt operation={operation} {...props} />
             </FormItemAnt>
         );
     }

@@ -4,7 +4,7 @@ import { InputNumber } from 'antd';
 import { BindAntProps, parseProps } from './BindAnt';
 import { InputNumberProps } from 'antd/lib/input-number';
 import { FormItemProps } from 'antd/lib/form/FormItem';
-import { FormItemAnt } from './FormItemAnt';
+import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { Numeric } from '@moxb/moxb';
 
 @observer
@@ -36,22 +36,13 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
 @observer
 export class NumericFormAnt extends React.Component<BindAntProps<Numeric> & InputNumberProps & FormItemProps> {
     render() {
-        const { operation, label, invisible, formStyle, labelCol, wrapperCol, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItemAnt
-                operation={operation}
-                label={label}
-                formStyle={formStyle}
-                labelCol={labelCol}
-                wrapperCol={wrapperCol}
-            >
-                <NumericAnt operation={operation} {...props as any} />
+            <FormItemAnt operation={operation} {...this.props as any}>
+                <NumericAnt operation={operation} {...props} />
             </FormItemAnt>
         );
     }
