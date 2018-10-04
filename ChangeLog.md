@@ -33,6 +33,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
   or removed since the last build. It does it by comparing the list of `.ts` files with the list of `.js` files
   ignoring `*.d.ts` files, because no `.js` file is build for those files.
   
+### Breaking Changes
+* Renamed main property for ModalAnt and ConfirmAnt to `operation` to be consistent with other components.
+  
 ### Removed
 
 ### Fixed

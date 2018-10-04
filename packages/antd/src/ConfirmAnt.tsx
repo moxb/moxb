@@ -3,27 +3,28 @@ import * as React from 'react';
 import { Modal } from 'antd';
 import { ModalFuncProps } from 'antd/lib/modal';
 import { Confirm as MoxbConfirm } from '@moxb/moxb';
+import { parseProps } from './BindAnt';
 
 export interface BindConfirmAntProps extends ModalFuncProps {
-    confirm: MoxbConfirm<any>;
+    operation: MoxbConfirm<any>;
+    invisible?: boolean;
 }
 
 @observer
 export class ConfirmAnt extends React.Component<BindConfirmAntProps> {
     render() {
-        const { confirm, ...confirmProps } = this.props;
-        const { confirmButton, cancelButton, onConfirm, onCancel } = confirm;
+        const { operation, ...props } = parseProps(this.props, this.props.operation);
         return (
             <Modal
-                {...confirmProps as any}
-                onOk={onConfirm}
-                visible={confirm.open}
-                onCancel={onCancel}
-                cancelText={cancelButton.label}
-                okText={confirmButton.label}
-                title={confirm.header}
+                {...props as any}
+                onOk={operation.onConfirm}
+                visible={operation.open}
+                onCancel={operation.onCancel}
+                cancelText={operation.cancelButton.label}
+                okText={operation.confirmButton.label}
+                title={operation.header}
             >
-                {confirm.content}
+                {operation.content}
             </Modal>
         );
     }

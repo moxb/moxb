@@ -5,7 +5,7 @@ import { Modal } from 'antd';
 import { ModalFuncProps } from 'antd/lib/modal';
 
 export interface BindModalAntProps<T> extends ModalFuncProps {
-    modal: MoxbModal<any>;
+    operation: MoxbModal<any>;
 }
 
 @observer
@@ -15,22 +15,20 @@ export class ModalAnt<T> extends React.Component<BindModalAntProps<T>> {
     * a 'cancelButton', so we will warn the user, that not more actions are available.
     * */
     render() {
-        const { modal, children, ...modalProps } = this.props;
-        const { actions, header, open } = modal;
-        if (actions!.length !== 2) {
-            console.warn('The modals for ant design UI componetns must have a fixed number of two actions.');
+        const { operation, children, ...props } = this.props;
+        if (operation.actions!.length !== 2) {
+            console.warn('The modals for ant design UI components must have a fixed number of two actions.');
             return null;
         }
-
         return (
             <Modal
-                {...modalProps as any}
-                visible={open}
-                onCancel={actions![0].fire}
-                onOk={actions![1].fire}
-                cancelText={actions![0].label}
-                okText={actions![1].label}
-                title={header}
+                {...props as any}
+                visible={operation.open}
+                onCancel={operation.actions![0].fire}
+                onOk={operation.actions![1].fire}
+                cancelText={operation.actions![0].label}
+                okText={operation.actions![1].label}
+                title={operation.header}
             >
                 {children}
             </Modal>

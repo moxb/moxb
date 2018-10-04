@@ -62,13 +62,13 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     )}
                                     <br />
                                     <h3>ConfirmUI Component</h3>
-                                    <ConfirmAnt confirm={application.testConfirm} />
+                                    <ConfirmAnt operation={application.testConfirm} />
                                     <ActionButtonAnt operation={application.newConfirmAction()} />
                                     <br />
                                     <br />
                                     <h3>ModalAnt Component</h3>
                                     <ActionButtonAnt color="green" operation={application.newModalAction()} />
-                                    <ModalAnt modal={application.testModal}>
+                                    <ModalAnt operation={application.testModal}>
                                         <TextFormAnt operation={application.testText} />
                                     </ModalAnt>
                                     <br />

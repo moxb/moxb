@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalAnt should render a modal dialog by default 1`] = `
+<Modal
+  cancelButtonDisabled={false}
+  cancelText="Action"
+  confirmLoading={false}
+  maskTransitionName="fade"
+  okButtonDisabled={false}
+  okText="Cancel"
+  okType="primary"
+  onCancel={[Function]}
+  onOk={[Function]}
+  prefixCls="ant-modal"
+  title=""
+  transitionName="zoom"
+  visible={false}
+  width={520}
+/>
+`;
