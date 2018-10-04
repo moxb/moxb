@@ -12,14 +12,14 @@ export class TableSearchImpl implements TableSearch {
     readonly searchField: Text = new TextImpl({
         id: 'TableSearch.searchField',
         placeholder: 'Search...',
-        initialValue: '',
+        initialValue: () => this.query,
     });
 
     readonly searchAction: Action = new ActionImpl({
         id: 'TableSearch.searchAction',
         label: 'Search',
         fire: () => this.setQuery(this.searchField.value || ''),
-        enabled: () => this.searchField.value !== this.query,
+        enabled: () => !this.searchField.isInitialValue,
     });
 
     readonly clearSearch: Action = new ActionImpl({
