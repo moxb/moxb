@@ -7,7 +7,6 @@ import * as React from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
 import { ManyOf } from '@moxb/moxb';
-import { TextAnt } from './TextAnt';
 
 @observer
 export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {

@@ -1,0 +1,256 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ManyOfAnt should render a select control by default 1`] = `
+<Select
+  choiceTransitionName="zoom"
+  disabled={false}
+  id="id-many_of"
+  label="Choose your snack"
+  mode="default"
+  onChange={[Function]}
+  prefixCls="ant-select"
+  readOnly={false}
+  showSearch={false}
+  transitionName="slide-up"
+  value={Array []}
+>
+  <Option
+    key="b"
+    value="b"
+  >
+    Banana
+  </Option>
+  <Option
+    key="a"
+    value="a"
+  >
+    Apples
+  </Option>
+  <Option
+    key="p"
+    value="p"
+  >
+    Peaches
+  </Option>
+</Select>
+`;
+
+exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
+<CheckboxGroup
+  disabled={false}
+  id="id-many_of"
+  label="Choose your snack"
+  onChange={[Function]}
+  options={Array []}
+  prefixCls="ant-checkbox"
+  readOnly={false}
+  value={Array []}
+>
+  <Row
+    gutter={0}
+  >
+    <Col
+      key="b"
+    >
+      <Checkbox
+        indeterminate={false}
+        prefixCls="ant-checkbox"
+        value="b"
+      >
+        Banana
+      </Checkbox>
+    </Col>
+    <Col
+      key="a"
+    >
+      <Checkbox
+        indeterminate={false}
+        prefixCls="ant-checkbox"
+        value="a"
+      >
+        Apples
+      </Checkbox>
+    </Col>
+    <Col
+      key="p"
+    >
+      <Checkbox
+        indeterminate={false}
+        prefixCls="ant-checkbox"
+        value="p"
+      >
+        Peaches
+      </Checkbox>
+    </Col>
+  </Row>
+</CheckboxGroup>
+`;
+
+exports[`ManyOfFormAnt should render a checkboxes by default 1`] = `
+<FormItemAnt
+  operation={
+    bound ManyOfImpl {
+      "_errors": Array [],
+      "_isSaving": false,
+      "_value": undefined,
+      "constructor": [Function],
+      "doClearErrors": [Function],
+      "doGetValue": [Function],
+      "doOnValidate": [Function],
+      "doPlaceholder": [Function],
+      "doSetValue": [Function],
+      "domId": "id-many_of",
+      "getDisabled": [Function],
+      "getErrors": [Function],
+      "getHelp": [Function],
+      "getInitialValue": [Function],
+      "getInvisible": [Function],
+      "getLabel": [Function],
+      "getReadonly": [Function],
+      "id": "Id.manyOf",
+      "impl": Object {
+        "choices": [Function],
+        "id": "Id.manyOf",
+        "initialValue": [Function],
+        "label": "Choose your snack",
+        "onSave": [Function],
+        "placeholder": [Function],
+      },
+      "setError": [Function],
+      Symbol(mobx did run lazy initializers): true,
+      Symbol(mobx administration): ObservableObjectAdministration$$1 {
+        "defaultEnhancer": [Function],
+        "keysAtom": Atom$$1 {
+          "diffValue": 0,
+          "isBeingObserved": false,
+          "isPendingUnobservation": false,
+          "lastAccessedBy": 0,
+          "lowestObserverState": 2,
+          "name": "ManyOfImpl@69.keys",
+          "observers": Set {},
+        },
+        "name": "ManyOfImpl@69",
+        "target": [Circular],
+        "values": Map {
+          "_errors" => Array [],
+          "label" => "Choose your snack",
+          "disabled" => false,
+          "enabled" => true,
+          "invisible" => false,
+          "readOnly" => false,
+          "help" => undefined,
+          "errors" => Array [],
+          "error" => undefined,
+          "hasErrors" => false,
+          "_value" => undefined,
+          "_isSaving" => false,
+          "inputType" => undefined,
+          "value" => Array [],
+          "placeholder" => "Please select",
+          "required" => undefined,
+          "isInitialValue" => true,
+          "choices" => Array [
+            Object {
+              "label": "Banana",
+              "value": "b",
+            },
+            Object {
+              "label": "Apples",
+              "value": "a",
+            },
+            Object {
+              "label": "Peaches",
+              "value": "p",
+            },
+          ],
+        },
+      },
+    }
+  }
+>
+  <ManyOfAnt
+    disabled={false}
+    id="id-many_of"
+    operation={
+      bound ManyOfImpl {
+        "_errors": Array [],
+        "_isSaving": false,
+        "_value": undefined,
+        "constructor": [Function],
+        "doClearErrors": [Function],
+        "doGetValue": [Function],
+        "doOnValidate": [Function],
+        "doPlaceholder": [Function],
+        "doSetValue": [Function],
+        "domId": "id-many_of",
+        "getDisabled": [Function],
+        "getErrors": [Function],
+        "getHelp": [Function],
+        "getInitialValue": [Function],
+        "getInvisible": [Function],
+        "getLabel": [Function],
+        "getReadonly": [Function],
+        "id": "Id.manyOf",
+        "impl": Object {
+          "choices": [Function],
+          "id": "Id.manyOf",
+          "initialValue": [Function],
+          "label": "Choose your snack",
+          "onSave": [Function],
+          "placeholder": [Function],
+        },
+        "setError": [Function],
+        Symbol(mobx did run lazy initializers): true,
+        Symbol(mobx administration): ObservableObjectAdministration$$1 {
+          "defaultEnhancer": [Function],
+          "keysAtom": Atom$$1 {
+            "diffValue": 0,
+            "isBeingObserved": false,
+            "isPendingUnobservation": false,
+            "lastAccessedBy": 0,
+            "lowestObserverState": 2,
+            "name": "ManyOfImpl@69.keys",
+            "observers": Set {},
+          },
+          "name": "ManyOfImpl@69",
+          "target": [Circular],
+          "values": Map {
+            "_errors" => Array [],
+            "label" => "Choose your snack",
+            "disabled" => false,
+            "enabled" => true,
+            "invisible" => false,
+            "readOnly" => false,
+            "help" => undefined,
+            "errors" => Array [],
+            "error" => undefined,
+            "hasErrors" => false,
+            "_value" => undefined,
+            "_isSaving" => false,
+            "inputType" => undefined,
+            "value" => Array [],
+            "placeholder" => "Please select",
+            "required" => undefined,
+            "isInitialValue" => true,
+            "choices" => Array [
+              Object {
+                "label": "Banana",
+                "value": "b",
+              },
+              Object {
+                "label": "Apples",
+                "value": "a",
+              },
+              Object {
+                "label": "Peaches",
+                "value": "p",
+              },
+            ],
+          },
+        },
+      }
+    }
+    readOnly={false}
+  />
+</FormItemAnt>
+`;

@@ -1,0 +1,406 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OneOfAnt should render a radio button group by default 1`] = `
+<RadioGroup
+  buttonStyle="outline"
+  disabled={false}
+  id="id-test_radio_of_one"
+  label="Select one of"
+  onChange={[Function]}
+  prefixCls="ant-radio"
+  readOnly={false}
+>
+  <Radio
+    checked={false}
+    key="b"
+    prefixCls="ant-radio"
+    type="radio"
+    value="b"
+  >
+    Banana
+  </Radio>
+  <Radio
+    checked={false}
+    key="a"
+    prefixCls="ant-radio"
+    type="radio"
+    value="a"
+  >
+    Apples
+  </Radio>
+  <Radio
+    checked={false}
+    key="p"
+    prefixCls="ant-radio"
+    type="radio"
+    value="p"
+  >
+    Peaches
+  </Radio>
+</RadioGroup>
+`;
+
+exports[`OneOfAnt should render a select control by default 1`] = `
+<FormItemAnt
+  operation={
+    bound OneOfImpl {
+      "_errors": Array [],
+      "_isSaving": false,
+      "_value": undefined,
+      "constructor": [Function],
+      "doClearErrors": [Function],
+      "doGetValue": [Function],
+      "doOnValidate": [Function],
+      "doPlaceholder": [Function],
+      "doSetValue": [Function],
+      "domId": "id-test_radio_of_one",
+      "getDisabled": [Function],
+      "getErrors": [Function],
+      "getHelp": [Function],
+      "getInitialValue": [Function],
+      "getInvisible": [Function],
+      "getLabel": [Function],
+      "getReadonly": [Function],
+      "id": "id.testRadioOfOne",
+      "impl": Object {
+        "choices": [Function],
+        "id": "id.testRadioOfOne",
+        "label": "Select one of",
+        "placeholder": "...",
+      },
+      "setError": [Function],
+      Symbol(mobx did run lazy initializers): true,
+      Symbol(mobx administration): ObservableObjectAdministration$$1 {
+        "defaultEnhancer": [Function],
+        "keysAtom": Atom$$1 {
+          "diffValue": 0,
+          "isBeingObserved": false,
+          "isPendingUnobservation": false,
+          "lastAccessedBy": 0,
+          "lowestObserverState": 2,
+          "name": "OneOfImpl@103.keys",
+          "observers": Set {},
+        },
+        "name": "OneOfImpl@103",
+        "target": [Circular],
+        "values": Map {
+          "_errors" => Array [],
+          "label" => "Select one of",
+          "disabled" => false,
+          "enabled" => true,
+          "invisible" => false,
+          "readOnly" => false,
+          "help" => undefined,
+          "errors" => Array [],
+          "error" => undefined,
+          "hasErrors" => false,
+          "_value" => undefined,
+          "_isSaving" => false,
+          "inputType" => undefined,
+          "value" => undefined,
+          "placeholder" => "...",
+          "required" => undefined,
+          "isInitialValue" => undefined,
+          "choices" => Array [
+            Object {
+              "label": "Banana",
+              "value": "b",
+            },
+            Object {
+              "label": "Apples",
+              "value": "a",
+            },
+            Object {
+              "label": "Peaches",
+              "value": "p",
+            },
+          ],
+        },
+      },
+    }
+  }
+>
+  <OneOfSelectAnt
+    disabled={false}
+    id="id-test_radio_of_one"
+    operation={
+      bound OneOfImpl {
+        "_errors": Array [],
+        "_isSaving": false,
+        "_value": undefined,
+        "constructor": [Function],
+        "doClearErrors": [Function],
+        "doGetValue": [Function],
+        "doOnValidate": [Function],
+        "doPlaceholder": [Function],
+        "doSetValue": [Function],
+        "domId": "id-test_radio_of_one",
+        "getDisabled": [Function],
+        "getErrors": [Function],
+        "getHelp": [Function],
+        "getInitialValue": [Function],
+        "getInvisible": [Function],
+        "getLabel": [Function],
+        "getReadonly": [Function],
+        "id": "id.testRadioOfOne",
+        "impl": Object {
+          "choices": [Function],
+          "id": "id.testRadioOfOne",
+          "label": "Select one of",
+          "placeholder": "...",
+        },
+        "setError": [Function],
+        Symbol(mobx did run lazy initializers): true,
+        Symbol(mobx administration): ObservableObjectAdministration$$1 {
+          "defaultEnhancer": [Function],
+          "keysAtom": Atom$$1 {
+            "diffValue": 0,
+            "isBeingObserved": false,
+            "isPendingUnobservation": false,
+            "lastAccessedBy": 0,
+            "lowestObserverState": 2,
+            "name": "OneOfImpl@103.keys",
+            "observers": Set {},
+          },
+          "name": "OneOfImpl@103",
+          "target": [Circular],
+          "values": Map {
+            "_errors" => Array [],
+            "label" => "Select one of",
+            "disabled" => false,
+            "enabled" => true,
+            "invisible" => false,
+            "readOnly" => false,
+            "help" => undefined,
+            "errors" => Array [],
+            "error" => undefined,
+            "hasErrors" => false,
+            "_value" => undefined,
+            "_isSaving" => false,
+            "inputType" => undefined,
+            "value" => undefined,
+            "placeholder" => "...",
+            "required" => undefined,
+            "isInitialValue" => undefined,
+            "choices" => Array [
+              Object {
+                "label": "Banana",
+                "value": "b",
+              },
+              Object {
+                "label": "Apples",
+                "value": "a",
+              },
+              Object {
+                "label": "Peaches",
+                "value": "p",
+              },
+            ],
+          },
+        },
+      }
+    }
+    readOnly={false}
+  />
+</FormItemAnt>
+`;
+
+exports[`OneOfFormAnt should render a radio button group by default 1`] = `
+<FormItemAnt
+  operation={
+    bound OneOfImpl {
+      "_errors": Array [],
+      "_isSaving": false,
+      "_value": undefined,
+      "constructor": [Function],
+      "doClearErrors": [Function],
+      "doGetValue": [Function],
+      "doOnValidate": [Function],
+      "doPlaceholder": [Function],
+      "doSetValue": [Function],
+      "domId": "id-test_radio_of_one",
+      "getDisabled": [Function],
+      "getErrors": [Function],
+      "getHelp": [Function],
+      "getInitialValue": [Function],
+      "getInvisible": [Function],
+      "getLabel": [Function],
+      "getReadonly": [Function],
+      "id": "id.testRadioOfOne",
+      "impl": Object {
+        "choices": [Function],
+        "id": "id.testRadioOfOne",
+        "label": "Select one of",
+        "placeholder": "...",
+      },
+      "setError": [Function],
+      Symbol(mobx did run lazy initializers): true,
+      Symbol(mobx administration): ObservableObjectAdministration$$1 {
+        "defaultEnhancer": [Function],
+        "keysAtom": Atom$$1 {
+          "diffValue": 0,
+          "isBeingObserved": false,
+          "isPendingUnobservation": false,
+          "lastAccessedBy": 0,
+          "lowestObserverState": 2,
+          "name": "OneOfImpl@35.keys",
+          "observers": Set {},
+        },
+        "name": "OneOfImpl@35",
+        "target": [Circular],
+        "values": Map {
+          "_errors" => Array [],
+          "label" => "Select one of",
+          "disabled" => false,
+          "enabled" => true,
+          "invisible" => false,
+          "readOnly" => false,
+          "help" => undefined,
+          "errors" => Array [],
+          "error" => undefined,
+          "hasErrors" => false,
+          "_value" => undefined,
+          "_isSaving" => false,
+          "inputType" => undefined,
+          "value" => undefined,
+          "placeholder" => "...",
+          "required" => undefined,
+          "isInitialValue" => undefined,
+          "choices" => Array [
+            Object {
+              "label": "Banana",
+              "value": "b",
+            },
+            Object {
+              "label": "Apples",
+              "value": "a",
+            },
+            Object {
+              "label": "Peaches",
+              "value": "p",
+            },
+          ],
+        },
+      },
+    }
+  }
+>
+  <OneOfAnt
+    disabled={false}
+    id="id-test_radio_of_one"
+    operation={
+      bound OneOfImpl {
+        "_errors": Array [],
+        "_isSaving": false,
+        "_value": undefined,
+        "constructor": [Function],
+        "doClearErrors": [Function],
+        "doGetValue": [Function],
+        "doOnValidate": [Function],
+        "doPlaceholder": [Function],
+        "doSetValue": [Function],
+        "domId": "id-test_radio_of_one",
+        "getDisabled": [Function],
+        "getErrors": [Function],
+        "getHelp": [Function],
+        "getInitialValue": [Function],
+        "getInvisible": [Function],
+        "getLabel": [Function],
+        "getReadonly": [Function],
+        "id": "id.testRadioOfOne",
+        "impl": Object {
+          "choices": [Function],
+          "id": "id.testRadioOfOne",
+          "label": "Select one of",
+          "placeholder": "...",
+        },
+        "setError": [Function],
+        Symbol(mobx did run lazy initializers): true,
+        Symbol(mobx administration): ObservableObjectAdministration$$1 {
+          "defaultEnhancer": [Function],
+          "keysAtom": Atom$$1 {
+            "diffValue": 0,
+            "isBeingObserved": false,
+            "isPendingUnobservation": false,
+            "lastAccessedBy": 0,
+            "lowestObserverState": 2,
+            "name": "OneOfImpl@35.keys",
+            "observers": Set {},
+          },
+          "name": "OneOfImpl@35",
+          "target": [Circular],
+          "values": Map {
+            "_errors" => Array [],
+            "label" => "Select one of",
+            "disabled" => false,
+            "enabled" => true,
+            "invisible" => false,
+            "readOnly" => false,
+            "help" => undefined,
+            "errors" => Array [],
+            "error" => undefined,
+            "hasErrors" => false,
+            "_value" => undefined,
+            "_isSaving" => false,
+            "inputType" => undefined,
+            "value" => undefined,
+            "placeholder" => "...",
+            "required" => undefined,
+            "isInitialValue" => undefined,
+            "choices" => Array [
+              Object {
+                "label": "Banana",
+                "value": "b",
+              },
+              Object {
+                "label": "Apples",
+                "value": "a",
+              },
+              Object {
+                "label": "Peaches",
+                "value": "p",
+              },
+            ],
+          },
+        },
+      }
+    }
+    readOnly={false}
+  />
+</FormItemAnt>
+`;
+
+exports[`OneOfSelectAnt should render a select control by default 1`] = `
+<Select
+  choiceTransitionName="zoom"
+  disabled={false}
+  id="id-test_radio_of_one"
+  label="Select one of"
+  mode="default"
+  onChange={[Function]}
+  prefixCls="ant-select"
+  readOnly={false}
+  showSearch={false}
+  transitionName="slide-up"
+  value=""
+>
+  <Option
+    key="b"
+    value="b"
+  >
+    Banana
+  </Option>
+  <Option
+    key="a"
+    value="a"
+  >
+    Apples
+  </Option>
+  <Option
+    key="p"
+    value="p"
+  >
+    Peaches
+  </Option>
+</Select>
+`;
