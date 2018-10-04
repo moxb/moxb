@@ -30,6 +30,9 @@ export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> 
         return this.getReady();
     }
 
+    // ToDo: write a higher order function to compass
+    // ToDo: the if impl.func call the impl.func otherwise return something
+    // ToDo: Or just simply use the ?: operators and it is a one-liner
     protected getReady(): boolean {
         if (this.impl.ready) {
             return this.impl.ready(this);

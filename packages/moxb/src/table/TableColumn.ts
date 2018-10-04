@@ -33,6 +33,8 @@ export interface TableColumn extends Bind {
 
     /**
      * The width is used in the Table.HeaderCell to manually set the column width
+     * ToDo: Rename me to weigth instead of width.
+     * ToDo: specify a scale for that. i.e. 0-100%
      */
     readonly width?: number;
 }

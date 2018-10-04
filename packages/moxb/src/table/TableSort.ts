@@ -14,6 +14,7 @@ export interface TableSort {
      */
     sort: SortColumn[];
 
+    // ToDo: Fix JSDoc params
     /**
      * Sets to the sort columns. SortColumns with other column will be pushed to the end.
      * @param sortColumn

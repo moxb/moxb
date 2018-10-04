@@ -4,6 +4,7 @@ import { TableColumn } from './TableColumn';
 import { SortDirection } from './TableSort';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 
+//ToDo: Add documentation :)
 export interface TableColumnOptions extends BindOptions {
     column?: string;
     tableColumn?: string;

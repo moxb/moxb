@@ -15,6 +15,8 @@ export interface BoolOptions extends ValueOptions<BoolImpl, boolean> {
     labelFalse?: StringOrFunction;
 }
 
+// ToDo: Use the Bool interface instead of the BoolImpl
+// ToDo: do the same for all types
 export class BoolImpl extends ValueImpl<BoolImpl, boolean, BoolOptions> implements Bool {
     constructor(impl: BoolOptions) {
         super(impl);

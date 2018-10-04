@@ -1,6 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import { TablePagination } from './TablePagination';
 
+// ToDo: allow to specify pageSizes and default pageSize
 export interface TablePaginationOptions {
     totalAmount(): number;
 }
