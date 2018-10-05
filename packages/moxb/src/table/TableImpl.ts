@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { computed } from 'mobx';
 import { Table } from './Table';
 import { TableColumn } from './TableColumn';
 import { TablePagination } from './TablePagination';
@@ -30,14 +30,8 @@ export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> 
         return this.getReady();
     }
 
-    // ToDo: write a higher order function to compass
-    // ToDo: the if impl.func call the impl.func otherwise return something
-    // ToDo: Or just simply use the ?: operators and it is a one-liner
     protected getReady(): boolean {
-        if (this.impl.ready) {
-            return this.impl.ready(this);
-        }
-        return true;
+        return this.impl.ready ? this.impl.ready(this) : true;
     }
 
     @computed
@@ -46,10 +40,7 @@ export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> 
     }
 
     protected getColumns(): TableColumn[] {
-        if (this.impl.columns) {
-            return this.impl.columns(this);
-        }
-        return [];
+        return this.impl.columns ? this.impl.columns(this) : [];
     }
 
     @computed
@@ -58,10 +49,7 @@ export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> 
     }
 
     protected getData(): T[] {
-        if (this.impl.data) {
-            return this.impl.data(this);
-        }
-        return [];
+        return this.impl.data ? this.impl.data(this) : [];
     }
 
     @computed
