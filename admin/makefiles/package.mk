@@ -46,6 +46,9 @@ run-unit-tests-verbose: all-dependencies
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################
 
+#-----------------------------------------------------------------------------------------------------------------------
+#-- Begin Clean Generated Files if needed ------------------------------------------------------------------------------
+
 # all JS files found in the
 TSC_JS_FILES = $(shell cd build && find . -type f -name '*.js' | sort )
 
@@ -58,12 +61,16 @@ TSC_TS_TO_JS = $(shell cd src && find . -type f  \( -name '*.ts' -o -name '*.tsx
            	)
 
 # we check if the list of generated files is the same as the list of
-# actual files. If not, we remove all generated files...
+# actual files. If not, we remove all generated files. That sould trigger
+# a re-build of the `.js` files
 .PHONY: _tsc-clean-generated-js-files-if-needed
 _tsc-clean-generated-js-files-if-needed:
 	@if [ "$(TSC_JS_FILES)" != "$(TSC_TS_TO_JS)" ]; then \
 		$(MAKE) clean-generated-js-files; \
 	fi
+
+#-- End Clean Generated Files if needed --------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 
 .PHONY: watch
 watch:  all-dependencies _tsc-clean-generated-js-files-if-needed
