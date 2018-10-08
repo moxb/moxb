@@ -4,6 +4,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Changed
+
+* `make build-all` now only builds if needed (that is if the TypeScript files are newer than the generated `.js` files)
+
 ### Breaking Changes
 * Renamed main property for ModalAnt and ConfirmAnt to `operation` to be consistent with other components.
 
