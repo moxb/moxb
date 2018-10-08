@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { MeteorDataFetcherDone } from './MeteorDataFetcher';
 import { MeteorTableData, MeteorTableFetcher, MeteorTableQuery } from './MeteorTableFetcher';
 import { MeteorTableFetcherImpl } from './MeteorTableFetcherImpl';
+import { MeteorTableOperations } from './MeteorTableOperations';
 
 function sortToMongo(sort: SortColumn[]): Mongo.SortSpecifier {
     // tslint:disable-next-line:no-inferred-empty-object-type
@@ -21,7 +22,7 @@ export interface MeteorTableOptions<T> extends Omit<TableOptions<T>, 'data' | 'r
 /**
  * This is heavy expression stuff looking really ugly -- may need some rework!
  */
-export class MeteorTableImpl<T> extends TableImpl<T> {
+export class MeteorTableImpl<T> extends TableImpl<T> implements MeteorTableOperations {
     private readonly meteorImpl: MeteorTableOptions<T>;
     constructor(impl: MeteorTableOptions<T>) {
         // here we implement everything that we can implement
@@ -71,5 +72,8 @@ export class MeteorTableImpl<T> extends TableImpl<T> {
             return t(toId(this.id + '.serverError.' + error), error);
         }
         return super.getErrors();
+    }
+    public invalidateData() {
+        this.tableFetcher.invalidateData();
     }
 }

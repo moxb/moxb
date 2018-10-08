@@ -128,4 +128,8 @@ export abstract class MethodDataFetcherImpl<Q, D extends Object> implements Mete
      * @returns {D}
      */
     abstract getInitialData(): D;
+
+    public invalidateData(): void {
+        this.runDataFetcherFunction();
+    }
 }

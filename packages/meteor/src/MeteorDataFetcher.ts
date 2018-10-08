@@ -35,4 +35,9 @@ export interface MeteorDataFetcher<Q, D extends object> {
      * @param done must be called when the request is done.
      */
     callFetchData(query: Q, done: MeteorDataFetcherDone<D>): void;
+
+    /**
+     * This method should indicate if our data become "dirty"
+     */
+    invalidateData(): void;
 }
