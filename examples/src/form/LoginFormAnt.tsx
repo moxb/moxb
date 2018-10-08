@@ -2,11 +2,11 @@ import { FormAnt, TextFormAnt, ActionButtonAnt } from '@moxb/antd';
 import { Icon } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { Application } from '../../store/Application';
+import { Application } from '../store/Application';
 
 @inject('app')
 @observer
-export class LoginForm extends React.Component<{ app?: Application }> {
+export class LoginFormAnt extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app;
         return (

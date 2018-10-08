@@ -1,7 +1,7 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { FormUi, TextUi, ActionFormButtonUi } from '@moxb/semui';
-import { Application } from '../../store/Application';
+import { Application } from '../store/Application';
 
 @inject('app')
 @observer

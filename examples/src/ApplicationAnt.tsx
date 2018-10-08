@@ -2,26 +2,25 @@ import {
     ActionButtonAnt,
     BoolAnt,
     ConfirmAnt,
-    DatePickerAnt,
+    ModalAnt,
+    TextFormAnt,
+    TextAnt,
+    NumericFormAnt,
     ManyOfAnt,
     ManyOfCheckboxAnt,
-    ModalAnt,
     OneOfAnt,
     OneOfSelectAnt,
-    TableAnt,
-    TextAnt,
-    TextFormAnt,
+    DatePickerAnt,
     TimePickerAnt,
-    NumericFormAnt,
+    TableAnt,
 } from '@moxb/antd';
-import { toJSON } from '@moxb/moxb';
 import { Col, Form, Layout, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { Application } from '../store/Application';
-import { LoginForm } from './form/LoginForm';
+import { toJSON } from '@moxb/moxb';
+import { LoginFormAnt } from './form/LoginFormAnt';
 import { MemTableAnt } from './memtable/MemTableAnt';
-// import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+import { Application } from './store/Application';
 
 // helper function to print recursive mobx trees
 (window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {
@@ -33,6 +32,7 @@ import { MemTableAnt } from './memtable/MemTableAnt';
 export class ApplicationAnt extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app!;
+        console.log('app', application.testAction);
         return (
             <Layout>
                 <Layout.Content>
@@ -132,7 +132,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                             demo <br />
                                             Other inputs test the error validation.
                                         </p>
-                                        <LoginForm />
+                                        <LoginFormAnt />
                                     </section>
                                     <br />
                                     <hr />

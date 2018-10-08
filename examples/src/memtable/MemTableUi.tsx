@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NumericUi, TableSearchUi, TableUi, TablePaginationUi } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import { Form, Table } from 'semantic-ui-react';
-import { MemTable } from '../../store/MemTable';
+import { MemTable } from './MemTable';
 
 @inject('memTable')
 @observer

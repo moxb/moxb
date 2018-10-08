@@ -13,7 +13,7 @@ import {
     OneOfSelectUi,
 } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
-import { Application } from '../store/Application';
+import { Application } from './store/Application';
 import { Container, Dropdown, Form } from 'semantic-ui-react';
 import { toJSON } from '@moxb/moxb';
 import { LoginFormUi } from './form/LoginFormUi';
@@ -29,7 +29,6 @@ import { MemTableUi } from './memtable/MemTableUi';
 export class ApplicationUi extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app;
-
         return (
             <Container text>
                 <Form>
