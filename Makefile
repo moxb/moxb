@@ -188,16 +188,10 @@ admin/bin-tools:
 ###### watch-all ###################################
 .PHONY: build-packages
 build-packages: all-dependencies
-	# first build the packages
 	@for dir in $(PACKAGE_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile all || exit 1; \
 	done
-	# then make all dependenceis of the example
-#	@for dir in $(EXAMPLE_DIRS); do \
-#		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
-#		$(MAKE) -C $$dir -f Makefile all-dependencies || exit 1; \
-#	done
 
 # we first build all packages
 .PHONY: watch-all
