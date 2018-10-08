@@ -1,5 +1,5 @@
-import { Application } from './Application';
-import { ApplicationImpl } from './ApplicationImpl';
+import { Application } from '../app/Application';
+import { ApplicationImpl } from '../app/ApplicationImpl';
 import { MemTable } from '../memtable/MemTable';
 import { MemTableImpl } from '../memtable/MemTableImpl';
 import { ViewStore } from './ViewStore';

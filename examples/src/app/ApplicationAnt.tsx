@@ -18,9 +18,9 @@ import { Col, Form, Layout, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { toJSON } from '@moxb/moxb';
-import { LoginFormAnt } from './form/LoginFormAnt';
-import { MemTableAnt } from './memtable/MemTableAnt';
-import { Application } from './store/Application';
+import { LoginFormAnt } from '../form/LoginFormAnt';
+import { MemTableAnt } from '../memtable/MemTableAnt';
+import { Application } from './Application';
 
 // helper function to print recursive mobx trees
 (window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {

@@ -2,7 +2,7 @@ import { FormAnt, TextFormAnt, ActionButtonAnt } from '@moxb/antd';
 import { Icon } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { Application } from '../store/Application';
+import { Application } from '../app/Application';
 
 @inject('app')
 @observer

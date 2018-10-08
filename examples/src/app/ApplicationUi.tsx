@@ -13,11 +13,11 @@ import {
     OneOfSelectUi,
 } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
-import { Application } from './store/Application';
+import { Application } from './Application';
 import { Container, Dropdown, Form } from 'semantic-ui-react';
 import { toJSON } from '@moxb/moxb';
-import { LoginFormUi } from './form/LoginFormUi';
-import { MemTableUi } from './memtable/MemTableUi';
+import { LoginFormUi } from '../form/LoginFormUi';
+import { MemTableUi } from '../memtable/MemTableUi';
 
 // helper function to print recursive mobx trees
 (window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {

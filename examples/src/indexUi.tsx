@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import { ApplicationUi } from './ApplicationUi';
+import { ApplicationUi } from './app/ApplicationUi';
 import { StoreImpl } from './store/Store';
 
 const model = new StoreImpl();

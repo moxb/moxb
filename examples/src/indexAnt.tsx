@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import { ApplicationAnt } from './ApplicationAnt';
+import { ApplicationAnt } from './app/ApplicationAnt';
 import { StoreImpl } from './store/Store';
 
 const model = new StoreImpl();
