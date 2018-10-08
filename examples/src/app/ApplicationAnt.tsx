@@ -18,8 +18,7 @@ import { Col, Form, Layout, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { toJSON } from '@moxb/moxb';
-import { LoginFormAnt } from '../form/LoginFormAnt';
-import { MemTableAnt } from '../memtable/MemTableAnt';
+import { NavigationAnt } from '../common/NavigationAnt';
 import { Application } from './Application';
 
 // helper function to print recursive mobx trees
@@ -32,10 +31,12 @@ import { Application } from './Application';
 export class ApplicationAnt extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app!;
-        console.log('app', application.testAction);
         return (
             <Layout>
                 <Layout.Content>
+                    <Row>
+                        <NavigationAnt />
+                    </Row>
                     <Row>
                         <Col span={16}>
                             <section
@@ -124,24 +125,8 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <br />
                                     <br />
                                     <hr />
-                                    <br />
-                                    <section>
-                                        <h3>Login Form</h3>
-                                        <p>
-                                            Test login is <strong>username:</strong> demo, <strong>password:</strong>{' '}
-                                            demo <br />
-                                            Other inputs test the error validation.
-                                        </p>
-                                        <LoginFormAnt />
-                                    </section>
-                                    <br />
-                                    <hr />
-                                    <br />
                                     <h3>Table Component</h3>
                                     <TableAnt table={application.testTable} />
-                                    <br />
-                                    <h3>Table Component</h3>
-                                    <MemTableAnt />
                                     <br />
                                     <div id="spacer" style={{ paddingBottom: '100px' }} />
                                 </Form>

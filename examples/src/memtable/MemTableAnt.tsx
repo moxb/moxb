@@ -1,6 +1,9 @@
+import { Row } from 'antd';
+import { Layout } from 'antd';
 import * as React from 'react';
 import { NumericFormAnt, TableAnt, ColumnAntProps } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
+import { NavigationAnt } from '../common/NavigationAnt';
 import { MemTable, MemTableData } from './MemTable';
 
 @inject('memTable')
@@ -9,10 +12,17 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable }> {
     render() {
         const memTable = this.props.memTable!;
         return (
-            <>
-                <NumericFormAnt required operation={memTable.rows} />
-                <TableAnt table={memTable.table} setupColumn={column => this.renderColumn(column)} />
-            </>
+            <Layout>
+                <Layout.Content>
+                    <Row>
+                        <NavigationAnt />
+                    </Row>
+                    <Row>
+                        <NumericFormAnt required operation={memTable.rows} />
+                        <TableAnt table={memTable.table} setupColumn={column => this.renderColumn(column)} />
+                    </Row>
+                </Layout.Content>
+            </Layout>
         );
     }
 

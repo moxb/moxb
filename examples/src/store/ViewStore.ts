@@ -1,7 +1,7 @@
 export interface ViewStore {
     page: string;
     openIndexPage(): void;
-    openUiIndexPage(): void;
-    openAntIndexPage(): void;
+    openLoginFormPage(): void;
+    openMemTablePage(): void;
     currentUrl?: string;
 }

@@ -11,13 +11,13 @@ export class ViewStoreImpl implements ViewStore {
     }
 
     @action
-    openUiIndexPage() {
-        this.page = 'indexUi';
+    openLoginFormPage() {
+        this.page = 'loginForm';
     }
 
     @action
-    openAntIndexPage() {
-        this.page = 'indexAnt';
+    openMemTablePage() {
+        this.page = 'memTable';
     }
 
     @computed
@@ -25,10 +25,10 @@ export class ViewStoreImpl implements ViewStore {
         switch (this.page) {
             case 'index':
                 return '/';
-            case 'indexUi':
-                return '/ui';
-            case 'indexAnt':
-                return '/ant';
+            case 'loginForm':
+                return '/loginForm';
+            case 'memTable':
+                return '/memTable';
         }
     }
 }

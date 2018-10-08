@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import { ApplicationAnt } from './app/ApplicationAnt';
+import { AppRouterAnt } from './app/AppRouterAnt';
 import { StoreImpl } from './store/Store';
 
 const model = new StoreImpl();
@@ -14,7 +14,7 @@ class App extends React.Component {
         return (
             <>
                 <Provider {...model}>
-                    <ApplicationAnt />
+                    <AppRouterAnt />
                 </Provider>
             </>
         );
