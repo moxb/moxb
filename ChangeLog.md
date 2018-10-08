@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+
+# [v0.2.0-beta.7] (https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.7) (2018-10-08)
+
 ### Added
 * Integrate error messages for all semui and ant design components
 * Added required property for all ui components
