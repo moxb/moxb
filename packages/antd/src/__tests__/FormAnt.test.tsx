@@ -2,27 +2,29 @@ import { FormImpl, TextImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { FormAnt } from '../FormAnt';
-import { FormItemAnt } from '../FormItemAnt';
 
-describe('FormItemAnt', function() {
+describe('FormAnt', function() {
+    const onSaveUserText = jest.fn();
+    const onSavePasswordText = jest.fn();
+    const onSubmitMock = jest.fn();
     const formUserText = new TextImpl({
         id: 'id.formUserText',
         label: 'Username',
-        onSave: (bind, done) => jest.fn(),
+        onSave: onSaveUserText,
     });
     const formPasswordText = new TextImpl({
         id: 'id.formUserText',
         label: 'Username',
-        onSave: (bind, done) => jest.fn(),
+        onSave: onSavePasswordText,
     });
+
     function newFormOperation(opt?: any) {
-        const onSubmitMock = jest.fn();
         return new FormImpl(
             Object.assign(
                 {
                     id: 'id.testForm',
                     values: [formUserText, formPasswordText],
-                    onSubmit: (bind: any, done: any) => onSubmitMock,
+                    onSubmit: onSubmitMock,
                 },
                 ...opt
             )
@@ -35,12 +37,11 @@ describe('FormItemAnt', function() {
     });
 
     it('should throw if no values for children were defined', function() {
-        const onSubmitMock = jest.fn();
         expect(() => {
             new FormImpl({
                 id: 'id.testForm',
                 values: [],
-                onSubmit: (bind, done) => onSubmitMock,
+                onSubmit: onSubmitMock,
             });
         }).toThrow();
     });

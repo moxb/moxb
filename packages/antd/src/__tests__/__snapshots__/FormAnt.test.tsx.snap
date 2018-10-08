@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormItemAnt should render a form element by default 1`] = `
+exports[`FormAnt should render a form element by default 1`] = `
 <Form
   disabled={false}
   hideRequiredMark={false}
