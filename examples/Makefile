@@ -13,15 +13,15 @@ PACREL = ./node_modules/.bin/parcel
 
 include ../admin/makefiles/check-code.mk
 
+.PHONY: all
+all: build
+
 # create a helper directory with files for the makefile
 .makehelper:
 	$(MKDIR) $@
 
-.PHONY: all
-all: build
-
 .PHONY: build
-build:  all-dependencies
+build:  all-dependencies npm-link-dependencies
 	$(ACTIVATE) \
 		&& $(PACREL) build index.html
 
