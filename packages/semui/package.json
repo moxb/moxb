@@ -5,10 +5,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "main": "build",
-  "typings": "build/",
+  "main": "dist",
+  "typings": "dist/",
   "files": [
-    "build/",
+    "dist/**/*",
     "src/**/*.less"
   ],
   "repository": {

@@ -4,9 +4,11 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
-### Changed
+### Added
 
 * `make build-all` now only builds if needed (that is if the TypeScript files are newer than the generated `.js` files)
+* the build output directories are now called `dist` (instead of `build`) to reduce confusion in Makefiles what
+  on what `build` means.
 
 ### Breaking Changes
 * Renamed main property for ModalAnt and ConfirmAnt to `operation` to be consistent with other components.

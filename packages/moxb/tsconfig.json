@@ -10,7 +10,7 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strict": true,
-        "outDir": "./build",
+        "outDir": "./dist",
         "declaration": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
@@ -25,6 +25,6 @@
     },
     "exclude": [
         "./node_modules",
-        "./build"
+        "./dist"
     ]
 }
