@@ -11,6 +11,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 * Added some basic tests for ant design components
 * `make watch-all-verbose` and `make watch-verbose` and added: does not suppress the `tsc --watch` output.
 * `make build-pakages` added as new target: only builds the `packages` directory
+* `MeteorTableImpl` has now a new method `invalidateData` (https://github.com/moxb/moxb/pull/31)
+
+
 
 ### Changed
 * Updated npm version to version 6 so we can use `npm ci`
