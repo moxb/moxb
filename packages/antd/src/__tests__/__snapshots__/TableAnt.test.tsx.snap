@@ -105,7 +105,7 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
         "id": "TableSearch.searchField",
         "impl": Object {
           "id": "TableSearch.searchField",
-          "initialValue": "",
+          "initialValue": [Function],
           "placeholder": "Search...",
         },
         "setError": [Function],
