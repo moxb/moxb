@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { NumericUi, TableSearchUi, TableUi, TablePaginationUi } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
-import { Form, Table } from 'semantic-ui-react';
+import { Form, Table, Container } from 'semantic-ui-react';
+import { NavigationUi } from '../common/NavigationUi';
 import { MemTable } from './MemTable';
 
 @inject('memTable')
@@ -10,7 +11,8 @@ export class MemTableUi extends React.Component<{ memTable?: MemTable }> {
     render() {
         const memTable = this.props.memTable!;
         return (
-            <>
+            <Container text>
+                <NavigationUi />
                 <NumericUi required operation={memTable.rows} />
                 <Form.Group inline>
                     <TableSearchUi search={memTable.table.search!} />
@@ -31,7 +33,7 @@ export class MemTableUi extends React.Component<{ memTable?: MemTable }> {
                     ))}
                 </TableUi>
                 <TablePaginationUi pagination={memTable.table.pagination!} />
-            </>
+            </Container>
         );
     }
 }

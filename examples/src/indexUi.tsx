@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import { ApplicationUi } from './app/ApplicationUi';
+import { AppRouterUi } from './app/AppRouterUi';
 import { StoreImpl } from './store/Store';
 
 const model = new StoreImpl();
@@ -14,7 +14,7 @@ class App extends React.Component {
         return (
             <>
                 <Provider {...model}>
-                    <ApplicationUi />
+                    <AppRouterUi />
                 </Provider>
             </>
         );

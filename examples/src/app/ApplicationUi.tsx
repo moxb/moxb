@@ -13,11 +13,10 @@ import {
     OneOfSelectUi,
 } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
+import { NavigationUi } from '../common/NavigationUi';
 import { Application } from './Application';
 import { Container, Dropdown, Form } from 'semantic-ui-react';
 import { toJSON } from '@moxb/moxb';
-import { LoginFormUi } from '../form/LoginFormUi';
-import { MemTableUi } from '../memtable/MemTableUi';
 
 // helper function to print recursive mobx trees
 (window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {
@@ -31,6 +30,7 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
         const application = this.props.app;
         return (
             <Container text>
+                <NavigationUi />
                 <Form>
                     <h1>Semantic UI Components</h1>
                     <hr />
@@ -95,20 +95,8 @@ export class ApplicationUi extends React.Component<{ app?: Application }> {
                     <h3>OneOf - Select Component</h3>
                     <OneOfSelectUi operation={application!.testOfOne} />
                     <br />
-
-                    <h3>Table Component</h3>
-                    <MemTableUi />
-                    <br />
                 </Form>
                 <br />
-                <section>
-                    <h3>Login Form</h3>
-                    <p>
-                        Test login is <strong>username:</strong> demo, <strong>password:</strong> demo <br />
-                        Other inputs test the error validation.
-                    </p>
-                    <LoginFormUi />
-                </section>
                 <div id="spacer" style={{ paddingBottom: '100px' }} />
             </Container>
         );
