@@ -1,6 +1,6 @@
 {
   "name": "@moxb/antd",
-  "version": "0.2.0-beta.6",
+  "version": "0.2.0-0.2.0-beta.7.0",
   "description": "moxb ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -39,7 +39,9 @@
     ],
     "setupTestFrameworkScriptFile": "../../jest/jestAdapter.js",
     "testEnvironment": "jsdom",
-    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "transform": {
       "^.+\\.(css|less)$": "../../jest/jestMockStyle.js",
       "^.+\\.(ts|tsx)$": "ts-jest"
@@ -58,7 +60,7 @@
     "mobx-react": "^5.2.3"
   },
   "devDependencies": {
-    "@moxb/moxb": "^0.2.0-beta.6",
+    "@moxb/moxb": "^0.2.0-0.2.0-beta.7.0",
     "@types/enzyme": "^3.1.13",
     "@types/jest": "^23.3.1",
     "@types/react-test-renderer": "^16.0.2",
