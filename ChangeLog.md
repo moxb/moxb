@@ -12,7 +12,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 * `make watch-all-verbose` and `make watch-verbose` and added: does not suppress the `tsc --watch` output.
 * `make build-pakages` added as new target: only builds the `packages` directory
 * `MeteorTableImpl` has now a new method `invalidateData` (https://github.com/moxb/moxb/pull/31)
-
+* 'make npm-publish' added to run `lerna`
 
 
 ### Changed

@@ -214,6 +214,9 @@ watch: all-dependencies
 watch-verbose:
 	MOXB_WATCH_ALL_VERBOSE=1 MOXB_FIRST_VERBOSE=1 $(MAKE) watch
 
+npm-publish: build-packages
+	$(ACTIVATE) && lerna publish
+
 ###### all-dependencie #############################
 
 .PHONY: all-dependencies
