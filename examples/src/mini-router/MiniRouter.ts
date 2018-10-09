@@ -1,5 +1,5 @@
 import { reaction } from 'mobx';
-import { Store } from './Store';
+import { Store } from '../store/Store';
 
 // when parcel reloads the page, we have to unsubscribe the old listener...
 let oldListener: any;

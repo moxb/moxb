@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import { AppRouterUi } from './app/AppRouterUi';
+import { MiniRouterUi } from './mini-router/MiniRouterUi';
 import { StoreImpl } from './store/Store';
-import { MiniRouter } from './store/MiniRouter';
+import { MiniRouter } from './mini-router/MiniRouter';
 
 const store = new StoreImpl();
 (window as any).store = store;
@@ -16,7 +16,7 @@ class App extends React.Component {
         return (
             <>
                 <Provider {...store}>
-                    <AppRouterUi />
+                    <MiniRouterUi />
                 </Provider>
             </>
         );

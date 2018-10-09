@@ -1,13 +1,13 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { LoginFormUi } from '../form/LoginFormUi';
-import { MemTableUi } from '../memtable/MemTableUi';
+import { LoginFormAnt } from '../form/LoginFormAnt';
+import { MemTableAnt } from '../memtable/MemTableAnt';
+import { ApplicationAnt } from '../app/ApplicationAnt';
 import { ViewStore } from '../store/ViewStore';
-import { ApplicationUi } from './ApplicationUi';
 
 @inject('view')
 @observer
-export class AppRouterUi extends React.Component<{ view?: ViewStore }> {
+export class MiniRouterAnt extends React.Component<{ view?: ViewStore }> {
     render() {
         const view = this.props.view!;
         return renderContents(view);
@@ -17,10 +17,10 @@ export class AppRouterUi extends React.Component<{ view?: ViewStore }> {
 function renderContents(view: ViewStore) {
     switch (view.page) {
         case 'index':
-            return <ApplicationUi />;
+            return <ApplicationAnt />;
         case 'loginForm':
-            return <LoginFormUi />;
+            return <LoginFormAnt />;
         case 'memTable':
-            return <MemTableUi />;
+            return <MemTableAnt />;
     }
 }
