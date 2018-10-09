@@ -4,16 +4,15 @@ import { Provider } from 'mobx-react';
 import { AppRouterUi } from './app/AppRouterUi';
 import { StoreImpl } from './store/Store';
 
-const model = new StoreImpl();
-(window as any).model = model;
-(window as any).store = model;
-(window as any).view = model.view;
+const store = new StoreImpl();
+(window as any).store = store;
+(window as any).view = store.view;
 
 class App extends React.Component {
     render() {
         return (
             <>
-                <Provider {...model}>
+                <Provider {...store}>
                     <AppRouterUi />
                 </Provider>
             </>
