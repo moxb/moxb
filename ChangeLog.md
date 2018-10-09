@@ -2,7 +2,21 @@
 
 Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
+
 # v.Next (Current)
+
+### Breaking Changes
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+# [v0.2.0-beta.8](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.8) (2018-10-09)
+
 
 ### Changed
 * `make build-all` now only builds if needed (that is if the TypeScript files are newer than the generated `.js` files)
@@ -11,10 +25,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Added
 * new make target: `clean-generated` to only clean the generated files but
+* new make target: `npm-publish` to publish a new version using `lerna`
 
 ### Breaking Changes
 * Renamed main property for ModalAnt and ConfirmAnt to `operation` to be consistent with other components.
-
 
 
 # [v0.2.0-beta.7](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.7) (2018-10-08)
