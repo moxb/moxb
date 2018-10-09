@@ -31,4 +31,18 @@ export class ViewStoreImpl implements ViewStore {
                 return '/memTable';
         }
     }
+    @action
+    setUrl(path: string) {
+        switch (path) {
+            case '/':
+                this.openIndexPage();
+                break;
+            case '/loginForm':
+                this.openLoginFormPage();
+                break;
+            case '/memTable':
+                this.openMemTablePage();
+                break;
+        }
+    }
 }

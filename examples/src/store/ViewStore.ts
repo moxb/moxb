@@ -4,4 +4,5 @@ export interface ViewStore {
     openLoginFormPage(): void;
     openMemTablePage(): void;
     currentUrl?: string;
+    setUrl(url: string): void;
 }

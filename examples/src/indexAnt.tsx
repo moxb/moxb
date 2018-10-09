@@ -3,10 +3,13 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
 import { AppRouterAnt } from './app/AppRouterAnt';
 import { StoreImpl } from './store/Store';
+import { MiniRouter } from './store/MiniRouter';
 
 const store = new StoreImpl();
 (window as any).store = store;
 (window as any).view = store.view;
+
+new MiniRouter(store);
 
 class App extends React.Component {
     render() {
