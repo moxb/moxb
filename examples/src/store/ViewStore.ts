@@ -1,5 +1,7 @@
+export type Views = 'index' | 'loginForm' | 'memTable';
+
 export interface ViewStore {
-    page: string;
+    page: Views;
     openIndexPage(): void;
     openLoginFormPage(): void;
     openMemTablePage(): void;

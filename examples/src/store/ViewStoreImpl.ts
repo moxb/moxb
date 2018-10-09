@@ -1,9 +1,9 @@
 import { observable, action, computed } from 'mobx';
-import { ViewStore } from './ViewStore';
+import { Views, ViewStore } from './ViewStore';
 
 export class ViewStoreImpl implements ViewStore {
     @observable
-    page = 'index';
+    page: Views = 'index';
 
     @action
     openIndexPage() {
