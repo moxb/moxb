@@ -13,9 +13,10 @@ export interface FormOptions extends BindOptions {
      * `done` must be called else the binding stays in saving state.
      *
      * @param {value<T>} value
+     * @param {Event} evt
      * @param {(error: any) => void} done
      */
-    onSubmit?(value: any, done: (error?: any) => void): void;
+    onSubmit?(value: any, done: (error?: any) => void, evt?: Event): void;
 }
 
 export class FormImpl extends BindImpl<FormOptions> implements Form {
@@ -49,10 +50,10 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
     }
 
     @action.bound
-    onSubmitForm() {
+    onSubmitForm(evt?: Event) {
         this.impl.values.forEach(v => v.save());
         if (this.impl.onSubmit) {
-            this.impl.onSubmit(this as any, this.submitDone);
+            this.impl.onSubmit(this as any, this.submitDone, evt);
         }
     }
 

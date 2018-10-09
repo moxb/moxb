@@ -106,6 +106,23 @@ describe('Form', function() {
             expect(onSaveUserText).toHaveBeenCalledTimes(1);
             expect(onSavePasswordText).toHaveBeenCalledTimes(1);
         });
+
+        it('should get the original event', function() {
+            let theEvent: any = undefined;
+            const testEvent = new Event('test');
+            const onSubmitMockNew = jest.fn((bind, done, evt) => {
+                theEvent = evt;
+            });
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
+                values: [bindText, bindPass],
+                onSubmit: onSubmitMockNew,
+            });
+            bindText.setValue('Name');
+            bindPass.setValue('Pass');
+            bindForm.onSubmitForm(testEvent);
+            expect(theEvent).toEqual(testEvent);
+        });
     });
 
     describe('submitDone', function() {
