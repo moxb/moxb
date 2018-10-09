@@ -5,7 +5,7 @@ import { SelectProps } from 'antd/lib/select';
 import { RadioProps } from 'antd/lib/radio';
 import { BindAntProps, parseProps } from './BindAnt';
 import { FormItemProps } from 'antd/lib/form/FormItem';
-import { FormItemAnt, BindFormItemAntProps } from './FormItemAnt';
+import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
 import { OneOf } from '@moxb/moxb';
 
 @observer
@@ -30,22 +30,13 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps> 
 @observer
 export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & FormItemProps> {
     render() {
-        const { operation, label, formStyle, labelCol, wrapperCol, invisible } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItemAnt
-                operation={operation}
-                label={label}
-                formStyle={formStyle}
-                labelCol={labelCol}
-                wrapperCol={wrapperCol}
-            >
-                <OneOfAnt operation={operation} />
+            <FormItemAnt operation={operation} {...this.props as any}>
+                <OneOfAnt operation={operation} {...props} />
             </FormItemAnt>
         );
     }
@@ -79,22 +70,13 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
 @observer
 export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & BindFormItemAntProps> {
     render() {
-        const { operation, label, invisible, labelCol, wrapperCol, formStyle, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItemAnt
-                operation={operation}
-                label={label}
-                formStyle={formStyle}
-                labelCol={labelCol}
-                wrapperCol={wrapperCol}
-            >
-                <OneOfSelectAnt operation={operation} {...props as any} />
+            <FormItemAnt operation={operation} {...this.props as any}>
+                <OneOfSelectAnt operation={operation} {...props} />
             </FormItemAnt>
         );
     }

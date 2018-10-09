@@ -5,7 +5,7 @@ import { Button } from 'antd';
 import { ButtonSize, ButtonType, ButtonShape } from 'antd/lib/button';
 import { NativeButtonProps } from 'antd/lib/button/button';
 import { Action } from '@moxb/moxb';
-import { FormItemAnt, BindFormItemAntProps } from './FormItemAnt';
+import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
 
 export type BindActionAntProps = BindAntProps<Action> & NativeButtonProps;
 
@@ -38,22 +38,13 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
 @observer
 export class ActionFormButtonAnt extends React.Component<BindActionAntProps & BindFormItemAntProps> {
     render() {
-        const { operation, invisible, formStyle, label, labelCol, wrapperCol, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItemAnt
-                operation={operation}
-                label={label}
-                formStyle={formStyle}
-                labelCol={labelCol}
-                wrapperCol={wrapperCol}
-            >
-                <ActionButtonAnt operation={this.props.operation} htmlType="submit" {...props as any} />
+            <FormItemAnt operation={operation} {...this.props as any}>
+                <ActionButtonAnt htmlType="submit" operation={operation} {...props} />
             </FormItemAnt>
         );
     }

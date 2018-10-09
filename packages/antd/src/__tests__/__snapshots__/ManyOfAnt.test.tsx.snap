@@ -1,38 +1,95 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TextAnt should render a text input by default 1`] = `
-<Input
+exports[`ManyOfAnt should render a select control by default 1`] = `
+<Select
+  choiceTransitionName="zoom"
   disabled={false}
-  id="the_id"
-  label="oh"
-  onBlur={[Function]}
+  id="id-many_of"
+  label="Choose your snack"
+  mode="default"
   onChange={[Function]}
-  onFocus={[Function]}
-  prefixCls="ant-input"
+  prefixCls="ant-select"
   readOnly={false}
-  type="text"
-  value=""
-/>
+  showSearch={false}
+  transitionName="slide-up"
+  value={Array []}
+>
+  <Option
+    key="b"
+    value="b"
+  >
+    Banana
+  </Option>
+  <Option
+    key="a"
+    value="a"
+  >
+    Apples
+  </Option>
+  <Option
+    key="p"
+    value="p"
+  >
+    Peaches
+  </Option>
+</Select>
 `;
 
-exports[`TextAnt should render a textarea with the control option set 1`] = `
-<TextArea
+exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
+<CheckboxGroup
   disabled={false}
-  id="the_id"
-  label="oh"
-  onBlur={[Function]}
+  id="id-many_of"
+  label="Choose your snack"
   onChange={[Function]}
-  onFocus={[Function]}
-  prefixCls="ant-input"
+  options={Array []}
+  prefixCls="ant-checkbox"
   readOnly={false}
-  value=""
-/>
+  value={Array []}
+>
+  <Row
+    gutter={0}
+  >
+    <Col
+      key="b"
+    >
+      <Checkbox
+        indeterminate={false}
+        prefixCls="ant-checkbox"
+        value="b"
+      >
+        Banana
+      </Checkbox>
+    </Col>
+    <Col
+      key="a"
+    >
+      <Checkbox
+        indeterminate={false}
+        prefixCls="ant-checkbox"
+        value="a"
+      >
+        Apples
+      </Checkbox>
+    </Col>
+    <Col
+      key="p"
+    >
+      <Checkbox
+        indeterminate={false}
+        prefixCls="ant-checkbox"
+        value="p"
+      >
+        Peaches
+      </Checkbox>
+    </Col>
+  </Row>
+</CheckboxGroup>
 `;
 
-exports[`TextFormAnt should render form item with a text input by default 1`] = `
+exports[`ManyOfFormAnt should render a checkboxes by default 1`] = `
 <FormItemAnt
   operation={
-    bound TextImpl {
+    bound ManyOfImpl {
       "_errors": Array [],
       "_isSaving": false,
       "_value": undefined,
@@ -42,7 +99,7 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
       "doOnValidate": [Function],
       "doPlaceholder": [Function],
       "doSetValue": [Function],
-      "domId": "the_id",
+      "domId": "id-many_of",
       "getDisabled": [Function],
       "getErrors": [Function],
       "getHelp": [Function],
@@ -50,11 +107,14 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
       "getInvisible": [Function],
       "getLabel": [Function],
       "getReadonly": [Function],
-      "id": "TheId",
+      "id": "Id.manyOf",
       "impl": Object {
-        "disabled": [Function],
-        "id": "TheId",
-        "label": "oh",
+        "choices": [Function],
+        "id": "Id.manyOf",
+        "initialValue": [Function],
+        "label": "Choose your snack",
+        "onSave": [Function],
+        "placeholder": [Function],
       },
       "setError": [Function],
       Symbol(mobx did run lazy initializers): true,
@@ -66,14 +126,14 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
           "isPendingUnobservation": false,
           "lastAccessedBy": 0,
           "lowestObserverState": 2,
-          "name": "TextImpl@86.keys",
+          "name": "ManyOfImpl@69.keys",
           "observers": Set {},
         },
-        "name": "TextImpl@86",
+        "name": "ManyOfImpl@69",
         "target": [Circular],
         "values": Map {
           "_errors" => Array [],
-          "label" => "oh",
+          "label" => "Choose your snack",
           "disabled" => false,
           "enabled" => true,
           "invisible" => false,
@@ -85,21 +145,34 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
           "_value" => undefined,
           "_isSaving" => false,
           "inputType" => undefined,
-          "value" => undefined,
-          "placeholder" => undefined,
+          "value" => Array [],
+          "placeholder" => "Please select",
           "required" => undefined,
-          "isInitialValue" => undefined,
-          "control" => "input",
+          "isInitialValue" => true,
+          "choices" => Array [
+            Object {
+              "label": "Banana",
+              "value": "b",
+            },
+            Object {
+              "label": "Apples",
+              "value": "a",
+            },
+            Object {
+              "label": "Peaches",
+              "value": "p",
+            },
+          ],
         },
       },
     }
   }
 >
-  <TextAnt
+  <ManyOfAnt
     disabled={false}
-    id="the_id"
+    id="id-many_of"
     operation={
-      bound TextImpl {
+      bound ManyOfImpl {
         "_errors": Array [],
         "_isSaving": false,
         "_value": undefined,
@@ -109,7 +182,7 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
         "doOnValidate": [Function],
         "doPlaceholder": [Function],
         "doSetValue": [Function],
-        "domId": "the_id",
+        "domId": "id-many_of",
         "getDisabled": [Function],
         "getErrors": [Function],
         "getHelp": [Function],
@@ -117,11 +190,14 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
         "getInvisible": [Function],
         "getLabel": [Function],
         "getReadonly": [Function],
-        "id": "TheId",
+        "id": "Id.manyOf",
         "impl": Object {
-          "disabled": [Function],
-          "id": "TheId",
-          "label": "oh",
+          "choices": [Function],
+          "id": "Id.manyOf",
+          "initialValue": [Function],
+          "label": "Choose your snack",
+          "onSave": [Function],
+          "placeholder": [Function],
         },
         "setError": [Function],
         Symbol(mobx did run lazy initializers): true,
@@ -133,14 +209,14 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
             "isPendingUnobservation": false,
             "lastAccessedBy": 0,
             "lowestObserverState": 2,
-            "name": "TextImpl@86.keys",
+            "name": "ManyOfImpl@69.keys",
             "observers": Set {},
           },
-          "name": "TextImpl@86",
+          "name": "ManyOfImpl@69",
           "target": [Circular],
           "values": Map {
             "_errors" => Array [],
-            "label" => "oh",
+            "label" => "Choose your snack",
             "disabled" => false,
             "enabled" => true,
             "invisible" => false,
@@ -152,11 +228,24 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
             "_value" => undefined,
             "_isSaving" => false,
             "inputType" => undefined,
-            "value" => undefined,
-            "placeholder" => undefined,
+            "value" => Array [],
+            "placeholder" => "Please select",
             "required" => undefined,
-            "isInitialValue" => undefined,
-            "control" => "input",
+            "isInitialValue" => true,
+            "choices" => Array [
+              Object {
+                "label": "Banana",
+                "value": "b",
+              },
+              Object {
+                "label": "Apples",
+                "value": "a",
+              },
+              Object {
+                "label": "Peaches",
+                "value": "p",
+              },
+            ],
           },
         },
       }
@@ -164,20 +253,4 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
     readOnly={false}
   />
 </FormItemAnt>
-`;
-
-exports[`TextSearchAnt should render search text input by default 1`] = `
-<Search
-  disabled={false}
-  enterButton={false}
-  id="the_id"
-  inputPrefixCls="ant-input"
-  label="oh"
-  onBlur={[Function]}
-  onChange={[Function]}
-  onFocus={[Function]}
-  prefixCls="ant-input-search"
-  readOnly={false}
-  value=""
-/>
 `;

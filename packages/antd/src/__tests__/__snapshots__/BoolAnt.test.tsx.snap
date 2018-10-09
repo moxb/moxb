@@ -1,60 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionButtonAnt should render a button by default 1`] = `
-<Button
-  block={false}
-  disabled={true}
-  ghost={false}
-  htmlType="button"
-  id="the_id"
-  loading={false}
-  onClick={[Function]}
-  prefixCls="ant-btn"
-  readOnly={false}
->
-  aha
-</Button>
-`;
-
-exports[`ActionButtonAnt should render a button with children instead of a label 1`] = `
-<Button
-  block={false}
+exports[`BoolAnt should render a checkbox by default 1`] = `
+<Checkbox
   disabled={false}
-  ghost={false}
-  htmlType="button"
   id="the_id"
-  loading={false}
-  onClick={[Function]}
-  prefixCls="ant-btn"
+  indeterminate={true}
+  onChange={[Function]}
+  prefixCls="ant-checkbox"
   readOnly={false}
 >
-  FooButton
-</Button>
+  oh
+</Checkbox>
 `;
 
-exports[`ActionFormButtonAnt should render a button by default 1`] = `
+exports[`BoolFormAnt should render a checkbox by default 1`] = `
 <FormItemAnt
   operation={
-    bound ActionImpl {
+    bound BoolImpl {
       "_errors": Array [],
+      "_isSaving": false,
+      "_value": undefined,
       "constructor": [Function],
       "doClearErrors": [Function],
+      "doGetValue": [Function],
       "doOnValidate": [Function],
+      "doPlaceholder": [Function],
+      "doSetValue": [Function],
       "domId": "the_id",
       "getDisabled": [Function],
       "getErrors": [Function],
       "getHelp": [Function],
+      "getInitialValue": [Function],
       "getInvisible": [Function],
       "getLabel": [Function],
+      "getLabelToggle": [Function],
       "getReadonly": [Function],
       "id": "TheId",
       "impl": Object {
-        "disabled": [Function],
-        "fire": [Function],
         "id": "TheId",
-        "label": "aha",
+        "label": "oh",
       },
       "setError": [Function],
+      "toggle": [Function],
       Symbol(mobx did run lazy initializers): true,
       Symbol(mobx administration): ObservableObjectAdministration$$1 {
         "defaultEnhancer": [Function],
@@ -64,52 +51,65 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
           "isPendingUnobservation": false,
           "lastAccessedBy": 0,
           "lowestObserverState": 2,
-          "name": "ActionImpl@56.keys",
+          "name": "BoolImpl@52.keys",
           "observers": Set {},
         },
-        "name": "ActionImpl@56",
+        "name": "BoolImpl@52",
         "target": [Circular],
         "values": Map {
           "_errors" => Array [],
-          "label" => "aha",
-          "disabled" => true,
-          "enabled" => false,
+          "label" => "oh",
+          "disabled" => false,
+          "enabled" => true,
           "invisible" => false,
           "readOnly" => false,
           "help" => undefined,
           "errors" => Array [],
           "error" => undefined,
           "hasErrors" => false,
+          "_value" => undefined,
+          "_isSaving" => false,
+          "inputType" => undefined,
+          "value" => undefined,
+          "placeholder" => undefined,
+          "required" => undefined,
+          "isInitialValue" => undefined,
+          "labelToggle" => "oh",
         },
       },
     }
   }
 >
-  <ActionButtonAnt
-    disabled={true}
-    htmlType="submit"
+  <BoolAnt
+    disabled={false}
     id="the_id"
     operation={
-      bound ActionImpl {
+      bound BoolImpl {
         "_errors": Array [],
+        "_isSaving": false,
+        "_value": undefined,
         "constructor": [Function],
         "doClearErrors": [Function],
+        "doGetValue": [Function],
         "doOnValidate": [Function],
+        "doPlaceholder": [Function],
+        "doSetValue": [Function],
         "domId": "the_id",
         "getDisabled": [Function],
         "getErrors": [Function],
         "getHelp": [Function],
+        "getInitialValue": [Function],
         "getInvisible": [Function],
         "getLabel": [Function],
+        "getLabelToggle": [Function],
         "getReadonly": [Function],
         "id": "TheId",
         "impl": Object {
-          "disabled": [Function],
-          "fire": [Function],
           "id": "TheId",
-          "label": "aha",
+          "label": "oh",
         },
         "setError": [Function],
+        "toggle": [Function],
         Symbol(mobx did run lazy initializers): true,
         Symbol(mobx administration): ObservableObjectAdministration$$1 {
           "defaultEnhancer": [Function],
@@ -119,22 +119,30 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
             "isPendingUnobservation": false,
             "lastAccessedBy": 0,
             "lowestObserverState": 2,
-            "name": "ActionImpl@56.keys",
+            "name": "BoolImpl@52.keys",
             "observers": Set {},
           },
-          "name": "ActionImpl@56",
+          "name": "BoolImpl@52",
           "target": [Circular],
           "values": Map {
             "_errors" => Array [],
-            "label" => "aha",
-            "disabled" => true,
-            "enabled" => false,
+            "label" => "oh",
+            "disabled" => false,
+            "enabled" => true,
             "invisible" => false,
             "readOnly" => false,
             "help" => undefined,
             "errors" => Array [],
             "error" => undefined,
             "hasErrors" => false,
+            "_value" => undefined,
+            "_isSaving" => false,
+            "inputType" => undefined,
+            "value" => undefined,
+            "placeholder" => undefined,
+            "required" => undefined,
+            "isInitialValue" => undefined,
+            "labelToggle" => "oh",
           },
         },
       }

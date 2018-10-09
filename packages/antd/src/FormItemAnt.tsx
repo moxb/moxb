@@ -18,7 +18,7 @@ export interface BindFormItemAntProps extends FormItemProps {
 @observer
 export class FormItemAnt extends React.Component<BindFormItemAntProps> {
     render() {
-        const { operation, children, label, formStyle, labelCol, wrapperCol, invisible, ...props } = parseProps(
+        const { operation, id, children, label, formStyle, labelCol, wrapperCol, invisible } = parseProps(
             this.props,
             this.props.operation
         );
@@ -27,7 +27,8 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
         }
         return (
             <Form.Item
-                label={labelWithHelp(label != null ? label : operation.label, operation.help)}
+                id={id + '-formItem'}
+                label={labelWithHelp(label, operation.help)}
                 style={formStyle || undefined}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
@@ -35,10 +36,19 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
                 hasFeedback={operation.hasErrors}
                 validateStatus={operation.hasErrors ? 'error' : undefined}
                 help={operation.hasErrors ? getErrorMessages(operation.errors!) : null}
-                {...props as any}
             >
                 {children}
             </Form.Item>
         );
     }
+}
+
+/**
+ * This function filters out the props, which are not needed by a FormItem children.
+ * It only passes the necessary props along to the children.
+ */
+export function parsePropsForChild<T, O>(bindProps: T, op: O): T & O {
+    // @ts-ignore
+    const { children, label, formStyle, labelCol, wrapperCol, ...props } = parseProps(bindProps, op);
+    return props;
 }

@@ -1,58 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionButtonAnt should render a button by default 1`] = `
-<Button
-  block={false}
-  disabled={true}
-  ghost={false}
-  htmlType="button"
-  id="the_id"
-  loading={false}
-  onClick={[Function]}
-  prefixCls="ant-btn"
-  readOnly={false}
->
-  aha
-</Button>
-`;
-
-exports[`ActionButtonAnt should render a button with children instead of a label 1`] = `
-<Button
-  block={false}
+exports[`NumericAnt should render a numeric input by default 1`] = `
+<InputNumber
   disabled={false}
-  ghost={false}
-  htmlType="button"
   id="the_id"
-  loading={false}
-  onClick={[Function]}
-  prefixCls="ant-btn"
+  label="oh"
+  onChange={[Function]}
+  placeholder="Interval"
+  prefixCls="ant-input-number"
   readOnly={false}
->
-  FooButton
-</Button>
+  step={1}
+/>
 `;
 
-exports[`ActionFormButtonAnt should render a button by default 1`] = `
+exports[`NumericFormAnt should render form item with a text input by default 1`] = `
 <FormItemAnt
   operation={
-    bound ActionImpl {
+    bound NumericImpl {
       "_errors": Array [],
+      "_isSaving": false,
+      "_value": undefined,
       "constructor": [Function],
       "doClearErrors": [Function],
+      "doGetValue": [Function],
       "doOnValidate": [Function],
+      "doPlaceholder": [Function],
+      "doSetValue": [Function],
       "domId": "the_id",
       "getDisabled": [Function],
       "getErrors": [Function],
       "getHelp": [Function],
+      "getInitialValue": [Function],
       "getInvisible": [Function],
       "getLabel": [Function],
       "getReadonly": [Function],
       "id": "TheId",
       "impl": Object {
         "disabled": [Function],
-        "fire": [Function],
         "id": "TheId",
-        "label": "aha",
+        "initialValue": 12,
+        "label": "oh",
       },
       "setError": [Function],
       Symbol(mobx did run lazy initializers): true,
@@ -64,50 +51,66 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
           "isPendingUnobservation": false,
           "lastAccessedBy": 0,
           "lowestObserverState": 2,
-          "name": "ActionImpl@56.keys",
+          "name": "NumericImpl@61.keys",
           "observers": Set {},
         },
-        "name": "ActionImpl@56",
+        "name": "NumericImpl@61",
         "target": [Circular],
         "values": Map {
           "_errors" => Array [],
-          "label" => "aha",
-          "disabled" => true,
-          "enabled" => false,
+          "label" => "oh",
+          "disabled" => false,
+          "enabled" => true,
           "invisible" => false,
           "readOnly" => false,
           "help" => undefined,
           "errors" => Array [],
           "error" => undefined,
           "hasErrors" => false,
+          "_value" => undefined,
+          "_isSaving" => false,
+          "inputType" => undefined,
+          "value" => 12,
+          "placeholder" => undefined,
+          "required" => undefined,
+          "isInitialValue" => true,
+          "onlyInteger" => false,
+          "min" => undefined,
+          "max" => undefined,
+          "step" => undefined,
         },
       },
     }
   }
 >
-  <ActionButtonAnt
-    disabled={true}
-    htmlType="submit"
+  <NumericAnt
+    disabled={false}
     id="the_id"
     operation={
-      bound ActionImpl {
+      bound NumericImpl {
         "_errors": Array [],
+        "_isSaving": false,
+        "_value": undefined,
         "constructor": [Function],
         "doClearErrors": [Function],
+        "doGetValue": [Function],
         "doOnValidate": [Function],
+        "doPlaceholder": [Function],
+        "doSetValue": [Function],
         "domId": "the_id",
         "getDisabled": [Function],
         "getErrors": [Function],
         "getHelp": [Function],
+        "getInitialValue": [Function],
         "getInvisible": [Function],
         "getLabel": [Function],
         "getReadonly": [Function],
         "id": "TheId",
         "impl": Object {
           "disabled": [Function],
-          "fire": [Function],
           "id": "TheId",
-          "label": "aha",
+          "initialValue": 12,
+          "label": "oh",
         },
         "setError": [Function],
         Symbol(mobx did run lazy initializers): true,
@@ -119,22 +122,33 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
             "isPendingUnobservation": false,
             "lastAccessedBy": 0,
             "lowestObserverState": 2,
-            "name": "ActionImpl@56.keys",
+            "name": "NumericImpl@61.keys",
             "observers": Set {},
           },
-          "name": "ActionImpl@56",
+          "name": "NumericImpl@61",
           "target": [Circular],
           "values": Map {
             "_errors" => Array [],
-            "label" => "aha",
-            "disabled" => true,
-            "enabled" => false,
+            "label" => "oh",
+            "disabled" => false,
+            "enabled" => true,
             "invisible" => false,
             "readOnly" => false,
             "help" => undefined,
             "errors" => Array [],
             "error" => undefined,
             "hasErrors" => false,
+            "_value" => undefined,
+            "_isSaving" => false,
+            "inputType" => undefined,
+            "value" => 12,
+            "placeholder" => undefined,
+            "required" => undefined,
+            "isInitialValue" => true,
+            "onlyInteger" => false,
+            "min" => undefined,
+            "max" => undefined,
+            "step" => undefined,
           },
         },
       }

@@ -214,6 +214,10 @@ watch: all-dependencies
 watch-verbose:
 	MOXB_WATCH_ALL_VERBOSE=1 MOXB_FIRST_VERBOSE=1 $(MAKE) watch
 
+.PHONY: watch-test
+watch-test: all-dependencies
+	$(ACTIVATE) && $(JEST) --watch
+
 npm-publish: build-packages
 	$(ACTIVATE) && lerna publish
 

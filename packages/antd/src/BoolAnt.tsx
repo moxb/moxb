@@ -5,7 +5,7 @@ import { CheckboxProps } from 'antd/lib/checkbox';
 import { labelWithHelp, BindAntProps, parseProps } from './BindAnt';
 import { Bool } from '@moxb/moxb';
 import { FormItemProps } from 'antd/lib/form/FormItem';
-import { FormItemAnt } from './FormItemAnt';
+import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 @observer
 export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps> {
@@ -24,7 +24,7 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
                 {...props}
             >
                 {children}
-                {labelWithHelp(label != null ? label : operation.label, operation.help)}
+                {labelWithHelp(label, operation.help)}
             </Checkbox>
         );
     }
@@ -33,21 +33,12 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
 @observer
 export class BoolFormAnt extends React.Component<BindAntProps<Bool> & FormItemProps & CheckboxProps> {
     render() {
-        const { operation, label, formStyle, labelCol, wrapperCol, invisible, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItemAnt
-                operation={operation}
-                label={label}
-                formStyle={formStyle}
-                labelCol={labelCol}
-                wrapperCol={wrapperCol}
-            >
+            <FormItemAnt operation={operation} {...this.props as any}>
                 <BoolAnt operation={operation} {...props} />
             </FormItemAnt>
         );

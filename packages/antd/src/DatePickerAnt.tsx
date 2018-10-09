@@ -6,7 +6,7 @@ import { DatePicker } from 'antd';
 import { DatePickerProps } from 'antd/lib/date-picker/interface';
 import { parseProps } from './BindAnt';
 import { Date } from '@moxb/moxb';
-import { FormItemAnt } from './FormItemAnt';
+import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 export interface BindDatePickerAntProps extends DatePickerProps {
     operation: Date;
@@ -16,7 +16,10 @@ export interface BindDatePickerAntProps extends DatePickerProps {
 @observer
 export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
     render() {
-        const { operation, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, ...props } = parseProps(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
         return (
             <DatePicker
                 placeholder={operation.placeholder}
@@ -30,22 +33,13 @@ export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
 @observer
 export class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & FormItemProps> {
     render() {
-        const { operation, label, formStyle, wrapperCol, labelCol, invisible, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <FormItemAnt
-                operation={operation}
-                label={label}
-                formStyle={formStyle}
-                labelCol={labelCol}
-                wrapperCol={wrapperCol}
-            >
-                <DatePickerAnt operation={operation} {...props as any} />
+            <FormItemAnt operation={operation} {...this.props as any}>
+                <DatePickerAnt operation={operation} {...props} />
             </FormItemAnt>
         );
     }

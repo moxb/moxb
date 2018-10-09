@@ -11,7 +11,6 @@ RM = rm
 TOUCH = touch
 PACREL = ./node_modules/.bin/parcel
 
-override TS_DIRS = semui antd store
 include ../admin/makefiles/check-code.mk
 
 # create a helper directory with files for the makefile
@@ -31,7 +30,7 @@ clean-build:
 	@echo nothing to do
 
 clean-js-files:
-	$(RM) -f  `find $(TS_DIRS) -name '*.js'`
+	$(RM) -f  `find src -name '*.js'`
 
 #include $(ADMIN)/makefiles/clean.mk
 .PHONY: clean

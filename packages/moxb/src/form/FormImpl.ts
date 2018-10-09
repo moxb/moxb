@@ -28,47 +28,36 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
 
     @computed
     get canSubmitForm() {
-        if (this.impl.values) {
-            return this.impl.values.findIndex(v => !v.isInitialValue) >= 0;
-        }
-        return false;
+        return this.impl.values.findIndex(v => v.isInitialValue as boolean) < 0;
     }
 
     @computed
     get allErrors(): string[] {
-        if (this.impl.values) {
-            const valuesWithErrors = this.impl.values.filter(v => !!v.errors);
-            const allErrors: string[] = [];
-            valuesWithErrors.forEach(v => {
-                v.errors!.forEach(error => {
-                    allErrors.push(v.label + ': ' + t(error, error));
-                });
+        const valuesWithErrors = this.impl.values.filter(v => !!v.errors);
+        const allErrors: string[] = [];
+        valuesWithErrors.forEach(v => {
+            v.errors!.forEach(error => {
+                allErrors.push(v.label + ': ' + t(error, error));
             });
-            return allErrors;
-        }
-        return [];
+        });
+        return allErrors;
     }
 
     @computed
     get hasErrors() {
-        if (this.impl.values) {
-            return !!this.impl.values.find(v => v.errors!.length > 0);
-        }
-        return false;
+        return !!this.impl.values.find(v => v.errors!.length > 0);
     }
 
     @action.bound
     onSubmitForm() {
-        if (this.impl.values) {
-            this.impl.values.forEach(v => v.save());
-        }
+        this.impl.values.forEach(v => v.save());
         if (this.impl.onSubmit) {
             this.impl.onSubmit(this as any, this.submitDone);
         }
     }
 
     @action.bound
-    private submitDone(error: any) {
+    submitDone(error: any) {
         if (error) {
             this.setError(extractErrorString(error));
         } else {
