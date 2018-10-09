@@ -4,6 +4,7 @@
         "target": "ES5",
         "jsx": "react",
         "lib": ["dom","es6","es2015","es2017", "dom.iterable","scripthost"],
+        "inlineSourceMap": true,
         "importHelpers":true,
         "experimentalDecorators": true,
         "noImplicitAny": true,
@@ -16,7 +17,7 @@
     },
     "exclude": [
         "./node_modules",
-        "./build",
+        "./dist",
         "**/__tests__/**",
         "**/__mocks__/**"
     ]

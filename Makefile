@@ -48,20 +48,25 @@ help:
 	@$(MORE) MakeHelp.md
 
 .PHONY: clean
-clean:
+clean: clean-generated
+	$(RM) -rf node_modules
+	$(RM) -rf admin/node-installation/installation
+	$(RM) -rf .makehelper
+
+.PHONY: clean-generated
+clean-generated:
 	($(ACTIVATE) && jest --clearCache) || true
 	($(ACTIVATE) && $(LERNA) clean --yes) || true
 	for dir in $(SUB_DIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
+	$(RM) -f .makehelper/lerna-bootstrap
+	$(RM) -f .makehelper/bin-tools
 	$(RM) -rf admin/activate
 	$(RM) -rf admin/bin-tools
-	$(RM) -rf node_modules
 	$(RM) -rf coverage
-	$(RM) -rf admin/node-installation/installation
 	$(RM) -rf .git/hooks/pre-push
 	$(RM) -rf .git/hooks/pre-commit
-	$(RM) -rf .makehelper
 
 ### activate ###################################
 
@@ -183,16 +188,10 @@ admin/bin-tools:
 ###### watch-all ###################################
 .PHONY: build-packages
 build-packages: all-dependencies
-	# first build the packages
 	@for dir in $(PACKAGE_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile all || exit 1; \
 	done
-	# then make all dependenceis of the example
-#	@for dir in $(EXAMPLE_DIRS); do \
-#		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
-#		$(MAKE) -C $$dir -f Makefile all-dependencies || exit 1; \
-#	done
 
 # we first build all packages
 .PHONY: watch-all

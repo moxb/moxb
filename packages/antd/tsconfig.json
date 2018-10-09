@@ -4,12 +4,13 @@
         "target": "ES5",
         "jsx": "react",
         "lib": ["dom","es6","es2015","es2017", "dom.iterable","scripthost"],
+        "inlineSourceMap": true,
         "importHelpers":true,
         "experimentalDecorators": true,
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strict": true,
-        "outDir": "./build",
+        "outDir": "./dist",
         "declaration": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
@@ -24,6 +25,6 @@
     },
     "exclude": [
         "./node_modules",
-        "./build"
+        "./dist"
     ]
 }
