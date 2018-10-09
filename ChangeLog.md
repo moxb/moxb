@@ -4,8 +4,12 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Breaking Changes
+* Renamed main property for ModalAnt and ConfirmAnt to `operation` to be consistent with other components.
 
-# [v0.2.0-beta.7] (https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.7) (2018-10-08)
+
+
+# [v0.2.0-beta.7](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.7) (2018-10-08)
 
 ### Added
 * Integrate error messages for all semui and ant design components
@@ -32,9 +36,6 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
   This is not really necessary. Now it removes the `build` directories only if some typescript files have been added 
   or removed since the last build. It does it by comparing the list of `.ts` files with the list of `.js` files
   ignoring `*.d.ts` files, because no `.js` file is build for those files.
-  
-### Breaking Changes
-* Renamed main property for ModalAnt and ConfirmAnt to `operation` to be consistent with other components.
   
 ### Removed
 
