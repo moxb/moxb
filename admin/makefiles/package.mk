@@ -21,7 +21,10 @@ dist:
 .PHONY: clean-dist
 clean-dist:
 	$(RM) -rf dist
-	$(RM) -rf build # legacy
+
+.PHONY: clean-dist
+clean-obsolete:
+	@$(RM) -rf build # legacy
 
 .PHONY: clean
 clean: clean-dist
@@ -126,4 +129,5 @@ build-all: all-dependencies _tsc-clean-generated-js-files-if-needed $(TS_OUTPUT_
 .PHONY: all-dependencies
 all-dependencies: \
 	.makehelper \
+	clean-obsolete \
 	dist
