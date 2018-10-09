@@ -125,9 +125,14 @@ build-all: all-dependencies _tsc-clean-generated-js-files-if-needed $(TS_OUTPUT_
 #####  END tsc ####################################################################################################
 ########################################################################################################################
 
+# If the makefile changes, we need to re-build
+.makehelper/tsc-dependencies: $(ADMIN)/makefiles/*.mk $(ROOT)/Makefile Makefile tsconfig.json $(ROOT)/package-lock.json package-lock.json
+	@$(RM) -rf dist
+	@touch $@
 
 .PHONY: all-dependencies
 all-dependencies: \
 	.makehelper \
 	clean-obsolete \
+	.makehelper/tsc-dependencies \
 	dist
