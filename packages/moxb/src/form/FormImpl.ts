@@ -13,10 +13,10 @@ export interface FormOptions extends BindOptions {
      * `done` must be called else the binding stays in saving state.
      *
      * @param {value<T>} value
-     * @param {Event} evt
+     * @param {any} evt
      * @param {(error: any) => void} done
      */
-    onSubmit?(value: any, done: (error?: any) => void, evt?: Event): void;
+    onSubmit?(value: any, done: (error?: any) => void, evt?: any): void;
 }
 
 export class FormImpl extends BindImpl<FormOptions> implements Form {
@@ -38,19 +38,22 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         const allErrors: string[] = [];
         valuesWithErrors.forEach(v => {
             v.errors!.forEach(error => {
-                allErrors.push(v.label + ': ' + t(error, error));
+                allErrors.push(v.label ? v.label + ': ' + t(error, error) : t(error, error));
             });
+        });
+        this.errors!.forEach(error => {
+            allErrors.push(this.label ? this.label + ': ' + t(error, error) : t(error, error));
         });
         return allErrors;
     }
 
     @computed
     get hasErrors() {
-        return !!this.impl.values.find(v => v.errors!.length > 0);
+        return !!(this.impl.values.find(v => v.errors!.length > 0) || this.errors!.length > 0);
     }
 
     @action.bound
-    onSubmitForm(evt?: Event) {
+    onSubmitForm(evt?: any) {
         this.impl.values.forEach(v => v.save());
         if (this.impl.onSubmit) {
             this.impl.onSubmit(this as any, this.submitDone, evt);
@@ -70,6 +73,7 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
     clearAllErrors() {
         if (this.impl.values) {
             this.impl.values.forEach(v => v.clearErrors());
+            this.clearErrors();
         }
     }
 }

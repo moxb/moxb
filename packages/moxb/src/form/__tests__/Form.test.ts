@@ -62,12 +62,47 @@ describe('Form', function() {
         it('should return an array with all occurred errors', function() {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
+                label: 'form',
+                values: [bindText, bindPass],
+            });
+            bindText.setError('foo');
+            bindForm.setError('doo');
+            bindPass.setError('bar');
+            expect(bindForm.allErrors).toEqual(['text: foo', 'password: bar', 'form: doo']);
+        });
+        it('should return an array with occurred errors from the children', function() {
+            bindText.clearErrors();
+            bindPass.clearErrors();
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
                 values: [bindText, bindPass],
             });
             bindText.setError('foo');
             bindText.setError('doo');
             bindPass.setError('bar');
             expect(bindForm.allErrors).toEqual(['text: foo', 'text: doo', 'password: bar']);
+        });
+
+        it('should return an array with all occurred errors', function() {
+            bindText.clearErrors();
+            bindPass.clearErrors();
+            const bindNoText = new TextImpl({
+                id: 'textNoLabel',
+                onSave: onSaveUserText,
+                initialValue: () => 'foo',
+            });
+            const bindNoPass = new TextImpl({
+                id: 'passwordNoLAbel',
+                onSave: onSavePasswordText,
+            });
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
+                values: [bindNoText, bindNoPass],
+            });
+            bindNoText.setError('foo');
+            bindNoText.setError('doo');
+            bindNoPass.setError('bar');
+            expect(bindForm.allErrors).toEqual(['foo', 'doo', 'bar']);
         });
     });
 
@@ -89,6 +124,15 @@ describe('Form', function() {
             bindText.setError('foo');
             bindForm.clearAllErrors();
             expect(bindForm.hasErrors).toEqual(false);
+        });
+
+        it('should return true if an error in the form occurred', function() {
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
+                values: [bindText, bindPass],
+            });
+            bindForm.setError('foo');
+            expect(bindForm.hasErrors).toEqual(true);
         });
     });
 
@@ -116,7 +160,7 @@ describe('Form', function() {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
-                onSubmit: onSubmitMockNew,
+                onSubmit: (bind, done, evt) => onSubmitMockNew(bind, done, evt),
             });
             bindText.setValue('Name');
             bindPass.setValue('Pass');
@@ -130,12 +174,12 @@ describe('Form', function() {
             let theThis: any = undefined;
             const onSubmitMockNew = jest.fn((bind, done) => {
                 theThis = bind;
-                done(jest.fn());
+                done('Password not correct');
             });
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
-                onSubmit: onSubmitMockNew,
+                onSubmit: (bind, done) => onSubmitMockNew(bind, done),
             });
             bindForm.onSubmitForm();
             expect(onSubmitMockNew).toHaveBeenCalledTimes(1);
@@ -151,7 +195,7 @@ describe('Form', function() {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
-                onSubmit: onSubmitMockNew,
+                onSubmit: (bind, done) => onSubmitMockNew(bind, done),
             });
             bindForm.onSubmitForm();
             expect(onSubmitMockNew).toHaveBeenCalledTimes(1);
