@@ -8,13 +8,15 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 ### Breaking Changes
 
 ### Added
+* Added the original onSubmit form event to the form operation, so the event handling can be done in a callback.
 
 ### Changed
 
 ### Fixed
 
-- If the `Makefile`, any file in `admin/makefiles` or the `tsconfig.json` or `package-lock.json` changes,
+* If the `Makefile`, any file in `admin/makefiles` or the `tsconfig.json` or `package-lock.json` changes,
   we have to re-run `tsc`
+* Fixed error handling for form errors, e.g. errors from callbacks.
 
 ### Removed
 
