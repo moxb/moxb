@@ -13,6 +13,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Fixed
 
+- If the `Makefile`, any file in `admin/makefiles` or the `tsconfig.json` or `package-lock.json` changes,
+  we have to re-run `tsc`
+
 ### Removed
 
 # [v0.2.0-beta.8](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.8) (2018-10-09)
