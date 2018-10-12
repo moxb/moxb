@@ -5,18 +5,23 @@ import { BindImpl, BindOptions } from '../bind/BindImpl';
 
 export interface FormOptions extends BindOptions {
     /**
-     *
+     * The 'values' contain all the children components bindings
      */
     readonly values: Value<any>[];
+
     /**
      * Is called when Form.onSubmit is called
      * `done` must be called else the binding stays in saving state.
      *
      * @param {value<T>} value
-     * @param {any} evt
      * @param {(error: any) => void} done
      */
-    onSubmit?(value: any, done: (error?: any) => void, evt?: any): void;
+    onSubmit?(value: any, done: (error?: any) => void): void;
+
+    /**
+     * If true, the form refreshes the page onSubmit
+     */
+    doSubmitRefresh?: boolean;
 }
 
 export class FormImpl extends BindImpl<FormOptions> implements Form {
@@ -54,9 +59,12 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
 
     @action.bound
     onSubmitForm(evt?: any) {
+        if (!this.impl.doSubmitRefresh && evt) {
+            evt.preventDefault();
+        }
         this.impl.values.forEach(v => v.save());
         if (this.impl.onSubmit) {
-            this.impl.onSubmit(this as any, this.submitDone, evt);
+            this.impl.onSubmit(this as any, this.submitDone);
         }
     }
 
