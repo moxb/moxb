@@ -43,7 +43,7 @@ export class ActionFormButtonAnt extends React.Component<BindActionAntProps & Bi
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} label={null} {...this.props as any}>
                 <ActionButtonAnt htmlType="submit" operation={operation} {...props} />
             </FormItemAnt>
         );

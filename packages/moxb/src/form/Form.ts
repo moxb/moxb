@@ -18,11 +18,17 @@ export interface Form extends Bind {
 
     /**
      * The form submits and triggers in all components the save method, which also could cause errors from server methods.
+     * @param {any} evt, The event type is <any> because different ui libraries can cast the original event differently.
      */
-    onSubmitForm(): void;
+    onSubmitForm(evt?: any): void;
 
     /**
      * Clear all validation errors from the children components
      */
     clearAllErrors(): void;
+
+    /**
+     * Reset all the values to the initial value for the child components
+     */
+    resetValues(): void;
 }

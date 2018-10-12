@@ -34,6 +34,7 @@ exports[`ActionButtonAnt should render a button with children instead of a label
 
 exports[`ActionFormButtonAnt should render a button by default 1`] = `
 <FormItemAnt
+  label={null}
   operation={
     bound ActionImpl {
       "_errors": Array [],

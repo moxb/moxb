@@ -13,6 +13,10 @@ export class LoginFormUi extends React.Component<{ app?: Application }> {
         return (
             <Container text>
                 <NavigationUi />
+                <p>
+                    Test login is <strong>username:</strong> demo, <strong>password:</strong> demo <br />
+                    Other inputs test the error validation.
+                </p>
                 <FormUi operation={application!.testForm}>
                     <TextUi operation={application!.formUserText} />
                     <TextUi operation={application!.formPasswordText} />

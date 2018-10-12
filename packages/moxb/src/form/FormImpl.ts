@@ -5,9 +5,10 @@ import { BindImpl, BindOptions } from '../bind/BindImpl';
 
 export interface FormOptions extends BindOptions {
     /**
-     *
+     * The 'values' contain all the children components bindings
      */
     readonly values: Value<any>[];
+
     /**
      * Is called when Form.onSubmit is called
      * `done` must be called else the binding stays in saving state.
@@ -16,6 +17,11 @@ export interface FormOptions extends BindOptions {
      * @param {(error: any) => void} done
      */
     onSubmit?(value: any, done: (error?: any) => void): void;
+
+    /**
+     * If true, the form refreshes the page onSubmit
+     */
+    doSubmitRefresh?: boolean;
 }
 
 export class FormImpl extends BindImpl<FormOptions> implements Form {
@@ -37,19 +43,25 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         const allErrors: string[] = [];
         valuesWithErrors.forEach(v => {
             v.errors!.forEach(error => {
-                allErrors.push(v.label + ': ' + t(error, error));
+                allErrors.push(v.label ? v.label + ': ' + t(error, error) : t(error, error));
             });
+        });
+        this.errors!.forEach(error => {
+            allErrors.push(this.label ? this.label + ': ' + t(error, error) : t(error, error));
         });
         return allErrors;
     }
 
     @computed
     get hasErrors() {
-        return !!this.impl.values.find(v => v.errors!.length > 0);
+        return !!(this.impl.values.find(v => v.errors!.length > 0) || this.errors!.length > 0);
     }
 
     @action.bound
-    onSubmitForm() {
+    onSubmitForm(evt?: any) {
+        if (!this.impl.doSubmitRefresh && evt) {
+            evt.preventDefault();
+        }
         this.impl.values.forEach(v => v.save());
         if (this.impl.onSubmit) {
             this.impl.onSubmit(this as any, this.submitDone);
@@ -66,9 +78,15 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
     }
 
     @action.bound
+    resetValues() {
+        this.impl.values.forEach(v => v.resetToInitialValue());
+    }
+
+    @action.bound
     clearAllErrors() {
         if (this.impl.values) {
             this.impl.values.forEach(v => v.clearErrors());
+            this.clearErrors();
         }
     }
 }

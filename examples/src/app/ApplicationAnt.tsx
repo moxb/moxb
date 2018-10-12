@@ -13,6 +13,7 @@ import {
     DatePickerAnt,
     TimePickerAnt,
     TableAnt,
+    ActionFormButtonAnt,
 } from '@moxb/antd';
 import { Col, Form, Layout, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
@@ -51,6 +52,10 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <hr />
                                     <h3>ActionButtonUI Component</h3>
                                     <ActionButtonAnt type="primary" operation={application.testAction} />
+                                    <br />
+                                    <br />
+                                    <h3>ActionFormButtonUI Component</h3>
+                                    <ActionFormButtonAnt type="primary" operation={application.testAction} />
                                     <br />
                                     <br />
                                     <h3>BoolUI Component</h3>
