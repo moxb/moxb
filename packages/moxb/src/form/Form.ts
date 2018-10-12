@@ -26,4 +26,9 @@ export interface Form extends Bind {
      * Clear all validation errors from the children components
      */
     clearAllErrors(): void;
+
+    /**
+     * Reset all the values to the initial value for the child components
+     */
+    resetValues(): void;
 }

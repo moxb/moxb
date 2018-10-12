@@ -70,6 +70,11 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
     }
 
     @action.bound
+    resetValues() {
+        this.impl.values.forEach(v => v.resetToInitialValue());
+    }
+
+    @action.bound
     clearAllErrors() {
         if (this.impl.values) {
             this.impl.values.forEach(v => v.clearErrors());
