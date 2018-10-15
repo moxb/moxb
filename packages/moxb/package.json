@@ -39,16 +39,13 @@
     "testEnvironment": "node",
     "testMatch": [
       "**/src/**/__tests__/*.(ts|tsx)"
-    ],
-    "modulePaths": [
-      "<rootDir>/peer-dependencies/node_modules"
     ]
   },
   "peerDependencies": {
     "mobx": "^4.3.0 || ^5.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.2",
+    "@types/jest": "^23.3.5",
     "mobx": "^4.3.0 || ^5.0.0"
   }
 }
