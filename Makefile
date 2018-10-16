@@ -169,6 +169,10 @@ test: run-unit-tests
 run-unit-tests: all-dependencies
 	$(ACTIVATE) && $(JEST)
 
+.PHONY: run-unit-tests-ci
+run-unit-tests-ci: all-dependencies
+	$(ACTIVATE) && $(JEST) --maxWorkers=4
+
 ###### bin-tools ###################################
 
 admin/bin-tools:
