@@ -2,14 +2,14 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Select, Radio } from 'antd';
 import { SelectProps } from 'antd/lib/select';
-import { RadioProps } from 'antd/lib/radio';
+import { RadioProps, RadioGroupProps } from 'antd/lib/radio';
 import { BindAntProps, parseProps } from './BindAnt';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
 import { OneOf } from '@moxb/moxb';
 
 @observer
-export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps> {
+export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps> {
     render() {
         const { operation, invisible, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
@@ -37,6 +37,42 @@ export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioPro
         return (
             <FormItemAnt operation={operation} {...this.props as any}>
                 <OneOfAnt operation={operation} {...props} />
+            </FormItemAnt>
+        );
+    }
+}
+
+@observer
+export class OneOfButtonAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps> {
+    render() {
+        const { operation, invisible, ...props } = parseProps(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
+        return (
+            <Radio.Group onChange={e => operation.setValue(e.target.value)} {...props}>
+                {operation.choices.map(opt => (
+                    <Radio.Button key={opt.value} value={opt.value} checked={opt.value === operation.value}>
+                        {opt.label}
+                    </Radio.Button>
+                ))}
+            </Radio.Group>
+        );
+    }
+}
+
+@observer
+export class OneOfButtonFormAnt extends React.Component<
+    BindAntProps<OneOf> & RadioProps & RadioGroupProps & FormItemProps
+> {
+    render() {
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
+        return (
+            <FormItemAnt operation={operation} {...this.props as any}>
+                <OneOfButtonAnt operation={operation} {...props} />
             </FormItemAnt>
         );
     }
