@@ -185,4 +185,49 @@ describe('Form', function() {
             expect(theThis).toBe(bindForm);
         });
     });
+
+    describe('resetValues', function() {
+        it('should reset all values to the initial ones', function() {
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
+                values: [bindText, bindPass],
+            });
+            bindText.setValue('foobar');
+            bindPass.setValue('bar');
+            bindForm.resetValues();
+            expect(bindText.isInitialValue).toEqual(true);
+            expect(bindPass.isInitialValue).toBeUndefined();
+        });
+    });
+
+    describe('hasChanges', function() {
+        it('should return true a value in a field has changed', function() {
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
+                values: [bindText, bindPass],
+            });
+            bindText.setValue('foobar');
+            bindPass.setValue('bar');
+            expect(bindForm.hasChanges).toEqual(true);
+        });
+
+        it('should return false, if all values are initial values', function() {
+            const bindExtraText = new TextImpl({
+                id: 'text',
+                label: 'text',
+                onSave: onSaveUserText,
+                initialValue: () => 'foo',
+            });
+            const bindExtraPass = new TextImpl({
+                id: 'password',
+                label: 'password',
+                onSave: onSavePasswordText,
+            });
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
+                values: [bindExtraText, bindExtraPass],
+            });
+            expect(bindForm.hasChanges).toEqual(false);
+        });
+    });
 });
