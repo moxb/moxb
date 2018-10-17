@@ -12,6 +12,11 @@ export interface Form extends Bind {
     hasErrors: boolean;
 
     /**
+     * Has the form the initial values or has it been changed
+     */
+    hasChanges: boolean;
+
+    /**
      * Contains the list of tracked errors by the children components
      */
     allErrors: string[];

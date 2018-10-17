@@ -14,6 +14,7 @@ import {
     TimePickerAnt,
     TableAnt,
     ActionFormButtonAnt,
+    OneOfButtonFormAnt,
 } from '@moxb/antd';
 import { Col, Form, Layout, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
@@ -114,8 +115,12 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <ManyOfCheckboxAnt style={{ width: '200px' }} operation={application.testManyOf} />
                                     <br />
                                     <br />
-                                    <h3>OneOf - RadioBox Component</h3>
+                                    <h3>OneOf - RadioButton Component</h3>
                                     <OneOfAnt operation={application.testOfOne} />
+                                    <br />
+                                    <br />
+                                    <h3>OneOf - RadioButton solid Component</h3>
+                                    <OneOfButtonFormAnt buttonStyle="solid" operation={application.testOfOne} />
                                     <br />
                                     <br /> <h3>OneOf - Select Component</h3>
                                     <OneOfSelectAnt operation={application.testOfOne} />

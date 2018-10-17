@@ -57,6 +57,13 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         return !!(this.impl.values.find(v => v.errors!.length > 0) || this.errors!.length > 0);
     }
 
+    @computed
+    get hasChanges() {
+        return !this.impl.values.every(v => {
+            return v.isInitialValue === undefined ? true : v.isInitialValue;
+        });
+    }
+
     @action.bound
     onSubmitForm(evt?: any) {
         if (!this.impl.doSubmitRefresh && evt) {
