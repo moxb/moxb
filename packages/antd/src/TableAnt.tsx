@@ -20,7 +20,7 @@ export interface TableAntProps<T> extends TableProps<any> {
     setupColumn?(column: ColumnAntProps<T>): void;
 }
 
-function toCell(x: any, record: any) {
+function toCell(x: any, _record: any) {
     if (React.isValidElement(x)) {
         return x;
     }
@@ -70,7 +70,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                               }
                             : undefined
                     }
-                    onChange={(pagination, filters, sorter) => {
+                    onChange={(pagination, _filters, sorter) => {
                         if (table.pagination) {
                             if (pagination.pageSize) {
                                 table.pagination.setPageSize(pagination.pageSize);

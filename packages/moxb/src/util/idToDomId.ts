@@ -7,7 +7,7 @@
 export function idToDomId(id: string | null | undefined) {
     return (id || '')
         .replace(/[^-\w\d]+/g, '-')
-        .replace(/\.?([A-Z]+)/g, (x, v) => '_' + v.toLowerCase()) // to camel case
+        .replace(/\.?([A-Z]+)/g, (_x, v) => '_' + v.toLowerCase()) // to camel case
         .replace(/^([\d_-]+)/, '') // start with alpha numeric
         .replace(/[-_]{2,}/g, '-') // no double dashes and _-
         .replace(/^[-_]/g, '') // no _ - at the beginning

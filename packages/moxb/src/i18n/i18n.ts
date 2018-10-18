@@ -6,7 +6,7 @@ export type TranslateFunction = (key: string, translation: string, options?: obj
  * @param translation
  * @param options
  */
-export const translateDefault: TranslateFunction = (key: string, translation: string, options?: object) =>
+export const translateDefault: TranslateFunction = (_key: string, translation: string, options?: object) =>
     expandT(translation, options);
 /**
  * Translates to key in brackets: `[key]`

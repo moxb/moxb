@@ -23,7 +23,7 @@ export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
         return (
             <DatePicker
                 placeholder={operation.placeholder}
-                onChange={(date: any, dateString: string) => operation.setValue(dateString)}
+                onChange={(_date: any, dateString: string) => operation.setValue(dateString)}
                 {...props as any}
             />
         );
