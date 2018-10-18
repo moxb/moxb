@@ -11,3 +11,4 @@ export * from './TableAnt';
 export * from './DatePickerAnt';
 export * from './TimePickerAnt';
 export * from './FormAnt';
+export * from './routing';
