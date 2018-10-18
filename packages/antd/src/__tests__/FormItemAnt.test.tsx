@@ -7,12 +7,12 @@ describe('FormItemAnt', function() {
     const formUserText = new TextImpl({
         id: 'ApplicationImpl.formUserText',
         label: 'Username',
-        onSave: (bind, done) => jest.fn(),
+        onSave: (_bind, _done) => jest.fn(),
     });
     const formPasswordText = new TextImpl({
         id: 'ApplicationImpl.formUserText',
         label: 'Username',
-        onSave: (bind, done) => jest.fn(),
+        onSave: (_bind, _done) => jest.fn(),
     });
 
     it('should render a form item by default', function() {
@@ -20,7 +20,7 @@ describe('FormItemAnt', function() {
         const operation = new FormImpl({
             id: 'id.testForm',
             values: [formUserText, formPasswordText],
-            onSubmit: (bind, done) => onSubmitMock,
+            onSubmit: (_bind, _done) => onSubmitMock,
         });
         expect(shallow(<FormItemAnt operation={operation} />)).toMatchSnapshot();
     });
@@ -30,7 +30,7 @@ describe('FormItemAnt', function() {
         const operation = new FormImpl({
             id: 'id.testForm',
             values: [formUserText, formPasswordText],
-            onSubmit: (bind, done) => onSubmitMock,
+            onSubmit: (_bind, _done) => onSubmitMock,
             invisible: () => true,
         });
         expect(shallow(<FormItemAnt operation={operation} />).type()).toBeNull();
@@ -41,7 +41,7 @@ describe('FormItemAnt', function() {
         const operation = new FormImpl({
             id: 'id.testForm',
             values: [formUserText, formPasswordText],
-            onSubmit: (bind, done) => onSubmitMock,
+            onSubmit: (_bind, _done) => onSubmitMock,
         });
         const wrapper = shallow(<FormItemAnt operation={operation} />);
         formUserText.setError('New error');

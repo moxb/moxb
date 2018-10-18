@@ -7,13 +7,16 @@
         "inlineSourceMap": true,
         "importHelpers":true,
         "experimentalDecorators": true,
-        "noEmit": true,
+        "noEmit": false,
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strict": true,
         "declaration": false,
         "skipLibCheck": true,
         "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "allowUnreachableCode": false,
         "removeComments": false
     },
     "exclude": [
