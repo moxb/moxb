@@ -26,8 +26,8 @@ build:  all-dependencies npm-link-dependencies
 		&& $(PACREL) build index.html
 
 .PHONY: clean-build
-clean-build:
-	@echo nothing to do
+clean-dist:
+	$(RM) -rf .cache
 
 clean-js-files:
 	$(RM) -f  `find src -name '*.js'`
@@ -37,7 +37,6 @@ clean-js-files:
 clean: clean-build clean-js-files
 	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
-	$(RM) -rf .cache
 
 
 ###### node_module

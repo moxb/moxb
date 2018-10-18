@@ -21,6 +21,7 @@ dist:
 .PHONY: clean-dist
 clean-dist:
 	$(RM) -rf dist
+	find src -name '*.js' | xargs rm -f # remove accidentally generated `.js` files
 
 .PHONY: clean-dist
 clean-obsolete:
