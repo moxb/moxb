@@ -4,6 +4,8 @@ import { LoginFormAnt } from './form/LoginFormAnt';
 import { MemTableAnt } from './memtable/MemTableAnt';
 import { ApplicationAnt } from './app/ApplicationAnt';
 
+import lockImgUrl from "../images/lock.jpg";
+
 import {
     //    UrlArg,
     //    URLARG_TYPE_STRING,
@@ -19,7 +21,7 @@ export const mainMenu: StateSpace = [
     },
     {
         path: 'loginForm',
-        label: 'Login Form',
+        label: <span><img src={ lockImgUrl } width="32"/>Login Form</span>,
         fragment: <LoginFormAnt />,
     },
     {
