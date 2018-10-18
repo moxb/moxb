@@ -1,17 +1,13 @@
 import * as React from 'react';
 
-import { LoginFormAnt } from './form/LoginFormAnt';
-import { MemTableAnt } from './memtable/MemTableAnt';
+import { LoginFormAnt, PATH as loginPath } from './form/LoginFormAnt';
+import { MemTableAnt, PATH as memTablePath } from './memtable/MemTableAnt';
 import { ApplicationAnt } from './app/ApplicationAnt';
-import { MoreMenusAnt } from './menus/MoreMenusAnt';
+import { MoreMenusAnt, PATH as moreMenuPath } from './menus/MoreMenusAnt';
 
 import lockImgUrl from "../images/lock.jpg";
 
-import {
-    //    UrlArg,
-    //    URLARG_TYPE_STRING,
-    StateSpace,
-} from '@moxb/moxb';
+import { StateSpace } from '@moxb/moxb';
 
 export const mainMenu: StateSpace = [
     {
@@ -21,17 +17,22 @@ export const mainMenu: StateSpace = [
         fragment: <ApplicationAnt />,
     },
     {
-        path: 'loginForm',
-        label: <span><img src={ lockImgUrl } width="32"/>Login Form</span>,
+        path: loginPath,
+        label: (
+            <span>
+                <img src={ lockImgUrl } width="32"/>
+                Login Form
+            </span>
+        ),
         fragment: <LoginFormAnt />,
     },
     {
-        path: 'memTable',
+        path: memTablePath,
         label: 'Mem Table',
         fragment: <MemTableAnt />,
     },
     {
-        path: 'moreMenus',
+        path: moreMenuPath,
         label: 'More Menus',
         fragment: <MoreMenusAnt />,
     },    
