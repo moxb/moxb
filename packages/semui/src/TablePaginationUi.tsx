@@ -20,7 +20,7 @@ export class TablePaginationUi extends React.Component<BindTablePaginationUiProp
         return (
             <div className={noAlignment ? undefined : 'container ui'} style={{ marginTop: '20px' }}>
                 <Pagination
-                    onPageChange={(event, data) => pagination.setActivePage(data.activePage as number)}
+                    onPageChange={(_event, data) => pagination.setActivePage(data.activePage as number)}
                     activePage={pagination.activePage}
                     totalPages={pagination.totalPages}
                     firstItem={{
@@ -51,7 +51,7 @@ export class TablePaginationUi extends React.Component<BindTablePaginationUiProp
                         item
                         simple
                         value={pagination.pageSize}
-                        onChange={(event, data) => pagination.setPageSize(data.value as number)}
+                        onChange={(_event, data) => pagination.setPageSize(data.value as number)}
                         style={{ margin: '0 10px' }}
                         options={options}
                     />

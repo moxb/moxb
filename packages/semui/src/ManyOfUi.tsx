@@ -23,7 +23,7 @@ export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & FormFieldPro
 
                 <Dropdown
                     id={id}
-                    onChange={(e, data) => operation.setValue(data.value as string[])}
+                    onChange={(_e, data) => operation.setValue(data.value as string[])}
                     options={options}
                     value={value}
                     {...props}
