@@ -1,7 +1,7 @@
 {
   "name": "moxb-examples",
   "version": "1.0.0",
-  "description": "moxb semui examples",
+  "description": "moxb antd and semui examples",
   "main": "index.js",
   "scripts": {},
   "author": "",
