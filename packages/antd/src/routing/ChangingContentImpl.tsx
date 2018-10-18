@@ -5,8 +5,8 @@ import { ChangingContent } from './ChangingContent';
 
 const findRoot = (substates: SubState[]) => substates.find(s => !!s.root);
 
-const findSubstate = (substates: SubState[], token: string) =>
-    substates.find(s => !!s.path && s.path.split('/')[0] === token);
+const findSubstate = (substates: SubState[], token: string, separator: string) =>
+    substates.find(s => !!s.path && s.path.split(separator)[0] === token);
 
 const isMap = (spec: UIFragmentSpec) => {
     if (typeof spec !== 'object') {
@@ -44,7 +44,12 @@ export class ChangingContentImpl extends ChangingContent {
     }
 
     public render() {
-        const { rawPath, substates, fallback, part, mountAll, rootPath = '/', debug } = this.props;
+        const {
+            rawPath, substates, fallback, part, mountAll,
+            separator,
+            rootPath,
+            debug,
+        } = this.props;
         const path = Array.isArray(rawPath) ? rawPath : [rawPath];
         const debugLog = (...stuff: any[]) => {
             if (debug) {
@@ -52,15 +57,15 @@ export class ChangingContentImpl extends ChangingContent {
             }
         };
         debugLog('Looking up', part);
-        const level = rootPath.split('/').length - 2;
+        const level = (rootPath || separator).split(separator).length - 2;
         const token = path[level];
         if (debug) {
-            console.log('rootPath is', rootPath);
+            console.log('rootPath is', rootPath || separator);
             console.log('level is', level);
             console.log('Choosing token:', token);
         }
 
-        const wantedChild = !token || token === '' ? findRoot(substates) : findSubstate(substates, token);
+        const wantedChild = !token || token === '' ? findRoot(substates) : findSubstate(substates, token, separator);
 
         debugLog('wantedChild is', wantedChild);
 
@@ -80,7 +85,8 @@ export class ChangingContentImpl extends ChangingContent {
                 debugLog('it has substates');
                 return (
                     <ChangingContentImpl
-                        rootPath={rootPath + wantedChild.path}
+                        rootPath={(rootPath || separator) + wantedChild.path}
+                        separator={separator}
                         rawPath={path}
                         substates={wantedChild.subStates}
                         part={part}

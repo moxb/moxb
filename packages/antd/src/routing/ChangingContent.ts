@@ -49,6 +49,7 @@ export interface Params {
 
 export interface State {
     rawPath: string | string[];
+    separator: string;
 }
 
 export type Props = Params & State;

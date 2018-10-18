@@ -11,20 +11,22 @@ interface ControlMethod {
     arg?: UrlArg<string>;
 }
 
-type UIProps = ChangingContent.Params &
-    ControlMethod & {
-        locationManager: LocationManager;
-    };
+export interface ContentProps extends ChangingContent.Params, ControlMethod {
+    locationManager: LocationManager;
+}
 
 @observer
-export class LocationDependentContent extends React.Component<UIProps, {}> {
+export class LocationDependentContent extends React.Component<ContentProps, {}> {
     public render() {
         const { arg, locationManager, children, ...remnant } = this.props;
         const rawPath: string | string[] = arg ? arg.value : locationManager.pathTokens;
+        if (remnant.debug) {
+            console.log("rawPath is", rawPath);
+        }
         const props: ChangingContent.Props = {
             ...remnant,
             rawPath,
-            debug: false,
+            separator: locationManager.pathSeparator,
         };
         return <ChangingContentImpl {...props} />;
     }
