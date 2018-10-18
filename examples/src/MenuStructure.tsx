@@ -3,6 +3,7 @@ import * as React from 'react';
 import { LoginFormAnt } from './form/LoginFormAnt';
 import { MemTableAnt } from './memtable/MemTableAnt';
 import { ApplicationAnt } from './app/ApplicationAnt';
+import { MoreMenusAnt } from './menus/MoreMenusAnt';
 
 import lockImgUrl from "../images/lock.jpg";
 
@@ -29,6 +30,11 @@ export const mainMenu: StateSpace = [
         label: 'Mem Table',
         fragment: <MemTableAnt />,
     },
+    {
+        path: 'moreMenus',
+        label: 'More Menus',
+        fragment: <MoreMenusAnt />,
+    },    
 ];
 
 export const missingContent = <span>No such content</span>;
