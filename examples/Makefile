@@ -9,7 +9,7 @@ ACTIVATE = . $(ADMIN)/activate
 MKDIR = mkdir
 RM = rm
 TOUCH = touch
-PACREL = ./node_modules/.bin/parcel
+PARCEL = ./node_modules/.bin/parcel
 
 include ../admin/makefiles/check-code.mk
 
@@ -23,7 +23,7 @@ all: build
 .PHONY: build
 build:  all-dependencies npm-link-dependencies
 	$(ACTIVATE) \
-		&& $(PACREL) build index.html
+		&& $(PARCEL) build index.html
 
 .PHONY: clean-build
 clean-dist:
@@ -77,7 +77,7 @@ npm-link-dependencies:
 .PHONY: watch
 watch:  all-dependencies npm-link-dependencies
 	$(ACTIVATE) \
-		&& $(PACREL) index.html
+		&& $(PARCEL) index.html
 
 .PHONY: clean-generated-js-files
 clean-generated-js-files:
