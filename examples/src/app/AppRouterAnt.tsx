@@ -1,26 +1,25 @@
-import { inject, observer } from 'mobx-react';
+import { Layout, Row } from 'antd';
 import * as React from 'react';
-import { LoginFormAnt } from '../form/LoginFormAnt';
-import { MemTableAnt } from '../memtable/MemTableAnt';
-import { ApplicationAnt } from './ApplicationAnt';
-import { ViewStore } from '../store/ViewStore';
+import { NavigationAnt } from '../common/NavigationAnt';
 
-@inject('view')
-@observer
-export class AppRouterAnt extends React.Component<{ view?: ViewStore }> {
+import { LocationManager } from '@moxb/moxb';
+import { LocationDependentArea } from '@moxb/antd';
+
+import { defaultContent, mainMenu } from '../MenuStructure';
+
+export class AppRouterAnt extends React.Component<{ location?: LocationManager }> {
     render() {
-        const view = this.props.view!;
-        return renderContents(view);
-    }
-}
-
-function renderContents(view: ViewStore) {
-    switch (view.page) {
-        case 'index':
-            return <ApplicationAnt />;
-        case 'loginForm':
-            return <LoginFormAnt />;
-        case 'memTable':
-            return <MemTableAnt />;
+        return (
+            <Layout>
+                <Layout.Content>
+                    <Row>
+                        <NavigationAnt />
+                    </Row>
+                    <LocationDependentArea subStates={mainMenu} fallback={defaultContent} part="main" />
+                    <hr />
+                    <LocationDependentArea subStates={mainMenu} fallback={defaultContent} part="bottom" />
+                </Layout.Content>
+            </Layout>
+        );
     }
 }
