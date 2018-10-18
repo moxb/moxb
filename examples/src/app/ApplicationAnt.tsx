@@ -16,11 +16,10 @@ import {
     ActionFormButtonAnt,
     OneOfButtonFormAnt,
 } from '@moxb/antd';
-import { Col, Form, Layout, Row } from 'antd';
+import { Row, Col, Form } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { toJSON } from '@moxb/moxb';
-import { NavigationAnt } from '../common/NavigationAnt';
 import { Application } from './Application';
 
 // helper function to print recursive mobx trees
@@ -34,11 +33,6 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app!;
         return (
-            <Layout>
-                <Layout.Content>
-                    <Row>
-                        <NavigationAnt />
-                    </Row>
                     <Row>
                         <Col span={16}>
                             <section
@@ -143,8 +137,6 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             </section>
                         </Col>
                     </Row>
-                </Layout.Content>
-            </Layout>
         );
     }
 }

@@ -1,9 +1,8 @@
 import { FormAnt, TextFormAnt, ActionButtonAnt } from '@moxb/antd';
-import { Icon, Layout, Row } from 'antd';
+import { Icon, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Application } from '../app/Application';
-import { NavigationAnt } from '../common/NavigationAnt';
 
 @inject('app')
 @observer
@@ -11,11 +10,6 @@ export class LoginFormAnt extends React.Component<{ app?: Application }> {
     render() {
         const application = this.props.app;
         return (
-            <Layout>
-                <Layout.Content>
-                    <Row>
-                        <NavigationAnt />
-                    </Row>
                     <Row>
                         <FormAnt operation={application!.testForm}>
                             <h3>Login Form</h3>
@@ -39,8 +33,6 @@ export class LoginFormAnt extends React.Component<{ app?: Application }> {
                             />
                         </FormAnt>
                     </Row>
-                </Layout.Content>
-            </Layout>
         );
     }
 }
