@@ -23,7 +23,7 @@ all: build
 .PHONY: build
 build:  all-dependencies npm-link-dependencies
 	$(ACTIVATE) \
-		&& $(PARCEL) build index.html
+		&& $(PARCEL) build src/ant/index.html
 
 .PHONY: clean-build
 clean-dist:
@@ -74,10 +74,17 @@ npm-link-dependencies:
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################
 
-.PHONY: watch
-watch:  all-dependencies npm-link-dependencies
+watch: watch-antd
+
+.PHONY: watch-antd
+watch-antd:  all-dependencies npm-link-dependencies
 	$(ACTIVATE) \
-		&& $(PARCEL) index.html
+		&& cd src/antd && ../../$(PARCEL) index.html
+
+.PHONY: watch-semui
+watch-semui:  all-dependencies npm-link-dependencies
+	$(ACTIVATE) \
+		&& cd src/semui && ../../$(PARCEL) index.html
 
 .PHONY: clean-generated-js-files
 clean-generated-js-files:
