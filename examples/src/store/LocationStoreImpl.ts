@@ -1,6 +1,6 @@
-import { LocationManager, PATH_STRATEGY, ArgSavingLocationManagerImpl } from '@moxb/moxb';
+import { LocationManager, PATH_STRATEGY, BasicLocationManagerImpl } from '@moxb/moxb';
 
-export class LocationStoreImpl extends ArgSavingLocationManagerImpl {
+export class LocationStoreImpl extends BasicLocationManagerImpl {
     public constructor() {
         super({
             pathStrategy: PATH_STRATEGY.QUERY,
