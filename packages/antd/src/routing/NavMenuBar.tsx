@@ -25,7 +25,7 @@ export interface NavMenuProps {
 }
 
 @observer
-export class NavMenu extends React.Component<NavMenuProps, {}> {
+export class NavMenuBar extends React.Component<NavMenuProps, {}> {
     public constructor(props: NavMenuProps) {
         super(props);
         this.isSubStateActive = this.isSubStateActive.bind(this);
