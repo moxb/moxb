@@ -1,10 +1,7 @@
 import * as React from 'react';
-import { Menu } from 'antd';
 
 import { NavMenuBar, NavMenuProps } from "./NavMenuBar";
 import { LocationDependentContent, ContentProps } from "./LocationDependentContent";
-
-import { SubState, StateSpace, LocationManager, UIFragment, renderFragment } from '@moxb/moxb';
 
 export type UIProps = NavMenuProps & ContentProps;
 

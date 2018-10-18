@@ -246,11 +246,11 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     // This is an extension point for reacting to location changes.
     public handleLocationChange(
-        pathChanged: boolean,
-        path: string,
-        pathTokens: string[],
-        searchChanged: boolean,
-        query: string
+        _pathChanged: boolean,
+        _path: string,
+        _pathTokens: string[],
+        _searchChanged: boolean,
+        _query: string
     ) {
         //        console.log("Handler: basic");
     }

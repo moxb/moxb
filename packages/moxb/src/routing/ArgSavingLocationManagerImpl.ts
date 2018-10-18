@@ -1,8 +1,6 @@
-import { computed, action } from 'mobx';
-
 import { Props as BasicProps } from './BasicLocationManagerImpl';
 
-import { TriggeringLocationManagerImpl, Config as TriggeringConfig } from './TriggeringLocationManagerImpl';
+import { TriggeringLocationManagerImpl } from './TriggeringLocationManagerImpl';
 
 const saveArgsDebug = false;
 
@@ -23,7 +21,7 @@ export class BasicArgSavingBackend implements ArgSavingBackend {
     }
 
     public load(path: string): Promise<string> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _reject) => {
             resolve(this.searches[path]);
         });
     }

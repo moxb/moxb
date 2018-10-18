@@ -24,7 +24,6 @@ export class TriggeringLocationManagerImpl extends BasicLocationManagerImpl {
     // public getter for location. Checks if we have a valid config.
     @computed
     public get location() {
-        const c = this.config;
         //        console.log("Reading location");
         return super.getLocation();
     }

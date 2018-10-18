@@ -12,7 +12,7 @@ interface ClickParam {
     domEvent: any;
 }
 
-import { SubState, StateSpace, LocationManager, UIFragment, renderFragment } from '@moxb/moxb';
+import { SubState, StateSpace, LocationManager, renderFragment } from '@moxb/moxb';
 
 export type Condition = (item: SubState) => boolean;
 
@@ -34,16 +34,11 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    protected renderSubStateLink(state: SubState, index: number) {
-        const { locationManager, rootPath, hierarchical, condition, right } = this.props;
-
+    protected renderSubStateLink(state: SubState) {
         const { label, path, root, hidden, subStates } = state;
         if (hidden) {
             return null;
         }
-        const realRootPath = rootPath || locationManager.pathSeparator;
-        const toPath = root || path ? realRootPath + (root ? '' : path) : '_unknown_'; // TODO: what does this mean?
-
         if (subStates) {
             /*
             <NavLinkGroup
@@ -77,7 +72,6 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
         if (root || path) {
             if (arg) {
                 return arg.value === path;
-                return false;
             } else {
                 const toPath = this.getPathForSubState(state);
                 return locationManager.isLinkActive(toPath, !!root);
@@ -136,12 +130,12 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
                 selectedKeys={selectedKeys}
                 onClick={this.handleClick}
             >
-                {substates.map((state, index) => {
+                {substates.map((state, _index) => {
                     if (condition && !condition(state)) {
                         //                console.log("Hiding item");
                         return null;
                     } else {
-                        return this.renderSubStateLink(state, index);
+                        return this.renderSubStateLink(state);
                     }
                 })}
             </Menu>
