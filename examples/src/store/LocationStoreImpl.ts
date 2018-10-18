@@ -4,6 +4,7 @@ export class LocationStoreImpl extends BasicLocationManagerImpl {
     public constructor() {
         super({
             pathStrategy: PATH_STRATEGY.QUERY,
+            cleanSeparatorFromPathEnd: true,
         });
         this.watchHistory();
     }

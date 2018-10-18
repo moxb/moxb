@@ -35,6 +35,7 @@ const noLocation: MyLocation = {
 
 export interface Props {
     pathStrategy?: PathStrategy;
+    cleanSeparatorFromPathEnd?: boolean;
 }
 
 const getQueryFromQueryString = (queryString: string, removePath?: boolean): Query => {
@@ -55,6 +56,8 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     public readonly pathSeparator: string;
 
+    public readonly cleanSeparatorFromPathEnd?: boolean;
+    
     public parsePathTokens(pathname: string): string[] {
         const raw = pathname[0] === this.pathSeparator ? pathname.substr(1) : pathname;
         return raw.split(this.pathSeparator);
@@ -74,6 +77,8 @@ export class BasicLocationManagerImpl implements LocationManager {
             valueType: URLARG_TYPE_PATH,
             defaultValue: this.pathSeparator,
         });
+
+        this.cleanSeparatorFromPathEnd = props.cleanSeparatorFromPathEnd;
     }
 
     // Private field to actually follow the browser history
@@ -173,32 +178,40 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     @action
     public pushPath(path: Path) {
+        let realPath = path;
+        if (path.endsWith(this.pathSeparator) && this.cleanSeparatorFromPathEnd) {
+            realPath = path.substr(0, path.length - 1);
+        }
         if (debug) {
-            console.log('pushling path', JSON.stringify(path));
+            console.log('pushling path', JSON.stringify(realPath));
         }
         switch (this._pathStrategy) {
             case PATH_STRATEGY.NATIVE:
-                this._history.push(path);
+                this._history.push(realPath);
                 break;
             case PATH_STRATEGY.QUERY:
                 this.query = {};
-                this._pathArg.set(path, 'replace');
+                this._pathArg.set(realPath, 'replace');
                 break;
         }
     }
 
     @action
     public replacePath(path: Path) {
+        let realPath = path;
+        if (path.endsWith(this.pathSeparator) && this.cleanSeparatorFromPathEnd) {
+            realPath = path.substr(0, path.length - 1);
+        }
         if (debug) {
-            console.log('Replacing path', JSON.stringify(path));
+            console.log('Replacing path', JSON.stringify(realPath));
         }
         switch (this._pathStrategy) {
             case PATH_STRATEGY.NATIVE:
-                this._history.replace(path);
+                this._history.replace(realPath);
                 break;
             case PATH_STRATEGY.QUERY:
                 this.query = {};
-                this._pathArg.set(path, 'replace');
+                this._pathArg.set(realPath, 'replace');
                 break;
         }
     }
