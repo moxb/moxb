@@ -11,7 +11,6 @@ import { StateSpace } from '@moxb/moxb';
 
 export const mainMenu: StateSpace = [
     {
-        path: 'index',
         root: true,
         label: 'All Components',
         fragment: <ApplicationAnt />,

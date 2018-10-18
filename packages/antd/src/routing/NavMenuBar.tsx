@@ -59,7 +59,7 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
 
             return <span>Submenus are not yet supported</span>;
         } else {
-            return <Menu.Item key={path}>{renderFragment(label)}</Menu.Item>;
+            return <Menu.Item key={ root ? "_root_" : path}>{renderFragment(label)}</Menu.Item>;
         }
     }
 
@@ -67,7 +67,8 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
         const { locationManager, rootPath } = this.props;
         const { root, path } = state;
         const realRootPath = rootPath || locationManager.pathSeparator;
-        return realRootPath + (root ? '' : path);
+        const result = realRootPath + (root ? '' : path);
+        return result;
     }
 
     protected isSubStateActive(state: SubState) {
@@ -86,7 +87,19 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
         }
     }
 
+    protected findRoot(): SubState {
+        const result = this.props.substates.find(state => !!state.root);
+        if (result) {
+            return result;
+        } else {
+            throw new Error("Can't find root subState");
+        }
+    }
+
     protected findSubState(path: string): SubState {
+        if (path === "_root_") {
+            return this.findRoot();
+        }
         const result = this.props.substates.find(state => state.path === path);
         if (result) {
             return result;
@@ -105,7 +118,7 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
                 arg.value = state.path as string;
             } else {
                 const path = this.getPathForSubState(state);
-                //            console.log("Jumping to", path);
+//                console.log("Jumping to '" + path + "'...");
                 locationManager.path = path;
             }
         }

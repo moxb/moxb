@@ -72,13 +72,16 @@ export class BasicLocationManagerImpl implements LocationManager {
     public constructor(props: Props) {
         this._pathStrategy = props.pathStrategy || PATH_STRATEGY.NATIVE;
         this.pathSeparator = this._pathStrategy === PATH_STRATEGY.NATIVE ? '/' : '.';
+        this.cleanSeparatorFromPathEnd = props.cleanSeparatorFromPathEnd;
         this._pathArg = new UrlArg(this, {
             key: 'path',
             valueType: URLARG_TYPE_PATH,
-            defaultValue: this.pathSeparator,
+            defaultValue: this.cleanSeparatorFromPathEnd
+                ? ""
+                : this.pathSeparator,
         });
 
-        this.cleanSeparatorFromPathEnd = props.cleanSeparatorFromPathEnd;
+
     }
 
     // Private field to actually follow the browser history
