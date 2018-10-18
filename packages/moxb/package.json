@@ -48,7 +48,16 @@
     "mobx": "^4.3.0 || ^5.0.0"
   },
   "devDependencies": {
+    "@types/history": "^4.7.0",
     "@types/jest": "^23.3.2",
+    "@types/lodash.memoize": "^4.1.4",
+    "@types/urijs": "^1.15.38",
     "mobx": "^4.3.0 || ^5.0.0"
+  },
+  "dependencies": {
+    "history": "4.7.2",
+    "lodash.memoize": "^4.1.2",
+    "react-mobx": "0.0.4",
+    "urijs": "^1.19.1"
   }
 }
