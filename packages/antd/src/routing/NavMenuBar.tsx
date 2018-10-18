@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Menu } from 'antd';
 import { observer } from 'mobx-react';
+import { UrlArg } from "@moxb/moxb";
 
 // TODO: this should be imported from antd/menu, but I couldn't find out
 // how to do it.
@@ -18,6 +19,7 @@ export type Condition = (item: SubState) => boolean;
 export interface NavMenuProps {
     locationManager: LocationManager;
     rootPath?: string;
+    arg?: UrlArg<string>;
     substates: StateSpace;
     condition?: Condition;
     hierarchical?: boolean;
@@ -70,10 +72,15 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
 
     protected isSubStateActive(state: SubState) {
         const { root, path } = state;
-        const { locationManager } = this.props;
+        const { locationManager, arg } = this.props;
         if (root || path) {
-            const toPath = this.getPathForSubState(state);
-            return locationManager.isLinkActive(toPath, !!root);
+            if (arg) {
+                return arg.value === path;
+                return false;
+            } else {
+                const toPath = this.getPathForSubState(state);
+                return locationManager.isLinkActive(toPath, !!root);
+            }
         } else {
             return false;
         }
@@ -89,13 +96,18 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
     }
 
     protected handleClick(e: ClickParam) {
+        const { locationManager, arg } = this.props;
         const state = this.findSubState(e.key);
         if (this.isSubStateActive(state)) {
             //            console.log("Not jumping, already there.");
         } else {
-            const path = this.getPathForSubState(state);
-            //            console.log("Jumping to", path);
-            this.props.locationManager.path = path;
+            if (arg) {
+                arg.value = state.path as string;
+            } else {
+                const path = this.getPathForSubState(state);
+                //            console.log("Jumping to", path);
+                locationManager.path = path;
+            }
         }
     }
 

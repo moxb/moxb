@@ -14,6 +14,7 @@ export class MenuAndContent extends React.Component<UIProps, {}> {
         const {
             locationManager,
             rootPath,
+            arg,
             substates,
             condition,
             hierarchical,
@@ -25,6 +26,7 @@ export class MenuAndContent extends React.Component<UIProps, {}> {
         const menuProps: NavMenuProps = {
             locationManager,
             rootPath,
+            arg,
             substates,
             condition,
             hierarchical,
@@ -33,6 +35,7 @@ export class MenuAndContent extends React.Component<UIProps, {}> {
         const contentProps: ContentProps = {
             locationManager,
             rootPath,
+            arg,
             substates,
             fallback,
             mountAll,
