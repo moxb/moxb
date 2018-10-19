@@ -4,6 +4,7 @@ import { UrlStore } from "./UrlStore";
 export class UrlStoreImpl implements UrlStore {
     
     public readonly color: UrlArg<string>;
+    public readonly search: UrlArg<string>;
 
     public constructor(location: LocationManager) {
         this.color = new UrlArg(location, {
@@ -12,5 +13,10 @@ export class UrlStoreImpl implements UrlStore {
             defaultValue: "red",
         });
 
+        this.search = new UrlArg(location, {
+            key: "search";
+            valueType: URLARG_TYPE_STRING,
+            defaultValue: "",
+        });
     }
 }
