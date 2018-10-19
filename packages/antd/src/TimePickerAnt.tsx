@@ -23,7 +23,7 @@ export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
         return (
             <TimePicker
                 placeholder={operation.placeholder}
-                onChange={(time: any, timeString: string) => operation.setValue(timeString)}
+                onChange={(_time: any, timeString: string) => operation.setValue(timeString)}
                 {...props as any}
             />
         );

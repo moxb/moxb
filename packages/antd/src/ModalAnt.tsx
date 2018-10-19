@@ -5,7 +5,7 @@ import { Modal } from 'antd';
 import { ModalFuncProps } from 'antd/lib/modal';
 
 export interface BindModalAntProps<T> extends ModalFuncProps {
-    operation: MoxbModal<any>;
+    operation: MoxbModal<T>;
 }
 
 @observer

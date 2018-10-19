@@ -1,5 +1,4 @@
 import { Table } from '../Table';
-import { TableColumn } from '../TableColumn';
 import { TableImpl } from '../TableImpl';
 import { TableColumnImpl } from '../TableColumnImpl';
 

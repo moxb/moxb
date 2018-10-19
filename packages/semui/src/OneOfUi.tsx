@@ -67,7 +67,7 @@ export class OneOfSelectUi extends React.Component<BindUiProps<OneOf> & FormFiel
 
                 <Select
                     id={id + '_in'}
-                    onChange={(e, { value }) => operation.setValue(value as string)}
+                    onChange={(_e, { value }) => operation.setValue(value as string)}
                     options={options}
                     defaultValue={operation.value}
                     width={width as any}

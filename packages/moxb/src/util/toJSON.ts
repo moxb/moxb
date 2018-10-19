@@ -15,7 +15,7 @@ import { decycle } from './cycle';
 export function toJSON(value: any, ignore?: RegExp) {
     return JSON.stringify(
         decycle(toJS(value), (v, p) => (ignore && ignore.test(p) ? '**ignored:' + p + '**' : v)),
-        (k, v) => (v instanceof RegExp ? v.toString() : v),
+        (_k, v) => (v instanceof RegExp ? v.toString() : v),
         2
     );
 }

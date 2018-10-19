@@ -1,7 +1,6 @@
 import { TableImpl, TableColumnImpl, TableSearchImpl, TablePaginationImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { FormAnt } from '../FormAnt';
 import { TableAnt, ColumnAntProps } from '../TableAnt';
 
 describe('TableAnt', function() {

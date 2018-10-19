@@ -291,7 +291,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     const bind: Value<string> = bindStringValue({
                         id: 'test',
                         initialValue: 'initial value',
-                        setValue: v => {},
+                        setValue: () => {},
                         getValue: () => undefined,
                     });
                     expect(bind.value).toBe('initial value');
@@ -722,7 +722,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                 });
                 it('should be true until done is called', function() {
                     let theDone: any = undefined;
-                    const onSave = jest.fn().mockImplementation(function(arg: any, done: any) {
+                    const onSave = jest.fn().mockImplementation(function(_arg: any, done: any) {
                         theDone = done;
                     });
                     const bind: Value<string> = bindStringValue({
@@ -737,7 +737,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                 });
                 it('should be true until done is called wit error', function() {
                     let theDone: any = undefined;
-                    const onSave = jest.fn().mockImplementation(function(arg: any, done: any) {
+                    const onSave = jest.fn().mockImplementation(function(_arg: any, done: any) {
                         theDone = done;
                     });
                     const bind: Value<string> = bindStringValue({
@@ -751,7 +751,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     expect(bind.isSaving).toBe(false);
                 });
                 it('should set error if done is called with an error', function() {
-                    const onSave = jest.fn().mockImplementation(function(arg: any, done: any) {
+                    const onSave = jest.fn().mockImplementation(function(_arg: any, done: any) {
                         done(new Error('some error'));
                     });
                     const bind: Value<string> = bindStringValue({
@@ -763,7 +763,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     expect(bind.errors).toContain('some error');
                 });
                 it('should clear error on save success', function() {
-                    const onSave = jest.fn().mockImplementation(function(arg: any, done: any) {
+                    const onSave = jest.fn().mockImplementation(function(_arg: any, done: any) {
                         done();
                     });
                     const bind: Value<string> = bindStringValue({
