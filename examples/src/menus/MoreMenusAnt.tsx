@@ -56,11 +56,11 @@ export const subMenu2: StateSpace = [
     },
 ];
 
-@inject("location", "color")
+@inject("location", "url")
 export class MoreMenusAnt extends React.Component<{ location?: LocationManager }> {
     
     render() {
-        const { location, color } = this.props;
+        const { location, url } = this.props;
         const separator = location.pathSeparator;
         return (
             <div>
@@ -79,7 +79,7 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager }
                         <span>This menu (on the right) is <i>not</i> part of the global navigation.</span>
                         <MenuAndContent
                             locationManager={location}
-                            arg={ color }
+                            arg={ url.color }
                             substates={ subMenu2 }
                             fallback="Unknown color"
                             debug={ false }

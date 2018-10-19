@@ -4,14 +4,17 @@ import { MemTable } from '../memtable/MemTable';
 import { MemTableImpl } from '../memtable/MemTableImpl';
 import { ViewStore } from './ViewStore';
 import { ViewStoreImpl } from './ViewStoreImpl';
-import { LocationManager, UrlArg, URLARG_TYPE_STRING } from '@moxb/moxb';
+import { LocationManager } from '@moxb/moxb';
 import { LocationStoreImpl } from './LocationStoreImpl';
+import { UrlStore } from "./UrlStore";
+import { UrlStoreImpl } from "./UrlStoreImpl";
 
 export interface Store {
     readonly app: Application;
     readonly memTable: MemTable;
     readonly view: ViewStore;
     readonly location: LocationManager;
+    readonly url: UrlStore;
     readonly color: UrlArg<string>;
 }
 
@@ -20,17 +23,13 @@ export class StoreImpl implements Store {
     readonly memTable: MemTable;
     readonly view: ViewStore;
     readonly location: LocationManager;
-    readonly color: UrlArg<string>;
+    readonly url: UrlStore;
 
     constructor() {
+        this.location = new LocationStoreImpl();
         this.app = new ApplicationImpl();
         this.memTable = new MemTableImpl();
         this.view = new ViewStoreImpl();
-        this.location = new LocationStoreImpl();
-        this.color = new UrlArg(this.location, {
-            key: "color";
-            valueType: URLARG_TYPE_STRING,
-            defaultValue: "red",
-        });
+        this.url = new UrlStoreImpl(this.location);
     }
 }
