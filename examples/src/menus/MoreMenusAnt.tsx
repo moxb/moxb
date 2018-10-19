@@ -1,7 +1,7 @@
 import { inject } from 'mobx-react';
 import { Layout, Row, Col } from 'antd';
 import * as React from 'react';
-import { MenuAndContent } from '@moxb/antd';
+import { MenuAndContent, UrlTextFieldAnt } from '@moxb/antd';
 import { MemTable, MemTableData } from './MemTable';
 
 import {
@@ -75,15 +75,21 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager }
                             fallback="Unknown number"
                         />
                     </Col>
-                    <Col span={12} >
-                        <span>This menu (on the right) is <i>not</i> part of the global navigation.</span>
+                <Col span={12} >
+                        <div>And here is a text field</div>
+                        <UrlTextFieldAnt
+                            id="search"
+                            placeholder="type something"
+                            arg={ url.search }
+                        />                
+                        <div>This menu (on the right) is <i>not</i> part of the global navigation.</div>
                         <MenuAndContent
                             locationManager={location}
                             arg={ url.color }
                             substates={ subMenu2 }
                             fallback="Unknown color"
                             debug={ false }
-                        />                
+                        />
                     </Col>
                 </Row>
             </div>
