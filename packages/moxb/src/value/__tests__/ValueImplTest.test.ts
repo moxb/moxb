@@ -291,7 +291,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     const bind: Value<string> = bindStringValue({
                         id: 'test',
                         initialValue: 'initial value',
-                        setValue: _v => {},
+                        setValue: () => {},
                         getValue: () => undefined,
                     });
                     expect(bind.value).toBe('initial value');

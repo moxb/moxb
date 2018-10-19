@@ -20,7 +20,7 @@ export interface TableAntProps<T> extends TableProps<any> {
     setupColumn?(column: ColumnAntProps<T>): void;
 }
 
-function toCell(x: any, _record: any) {
+function toCell(x: any) {
     if (React.isValidElement(x)) {
         return x;
     }
