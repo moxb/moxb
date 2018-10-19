@@ -7,7 +7,7 @@ export type Autorun = (
     }
 ) => Tracker.Computation;
 
-export let meteorAutorun: Autorun = f => ({ stop() {} } as any);
+export let meteorAutorun: Autorun = () => ({ stop() {} } as any);
 
 export function setMeteorAutorun(autorun: Autorun) {
     meteorAutorun = autorun;
