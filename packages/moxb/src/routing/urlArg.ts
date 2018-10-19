@@ -122,12 +122,10 @@ function getFromQuery<T>(query: Query, key: string, parse: ParserFunc<T>, defaul
 
 export class UrlArg<T> {
     private _def: UrlArgDefinition<T>;
-    //    private _locationManager: LocationManager;
     private _parser: ParserFunc<T>;
 
     public constructor(private readonly _locationManager: LocationManager, definition: UrlArgDefinition<T>) {
         const { parser, valueType, key } = (this._def = definition);
-        //        this._locationManager = location;
         this._parser = parser || valueType.getParser(key);
     }
 
