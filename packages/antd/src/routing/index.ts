@@ -1,4 +1,2 @@
-export { LocationDependentContent } from './LocationDependentContent';
-
-export { NavMenuBar } from './NavMenuBar';
-export { MenuAndContent } from './MenuAndContent';
+export { NavMenuBarAnt } from './NavMenuBarAnt';
+export { MenuAndContentAnt } from './MenuAndContentAnt';

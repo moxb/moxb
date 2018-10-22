@@ -1,4 +1,4 @@
-import { StateSpace, SubState } from "./StateSpace";
+import { StateSpace, SubState, StateCondition } from "./StateSpace";
 
 /**
  * A StateSpace handler takes a description of the state-space
@@ -8,9 +8,11 @@ import { StateSpace, SubState } from "./StateSpace";
 
 export interface StateSpaceHandlerProps {
     substates: StateSpace;
+    filterCondition?: StateCondition;
 }
 
 export interface StateSpaceHandler {
     findRoot(): SubState;
     findSubState(path: string): SubState;
+    getFilteredSubStates(): SubState[];
 }

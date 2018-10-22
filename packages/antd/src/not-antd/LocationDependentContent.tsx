@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 
 import { LocationManager, UrlArg } from '@moxb/moxb';
 
-import { ChangingContentParams, ChangingContentProps } from '../substates/ChangingContent';
-import { ChangingContentImpl } from '../substates/ChangingContentImpl';
+import { ChangingContentParams, ChangingContentProps } from './ChangingContent';
+import { ChangingContentImpl } from './ChangingContentImpl';
 
 interface ControlMethod {
     rootPath?: string;

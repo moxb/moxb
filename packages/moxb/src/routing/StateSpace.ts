@@ -35,3 +35,5 @@ export interface SubState {
 
 // The totality of all possible states for a given part of the app UI
 export type StateSpace = SubState[];
+
+export type StateCondition = (item: SubState) => boolean;

@@ -1,18 +1,18 @@
 import * as React from 'react';
 
-import { NavMenuBar, NavMenuProps } from './NavMenuBar';
-import { LocationDependentContent, ContentProps } from './LocationDependentContent';
+import { NavMenuBarAnt, NavMenuProps } from './NavMenuBarAnt';
+import { LocationDependentContent, ContentProps } from '../not-antd/LocationDependentContent';
 
 export type UIProps = NavMenuProps & ContentProps;
 
-export class MenuAndContent extends React.Component<UIProps, {}> {
+export class MenuAndContentAnt extends React.Component<UIProps, {}> {
     public render() {
         const {
             locationManager,
             rootPath,
             arg,
             substates,
-            condition,
+            filterCondition,
             hierarchical,
             right,
             fallback,
@@ -24,7 +24,7 @@ export class MenuAndContent extends React.Component<UIProps, {}> {
             rootPath,
             arg,
             substates,
-            condition,
+            filterCondition,
             hierarchical,
             right,
         };
@@ -39,7 +39,7 @@ export class MenuAndContent extends React.Component<UIProps, {}> {
         };
         return (
             <div>
-                <NavMenuBar {...menuProps} />
+                <NavMenuBarAnt {...menuProps} />
                 <LocationDependentContent {...contentProps} />
             </div>
         );

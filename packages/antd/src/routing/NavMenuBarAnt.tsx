@@ -14,16 +14,13 @@ interface ClickParam {
 
 import { SubState, renderFragment } from '@moxb/moxb';
 
-export type Condition = (item: SubState) => boolean;
-
 export interface NavMenuProps extends StateSpaceAndLocationHandlerProps {
-    condition?: Condition;
     hierarchical?: boolean;
     right?: boolean;
 }
 
 @observer
-export class NavMenuBar extends React.Component<NavMenuProps, {}> {
+export class NavMenuBarAnt extends React.Component<NavMenuProps, {}> {
 
     private readonly _states: StateSpaceAndLocationHandler;
 
@@ -34,10 +31,7 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
     }
 
     protected renderSubStateLink(state: SubState) {
-        const { label, path, root, hidden, subStates } = state;
-        if (hidden) {
-            return null;
-        }
+        const { label, path, root, subStates } = state;
         if (subStates) {
             /*
             <NavLinkGroup
@@ -74,25 +68,14 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
     }
 
     public render() {
-        const { substates, condition } = this.props;
-
-        const selectedKeys = this._states.getActiveSubStatePaths();
-
         return (
             <Menu
                 mode="horizontal"
                 style={{ lineHeight: '64px' }}
-                selectedKeys={selectedKeys}
+                selectedKeys={ this._states.getActiveSubStatePaths() }
                 onClick={this.handleClick}
             >
-                {substates.map((state, _index) => {
-                    if (condition && !condition(state)) {
-                        //                console.log("Hiding item");
-                        return null;
-                    } else {
-                        return this.renderSubStateLink(state);
-                    }
-                })}
+                { this._states.getFilteredSubStates().map(this.renderSubStateLink) }
             </Menu>
         );
     }

@@ -19,7 +19,7 @@ export const mainMenu: StateSpace = [
     },
     {
         path: loginPath,
-        //        hidden: true,
+        // hidden: true,
         label: (
             <span>
                 <img src={lockImgUrl} width="32" />
