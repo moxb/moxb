@@ -31,3 +31,6 @@ export {
     */
     UrlArgImpl,
 } from './UrlArgImpl';
+
+export { StateSpaceHandler, StateSpaceHandlerProps } from "./StateSpaceHandler";
+export { StateSpaceHandlerImpl } from "./StateSpaceHandlerImpl";
