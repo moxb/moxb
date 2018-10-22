@@ -1,20 +1,17 @@
+import { MenuAndContent, UrlTextFieldAnt, TextFormAnt } from '@moxb/antd';
+import { LocationManager, StateSpace } from '@moxb/moxb';
+import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
-import { Layout, Row, Col } from 'antd';
 import * as React from 'react';
-import { MenuAndContent, UrlTextFieldAnt } from '@moxb/antd';
-import { MemTable, MemTableData } from './MemTable';
-
-import { LocationManager, UrlArg, URLARG_TYPE_STRING } from '@moxb/moxb';
-
-export const PATH = 'moreMenus';
-
-import oneUrl from '../../images/one_apple.jpg';
-import twoUrl from '../../images/two_apples.jpg';
-import threeUrl from '../../images/three_apples.jpg';
 
 import blueUrl from '../../images/blue_blocks.png';
+import oneUrl from '../../images/one_apple.jpg';
 import redUrl from '../../images/red_blocks.gif';
-import greenUrl from '../../images/green_blocks.jpg';
+import threeUrl from '../../images/three_apples.jpg';
+import twoUrl from '../../images/two_apples.jpg';
+import { UrlStore } from '../store/UrlStore';
+
+export const PATH = 'moreMenus';
 
 export const subMenu1: StateSpace = [
     {
@@ -76,18 +73,19 @@ export const subMenu2: StateSpace = [
         label: 'Green',
         fragment: (
             <div>
-                (Mostly) green blocks: <br />
-                <img src={greenUrl} />
+                {'(Mostly) green blocks: '}
+                <br />
+                <img src={blueUrl} />
             </div>
         ),
     },
 ];
 
 @inject('location', 'url')
-export class MoreMenusAnt extends React.Component<{ location?: LocationManager }> {
+export class MoreMenusAnt extends React.Component<{ location?: LocationManager; url?: UrlStore }> {
     render() {
         const { location, url } = this.props;
-        const separator = location.pathSeparator;
+        const separator = location!.pathSeparator;
         return (
             <div>
                 <span>Here come some more menus.</span>
@@ -95,7 +93,7 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager }
                     <Col span={12}>
                         <span>This menu (on the left) is part of the global navigation.</span>
                         <MenuAndContent
-                            locationManager={location}
+                            locationManager={location!}
                             rootPath={separator + PATH + separator}
                             substates={subMenu1}
                             fallback="Unknown number"
@@ -103,13 +101,14 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager }
                     </Col>
                     <Col span={12}>
                         <div>And here is a text field</div>
-                        <UrlTextFieldAnt id="search" placeholder="type something" arg={url.search} />
+                        <UrlTextFieldAnt id="search" placeholder="type something" arg={url!.search} />
+                        <TextFormAnt operation={url!.bindSearch} />
                         <div>
                             This menu (on the right) is <i>not</i> part of the global navigation.
                         </div>
                         <MenuAndContent
-                            locationManager={location}
-                            arg={url.color}
+                            locationManager={location!}
+                            arg={url!.color}
                             substates={subMenu2}
                             fallback="Unknown color"
                             debug={false}

@@ -1,3 +1,4 @@
+import { UrlArg } from '@moxb/moxb';
 import { Application } from '../app/Application';
 import { ApplicationImpl } from '../app/ApplicationImpl';
 import { MemTable } from '../memtable/MemTable';
@@ -15,7 +16,6 @@ export interface Store {
     readonly view: ViewStore;
     readonly location: LocationManager;
     readonly url: UrlStore;
-    readonly color: UrlArg<string>;
 }
 
 export class StoreImpl implements Store {
