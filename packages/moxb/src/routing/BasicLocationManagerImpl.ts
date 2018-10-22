@@ -12,7 +12,9 @@ import {
 
 import { LocationManager, Query } from './LocationManager';
 
-import { UrlArg, URLARG_TYPE_PATH } from './urlArg';
+import { UrlArg } from './UrlArg';
+import { URLARG_TYPE_PATH } from './UrlArgTypes';
+import { UrlArgImpl } from './UrlArgImpl';
 
 const debug = false;
 
@@ -73,7 +75,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._pathStrategy = props.pathStrategy || PATH_STRATEGY.NATIVE;
         this.pathSeparator = this._pathStrategy === PATH_STRATEGY.NATIVE ? '/' : '.';
         this.cleanSeparatorFromPathEnd = props.cleanSeparatorFromPathEnd;
-        this._pathArg = new UrlArg(this, {
+        this._pathArg = new UrlArgImpl(this, {
             key: 'path',
             valueType: URLARG_TYPE_PATH,
             defaultValue: this.cleanSeparatorFromPathEnd
