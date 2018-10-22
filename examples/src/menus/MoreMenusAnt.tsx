@@ -1,4 +1,4 @@
-import { MenuAndContent, UrlTextFieldAnt, TextFormAnt } from '@moxb/antd';
+import { MenuAndContent, TextFormAnt } from '@moxb/antd';
 import { LocationManager, StateSpace } from '@moxb/moxb';
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
@@ -101,7 +101,6 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager; 
                     </Col>
                     <Col span={12}>
                         <div>And here is a text field</div>
-                        <UrlTextFieldAnt id="search" placeholder="type something" arg={url!.search} />
                         <TextFormAnt operation={url!.bindSearch} />
                         <div>
                             This menu (on the right) is <i>not</i> part of the global navigation.
