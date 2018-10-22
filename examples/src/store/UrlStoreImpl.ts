@@ -1,4 +1,4 @@
-import { UrlArg, URLARG_TYPE_STRING, LocationManager } from '@moxb/moxb';
+import { UrlArg, UrlArgImpl, URLARG_TYPE_STRING, LocationManager } from '@moxb/moxb';
 import { UrlStore } from './UrlStore';
 
 export class UrlStoreImpl implements UrlStore {
@@ -6,13 +6,13 @@ export class UrlStoreImpl implements UrlStore {
     public readonly search: UrlArg<string>;
 
     public constructor(location: LocationManager) {
-        this.color = new UrlArg(location, {
+        this.color = new UrlArgImpl(location, {
             key: 'color',
             valueType: URLARG_TYPE_STRING,
             defaultValue: 'red',
         });
 
-        this.search = new UrlArg(location, {
+        this.search = new UrlArgImpl(location, {
             key: 'search',
             valueType: URLARG_TYPE_STRING,
             defaultValue: '',
