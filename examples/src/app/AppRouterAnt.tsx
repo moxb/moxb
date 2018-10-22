@@ -9,7 +9,7 @@ import { ApplicationAnt } from './ApplicationAnt';
 import { LocationManager } from '@moxb/moxb';
 import { LocationDependentContent } from '@moxb/antd';
 
-import { mainMenu, missingContent } from '../MenuStructure.tsx';
+import { mainMenu, defaultContent } from '../MenuStructure.tsx';
 
 @inject('location')
 export class AppRouterAnt extends React.Component<{ location?: LocationManager }> {
@@ -23,7 +23,15 @@ export class AppRouterAnt extends React.Component<{ location?: LocationManager }
                     <LocationDependentContent
                         locationManager={this.props.location}
                         substates={mainMenu}
-                        fallback={missingContent}
+                        fallback={defaultContent}
+                        part="main"
+                    />
+                    <hr />
+                    <LocationDependentContent
+                        locationManager={this.props.location}
+                        substates={mainMenu}
+                        fallback={defaultContent}
+                        part="bottom"
                     />
                 </Layout.Content>
             </Layout>

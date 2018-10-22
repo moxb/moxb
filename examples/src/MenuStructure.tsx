@@ -5,7 +5,7 @@ import { MemTableAnt, PATH as memTablePath } from './memtable/MemTableAnt';
 import { ApplicationAnt } from './app/ApplicationAnt';
 import { MoreMenusAnt, PATH as moreMenuPath } from './menus/MoreMenusAnt';
 
-import lockImgUrl from "../images/lock.jpg";
+import lockImgUrl from '../images/lock.jpg';
 
 import { StateSpace } from '@moxb/moxb';
 
@@ -13,28 +13,41 @@ export const mainMenu: StateSpace = [
     {
         root: true,
         label: 'All Components',
-        fragment: <ApplicationAnt />,
+        fragment: {
+            main: ApplicationAnt,
+        },
     },
     {
         path: loginPath,
+        //        hidden: true,
         label: (
             <span>
-                <img src={ lockImgUrl } width="32"/>
+                <img src={lockImgUrl} width="32" />
                 Login Form
             </span>
         ),
-        fragment: <LoginFormAnt />,
+        fragment: {
+            main: LoginFormAnt,
+            bottom: 'Special footer for login form',
+        },
     },
     {
         path: memTablePath,
         label: 'Mem Table',
-        fragment: <MemTableAnt />,
+        fragment: {
+            main: MemTableAnt,
+        },
     },
     {
         path: moreMenuPath,
         label: 'More Menus',
-        fragment: <MoreMenusAnt />,
-    },    
+        fragment: {
+            main: MoreMenusAnt,
+        },
+    },
 ];
 
-export const missingContent = <span>No such content</span>;
+export const defaultContent = {
+    main: <span>No such content</span>,
+    bottom: 'Common footer text',
+};
