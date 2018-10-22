@@ -47,7 +47,7 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
 
     public getActiveSubStatePaths(): string[] {
         return this.getActiveSubStates()
-            .map(state => state.path!);
+            .map(state => state.root ? "_root_" : state.path!);
     }
 
 }

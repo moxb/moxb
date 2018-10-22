@@ -19,7 +19,7 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
     }
 
     public findSubState(path: string): SubState {
-        if (path === '_root_') {
+        if (!path || (path === '') || (path === '_root_')) {
             return this.findRoot();
         }
         const result = this._substates.find(state => state.path === path);

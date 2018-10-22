@@ -1,10 +1,4 @@
-import { UIFragment } from './react-stuff';
-
-export interface UIFragmentMap {
-    [id: string]: UIFragment;
-}
-
-export type UIFragmentSpec = UIFragment | UIFragmentMap | undefined;
+import { UIFragment, UIFragmentSpec } from './react-stuff';
 
 // This interface describes a possible state for a part of the app UI
 export interface SubState {

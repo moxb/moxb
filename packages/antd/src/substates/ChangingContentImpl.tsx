@@ -1,46 +1,15 @@
 import * as React from 'react';
 
-import { SubState, UIFragment, renderFragment, UIFragmentSpec, UIFragmentMap } from '@moxb/moxb';
+import { renderFragment, getFragmentPart, UIFragmentSpec, StateSpaceHandler, StateSpaceHandlerImpl } from '@moxb/moxb';
 import { ChangingContentProps } from './ChangingContent';
 
-const findRoot = (substates: SubState[]) => substates.find(s => !!s.root);
-
-const findSubstate = (substates: SubState[], token: string, separator: string) =>
-    substates.find(s => !!s.path && s.path.split(separator)[0] === token);
-
-const isMap = (spec: UIFragmentSpec) => {
-    if (typeof spec !== 'object') {
-        return false;
-    }
-    if ((spec as any).main) {
-        return true;
-    }
-    return !(spec as any).props;
-};
-
-const getMap = (spec: UIFragmentSpec, debug?: boolean): UIFragmentMap => {
-    const alreadyMap = isMap(spec);
-    if (!!debug) {
-        console.log('Is spec a map?', alreadyMap, typeof spec);
-    }
-    return alreadyMap ? (spec as UIFragmentMap) : { main: spec as UIFragment };
-};
-
-const getPart = (spec: UIFragmentSpec, part?: string, debug?: boolean) => {
-    const map = getMap(spec, debug);
-    const wanted = part || 'main';
-    const result = (map as any)[wanted] || null;
-    if (!!debug) {
-        console.log('Map is', map);
-        console.log('Wanted part is', part);
-        console.log('Result is', result);
-    }
-    return result;
-};
-
 export class ChangingContentImpl extends React.Component<ChangingContentProps> {
-    public isDebug() {
-        return this.props.debug;
+
+    protected readonly _states: StateSpaceHandler;
+
+    public constructor(props: ChangingContentProps) {
+        super(props);
+        this._states = new StateSpaceHandlerImpl(props);
     }
 
     public render() {
@@ -60,15 +29,17 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
             console.log('Choosing token:', token);
         }
 
-        const wantedChild = !token || token === '' ? findRoot(substates) : findSubstate(substates, token, separator);
+        const wantedChild = this._states.findSubState(token);
 
         debugLog('wantedChild is', wantedChild);
 
         if (mountAll) {
+            // TODO: I think this codepath doesn't properly consider
+            // the fallback values with multiple parts
             return (
                 <div>
                     {substates.map(s => {
-                        return renderFragment(getPart(s.fragment, part, debug), {
+                        return renderFragment(getFragmentPart(s.fragment, part, debug), {
                             key: s.path,
                             invisible: s !== wantedChild,
                         });
@@ -104,7 +75,7 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
                     spec = wantedChild ? wantedChild.fragment : fallback;
                 }
                 debugLog('spec is', spec);
-                const fragment = getPart(spec, part, debug);
+                const fragment = getFragmentPart(spec, part, debug);
                 debugLog('Wanted part is', fragment);
                 const result = renderFragment(fragment);
                 return result;

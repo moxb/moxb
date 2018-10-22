@@ -294,8 +294,12 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     // Todo: is this reactive?
-    public isLinkActive(wanted: string, exactOnly: boolean) {
+    public isLinkActive(rawWanted: string, exactOnly: boolean) {
         const current = this.path + this.queryString;
+        let wanted = rawWanted;
+        if (wanted.endsWith(this.pathSeparator) && this.cleanSeparatorFromPathEnd) {
+            wanted = wanted.substr(0, wanted.length - 1);
+        }
         if (exactOnly) {
             return current === wanted;
         } else {
