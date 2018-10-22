@@ -4,7 +4,9 @@ export interface Query {
     [key: string]: string;
 }
 
-// This interface describes the responsobilities of a Location Manager
+/**
+ * This interface describes the responsobilities of a Location Manager
+ */
 export interface LocationManager {
     // These flags describe whether the current location shoulde be
     // considered stable, or it's temporary in the sense that we are
