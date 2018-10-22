@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Menu } from 'antd';
 import { observer } from 'mobx-react';
-import { StateSpaceHandler, StateSpaceHandlerProps, StateSpaceHandlerImpl } from '@moxb/moxb';
+import { StateSpaceAndLocationHandler, StateSpaceAndLocationHandlerProps, StateSpaceAndLocationHandlerImpl } from '@moxb/moxb';
 
 // TODO: this should be imported from antd/menu, but I couldn't find out
 // how to do it.
@@ -16,7 +16,7 @@ import { SubState, renderFragment } from '@moxb/moxb';
 
 export type Condition = (item: SubState) => boolean;
 
-export interface NavMenuProps extends StateSpaceHandlerProps {
+export interface NavMenuProps extends StateSpaceAndLocationHandlerProps {
     condition?: Condition;
     hierarchical?: boolean;
     right?: boolean;
@@ -25,12 +25,12 @@ export interface NavMenuProps extends StateSpaceHandlerProps {
 @observer
 export class NavMenuBar extends React.Component<NavMenuProps, {}> {
 
-    private readonly _states: StateSpaceHandler;
+    private readonly _states: StateSpaceAndLocationHandler;
 
     public constructor(props: NavMenuProps) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
-        this._states = new StateSpaceHandlerImpl(props);
+        this._states = new StateSpaceAndLocationHandlerImpl(props);
     }
 
     protected renderSubStateLink(state: SubState) {
@@ -66,7 +66,7 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
             if (arg) {
                 arg.value = state.path as string;
             } else {
-                const path = this._states.getPathForSubState(state);
+                const path = this._states.getRealPathForSubState(state);
                 //                console.log("Jumping to '" + path + "'...");
                 locationManager.path = path;
             }
