@@ -1,8 +1,8 @@
-import * as React from "react";
+import * as React from 'react';
 import { observer } from 'mobx-react';
-import { UrlArg } from "@moxb/moxb";
+import { UrlArg } from '@moxb/moxb';
 
-import { TextInputProps, TextInputFieldAnt } from "./TextInputFieldAnt";
+import { TextInputProps, TextInputFieldAnt } from './TextInputFieldAnt';
 
 export interface UrlTextFieldProps {
     id: string;
@@ -12,7 +12,6 @@ export interface UrlTextFieldProps {
 
 @observer
 export class UrlTextFieldAnt extends React.Component<UrlTextFieldProps, {}> {
-
     public handleChange(value: string) {
         this.props.arg.value = value;
     }
@@ -21,19 +20,15 @@ export class UrlTextFieldAnt extends React.Component<UrlTextFieldProps, {}> {
         super(props);
         this.handleChange = this.handleChange.bind(this);
     }
-    
+
     public render() {
-        const {
-            id,
-            arg,
-            placeholder,
-        } = this.props;
+        const { id, arg, placeholder } = this.props;
         const uiProps: TextInputProps = {
             id,
             value: arg.value,
             placeholder,
             onChange: this.handleChange,
         };
-        return <TextInputFieldAnt { ... uiProps } />;
+        return <TextInputFieldAnt {...uiProps} />;
     }
 }

@@ -44,12 +44,7 @@ export class ChangingContentImpl extends ChangingContent {
     }
 
     public render() {
-        const {
-            rawPath, substates, fallback, part, mountAll,
-            separator,
-            rootPath,
-            debug,
-        } = this.props;
+        const { rawPath, substates, fallback, part, mountAll, separator, rootPath, debug } = this.props;
         const path = Array.isArray(rawPath) ? rawPath : [rawPath];
         const debugLog = (...stuff: any[]) => {
             if (debug) {

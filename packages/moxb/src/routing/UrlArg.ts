@@ -1,4 +1,4 @@
-import { Location as MyLocation } from "history";
+import { Location as MyLocation } from 'history';
 import { Query } from './LocationManager';
 
 export interface ParserFunc<T> {
@@ -29,7 +29,6 @@ export interface UrlArgDefinition<T> {
 }
 
 export interface UrlArg<T> {
-
     // Is this argument specified in the current query?
     readonly defined: boolean;
 
@@ -41,11 +40,11 @@ export interface UrlArg<T> {
     set(value: T, method?: UrlArgUpdateMethod): void;
 
     // Reset the value to default
-    reset(method?: UrlArgUpdateMethod): void;    
+    reset(method?: UrlArgUpdateMethod): void;
 
     // ======= Anything below this level is quite technical,
     // you probably won't need to use it directly.
-    
+
     // Extract the value of this arg from a given query
     getOnQuery(query: Query): T;
 

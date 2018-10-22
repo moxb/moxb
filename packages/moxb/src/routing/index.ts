@@ -7,11 +7,7 @@ export { ArgSavingLocationManagerImpl } from './ArgSavingLocationManagerImpl';
 
 export * from './StateSpace';
 
-export {
-    UrlArgDefinition,
-    UrlArgTypeDef,
-    UrlArg,
-} from './UrlArg';
+export { UrlArgDefinition, UrlArgTypeDef, UrlArg } from './UrlArg';
 
 export {
     URLARG_TYPE_STRING,
@@ -35,4 +31,3 @@ export {
     */
     UrlArgImpl,
 } from './UrlArgImpl';
-

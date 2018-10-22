@@ -59,7 +59,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     public readonly pathSeparator: string;
 
     public readonly cleanSeparatorFromPathEnd?: boolean;
-    
+
     public parsePathTokens(pathname: string): string[] {
         const raw = pathname[0] === this.pathSeparator ? pathname.substr(1) : pathname;
         return raw.split(this.pathSeparator);
@@ -78,12 +78,8 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._pathArg = new UrlArgImpl(this, {
             key: 'path',
             valueType: URLARG_TYPE_PATH,
-            defaultValue: this.cleanSeparatorFromPathEnd
-                ? ""
-                : this.pathSeparator,
+            defaultValue: this.cleanSeparatorFromPathEnd ? '' : this.pathSeparator,
         });
-
-
     }
 
     // Private field to actually follow the browser history

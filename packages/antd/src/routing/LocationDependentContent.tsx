@@ -21,8 +21,8 @@ export class LocationDependentContent extends React.Component<ContentProps, {}> 
         const { arg, locationManager, children, ...remnant } = this.props;
         const rawPath: string | string[] = arg ? arg.value : locationManager.pathTokens;
         if (remnant.debug) {
-            console.log("arg is", arg);
-            console.log("rawPath is", rawPath);
+            console.log('arg is', arg);
+            console.log('rawPath is', rawPath);
         }
         const props: ChangingContent.Props = {
             ...remnant,

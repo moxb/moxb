@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Menu } from 'antd';
 import { observer } from 'mobx-react';
-import { UrlArg } from "@moxb/moxb";
+import { UrlArg } from '@moxb/moxb';
 
 // TODO: this should be imported from antd/menu, but I couldn't find out
 // how to do it.
@@ -54,7 +54,7 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
 
             return <span>Submenus are not yet supported</span>;
         } else {
-            return <Menu.Item key={ root ? "_root_" : path}>{renderFragment(label)}</Menu.Item>;
+            return <Menu.Item key={root ? '_root_' : path}>{renderFragment(label)}</Menu.Item>;
         }
     }
 
@@ -91,7 +91,7 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
     }
 
     protected findSubState(path: string): SubState {
-        if (path === "_root_") {
+        if (path === '_root_') {
             return this.findRoot();
         }
         const result = this.props.substates.find(state => state.path === path);
@@ -112,7 +112,7 @@ export class NavMenuBar extends React.Component<NavMenuProps, {}> {
                 arg.value = state.path as string;
             } else {
                 const path = this.getPathForSubState(state);
-//                console.log("Jumping to '" + path + "'...");
+                //                console.log("Jumping to '" + path + "'...");
                 locationManager.path = path;
             }
         }

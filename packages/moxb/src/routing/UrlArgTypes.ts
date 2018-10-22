@@ -1,5 +1,5 @@
 import memoize = require('lodash.memoize');
-import { UrlArgTypeDef } from "./UrlArg";
+import { UrlArgTypeDef } from './UrlArg';
 import { Path } from 'history';
 
 export const URLARG_TYPE_STRING: UrlArgTypeDef<string> = {

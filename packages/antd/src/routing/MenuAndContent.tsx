@@ -1,12 +1,11 @@
 import * as React from 'react';
 
-import { NavMenuBar, NavMenuProps } from "./NavMenuBar";
-import { LocationDependentContent, ContentProps } from "./LocationDependentContent";
+import { NavMenuBar, NavMenuProps } from './NavMenuBar';
+import { LocationDependentContent, ContentProps } from './LocationDependentContent';
 
 export type UIProps = NavMenuProps & ContentProps;
 
 export class MenuAndContent extends React.Component<UIProps, {}> {
-
     public render() {
         const {
             locationManager,
@@ -18,7 +17,7 @@ export class MenuAndContent extends React.Component<UIProps, {}> {
             right,
             fallback,
             mountAll,
-            debug
+            debug,
         } = this.props;
         const menuProps: NavMenuProps = {
             locationManager,
@@ -40,8 +39,8 @@ export class MenuAndContent extends React.Component<UIProps, {}> {
         };
         return (
             <div>
-                <NavMenuBar {... menuProps } />
-                <LocationDependentContent { ... contentProps } />
+                <NavMenuBar {...menuProps} />
+                <LocationDependentContent {...contentProps} />
             </div>
         );
     }

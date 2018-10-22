@@ -3,7 +3,7 @@ import { computed } from 'mobx';
 const MyURI = require('urijs');
 
 import { Query, LocationManager } from './LocationManager';
-import { ParserFunc, UrlArg, UrlArgDefinition, UrlArgUpdateMethod } from "./UrlArg";
+import { ParserFunc, UrlArg, UrlArgDefinition, UrlArgUpdateMethod } from './UrlArg';
 
 function existsInQuery(query: Query, key: string) {
     return query[key] !== undefined;
