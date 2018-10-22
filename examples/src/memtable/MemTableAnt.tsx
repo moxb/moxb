@@ -4,7 +4,7 @@ import { NumericFormAnt, TableAnt, ColumnAntProps } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { MemTable, MemTableData } from './MemTable';
 
-export const PATH = "memTable";
+export const PATH = 'memTable';
 
 @inject('memTable')
 @observer
@@ -12,10 +12,10 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable }> {
     render() {
         const memTable = this.props.memTable!;
         return (
-                    <Row>
-                        <NumericFormAnt required operation={memTable.rows} />
-                        <TableAnt table={memTable.table} setupColumn={column => this.renderColumn(column)} />
-                    </Row>
+            <Row>
+                <NumericFormAnt required operation={memTable.rows} />
+                <TableAnt table={memTable.table} setupColumn={column => this.renderColumn(column)} />
+            </Row>
         );
     }
 

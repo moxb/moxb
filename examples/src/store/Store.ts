@@ -6,8 +6,8 @@ import { ViewStore } from './ViewStore';
 import { ViewStoreImpl } from './ViewStoreImpl';
 import { LocationManager } from '@moxb/moxb';
 import { LocationStoreImpl } from './LocationStoreImpl';
-import { UrlStore } from "./UrlStore";
-import { UrlStoreImpl } from "./UrlStoreImpl";
+import { UrlStore } from './UrlStore';
+import { UrlStoreImpl } from './UrlStoreImpl';
 
 export interface Store {
     readonly app: Application;
