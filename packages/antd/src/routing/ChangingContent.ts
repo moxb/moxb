@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {
     //    SubState,
     StateSpace,
@@ -21,7 +19,7 @@ import {
  See below for details
 */
 
-export interface Params {
+export interface ChangingContentParams {
     // What is the root path of the current state? For mode 1
     rootPath?: string;
 
@@ -47,11 +45,9 @@ export interface Params {
     debug?: boolean;
 }
 
-export interface State {
+export interface ChangingContentState {
     rawPath: string | string[];
     separator: string;
 }
 
-export type Props = Params & State;
-
-export abstract class ChangingContent extends React.Component<Props, {}> {}
+export type ChangingContentProps = ChangingContentParams & ChangingContentState;

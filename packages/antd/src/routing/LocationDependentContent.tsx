@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { LocationManager, UrlArg } from '@moxb/moxb';
 
-import * as ChangingContent from './ChangingContent';
+import { ChangingContentParams, ChangingContentProps } from './ChangingContent';
 import { ChangingContentImpl } from './ChangingContentImpl';
 
 interface ControlMethod {
@@ -11,7 +11,7 @@ interface ControlMethod {
     arg?: UrlArg<string>;
 }
 
-export interface ContentProps extends ChangingContent.Params, ControlMethod {
+export interface ContentProps extends ChangingContentParams, ControlMethod {
     locationManager: LocationManager;
 }
 
@@ -24,7 +24,7 @@ export class LocationDependentContent extends React.Component<ContentProps, {}> 
             console.log('arg is', arg);
             console.log('rawPath is', rawPath);
         }
-        const props: ChangingContent.Props = {
+        const props: ChangingContentProps = {
             ...remnant,
             rawPath,
             separator: locationManager.pathSeparator,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { SubState, UIFragment, renderFragment, UIFragmentSpec, UIFragmentMap } from '@moxb/moxb';
-import { ChangingContent } from './ChangingContent';
+import { ChangingContentProps } from './ChangingContent';
 
 const findRoot = (substates: SubState[]) => substates.find(s => !!s.root);
 
@@ -38,7 +38,7 @@ const getPart = (spec: UIFragmentSpec, part?: string, debug?: boolean) => {
     return result;
 };
 
-export class ChangingContentImpl extends ChangingContent {
+export class ChangingContentImpl extends React.Component<ChangingContentProps> {
     public isDebug() {
         return this.props.debug;
     }
