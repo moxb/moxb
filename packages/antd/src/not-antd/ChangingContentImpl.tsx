@@ -20,10 +20,12 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
                 (console as any).log(...stuff);
             }
         };
-        debugLog('Looking up', part);
+        debugLog('Looking up', part ? ("part " + part) : "single fragment");
         const level = (rootPath || separator).split(separator).length - 2;
         const token = path[level];
         if (debug) {
+            console.log('rawPath is', rawPath);
+            console.log('path is', path);
             console.log('rootPath is', rootPath || separator);
             console.log('level is', level);
             console.log('Choosing token:', token);
