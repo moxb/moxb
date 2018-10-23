@@ -28,7 +28,8 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
         if (result) {
             return result;
         } else {
-            throw new Error("Can't find subState for path " + path);
+            const validPaths = this._substates.map(state => state.path);
+            throw new Error("Can't find subState for path '" + path + "'. Valid choices are " + validPaths);
         }
     }
 
