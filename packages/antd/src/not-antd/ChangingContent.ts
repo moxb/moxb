@@ -20,9 +20,6 @@ import {
 */
 
 export interface ChangingContentParams {
-    // What is the root path of the current state? For mode 1
-    rootPath?: string;
-
     // The state space to select from
     substates: StateSpace;
 
@@ -46,7 +43,19 @@ export interface ChangingContentParams {
 }
 
 export interface ChangingContentState {
+    // What is the root path of the current state? For mode 1
+    rootPath?: string;
+
+    /**
+     * What is the path that we have to use to make the current decision?
+     *
+     * In case of a multi-level routing, this should also contain the part
+     * of the path that has already been parsed, plus any further tokens.
+     * Normally it should be an array of strings, but a single token is also
+     * acceptable.
+     */
     rawPath: string | string[];
+
     separator: string;
 }
 

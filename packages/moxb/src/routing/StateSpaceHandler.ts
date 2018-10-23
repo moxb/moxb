@@ -7,12 +7,23 @@ import { StateSpace, SubState, StateCondition } from "./StateSpace";
  */
 
 export interface StateSpaceHandlerProps {
+    // The list of sub-states to work with
     substates: StateSpace;
+
+    // An optional condition to use for filtering when displaying in a menu
     filterCondition?: StateCondition;
 }
 
 export interface StateSpaceHandler {
+    // Find the root substate, if defined.
     findRoot(): SubState;
+
+    // Find the substate for a given path token.
+    //
+    // If path token is null or empty string, returns the root substate.
     findSubState(path: string): SubState;
+
+    // Get a list of substates that are not hidden, and
+    // match the specified filter, if any
     getFilteredSubStates(): SubState[];
 }
