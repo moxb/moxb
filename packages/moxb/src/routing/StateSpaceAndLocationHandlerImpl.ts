@@ -13,7 +13,7 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
     public constructor(props: StateSpaceAndLocationHandlerProps) {
         super(props);
         const { locationManager, parsedTokens, arg } = props;
-        this._locationManager = locationManager;
+        this._locationManager = locationManager!;
         this._urlArg = arg;
         this._parsedTokens = parsedTokens || 0;
         this.isSubStateActive = this.isSubStateActive.bind(this);

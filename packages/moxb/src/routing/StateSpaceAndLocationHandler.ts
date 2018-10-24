@@ -2,7 +2,7 @@ import { SubState } from "./StateSpace";
 
 import { StateSpaceHandlerProps, StateSpaceHandler } from "./StateSpaceHandler";
 
-import { LocationManager } from "./LocationManager";
+import { UsesLocation } from "./LocationManager";
 import { UrlArg } from "./UrlArg";
 
 /**
@@ -11,8 +11,7 @@ import { UrlArg } from "./UrlArg";
  * various calculations on it.
  */
 
-export interface StateSpaceAndLocationHandlerProps extends StateSpaceHandlerProps {
-    locationManager: LocationManager;
+export interface StateSpaceAndLocationHandlerProps extends StateSpaceHandlerProps, UsesLocation {
     parsedTokens?: number;
     arg?: UrlArg<string>;    
 }

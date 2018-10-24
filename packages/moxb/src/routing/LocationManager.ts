@@ -70,3 +70,7 @@ export interface LocationManager {
     // Register a URl argument.
     registerUrlArg: (arg: UrlArg<any>) => void;
 }
+
+export interface UsesLocation {
+    locationManager?: LocationManager;
+}

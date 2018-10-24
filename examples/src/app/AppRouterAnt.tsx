@@ -1,5 +1,5 @@
 import { Layout, Row } from 'antd';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import * as React from 'react';
 import { NavigationAnt } from '../common/NavigationAnt';
 import { LoginFormAnt } from '../form/LoginFormAnt';
@@ -11,7 +11,6 @@ import { LocationDependentContent } from '@moxb/antd';
 
 import { mainMenu, defaultContent } from '../MenuStructure.tsx';
 
-@inject('location')
 export class AppRouterAnt extends React.Component<{ location?: LocationManager }> {
     render() {
         return (
@@ -21,14 +20,12 @@ export class AppRouterAnt extends React.Component<{ location?: LocationManager }
                         <NavigationAnt />
                     </Row>
                     <LocationDependentContent
-                        locationManager={this.props.location}
                         substates={mainMenu}
                         fallback={defaultContent}
                         part="main"
                     />
                     <hr />
                     <LocationDependentContent
-                        locationManager={this.props.location}
                         substates={mainMenu}
                         fallback={defaultContent}
                         part="bottom"

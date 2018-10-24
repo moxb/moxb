@@ -1,5 +1,5 @@
 import { Navigable, MenuAndContentAnt, TextFormAnt, Link, ArgChangingLink } from '@moxb/antd';
-import { LocationManager, StateSpace } from '@moxb/moxb';
+import { StateSpace } from '@moxb/moxb';
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
 import * as React from 'react';
@@ -105,8 +105,8 @@ export const subMenu2: StateSpace = [
     },
 ];
 
-@inject('location', 'url')
-export class MoreMenusAnt extends React.Component<{ location?: LocationManager; url?: UrlStore } & Navigable > {
+@inject('url')
+export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable > {
     render() {
         const { location, url } = this.props;
         return (
@@ -116,7 +116,6 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager; 
                     <Col span={12}>
                         <span>This menu (on the left) is part of the global navigation.</span>
                         <MenuAndContentAnt
-                            locationManager={location!}
                             parsedTokens={ this.props.parsedTokens }
                             substates={subMenu1}
                             fallback="Unknown number"
@@ -127,7 +126,6 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager; 
                         <TextFormAnt operation={url!.bindSearch} />
                         <hr />
                         <Link
-                            locationManager={location!}
                             pathTokens={ [ "moreMenus", "two" ] }
                             label="Select 'two' on the left tab menu!"
                         />
@@ -142,7 +140,6 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager; 
                             This menu (on the right) is <i>not</i> part of the global navigation.
                         </div>
                         <MenuAndContentAnt
-                            locationManager={location!}
                             arg={url!.color}
                             substates={subMenu2}
                             fallback="Unknown color"

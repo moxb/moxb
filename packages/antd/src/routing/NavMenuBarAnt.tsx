@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Menu } from 'antd';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import { StateSpaceAndLocationHandler, StateSpaceAndLocationHandlerProps, StateSpaceAndLocationHandlerImpl } from '@moxb/moxb';
 
 // TODO: this should be imported from antd/menu, but I couldn't find out
@@ -19,8 +19,9 @@ export interface NavMenuProps extends StateSpaceAndLocationHandlerProps {
     right?: boolean;
 }
 
+@inject( 'locationManager' )
 @observer
-export class NavMenuBarAnt extends React.Component<NavMenuProps, {}> {
+export class NavMenuBarAnt extends React.Component<NavMenuProps> {
 
     private readonly _states: StateSpaceAndLocationHandler;
 
