@@ -22,6 +22,7 @@ export class UrlStoreImpl implements UrlStore {
             key: 'search',
             valueType: URLARG_TYPE_STRING,
             defaultValue: '',
+            permanent: true,
         });
     }
 }

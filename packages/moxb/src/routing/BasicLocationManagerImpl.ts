@@ -58,8 +58,8 @@ export class BasicLocationManagerImpl implements LocationManager {
     protected readonly isNative : boolean;
     protected readonly isQueryBased : boolean;
     public readonly pathSeparator: string;
-
     public readonly cleanSeparatorFromPathEnd?: boolean;
+    protected readonly _permanentArgs: UrlArg<any>[] = [];
 
     public parsePathTokens(pathname: string): string[] {
         const raw = pathname[0] === this.pathSeparator ? pathname.substr(1) : pathname;
@@ -180,6 +180,16 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._history.push(location);
     }
 
+    private getPermanentArgs() {
+        const query: Query = {};
+        this._permanentArgs.forEach(arg => {
+            if (arg.defined) {
+                query[arg.key] = arg.rawValue;
+            }
+        });
+        return query;
+    }
+
     @action
     public pushPath(path: Path) {
         let realPath = path;
@@ -190,10 +200,14 @@ export class BasicLocationManagerImpl implements LocationManager {
             console.log('pushling path', JSON.stringify(realPath));
         }
         if (this.isNative) {
-            this._history.push(realPath);
+            this._history.push({
+                pathname: realPath,
+                search: getQueryStringFromQuery(this.getPermanentArgs()),
+            });
         } else if (this.isQueryBased) {
-            this.query = {};
+            this.query = this.getPermanentArgs();
             this._pathArg.set(realPath, 'replace');
+
         }
     }
 
@@ -207,9 +221,12 @@ export class BasicLocationManagerImpl implements LocationManager {
             console.log('Replacing path', JSON.stringify(realPath));
         }
         if (this.isNative) {
-            this._history.replace(realPath);
+            this._history.replace({
+                pathname: realPath,
+                search: getQueryStringFromQuery(this.getPermanentArgs()),
+            });
         } else if (this.isQueryBased) {
-            this.query = {};
+            this.query = this.getPermanentArgs();
             this._pathArg.set(realPath, 'replace');
         }
     }
@@ -320,4 +337,9 @@ export class BasicLocationManagerImpl implements LocationManager {
         const before = this.pathTokens.slice(0, position);
         this.pathTokens = token ? [...before, token!] : before;
     }
+
+    public registerUrlArg(arg: UrlArg<any>) {
+        this._permanentArgs.push(arg);
+    }
+
 }

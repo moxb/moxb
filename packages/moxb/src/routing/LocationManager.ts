@@ -1,4 +1,5 @@
 import { Path, Location as MyLocation, LocationDescriptorObject } from 'history';
+import { UrlArg } from "./UrlArg";
 
 export interface Query {
     [key: string]: string;
@@ -59,5 +60,9 @@ export interface LocationManager {
     // Determine if a given link should currently be considered to be active
     isLinkActive: (wanted: string, exactOnly: boolean) => boolean;
 
+    // Determine whether a given token at a given level matches
     doesPathTokenMatch: (token: string, level: number, exactOnly: boolean) => boolean;
+
+    // Register a URl argument.
+    registerUrlArg: (arg: UrlArg<any>) => void;
 }

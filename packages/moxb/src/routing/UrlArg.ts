@@ -26,6 +26,7 @@ export interface UrlArgDefinition<T> {
     valueType: UrlArgTypeDef<T>;
     parser?: ParserFunc<T>;
     defaultValue: T;
+    permanent?: boolean;
 }
 
 export interface UrlArg<T> {
@@ -59,4 +60,11 @@ export interface UrlArg<T> {
     // Get the URL string that would result if we modified
     // the value
     getModifiedUrl(value: T): string;
+
+    // Get the key
+    readonly key: string;
+
+    // Get the raw form of the value
+    readonly rawValue: string;
+
 }

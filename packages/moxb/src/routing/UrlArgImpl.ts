@@ -18,10 +18,15 @@ function getFromQuery<T>(query: Query, key: string, parse: ParserFunc<T>, defaul
 export class UrlArgImpl<T> implements UrlArg<T> {
     private _def: UrlArgDefinition<T>;
     private _parser: ParserFunc<T>;
+    public readonly key: string;
 
     public constructor(private readonly _locationManager: LocationManager, definition: UrlArgDefinition<T>) {
         const { parser, valueType, key } = (this._def = definition);
         this._parser = parser || valueType.getParser(key);
+        if (this._def.permanent) {
+            this._locationManager.registerUrlArg(this);
+        }
+        this.key = this._def.key;
     }
 
     @computed
@@ -127,5 +132,10 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     public reset(method?: UrlArgUpdateMethod) {
         this.set(this._def.defaultValue, method);
+    }
+
+    @computed
+    public get rawValue() {
+        return this._locationManager.query[this.key];
     }
 }
