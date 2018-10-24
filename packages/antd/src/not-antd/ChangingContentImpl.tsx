@@ -76,7 +76,9 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
                 debugLog('spec is', spec);
                 const fragment = getFragmentPart(spec, part, debug);
                 debugLog('Wanted part is', fragment);
-                const result = renderFragment(fragment);
+                const result = renderFragment(fragment, {
+                    parsedTokens: level + 1,
+                });
                 return result;
             }
         }

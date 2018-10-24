@@ -5,19 +5,20 @@ import {
     //    UIFragmentMap,
 } from '@moxb/moxb';
 
-// This interface describes the responsibilities of a "router",
-// that is, a component that can show different content,
-// based on the currently selected state.
-
-/*
- Changing content can be controlled by two different means:
- 
- 1. Url path
- 2. Url arguments
-
- For each mode, different properties need to be specified.
- See below for details
-*/
+/**
+ * A Navigable is a somponent that takes part in the navigation tree.
+ *
+ * When we render it, if it is an active component, it needs to know
+ * where it stands in the tree.
+ */
+export interface Navigable {
+    /**
+     * The number of tokens that have already been parsed, is any.
+     *
+     * (The selection should be determined by the first un-parsed token.)
+     */
+    parsedTokens?: number;
+}
 
 export interface ChangingContentParams {
     // The state space to select from
@@ -42,19 +43,15 @@ export interface ChangingContentParams {
     debug?: boolean;
 }
 
-export interface ChangingContentState {
+// This interface describes the responsibilities of a "navigator",
+// that is, a component that can show different content,
+// based on the currently selected state.
+export interface ChangingContentState extends Navigable{
 
     /**
      * The path tokens that determine the selection of sub-states.
      */
     tokens: string[];
-
-    /**
-     * The number of tokens that have already been parsed, is any.
-     *
-     * (The selection should be determined by the first un-parsed token.)
-     */
-    parsedTokens?: number;
 }
 
 export type ChangingContentProps = ChangingContentParams & ChangingContentState;

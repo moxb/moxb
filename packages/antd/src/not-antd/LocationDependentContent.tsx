@@ -6,13 +6,20 @@ import { LocationManager, UrlArg } from '@moxb/moxb';
 import { ChangingContentParams, ChangingContentProps } from './ChangingContent';
 import { ChangingContentImpl } from './ChangingContentImpl';
 
-interface ControlMethod {
-    parsedTokens?: number;
-    arg?: UrlArg<string>;
-}
+/*
+ Changing content can be controlled by two different means:
+ 
+ 1. Url path
+ 2. Url arguments
 
-export interface ContentProps extends ChangingContentParams, ControlMethod {
+ For each mode, different properties need to be specified.
+ See below for details
+*/
+
+export interface ContentProps extends ChangingContentParams {
     locationManager: LocationManager;
+    arg?: UrlArg<string>;
+    parsedTokens?: number;
 }
 
 @observer

@@ -1,4 +1,4 @@
-import { MenuAndContentAnt, TextFormAnt } from '@moxb/antd';
+import { Navigable, MenuAndContentAnt, TextFormAnt } from '@moxb/antd';
 import { LocationManager, StateSpace } from '@moxb/moxb';
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
@@ -105,7 +105,7 @@ export const subMenu2: StateSpace = [
 ];
 
 @inject('location', 'url')
-export class MoreMenusAnt extends React.Component<{ location?: LocationManager; url?: UrlStore }> {
+export class MoreMenusAnt extends React.Component<{ location?: LocationManager; url?: UrlStore } & Navigable > {
     render() {
         const { location, url } = this.props;
         return (
@@ -116,7 +116,7 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager; 
                         <span>This menu (on the left) is part of the global navigation.</span>
                         <MenuAndContentAnt
                             locationManager={location!}
-                            parsedTokens={ 1 }
+                            parsedTokens={ this.props.parsedTokens }
                             substates={subMenu1}
                             fallback="Unknown number"
                         />
