@@ -6,6 +6,7 @@ import * as React from 'react';
 
 import blueUrl from '../../images/blue_blocks.png';
 import oneUrl from '../../images/one_apple.jpg';
+import greenUrl from '../../images/green_blocks.jpg';
 import redUrl from '../../images/red_blocks.gif';
 import threeUrl from '../../images/three_apples.jpg';
 import twoUrl from '../../images/two_apples.jpg';
@@ -98,7 +99,7 @@ export const subMenu2: StateSpace = [
             <div>
                 {'(Mostly) green blocks: '}
                 <br />
-                <img src={blueUrl} />
+                <img src={greenUrl} />
             </div>
         ),
     },
