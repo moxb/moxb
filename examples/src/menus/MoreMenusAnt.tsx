@@ -11,11 +11,9 @@ import threeUrl from '../../images/three_apples.jpg';
 import twoUrl from '../../images/two_apples.jpg';
 import { UrlStore } from '../store/UrlStore';
 
-export const PATH = 'moreMenus';
-
 export const subMenu1: StateSpace = [
     {
-        path: 'one',
+        key: 'one',
         root: true,
         label: 'One',
         fragment: (
@@ -26,7 +24,7 @@ export const subMenu1: StateSpace = [
         ),
     },
     {
-        path: 'two',
+        key: 'two',
         label: 'Two',
         fragment: (
             <div>
@@ -36,8 +34,33 @@ export const subMenu1: StateSpace = [
         ),
     },
     {
-        path: 'three',
+        key: 'three',
         label: 'Three',
+        /*
+        subStates: [
+            {
+                key: 'foo',
+                root: true,
+                label: 'Thirty foo',
+                fragment: (
+                        <div>
+                            Three apples for once: <br />
+                            <img src={threeUrl} />
+                        </div>
+                ),
+            },
+            {
+                key: 'bar',
+                label: 'Thirty bar',
+                fragment: (
+                        <div>
+                            Three apples for twice:<br />
+                            <img src={threeUrl} />
+                        </div>
+                ),
+            },
+        ],
+        */
         fragment: (
             <div>
                 Three apples: <br />
@@ -49,7 +72,7 @@ export const subMenu1: StateSpace = [
 
 export const subMenu2: StateSpace = [
     {
-        path: 'red',
+        key: 'red',
         label: 'Red',
         fragment: (
             <div>
@@ -59,7 +82,7 @@ export const subMenu2: StateSpace = [
         ),
     },
     {
-        path: 'blue',
+        key: 'blue',
         label: 'Blue',
         fragment: (
             <div>
@@ -69,7 +92,7 @@ export const subMenu2: StateSpace = [
         ),
     },
     {
-        path: 'green',
+        key: 'green',
         label: 'Green',
         fragment: (
             <div>
@@ -85,7 +108,6 @@ export const subMenu2: StateSpace = [
 export class MoreMenusAnt extends React.Component<{ location?: LocationManager; url?: UrlStore }> {
     render() {
         const { location, url } = this.props;
-        const separator = location!.pathSeparator;
         return (
             <div>
                 <span>Here come some more menus.</span>
@@ -94,7 +116,7 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager; 
                         <span>This menu (on the left) is part of the global navigation.</span>
                         <MenuAndContentAnt
                             locationManager={location!}
-                            rootPath={separator + PATH + separator}
+                            parsedTokens={ 1 }
                             substates={subMenu1}
                             fallback="Unknown number"
                         />

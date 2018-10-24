@@ -293,7 +293,6 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._history.listen((location: MyLocation) => this.onLocationChanged(location));
     }
 
-    // Todo: is this reactive?
     public isLinkActive(rawWanted: string, exactOnly: boolean) {
         const current = this.path + this.queryString;
         let wanted = rawWanted;
@@ -305,5 +304,23 @@ export class BasicLocationManagerImpl implements LocationManager {
         } else {
             return current.startsWith(wanted);
         }
+    }
+
+    public doesPathTokenMatch(token: string, level: number, exactOnly: boolean): boolean {
+        if (token === "") {
+            // we want to check that the nth token doesn't exist
+            return !this.pathTokens[level];
+        }
+        const matches = this.pathTokens[level] === token;
+        if (exactOnly) {
+            return matches && !this.pathTokens[level + 1]
+        } else {
+            return matches;
+        }
+    }
+
+    public pushPathToken(position: number, token: string | null) {
+        const before = this.pathTokens.slice(0, position);
+        this.pathTokens = token ? [...before, token!] : before;
     }
 }

@@ -7,7 +7,7 @@ import { ChangingContentParams, ChangingContentProps } from './ChangingContent';
 import { ChangingContentImpl } from './ChangingContentImpl';
 
 interface ControlMethod {
-    rootPath?: string;
+    parsedTokens?: number;
     arg?: UrlArg<string>;
 }
 
@@ -19,15 +19,14 @@ export interface ContentProps extends ChangingContentParams, ControlMethod {
 export class LocationDependentContent extends React.Component<ContentProps, {}> {
     public render() {
         const { arg, locationManager, children, ...remnant } = this.props;
-        const rawPath: string | string[] = arg ? arg.value : locationManager.pathTokens;
+        const tokens: string[] = arg ? [arg.value] : locationManager.pathTokens;
         if (remnant.debug) {
             console.log('arg is', arg);
-            console.log('rawPath is', rawPath);
+            console.log('tokens are', tokens);
         }
         const props: ChangingContentProps = {
-            ...remnant,
-            rawPath,
-            separator: locationManager.pathSeparator,
+                ...remnant,
+            tokens,
         };
         return <ChangingContentImpl {...props} />;
     }

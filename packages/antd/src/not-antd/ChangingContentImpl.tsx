@@ -13,25 +13,23 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
     }
 
     public render() {
-        const { rawPath, substates, fallback, part, mountAll, separator, rootPath, debug } = this.props;
-        const path = Array.isArray(rawPath) ? rawPath : [rawPath];
+        const { tokens, parsedTokens, substates, fallback, part, mountAll, debug } = this.props;
         const debugLog = (...stuff: any[]) => {
             if (debug) {
                 (console as any).log(...stuff);
             }
         };
         debugLog('Looking up', part ? ("part " + part) : "single fragment");
-        const level = (rootPath || separator).split(separator).length - 2;
-        const token = path[level];
+        const level = parsedTokens || 0;
+        const token = tokens[level];
         if (debug) {
-            console.log('rawPath is', rawPath);
-            console.log('path is', path);
-            console.log('rootPath is', rootPath || separator);
+            console.log('tokens are', tokens);
+            console.log('number of parsed tokens is', parsedTokens);
             console.log('level is', level);
             console.log('Choosing token:', token);
         }
 
-        const wantedChild = this._states.findSubState(token);
+        const wantedChild = this._states.findSubState(tokens, parsedTokens);
 
         debugLog('wantedChild is', wantedChild);
 
@@ -42,7 +40,7 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
                 <div>
                     {substates.map(s => {
                         return renderFragment(getFragmentPart(s.fragment, part, debug), {
-                            key: s.path,
+                            key: s.key,
                             invisible: s !== wantedChild,
                         });
                     })}
@@ -53,9 +51,8 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
                 debugLog('it has substates');
                 return (
                     <ChangingContentImpl
-                        rootPath={(rootPath || separator) + wantedChild.path}
-                        separator={separator}
-                        rawPath={path}
+                        tokens={tokens}
+                        parsedTokens={level + 1}
                         substates={wantedChild.subStates}
                         part={part}
                         fallback={fallback}

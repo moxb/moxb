@@ -9,8 +9,8 @@ export class MenuAndContentAnt extends React.Component<UIProps, {}> {
     public render() {
         const {
             locationManager,
-            rootPath,
             arg,
+            parsedTokens,
             substates,
             filterCondition,
             hierarchical,
@@ -21,7 +21,7 @@ export class MenuAndContentAnt extends React.Component<UIProps, {}> {
         } = this.props;
         const menuProps: NavMenuProps = {
             locationManager,
-            rootPath,
+            parsedTokens,
             arg,
             substates,
             filterCondition,
@@ -30,7 +30,7 @@ export class MenuAndContentAnt extends React.Component<UIProps, {}> {
         };
         const contentProps: ContentProps = {
             locationManager,
-            rootPath,
+            parsedTokens,
             arg,
             substates,
             fallback,

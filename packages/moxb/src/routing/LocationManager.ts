@@ -52,6 +52,12 @@ export interface LocationManager {
     // with creating a new element in the history
     replacePath: (path: Path) => void;
 
+    // Set the last path token
+    // Previous tokens will be preserved, further tokens will be dropped.
+    pushPathToken: (position: number, token: string | null) => void;
+
     // Determine if a given link should currently be considered to be active
     isLinkActive: (wanted: string, exactOnly: boolean) => boolean;
+
+    doesPathTokenMatch: (token: string, level: number, exactOnly: boolean) => boolean;
 }

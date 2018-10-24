@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { LoginFormAnt, PATH as loginPath } from './form/LoginFormAnt';
-import { MemTableAnt, PATH as memTablePath } from './memtable/MemTableAnt';
+import { LoginFormAnt } from './form/LoginFormAnt';
+import { MemTableAnt } from './memtable/MemTableAnt';
 import { ApplicationAnt } from './app/ApplicationAnt';
 import { MoreMenusAnt, PATH as moreMenuPath } from './menus/MoreMenusAnt';
 
@@ -18,7 +18,7 @@ export const mainMenu: StateSpace = [
         },
     },
     {
-        path: loginPath,
+        key: 'loginForm',
         // hidden: true,
         label: (
             <span>
@@ -32,14 +32,14 @@ export const mainMenu: StateSpace = [
         },
     },
     {
-        path: memTablePath,
+        key: 'memTable',
         label: 'Mem Table',
         fragment: {
             main: MemTableAnt,
         },
     },
     {
-        path: moreMenuPath,
+        key: 'moreMenus',
         label: 'More Menus',
         fragment: {
             main: MoreMenusAnt,

@@ -4,8 +4,6 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Application } from '../app/Application';
 
-export const PATH = 'loginForm';
-
 @inject('app')
 @observer
 export class LoginFormAnt extends React.Component<{ app?: Application }> {

@@ -18,10 +18,10 @@ export interface StateSpaceHandler {
     // Find the root substate, if defined.
     findRoot(): SubState;
 
-    // Find the substate for a given path token.
+    // Find the substate for a given token.
     //
-    // If path token is null or empty string, returns the root substate.
-    findSubState(path: string): SubState;
+    // If oken is null or empty string, returns the root substate.
+    findSubState(tokens: string[], parsedTokens?: number): SubState;
 
     // Get a list of substates that are not hidden, and
     // match the specified filter, if any

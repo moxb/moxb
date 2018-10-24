@@ -43,20 +43,18 @@ export interface ChangingContentParams {
 }
 
 export interface ChangingContentState {
-    // What is the root path of the current state? For mode 1
-    rootPath?: string;
 
     /**
-     * What is the path that we have to use to make the current decision?
-     *
-     * In case of a multi-level routing, this should also contain the part
-     * of the path that has already been parsed, plus any further tokens.
-     * Normally it should be an array of strings, but a single token is also
-     * acceptable.
+     * The path tokens that determine the selection of sub-states.
      */
-    rawPath: string | string[];
+    tokens: string[];
 
-    separator: string;
+    /**
+     * The number of tokens that have already been parsed, is any.
+     *
+     * (The selection should be determined by the first un-parsed token.)
+     */
+    parsedTokens?: number;
 }
 
 export type ChangingContentProps = ChangingContentParams & ChangingContentState;

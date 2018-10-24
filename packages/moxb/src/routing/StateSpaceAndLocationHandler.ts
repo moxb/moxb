@@ -13,13 +13,15 @@ import { UrlArg } from "./UrlArg";
 
 export interface StateSpaceAndLocationHandlerProps extends StateSpaceHandlerProps {
     locationManager: LocationManager;
-    rootPath?: string;
+    parsedTokens?: number;
     arg?: UrlArg<string>;    
 }
 
 export interface StateSpaceAndLocationHandler extends StateSpaceHandler {
-    getRealPathForSubState(state: SubState): string;
+//    getRealPathForSubState(state: SubState): string;
     isSubStateActive(state: SubState): boolean;
     getActiveSubStates(): SubState[];
-    getActiveSubStatePaths(): string[];
+    getActiveSubStateKeys(): string[];
+    selectSubState(state: SubState): void;
+    selectKey(key: string): void;
 }

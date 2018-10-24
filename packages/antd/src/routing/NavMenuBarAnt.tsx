@@ -27,12 +27,18 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps, {}> {
     public constructor(props: NavMenuProps) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
+        this.renderSubStateLink = this.renderSubStateLink.bind(this);
         this._states = new StateSpaceAndLocationHandlerImpl(props);
     }
 
-    protected renderSubStateLink(state: SubState) {
-        const { label, path, root, subStates } = state;
-        if (subStates) {
+    protected renderSubStateLinkGroup(state: SubState) {
+        const { label, key, subStates } = state;
+        return (
+            <Menu.SubMenu key={key} title={ renderFragment(label) }>
+                { subStates!.map(this.renderSubStateLink) }
+            </Menu.SubMenu>
+        );
+
             /*
             <NavLinkGroup
                 rootPath={ rootPath }
@@ -43,36 +49,30 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps, {}> {
                 condition={ condition }
                 right={ right }
             />
-*/
+            */
+    }
 
-            return <span>Submenus are not yet supported</span>;
+    protected renderSubStateLink(state: SubState) {
+        const { label, key, root, subStates } = state;
+        if (subStates) {
+            return this.renderSubStateLinkGroup(state);
         } else {
-            return <Menu.Item key={root ? '_root_' : path}>{renderFragment(label)}</Menu.Item>;
+            return <Menu.Item key={root ? '_root_' : key}>{renderFragment(label)}</Menu.Item>;
         }
     }
 
     protected handleClick(e: ClickParam) {
-        const { locationManager, arg } = this.props;
-        const state = this._states.findSubState(e.key);
-        if (this._states.isSubStateActive(state)) {
-            //            console.log("Not jumping, already there.");
-        } else {
-            if (arg) {
-                arg.value = state.path as string;
-            } else {
-                const path = this._states.getRealPathForSubState(state);
-                //                console.log("Jumping to '" + path + "'...");
-                locationManager.path = path;
-            }
-        }
+        this._states.selectKey(e.key);
     }
 
     public render() {
+        const selectedKeys=this._states.getActiveSubStateKeys();
+//        console.log("Selected keys are", selectedKeys);
         return (
             <Menu
+                selectedKeys = { selectedKeys }
                 mode="horizontal"
                 style={{ lineHeight: '64px' }}
-                selectedKeys={ this._states.getActiveSubStatePaths() }
                 onClick={this.handleClick}
             >
                 { this._states.getFilteredSubStates().map(this.renderSubStateLink) }

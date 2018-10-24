@@ -8,32 +8,28 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
 
     private readonly _locationManager: LocationManager;
     private readonly _urlArg?: UrlArg<string>;
-    private readonly _rootPath?: string;
+    private readonly _parsedTokens: number;
 
     public constructor(props: StateSpaceAndLocationHandlerProps) {
         super(props);
-        const { locationManager, rootPath, arg } = props;
+        const { locationManager, parsedTokens, arg } = props;
         this._locationManager = locationManager;
         this._urlArg = arg;
-        this._rootPath = rootPath;
+        this._parsedTokens = parsedTokens || 0;
         this.isSubStateActive = this.isSubStateActive.bind(this);
     }
 
-    public getRealPathForSubState(state: SubState) {
-        const { root, path } = state;
-        const realRootPath = this._rootPath || this._locationManager.pathSeparator;
-        const result = realRootPath + (root ? '' : path);
-        return result;
-    }
-
     public isSubStateActive(state: SubState) {
-        const { root, path } = state;
-        if (root || path) {
+        const { root, key } = state;
+        if (root || key) {
             if (this._urlArg) {
-                return this._urlArg.value === path;
+                return this._urlArg.value === key;
             } else {
-                const toPath = this.getRealPathForSubState(state);
-                return this._locationManager.isLinkActive(toPath, !!root);
+                return this._locationManager.doesPathTokenMatch(
+                    (root ? '' : key!),
+                    this._parsedTokens,
+                    !!root,
+                );
             }
         } else {
             return false;
@@ -45,9 +41,26 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
             .filter(this.isSubStateActive);
     }
 
-    public getActiveSubStatePaths(): string[] {
+    public getActiveSubStateKeys(): string[] {
         return this.getActiveSubStates()
-            .map(state => state.root ? "_root_" : state.path!);
+            .map(state => state.root ? "_root_" : state.key!);
+    }
+
+    public selectSubState(state: SubState) {
+        if (this.isSubStateActive(state)) {
+//            console.log("Not jumping, already in state", state);
+        } else {
+            if (this._urlArg) {
+                this._urlArg.value = state.key!;
+            } else {
+//                console.log("Should change token #", this._parsedTokens, "to", state)
+                this._locationManager.pushPathToken(this._parsedTokens, state.root ? null : state.key!);
+            }
+        }
+    }
+
+    public selectKey(key: string) {
+        this.selectSubState(this.findSubState([key]));
     }
 
 }

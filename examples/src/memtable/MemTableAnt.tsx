@@ -4,8 +4,6 @@ import { NumericFormAnt, TableAnt, ColumnAntProps } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { MemTable, MemTableData } from './MemTable';
 
-export const PATH = 'memTable';
-
 @inject('memTable')
 @observer
 export class MemTableAnt extends React.Component<{ memTable?: MemTable }> {

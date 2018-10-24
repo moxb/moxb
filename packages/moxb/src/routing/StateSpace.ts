@@ -9,9 +9,9 @@ export interface SubState {
     // A special label to use when this sub-state is active
     activeLabel?: UIFragment;
 
-    // The path to identify this sub-state.
+    // The key to identify this sub-state.
     // (Can be null if this is the root state)
-    path?: string;
+    key?: string;
 
     // Is this the root state?
     root?: boolean;
