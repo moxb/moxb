@@ -21,7 +21,7 @@ export interface ContentProps extends ChangingContentParams {
     parsedTokens?: number;
 }
 
-@inject( 'locationManager' )
+@inject('locationManager')
 @observer
 export class LocationDependentContent extends React.Component<ContentProps & UsesLocation> {
     public render() {
@@ -32,7 +32,7 @@ export class LocationDependentContent extends React.Component<ContentProps & Use
             console.log('tokens are', tokens);
         }
         const props: ChangingContentProps = {
-                ...remnant,
+            ...remnant,
             tokens,
         };
         return <ChangingContentImpl {...props} />;

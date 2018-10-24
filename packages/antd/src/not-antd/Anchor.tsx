@@ -1,5 +1,5 @@
-import * as React from "react";
-import { UIFragment, renderFragment } from "@moxb/moxb";
+import * as React from 'react';
+import { UIFragment, renderFragment } from '@moxb/moxb';
 
 export interface AnchorParams {
     title?: string;
@@ -25,30 +25,29 @@ export interface Events {
 export type UIProps = AnchorParams & TargetParams & Events;
 
 export class Anchor extends React.PureComponent<UIProps> {
-
     public constructor(props: UIProps) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         this.cancelEvent = this.cancelEvent.bind(this);
     }
 
-    private cancelEvent(event: React.SyntheticEvent<HTMLAnchorElement>){
+    private cancelEvent(event: React.SyntheticEvent<HTMLAnchorElement>) {
         const { onClick } = this.props;
         if (!onClick) {
-            return
+            return;
         }
         event.preventDefault();
         event.stopPropagation();
-    };
+    }
 
     private handleClick(event: React.SyntheticEvent<HTMLAnchorElement>) {
         const { onClick, data } = this.props;
         if (!onClick) {
-            console.log("No link handler, we will return");
+            console.log('No link handler, we will return');
             return;
         }
         if ((event as any).button) {
-            console.log("Ignoring middle or right button");
+            console.log('Ignoring middle or right button');
             return;
         }
         event.preventDefault();
@@ -60,14 +59,14 @@ export class Anchor extends React.PureComponent<UIProps> {
         const { label, title, children, className, href, disabled } = this.props;
         return (
             <a
-                href={ href || "#" }
-                onMouseDown={ this.handleClick }
-                onClick={ this.cancelEvent }
-                title={ title }
-                className= { className + (disabled ? " disabled" : "")}
+                href={href || '#'}
+                onMouseDown={this.handleClick}
+                onClick={this.cancelEvent}
+                title={title}
+                className={className + (disabled ? ' disabled' : '')}
             >
-                { renderFragment(label || "") }
-                { children }
+                {renderFragment(label || '')}
+                {children}
             </a>
         );
     }

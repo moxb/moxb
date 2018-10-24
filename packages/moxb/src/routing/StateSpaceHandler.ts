@@ -1,4 +1,4 @@
-import { StateSpace, SubState, StateCondition } from "./StateSpace";
+import { StateSpace, SubState, StateCondition } from './StateSpace';
 
 /**
  * A StateSpace handler takes a description of the state-space

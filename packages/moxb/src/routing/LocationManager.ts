@@ -1,5 +1,5 @@
 import { Path, Location as MyLocation, LocationDescriptorObject } from 'history';
-import { UrlArg } from "./UrlArg";
+import { UrlArg } from './UrlArg';
 
 export interface Query {
     [key: string]: string;

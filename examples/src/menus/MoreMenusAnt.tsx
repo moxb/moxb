@@ -106,7 +106,7 @@ export const subMenu2: StateSpace = [
 ];
 
 @inject('url')
-export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable > {
+export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable> {
     render() {
         const { location, url } = this.props;
         return (
@@ -116,7 +116,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                     <Col span={12}>
                         <span>This menu (on the left) is part of the global navigation.</span>
                         <MenuAndContentAnt
-                            parsedTokens={ this.props.parsedTokens }
+                            parsedTokens={this.props.parsedTokens}
                             substates={subMenu1}
                             fallback="Unknown number"
                         />
@@ -125,16 +125,9 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         <div>And here is a text field</div>
                         <TextFormAnt operation={url!.bindSearch} />
                         <hr />
-                        <Link
-                            pathTokens={ [ "moreMenus", "two" ] }
-                            label="Select 'two' on the left tab menu!"
-                        />
+                        <Link pathTokens={['moreMenus', 'two']} label="Select 'two' on the left tab menu!" />
                         <hr />
-                        <ArgChangingLink
-                            arg={ url.color }
-                            value="blue"
-                            label="Set the color to blue!"
-                        />
+                        <ArgChangingLink arg={url.color} value="blue" label="Set the color to blue!" />
                         <hr />
                         <div>
                             This menu (on the right) is <i>not</i> part of the global navigation.

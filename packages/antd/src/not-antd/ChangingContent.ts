@@ -46,8 +46,7 @@ export interface ChangingContentParams {
 // This interface describes the responsibilities of a "navigator",
 // that is, a component that can show different content,
 // based on the currently selected state.
-export interface ChangingContentState extends Navigable{
-
+export interface ChangingContentState extends Navigable {
     /**
      * The path tokens that determine the selection of sub-states.
      */

@@ -55,8 +55,8 @@ const getQueryStringFromQuery = (query: Query): string => new MyURI().search(que
 
 export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _pathStrategy: PathStrategy;
-    protected readonly isNative : boolean;
-    protected readonly isQueryBased : boolean;
+    protected readonly isNative: boolean;
+    protected readonly isQueryBased: boolean;
     public readonly pathSeparator: string;
     public readonly cleanSeparatorFromPathEnd?: boolean;
     protected readonly _permanentArgs: UrlArg<any>[] = [];
@@ -67,8 +67,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     public formatPathTokens(tokens: string[]): string {
-        return (this.isNative ? this.pathSeparator : "") +
-            tokens.join(this.pathSeparator);
+        return (this.isNative ? this.pathSeparator : '') + tokens.join(this.pathSeparator);
     }
 
     protected readonly _pathArg: UrlArg<Path>;
@@ -207,7 +206,6 @@ export class BasicLocationManagerImpl implements LocationManager {
         } else if (this.isQueryBased) {
             this.query = this.getPermanentArgs();
             this._pathArg.set(realPath, 'replace');
-
         }
     }
 
@@ -321,13 +319,13 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     public doesPathTokenMatch(token: string, level: number, exactOnly: boolean): boolean {
-        if (token === "") {
+        if (token === '') {
             // we want to check that the nth token doesn't exist
             return !this.pathTokens[level];
         }
         const matches = this.pathTokens[level] === token;
         if (exactOnly) {
-            return matches && !this.pathTokens[level + 1]
+            return matches && !this.pathTokens[level + 1];
         } else {
             return matches;
         }
@@ -347,12 +345,12 @@ export class BasicLocationManagerImpl implements LocationManager {
             };
             return getQueryStringFromQuery(realQuery);
         } else {
-            throw new Error("Schema unsupported");
+            throw new Error('Schema unsupported');
         }
     }
 
     public pushPathTokens(position: number, tokens: string[]) {
-//        console.log("Pushing path tokens", tokens, "to position", position);
+        //        console.log("Pushing path tokens", tokens, "to position", position);
         const before = this.pathTokens.slice(0, position);
         this.pathTokens = [...before, ...tokens];
     }
@@ -360,5 +358,4 @@ export class BasicLocationManagerImpl implements LocationManager {
     public registerUrlArg(arg: UrlArg<any>) {
         this._permanentArgs.push(arg);
     }
-
 }

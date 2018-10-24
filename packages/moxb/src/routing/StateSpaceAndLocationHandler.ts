@@ -1,9 +1,9 @@
-import { SubState } from "./StateSpace";
+import { SubState } from './StateSpace';
 
-import { StateSpaceHandlerProps, StateSpaceHandler } from "./StateSpaceHandler";
+import { StateSpaceHandlerProps, StateSpaceHandler } from './StateSpaceHandler';
 
-import { UsesLocation } from "./LocationManager";
-import { UrlArg } from "./UrlArg";
+import { UsesLocation } from './LocationManager';
+import { UrlArg } from './UrlArg';
 
 /**
  * A StateSpace handler takes a description of the state-space
@@ -13,11 +13,11 @@ import { UrlArg } from "./UrlArg";
 
 export interface StateSpaceAndLocationHandlerProps extends StateSpaceHandlerProps, UsesLocation {
     parsedTokens?: number;
-    arg?: UrlArg<string>;    
+    arg?: UrlArg<string>;
 }
 
 export interface StateSpaceAndLocationHandler extends StateSpaceHandler {
-//    getRealPathForSubState(state: SubState): string;
+    //    getRealPathForSubState(state: SubState): string;
     isSubStateActive(state: SubState): boolean;
     getActiveSubStates(): SubState[];
     getActiveSubStateKeys(): string[];

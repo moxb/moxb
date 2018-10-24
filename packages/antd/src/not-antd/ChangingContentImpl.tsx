@@ -4,7 +4,6 @@ import { renderFragment, getFragmentPart, UIFragmentSpec, StateSpaceHandler, Sta
 import { ChangingContentProps } from './ChangingContent';
 
 export class ChangingContentImpl extends React.Component<ChangingContentProps> {
-
     protected readonly _states: StateSpaceHandler;
 
     public constructor(props: ChangingContentProps) {
@@ -19,7 +18,7 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
                 (console as any).log(...stuff);
             }
         };
-        debugLog('Looking up', part ? ("part " + part) : "single fragment");
+        debugLog('Looking up', part ? 'part ' + part : 'single fragment');
         const level = parsedTokens || 0;
         const token = tokens[level];
         if (debug) {
