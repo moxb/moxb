@@ -333,9 +333,28 @@ export class BasicLocationManagerImpl implements LocationManager {
         }
     }
 
-    public pushPathToken(position: number, token: string | null) {
+    public getURLForPathTokens(position: number, tokens: string[]) {
         const before = this.pathTokens.slice(0, position);
-        this.pathTokens = token ? [...before, token!] : before;
+        const newTokens = [...before, ...tokens];
+        const pathName = this.formatPathTokens(newTokens);
+        const search = this.getPermanentArgs();
+        if (this.isNative) {
+            return pathName + getQueryStringFromQuery(search);
+        } else if (this.isQueryBased) {
+            const realQuery = {
+                path: pathName,
+                ...search,
+            };
+            return getQueryStringFromQuery(realQuery);
+        } else {
+            throw new Error("Schema unsupported");
+        }
+    }
+
+    public pushPathTokens(position: number, tokens: string[]) {
+//        console.log("Pushing path tokens", tokens, "to position", position);
+        const before = this.pathTokens.slice(0, position);
+        this.pathTokens = [...before, ...tokens];
     }
 
     public registerUrlArg(arg: UrlArg<any>) {

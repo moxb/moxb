@@ -55,7 +55,11 @@ export interface LocationManager {
 
     // Set the last path token
     // Previous tokens will be preserved, further tokens will be dropped.
-    pushPathToken: (position: number, token: string | null) => void;
+    pushPathTokens: (position: number, tokens: string[]) => void;
+
+    // Determine the URL that we would get if we pushed these path tokens.
+    // (See the pushPathTokens method)
+    getURLForPathTokens: (position: number, tokens: string[]) => string;
 
     // Determine if a given link should currently be considered to be active
     isLinkActive: (wanted: string, exactOnly: boolean) => boolean;

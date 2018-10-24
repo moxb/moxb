@@ -1,4 +1,4 @@
-import { Navigable, MenuAndContentAnt, TextFormAnt } from '@moxb/antd';
+import { Navigable, MenuAndContentAnt, TextFormAnt, Link, ArgChangingLink } from '@moxb/antd';
 import { LocationManager, StateSpace } from '@moxb/moxb';
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
@@ -125,6 +125,19 @@ export class MoreMenusAnt extends React.Component<{ location?: LocationManager; 
                     <Col span={12}>
                         <div>And here is a text field</div>
                         <TextFormAnt operation={url!.bindSearch} />
+                        <hr />
+                        <Link
+                            locationManager={location!}
+                            pathTokens={ [ "moreMenus", "two" ] }
+                            label="Select 'two' on the left tab menu!"
+                        />
+                        <hr />
+                        <ArgChangingLink
+                            arg={ url.color }
+                            value="blue"
+                            label="Set the color to blue!"
+                        />
+                        <hr />
                         <div>
                             This menu (on the right) is <i>not</i> part of the global navigation.
                         </div>

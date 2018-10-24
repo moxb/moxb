@@ -54,7 +54,7 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
                 this._urlArg.value = state.key!;
             } else {
 //                console.log("Should change token #", this._parsedTokens, "to", state)
-                this._locationManager.pushPathToken(this._parsedTokens, state.root ? null : state.key!);
+                this._locationManager.pushPathTokens(this._parsedTokens, state.root ? [] : [state.key!]);
             }
         }
     }
