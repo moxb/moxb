@@ -55,7 +55,8 @@ const getQueryStringFromQuery = (query: Query): string => new MyURI().search(que
 
 export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _pathStrategy: PathStrategy;
-
+    protected readonly isNative : boolean;
+    protected readonly isQueryBased : boolean;
     public readonly pathSeparator: string;
 
     public readonly cleanSeparatorFromPathEnd?: boolean;
@@ -66,15 +67,18 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     public formatPathTokens(tokens: string[]): string {
-        return tokens.join(this.pathSeparator);
+        return (this.isNative ? this.pathSeparator : "") +
+            tokens.join(this.pathSeparator);
     }
 
     protected readonly _pathArg: UrlArg<Path>;
 
     public constructor(props: Props) {
         this._pathStrategy = props.pathStrategy || PATH_STRATEGY.NATIVE;
-        this.pathSeparator = this._pathStrategy === PATH_STRATEGY.NATIVE ? '/' : '.';
+        this.isNative = this._pathStrategy === PATH_STRATEGY.NATIVE;
+        this.isQueryBased = this._pathStrategy === PATH_STRATEGY.QUERY;
         this.cleanSeparatorFromPathEnd = props.cleanSeparatorFromPathEnd;
+        this.pathSeparator = this.isNative ? '/' : '.';
         this._pathArg = new UrlArgImpl(this, {
             key: 'path',
             valueType: URLARG_TYPE_PATH,
@@ -122,12 +126,11 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     private _getPathFromLocation(location: MyLocation): string {
-        switch (this._pathStrategy) {
-            case PATH_STRATEGY.NATIVE:
-                return location.pathname;
-            case PATH_STRATEGY.QUERY:
-                const query = getQueryFromLocation(location);
-                return this._pathArg.getOnQuery(query);
+        if (this.isNative) {
+            return location.pathname;
+        } else if (this.isQueryBased) {
+            const query = getQueryFromLocation(location);
+            return this._pathArg.getOnQuery(query);
         }
         return '';
     }
@@ -186,14 +189,11 @@ export class BasicLocationManagerImpl implements LocationManager {
         if (debug) {
             console.log('pushling path', JSON.stringify(realPath));
         }
-        switch (this._pathStrategy) {
-            case PATH_STRATEGY.NATIVE:
-                this._history.push(realPath);
-                break;
-            case PATH_STRATEGY.QUERY:
-                this.query = {};
-                this._pathArg.set(realPath, 'replace');
-                break;
+        if (this.isNative) {
+            this._history.push(realPath);
+        } else if (this.isQueryBased) {
+            this.query = {};
+            this._pathArg.set(realPath, 'replace');
         }
     }
 
@@ -206,14 +206,11 @@ export class BasicLocationManagerImpl implements LocationManager {
         if (debug) {
             console.log('Replacing path', JSON.stringify(realPath));
         }
-        switch (this._pathStrategy) {
-            case PATH_STRATEGY.NATIVE:
-                this._history.replace(realPath);
-                break;
-            case PATH_STRATEGY.QUERY:
-                this.query = {};
-                this._pathArg.set(realPath, 'replace');
-                break;
+        if (this.isNative) {
+            this._history.replace(realPath);
+        } else if (this.isQueryBased) {
+            this.query = {};
+            this._pathArg.set(realPath, 'replace');
         }
     }
 
@@ -224,7 +221,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     public set queryString(value: string) {
         // First, we must calculate the real search string to use
         let realQueryString = value;
-        if (this._pathStrategy === PATH_STRATEGY.QUERY) {
+        if (this.isQueryBased) {
             // Mix in the path argument
             const wantedQuery = getQueryFromQueryString(value);
             realQueryString = getQueryStringFromQuery({
