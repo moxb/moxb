@@ -21,7 +21,7 @@ export interface StateSpaceHandler {
     // Find the substate for a given token.
     //
     // If oken is null or empty string, returns the root substate.
-    findSubState(tokens: string[], parsedTokens?: number): SubState;
+    findSubState(tokens: string[], parsedTokens?: number): SubState | undefined;
 
     // Get a list of substates that are not hidden, and
     // match the specified filter, if any

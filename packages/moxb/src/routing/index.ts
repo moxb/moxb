@@ -2,7 +2,6 @@ export * from './react-stuff';
 export { LocationManager, UsesLocation } from './LocationManager';
 export { PathStrategy, PATH_STRATEGY, BasicLocationManagerImpl } from './BasicLocationManagerImpl';
 
-export { TriggeringLocationManagerImpl } from './TriggeringLocationManagerImpl';
 export { ArgSavingLocationManagerImpl } from './ArgSavingLocationManagerImpl';
 
 export * from './StateSpace';

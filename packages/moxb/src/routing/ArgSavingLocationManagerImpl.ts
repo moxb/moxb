@@ -1,6 +1,6 @@
 import { Props as BasicProps } from './BasicLocationManagerImpl';
-
-import { TriggeringLocationManagerImpl } from './TriggeringLocationManagerImpl';
+import { Query } from './UrlSchema';
+import { BasicLocationManagerImpl } from './BasicLocationManagerImpl';
 
 const saveArgsDebug = false;
 
@@ -33,7 +33,7 @@ export interface Props extends BasicProps {
 
 // This is a LocationManager implementation that adds the feature of
 // saving and loading URL arguments for the respective paths.
-export class ArgSavingLocationManagerImpl extends TriggeringLocationManagerImpl {
+export class ArgSavingLocationManagerImpl extends BasicLocationManagerImpl {
     private readonly _searches: ArgSavingBackend;
 
     public constructor(props: Props) {
@@ -66,16 +66,15 @@ export class ArgSavingLocationManagerImpl extends TriggeringLocationManagerImpl 
 
     // internal method to load the URL args, when required
     private loadArgs(pathname: string) {
-        this._searches.load(pathname).then(search => {
-            if (search && search.length) {
-                const jumpLoc = {
-                    pathname,
-                    search,
-                };
+        this._searches.load(pathname).then(queryString => {
+            if (queryString && queryString.length > 2) {
+                const pathTokens = JSON.parse(pathname);
+                const query = JSON.parse(queryString);
+                const jumpLoc = this._schema.getLocation(pathTokens, query);
                 if (saveArgsDebug) {
                     console.log('Restoring saved search', jumpLoc);
                 }
-                this.replaceLocation(jumpLoc);
+                this._replaceLocation(jumpLoc);
             } else {
                 // console.log("No saved search for this path.");
             }
@@ -83,23 +82,19 @@ export class ArgSavingLocationManagerImpl extends TriggeringLocationManagerImpl 
         });
     }
 
-    public handleLocationChange(
-        pathChanged: boolean,
-        newPath: string,
-        pathTokens: string[],
-        searchChanged: boolean,
-        query: string
-    ) {
+    public handleLocationChange(pathChanged: boolean, pathTokens: string[], searchChanged: boolean, query: Query) {
         //        console.log("Handler: arg saving");
-        super.handleLocationChange(pathChanged, newPath, pathTokens, searchChanged, query);
+        super.handleLocationChange(pathChanged, pathTokens, searchChanged, query);
+        const newPath = JSON.stringify(pathTokens);
+        const queryString = JSON.stringify(query);
         if (pathChanged) {
             // We are at a new path
-            if (!!(query && query.length)) {
+            if (queryString.length > 2) {
                 // We have arrived to a new URL, with
                 // a valid path and URL args.
                 // This should overwrite previously saved
                 // search for this path.
-                this.saveArgs(newPath, query);
+                this.saveArgs(newPath, queryString);
             } else {
                 // We have just addived at a new, clean path,
                 // with no URL arguments.
@@ -110,16 +105,16 @@ export class ArgSavingLocationManagerImpl extends TriggeringLocationManagerImpl 
             // Still the same path, only search has changed
             if (searchChanged) {
                 // Path is the same, search changed.
-                if (query && query.length) {
+                if (queryString.length > 2) {
                     // The user has simply configured a new set
                     // of URL parameters for the same path
-                    this.saveArgs(newPath, query);
+                    this.saveArgs(newPath, queryString);
                 } else {
                     // The user appears to have navigated
                     // to a state when there are no URL
                     // args. However, it was a manual action,
                     // so we save the URL anyway.
-                    this.saveArgs(newPath, query);
+                    this.saveArgs(newPath, queryString);
                 }
             } else {
                 // Nothing changed, nothing to do

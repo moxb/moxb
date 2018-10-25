@@ -1,9 +1,8 @@
 import { computed } from 'mobx';
 
-const MyURI = require('urijs');
-
-import { Query, LocationManager } from './LocationManager';
-import { ParserFunc, UrlArg, UrlArgDefinition, UrlArgUpdateMethod } from './UrlArg';
+import { Query } from './UrlSchema';
+import { LocationManager, UpdateMethod } from './LocationManager';
+import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 
 function existsInQuery(query: Query, key: string) {
     return query[key] !== undefined;
@@ -31,15 +30,13 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     @computed
     public get defined() {
-        const { key } = this._def;
-        //        console.log("Testing for arg", key);
-        return existsInQuery(this._locationManager.query, key);
+        return existsInQuery(this._locationManager.query, this.key);
     }
 
     // Extract the value from a given query
     public getOnQuery(query: Query) {
-        const { key, defaultValue } = this._def;
-        return getFromQuery(query, key, this._parser, defaultValue);
+        const { defaultValue } = this._def;
+        return getFromQuery(query, this.key, this._parser, defaultValue);
     }
 
     @computed
@@ -47,82 +44,26 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this.getOnQuery(this._locationManager.query);
     }
 
-    public wouldModifyLocation(value: T) {
-        const {
-            key,
-            valueType: { isEqual, format },
-            defaultValue,
-        } = this._def;
-
-        const oldLocation = this._locationManager.location;
-        const oldSearchString = oldLocation.search;
-        const url = new MyURI().search(oldSearchString);
-        const query = url.search(true);
-        //        console.log("Old query is", query);
-        if (isEqual(value, defaultValue)) {
-            //            console.log("Dropping default");
-            delete query[key];
-        } else {
-            query[key] = format(value);
-        }
-        //        console.log("New query is", query);
-        const newSearchString = url
-            .search(query)
-            .search()
-            .replace(/%2C/g, ',')
-            .replace(/%40/g, '@');
-        return newSearchString !== oldSearchString;
-    }
-
-    public getModifiedLocation(value: T) {
-        const {
-            key,
-            valueType: { isEqual, format },
-            defaultValue,
-        } = this._def;
-
-        const oldLocation = this._locationManager.location;
-        const oldSearchString = oldLocation.search;
-        const url = new MyURI().search(oldSearchString);
-        const query = url.search(true);
-        //        console.log("Old query is", query);
-        if (isEqual(value, defaultValue)) {
-            //            console.log("Dropping default");
-            delete query[key];
-        } else {
-            query[key] = format(value);
-        }
-        //        console.log("New query is", query);
-        const newSearchString = url
-            .search(query)
-            .search()
-            .replace(/%2C/g, ',')
-            .replace(/%40/g, '@');
-        const newLocation = {
-            ...oldLocation,
-            search: newSearchString,
-        };
-        return newLocation;
-    }
-
     public getModifiedUrl(value: T) {
-        const location = this.getModifiedLocation(value);
-        const url = new MyURI()
-            .path(location.pathname)
-            .search(location.search)
-            .hash((location as any).hash);
-        return url.toString();
+        const {
+            valueType: { isEqual, format },
+            defaultValue,
+        } = this._def;
+        const rawValue = isEqual(value, defaultValue) ? undefined : format(value);
+        return this._locationManager.getURLForQueryChange(this.key, rawValue);
     }
 
-    public set(value: T, method?: UrlArgUpdateMethod) {
-        if (this.wouldModifyLocation(value)) {
-            const newLocation = this.getModifiedLocation(value);
-            const effectiveMethod = method || 'push';
-            if (effectiveMethod === 'push') {
-                this._locationManager.pushLocation(newLocation);
-            } else {
-                this._locationManager.replaceLocation(newLocation);
-            }
+    public set(value: T, method?: UpdateMethod) {
+        const {
+            valueType: { isEqual, format },
+            defaultValue,
+        } = this._def;
+        const rawValue = isEqual(value, defaultValue) ? undefined : format(value);
+        const effectiveMethod = method || 'push';
+        if (effectiveMethod === 'push') {
+            this._locationManager.pushQueryChange(this.key, rawValue);
+        } else {
+            this._locationManager.replaceQueryChange(this.key, rawValue);
         }
     }
 
@@ -130,7 +71,7 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         this.set(value);
     }
 
-    public reset(method?: UrlArgUpdateMethod) {
+    public reset(method?: UpdateMethod) {
         this.set(this._def.defaultValue, method);
     }
 

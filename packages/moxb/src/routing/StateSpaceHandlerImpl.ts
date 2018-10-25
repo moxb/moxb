@@ -40,12 +40,15 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
             return this.findRoot();
         }
         const result = this._substates.find(state => state.key === token);
+        /*
         if (result) {
             return result;
         } else {
             const validTokens = this._substates.map(state => (state.root ? '_root_' : state.key));
             throw new Error("Can't find subState for token '" + token + "'. Valid choices are " + validTokens);
         }
+        */
+        return result;
     }
 
     public getFilteredSubStates(): SubState[] {

@@ -1,9 +1,14 @@
-import { Path, Location as MyLocation, LocationDescriptorObject } from 'history';
+import { Location as MyLocation } from 'history';
 import { UrlArg } from './UrlArg';
 
-export interface Query {
-    [key: string]: string;
+import { Query } from './UrlSchema';
+
+export interface QueryChange {
+    key: string;
+    value: string | undefined;
 }
+
+export type UpdateMethod = 'push' | 'replace';
 
 /**
  * This interface describes the responsobilities of a Location Manager
@@ -19,14 +24,8 @@ export interface LocationManager {
     // You can read or write any of them.
     temporary: boolean;
 
-    // the current location
-    location: MyLocation;
-
-    // path separator string
-    readonly pathSeparator: string;
-
-    // the path from the current location
-    path: string;
+    // Get the actual location.
+    readonly location: MyLocation;
 
     // path tokens for the current location
     pathTokens: string[];
@@ -34,35 +33,31 @@ export interface LocationManager {
     // the search queries for the current location
     query: Query;
 
-    // the searc queries, concatened into a string
-    queryString: string;
-
-    // Move to a new location
-    // with creating a new element in the history
-    pushLocation: (location: LocationDescriptorObject) => void;
-
-    // Move to a new location
-    // without adding a new element in the history.
-    replaceLocation: (location: LocationDescriptorObject) => void;
-
-    // Move to a new path
-    // with creating a new element in the history
-    pushPath: (path: Path) => void;
-
-    // Move to a new path
-    // with creating a new element in the history
-    replacePath: (path: Path) => void;
+    // Determine the URL that we would get if we pushed these path tokens.
+    // (See the pushPathTokens method)
+    getURLForPathTokens: (position: number, tokens: string[]) => string;
 
     // Set the last path token
     // Previous tokens will be preserved, further tokens will be dropped.
     pushPathTokens: (position: number, tokens: string[]) => void;
 
-    // Determine the URL that we would get if we pushed these path tokens.
-    // (See the pushPathTokens method)
-    getURLForPathTokens: (position: number, tokens: string[]) => string;
+    // Determine the URL that we would get if we changed an URL argument
+    getURLForQueryChanges: (changes: QueryChange[]) => string;
 
-    // Determine if a given link should currently be considered to be active
-    isLinkActive: (wanted: string, exactOnly: boolean) => boolean;
+    // Determine the URL that we would get if we changed an URL argument
+    getURLForQueryChange: (key: string, rawValue: string | undefined) => string;
+
+    // Push new valuse to some query variables
+    pushQueryChanges: (changes: QueryChange[]) => void;
+
+    // Replace somes query values with new values
+    replaceQueryChanges: (changes: QueryChange[]) => void;
+
+    // Push a new value to a query variable
+    pushQueryChange: (key: string, rawValue: string | undefined) => void;
+
+    // Replace a query value with a new value
+    replaceQueryChange: (key: string, rawValue: string | undefined) => void;
 
     // Determine whether a given token at a given level matches
     doesPathTokenMatch: (token: string, level: number, exactOnly: boolean) => boolean;

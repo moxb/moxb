@@ -1,31 +1,30 @@
-import { observable, computed, action } from 'mobx';
+import { observable, action } from 'mobx';
+import { UrlSchema, Query } from './UrlSchema';
+import { NativeUrlSchema } from './NativeUrlSchema';
+import { QueryBasedUrlSchema } from './QueryBasedUrlSchema';
+import { HashBasedUrlSchema } from './HashBasedUrlSchema';
+import { UrlArg } from './UrlArg';
 
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
 import {
-    Path,
     Location as MyLocation,
     History as MyHistory,
     LocationDescriptorObject,
     createBrowserHistory,
 } from 'history';
 
-import { LocationManager, Query } from './LocationManager';
-
-import { UrlArg } from './UrlArg';
-import { URLARG_TYPE_PATH } from './UrlArgTypes';
-import { UrlArgImpl } from './UrlArgImpl';
+import { LocationManager, QueryChange } from './LocationManager';
 
 const debug = false;
 
 export const PATH_STRATEGY = {
     NATIVE: 'native',
     QUERY: 'query',
-    //    HASH: "hash",
+    HASH: 'hash',
 };
 
-export type PathStrategy = typeof PATH_STRATEGY.NATIVE | typeof PATH_STRATEGY.QUERY;
-//    typeof PATH_STRATEGY.HASH;
+export type PathStrategy = typeof PATH_STRATEGY.NATIVE | typeof PATH_STRATEGY.QUERY | typeof PATH_STRATEGY.HASH;
 
 const noLocation: MyLocation = {
     pathname: '',
@@ -37,52 +36,33 @@ const noLocation: MyLocation = {
 
 export interface Props {
     pathStrategy?: PathStrategy;
-    cleanSeparatorFromPathEnd?: boolean;
 }
 
-const getQueryFromQueryString = (queryString: string, removePath?: boolean): Query => {
-    const query = new MyURI().search(queryString).search(true);
-    if (removePath) {
-        delete query['path'];
-    }
-    return query;
-};
-
-const getQueryFromLocation = (location: MyLocation, removePath?: boolean): Query =>
-    getQueryFromQueryString(location.search, removePath);
-
-const getQueryStringFromQuery = (query: Query): string => new MyURI().search(query).search();
+const locationToUrl = (location: MyLocation): string =>
+    new MyURI()
+        .path(location.pathname)
+        .search(location.search)
+        .hash((location as any).hash)
+        .toString();
 
 export class BasicLocationManagerImpl implements LocationManager {
-    protected readonly _pathStrategy: PathStrategy;
-    protected readonly isNative: boolean;
-    protected readonly isQueryBased: boolean;
-    public readonly pathSeparator: string;
-    public readonly cleanSeparatorFromPathEnd?: boolean;
+    protected readonly _schema: UrlSchema;
     protected readonly _permanentArgs: UrlArg<any>[] = [];
 
-    public parsePathTokens(pathname: string): string[] {
-        const raw = pathname[0] === this.pathSeparator ? pathname.substr(1) : pathname;
-        return raw.split(this.pathSeparator);
-    }
-
-    public formatPathTokens(tokens: string[]): string {
-        return (this.isNative ? this.pathSeparator : '') + tokens.join(this.pathSeparator);
-    }
-
-    protected readonly _pathArg: UrlArg<Path>;
-
     public constructor(props: Props) {
-        this._pathStrategy = props.pathStrategy || PATH_STRATEGY.NATIVE;
-        this.isNative = this._pathStrategy === PATH_STRATEGY.NATIVE;
-        this.isQueryBased = this._pathStrategy === PATH_STRATEGY.QUERY;
-        this.cleanSeparatorFromPathEnd = props.cleanSeparatorFromPathEnd;
-        this.pathSeparator = this.isNative ? '/' : '.';
-        this._pathArg = new UrlArgImpl(this, {
-            key: 'path',
-            valueType: URLARG_TYPE_PATH,
-            defaultValue: this.cleanSeparatorFromPathEnd ? '' : this.pathSeparator,
-        });
+        switch (props.pathStrategy || PATH_STRATEGY.NATIVE) {
+            case PATH_STRATEGY.NATIVE:
+                this._schema = new NativeUrlSchema({ locationManager: this });
+                break;
+            case PATH_STRATEGY.QUERY:
+                this._schema = new QueryBasedUrlSchema({ locationManager: this });
+                break;
+            case PATH_STRATEGY.HASH:
+                this._schema = new HashBasedUrlSchema({ locationManager: this });
+                break;
+            default:
+                throw new Error('Unsupported strategy');
+        }
     }
 
     // Private field to actually follow the browser history
@@ -91,18 +71,15 @@ export class BasicLocationManagerImpl implements LocationManager {
     // Private field to store the final bit.
     @observable
     private _final: boolean = true;
-
     // Getters and setters for the final bit
-    @computed
     public get final() {
         return this._final;
     }
-    public set final(value: boolean) {
-        this._final = value;
-    }
-    @computed
     public get temporary() {
         return !this._final;
+    }
+    public set final(value: boolean) {
+        this._final = value;
     }
     public set temporary(value: boolean) {
         this._final = !value;
@@ -111,75 +88,47 @@ export class BasicLocationManagerImpl implements LocationManager {
     // Private field to store the last known location.
     @observable
     private _location: MyLocation = noLocation;
-
-    // Extension point for extended classes, because for some reason,
-    // I can't access the generated getters.
-    protected getLocation() {
-        return this._location;
-    }
-
-    // public getter for location.
-    @computed
     public get location() {
         return this._location;
     }
 
-    private _getPathFromLocation(location: MyLocation): string {
-        if (this.isNative) {
-            return location.pathname;
-        } else if (this.isQueryBased) {
-            const query = getQueryFromLocation(location);
-            return this._pathArg.getOnQuery(query);
-        }
-        return '';
-    }
-
-    // get the path
-    @computed
-    public get path() {
-        return this._getPathFromLocation(this.location);
-    }
-
     // get the path tokens
-    @computed
     public get pathTokens() {
-        return this.parsePathTokens(this.path);
+        return this._schema.getPathTokens(this._location);
+    }
+    public set pathTokens(tokens: string[]) {
+        this._pushLocation(this._schema.getLocation(tokens, this.getPermanentArgs()));
     }
 
-    public set pathTokens(tokens: string[]) {
-        this.path = this.formatPathTokens(tokens);
+    public doesPathTokenMatch(token: string, level: number, exactOnly: boolean): boolean {
+        if (token === '' || token === null || token === undefined) {
+            // we want to check that the nth token doesn't exist
+            return !this.pathTokens[level];
+        }
+        const matches = this.pathTokens[level] === token;
+        if (exactOnly) {
+            return matches && !this.pathTokens[level + 1];
+        } else {
+            return matches;
+        }
     }
 
     // get the search arguments
-    @computed
     public get query() {
-        return getQueryFromLocation(this.location, true);
+        return this._schema.getQuery(this._location);
     }
-
-    @computed
-    public get queryString() {
-        return getQueryStringFromQuery(this.query);
-    }
-
-    // actions for modifying the location
 
     @action
-    public replaceLocation(location: LocationDescriptorObject) {
-        if (debug) {
-            console.log('Replacing location', JSON.stringify(location));
-        }
+    protected _replaceLocation(location: LocationDescriptorObject) {
         this._history.replace(location);
     }
 
     @action
-    public pushLocation(location: LocationDescriptorObject) {
-        if (debug) {
-            console.log('pushing location', JSON.stringify(location));
-        }
+    protected _pushLocation(location: LocationDescriptorObject) {
         this._history.push(location);
     }
 
-    private getPermanentArgs() {
+    protected getPermanentArgs() {
         const query: Query = {};
         this._permanentArgs.forEach(arg => {
             if (arg.defined) {
@@ -189,91 +138,24 @@ export class BasicLocationManagerImpl implements LocationManager {
         return query;
     }
 
-    @action
-    public pushPath(path: Path) {
-        let realPath = path;
-        if (path.endsWith(this.pathSeparator) && this.cleanSeparatorFromPathEnd) {
-            realPath = path.substr(0, path.length - 1);
-        }
-        if (debug) {
-            console.log('pushling path', JSON.stringify(realPath));
-        }
-        if (this.isNative) {
-            this._history.push({
-                pathname: realPath,
-                search: getQueryStringFromQuery(this.getPermanentArgs()),
-            });
-        } else if (this.isQueryBased) {
-            this.query = this.getPermanentArgs();
-            this._pathArg.set(realPath, 'replace');
-        }
-    }
-
-    @action
-    public replacePath(path: Path) {
-        let realPath = path;
-        if (path.endsWith(this.pathSeparator) && this.cleanSeparatorFromPathEnd) {
-            realPath = path.substr(0, path.length - 1);
-        }
-        if (debug) {
-            console.log('Replacing path', JSON.stringify(realPath));
-        }
-        if (this.isNative) {
-            this._history.replace({
-                pathname: realPath,
-                search: getQueryStringFromQuery(this.getPermanentArgs()),
-            });
-        } else if (this.isQueryBased) {
-            this.query = this.getPermanentArgs();
-            this._pathArg.set(realPath, 'replace');
-        }
-    }
-
-    public set path(value: Path) {
-        this.pushPath(value);
-    }
-
-    public set queryString(value: string) {
-        // First, we must calculate the real search string to use
-        let realQueryString = value;
-        if (this.isQueryBased) {
-            // Mix in the path argument
-            const wantedQuery = getQueryFromQueryString(value);
-            realQueryString = getQueryStringFromQuery({
-                path: this.path,
-                ...wantedQuery,
-            });
-        }
-        this.pushLocation({
-            ...this.location,
-            search: realQueryString,
-        });
-    }
-
     public set query(query: Query) {
-        this.queryString = getQueryStringFromQuery(query);
+        this._pushLocation(this._schema.getLocation(this.pathTokens, query));
     }
 
     // This is an extension point for reacting to location changes.
-    public handleLocationChange(
-        _pathChanged: boolean,
-        _path: string,
-        _pathTokens: string[],
-        _searchChanged: boolean,
-        _query: string
-    ) {
+    public handleLocationChange(_pathChanged: boolean, _pathTokens: string[], _searchChanged: boolean, _query: Query) {
         //        console.log("Handler: basic");
     }
 
     // Handler to be called when a location change is detected
-    private onLocationChanged(newLocation: MyLocation) {
-        const newPath = this._getPathFromLocation(newLocation);
-        const pathTokens = this.parsePathTokens(newPath);
+    protected onLocationChanged(newLocation: MyLocation) {
+        const pathTokens = this._schema.getPathTokens(newLocation);
 
-        const oldSearch = this.queryString;
+        const oldQuery = this.query;
+        const oldQueryString = JSON.stringify(oldQuery);
 
-        const newQuery = getQueryFromLocation(newLocation, true);
-        const newSearch = getQueryStringFromQuery(newQuery);
+        const newQuery = this._schema.getQuery(newLocation);
+        const newQueryString = JSON.stringify(newQuery);
 
         /*
         console.log(
@@ -282,10 +164,10 @@ export class BasicLocationManagerImpl implements LocationManager {
             newPath, newSearch,
         );
         */
-        const pathChanged = newPath !== this.path;
-        const searchChanged = oldSearch !== newSearch;
+        const pathChanged = JSON.stringify(pathTokens) !== JSON.stringify(this.pathTokens);
+        const searchChanged = oldQueryString !== newQueryString;
 
-        this.handleLocationChange(pathChanged, newPath, pathTokens, searchChanged, newSearch);
+        this.handleLocationChange(pathChanged, pathTokens, searchChanged, newQuery);
 
         if (debug) {
             console.log('Recording change to', JSON.stringify(newLocation));
@@ -305,54 +187,86 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._history.listen((location: MyLocation) => this.onLocationChanged(location));
     }
 
-    public isLinkActive(rawWanted: string, exactOnly: boolean) {
-        const current = this.path + this.queryString;
-        let wanted = rawWanted;
-        if (wanted.endsWith(this.pathSeparator) && this.cleanSeparatorFromPathEnd) {
-            wanted = wanted.substr(0, wanted.length - 1);
-        }
-        if (exactOnly) {
-            return current === wanted;
-        } else {
-            return current.startsWith(wanted);
-        }
+    protected _getLocationForQueryChanges(changes: QueryChange[]): MyLocation {
+        const query = this.query;
+        changes.forEach(change => {
+            const { key, value } = change;
+            if (value === undefined || value === null) {
+                delete query[key];
+            } else {
+                query[key] = value;
+            }
+        });
+        const location = this._schema.getLocation(this.pathTokens, query);
+        return location;
     }
 
-    public doesPathTokenMatch(token: string, level: number, exactOnly: boolean): boolean {
-        if (token === '') {
-            // we want to check that the nth token doesn't exist
-            return !this.pathTokens[level];
-        }
-        const matches = this.pathTokens[level] === token;
-        if (exactOnly) {
-            return matches && !this.pathTokens[level + 1];
-        } else {
-            return matches;
-        }
+    protected _getLocationForQueryChange(key: string, value: string | undefined) {
+        return this._getLocationForQueryChanges([
+            {
+                key,
+                value,
+            },
+        ]);
+    }
+
+    public getURLForQueryChanges(changes: QueryChange[]): string {
+        const location = this._getLocationForQueryChanges(changes);
+        return locationToUrl(location);
+    }
+
+    public getURLForQueryChange(key: string, value: string | undefined): string {
+        return this.getURLForQueryChanges([
+            {
+                key,
+                value,
+            },
+        ]);
+    }
+
+    @action
+    public pushQueryChanges(changes: QueryChange[]) {
+        this._pushLocation(this._getLocationForQueryChanges(changes));
+    }
+    @action
+    public replaceQueryChanges(changes: QueryChange[]) {
+        this._replaceLocation(this._getLocationForQueryChanges(changes));
+    }
+    @action
+    public pushQueryChange(key: string, value: string | undefined) {
+        this.pushQueryChanges([
+            {
+                key,
+                value,
+            },
+        ]);
+    }
+    @action
+    public replaceQueryChange(key: string, value: string | undefined) {
+        this.replaceQueryChanges([
+            {
+                key,
+                value,
+            },
+        ]);
+    }
+
+    public getLocationForPathTokens(position: number, tokens: string[]) {
+        const before = this.pathTokens.slice(0, position);
+        const newTokens = [...before, ...tokens];
+        const query = this.getPermanentArgs();
+        const location = this._schema.getLocation(newTokens, query);
+        return location;
     }
 
     public getURLForPathTokens(position: number, tokens: string[]) {
-        const before = this.pathTokens.slice(0, position);
-        const newTokens = [...before, ...tokens];
-        const pathName = this.formatPathTokens(newTokens);
-        const search = this.getPermanentArgs();
-        if (this.isNative) {
-            return pathName + getQueryStringFromQuery(search);
-        } else if (this.isQueryBased) {
-            const realQuery = {
-                path: pathName,
-                ...search,
-            };
-            return getQueryStringFromQuery(realQuery);
-        } else {
-            throw new Error('Schema unsupported');
-        }
+        const location = this.getLocationForPathTokens(position, tokens);
+        return locationToUrl(location);
     }
-
+    @action
     public pushPathTokens(position: number, tokens: string[]) {
-        //        console.log("Pushing path tokens", tokens, "to position", position);
-        const before = this.pathTokens.slice(0, position);
-        this.pathTokens = [...before, ...tokens];
+        const location = this.getLocationForPathTokens(position, tokens);
+        this._pushLocation(location);
     }
 
     public registerUrlArg(arg: UrlArg<any>) {

@@ -53,6 +53,11 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
     }
 
     public selectKey(key: string) {
-        this.selectSubState(this.findSubState([key]));
+        const subState = this.findSubState([key]);
+        if (subState) {
+            this.selectSubState(subState);
+        } else {
+            throw new Error("Couldn't find sub-state with key '" + key + "'.");
+        }
     }
 }
