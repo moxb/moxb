@@ -4,11 +4,17 @@ import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
 import * as React from 'react';
 
+// @ts-ignore
 import blueUrl from '../../images/blue_blocks.png';
+// @ts-ignore
 import oneUrl from '../../images/one_apple.jpg';
+// @ts-ignore
 import greenUrl from '../../images/green_blocks.jpg';
+// @ts-ignore
 import redUrl from '../../images/red_blocks.gif';
+// @ts-ignore
 import threeUrl from '../../images/three_apples.jpg';
+// @ts-ignore
 import twoUrl from '../../images/two_apples.jpg';
 import { UrlStore } from '../store/UrlStore';
 
@@ -108,7 +114,7 @@ export const subMenu2: StateSpace = [
 @inject('url')
 export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable> {
     render() {
-        const { location, url } = this.props;
+        const { url } = this.props;
         return (
             <div>
                 <span>Here come some more menus.</span>
@@ -127,16 +133,16 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         <hr />
                         <Link pathTokens={['moreMenus', 'two']} label="Select 'two' on the left tab menu!" />
                         <hr />
-                        <ArgChangingLink arg={url.color} value="blue" label="Set the color to blue!" />
+                        <ArgChangingLink arg={url!.color!} value="blue" label="Set the color to blue!" />
                         <hr />
                         <MultiArgChangingLink
                             changes={[
                                 {
-                                    arg: url.color,
+                                    arg: url!.color,
                                     value: 'green',
                                 },
                                 {
-                                    arg: url.search,
+                                    arg: url!.search,
                                     value: 'treasure',
                                 },
                             ]}

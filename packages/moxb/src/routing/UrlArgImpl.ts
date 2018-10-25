@@ -10,13 +10,12 @@ function existsInQuery(query: Query, key: string) {
 
 function getFromQuery<T>(query: Query, key: string, parse: ParserFunc<T>, defaultValue: T) {
     const formatted: string = query[key];
-    const result: T = formatted === undefined ? defaultValue : parse(formatted, defaultValue);
-    return result;
+    return formatted === undefined ? defaultValue : parse(formatted, defaultValue);
 }
 
 export class UrlArgImpl<T> implements UrlArg<T> {
-    private _def: UrlArgDefinition<T>;
-    private _parser: ParserFunc<T>;
+    private readonly _def: UrlArgDefinition<T>;
+    private readonly _parser: ParserFunc<T>;
     public readonly key: string;
 
     public constructor(private readonly _locationManager: LocationManager, definition: UrlArgDefinition<T>) {

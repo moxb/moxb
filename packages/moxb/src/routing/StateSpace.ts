@@ -2,8 +2,11 @@ import { UIFragment, UIFragmentSpec } from './react-stuff';
 
 // This interface describes a possible state for a part of the app UI
 export interface SubState {
-    // The label to identify this sub-state,
-    // when offered up for selection in a menu or similar
+    /**
+     * The label to identify this sub-state,
+     *
+     * when offered up for selection in a menu or similar
+     */
     label: UIFragment;
 
     // A special label to use when this sub-state is active

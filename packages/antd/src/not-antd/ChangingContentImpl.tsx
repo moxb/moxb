@@ -37,12 +37,12 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
             // the fallback values with multiple parts
             return (
                 <div>
-                    {substates.map(s => {
-                        return renderFragment(getFragmentPart(s.fragment, part, debug), {
+                    {substates.map(s =>
+                        renderFragment(getFragmentPart(s.fragment, part, debug), {
                             key: s.key,
                             invisible: s !== wantedChild,
-                        });
-                    })}
+                        })
+                    )}
                 </div>
             );
         } else {
@@ -75,10 +75,9 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
                 debugLog('spec is', spec);
                 const fragment = getFragmentPart(spec, part, debug);
                 debugLog('Wanted part is', fragment);
-                const result = renderFragment(fragment, {
+                return renderFragment(fragment, {
                     parsedTokens: level + 1,
                 });
-                return result;
             }
         }
     }

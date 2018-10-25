@@ -3,8 +3,9 @@ import * as React from 'react';
 import { LoginFormAnt } from './form/LoginFormAnt';
 import { MemTableAnt } from './memtable/MemTableAnt';
 import { ApplicationAnt } from './app/ApplicationAnt';
-import { MoreMenusAnt, PATH as moreMenuPath } from './menus/MoreMenusAnt';
+import { MoreMenusAnt } from './menus/MoreMenusAnt';
 
+// @ts-ignore
 import lockImgUrl from '../images/lock.jpg';
 
 import { StateSpace } from '@moxb/moxb';

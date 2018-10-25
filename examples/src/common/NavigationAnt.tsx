@@ -1,10 +1,10 @@
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { NavMenuBarAnt } from '@moxb/antd';
 
-import { mainMenu, missingContent } from '../MenuStructure.tsx';
+import { mainMenu } from '../MenuStructure';
+import { UsesLocation } from '@moxb/moxb';
 
-export class NavigationAnt extends React.Component<{ location?: LocationManager }> {
+export class NavigationAnt extends React.Component<UsesLocation> {
     render() {
         return <NavMenuBarAnt substates={mainMenu} />;
     }

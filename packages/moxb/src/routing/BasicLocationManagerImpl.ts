@@ -43,7 +43,7 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     // Private field to store the final bit.
     @observable
-    private _final: boolean = true;
+    private _final = true;
     // Getters and setters for the final bit
     public get final() {
         return this._final;
@@ -154,7 +154,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         this.onLocationChanged(location);
 
         // Watch for future changes
-        this._history.listen((location: MyLocation) => this.onLocationChanged(location));
+        this._history.listen((newLocation: MyLocation) => this.onLocationChanged(newLocation));
     }
 
     protected _getLocationForQueryChanges(changes: QueryChange[]): MyLocation {
@@ -162,6 +162,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         changes.forEach(change => {
             const { key, value } = change;
             if (value === undefined || value === null) {
+                // tslint:disable-next-line:no-dynamic-delete
                 delete query[key];
             } else {
                 query[key] = value;

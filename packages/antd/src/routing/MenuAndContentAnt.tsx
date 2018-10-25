@@ -5,7 +5,7 @@ import { LocationDependentContent, ContentProps } from '../not-antd/LocationDepe
 
 export type UIProps = NavMenuProps & ContentProps;
 
-export class MenuAndContentAnt extends React.Component<UIProps, {}> {
+export class MenuAndContentAnt extends React.Component<UIProps> {
     public render() {
         return (
             <div>

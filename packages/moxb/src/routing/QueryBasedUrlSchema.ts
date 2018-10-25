@@ -19,12 +19,12 @@ export class QueryBasedUrlSchema implements UrlSchema {
         const query = new MyURI().search(location.search).search(true);
         const pathname = query[this._pathKey] || '';
         const raw: string = pathname[0] === '/' ? pathname.substr(1) : pathname;
-        const tokens = raw.split('/').filter(t => t.length);
-        return tokens;
+        return raw.split('/').filter(t => t.length);
     }
 
     public getQuery(location: MyLocation): Query {
         const query = new MyURI().search(location.search).search(true);
+        // tslint:disable-next-line:no-dynamic-delete
         delete query[this._pathKey];
         return query;
     }

@@ -1,11 +1,10 @@
-import { UrlArg } from '@moxb/moxb';
+import { LocationManager } from '@moxb/moxb';
 import { Application } from '../app/Application';
 import { ApplicationImpl } from '../app/ApplicationImpl';
 import { MemTable } from '../memtable/MemTable';
 import { MemTableImpl } from '../memtable/MemTableImpl';
 import { ViewStore } from './ViewStore';
 import { ViewStoreImpl } from './ViewStoreImpl';
-import { LocationManager } from '@moxb/moxb';
 import { LocationStoreImpl } from './LocationStoreImpl';
 import { UrlStore } from './UrlStore';
 import { UrlStoreImpl } from './UrlStoreImpl';

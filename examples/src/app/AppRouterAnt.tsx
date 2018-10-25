@@ -1,15 +1,11 @@
 import { Layout, Row } from 'antd';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { NavigationAnt } from '../common/NavigationAnt';
-import { LoginFormAnt } from '../form/LoginFormAnt';
-import { MemTableAnt } from '../memtable/MemTableAnt';
-import { ApplicationAnt } from './ApplicationAnt';
 
 import { LocationManager } from '@moxb/moxb';
 import { LocationDependentContent } from '@moxb/antd';
 
-import { mainMenu, defaultContent } from '../MenuStructure.tsx';
+import { defaultContent, mainMenu } from '../MenuStructure';
 
 export class AppRouterAnt extends React.Component<{ location?: LocationManager }> {
     render() {

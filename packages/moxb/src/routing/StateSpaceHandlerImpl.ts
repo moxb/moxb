@@ -33,7 +33,7 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
         }
     }
 
-    public findSubState(tokens: string[], parsedTokens: number = 0) {
+    public findSubState(tokens: string[], parsedTokens = 0) {
         const level = parsedTokens;
         const token = tokens[level];
         if (!token || token === '' || token === '_root_') {

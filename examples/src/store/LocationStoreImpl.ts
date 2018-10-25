@@ -1,11 +1,5 @@
-import { createMemoryHistory } from 'history';
-import {
-    LocationManager,
-    NativeUrlSchema,
-    QueryBasedUrlSchema,
-    HashBasedUrlSchema,
-    BasicLocationManagerImpl,
-} from '@moxb/moxb';
+// import { createMemoryHistory } from 'history';
+import { BasicLocationManagerImpl, QueryBasedUrlSchema } from '@moxb/moxb';
 
 export class LocationStoreImpl extends BasicLocationManagerImpl {
     public constructor() {
@@ -14,7 +8,6 @@ export class LocationStoreImpl extends BasicLocationManagerImpl {
             //            urlSchema: new NativeUrlSchema(),
             urlSchema: new QueryBasedUrlSchema(),
             //            urlSchema: new HashBasedUrlSchema(),
-            cleanSeparatorFromPathEnd: true,
         });
         this.watchHistory();
     }
