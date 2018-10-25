@@ -70,7 +70,7 @@ export class ArgSavingLocationManagerImpl extends BasicLocationManagerImpl {
             if (queryString && queryString.length > 2) {
                 const pathTokens = JSON.parse(pathname);
                 const query = JSON.parse(queryString);
-                const jumpLoc = this._schema.getLocation(pathTokens, query);
+                const jumpLoc = this._schema.getLocation(this._location, pathTokens, query);
                 if (saveArgsDebug) {
                     console.log('Restoring saved search', jumpLoc);
                 }

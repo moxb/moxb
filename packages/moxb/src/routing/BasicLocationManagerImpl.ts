@@ -1,8 +1,6 @@
 import { observable, action } from 'mobx';
 import { UrlSchema, Query } from './UrlSchema';
 import { NativeUrlSchema } from './NativeUrlSchema';
-import { QueryBasedUrlSchema } from './QueryBasedUrlSchema';
-import { HashBasedUrlSchema } from './HashBasedUrlSchema';
 import { UrlArg } from './UrlArg';
 
 // We are renaming these types so that it's not confused with the builtin
@@ -18,14 +16,6 @@ import { LocationManager, QueryChange } from './LocationManager';
 
 const debug = false;
 
-export const PATH_STRATEGY = {
-    NATIVE: 'native',
-    QUERY: 'query',
-    HASH: 'hash',
-};
-
-export type PathStrategy = typeof PATH_STRATEGY.NATIVE | typeof PATH_STRATEGY.QUERY | typeof PATH_STRATEGY.HASH;
-
 const noLocation: MyLocation = {
     pathname: '',
     search: '',
@@ -35,7 +25,7 @@ const noLocation: MyLocation = {
 };
 
 export interface Props {
-    pathStrategy?: PathStrategy;
+    urlSchema?: UrlSchema;
 }
 
 const locationToUrl = (location: MyLocation): string =>
@@ -50,19 +40,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _permanentArgs: UrlArg<any>[] = [];
 
     public constructor(props: Props) {
-        switch (props.pathStrategy || PATH_STRATEGY.NATIVE) {
-            case PATH_STRATEGY.NATIVE:
-                this._schema = new NativeUrlSchema({ locationManager: this });
-                break;
-            case PATH_STRATEGY.QUERY:
-                this._schema = new QueryBasedUrlSchema({ locationManager: this });
-                break;
-            case PATH_STRATEGY.HASH:
-                this._schema = new HashBasedUrlSchema({ locationManager: this });
-                break;
-            default:
-                throw new Error('Unsupported strategy');
-        }
+        this._schema = props.urlSchema || new NativeUrlSchema();
     }
 
     // Private field to actually follow the browser history
@@ -87,7 +65,7 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     // Private field to store the last known location.
     @observable
-    private _location: MyLocation = noLocation;
+    protected _location: MyLocation = noLocation;
     public get location() {
         return this._location;
     }
@@ -97,7 +75,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         return this._schema.getPathTokens(this._location);
     }
     public set pathTokens(tokens: string[]) {
-        this._pushLocation(this._schema.getLocation(tokens, this.getPermanentArgs()));
+        this._pushLocation(this._schema.getLocation(this._location, tokens, this.getPermanentArgs()));
     }
 
     public doesPathTokenMatch(token: string, level: number, exactOnly: boolean): boolean {
@@ -139,7 +117,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     public set query(query: Query) {
-        this._pushLocation(this._schema.getLocation(this.pathTokens, query));
+        this._pushLocation(this._schema.getLocation(this._location, this.pathTokens, query));
     }
 
     // This is an extension point for reacting to location changes.
@@ -197,7 +175,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                 query[key] = value;
             }
         });
-        const location = this._schema.getLocation(this.pathTokens, query);
+        const location = this._schema.getLocation(this._location, this.pathTokens, query);
         return location;
     }
 
@@ -255,7 +233,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         const before = this.pathTokens.slice(0, position);
         const newTokens = [...before, ...tokens];
         const query = this.getPermanentArgs();
-        const location = this._schema.getLocation(newTokens, query);
+        const location = this._schema.getLocation(this._location, newTokens, query);
         return location;
     }
 

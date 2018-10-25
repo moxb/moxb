@@ -1,8 +1,12 @@
 export * from './react-stuff';
 export { LocationManager, UsesLocation } from './LocationManager';
-export { PathStrategy, PATH_STRATEGY, BasicLocationManagerImpl } from './BasicLocationManagerImpl';
+export { BasicLocationManagerImpl } from './BasicLocationManagerImpl';
 
 export { ArgSavingLocationManagerImpl } from './ArgSavingLocationManagerImpl';
+export { UrlSchema } from "./UrlSchema";
+export { NativeUrlSchema } from "./NativeUrlSchema";
+export { QueryBasedUrlSchema } from "./QueryBasedUrlSchema";
+export { HashBasedUrlSchema } from "./HashBasedUrlSchema";
 
 export * from './StateSpace';
 

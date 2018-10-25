@@ -1,18 +1,13 @@
 const MyURI = require('urijs');
 import { Location as MyLocation } from 'history';
 import { UrlSchema, Query } from './UrlSchema';
-import { LocationManager } from './LocationManager';
 
 export interface Props {
-    locationManager: LocationManager;
 }
 
 export class HashBasedUrlSchema implements UrlSchema {
-    protected readonly _locationManager: LocationManager;
 
-    public constructor(props: Props) {
-        const { locationManager } = props;
-        this._locationManager = locationManager;
+    public constructor(_props: Props) {
     }
 
     public getPathTokens(location: MyLocation): string[] {
@@ -33,9 +28,9 @@ export class HashBasedUrlSchema implements UrlSchema {
         }
     }
 
-    public getLocation(pathTokens: string[], query: Query): MyLocation {
+    public getLocation(location: MyLocation, pathTokens: string[], query: Query): MyLocation {
         return {
-            ...this._locationManager.location,
+            ...location,
             hash: '/' + pathTokens.join('/') + new MyURI().search(query).search(),
         };
     }

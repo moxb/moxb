@@ -7,5 +7,5 @@ export interface Query {
 export interface UrlSchema {
     getPathTokens(location: MyLocation): string[];
     getQuery(location: MyLocation): Query;
-    getLocation(pathTokens: string[], query: Query): MyLocation;
+    getLocation(location: MyLocation, pathTokens: string[], query: Query): MyLocation;
 }
