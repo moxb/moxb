@@ -24,7 +24,7 @@ export class Link extends React.Component<LinkProps & UsesLocation> {
 
     protected handleClick() {
         const { locationManager, pathTokens, position } = this.props;
-        locationManager!.pushPathTokens(position || 0, pathTokens);
+        locationManager!.setPathTokens(position || 0, pathTokens);
     }
 
     public render() {
