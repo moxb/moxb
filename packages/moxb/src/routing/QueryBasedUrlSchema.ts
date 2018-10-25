@@ -18,8 +18,8 @@ export class QueryBasedUrlSchema implements UrlSchema {
     public getPathTokens(location: MyLocation): string[] {
         const query = new MyURI().search(location.search).search(true);
         const pathname = query[this._pathKey] || '';
-        const raw: string = pathname[0] === '.' ? pathname.substr(1) : pathname;
-        const tokens = raw.split('.').filter(t => t.length);
+        const raw: string = pathname[0] === '/' ? pathname.substr(1) : pathname;
+        const tokens = raw.split('/').filter(t => t.length);
         return tokens;
     }
 
@@ -32,7 +32,7 @@ export class QueryBasedUrlSchema implements UrlSchema {
     public getLocation(location: MyLocation, pathTokens: string[], query: Query): MyLocation {
         const path: Query = {};
         if (pathTokens.length) {
-            path[this._pathKey] = pathTokens.join('.');
+            path[this._pathKey] = '/' + pathTokens.join('/');
         }
         const realQuery = {
             ...path,
@@ -40,7 +40,10 @@ export class QueryBasedUrlSchema implements UrlSchema {
         };
         return {
             ...location,
-            search: new MyURI().search(realQuery).search(),
+            search: new MyURI()
+                .search(realQuery)
+                .search()
+                .replace(/%2F/g, '/'),
         };
     }
 }
