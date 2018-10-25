@@ -1,4 +1,4 @@
-import { Navigable, MenuAndContentAnt, TextFormAnt, Link, ArgChangingLink } from '@moxb/antd';
+import { Navigable, MenuAndContentAnt, TextFormAnt, Link, ArgChangingLink, MultiArgChangingLink } from '@moxb/antd';
 import { StateSpace } from '@moxb/moxb';
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
@@ -128,6 +128,20 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         <Link pathTokens={['moreMenus', 'two']} label="Select 'two' on the left tab menu!" />
                         <hr />
                         <ArgChangingLink arg={url.color} value="blue" label="Set the color to blue!" />
+                        <hr />
+                        <MultiArgChangingLink
+                            changes={[
+                                {
+                                    arg: url.color,
+                                    value: 'green',
+                                },
+                                {
+                                    arg: url.search,
+                                    value: 'treasure',
+                                },
+                            ]}
+                            label="Set color to green, search to gold!"
+                        />
                         <hr />
                         <div>
                             This menu (on the right) is <i>not</i> part of the global navigation.

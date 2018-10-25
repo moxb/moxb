@@ -44,21 +44,21 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this.getOnQuery(this._locationManager.query);
     }
 
-    public getModifiedUrl(value: T) {
+    public getRawValue(value: T) {
         const {
             valueType: { isEqual, format },
             defaultValue,
         } = this._def;
-        const rawValue = isEqual(value, defaultValue) ? undefined : format(value);
+        return isEqual(value, defaultValue) ? undefined : format(value);
+    }
+
+    public getModifiedUrl(value: T) {
+        const rawValue = this.getRawValue(value);
         return this._locationManager.getURLForQueryChange(this.key, rawValue);
     }
 
     public set(value: T, method?: UpdateMethod) {
-        const {
-            valueType: { isEqual, format },
-            defaultValue,
-        } = this._def;
-        const rawValue = isEqual(value, defaultValue) ? undefined : format(value);
+        const rawValue = this.getRawValue(value);
         this._locationManager.setQuery(this.key, rawValue, method);
     }
 

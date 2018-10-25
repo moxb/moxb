@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import * as Anchor from './Anchor';
-import { LocationManager, UrlArg } from '@moxb/moxb';
+import { UrlArg } from '@moxb/moxb';
 
 export interface ArgChangingLinkParams<T> extends Anchor.AnchorParams {
-    // The location manager to use
-    locationManager: LocationManager;
-
     // The argument to change
     arg: UrlArg<T>;
 
@@ -14,11 +11,11 @@ export interface ArgChangingLinkParams<T> extends Anchor.AnchorParams {
     value: T;
 }
 
-type LinkProps = ArgChangingLinkParams<any> & Anchor.Events;
+type ArgChangingLinkProps = ArgChangingLinkParams<any> & Anchor.Events;
 
 @observer
-export class ArgChangingLink extends React.Component<LinkProps> {
-    public constructor(props: LinkProps) {
+export class ArgChangingLink extends React.Component<ArgChangingLinkProps> {
+    public constructor(props: ArgChangingLinkProps) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
     }
@@ -29,7 +26,7 @@ export class ArgChangingLink extends React.Component<LinkProps> {
     }
 
     public render() {
-        const { locationManager, arg, value, children, ...remnants } = this.props;
+        const { arg, value, children, ...remnants } = this.props;
         const url = arg.getModifiedUrl(value);
         const anchorProps: Anchor.UIProps = {
             ...remnants,

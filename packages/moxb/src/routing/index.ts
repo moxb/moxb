@@ -1,5 +1,5 @@
 export * from './react-stuff';
-export { LocationManager, UsesLocation } from './LocationManager';
+export { LocationManager, UsesLocation, QueryChange } from './LocationManager';
 export { BasicLocationManagerImpl } from './BasicLocationManagerImpl';
 
 export { ArgSavingLocationManagerImpl } from './ArgSavingLocationManagerImpl';

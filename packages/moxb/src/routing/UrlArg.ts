@@ -47,6 +47,9 @@ export interface UrlArg<T> {
     // Extract the value of this arg from a given query
     getOnQuery(query: Query): T;
 
+    // Get the raw (string) value corresponding to a given value
+    getRawValue(value: T): string | undefined;
+
     // Get the URL string that would result if we modified the value
     getModifiedUrl(value: T): string;
 
