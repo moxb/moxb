@@ -1,5 +1,5 @@
 import { SubState } from './StateSpace';
-import { LocationManager } from './LocationManager';
+import { LocationManager, UpdateMethod } from './LocationManager';
 import { StateSpaceAndLocationHandler, StateSpaceAndLocationHandlerProps } from './StateSpaceAndLocationHandler';
 import { StateSpaceHandlerImpl } from './StateSpaceHandlerImpl';
 import { UrlArg } from './UrlArg';
@@ -39,7 +39,7 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
         return this.getActiveSubStates().map(state => (state.root ? '_root_' : state.key!));
     }
 
-    public selectSubState(state: SubState) {
+    public selectSubState(state: SubState, method?: UpdateMethod) {
         if (this.isSubStateActive(state)) {
             //            console.log("Not jumping, already in state", state);
         } else {
@@ -47,7 +47,7 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
                 this._urlArg.value = state.key!;
             } else {
                 //                console.log("Should change token #", this._parsedTokens, "to", state)
-                this._locationManager.pushPathTokens(this._parsedTokens, state.root ? [] : [state.key!]);
+                this._locationManager.setPathTokens(this._parsedTokens, state.root ? [] : [state.key!], method);
             }
         }
     }

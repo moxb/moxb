@@ -5,14 +5,9 @@ import { UrlArg } from './UrlArg';
 
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
-import {
-    Location as MyLocation,
-    History as MyHistory,
-    LocationDescriptorObject,
-    createBrowserHistory,
-} from 'history';
+import { Location as MyLocation, History as MyHistory, LocationDescriptorObject, createBrowserHistory } from 'history';
 
-import { LocationManager, QueryChange } from './LocationManager';
+import { LocationManager, UpdateMethod, QueryChange } from './LocationManager';
 
 const debug = false;
 
@@ -74,9 +69,6 @@ export class BasicLocationManagerImpl implements LocationManager {
     public get pathTokens() {
         return this._schema.getPathTokens(this._location);
     }
-    public set pathTokens(tokens: string[]) {
-        this._pushLocation(this._schema.getLocation(this._location, tokens, this.getPermanentArgs()));
-    }
 
     public doesPathTokenMatch(token: string, level: number, exactOnly: boolean): boolean {
         if (token === '' || token === null || token === undefined) {
@@ -97,13 +89,12 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     @action
-    protected _replaceLocation(location: LocationDescriptorObject) {
-        this._history.replace(location);
-    }
-
-    @action
-    protected _pushLocation(location: LocationDescriptorObject) {
-        this._history.push(location);
+    protected _setLocation(location: LocationDescriptorObject, method?: UpdateMethod) {
+        if (method === 'replace') {
+            this._history.replace(location);
+        } else {
+            this._history.push(location);
+        }
     }
 
     protected getPermanentArgs() {
@@ -116,12 +107,13 @@ export class BasicLocationManagerImpl implements LocationManager {
         return query;
     }
 
-    public set query(query: Query) {
-        this._pushLocation(this._schema.getLocation(this._location, this.pathTokens, query));
-    }
-
     // This is an extension point for reacting to location changes.
-    public handleLocationChange(_pathChanged: boolean, _pathTokens: string[], _searchChanged: boolean, _query: Query) {
+    protected handleLocationChange(
+        _pathChanged: boolean,
+        _pathTokens: string[],
+        _searchChanged: boolean,
+        _query: Query
+    ) {
         //        console.log("Handler: basic");
     }
 
@@ -203,30 +195,21 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     @action
-    public pushQueryChanges(changes: QueryChange[]) {
-        this._pushLocation(this._getLocationForQueryChanges(changes));
+    public setQueries(changes: QueryChange[], method?: UpdateMethod) {
+        const location = this._getLocationForQueryChanges(changes);
+        this._setLocation(location, method);
     }
     @action
-    public replaceQueryChanges(changes: QueryChange[]) {
-        this._replaceLocation(this._getLocationForQueryChanges(changes));
-    }
-    @action
-    public pushQueryChange(key: string, value: string | undefined) {
-        this.pushQueryChanges([
-            {
-                key,
-                value,
-            },
-        ]);
-    }
-    @action
-    public replaceQueryChange(key: string, value: string | undefined) {
-        this.replaceQueryChanges([
-            {
-                key,
-                value,
-            },
-        ]);
+    public setQuery(key: string, value: string | undefined, method?: UpdateMethod) {
+        this.setQueries(
+            [
+                {
+                    key,
+                    value,
+                },
+            ],
+            method
+        );
     }
 
     public getLocationForPathTokens(position: number, tokens: string[]) {
@@ -242,9 +225,9 @@ export class BasicLocationManagerImpl implements LocationManager {
         return locationToUrl(location);
     }
     @action
-    public pushPathTokens(position: number, tokens: string[]) {
+    public setPathTokens(position: number, tokens: string[], method?: UpdateMethod) {
         const location = this.getLocationForPathTokens(position, tokens);
-        this._pushLocation(location);
+        this._setLocation(location, method);
     }
 
     public registerUrlArg(arg: UrlArg<any>) {

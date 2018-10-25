@@ -28,41 +28,35 @@ export interface LocationManager {
     readonly location: MyLocation;
 
     // path tokens for the current location
-    pathTokens: string[];
+    readonly pathTokens: string[];
 
-    // the search queries for the current location
-    query: Query;
+    // Determine whether a given token at a given level matches
+    doesPathTokenMatch: (token: string, level: number, exactOnly: boolean) => boolean;
 
     // Determine the URL that we would get if we pushed these path tokens.
     // (See the pushPathTokens method)
     getURLForPathTokens: (position: number, tokens: string[]) => string;
 
-    // Set the last path token
+    // Set the last few path tokens
     // Previous tokens will be preserved, further tokens will be dropped.
-    pushPathTokens: (position: number, tokens: string[]) => void;
+    setPathTokens: (position: number, tokens: string[], method?: UpdateMethod) => void;
+
+    // the search queries for the current location
+    readonly query: Query;
 
     // Determine the URL that we would get if we changed an URL argument
     getURLForQueryChanges: (changes: QueryChange[]) => string;
 
-    // Determine the URL that we would get if we changed an URL argument
+    // Set some query variables
+    setQueries: (changes: QueryChange[], method?: UpdateMethod) => void;
+
+    // Determine the URL that we would get if we changed a single URL argument
     getURLForQueryChange: (key: string, rawValue: string | undefined) => string;
 
-    // Push new valuse to some query variables
-    pushQueryChanges: (changes: QueryChange[]) => void;
+    // Set a single query variable
+    setQuery: (key: string, rawValue: string | undefined, method?: UpdateMethod) => void;
 
-    // Replace somes query values with new values
-    replaceQueryChanges: (changes: QueryChange[]) => void;
-
-    // Push a new value to a query variable
-    pushQueryChange: (key: string, rawValue: string | undefined) => void;
-
-    // Replace a query value with a new value
-    replaceQueryChange: (key: string, rawValue: string | undefined) => void;
-
-    // Determine whether a given token at a given level matches
-    doesPathTokenMatch: (token: string, level: number, exactOnly: boolean) => boolean;
-
-    // Register a URl argument.
+    // Register a permanent URl argument.
     registerUrlArg: (arg: UrlArg<any>) => void;
 }
 

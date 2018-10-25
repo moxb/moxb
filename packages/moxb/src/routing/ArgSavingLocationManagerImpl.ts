@@ -74,7 +74,7 @@ export class ArgSavingLocationManagerImpl extends BasicLocationManagerImpl {
                 if (saveArgsDebug) {
                     console.log('Restoring saved search', jumpLoc);
                 }
-                this._replaceLocation(jumpLoc);
+                this._setLocation(jumpLoc, 'replace');
             } else {
                 // console.log("No saved search for this path.");
             }
@@ -82,7 +82,7 @@ export class ArgSavingLocationManagerImpl extends BasicLocationManagerImpl {
         });
     }
 
-    public handleLocationChange(pathChanged: boolean, pathTokens: string[], searchChanged: boolean, query: Query) {
+    protected handleLocationChange(pathChanged: boolean, pathTokens: string[], searchChanged: boolean, query: Query) {
         //        console.log("Handler: arg saving");
         super.handleLocationChange(pathChanged, pathTokens, searchChanged, query);
         const newPath = JSON.stringify(pathTokens);

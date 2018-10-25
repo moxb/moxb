@@ -2,13 +2,10 @@ const MyURI = require('urijs');
 import { Location as MyLocation } from 'history';
 import { UrlSchema, Query } from './UrlSchema';
 
-export interface Props {
-}
+export interface Props {}
 
 export class HashBasedUrlSchema implements UrlSchema {
-
-    public constructor(_props: Props) {
-    }
+    public constructor(_props: Props) {}
 
     public getPathTokens(location: MyLocation): string[] {
         const pathname = location.hash.split('?')[0].substr(2);

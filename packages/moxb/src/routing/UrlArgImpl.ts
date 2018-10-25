@@ -59,12 +59,7 @@ export class UrlArgImpl<T> implements UrlArg<T> {
             defaultValue,
         } = this._def;
         const rawValue = isEqual(value, defaultValue) ? undefined : format(value);
-        const effectiveMethod = method || 'push';
-        if (effectiveMethod === 'push') {
-            this._locationManager.pushQueryChange(this.key, rawValue);
-        } else {
-            this._locationManager.replaceQueryChange(this.key, rawValue);
-        }
+        this._locationManager.setQuery(this.key, rawValue, method);
     }
 
     public set value(value: T) {

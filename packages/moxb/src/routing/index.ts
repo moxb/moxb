@@ -3,10 +3,10 @@ export { LocationManager, UsesLocation } from './LocationManager';
 export { BasicLocationManagerImpl } from './BasicLocationManagerImpl';
 
 export { ArgSavingLocationManagerImpl } from './ArgSavingLocationManagerImpl';
-export { UrlSchema } from "./UrlSchema";
-export { NativeUrlSchema } from "./NativeUrlSchema";
-export { QueryBasedUrlSchema } from "./QueryBasedUrlSchema";
-export { HashBasedUrlSchema } from "./HashBasedUrlSchema";
+export { UrlSchema } from './UrlSchema';
+export { NativeUrlSchema } from './NativeUrlSchema';
+export { QueryBasedUrlSchema } from './QueryBasedUrlSchema';
+export { HashBasedUrlSchema } from './HashBasedUrlSchema';
 
 export * from './StateSpace';
 
