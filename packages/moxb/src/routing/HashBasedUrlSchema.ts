@@ -26,9 +26,10 @@ export class HashBasedUrlSchema implements UrlSchema {
     }
 
     public getLocation(location: MyLocation, pathTokens: string[], query: Query): MyLocation {
+        const hash = '/' + pathTokens.join('/') + new MyURI().search(query).search();
         return {
             ...location,
-            hash: '/' + pathTokens.join('/') + new MyURI().search(query).search(),
+            hash: hash === '/' ? '' : hash,
         };
     }
 }
