@@ -6,15 +6,7 @@ import {
     StateSpaceAndLocationHandlerProps,
     StateSpaceAndLocationHandlerImpl,
 } from '@moxb/moxb';
-
-// TODO: this should be imported from antd/menu, but I couldn't find out
-// how to do it.
-interface ClickParam {
-    key: string;
-    keyPath: Array<string>;
-    item: any;
-    domEvent: any;
-}
+import { Link } from '../not-antd/Link';
 
 import { SubState, renderFragment } from '@moxb/moxb';
 
@@ -30,7 +22,6 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
 
     public constructor(props: NavMenuProps) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
         this.renderSubStateLink = this.renderSubStateLink.bind(this);
         this._states = new StateSpaceAndLocationHandlerImpl(props);
     }
@@ -58,27 +49,23 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
 
     protected renderSubStateLink(state: SubState) {
         const { label, key, root, subStates } = state;
+        const { parsedTokens } = this.props;
         if (subStates) {
             return this.renderSubStateLinkGroup(state);
         } else {
-            return <Menu.Item key={root ? '_root_' : key}>{renderFragment(label)}</Menu.Item>;
+            return (
+                <Menu.Item key={root ? '_root_' : key}>
+                    <Link position={parsedTokens} pathTokens={[root ? '' : key!]} label={label} />
+                </Menu.Item>
+            );
         }
-    }
-
-    protected handleClick(e: ClickParam) {
-        this._states.selectKey(e.key);
     }
 
     public render() {
         const selectedKeys = this._states.getActiveSubStateKeys();
         //        console.log("Selected keys are", selectedKeys);
         return (
-            <Menu
-                selectedKeys={selectedKeys}
-                mode="horizontal"
-                style={{ lineHeight: '64px' }}
-                onClick={this.handleClick}
-            >
+            <Menu selectedKeys={selectedKeys} mode="horizontal" style={{ lineHeight: '64px' }}>
                 {this._states.getFilteredSubStates().map(this.renderSubStateLink)}
             </Menu>
         );

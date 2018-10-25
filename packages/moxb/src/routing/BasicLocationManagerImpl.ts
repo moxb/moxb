@@ -214,7 +214,7 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     public getLocationForPathTokens(position: number, tokens: string[]) {
         const before = this.pathTokens.slice(0, position);
-        const newTokens = [...before, ...tokens];
+        const newTokens = [...before, ...tokens.filter(t => t.length)];
         const query = this.getPermanentArgs();
         const location = this._schema.getLocation(this._location, newTokens, query);
         return location;
