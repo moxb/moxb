@@ -1,3 +1,4 @@
+import { createMemoryHistory } from 'history';
 import {
     LocationManager,
     NativeUrlSchema,
@@ -9,6 +10,7 @@ import {
 export class LocationStoreImpl extends BasicLocationManagerImpl {
     public constructor() {
         super({
+            // history: createMemoryHistory(),
             //            urlSchema: new NativeUrlSchema(),
             urlSchema: new QueryBasedUrlSchema(),
             //            urlSchema: new HashBasedUrlSchema(),

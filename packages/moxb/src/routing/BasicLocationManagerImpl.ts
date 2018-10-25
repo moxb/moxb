@@ -21,6 +21,7 @@ const noLocation: MyLocation = {
 
 export interface Props {
     urlSchema?: UrlSchema;
+    history?: MyHistory;
 }
 
 const locationToUrl = (location: MyLocation): string =>
@@ -33,13 +34,12 @@ const locationToUrl = (location: MyLocation): string =>
 export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _schema: UrlSchema;
     protected readonly _permanentArgs: UrlArg<any>[] = [];
+    protected readonly _history: MyHistory;
 
     public constructor(props: Props) {
         this._schema = props.urlSchema || new NativeUrlSchema();
+        this._history = props.history || createBrowserHistory();
     }
-
-    // Private field to actually follow the browser history
-    private _history: MyHistory = createBrowserHistory();
 
     // Private field to store the final bit.
     @observable
