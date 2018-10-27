@@ -6,9 +6,10 @@ import {
     StateSpaceAndLocationHandlerProps,
     StateSpaceAndLocationHandlerImpl,
 } from '@moxb/moxb';
-import { Link } from '../not-antd/Link';
+import { Link } from '../not-antd';
 
 import { SubState, renderFragment } from '@moxb/moxb';
+import { ArgChangingLink } from '../not-antd';
 
 export interface NavMenuProps extends StateSpaceAndLocationHandlerProps {
     hierarchical?: boolean;
@@ -48,17 +49,20 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
     }
 
     protected renderSubStateLink(state: SubState) {
+        const { arg } = this.props;
         const { label, key, root, subStates } = state;
         const { parsedTokens } = this.props;
-        if (subStates) {
-            return this.renderSubStateLinkGroup(state);
-        } else {
-            return (
-                <Menu.Item key={root ? '_root_' : key}>
-                    <Link position={parsedTokens} pathTokens={[root ? '' : key!]} label={label} />
-                </Menu.Item>
-            );
-        }
+        return subStates ? (
+            this.renderSubStateLinkGroup(state)
+        ) : arg ? (
+            <Menu.Item key={root ? '_root_' : key}>
+                <ArgChangingLink arg={arg} value={key} label={label} />
+            </Menu.Item>
+        ) : (
+            <Menu.Item key={root ? '_root_' : key}>
+                <Link position={parsedTokens} pathTokens={[root ? '' : key!]} label={label} />
+            </Menu.Item>
+        );
     }
 
     public render() {
