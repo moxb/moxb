@@ -41,7 +41,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
                 path={ toPath }
                 hierarchical={ hierarchical }
                 label={ label }
-                substates= { subStates }
+                subStates= { subStates }
                 condition={ condition }
                 right={ right }
             />

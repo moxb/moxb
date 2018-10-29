@@ -1,28 +1,8 @@
-import {
-    //    SubState,
-    StateSpace,
-    UIFragmentSpec,
-    //    UIFragmentMap,
-} from '@moxb/moxb';
-
-/**
- * A Navigable is a somponent that takes part in the navigation tree.
- *
- * When we render it, if it is an active component, it needs to know
- * where it stands in the tree.
- */
-export interface Navigable {
-    /**
-     * The number of tokens that have already been parsed, is any.
-     *
-     * (The selection should be determined by the first un-parsed token.)
-     */
-    parsedTokens?: number;
-}
+import { StateSpace, Navigable, UIFragmentSpec } from '@moxb/moxb';
 
 export interface ChangingContentParams {
     // The state space to select from
-    substates: StateSpace;
+    subStates: StateSpace;
 
     // When multiple parts of the layout needs to change
     // based on the same value, we can describe all of those

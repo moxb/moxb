@@ -24,7 +24,8 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
             if (this._urlArg) {
                 return this._urlArg.value === key;
             } else {
-                return this._locationManager.doesPathTokenMatch(root ? '' : key!, this._parsedTokens, !!root);
+                const mustBeExact: boolean = !!root; // No, this can't be simplified.
+                return this._locationManager.doesPathTokenMatch(root ? '' : key!, this._parsedTokens, mustBeExact);
             }
         } else {
             return false;
@@ -32,7 +33,7 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
     }
 
     public getActiveSubStates(): SubState[] {
-        return this._substates.filter(this.isSubStateActive);
+        return this._subStates.filter(this.isSubStateActive);
     }
 
     public getActiveSubStateKeys(): string[] {

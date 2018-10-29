@@ -16,16 +16,16 @@ function filterSubStates(states: SubState[], filter?: StateCondition): SubState[
 }
 
 export class StateSpaceHandlerImpl implements StateSpaceHandler {
-    protected readonly _substates: SubState[];
+    protected readonly _subStates: SubState[];
     protected readonly _filterCondition?: StateCondition;
 
     public constructor(props: StateSpaceHandlerProps) {
-        this._substates = props.substates;
+        this._subStates = props.subStates;
         this._filterCondition = props.filterCondition;
     }
 
     public findRoot(): SubState {
-        const result = this._substates.find(state => !!state.root);
+        const result = this._subStates.find(state => !!state.root);
         if (result) {
             return result;
         } else {
@@ -33,25 +33,21 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
         }
     }
 
-    public findSubState(tokens: string[], parsedTokens = 0) {
+    public findSubState(tokens: string[], parsedTokens = 0): SubState | null {
         const level = parsedTokens;
         const token = tokens[level];
         if (!token || token === '' || token === '_root_') {
             return this.findRoot();
         }
-        const result = this._substates.find(state => state.key === token);
-        /*
+        const result = this._subStates.find(state => state.key === token);
         if (result) {
             return result;
         } else {
-            const validTokens = this._substates.map(state => (state.root ? '_root_' : state.key));
-            throw new Error("Can't find subState for token '" + token + "'. Valid choices are " + validTokens);
+            return null;
         }
-        */
-        return result;
     }
 
     public getFilteredSubStates(): SubState[] {
-        return filterSubStates(this._substates, this._filterCondition);
+        return filterSubStates(this._subStates, this._filterCondition);
     }
 }

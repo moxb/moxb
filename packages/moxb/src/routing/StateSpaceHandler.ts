@@ -8,22 +8,22 @@ import { StateSpace, SubState, StateCondition } from './StateSpace';
 
 export interface StateSpaceHandlerProps {
     // The list of sub-states to work with
-    substates: StateSpace;
+    subStates: StateSpace;
 
     // An optional condition to use for filtering when displaying in a menu
     filterCondition?: StateCondition;
 }
 
 export interface StateSpaceHandler {
-    // Find the root substate, if defined.
+    // Find the root subState, if defined.
     findRoot(): SubState;
 
-    // Find the substate for a given token.
+    // Find the subState for a given token.
     //
-    // If oken is null or empty string, returns the root substate.
-    findSubState(tokens: string[], parsedTokens?: number): SubState | undefined;
+    // If token is null or empty string, returns the root subState.
+    findSubState(tokens: string[], parsedTokens?: number): SubState | null;
 
-    // Get a list of substates that are not hidden, and
+    // Get a list of subStates that are not hidden, and
     // match the specified filter, if any
     getFilteredSubStates(): SubState[];
 }

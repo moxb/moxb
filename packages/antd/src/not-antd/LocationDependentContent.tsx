@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 
-import { UsesLocation, UrlArg } from '@moxb/moxb';
+import { UsesLocation, Navigable, UrlArg } from '@moxb/moxb';
 
 import { ChangingContentParams, ChangingContentProps } from './ChangingContent';
 import { ChangingContentImpl } from './ChangingContentImpl';
@@ -16,9 +16,8 @@ import { ChangingContentImpl } from './ChangingContentImpl';
  See below for details
 */
 
-export interface ContentProps extends ChangingContentParams {
+export interface ContentProps extends ChangingContentParams, Navigable {
     arg?: UrlArg<string>;
-    parsedTokens?: number;
 }
 
 @inject('locationManager')
@@ -35,6 +34,6 @@ export class LocationDependentContent extends React.Component<ContentProps & Use
             ...remnant,
             tokens,
         };
-        return <ChangingContentImpl {...props} />;
+        return <ChangingContentImpl {...props}>{children}</ChangingContentImpl>;
     }
 }

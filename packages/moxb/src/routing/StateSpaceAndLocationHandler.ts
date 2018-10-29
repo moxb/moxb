@@ -4,6 +4,7 @@ import { StateSpaceHandlerProps, StateSpaceHandler } from './StateSpaceHandler';
 
 import { UsesLocation } from './LocationManager';
 import { UrlArg } from './UrlArg';
+import { Navigable } from './navigable';
 
 /**
  * A StateSpace handler takes a description of the state-space
@@ -11,13 +12,11 @@ import { UrlArg } from './UrlArg';
  * various calculations on it.
  */
 
-export interface StateSpaceAndLocationHandlerProps extends StateSpaceHandlerProps, UsesLocation {
-    parsedTokens?: number;
+export interface StateSpaceAndLocationHandlerProps extends StateSpaceHandlerProps, UsesLocation, Navigable {
     arg?: UrlArg<string>;
 }
 
 export interface StateSpaceAndLocationHandler extends StateSpaceHandler {
-    //    getRealPathForSubState(state: SubState): string;
     isSubStateActive(state: SubState): boolean;
     getActiveSubStates(): SubState[];
     getActiveSubStateKeys(): string[];
