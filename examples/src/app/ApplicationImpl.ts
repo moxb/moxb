@@ -26,6 +26,7 @@ import {
     DateImpl,
     TimeImpl,
     FormImpl,
+    ValueImpl,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 import { ApplicationMethods } from './ApplicationMethods';
@@ -114,6 +115,11 @@ export class ApplicationImpl implements Application {
     readonly testModal: Modal<any> = new ModalImpl<any>({
         actions: () => [this.action1Modal, this.actionCancelModal(this.testModal)],
         header: () => 'New Modal Header',
+    });
+
+    readonly testTags = new ValueImpl({
+        id: 'ApplicationImpl.testTags',
+        initialValue: () => ['Unremovable', 'Tag 2', 'Tag 3'],
     });
 
     readonly action1Modal: Action = new ActionImpl({
