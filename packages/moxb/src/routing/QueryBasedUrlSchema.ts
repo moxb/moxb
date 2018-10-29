@@ -4,9 +4,13 @@ import { UrlSchema, Query } from './UrlSchema';
 
 export interface Props {
     pathKey?: string;
-    cleanSeparatorFromPathEnd?: boolean;
 }
 
+/**
+ * This is a URL schema that stores the path as a special search parameter.
+ *
+ * This is a possible workaround for situations where the NativeUrlSchema can't be used.
+ */
 export class QueryBasedUrlSchema implements UrlSchema {
     protected readonly _pathKey: string;
 

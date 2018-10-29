@@ -4,6 +4,11 @@ import { StateSpaceAndLocationHandler, StateSpaceAndLocationHandlerProps } from 
 import { StateSpaceHandlerImpl } from './StateSpaceHandlerImpl';
 import { UrlArg } from './UrlArg';
 
+/**
+ * This is the standard implementation of the StateSpaceAndLocationHandler.
+ *
+ * See the StateSpaceAndLocationHandler interface for more details.
+ */
 export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl implements StateSpaceAndLocationHandler {
     private readonly _locationManager: LocationManager;
     private readonly _urlArg?: UrlArg<string>;

@@ -9,34 +9,53 @@ export interface SubState {
      */
     label: UIFragment;
 
-    // A special label to use when this sub-state is active
+    /**
+     * A special label to use when this sub-state is active
+     */
     activeLabel?: UIFragment;
 
-    // The key to identify this sub-state.
-    // (Can be null if this is the root state)
+    /**
+     * The key to identify this sub-state. (Can be undefined if this is the root state)
+     */
     key?: string;
 
-    // Is this the root state?
+    /**
+     * Is this the root state?
+     */
     root?: boolean;
 
-    // Should this option be offered in menus?
+    /**
+     * Should this option be offered in menus and such?
+     */
     hidden?: boolean;
 
-    // Is this option currently disabled?
-    // If yes, this will option will be displayed, but won't be selectable.
+    /**
+     * Is this option currently disabled? If yes, this will option will be displayed, but won't be selectable.
+     */
     disabled?: boolean;
 
-    // What content so show in this sub-state?
+    /**
+     * What content so show in this sub-state?
+     */
     fragment?: UIFragmentSpec;
 
-    // Any further child states (for sub-menus, etc)
+    /**
+     * Any further child states (for sub-menus, etc)
+     */
     subStates?: SubState[];
 
-    // Custom data
+    /**
+     * Custom data
+     */
     custom?: any;
 }
 
-// The totality of all possible states for a given part of the app UI
+/**
+ * The totality of all possible states for a given part of the app UI
+ */
 export type StateSpace = SubState[];
 
+/**
+ * A condition used to decide whether or not to offer a given SubState
+ */
 export type StateCondition = (item: SubState) => boolean;

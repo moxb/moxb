@@ -1,7 +1,12 @@
 import { SubState, StateCondition } from './StateSpace';
 import { StateSpaceHandler, StateSpaceHandlerProps } from './StateSpaceHandler';
 
-// Recursively filter out the sub-states that are hidden or don't match the filter
+/**
+ * Recursively filter out the sub-states that are hidden or don't match the filter
+ *
+ * @param states the SubStates to start with
+ * @param filter the optional condition to use for filtering
+ */
 function filterSubStates(states: SubState[], filter?: StateCondition): SubState[] {
     return states.filter(state => !state.hidden && (!filter || filter(state))).map(state => {
         if (state.subStates) {
@@ -15,6 +20,11 @@ function filterSubStates(states: SubState[], filter?: StateCondition): SubState[
     });
 }
 
+/**
+ * This is the standard implementation for StateSpaceHandler.
+ *
+ * See the StateSpaceHandler interface for more details.
+ */
 export class StateSpaceHandlerImpl implements StateSpaceHandler {
     protected readonly _subStates: SubState[];
     protected readonly _filterCondition?: StateCondition;

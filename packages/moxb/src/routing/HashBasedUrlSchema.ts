@@ -4,9 +4,12 @@ import { UrlSchema, Query } from './UrlSchema';
 
 export interface Props {}
 
+/**
+ * This is a URL schema that stores the path and the URL arguments in the hash part of the URL.
+ *
+ * This is a possible workaround for situations where the NativeUrlSchema can't be used.
+ */
 export class HashBasedUrlSchema implements UrlSchema {
-    public constructor(_props: Props) {}
-
     public getPathTokens(location: MyLocation): string[] {
         const pathname = location.hash.split('?')[0].substr(2);
         const raw = pathname[0] === '/' ? pathname.substr(1) : pathname;
