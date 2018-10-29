@@ -33,7 +33,7 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable }> {
     renderColumn(column: ColumnAntProps<MemTableData>) {
         switch (column.column) {
             case 'joined':
-                column.render = (joined, data) => data.joined.toLocaleString();
+                column.render = (_, data) => data.joined.toLocaleString();
                 break;
             case 'email':
                 // for the fun of it, we highlight the parf before the @ in the email

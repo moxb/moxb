@@ -15,7 +15,7 @@ export interface TagAntState {
 }
 
 @observer
-export class TagAnt<T> extends React.Component<TagAntProps, TagAntState> {
+export class TagAnt extends React.Component<TagAntProps, TagAntState> {
     private input: any;
 
     constructor(props: TagAntProps) {

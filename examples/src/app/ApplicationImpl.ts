@@ -181,7 +181,7 @@ export class ApplicationImpl implements Application {
     readonly testForm: Form = new FormImpl({
         id: 'ApplicationImpl.testForm',
         values: [this.formUserText, this.formPasswordText],
-        onSubmit: (bind, done) => this.api.submitLogin(this.formUserText.value!, this.formPasswordText.value!, done),
+        onSubmit: (_, done) => this.api.submitLogin(this.formUserText.value!, this.formPasswordText.value!, done),
     });
 
     readonly testTable: Table<any> = new TableImpl<any>({
