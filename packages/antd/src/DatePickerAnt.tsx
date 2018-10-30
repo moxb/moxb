@@ -7,6 +7,7 @@ import { DatePickerProps } from 'antd/lib/date-picker/interface';
 import { parseProps } from './BindAnt';
 import { Date } from '@moxb/moxb';
 import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import * as moment from 'moment';
 
 export interface BindDatePickerAntProps extends DatePickerProps {
     operation: Date;
@@ -23,7 +24,8 @@ export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
         return (
             <DatePicker
                 placeholder={operation.placeholder}
-                onChange={(_date: any, dateString: string) => operation.setValue(dateString)}
+                value={operation.value}
+                onChange={(date: moment.Moment, _dateString: string) => operation.setValue(date)}
                 {...props as any}
             />
         );

@@ -7,6 +7,7 @@ import { TimePickerProps } from 'antd/lib/time-picker';
 import { parseProps } from './BindAnt';
 import { Time } from '@moxb/moxb';
 import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import * as moment from 'moment';
 
 export interface BindTimePickerAntProps extends TimePickerProps {
     operation: Time;
@@ -23,7 +24,8 @@ export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
         return (
             <TimePicker
                 placeholder={operation.placeholder}
-                onChange={(_time: any, timeString: string) => operation.setValue(timeString)}
+                value={operation.value}
+                onChange={(time: moment.Moment, _timeString: string) => operation.setValue(time)}
                 {...props as any}
             />
         );

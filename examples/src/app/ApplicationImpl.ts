@@ -30,6 +30,7 @@ import {
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 import { ApplicationMethods } from './ApplicationMethods';
+const moment = require('moment');
 
 export class ApplicationImpl implements Application {
     @observable
@@ -215,6 +216,11 @@ export class ApplicationImpl implements Application {
         ],
     });
 
+    @action
+    testDateChange() {
+        this.testDate.setValue(moment('2014-12-31T23:00:00.000Z'));
+    }
+
     readonly testDate: Date = new DateImpl({
         id: 'ApplicationImpl.testDate',
         placeholder: () => 'Deadline',
@@ -222,7 +228,6 @@ export class ApplicationImpl implements Application {
 
     readonly testTime: Time = new TimeImpl({
         id: 'ApplicationImpl.testTime',
-        placeholder: () => 'Select a time',
     });
 
     constructor(private readonly api: ApplicationAPI = new ApplicationMethods()) {
