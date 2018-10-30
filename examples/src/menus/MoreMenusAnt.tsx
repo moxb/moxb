@@ -1,5 +1,5 @@
-import { Navigable, MenuAndContentAnt, TextFormAnt, Link, ArgChangingLink, MultiArgChangingLink } from '@moxb/antd';
-import { StateSpace } from '@moxb/moxb';
+import { MenuAndContentAnt, TextFormAnt, Link, ArgChangingLink, MultiArgChangingLink } from '@moxb/antd';
+import { Navigable, StateSpace } from '@moxb/moxb';
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
 import * as React from 'react';
@@ -123,7 +123,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         <span>This menu (on the left) is part of the global navigation.</span>
                         <MenuAndContentAnt
                             parsedTokens={this.props.parsedTokens}
-                            substates={subMenu1}
+                            subStates={subMenu1}
                             fallback="Unknown number"
                         />
                     </Col>
@@ -154,7 +154,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         </div>
                         <MenuAndContentAnt
                             arg={url!.color}
-                            substates={subMenu2}
+                            subStates={subMenu2}
                             fallback="Unknown color"
                             debug={false}
                         />
