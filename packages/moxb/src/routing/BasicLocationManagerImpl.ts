@@ -31,6 +31,10 @@ const locationToUrl = (location: MyLocation): string =>
         .hash((location as any).hash)
         .toString();
 
+function isTokenEmpty(token: string): boolean {
+    return token === '' || token === null || token === undefined;
+}
+
 export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _schema: UrlSchema;
     protected readonly _permanentArgs: UrlArg<any>[] = [];
@@ -70,16 +74,18 @@ export class BasicLocationManagerImpl implements LocationManager {
         return this._schema.getPathTokens(this._location);
     }
 
-    public doesPathTokenMatch(token: string, level: number, exactOnly: boolean): boolean {
-        if (token === '' || token === null || token === undefined) {
-            // we want to check that the nth token doesn't exist
-            return !this.pathTokens[level];
-        }
-        const matches = this.pathTokens[level] === token;
+    public doPathTokensMatch(tokens: string[], level: number, exactOnly: boolean): boolean {
+        tokens.forEach((token, index) => {
+            const current = this.pathTokens[level + index];
+            const matches = isTokenEmpty(token) ? isTokenEmpty(current) : token === current;
+            if (!matches) {
+                return false;
+            }
+        });
         if (exactOnly) {
-            return matches && !this.pathTokens[level + 1];
+            return isTokenEmpty(this.pathTokens[level + tokens.length]);
         } else {
-            return matches;
+            return true;
         }
     }
 

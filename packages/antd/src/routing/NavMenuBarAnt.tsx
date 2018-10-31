@@ -8,69 +8,78 @@ import {
 } from '@moxb/moxb';
 import { Link } from '../not-antd';
 
-import { SubState, renderFragment } from '@moxb/moxb';
+import { SubState, renderFragment, SubStateKeyGenerator, SubStateKeyGeneratorImpl } from '@moxb/moxb';
 import { ArgChangingLink } from '../not-antd';
 
 export interface NavMenuProps extends StateSpaceAndLocationHandlerProps {
-    hierarchical?: boolean;
-    right?: boolean;
+    /**
+     * An ID, used mostly for debugging
+     */
+    id?: string;
+
+    /**
+     * A sub-state key generator instance to use, for addressing sub-states
+     */
+    keyGen?: SubStateKeyGenerator;
 }
 
 @inject('locationManager')
 @observer
 export class NavMenuBarAnt extends React.Component<NavMenuProps> {
-    private readonly _states: StateSpaceAndLocationHandler;
+    protected readonly _id: string;
+    protected readonly _keyGen: SubStateKeyGenerator;
+    protected readonly _states: StateSpaceAndLocationHandler;
 
     public constructor(props: NavMenuProps) {
         super(props);
         this.renderSubStateLink = this.renderSubStateLink.bind(this);
-        this._states = new StateSpaceAndLocationHandlerImpl(props);
+        this._keyGen = props.keyGen || new SubStateKeyGeneratorImpl();
+        const { id, children: _children, ...stateProps } = this.props;
+        this._id = id || 'no-id';
+        this._states = new StateSpaceAndLocationHandlerImpl({
+            ...stateProps,
+            keyGen: this._keyGen,
+            id,
+        });
     }
 
-    protected renderSubStateLinkGroup(state: SubState) {
-        const { label, key, subStates } = state;
-        return (
-            <Menu.SubMenu key={key} title={renderFragment(label)}>
-                {subStates!.map(this.renderSubStateLink)}
-            </Menu.SubMenu>
-        );
-
-        /*
-            <NavLinkGroup
-                rootPath={ rootPath }
-                path={ toPath }
-                hierarchical={ hierarchical }
-                label={ label }
-                subStates= { subStates }
-                condition={ condition }
-                right={ right }
-            />
-            */
-    }
-
-    protected renderSubStateLink(state: SubState) {
+    protected renderSubStateLink(state: SubState, parentPathTokens: string[] = []) {
         const { arg } = this.props;
         const { label, key, root, subStates } = state;
         const { parsedTokens } = this.props;
+        const menuKey = this._keyGen.getKey(parentPathTokens, state);
         return subStates ? (
             this.renderSubStateLinkGroup(state)
         ) : arg ? (
-            <Menu.Item key={root ? '_root_' : key}>
+            <Menu.Item key={menuKey}>
                 <ArgChangingLink arg={arg} value={key} label={label} />
             </Menu.Item>
         ) : (
-            <Menu.Item key={root ? '_root_' : key}>
-                <Link position={parsedTokens} pathTokens={[root ? '' : key!]} label={label} />
+            <Menu.Item key={menuKey}>
+                <Link position={parsedTokens} pathTokens={[...parentPathTokens, root ? '' : key!]} label={label} />
             </Menu.Item>
+        );
+    }
+
+    protected renderSubStateLinkGroup(state: SubState, parentPathTokens: string[] = []) {
+        const { label, key, subStates, hierarchical } = state;
+        if (hierarchical && !key) {
+            throw new Error("Can't create a hierarchical menu group without a key!");
+        }
+        const menuKey = this._keyGen.getKey(parentPathTokens, state);
+        const tokens = hierarchical ? [...parentPathTokens, key!] : parentPathTokens;
+        return (
+            <Menu.SubMenu key={menuKey} title={renderFragment(label)}>
+                {subStates!.map(s => this.renderSubStateLink(s, tokens))}
+            </Menu.SubMenu>
         );
     }
 
     public render() {
         const selectedKeys = this._states.getActiveSubStateKeys();
-        //        console.log("Selected keys are", selectedKeys);
         return (
             <Menu selectedKeys={selectedKeys} mode="horizontal" style={{ lineHeight: '64px' }}>
-                {this._states.getFilteredSubStates().map(this.renderSubStateLink)}
+                {this._states.getFilteredSubStates().map(s => this.renderSubStateLink(s, []))}
             </Menu>
         );
     }

@@ -47,11 +47,11 @@ export interface LocationManager {
     /**
      * Determine whether a given token at a given level matches
      *
-     * @param token The token to test against the current location
+     * @param tokens The tokens to test against the current location
      * @param level The level where the token should be found
      * @param exactOnly Is it a match only if there are no further tokens?
      */
-    doesPathTokenMatch: (token: string, level: number, exactOnly: boolean) => boolean;
+    doPathTokensMatch: (token: string[], level: number, exactOnly: boolean) => boolean;
 
     /**
      * Determine the URL that we would get if we pushed these path tokens.

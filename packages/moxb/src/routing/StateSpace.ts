@@ -45,6 +45,11 @@ export interface SubState {
     subStates?: SubState[];
 
     /**
+     * If this is a group menu item, should the key for this item be prepended to the keys in this group?
+     */
+    hierarchical?: boolean;
+
+    /**
      * Custom data
      */
     custom?: any;

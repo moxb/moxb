@@ -25,7 +25,7 @@ export interface StateSpaceHandler {
 }
 
 /**
- * The props given to a StateSpaceHnadler
+ * The props given to a StateSpaceHandler
  */
 export interface StateSpaceHandlerProps {
     /**
