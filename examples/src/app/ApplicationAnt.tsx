@@ -15,6 +15,7 @@ import {
     TableAnt,
     ActionFormButtonAnt,
     OneOfButtonFormAnt,
+    TagAnt,
 } from '@moxb/antd';
 import { Col, Form, Layout, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
@@ -97,6 +98,10 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <br />
                                     <h3>NumericAnt Component</h3>
                                     <NumericFormAnt operation={application.testNumeric} />
+                                    <br />
+                                    <br />
+                                    <h3>TagAnt Component</h3>
+                                    <TagAnt operation={application.testTags} />
                                     <br />
                                     <br />
                                     <h3>ManyOfAnt Component</h3>

@@ -26,9 +26,11 @@ import {
     DateImpl,
     TimeImpl,
     FormImpl,
+    ValueImpl,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 import { ApplicationMethods } from './ApplicationMethods';
+const moment = require('moment');
 
 export class ApplicationImpl implements Application {
     @observable
@@ -116,6 +118,11 @@ export class ApplicationImpl implements Application {
         header: () => 'New Modal Header',
     });
 
+    readonly testTags = new ValueImpl({
+        id: 'ApplicationImpl.testTags',
+        initialValue: () => ['Unremovable', 'Tag 2', 'Tag 3'],
+    });
+
     readonly action1Modal: Action = new ActionImpl({
         id: 'ApplicationImpl.modalAction1',
         label: 'Action with value',
@@ -175,7 +182,7 @@ export class ApplicationImpl implements Application {
     readonly testForm: Form = new FormImpl({
         id: 'ApplicationImpl.testForm',
         values: [this.formUserText, this.formPasswordText],
-        onSubmit: (bind, done) => this.api.submitLogin(this.formUserText.value!, this.formPasswordText.value!, done),
+        onSubmit: (_, done) => this.api.submitLogin(this.formUserText.value!, this.formPasswordText.value!, done),
     });
 
     readonly testTable: Table<any> = new TableImpl<any>({
@@ -209,6 +216,11 @@ export class ApplicationImpl implements Application {
         ],
     });
 
+    @action
+    testDateChange() {
+        this.testDate.setValue(moment('2014-12-31T23:00:00.000Z'));
+    }
+
     readonly testDate: Date = new DateImpl({
         id: 'ApplicationImpl.testDate',
         placeholder: () => 'Deadline',
@@ -216,7 +228,6 @@ export class ApplicationImpl implements Application {
 
     readonly testTime: Time = new TimeImpl({
         id: 'ApplicationImpl.testTime',
-        placeholder: () => 'Select a time',
     });
 
     constructor(private readonly api: ApplicationAPI = new ApplicationMethods()) {

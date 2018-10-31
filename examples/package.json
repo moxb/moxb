@@ -15,6 +15,7 @@
     "marked": "^0.5.1",
     "mobx": "^4.4.0",
     "mobx-react": "^5.2.8",
+    "moment": "^2.22.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "semantic-ui-react": "^0.82.5"

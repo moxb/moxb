@@ -54,8 +54,7 @@ export interface ValueOptions<B, T> extends BindOptions {
     onAfterSetValue?(value: T, bind: B): void;
 }
 
-export abstract class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImpl<Options>
-    implements Value<T> {
+export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImpl<Options> implements Value<T> {
     /**
      * default value impl
      */
