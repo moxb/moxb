@@ -100,7 +100,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     <NumericFormAnt operation={application.testNumeric} />
                                     <br />
                                     <br />
-                                    <h3>TextAnt - Input Component</h3>
+                                    <h3>TagAnt Component</h3>
                                     <TagAnt operation={application.testTags} />
                                     <br />
                                     <br />
