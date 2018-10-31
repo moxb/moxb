@@ -37,42 +37,52 @@ export const subMenu1: StateSpace = [
         ),
     },
     {
+        key: 'three',
+        label: 'Three',
+        fragment: (
+            <div>
+                Three apples: <br />
+                <img src={threeUrl} />
+            </div>
+        ),
+    },
+    {
         key: 'thirty',
         label: 'Thirty something',
-        hierarchical: true,
+        hierarchical: true, // this means that all these sub-states will have "thirty" in their path
         subStates: [
             {
                 key: '',
                 root: true,
                 label: 'Thirty',
-                fragment: (
-                    <div>
-                        Three apples for 30: <br />
-                        <img src={threeUrl} />
-                    </div>
-                ),
+                fragment: <div>Number 30</div>,
             },
             {
                 key: 'two',
                 label: 'Thirty two',
-                fragment: (
-                    <div>
-                        Three apples for 32:
-                        <br />
-                        <img src={threeUrl} />
-                    </div>
-                ),
+                fragment: <div>Number 32</div>,
             },
             {
                 key: 'three',
                 label: 'Thirty three',
-                fragment: (
-                    <div>
-                        Three apples for 33:
-                        <br />
-                        <img src={threeUrl} />
-                    </div>
-                ),
+                fragment: <div>Number 33</div>,
+            },
+        ],
+    },
+    {
+        key: 'more',
+        label: 'Even more',
+        hierarchical: false, // this means that "more" won't be part of the path for these sub-states
+        subStates: [
+            {
+                key: 'forty',
+                label: 'Forty',
+                fragment: <div>Number 40</div>,
+            },
+            {
+                key: 'fifty',
+                label: 'Fifty',
+                fragment: <div>Number 50</div>,
             },
         ],
     },

@@ -2,16 +2,7 @@ import { SubState, StateCondition, SubStateInContext } from './StateSpace';
 import { StateSpaceHandler, StateSpaceHandlerProps } from './StateSpaceHandler';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { SubStateKeyGeneratorImpl } from './SubStateKeyGeneratorImpl';
-
-export function isTokenEmpty(token: string | undefined): boolean {
-    return token === '' || token === null || token === undefined;
-}
-
-export function doTokensMatch(token1: string | undefined, token2: string | undefined): boolean {
-    const empty1 = isTokenEmpty(token1);
-    const empty2 = isTokenEmpty(token2);
-    return (empty1 && empty2) || token1 === token2;
-}
+import { doTokenStringsMatch, isTokenEmpty } from './token';
 
 /**
  * Recursively filter out the sub-states that are hidden or don't match the filter
@@ -50,17 +41,17 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
      * @param state The sub-state to work with
      */
     protected _addContext(parentPathTokens: string[], state: SubState): SubStateInContext {
-        const { root, key, subStates } = state;
-        const totalPathTokens: string[] = [...parentPathTokens, root ? '' : key!];
-        const result: SubStateInContext = {
+        const { root, key, subStates, hierarchical } = state;
+        const newTokens = !!subStates ? (hierarchical ? [key!] : []) : [root ? '' : key!];
+        const totalPathTokens: string[] = [...parentPathTokens, ...newTokens];
+        return {
             ...state,
             parentPathTokens,
             totalPathTokens,
-            menuKey: '',
+            isGroupOnly: !!subStates,
             subStates: subStates ? subStates.map(s => this._addContext(totalPathTokens, s)) : undefined,
+            menuKey: this._keyGen.getKey(parentPathTokens, state),
         };
-        result.menuKey = this._keyGen.getKey(result);
-        return result;
     }
 
     protected _enumerateSubStates(state: SubStateInContext): SubStateInContext[] {
@@ -95,12 +86,32 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
         if (isTokenEmpty(keyToken)) {
             return this.findRoot();
         }
-        const result = this._subStates.find(state => doTokensMatch(state.key, keyToken));
+        const result = this._allSubStates.find(state => {
+            const { isGroupOnly, totalPathTokens, menuKey } = state;
+            const debug = menuKey === 'more.forty';
+            const matches = !isGroupOnly && doTokenStringsMatch(currentTokens, totalPathTokens, parsedTokens, false);
+            if (debug) {
+                console.log(
+                    'Testing state',
+                    state,
+                    'current tokens',
+                    currentTokens,
+                    'state tokens',
+                    totalPathTokens,
+                    'parsedTokens',
+                    parsedTokens,
+                    'match?',
+                    matches
+                );
+            }
+            return matches;
+        });
         if (result) {
             return result;
         } else {
-            // const validKeys = this._subStates.map(s => s.key);
-            // console.log('Nothing found when looking for a state with key', token, 'valid keys are:', validKeys);
+            const validKeys = this._subStates.map(s => s.key);
+            console.log('Nothing found when looking for a state with key', keyToken, 'valid keys are:', validKeys);
+            console.log('all substates are', this._allSubStates);
             return null;
         }
     }

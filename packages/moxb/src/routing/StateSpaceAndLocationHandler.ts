@@ -32,21 +32,30 @@ export interface StateSpaceAndLocationHandler extends StateSpaceHandler {
 
     /**
      * Get the list of active SubStates. (At the current location.)
+     *
+     * leavesOnly: get only the terminal sub-states, no groups
      */
-    getActiveSubStates(): SubStateInContext[];
+    getActiveSubStates(leavesOnly: boolean): SubStateInContext[];
 
     /**
      * Get the list of the menu keys of the active SubStates. (At the current location.)
+     *
+     * leavesOnly: get only the terminal sub-states, no groups
      */
-    getActiveSubStateMenuKeys(): string[];
+    getActiveSubStateMenuKeys(leavesOnly: boolean): string[];
 
     /**
      * Change the location so that the given SubState becomes active.
      */
-    selectSubState(spec: SubStateInContext): void;
+    selectSubState(state: SubStateInContext): void;
 
     /**
      * Change the location so that the SubState with the given key becomes active.
      */
     selectByTokens(tokens: string[]): void;
+
+    /**
+     * Get the URL that would select a given sub-state
+     */
+    getUrlForSubState(state: SubStateInContext): string;
 }

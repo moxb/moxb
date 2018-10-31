@@ -8,7 +8,7 @@ const MyURI = require('urijs');
 import { Location as MyLocation, History as MyHistory, LocationDescriptorObject, createBrowserHistory } from 'history';
 
 import { LocationManager, UpdateMethod, QueryChange } from './LocationManager';
-import { doTokensMatch, isTokenEmpty } from './StateSpaceHandlerImpl';
+import { doTokenStringsMatch, updateTokenString } from './token';
 
 const debug = false;
 
@@ -71,59 +71,8 @@ export class BasicLocationManagerImpl implements LocationManager {
         return this._schema.getPathTokens(this._location);
     }
 
-    public doPathTokensMatch(tokens: string[], level: number, exactOnly: boolean): boolean {
-        // const debug = tokens.join('.') === '' || tokens.join('.') === 'two';
-        // if (debug) {
-        //     console.log(
-        //         'Testing tokens:',
-        //         tokens,
-        //         'against',
-        //         this.pathTokens,
-        //         'on level:',
-        //         level,
-        //         'exact only?',
-        //         exactOnly
-        //     );
-        // }
-        let result = true;
-        tokens.forEach((token, index) => {
-            if (!result) {
-                return;
-            }
-            const current = this.pathTokens[level + index];
-            const matches = doTokensMatch(current, token);
-            if (!matches) {
-                // if (debug) {
-                //     console.log('Match fails on token #', index, 'looking for:', token, 'found:', current);
-                // }
-                result = false;
-            } else {
-                // if (debug) {
-                //     console.log('Match looks good on token #', index, 'looking for:', token, 'found:', current);
-                // }
-            }
-        });
-        if (!result) {
-            return false;
-        }
-        if (exactOnly) {
-            const nextLevel = level + tokens.length;
-            const nextToken = this.pathTokens[nextLevel];
-            const empty = isTokenEmpty(nextToken);
-            // if (debug) {
-            //     console.log(
-            //         'Need an exact match, so checking if token at level',
-            //         nextLevel,
-            //         ',',
-            //         nextToken,
-            //         'is empty?',
-            //         empty
-            //     );
-            // }
-            return empty;
-        } else {
-            return true;
-        }
+    public doPathTokensMatch(wantedTokens: string[], parsedTokens: number, exactOnly: boolean): boolean {
+        return doTokenStringsMatch(this.pathTokens, wantedTokens, parsedTokens, exactOnly);
     }
 
     // get the search arguments
@@ -257,8 +206,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     public getLocationForPathTokens(position: number, tokens: string[]) {
-        const before = this.pathTokens.slice(0, position);
-        const newTokens = [...before, ...tokens.filter(t => t.length)];
+        const newTokens = updateTokenString(this.pathTokens, position, tokens);
         const query = this.getPermanentArgs();
         const location = this._schema.getLocation(this._location, newTokens, query);
         return location;

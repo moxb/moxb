@@ -1,9 +1,9 @@
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
-import { SubStateInContext } from './StateSpace';
+import { SubState } from './StateSpace';
 
 export class SubStateKeyGeneratorImpl implements SubStateKeyGenerator {
-    public getKey(state: SubStateInContext) {
-        const { key, root, subStates, parentPathTokens } = state;
+    public getKey(parentPathTokens: string[], state: SubState) {
+        const { key, root, subStates } = state;
         if (parentPathTokens === undefined) {
             console.log('oops');
         }

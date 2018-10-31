@@ -43,3 +43,4 @@ export { StateSpaceAndLocationHandlerImpl } from './StateSpaceAndLocationHandler
 export { Navigable } from './navigable';
 export { SubStateKeyGenerator } from './SubStateKeyGenerator';
 export { SubStateKeyGeneratorImpl } from './SubStateKeyGeneratorImpl';
+export * from './token';

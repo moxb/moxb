@@ -76,10 +76,18 @@ export interface SubStateInContext extends SubState {
     totalPathTokens: string[];
 
     /**
+     * Is this only a group item, created for menus?
+     */
+    isGroupOnly: boolean;
+
+    /**
      * The menu key generated for this sub-state
      */
     menuKey: string;
 
+    /**
+     * We are restricting the SubStates array so that we know that they all must have context, too
+     */
     subStates?: SubStateInContext[];
 }
 
