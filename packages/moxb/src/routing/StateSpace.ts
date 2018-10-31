@@ -61,6 +61,29 @@ export interface SubState {
 export type StateSpace = SubState[];
 
 /**
+ * This interface describes how the identify a sub-state within a state-space
+ */
+export interface SubStateInContext extends SubState {
+    /**
+     * What are the parent path tokens to choose to reach the level
+     * where the current sub-state is directly accessible?
+     */
+    parentPathTokens: string[];
+
+    /**
+     * What are the parent path tokens to choose to reach this sub-state?
+     */
+    totalPathTokens: string[];
+
+    /**
+     * The menu key generated for this sub-state
+     */
+    menuKey: string;
+
+    subStates?: SubStateInContext[];
+}
+
+/**
  * A condition used to decide whether or not to offer a given SubState
  */
 export type StateCondition = (item: SubState) => boolean;

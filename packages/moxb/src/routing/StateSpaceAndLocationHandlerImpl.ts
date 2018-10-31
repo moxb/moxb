@@ -1,14 +1,8 @@
-import { SubState } from './StateSpace';
 import { LocationManager, UpdateMethod } from './LocationManager';
-import {
-    StateSpaceAndLocationHandler,
-    StateSpaceAndLocationHandlerProps,
-    SubStateSpecification,
-} from './StateSpaceAndLocationHandler';
+import { StateSpaceAndLocationHandler, StateSpaceAndLocationHandlerProps } from './StateSpaceAndLocationHandler';
 import { StateSpaceHandlerImpl } from './StateSpaceHandlerImpl';
 import { UrlArg } from './UrlArg';
-import { SubStateKeyGenerator } from './SubStateKeyGenerator';
-import { SubStateKeyGeneratorImpl } from './SubStateKeyGeneratorImpl';
+import { SubStateInContext } from './StateSpace';
 
 /**
  * This is the standard implementation of the StateSpaceAndLocationHandler.
@@ -20,20 +14,6 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
     protected readonly _locationManager: LocationManager;
     protected readonly _urlArg?: UrlArg<string>;
     protected readonly _parsedTokens: number;
-    protected readonly _keyGen: SubStateKeyGenerator;
-    protected readonly _subStateSpecs: SubStateSpecification[];
-
-    protected _enumerateSubStateSpecs(parentPathTokens: string[], subState: SubState): SubStateSpecification[] {
-        const me: SubStateSpecification = {
-            parentPathTokens,
-            subState,
-            key: this._keyGen.getKey(parentPathTokens, subState),
-        };
-        const mine: SubStateSpecification[][] = subState.subStates
-            ? subState.subStates.map(s => this._enumerateSubStateSpecs([...parentPathTokens, subState.key!], s))
-            : [];
-        return [me, ...Array.prototype.concat(...mine)];
-    }
 
     public constructor(props: StateSpaceAndLocationHandlerProps) {
         super(props);
@@ -42,25 +22,34 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
         this._locationManager = locationManager!;
         this._urlArg = arg;
         this._parsedTokens = parsedTokens || 0;
-        this._keyGen = props.keyGen || new SubStateKeyGeneratorImpl();
-        this._enumerateSubStateSpecs = this._enumerateSubStateSpecs.bind(this);
+
         this.isSubStateActive = this.isSubStateActive.bind(this);
-        this._subStateSpecs = Array.prototype.concat(...this._subStates.map(s => this._enumerateSubStateSpecs([], s)));
     }
 
-    public isSubStateActive(spec: SubStateSpecification) {
-        const { parentPathTokens, subState } = spec;
-        const { root, key } = subState;
+    public isSubStateActive(state: SubStateInContext) {
+        const { parentPathTokens, root, key } = state;
         if (root || key) {
             if (this._urlArg) {
                 return this._urlArg.value === key;
             } else {
                 const mustBeExact: boolean = !!root; // No, this can't be simplified.
-                const result = this._locationManager.doPathTokensMatch(
-                    [...parentPathTokens, root ? '' : key!],
-                    this._parsedTokens,
-                    mustBeExact
-                );
+                const tokens = [...parentPathTokens, root ? '' : key!];
+                const result = this._locationManager.doPathTokensMatch(tokens, this._parsedTokens, mustBeExact);
+                // if (this._id === 'left-menu' && key === 'one') {
+                //     console.log(
+                //         'is subState',
+                //         state.menuKey,
+                //         'active?',
+                //         result,
+                //         'checked tokens',
+                //         tokens,
+                //         '(already parsed:',
+                //         this._parsedTokens,
+                //         ')',
+                //         'exactOnly?',
+                //         mustBeExact
+                //     );
+                // }
                 return result;
             }
         } else {
@@ -68,39 +57,38 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
         }
     }
 
-    public getActiveSubStates(): SubStateSpecification[] {
-        return this._subStateSpecs.filter(this.isSubStateActive);
+    public getActiveSubStates(): SubStateInContext[] {
+        return this._allSubStates.filter(this.isSubStateActive);
     }
 
-    public getActiveSubStateKeys(): string[] {
-        return this.getActiveSubStates().map(spec => this._keyGen.getKey(spec.parentPathTokens, spec.subState));
+    public getActiveSubStateMenuKeys(): string[] {
+        return this.getActiveSubStates().map(state => state.menuKey);
     }
 
-    public selectSubState(state: SubState, method?: UpdateMethod) {
-        if (
-            this.isSubStateActive({
-                parentPathTokens: [],
-                subState: state,
-                key: this._keyGen.getKey([], state),
-            })
-        ) {
+    public selectSubState(state: SubStateInContext, method?: UpdateMethod) {
+        if (this.isSubStateActive(state)) {
             //            console.log("Not jumping, already in state", state);
         } else {
+            const { root, parentPathTokens, key } = state;
             if (this._urlArg) {
-                this._urlArg.value = state.key!;
+                this._urlArg.value = key!;
             } else {
                 //                console.log("Should change token #", this._parsedTokens, "to", state)
-                this._locationManager.setPathTokens(this._parsedTokens, state.root ? [] : [state.key!], method);
+                this._locationManager.setPathTokens(
+                    this._parsedTokens,
+                    root ? parentPathTokens : [...parentPathTokens, key!],
+                    method
+                );
             }
         }
     }
 
-    public selectKey(key: string) {
-        const subState = this.findSubState([key]);
+    public selectByTokens(tokens: string[]) {
+        const subState = this.findSubState(tokens);
         if (subState) {
             this.selectSubState(subState);
         } else {
-            throw new Error("Couldn't find sub-state with key '" + key + "'.");
+            throw new Error("Couldn't find sub-state with tokens [" + tokens.join(', ') + '].');
         }
     }
 }

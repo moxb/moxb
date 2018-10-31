@@ -63,18 +63,18 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
     }
 
     public render() {
-        const { tokens, parsedTokens, fallback, part, mountAll, debug } = this.props;
+        const { currentTokens, parsedTokens, fallback, part, mountAll, debug } = this.props;
         this.debugLog('Looking up', part ? 'part ' + part : 'single fragment');
         const level = parsedTokens || 0;
-        const token = tokens[level];
         if (debug) {
-            console.log('tokens are', tokens);
+            const keyToken = currentTokens[level];
+            console.log('current tokens are', currentTokens);
             console.log('number of parsed tokens is', parsedTokens);
             console.log('level is', level);
-            console.log('Choosing token:', token);
+            console.log('Choosing token:', keyToken);
         }
 
-        const wantedChild = this._states.findSubState(tokens, parsedTokens);
+        const wantedChild = this._states.findSubState(currentTokens, parsedTokens);
 
         this.debugLog('wantedChild is', wantedChild);
 
@@ -85,7 +85,7 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
                 this.debugLog('it has subStates');
                 return (
                     <ChangingContentImpl
-                        tokens={tokens}
+                        currentTokens={currentTokens}
                         parsedTokens={level + 1}
                         subStates={wantedChild.subStates}
                         part={part}

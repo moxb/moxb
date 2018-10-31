@@ -8,6 +8,7 @@ const MyURI = require('urijs');
 import { Location as MyLocation, History as MyHistory, LocationDescriptorObject, createBrowserHistory } from 'history';
 
 import { LocationManager, UpdateMethod, QueryChange } from './LocationManager';
+import { doTokensMatch, isTokenEmpty } from './StateSpaceHandlerImpl';
 
 const debug = false;
 
@@ -30,10 +31,6 @@ const locationToUrl = (location: MyLocation): string =>
         .search(location.search)
         .hash((location as any).hash)
         .toString();
-
-function isTokenEmpty(token: string): boolean {
-    return token === '' || token === null || token === undefined;
-}
 
 export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _schema: UrlSchema;
@@ -75,15 +72,55 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     public doPathTokensMatch(tokens: string[], level: number, exactOnly: boolean): boolean {
+        // const debug = tokens.join('.') === '' || tokens.join('.') === 'two';
+        // if (debug) {
+        //     console.log(
+        //         'Testing tokens:',
+        //         tokens,
+        //         'against',
+        //         this.pathTokens,
+        //         'on level:',
+        //         level,
+        //         'exact only?',
+        //         exactOnly
+        //     );
+        // }
+        let result = true;
         tokens.forEach((token, index) => {
+            if (!result) {
+                return;
+            }
             const current = this.pathTokens[level + index];
-            const matches = isTokenEmpty(token) ? isTokenEmpty(current) : token === current;
+            const matches = doTokensMatch(current, token);
             if (!matches) {
-                return false;
+                // if (debug) {
+                //     console.log('Match fails on token #', index, 'looking for:', token, 'found:', current);
+                // }
+                result = false;
+            } else {
+                // if (debug) {
+                //     console.log('Match looks good on token #', index, 'looking for:', token, 'found:', current);
+                // }
             }
         });
+        if (!result) {
+            return false;
+        }
         if (exactOnly) {
-            return isTokenEmpty(this.pathTokens[level + tokens.length]);
+            const nextLevel = level + tokens.length;
+            const nextToken = this.pathTokens[nextLevel];
+            const empty = isTokenEmpty(nextToken);
+            // if (debug) {
+            //     console.log(
+            //         'Need an exact match, so checking if token at level',
+            //         nextLevel,
+            //         ',',
+            //         nextToken,
+            //         'is empty?',
+            //         empty
+            //     );
+            // }
+            return empty;
         } else {
             return true;
         }

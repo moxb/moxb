@@ -25,14 +25,14 @@ export interface ContentProps extends ChangingContentParams, Navigable {
 export class LocationDependentContent extends React.Component<ContentProps & UsesLocation> {
     public render() {
         const { arg, locationManager, children, ...remnant } = this.props;
-        const tokens: string[] = arg ? [arg.value] : locationManager!.pathTokens;
+        const currentTokens: string[] = arg ? [arg.value] : locationManager!.pathTokens;
         if (remnant.debug) {
             console.log('arg is', arg);
-            console.log('tokens are', tokens);
+            console.log('current tokens are', currentTokens);
         }
         const props: ChangingContentProps = {
             ...remnant,
-            tokens,
+            currentTokens,
         };
         return <ChangingContentImpl {...props}>{children}</ChangingContentImpl>;
     }

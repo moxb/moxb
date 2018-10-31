@@ -30,7 +30,7 @@ export interface ChangingContentState extends Navigable {
     /**
      * The path tokens that determine the selection of sub-states.
      */
-    tokens: string[];
+    currentTokens: string[];
 }
 
 export type ChangingContentProps = ChangingContentParams & ChangingContentState;

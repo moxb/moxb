@@ -6,6 +6,6 @@ import { UsesLocation } from '@moxb/moxb';
 
 export class NavigationAnt extends React.Component<UsesLocation> {
     render() {
-        return <NavMenuBarAnt subStates={mainMenu} />;
+        return <NavMenuBarAnt id="main-menu" subStates={mainMenu} />;
     }
 }

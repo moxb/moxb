@@ -1,4 +1,5 @@
-import { StateSpace, SubState, StateCondition } from './StateSpace';
+import { StateSpace, SubState, StateCondition, SubStateInContext } from './StateSpace';
+import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 
 /**
  * A StateSpace handler takes a description of the state-space
@@ -16,12 +17,12 @@ export interface StateSpaceHandler {
      *
      * If token is null or empty string, returns the root subState.
      */
-    findSubState(tokens: string[], parsedTokens?: number): SubState | null;
+    findSubState(currentTokens: string[], parsedTokens?: number): SubStateInContext | null;
 
     /**
      * Get a list of subStates that are not hidden, and match the specified filter, if any
      */
-    getFilteredSubStates(): SubState[];
+    getFilteredSubStates(): SubStateInContext[];
 }
 
 /**
@@ -37,4 +38,9 @@ export interface StateSpaceHandlerProps {
      * An optional condition to use for filtering when displaying in a menu
      */
     filterCondition?: StateCondition;
+
+    /**
+     * A key generator to use to address hierarchically nested sub-states.
+     */
+    keyGen?: SubStateKeyGenerator;
 }

@@ -1,5 +1,6 @@
 import { MenuAndContentAnt, TextFormAnt, Link, ArgChangingLink, MultiArgChangingLink } from '@moxb/antd';
 import { Navigable } from '@moxb/moxb';
+
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
 import * as React from 'react';
