@@ -5,6 +5,9 @@ import { LocationDependentContent, ContentProps } from '../not-antd/LocationDepe
 
 export type UIProps = NavMenuProps & ContentProps;
 
+/**
+ * This widget shows an Ant menu base, and the corresponding content, based on a state-space.
+ */
 export class MenuAndContentAnt extends React.Component<UIProps> {
     public render() {
         return (

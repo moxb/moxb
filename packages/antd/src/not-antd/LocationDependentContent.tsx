@@ -6,16 +6,6 @@ import { UsesLocation, Navigable, UrlArg } from '@moxb/moxb';
 import { ChangingContentParams, ChangingContentProps } from './ChangingContent';
 import { ChangingContentImpl } from './ChangingContentImpl';
 
-/*
- Changing content can be controlled by two different means:
- 
- 1. Url path
- 2. Url arguments
-
- For each mode, different properties need to be specified.
- See below for details
-*/
-
 export interface ContentProps extends ChangingContentParams, Navigable {
     arg?: UrlArg<string>;
 }

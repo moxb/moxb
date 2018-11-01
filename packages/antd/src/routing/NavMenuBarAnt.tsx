@@ -20,6 +20,9 @@ export interface NavMenuProps extends StateSpaceAndLocationHandlerProps {
 
 @inject('locationManager')
 @observer
+/**
+ * This widget show an Ant menu bar, based on the state-space.
+ */
 export class NavMenuBarAnt extends React.Component<NavMenuProps> {
     protected readonly _id: string;
     protected readonly _states: StateSpaceAndLocationHandler;

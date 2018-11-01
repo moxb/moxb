@@ -1,19 +1,18 @@
 import memoize = require('lodash.memoize');
 import { UrlArgTypeDef } from './UrlArg';
-import { Path } from 'history';
 
+/**
+ * String URL arguments
+ */
 export const URLARG_TYPE_STRING: UrlArgTypeDef<string> = {
     getParser: () => v => v,
     isEqual: (v1, v2) => v1 === v2,
     format: v => v,
 };
 
-export const URLARG_TYPE_PATH: UrlArgTypeDef<Path> = {
-    getParser: () => v => v,
-    isEqual: (v1, v2) => v1 === v2,
-    format: v => v,
-};
-
+/**
+ * Boolean URL arguments
+ */
 export const URLARG_TYPE_BOOLEAN: UrlArgTypeDef<boolean> = {
     getParser: () => memoize((v: string) => v === 'true'),
     isEqual: (v1, v2) => !!v1 === !!v2,
@@ -22,6 +21,7 @@ export const URLARG_TYPE_BOOLEAN: UrlArgTypeDef<boolean> = {
 
 const empty: string[] = [];
 
+// @ts-ignore
 const createStringArrayParser = (_key: string) => {
     const parser = memoize(
         (v: string, _defaultValue: any): string[] => {
@@ -33,12 +33,18 @@ const createStringArrayParser = (_key: string) => {
     return parser;
 };
 
+/**
+ * Ordered string list URL arguments
+ */
 export const URLARG_TYPE_ORDERED_STRING_ARRAY: UrlArgTypeDef<string[]> = {
     getParser: memoize(key => createStringArrayParser(key)),
     isEqual: (v1, v2) => v1.slice().join(',') === v2.slice().join(','),
     format: v => v.join(','),
 };
 
+/**
+ * Unordered string array URL arguments
+ */
 export const URLARG_TYPE_UNORDERED_STRING_ARRAY: UrlArgTypeDef<string[]> = {
     getParser: memoize(key => createStringArrayParser(key)),
     isEqual: (v1, v2) =>
@@ -53,6 +59,9 @@ export const URLARG_TYPE_UNORDERED_STRING_ARRAY: UrlArgTypeDef<string[]> = {
     format: v => v.join(','),
 };
 
+/**
+ * Object URL argument
+ */
 export function URLARG_TYPE_OBJECT<T>(): UrlArgTypeDef<T> {
     const parser = (v: string, defaultValue: T): T => {
         if (!v.length) {
@@ -73,6 +82,9 @@ export function URLARG_TYPE_OBJECT<T>(): UrlArgTypeDef<T> {
     };
 }
 
+/**
+ * URL encoded URL argument
+ */
 export const URLARG_TYPE_URLENCODED: UrlArgTypeDef<string> = {
     format: encodeURIComponent,
     getParser: () => memoize(decodeURIComponent),

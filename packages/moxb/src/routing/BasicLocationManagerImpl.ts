@@ -8,7 +8,7 @@ const MyURI = require('urijs');
 import { Location as MyLocation, History as MyHistory, LocationDescriptorObject, createBrowserHistory } from 'history';
 
 import { LocationManager, UpdateMethod, QueryChange } from './LocationManager';
-import { doTokenStringsMatch, updateTokenString } from './token';
+import { doTokenStringsMatch, updateTokenString } from './tokens';
 
 const debug = false;
 

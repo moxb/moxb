@@ -3,7 +3,7 @@ import { StateSpaceAndLocationHandler, StateSpaceAndLocationHandlerProps } from 
 import { StateSpaceHandlerImpl } from './StateSpaceHandlerImpl';
 import { UrlArg } from './UrlArg';
 import { SubStateInContext } from './StateSpace';
-import { doTokenStringsMatch, joinTokenString, updateTokenString } from './token';
+import { doTokenStringsMatch, joinTokenString, splitTokenString, updateTokenString } from './tokens';
 
 /**
  * This is the standard implementation of the StateSpaceAndLocationHandler.
@@ -27,6 +27,9 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
         this.isSubStateActive = this.isSubStateActive.bind(this);
     }
 
+    /**
+     * Does the given sub-state (group) has any active sub-states?
+     */
     protected _hasActiveSubState(state: SubStateInContext): boolean {
         const { subStates, isGroupOnly, hierarchical } = state;
         if (!isGroupOnly || hierarchical) {
@@ -41,10 +44,15 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
         return result;
     }
 
+    /**
+     * Is the give sub-state currently active?
+     */
     public isSubStateActive(state: SubStateInContext) {
         const { parentPathTokens, root, key, isGroupOnly, hierarchical } = state;
         if (root || key) {
-            const currentTokens = this._urlArg ? this._urlArg.value.split('.') : this._locationManager.pathTokens;
+            const currentTokens = this._urlArg
+                ? splitTokenString(this._urlArg.value)
+                : this._locationManager.pathTokens;
             const mustBeExact: boolean = !!root; // No, this can't be simplified.
             const tokens = [...parentPathTokens, root ? '' : key!];
             if (isGroupOnly && !hierarchical) {
@@ -56,43 +64,59 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
                 this._urlArg ? 0 : this._parsedTokens,
                 mustBeExact
             );
-            // if (this._id === 'left-menu' && key === 'one') {
-            //     console.log(
-            //         'is subState',
-            //         state.menuKey,
-            //         'active?',
-            //         result,
-            //         'checked tokens',
-            //         tokens,
-            //         '(already parsed:',
-            //         this._parsedTokens,
-            //         ')',
-            //         'exactOnly?',
-            //         mustBeExact
-            //     );
-            // }
             return result;
         } else {
             return false;
         }
     }
 
+    /**
+     * Return a list of currently active sub-states
+     * @param leavesOnly Should we skip groups?
+     */
     public getActiveSubStates(leavesOnly: boolean): SubStateInContext[] {
         const states = leavesOnly ? this._allSubStates.filter(s => !s.isGroupOnly) : this._allSubStates;
         return states.filter(this.isSubStateActive);
     }
 
+    /**
+     * Return the list of menu-keys of the currently active sub-states
+     * @param leavesOnly Should we skip groups?
+     */
     public getActiveSubStateMenuKeys(leavesOnly: boolean): string[] {
         return this.getActiveSubStates(leavesOnly).map(state => state.menuKey);
     }
 
+    /**
+     * Calculate what would be the string value of the the argument if we select a given sub-state
+     *
+     * @param state The sub-state to select
+     */
     protected _getArgValueForSubState(state: SubStateInContext): string {
-        const currentTokens = this._urlArg!.value.split('.');
+        const currentTokens = splitTokenString(this._urlArg!.value);
         const newTokens = updateTokenString(currentTokens, 0, state.totalPathTokens);
         const value = joinTokenString(newTokens);
         return value;
     }
 
+    /**
+     * Return the URL that would select a given sub-state
+     */
+    public getUrlForSubState(state: SubStateInContext): string {
+        if (this._urlArg) {
+            const value = this._getArgValueForSubState(state);
+            return this._urlArg.getModifiedUrl(value);
+        } else {
+            return this._locationManager.getURLForPathTokens(this._parsedTokens, state.totalPathTokens);
+        }
+    }
+
+    /**
+     * Select the given sub-state
+     *
+     * @param state The sub-state to select
+     * @param method The method for updating the URL
+     */
     public selectSubState(state: SubStateInContext, method?: UpdateMethod) {
         if (this.isSubStateActive(state)) {
             //            console.log("Not jumping, already in state", state);
@@ -112,21 +136,15 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
         }
     }
 
+    /**
+     * Select the sub-state addressed by the given string of tokens
+     */
     public selectByTokens(tokens: string[]) {
         const subState = this.findSubState(tokens);
         if (subState) {
             this.selectSubState(subState);
         } else {
             throw new Error("Couldn't find sub-state with tokens [" + tokens.join(', ') + '].');
-        }
-    }
-
-    public getUrlForSubState(state: SubStateInContext): string {
-        if (this._urlArg) {
-            const value = this._getArgValueForSubState(state);
-            return this._urlArg.getModifiedUrl(value);
-        } else {
-            return this._locationManager.getURLForPathTokens(this._parsedTokens, state.totalPathTokens);
         }
     }
 }

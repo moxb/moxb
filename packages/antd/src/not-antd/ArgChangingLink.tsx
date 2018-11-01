@@ -4,15 +4,22 @@ import * as Anchor from './Anchor';
 import { UrlArg } from '@moxb/moxb';
 
 export interface ArgChangingLinkParams<T> extends Anchor.AnchorParams {
-    // The argument to change
+    /**
+     * The argument to change
+     */
     arg: UrlArg<T>;
 
-    // The value to set upon clicking
+    /**
+     * The value to set upon clicking
+     */
     value: T;
 }
 
 type ArgChangingLinkProps = ArgChangingLinkParams<any> & Anchor.Events;
 
+/**
+ * A simple link-widget for changing URL arguments
+ */
 @observer
 export class ArgChangingLink extends React.Component<ArgChangingLinkProps> {
     public constructor(props: ArgChangingLinkProps) {

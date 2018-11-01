@@ -4,11 +4,14 @@ import * as Anchor from './Anchor';
 import { UsesLocation } from '@moxb/moxb';
 
 export interface LinkParams extends Anchor.AnchorParams {
-    // The path tokens to set
+    /**
+     * The path tokens to set
+     */
     pathTokens: string[];
 
-    // Set the number of tokens to be preserved.
-    // further tokens will be dropped.
+    /**
+     * Set the number of tokens to be preserved. further tokens will be dropped.
+     */
     position?: number;
 }
 
@@ -16,6 +19,9 @@ type LinkProps = LinkParams & Anchor.Events;
 
 @inject('locationManager')
 @observer
+/**
+ * A simple path-changing link component
+ */
 export class Link extends React.Component<LinkProps & UsesLocation> {
     public constructor(props: LinkProps) {
         super(props);

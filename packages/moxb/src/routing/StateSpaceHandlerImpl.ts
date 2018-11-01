@@ -2,7 +2,7 @@ import { SubState, StateCondition, SubStateInContext } from './StateSpace';
 import { StateSpaceHandler, StateSpaceHandlerProps } from './StateSpaceHandler';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { SubStateKeyGeneratorImpl } from './SubStateKeyGeneratorImpl';
-import { doTokenStringsMatch, isTokenEmpty } from './token';
+import { doTokenStringsMatch, isTokenEmpty } from './tokens';
 
 /**
  * Recursively filter out the sub-states that are hidden or don't match the filter

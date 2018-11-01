@@ -20,20 +20,6 @@ export function doTokenStringsMatch(
     parsedTokens: number,
     exactOnly: boolean
 ) {
-    // const debug = tokens.join('.') === '' || tokens.join('.') === 'two';
-    // if (debug) {
-    //     console.log(
-    //         'Testing tokens:',
-    //         tokens,
-    //         'against',
-    //         this.pathTokens,
-    //         'on level:',
-    //         level,
-    //         'exact only?',
-    //         exactOnly
-    //     );
-    // }
-
     let result = true;
     wantedTokens.forEach((token, index) => {
         if (!result) {
@@ -42,14 +28,7 @@ export function doTokenStringsMatch(
         const current = currentTokens[parsedTokens + index];
         const matches = doTokensMatch(current, token);
         if (!matches) {
-            // if (debug) {
-            //     console.log('Match fails on token #', index, 'looking for:', token, 'found:', current);
-            // }
             result = false;
-        } else {
-            // if (debug) {
-            //     console.log('Match looks good on token #', index, 'looking for:', token, 'found:', current);
-            // }
         }
     });
     if (!result) {
@@ -59,16 +38,6 @@ export function doTokenStringsMatch(
         const nextLevel = parsedTokens + wantedTokens.length;
         const nextToken = currentTokens[nextLevel];
         const empty = isTokenEmpty(nextToken);
-        // if (debug) {
-        //     console.log(
-        //         'Need an exact match, so checking if token at level',
-        //         nextLevel,
-        //         ',',
-        //         nextToken,
-        //         'is empty?',
-        //         empty
-        //     );
-        // }
         return empty;
     } else {
         return true;
@@ -83,4 +52,8 @@ export function updateTokenString(currentTokens: string[], position: number, tok
 
 export function joinTokenString(tokens: (string | undefined)[]): string {
     return tokens.filter(t => !!t && t.length).join('.');
+}
+
+export function splitTokenString(value: string): string[] {
+    return value.split('.');
 }

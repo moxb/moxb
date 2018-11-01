@@ -27,35 +27,62 @@ export interface UrlArgDefinition<T> {
     permanent?: boolean;
 }
 
+/**
+ * Handler for an URL argument
+ */
 export interface UrlArg<T> {
-    // Is this argument specified in the current query?
+    /**
+     * Is this argument specified in the current query?
+     */
     readonly defined: boolean;
 
-    // The current value. Can be read or written
+    /**
+     * The current value.
+     *
+     * Can be read or written
+     */
     value: T;
 
-    // Explicitely set the current value.
-    // Can also specify the method (push or replace)
+    /**
+     * Explicitly set the current value.
+     *
+     * @param value The new value
+     * @param method The method for updating the URL (push or replace)
+     */
     set(value: T, method?: UpdateMethod): void;
 
-    // Reset the value to default
+    /**
+     * Reset the value to default
+     *
+     * @param method The method for updating the URL (push or replace)
+     */
     reset(method?: UpdateMethod): void;
+
+    /**
+     * Get the URL string that would result if we modified the value
+     */
+    getModifiedUrl(value: T): string;
 
     // ======= Anything below this level is quite technical,
     // you probably won't need to use it directly.
 
-    // Extract the value of this arg from a given query
+    /**
+     * Extract the value of this arg from a given query
+     */
     getOnQuery(query: Query): T;
 
-    // Get the raw (string) value corresponding to a given value
+    /**
+     * Get the raw (string) value corresponding to a given value
+     */
     getRawValue(value: T): string | undefined;
 
-    // Get the URL string that would result if we modified the value
-    getModifiedUrl(value: T): string;
-
-    // Get the key
+    /**
+     * Get the key
+     */
     readonly key: string;
 
-    // Get the raw form of the value
+    /**
+     * Get the raw form of the value
+     */
     readonly rawValue: string;
 }

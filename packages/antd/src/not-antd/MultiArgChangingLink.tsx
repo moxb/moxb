@@ -16,6 +16,9 @@ type MultiArgChangingLinkProps = MultiArgChangingLinkParams & Anchor.Events;
 
 @inject('locationManager')
 @observer
+/**
+ * A widget for changing multiple URL arguments at once.
+ */
 export class MultiArgChangingLink extends React.Component<MultiArgChangingLinkProps & UsesLocation> {
     public constructor(props: MultiArgChangingLinkProps) {
         super(props);
@@ -36,7 +39,7 @@ export class MultiArgChangingLink extends React.Component<MultiArgChangingLinkPr
     }
 
     public render() {
-        const { locationManager, changes, children, ...remnants } = this.props;
+        const { locationManager, children, changes: _changes, ...remnants } = this.props;
         const url = locationManager!.getURLForQueryChanges(this._getRealChanges());
         const anchorProps: Anchor.UIProps = {
             ...remnants,
