@@ -17,8 +17,11 @@ export interface LocationDependentContentProps extends StateSpaceAndLocationHand
     fallback?: UIFragmentSpec;
 
     /**
-     * Should we mount (but hide) the content of all possible selections
-     * of the state space? Defaults to false.
+     * Should we mount (but hide) the content of all possible selections of the state space?
+     *
+     * This will pass an invisible = true parameter to all children. The children react to that.
+     *
+     * Defaults to false.
      */
     mountAll?: boolean;
 

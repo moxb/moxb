@@ -32,7 +32,7 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
     protected readonly _id: string;
     protected readonly _debug?: boolean;
     protected readonly _keyGen: SubStateKeyGenerator;
-    protected readonly _subStates: SubStateInContext[];
+    public readonly _subStatesInContext: SubStateInContext[];
     protected readonly _allSubStates: SubStateInContext[];
     protected readonly _filterCondition?: StateCondition;
 
@@ -70,17 +70,17 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
         this._keyGen = keyGen || new SubStateKeyGeneratorImpl();
         this._enumerateSubStates = this._enumerateSubStates.bind(this);
         this._addContext = this._addContext.bind(this);
-        this._subStates = subStates.map(s => this._addContext([], s));
-        this._allSubStates = Array.prototype.concat(...this._subStates.map(this._enumerateSubStates));
+        this._subStatesInContext = subStates.map(s => this._addContext([], s));
+        this._allSubStates = Array.prototype.concat(...this._subStatesInContext.map(this._enumerateSubStates));
         this._filterCondition = filterCondition;
     }
 
     public findRoot(): SubStateInContext {
-        const result = this._subStates.find(state => !!state.root);
+        const result = this._subStatesInContext.find(state => !!state.root);
         if (result) {
             return result;
         } else {
-            console.log('No root in:', this._subStates);
+            console.log('No root in:', this._subStatesInContext);
             throw new Error("Can't find root subState");
         }
     }
@@ -116,7 +116,7 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
         if (result) {
             return result;
         } else {
-            // const validKeys = this._subStates.map(s => s.key);
+            // const validKeys = this._subStatesInContext.map(s => s.key);
             // console.log('Nothing found when looking for a state with key', keyToken, 'valid keys are:', validKeys);
             // console.log('all subStates are', this._allSubStates);
             return null;
@@ -124,6 +124,6 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
     }
 
     public getFilteredSubStates(): SubStateInContext[] {
-        return filterSubStates(this._subStates, this._filterCondition);
+        return filterSubStates(this._subStatesInContext, this._filterCondition);
     }
 }

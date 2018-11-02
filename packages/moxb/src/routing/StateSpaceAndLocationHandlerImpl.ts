@@ -90,6 +90,17 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
     }
 
     /**
+     * Return the single active sub-state leaf, if any
+     */
+    public getActiveSubState(): SubStateInContext | null {
+        const results = this.getActiveSubStates(true);
+        if (results.length > 1) {
+            throw new Error('Uh-oh. More than one active state found');
+        }
+        return results[0];
+    }
+
+    /**
      * Return the list of menu-keys of the currently active sub-states
      * @param leavesOnly Should we skip groups?
      */

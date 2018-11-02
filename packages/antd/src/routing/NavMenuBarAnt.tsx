@@ -6,10 +6,9 @@ import {
     StateSpaceAndLocationHandler,
     StateSpaceAndLocationHandlerProps,
     StateSpaceAndLocationHandlerImpl,
+    renderUIFragment,
 } from '@moxb/moxb';
 import * as Anchor from '../not-antd/Anchor';
-
-import { renderFragment } from '@moxb/moxb';
 
 export type NavMenuProps = StateSpaceAndLocationHandlerProps;
 
@@ -56,7 +55,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
             throw new Error("Can't create a hierarchical menu group without a key!");
         }
         return (
-            <Menu.SubMenu key={menuKey} title={renderFragment(label)}>
+            <Menu.SubMenu key={menuKey} title={renderUIFragment(label)}>
                 {subStates!.map(this._renderSubStateElement)}
             </Menu.SubMenu>
         );

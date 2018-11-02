@@ -26,11 +26,16 @@ export interface StateSpaceAndLocationHandler extends StateSpaceHandler {
     isSubStateActive(state: SubStateInContext): boolean;
 
     /**
-     * Get the list of active SubStates. (At the current location.)
+     * Get the list of active SubStates at the current location, potentially including groups.
      *
      * leavesOnly: get only the terminal sub-states, no groups
      */
     getActiveSubStates(leavesOnly: boolean): SubStateInContext[];
+
+    /**
+     * Get the (single) active sub-state at the current location. (Must be a leaf.)
+     */
+    getActiveSubState(): SubStateInContext | null;
 
     /**
      * Get the list of the menu keys of the active SubStates. (At the current location.)

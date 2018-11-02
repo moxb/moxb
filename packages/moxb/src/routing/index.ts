@@ -1,4 +1,6 @@
-export * from './react-stuff';
+export * from './UIFragment';
+export * from './UIFragmentSpec';
+
 export { LocationManager, UsesLocation, QueryChange } from './LocationManager';
 export { BasicLocationManagerImpl } from './BasicLocationManagerImpl';
 

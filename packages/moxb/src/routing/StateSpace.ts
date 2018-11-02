@@ -1,6 +1,7 @@
-import { UIFragment, UIFragmentSpec } from './react-stuff';
-
 // This interface describes a possible state for a part of the app UI
+import { UIFragment } from './UIFragment';
+import { UIFragmentSpec } from './UIFragmentSpec';
+
 export interface SubState {
     /**
      * The label to identify this sub-state,

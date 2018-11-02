@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UIFragment, renderFragment } from '@moxb/moxb';
+import { UIFragment, renderUIFragment } from '@moxb/moxb';
 
 /**
  * Parameters for describing an anchor
@@ -94,7 +94,7 @@ export class Anchor extends React.PureComponent<UIProps> {
                 title={title}
                 className={className + (disabled ? ' disabled' : '')}
             >
-                {renderFragment(label || '')}
+                {renderUIFragment(label || '')}
                 {children}
             </a>
         );

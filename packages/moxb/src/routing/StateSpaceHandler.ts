@@ -8,6 +8,11 @@ import { SubStateKeyGenerator } from './SubStateKeyGenerator';
  */
 export interface StateSpaceHandler {
     /**
+     * Expose the subStates together with the computed context information.
+     */
+    readonly _subStatesInContext: SubStateInContext[];
+
+    /**
      * Find the root subState, if defined.
      */
     findRoot(): SubState;

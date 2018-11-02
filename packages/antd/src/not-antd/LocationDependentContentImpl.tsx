@@ -2,12 +2,11 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import {
-    renderFragment,
-    getFragmentPart,
-    UIFragmentSpec,
-    SubState,
+    renderUIFragment,
     StateSpaceAndLocationHandler,
     StateSpaceAndLocationHandlerImpl,
+    getUIFragment,
+    SubStateInContext,
 } from '@moxb/moxb';
 import { LocationDependentContentProps } from './LocationDependentContent';
 
@@ -32,57 +31,30 @@ export class LocationDependentContentImpl extends React.Component<LocationDepend
         }
     }
 
-    protected renderWantedChild(wantedChild: SubState | null, parsedTokens: number) {
-        const { part, fallback, debug } = this.props;
-        this.debugLog('fallback is', fallback);
-        let spec: UIFragmentSpec;
-        if (part) {
-            this.debugLog('Looking for a specific part, creating object for parts...');
-            spec = {
-                ...(fallback as any),
-                ...(wantedChild ? (wantedChild.fragment as any) : {}),
-            };
-        } else {
-            this.debugLog('Not looking for a specific part, just using whole fragment');
-            spec = wantedChild ? wantedChild.fragment : fallback;
+    protected renderChild(child: SubStateInContext | null, invisible?: boolean) {
+        const { parsedTokens, fallback, part } = this.props;
+        const newParsedTokens = (parsedTokens || 0) + (child ? child.totalPathTokens.length : 1);
+        const fragment = getUIFragment(child ? child.fragment : null, fallback, part, false); // debug);
+        this.debugLog('Rendering fragment', fragment);
+        const props: any = {
+            parsedTokens: newParsedTokens,
+            key: child ? child.key : 'missing',
+        };
+        if (invisible) {
+            props.invisible = true;
         }
-        this.debugLog('spec is', spec);
-        const fragment = getFragmentPart(spec, part, debug);
-        this.debugLog('Wanted part is', fragment);
-        return renderFragment(fragment, {
-            parsedTokens,
-        });
-    }
-
-    protected renderAllChildren(wantedChild: SubState | null) {
-        const { subStates, part, debug } = this.props;
-        // TODO: I think this codepath doesn't properly consider
-        // the fallback values with multiple parts
-        return (
-            <div>
-                {subStates.map(s =>
-                    renderFragment(getFragmentPart(s.fragment, part, debug), {
-                        key: s.key,
-                        invisible: s !== wantedChild,
-                    })
-                )}
-            </div>
-        );
+        return renderUIFragment(fragment, props);
     }
 
     public render() {
-        const { parsedTokens, mountAll } = this.props;
-        const activeStates = this._states.getActiveSubStates(true);
-        if (activeStates.length > 1) {
-            throw new Error('Uh-oh. More than one active state found');
-        }
-        const wantedChild = activeStates[0];
+        const { mountAll } = this.props;
+        const wantedChild = this._states.getActiveSubState();
         this.debugLog('wantedChild is', wantedChild);
         if (mountAll) {
-            return this.renderAllChildren(wantedChild);
+            this.debugLog('Rendering all children at once');
+            return <div>{this._states._subStatesInContext.map(s => this.renderChild(s, s !== wantedChild))}</div>;
         } else {
-            const level = (parsedTokens || 0) + (wantedChild ? wantedChild.totalPathTokens.length : 1);
-            return this.renderWantedChild(wantedChild, level);
+            return this.renderChild(wantedChild);
         }
     }
 }
