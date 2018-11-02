@@ -11,9 +11,9 @@ export interface Props {}
  */
 export class HashBasedUrlSchema implements UrlSchema {
     public getPathTokens(location: MyLocation): string[] {
-        const pathname = location.hash.split('?')[0].substr(2);
-        const raw = pathname[0] === '/' ? pathname.substr(1) : pathname;
-        const tokens = raw.split('/');
+        const rawPath = location.hash.split('?')[0].substr(1);
+        const cleanPath = rawPath[0] === '/' ? rawPath.substr(1) : rawPath;
+        const tokens = cleanPath.split('/').filter(token => token.length);
         return tokens;
     }
 
@@ -29,10 +29,10 @@ export class HashBasedUrlSchema implements UrlSchema {
     }
 
     public getLocation(location: MyLocation, pathTokens: string[], query: Query): MyLocation {
-        const hash = '/' + pathTokens.join('/') + new MyURI().search(query).search();
+        const hash = '#' + (pathTokens.length ? '/' + pathTokens.join('/') : '') + new MyURI().search(query).search();
         return {
             ...location,
-            hash: hash === '/' ? '' : hash,
+            hash: hash === '#' ? '' : hash.replace(/%2C/g, ',').replace(/%2F/g, '/'),
         };
     }
 }

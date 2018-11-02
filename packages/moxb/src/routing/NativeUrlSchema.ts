@@ -12,7 +12,7 @@ export class NativeUrlSchema implements UrlSchema {
     public getPathTokens(location: MyLocation): string[] {
         const pathname = location.pathname;
         const raw = pathname[0] === '/' ? pathname.substr(1) : pathname;
-        return raw.split('/');
+        return raw.split('/').filter(token => token.length);
     }
 
     public getQuery(location: MyLocation): Query {
@@ -22,7 +22,7 @@ export class NativeUrlSchema implements UrlSchema {
     public getLocation(location: MyLocation, pathTokens: string[], query: Query): MyLocation {
         return {
             ...location,
-            pathname: '/' + pathTokens.join('/'),
+            pathname: pathTokens.length ? '/' + pathTokens.join('/') : '',
             search: new MyURI().search(query).search(),
         };
     }
