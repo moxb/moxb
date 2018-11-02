@@ -5,7 +5,7 @@ import {
     renderUIFragment,
     StateSpaceAndLocationHandler,
     StateSpaceAndLocationHandlerImpl,
-    getUIFragment,
+    extractUIFragment,
     SubStateInContext,
 } from '@moxb/moxb';
 import { LocationDependentContentProps } from './LocationDependentContent';
@@ -34,7 +34,7 @@ export class LocationDependentContentImpl extends React.Component<LocationDepend
     protected renderChild(child: SubStateInContext | null, invisible?: boolean) {
         const { parsedTokens, fallback, part } = this.props;
         const newParsedTokens = (parsedTokens || 0) + (child ? child.totalPathTokens.length : 1);
-        const fragment = getUIFragment(child ? child.fragment : null, fallback, part, false); // debug);
+        const fragment = extractUIFragment((child || ({} as any)).fragment, fallback, part);
         this.debugLog('Rendering fragment', fragment);
         const props: any = {
             parsedTokens: newParsedTokens,

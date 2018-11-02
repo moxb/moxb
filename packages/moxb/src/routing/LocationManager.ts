@@ -1,4 +1,3 @@
-import { Location as MyLocation } from 'history';
 import { UrlArg } from './UrlArg';
 
 import { Query } from './UrlSchema';
@@ -33,11 +32,6 @@ export interface LocationManager {
      * This flag is the opposite of the final flag. You can read or write any of them.
      */
     temporary: boolean;
-
-    /**
-     * Get the actual location.
-     */
-    readonly location: MyLocation;
 
     /**
      * path tokens for the current location

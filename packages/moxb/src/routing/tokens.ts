@@ -8,12 +8,21 @@ export function isTokenEmpty(token: string | null | undefined): boolean {
 /**
  * Decide whether a pair of tokens is considered to be equivalent
  */
-export function doTokensMatch(token1: string | null | undefined, token2: string | null | undefined): boolean {
+function doTokensMatch(token1: string | null | undefined, token2: string | null | undefined): boolean {
     const empty1 = isTokenEmpty(token1);
     const empty2 = isTokenEmpty(token2);
     return (empty1 && empty2) || token1 === token2;
 }
 
+/**
+ * This function determines a match between token strings
+ *
+ * @param currentTokens The list of tokens to test
+ * @param wantedTokens The test pattern we are searching for
+ * @param parsedTokens The number of tokens to skip
+ * @param exactOnly Only confirm matches when there are no more tokens
+ * @param debugMode Debug output required
+ */
 export function doTokenStringsMatch(
     currentTokens: (string | null)[],
     wantedTokens: (string | null)[],
@@ -54,7 +63,7 @@ export function doTokenStringsMatch(
         return empty;
     } else {
         if (debugMode) {
-            console.log('Not exact match required, returnin true');
+            console.log('Not exact match required, returning true');
         }
         return true;
     }

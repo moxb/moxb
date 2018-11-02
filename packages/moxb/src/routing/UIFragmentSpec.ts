@@ -78,26 +78,26 @@ const extractPartFromUIFragmentSpec = (
  *
  * @param debugMode Should we output debug log?
  */
-export const getUIFragment = (
-    spec: UIFragmentSpec | null,
-    fallback: UIFragmentSpec,
+export const extractUIFragment = (
+    spec: UIFragmentSpec | null | undefined,
+    fallback: UIFragmentSpec | null | undefined,
     wantedPart: string | null | undefined,
     debugMode?: boolean
 ): UIFragment => {
     const part = wantedPart || 'main';
-    if (debugMode) {
-        console.log(
-            'spec is',
-            '"' + spec + '"',
-            typeof spec,
-            'fallback is',
-            '"' + fallback + '"',
-            typeof fallback,
-            'part is',
-            '"' + part + '"',
-            typeof part
-        );
-    }
+    // if (debugMode) {
+    //     console.log(
+    //         'spec is',
+    //         '"' + spec + '"',
+    //         typeof spec,
+    //         'fallback is',
+    //         '"' + fallback + '"',
+    //         typeof fallback,
+    //         'part is',
+    //         '"' + part + '"',
+    //         typeof part
+    //     );
+    // }
     let specWithFallback: UIFragmentSpec;
     // if (part) {
     if (debugMode) {
@@ -105,7 +105,7 @@ export const getUIFragment = (
     }
     // We create a map which merges the fallback values with those that have actually been given.
     specWithFallback = {
-        ...getUIFragmentMap(fallback),
+        ...getUIFragmentMap(fallback ? fallback : {}),
         ...getUIFragmentMap(spec ? spec : {}),
     };
     // } else {
@@ -114,16 +114,16 @@ export const getUIFragment = (
     //     }
     //     specWithFallback = spec ? spec : fallback;
     // }
-    if (debugMode) {
-        console.log(
-            'specWithFallback is',
-            '"' + JSON.stringify(specWithFallback, null, '  ') + '"',
-            typeof specWithFallback
-        );
-    }
+    // if (debugMode) {
+    //     console.log(
+    //         'specWithFallback is',
+    //         '"' + JSON.stringify(specWithFallback, null, '  ') + '"',
+    //         typeof specWithFallback
+    //     );
+    // }
     const fragment = extractPartFromUIFragmentSpec(specWithFallback, part, debugMode);
-    if (debugMode) {
-        console.log('Returning fragment', fragment);
-    }
+    // if (debugMode) {
+    //     console.log('Returning fragment', fragment);
+    // }
     return fragment || 'no content';
 };
