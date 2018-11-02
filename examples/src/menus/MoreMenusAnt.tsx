@@ -20,8 +20,10 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         <MenuAndContentAnt
                             id="left-menu"
                             parsedTokens={this.props.parsedTokens}
+                            // arg={url!.number}
                             subStates={subMenu1}
                             fallback="Unknown number"
+                            debug={false}
                         />
                     </Col>
                     <Col span={12}>
@@ -50,6 +52,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                             This menu (on the right) is <i>not</i> part of the global navigation.
                         </div>
                         <MenuAndContentAnt
+                            id="right-menu"
                             arg={url!.color}
                             subStates={subMenu2}
                             fallback="Unknown color"

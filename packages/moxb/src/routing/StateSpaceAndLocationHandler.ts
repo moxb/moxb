@@ -9,12 +9,7 @@ export interface StateSpaceAndLocationHandlerProps extends StateSpaceHandlerProp
     /**
      * The URL argument (if any) driving this component.
      */
-    arg?: UrlArg<string>;
-
-    /**
-     * An potential ID, for debugging
-     */
-    id?: string;
+    arg?: UrlArg<any>;
 }
 
 /**

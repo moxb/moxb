@@ -30,6 +30,11 @@ export interface StateSpaceHandler {
  */
 export interface StateSpaceHandlerProps {
     /**
+     * An optional ID, for debugging
+     */
+    id?: string;
+
+    /**
      * The list of sub-states to work with
      */
     subStates: StateSpace;
@@ -43,4 +48,9 @@ export interface StateSpaceHandlerProps {
      * A key generator to use to address hierarchically nested sub-states.
      */
     keyGen?: SubStateKeyGenerator;
+
+    /**
+     * Should this component run in debug mode?
+     */
+    debug?: boolean;
 }

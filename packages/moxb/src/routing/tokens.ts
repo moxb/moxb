@@ -50,10 +50,10 @@ export function updateTokenString(currentTokens: string[], position: number, tok
     return newTokens;
 }
 
-export function joinTokenString(tokens: (string | undefined)[]): string {
-    return tokens.filter(t => !!t && t.length).join('.');
-}
-
-export function splitTokenString(value: string): string[] {
-    return value.split('.');
-}
+// export function joinTokenString(tokens: (string | undefined)[]): string {
+//     return tokens.filter(t => !!t && t.length).join('.');
+// }
+//
+// export function splitTokenString(value: string): string[] {
+//     return value.split('.');
+// }

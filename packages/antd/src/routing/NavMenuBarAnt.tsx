@@ -11,12 +11,7 @@ import * as Anchor from '../not-antd/Anchor';
 
 import { renderFragment } from '@moxb/moxb';
 
-export interface NavMenuProps extends StateSpaceAndLocationHandlerProps {
-    /**
-     * An ID, used mostly for debugging
-     */
-    id?: string;
-}
+export type NavMenuProps = StateSpaceAndLocationHandlerProps;
 
 @inject('locationManager')
 @observer
@@ -36,7 +31,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
         this._id = id || 'no-id';
         this._states = new StateSpaceAndLocationHandlerImpl({
             ...stateProps,
-            id,
+            id: 'menu bar of ' + id,
         });
     }
 
@@ -56,8 +51,8 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
     }
 
     protected _renderSubStateGroup(state: SubStateInContext) {
-        const { label, key, subStates, hierarchical, menuKey } = state;
-        if (hierarchical && !key) {
+        const { label, key, subStates, flat, menuKey } = state;
+        if (!flat && !key) {
             throw new Error("Can't create a hierarchical menu group without a key!");
         }
         return (

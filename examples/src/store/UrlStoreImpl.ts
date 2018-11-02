@@ -4,6 +4,7 @@ import { UrlStore } from './UrlStore';
 export class UrlStoreImpl implements UrlStore {
     public readonly color: UrlArg<string>;
     public readonly search: UrlArg<string>;
+    public readonly number: UrlArg<string>;
     readonly bindSearch = new TextImpl({
         id: 'sampleSearch',
         label: 'Search',
@@ -20,6 +21,13 @@ export class UrlStoreImpl implements UrlStore {
 
         this.search = new UrlArgImpl(location, {
             key: 'search',
+            valueType: URLARG_TYPE_STRING,
+            defaultValue: '',
+            permanent: true,
+        });
+
+        this.number = new UrlArgImpl(location, {
+            key: 'numbers',
             valueType: URLARG_TYPE_STRING,
             defaultValue: '',
             permanent: true,

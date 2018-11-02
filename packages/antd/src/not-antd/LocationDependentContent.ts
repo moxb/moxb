@@ -1,11 +1,6 @@
-import { StateSpace, Navigable, UIFragmentSpec } from '@moxb/moxb';
+import { UIFragmentSpec, StateSpaceAndLocationHandlerProps } from '@moxb/moxb';
 
-export interface ChangingContentParams {
-    /**
-     * The state-space to select from
-     */
-    subStates: StateSpace;
-
+export interface LocationDependentContentProps extends StateSpaceAndLocationHandlerProps {
     /**
      * When multiple parts of the layout needs to change
      * based on the same value, we can describe all of those
@@ -32,17 +27,3 @@ export interface ChangingContentParams {
      */
     debug?: boolean;
 }
-
-/**
- * This interface describes the responsibilities of a "navigator",
- * that is, a component that can show different content,
- * based on the currently selected state.
- */
-export interface ChangingContentState extends Navigable {
-    /**
-     * The path tokens that determine the selection of sub-states.
-     */
-    currentTokens: string[];
-}
-
-export type ChangingContentProps = ChangingContentParams & ChangingContentState;

@@ -29,6 +29,8 @@ function filterSubStates(states: SubStateInContext[], filter?: StateCondition): 
  * See the StateSpaceHandler interface for more details.
  */
 export class StateSpaceHandlerImpl implements StateSpaceHandler {
+    protected readonly _id: string;
+    protected readonly _debug?: boolean;
     protected readonly _keyGen: SubStateKeyGenerator;
     protected readonly _subStates: SubStateInContext[];
     protected readonly _allSubStates: SubStateInContext[];
@@ -41,8 +43,8 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
      * @param state The sub-state to work with
      */
     protected _addContext(parentPathTokens: string[], state: SubState): SubStateInContext {
-        const { root, key, subStates, hierarchical } = state;
-        const newTokens = !!subStates ? (hierarchical ? [key!] : []) : [root ? '' : key!];
+        const { root, key, subStates, flat } = state;
+        const newTokens = !!subStates ? (flat ? [] : [key!]) : [root ? '' : key!];
         const totalPathTokens: string[] = [...parentPathTokens, ...newTokens];
         return {
             ...state,
@@ -62,12 +64,15 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
     }
 
     public constructor(props: StateSpaceHandlerProps) {
-        this._keyGen = props.keyGen || new SubStateKeyGeneratorImpl();
+        const { id, keyGen, subStates, filterCondition, debug } = props;
+        this._id = id || 'no-id';
+        this._debug = debug;
+        this._keyGen = keyGen || new SubStateKeyGeneratorImpl();
         this._enumerateSubStates = this._enumerateSubStates.bind(this);
         this._addContext = this._addContext.bind(this);
-        this._subStates = props.subStates.map(s => this._addContext([], s));
+        this._subStates = subStates.map(s => this._addContext([], s));
         this._allSubStates = Array.prototype.concat(...this._subStates.map(this._enumerateSubStates));
-        this._filterCondition = props.filterCondition;
+        this._filterCondition = filterCondition;
     }
 
     public findRoot(): SubStateInContext {
@@ -87,11 +92,12 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
             return this.findRoot();
         }
         const result = this._allSubStates.find(state => {
-            const { isGroupOnly, totalPathTokens, menuKey } = state;
-            const debug = menuKey === 'more.forty';
+            const { isGroupOnly, totalPathTokens } = state;
             const matches = !isGroupOnly && doTokenStringsMatch(currentTokens, totalPathTokens, parsedTokens, false);
-            if (debug) {
+            if (this._debug) {
                 console.log(
+                    'State space handler',
+                    this._id,
                     'Testing state',
                     state,
                     'current tokens',

@@ -3,7 +3,9 @@ import { StateSpaceAndLocationHandler, StateSpaceAndLocationHandlerProps } from 
 import { StateSpaceHandlerImpl } from './StateSpaceHandlerImpl';
 import { UrlArg } from './UrlArg';
 import { SubStateInContext } from './StateSpace';
-import { doTokenStringsMatch, joinTokenString, splitTokenString, updateTokenString } from './tokens';
+import { doTokenStringsMatch, updateTokenString } from './tokens';
+import { UrlArgImpl } from './UrlArgImpl';
+import { URLARG_TYPE_ORDERED_STRING_ARRAY } from './UrlArgTypes';
 
 /**
  * This is the standard implementation of the StateSpaceAndLocationHandler.
@@ -11,19 +13,28 @@ import { doTokenStringsMatch, joinTokenString, splitTokenString, updateTokenStri
  * See the StateSpaceAndLocationHandler interface for more details.
  */
 export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl implements StateSpaceAndLocationHandler {
-    protected readonly _id: string;
     protected readonly _locationManager: LocationManager;
-    protected readonly _urlArg?: UrlArg<string>;
+    protected readonly _urlArg?: UrlArg<string[]>;
     protected readonly _parsedTokens: number;
 
     public constructor(props: StateSpaceAndLocationHandlerProps) {
         super(props);
-        const { locationManager, parsedTokens, arg, id } = props;
-        this._id = id || 'no-id';
+        const { locationManager, parsedTokens, arg } = props;
         this._locationManager = locationManager!;
-        this._urlArg = arg;
+        this._urlArg = arg
+            ? new UrlArgImpl(locationManager!, {
+                  key: arg.key,
+                  valueType: URLARG_TYPE_ORDERED_STRING_ARRAY,
+                  defaultValue:
+                      typeof arg.defaultValue === 'object'
+                          ? arg.defaultValue
+                          : URLARG_TYPE_ORDERED_STRING_ARRAY.getParser(arg.key)(arg.defaultValue, []),
+              })
+            : undefined;
         this._parsedTokens = parsedTokens || 0;
-
+        if (this._debug) {
+            console.log('Parsed tokens for state-space-and-location-handler', this._id, ':', this._parsedTokens);
+        }
         this.isSubStateActive = this.isSubStateActive.bind(this);
     }
 
@@ -31,9 +42,9 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
      * Does the given sub-state (group) has any active sub-states?
      */
     protected _hasActiveSubState(state: SubStateInContext): boolean {
-        const { subStates, isGroupOnly, hierarchical } = state;
-        if (!isGroupOnly || hierarchical) {
-            throw new Error('This method is only for non-hierarchical groups');
+        const { subStates, isGroupOnly, flat } = state;
+        if (!isGroupOnly || !flat) {
+            throw new Error('This method is only for flat groups');
         }
         let result = false;
         subStates!.forEach(subState => {
@@ -48,14 +59,12 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
      * Is the give sub-state currently active?
      */
     public isSubStateActive(state: SubStateInContext) {
-        const { parentPathTokens, root, key, isGroupOnly, hierarchical } = state;
+        const { parentPathTokens, root, key, isGroupOnly, flat } = state;
         if (root || key) {
-            const currentTokens = this._urlArg
-                ? splitTokenString(this._urlArg.value)
-                : this._locationManager.pathTokens;
+            const currentTokens = this._urlArg ? this._urlArg.value : this._locationManager.pathTokens;
             const mustBeExact: boolean = !!root; // No, this can't be simplified.
             const tokens = [...parentPathTokens, root ? '' : key!];
-            if (isGroupOnly && !hierarchical) {
+            if (isGroupOnly && flat) {
                 return this._hasActiveSubState(state);
             }
             const result = doTokenStringsMatch(
@@ -92,11 +101,10 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
      *
      * @param state The sub-state to select
      */
-    protected _getArgValueForSubState(state: SubStateInContext): string {
-        const currentTokens = splitTokenString(this._urlArg!.value);
+    protected _getArgValueForSubState(state: SubStateInContext): string[] {
+        const currentTokens = this._urlArg!.value;
         const newTokens = updateTokenString(currentTokens, 0, state.totalPathTokens);
-        const value = joinTokenString(newTokens);
-        return value;
+        return newTokens;
     }
 
     /**

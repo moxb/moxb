@@ -1,21 +1,29 @@
 import * as React from 'react';
+import { inject, observer } from 'mobx-react';
 
 import {
     renderFragment,
     getFragmentPart,
     UIFragmentSpec,
     SubState,
-    StateSpaceHandler,
-    StateSpaceHandlerImpl,
+    StateSpaceAndLocationHandler,
+    StateSpaceAndLocationHandlerImpl,
 } from '@moxb/moxb';
-import { ChangingContentProps } from './ChangingContent';
+import { LocationDependentContentProps } from './LocationDependentContent';
 
-export class ChangingContentImpl extends React.Component<ChangingContentProps> {
-    protected readonly _states: StateSpaceHandler;
+@inject('locationManager')
+@observer
+export class LocationDependentContentImpl extends React.Component<LocationDependentContentProps> {
+    protected readonly _states: StateSpaceAndLocationHandler;
 
-    public constructor(props: ChangingContentProps) {
+    public constructor(props: LocationDependentContentProps) {
         super(props);
-        this._states = new StateSpaceHandlerImpl(props);
+
+        const { id, part, fallback, mountAll, ...remnantProps } = props;
+        this._states = new StateSpaceAndLocationHandlerImpl({
+            ...remnantProps,
+            id: 'changing content of' + id,
+        });
     }
 
     public debugLog(...messages: any[]) {
@@ -24,7 +32,7 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
         }
     }
 
-    protected renderWantedChild(wantedChild: SubState | null, level: number) {
+    protected renderWantedChild(wantedChild: SubState | null, parsedTokens: number) {
         const { part, fallback, debug } = this.props;
         this.debugLog('fallback is', fallback);
         let spec: UIFragmentSpec;
@@ -42,7 +50,7 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
         const fragment = getFragmentPart(spec, part, debug);
         this.debugLog('Wanted part is', fragment);
         return renderFragment(fragment, {
-            parsedTokens: level + 1,
+            parsedTokens,
         });
     }
 
@@ -63,40 +71,18 @@ export class ChangingContentImpl extends React.Component<ChangingContentProps> {
     }
 
     public render() {
-        const { currentTokens, parsedTokens, fallback, part, mountAll, debug } = this.props;
-        this.debugLog('Looking up', part ? 'part ' + part : 'single fragment');
-        const level = parsedTokens || 0;
-        if (debug) {
-            const keyToken = currentTokens[level];
-            console.log('current tokens are', currentTokens);
-            console.log('number of parsed tokens is', parsedTokens);
-            console.log('level is', level);
-            console.log('Choosing token:', keyToken);
+        const { parsedTokens, mountAll } = this.props;
+        const activeStates = this._states.getActiveSubStates(true);
+        if (activeStates.length > 1) {
+            throw new Error('Uh-oh. More than one active state found');
         }
-
-        const wantedChild = this._states.findSubState(currentTokens, parsedTokens);
-
+        const wantedChild = activeStates[0];
         this.debugLog('wantedChild is', wantedChild);
-
         if (mountAll) {
             return this.renderAllChildren(wantedChild);
         } else {
-            if (wantedChild && wantedChild.subStates) {
-                this.debugLog('it has subStates');
-                return (
-                    <ChangingContentImpl
-                        currentTokens={currentTokens}
-                        parsedTokens={level + 1}
-                        subStates={wantedChild.subStates}
-                        part={part}
-                        fallback={fallback}
-                        mountAll={false}
-                    />
-                );
-            } else {
-                this.debugLog('no subStates');
-                return this.renderWantedChild(wantedChild, level);
-            }
+            const level = (parsedTokens || 0) + (wantedChild ? wantedChild.totalPathTokens.length : 1);
+            return this.renderWantedChild(wantedChild, level);
         }
     }
 }

@@ -85,4 +85,9 @@ export interface UrlArg<T> {
      * Get the raw form of the value
      */
     readonly rawValue: string;
+
+    /**
+     * Get the default value
+     */
+    readonly defaultValue: T;
 }

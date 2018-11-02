@@ -45,9 +45,10 @@ export interface SubState {
     subStates?: SubState[];
 
     /**
-     * If this is a group menu item, should the key for this item be prepended to the keys in this group?
+     * If this is a group menu item, should the items in this group be added "flat" in the same spacec,
+     * without prefixing the key of this state? (defaults to false.)
      */
-    hierarchical?: boolean;
+    flat?: boolean;
 
     /**
      * Custom data

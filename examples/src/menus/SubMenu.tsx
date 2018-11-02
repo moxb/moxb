@@ -49,7 +49,7 @@ export const subMenu1: StateSpace = [
     {
         key: 'thirty',
         label: 'Thirty something',
-        hierarchical: true, // this means that all these sub-states will have "thirty" in their path
+        // this is a default sub-stace group, so all these sub-states will have "thirty" in their path
         subStates: [
             {
                 key: '',
@@ -72,7 +72,7 @@ export const subMenu1: StateSpace = [
     {
         key: 'more',
         label: 'Even more',
-        hierarchical: false, // this means that "more" won't be part of the path for these sub-states
+        flat: true, // this means that "more" won't be part of the path for these sub-states
         subStates: [
             {
                 key: 'forty',

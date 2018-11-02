@@ -47,6 +47,7 @@ export class QueryBasedUrlSchema implements UrlSchema {
             search: new MyURI()
                 .search(realQuery)
                 .search()
+                .replace(/%2C/g, ',')
                 .replace(/%2F/g, '/'),
         };
     }
