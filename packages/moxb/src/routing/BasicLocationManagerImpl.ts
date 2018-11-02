@@ -71,8 +71,13 @@ export class BasicLocationManagerImpl implements LocationManager {
         return this._schema.getPathTokens(this._location);
     }
 
-    public doPathTokensMatch(wantedTokens: string[], parsedTokens: number, exactOnly: boolean): boolean {
-        return doTokenStringsMatch(this.pathTokens, wantedTokens, parsedTokens, exactOnly);
+    public doPathTokensMatch(
+        wantedTokens: string[],
+        parsedTokens: number,
+        exactOnly: boolean,
+        debugMode?: boolean
+    ): boolean {
+        return doTokenStringsMatch(this.pathTokens, wantedTokens, parsedTokens, exactOnly, debugMode);
     }
 
     // get the search arguments

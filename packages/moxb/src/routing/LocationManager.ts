@@ -51,7 +51,7 @@ export interface LocationManager {
      * @param level The level where the token should be found
      * @param exactOnly Is it a match only if there are no further tokens?
      */
-    doPathTokensMatch: (token: string[], level: number, exactOnly: boolean) => boolean;
+    doPathTokensMatch: (token: string[], level: number, exactOnly: boolean, debugMode?: boolean) => boolean;
 
     /**
      * Determine the URL that we would get if we pushed these path tokens.

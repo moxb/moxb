@@ -44,7 +44,7 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
      */
     protected _addContext(parentPathTokens: string[], state: SubState): SubStateInContext {
         const { root, key, subStates, flat } = state;
-        const newTokens = !!subStates ? (flat ? [] : [key!]) : [root ? '' : key!];
+        const newTokens = !!subStates ? (flat ? [] : [key!]) : root ? [] : [key!];
         const totalPathTokens: string[] = [...parentPathTokens, ...newTokens];
         return {
             ...state,
@@ -85,15 +85,16 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
         }
     }
 
-    public findSubState(currentTokens: string[], parsedTokens = 0): SubStateInContext | null {
+    public findSubState(currentTokens: (string | null)[], parsedTokens = 0): SubStateInContext | null {
         const level = parsedTokens;
         const keyToken = currentTokens[level];
         if (isTokenEmpty(keyToken)) {
             return this.findRoot();
         }
         const result = this._allSubStates.find(state => {
-            const { isGroupOnly, totalPathTokens } = state;
-            const matches = !isGroupOnly && doTokenStringsMatch(currentTokens, totalPathTokens, parsedTokens, false);
+            const { isGroupOnly, totalPathTokens, root } = state;
+            const matches =
+                !isGroupOnly && doTokenStringsMatch(currentTokens, totalPathTokens, parsedTokens, !!root, this._debug);
             if (this._debug) {
                 console.log(
                     'State space handler',
@@ -115,9 +116,9 @@ export class StateSpaceHandlerImpl implements StateSpaceHandler {
         if (result) {
             return result;
         } else {
-            const validKeys = this._subStates.map(s => s.key);
-            console.log('Nothing found when looking for a state with key', keyToken, 'valid keys are:', validKeys);
-            console.log('all substates are', this._allSubStates);
+            // const validKeys = this._subStates.map(s => s.key);
+            // console.log('Nothing found when looking for a state with key', keyToken, 'valid keys are:', validKeys);
+            // console.log('all subStates are', this._allSubStates);
             return null;
         }
     }

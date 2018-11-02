@@ -1,24 +1,25 @@
 /**
  * Decide whether a given token is considered to be empty.
  */
-export function isTokenEmpty(token: string | undefined): boolean {
+export function isTokenEmpty(token: string | null | undefined): boolean {
     return token === '' || token === null || token === undefined;
 }
 
 /**
  * Decide whether a pair of tokens is considered to be equivalent
  */
-export function doTokensMatch(token1: string | undefined, token2: string | undefined): boolean {
+export function doTokensMatch(token1: string | null | undefined, token2: string | null | undefined): boolean {
     const empty1 = isTokenEmpty(token1);
     const empty2 = isTokenEmpty(token2);
     return (empty1 && empty2) || token1 === token2;
 }
 
 export function doTokenStringsMatch(
-    currentTokens: string[],
-    wantedTokens: string[],
+    currentTokens: (string | null)[],
+    wantedTokens: (string | null)[],
     parsedTokens: number,
-    exactOnly: boolean
+    exactOnly: boolean,
+    debugMode?: boolean
 ) {
     let result = true;
     wantedTokens.forEach((token, index) => {
@@ -38,8 +39,23 @@ export function doTokenStringsMatch(
         const nextLevel = parsedTokens + wantedTokens.length;
         const nextToken = currentTokens[nextLevel];
         const empty = isTokenEmpty(nextToken);
+        if (debugMode) {
+            console.log(
+                'Testing if this is an exact match.',
+                'nextLevel is',
+                nextLevel,
+                'nextToken is',
+                nextToken,
+                typeof nextToken,
+                'empty?',
+                empty
+            );
+        }
         return empty;
     } else {
+        if (debugMode) {
+            console.log('Not exact match required, returnin true');
+        }
         return true;
     }
 }
@@ -49,11 +65,3 @@ export function updateTokenString(currentTokens: string[], position: number, tok
     const newTokens = [...before, ...tokens.filter(t => t.length)];
     return newTokens;
 }
-
-// export function joinTokenString(tokens: (string | undefined)[]): string {
-//     return tokens.filter(t => !!t && t.length).join('.');
-// }
-//
-// export function splitTokenString(value: string): string[] {
-//     return value.split('.');
-// }

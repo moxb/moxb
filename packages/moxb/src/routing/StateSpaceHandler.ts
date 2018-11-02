@@ -17,7 +17,7 @@ export interface StateSpaceHandler {
      *
      * If token is null or empty string, returns the root subState.
      */
-    findSubState(currentTokens: string[], parsedTokens?: number): SubStateInContext | null;
+    findSubState(currentTokens: (string | null)[], parsedTokens?: number): SubStateInContext | null;
 
     /**
      * Get a list of subStates that are not hidden, and match the specified filter, if any

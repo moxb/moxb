@@ -71,7 +71,8 @@ export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl impl
                 currentTokens,
                 tokens,
                 this._urlArg ? 0 : this._parsedTokens,
-                mustBeExact
+                mustBeExact,
+                this._debug
             );
             return result;
         } else {
