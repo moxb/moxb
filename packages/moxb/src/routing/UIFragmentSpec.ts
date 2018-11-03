@@ -78,7 +78,7 @@ const extractPartFromUIFragmentSpec = (
  *
  * @param debugMode Should we output debug log?
  */
-export const extractUIFragment = (
+export const extractUIFragmentFromSpec = (
     spec: UIFragmentSpec | null | undefined,
     fallback: UIFragmentSpec | null | undefined,
     wantedPart: string | null | undefined,

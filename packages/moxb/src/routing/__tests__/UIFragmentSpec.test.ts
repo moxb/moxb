@@ -1,5 +1,5 @@
 import { UIFragment } from '../UIFragment';
-import { extractUIFragment, UIFragmentSpec } from '../UIFragmentSpec';
+import { extractUIFragmentFromSpec, UIFragmentSpec } from '../UIFragmentSpec';
 
 describe('The getUIFragment function', () => {
     /**
@@ -29,30 +29,32 @@ describe('The getUIFragment function', () => {
     };
 
     it('can return a simple fragment, when there is no map involved', () => {
-        expect(extractUIFragment(simpleSpec, simpleFallbackSpec, null, false)).toBe(simpleFragment);
+        expect(extractUIFragmentFromSpec(simpleSpec, simpleFallbackSpec, null, false)).toBe(simpleFragment);
     });
 
     it('can return a simple fall-back fragment, when there is no map involved, and spec is missing', () => {
-        expect(extractUIFragment(undefined, simpleFallbackSpec, undefined, false)).toBe(simpleFallbackFragment);
+        expect(extractUIFragmentFromSpec(undefined, simpleFallbackSpec, undefined, false)).toBe(simpleFallbackFragment);
     });
 
     it('can return a simple fragment, with no map, when main is requested', () => {
-        expect(extractUIFragment(simpleSpec, simpleFallbackSpec, 'main', false)).toBe(simpleFragment);
+        expect(extractUIFragmentFromSpec(simpleSpec, simpleFallbackSpec, 'main', false)).toBe(simpleFragment);
     });
 
     it('can return a simple fallback fragment, with no map, when main is requested', () => {
-        expect(extractUIFragment(undefined, simpleFallbackSpec, 'main', false)).toBe(simpleFallbackFragment);
+        expect(extractUIFragmentFromSpec(undefined, simpleFallbackSpec, 'main', false)).toBe(simpleFallbackFragment);
     });
 
     it('can return a simple fragment based on a map', () => {
-        expect(extractUIFragment(mapSpec, mapFallbackSpec, 'main', false)).toBe(simpleFragment);
+        expect(extractUIFragmentFromSpec(mapSpec, mapFallbackSpec, 'main', false)).toBe(simpleFragment);
     });
 
     it('can return another simple fragment based on a map', () => {
-        expect(extractUIFragment(mapSpec, mapFallbackSpec, 'footer', false)).toBe(simpleFooterFragment);
+        expect(extractUIFragmentFromSpec(mapSpec, mapFallbackSpec, 'footer', false)).toBe(simpleFooterFragment);
     });
 
     it('can return the relevant part from the fallback, if the wanted part is missing', () => {
-        expect(extractUIFragment(partialMapSpec, mapFallbackSpec, 'footer', false)).toBe(simpleFallbackFooterFragment);
+        expect(extractUIFragmentFromSpec(partialMapSpec, mapFallbackSpec, 'footer', false)).toBe(
+            simpleFallbackFooterFragment
+        );
     });
 });

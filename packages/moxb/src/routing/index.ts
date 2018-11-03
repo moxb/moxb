@@ -1,5 +1,5 @@
 export * from './UIFragment';
-export * from './UIFragmentSpec';
+export { UIFragmentSpec, extractUIFragmentFromSpec } from './UIFragmentSpec';
 
 export { LocationManager, UsesLocation, QueryChange } from './LocationManager';
 export { BasicLocationManagerImpl } from './BasicLocationManagerImpl';

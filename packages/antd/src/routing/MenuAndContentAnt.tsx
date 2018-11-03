@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import { NavMenuBarAnt, NavMenuProps } from './NavMenuBarAnt';
-import { LocationDependentContentImpl, LocationDependentContentProps } from '../not-antd';
+import { LocationDependentArea, LocationDependentAreaProps } from '../not-antd';
 
-export type UIProps = NavMenuProps & LocationDependentContentProps;
+export type UIProps = NavMenuProps & LocationDependentAreaProps;
 
 /**
  * This widget shows an Ant Nav Menu bar, and the corresponding content,
@@ -14,7 +14,7 @@ export class MenuAndContentAnt extends React.Component<UIProps> {
         return (
             <div>
                 <NavMenuBarAnt {...this.props} />
-                <LocationDependentContentImpl {...this.props} />
+                <LocationDependentArea {...this.props} />
             </div>
         );
     }
