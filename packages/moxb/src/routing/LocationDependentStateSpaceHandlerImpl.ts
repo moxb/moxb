@@ -1,5 +1,8 @@
 import { LocationManager, UpdateMethod } from './LocationManager';
-import { StateSpaceAndLocationHandler, StateSpaceAndLocationHandlerProps } from './StateSpaceAndLocationHandler';
+import {
+    LocationDependentStateSpaceHandler,
+    LocationDependentStateSpaceHandlerProps,
+} from './LocationDependentStateSpaceHandler';
 import { StateSpaceHandlerImpl } from './StateSpaceHandlerImpl';
 import { UrlArg } from './UrlArg';
 import { SubStateInContext } from './StateSpace';
@@ -12,12 +15,13 @@ import { URLARG_TYPE_ORDERED_STRING_ARRAY } from './UrlArgTypes';
  *
  * See the StateSpaceAndLocationHandler interface for more details.
  */
-export class StateSpaceAndLocationHandlerImpl extends StateSpaceHandlerImpl implements StateSpaceAndLocationHandler {
+export class LocationDependentStateSpaceHandlerImpl extends StateSpaceHandlerImpl
+    implements LocationDependentStateSpaceHandler {
     protected readonly _locationManager: LocationManager;
     protected readonly _urlArg?: UrlArg<string[]>;
     protected readonly _parsedTokens: number;
 
-    public constructor(props: StateSpaceAndLocationHandlerProps) {
+    public constructor(props: LocationDependentStateSpaceHandlerProps) {
         super(props);
         const { locationManager, parsedTokens, arg } = props;
         this._locationManager = locationManager!;

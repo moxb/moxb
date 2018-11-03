@@ -3,14 +3,14 @@ import { Menu } from 'antd';
 import { observer, inject } from 'mobx-react';
 import {
     SubStateInContext,
-    StateSpaceAndLocationHandler,
-    StateSpaceAndLocationHandlerProps,
-    StateSpaceAndLocationHandlerImpl,
+    LocationDependentStateSpaceHandler,
+    LocationDependentStateSpaceHandlerProps,
+    LocationDependentStateSpaceHandlerImpl,
     renderUIFragment,
 } from '@moxb/moxb';
 import * as Anchor from '../not-antd/Anchor';
 
-export type NavMenuProps = StateSpaceAndLocationHandlerProps;
+export type NavMenuProps = LocationDependentStateSpaceHandlerProps;
 
 @inject('locationManager')
 @observer
@@ -19,7 +19,7 @@ export type NavMenuProps = StateSpaceAndLocationHandlerProps;
  */
 export class NavMenuBarAnt extends React.Component<NavMenuProps> {
     protected readonly _id: string;
-    protected readonly _states: StateSpaceAndLocationHandler;
+    protected readonly _states: LocationDependentStateSpaceHandler;
 
     public constructor(props: NavMenuProps) {
         super(props);
@@ -28,7 +28,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
         this._renderSubStateElement = this._renderSubStateElement.bind(this);
         const { id, children: _children, ...stateProps } = this.props;
         this._id = id || 'no-id';
-        this._states = new StateSpaceAndLocationHandlerImpl({
+        this._states = new LocationDependentStateSpaceHandlerImpl({
             ...stateProps,
             id: 'menu bar of ' + id,
         });

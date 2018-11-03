@@ -82,7 +82,6 @@ export interface LocationManager {
      * @param changes The changes to execute
      * @param method The method to use for updating the URL.
      */
-    //
     setQueries: (changes: QueryChange[], method?: UpdateMethod) => void;
 
     /**

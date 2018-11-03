@@ -3,15 +3,15 @@ import { inject, observer } from 'mobx-react';
 
 import {
     renderUIFragment,
-    StateSpaceAndLocationHandler,
-    StateSpaceAndLocationHandlerImpl,
+    LocationDependentStateSpaceHandler,
+    LocationDependentStateSpaceHandlerImpl,
     UIFragmentSpec,
     extractUIFragmentFromSpec,
     SubStateInContext,
-    StateSpaceAndLocationHandlerProps,
+    LocationDependentStateSpaceHandlerProps,
 } from '@moxb/moxb';
 
-export interface LocationDependentAreaProps extends StateSpaceAndLocationHandlerProps {
+export interface LocationDependentAreaProps extends LocationDependentStateSpaceHandlerProps {
     /**
      * When multiple parts of the layout needs to change
      * based on the same value, we can describe all of those
@@ -45,13 +45,13 @@ export interface LocationDependentAreaProps extends StateSpaceAndLocationHandler
 @inject('locationManager')
 @observer
 export class LocationDependentArea extends React.Component<LocationDependentAreaProps> {
-    protected readonly _states: StateSpaceAndLocationHandler;
+    protected readonly _states: LocationDependentStateSpaceHandler;
 
     public constructor(props: LocationDependentAreaProps) {
         super(props);
 
         const { id, part, fallback, mountAll, ...remnantProps } = props;
-        this._states = new StateSpaceAndLocationHandlerImpl({
+        this._states = new LocationDependentStateSpaceHandlerImpl({
             ...remnantProps,
             id: 'changing content of' + id,
         });

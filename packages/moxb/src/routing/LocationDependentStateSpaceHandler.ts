@@ -5,7 +5,7 @@ import { UrlArg } from './UrlArg';
 import { Navigable } from './navigable';
 import { SubStateInContext } from './StateSpace';
 
-export interface StateSpaceAndLocationHandlerProps extends StateSpaceHandlerProps, UsesLocation, Navigable {
+export interface LocationDependentStateSpaceHandlerProps extends StateSpaceHandlerProps, UsesLocation, Navigable {
     /**
      * The URL argument (if any) driving this component.
      */
@@ -19,7 +19,7 @@ export interface StateSpaceAndLocationHandlerProps extends StateSpaceHandlerProp
  * and can do various calculations and operations,
  * using this two sources of information.
  */
-export interface StateSpaceAndLocationHandler extends StateSpaceHandler {
+export interface LocationDependentStateSpaceHandler extends StateSpaceHandler {
     /**
      * Is this SubState currently active? (Given the location.)
      */
