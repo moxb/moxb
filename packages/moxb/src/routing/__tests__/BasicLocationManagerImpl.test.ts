@@ -5,6 +5,10 @@ import { LocationManager } from '../LocationManager';
 import { UrlArgImpl } from '../UrlArgImpl';
 import { URLARG_TYPE_STRING } from '../UrlArgTypes';
 
+// A "localhost" prefix might make it into URLs, depending on the lib versions.
+// We want to remove them, for uniform testing.
+const cleanLocalhost = (url: string): string => url.replace('http://localhost', '');
+
 describe('The Basic Location Manager implementation', () => {
     const fakeHistory = createMemoryHistory();
     const blm = new BasicLocationManagerImpl({
@@ -59,12 +63,12 @@ describe('The Basic Location Manager implementation', () => {
     it('Should be able to provide URL for path tokens', () => {
         fakeHistory.push('/some/where?foo=bar&sticky=glue');
         expect(
-            locationManager
-                .getURLForPathTokens(
+            cleanLocalhost(
+                locationManager.getURLForPathTokens(
                     1, // First token will be preserved
                     ['place', 'else']
                 )
-                .replace('http://localhost', '') // This prefix might make it into the URL, depending on the lib versions
+            )
         ).toBe('/some/place/else?sticky=glue'); // Normal arg is dropped, permanent is preserved
     });
 
@@ -76,8 +80,30 @@ describe('The Basic Location Manager implementation', () => {
         });
     });
 
-    // TODO: getURLForQueryChanges
-    // TODO: getURLForQueryChange
+    it('Should be able to provide URL for query changes', () => {
+        fakeHistory.push('/some/where?foo=bar&sticky=glue');
+        expect(
+            cleanLocalhost(
+                locationManager.getURLForQueryChanges([
+                    {
+                        key: 'sticky',
+                        value: 'honey',
+                    },
+                    {
+                        key: 'weather',
+                        value: 'windy',
+                    },
+                ])
+            )
+        ).toBe('/some/where?foo=bar&sticky=honey&weather=windy'); // Path is preserved, args changed/added
+    });
+
+    it('Should be able to provide URL for a single query change', () => {
+        fakeHistory.push('/some/where?foo=bar&sticky=glue');
+        expect(cleanLocalhost(locationManager.getURLForQueryChange('sticky', 'honey'))).toBe(
+            '/some/where?foo=bar&sticky=honey'
+        ); // Path is changed, single arg is changed
+    });
 
     it('should be able to set url search arguments', () => {
         fakeHistory.push('/some/path?a=a&b=b&c=c');
@@ -136,7 +162,4 @@ describe('The Basic Location Manager implementation', () => {
         const endLength = fakeHistory.entries.length;
         expect(endLength).toEqual(startLength);
     });
-
-    // TODO: observable interactions?
-    // TODO: what else is there in the code?
 });

@@ -23,19 +23,7 @@ export {
     URLARG_TYPE_URLENCODED,
 } from './UrlArgTypes';
 
-export {
-    /*
-    Change as ArgChange,
-    getArgValue,
-    dispatchArgSetter, createMultiArgSetterAction,
-    createArgResetterAction,
-    createArgTester,
-    createArgGetter,
-    createArgSetter, createArgSetterWithSideEffects,
-    Change,
-    */
-    UrlArgImpl,
-} from './UrlArgImpl';
+export { UrlArgImpl } from './UrlArgImpl';
 
 export { StateSpaceHandler, StateSpaceHandlerProps } from './StateSpaceHandler';
 export { StateSpaceHandlerImpl } from './StateSpaceHandlerImpl';
