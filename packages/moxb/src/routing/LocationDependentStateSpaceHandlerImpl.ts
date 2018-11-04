@@ -101,7 +101,7 @@ export class LocationDependentStateSpaceHandlerImpl extends StateSpaceHandlerImp
         if (results.length > 1) {
             throw new Error('Uh-oh. More than one active state found');
         }
-        return results[0];
+        return results[0] || null;
     }
 
     /**

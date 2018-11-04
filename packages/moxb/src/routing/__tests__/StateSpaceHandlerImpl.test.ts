@@ -1,61 +1,9 @@
-import { StateSpace } from '../StateSpace';
 import { StateSpaceHandlerImpl } from '../StateSpaceHandlerImpl';
+import { testStateSpace } from './TestStateSpace';
 
 describe('State-Space Handler implementation', () => {
-    const stateSpace: StateSpace = [
-        {
-            label: 'Root state',
-            root: true,
-        },
-        {
-            key: 'foo',
-            label: 'Foo',
-        },
-        {
-            key: 'bar',
-            label: 'Bar',
-            hidden: true, // this won't be listed in a menu
-        },
-        {
-            key: 'group1',
-            label: 'Group 1',
-            subStates: [
-                {
-                    key: 'child1',
-                    label: 'Child 1',
-                },
-                {
-                    key: 'child2',
-                    label: 'Child 2',
-                },
-                {
-                    root: true,
-                    label: 'Group 1 Root',
-                },
-            ],
-        },
-        {
-            key: 'group2',
-            label: 'Group 2',
-            flat: true, // This is a flat group, so the sub-states will appear in the same level
-            subStates: [
-                {
-                    key: 'child3',
-                    label: 'Child 3',
-                },
-                {
-                    key: 'child4',
-                    label: 'Child 4',
-                    custom: {
-                        secret: true,
-                    },
-                },
-            ],
-        },
-    ];
-
     const handler = new StateSpaceHandlerImpl({
-        subStates: stateSpace,
+        subStates: testStateSpace,
         filterCondition: state => !(state.custom && state.custom.secret), // in menus, we will hide the "secret" items
         id: 'test state space',
         // debug: true,

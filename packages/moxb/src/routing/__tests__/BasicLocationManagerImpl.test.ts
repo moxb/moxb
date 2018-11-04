@@ -7,7 +7,7 @@ import { URLARG_TYPE_STRING } from '../UrlArgTypes';
 
 // A "localhost" prefix might make it into URLs, depending on the lib versions.
 // We want to remove them, for uniform testing.
-const cleanLocalhost = (url: string): string => url.replace('http://localhost', '');
+export const cleanLocalhost = (url: string): string => url.replace('http://localhost', '');
 
 describe('The Basic Location Manager implementation', () => {
     const fakeHistory = createMemoryHistory();
