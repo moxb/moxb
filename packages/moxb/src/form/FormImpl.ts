@@ -59,9 +59,7 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
 
     @computed
     get hasChanges() {
-        return !this.impl.values.every(v => {
-            return v.isInitialValue === undefined ? true : v.isInitialValue;
-        });
+        return !this.impl.values.every(v => (v.isInitialValue === undefined ? true : v.isInitialValue));
     }
 
     @action.bound
