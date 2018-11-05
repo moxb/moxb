@@ -12,7 +12,7 @@ export {
 
 export { UrlSchema, NativeUrlSchema, QueryBasedUrlSchema, HashBasedUrlSchema } from './url-schema';
 
-export { SubState, StateCondition } from './location-state-space/state-space/StateSpace';
+export { SubState, StateCondition, SubStateInContext } from './location-state-space/state-space/StateSpace';
 
 export {
     UrlArgDefinition,
