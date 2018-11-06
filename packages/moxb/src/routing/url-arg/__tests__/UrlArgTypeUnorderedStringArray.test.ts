@@ -41,6 +41,19 @@ describe('URL arg type unordered string array', () => {
         expect(parser('', ['42'])).toEqual(['42']);
     });
 
+    it('should return copy of default value', () => {
+        const defaultValue = ['1', '2'];
+        const v = parser('', defaultValue);
+        expect(v).toEqual(defaultValue);
+        expect(v).not.toBe(defaultValue);
+    });
+
+    it('should sort default value but not change it', () => {
+        const defaultValue = ['z', 'a'];
+        expect(parser('', defaultValue)).toEqual(['a', 'z']);
+        expect(defaultValue).toEqual(['z', 'a']);
+    });
+
     it('should ignore the order of elements', () => {
         expect(typeDef.isEqual(['a', 'b'], ['b', 'a'])).toBeTruthy();
     });

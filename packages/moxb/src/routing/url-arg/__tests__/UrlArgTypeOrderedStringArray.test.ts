@@ -36,10 +36,17 @@ describe('URL arg type ordered string array', () => {
         expect(v1).toEqual(v2);
     });
 
-    it('should be able to parse empty strings', () => {
+    it('should return default value', () => {
         expect(parser('', ['42'])).toEqual(['42']);
         const defaultValue = ['1'];
-        expect(parser('', defaultValue)).toBe(defaultValue);
+        expect(parser('', defaultValue)).toEqual(defaultValue);
+    });
+
+    it('should return copy of default value', () => {
+        const defaultValue = ['1', '2'];
+        const v = parser('', defaultValue);
+        expect(v).toEqual(defaultValue);
+        expect(v).not.toBe(defaultValue);
     });
 
     it('should consider the order of elements', () => {

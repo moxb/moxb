@@ -22,7 +22,7 @@ export const URLARG_TYPE_BOOLEAN: UrlArgTypeDef<boolean> = {
  * Ordered string list URL arguments
  */
 export const URLARG_TYPE_ORDERED_STRING_ARRAY: UrlArgTypeDef<string[]> = {
-    getParser: () => (v, defaultValue) => (v.length ? v.split(',') : defaultValue),
+    getParser: () => (v, defaultValue) => (v.length ? v.split(',') : defaultValue.slice()),
     isEqual: (v1, v2) => v1.join(',') === v2.join(','),
     format: v => v.join(','),
 };
@@ -37,7 +37,7 @@ const formatOrderedArray = (v: string[]) =>
  * Unordered string array URL arguments
  */
 export const URLARG_TYPE_UNORDERED_STRING_ARRAY: UrlArgTypeDef<string[]> = {
-    getParser: () => (v, defaultValue) => (v.length ? v.split(',') : defaultValue).slice().sort(),
+    getParser: () => (v, defaultValue) => (v.length ? v.split(',') : defaultValue.slice()).sort(),
     isEqual: (v1, v2) => formatOrderedArray(v1) === formatOrderedArray(v2),
     format: formatOrderedArray,
 };
