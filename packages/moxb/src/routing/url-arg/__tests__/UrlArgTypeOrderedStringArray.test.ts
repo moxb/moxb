@@ -18,6 +18,14 @@ describe('URL arg type ordered string array', () => {
         expect(v1).toBe(v2); // The objects are actually the same, not only equal!
     });
 
+    it('should not memorize values!', () => {
+        const v1 = parser('a,b,c', ['42']);
+        v1[1] = 'OOPS';
+        const v2 = parser('a,b,c', ['42']);
+        expect(v1).toEqual(['a', 'OOPS', 'c']);
+        expect(v2).toEqual(['a', 'b', 'c']);
+    });
+
     it('should return the same array instance on subsequent calls with the same string for the same param', () => {
         const v1 = typeDef.getParser('test')('a,b,c', ['42']);
         const v2 = typeDef.getParser('test')('a,b,c', ['42']);
