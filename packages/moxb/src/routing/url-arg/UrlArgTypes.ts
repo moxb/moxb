@@ -14,7 +14,7 @@ export const URLARG_TYPE_STRING: UrlArgTypeDef<string> = {
  * Boolean URL arguments
  */
 export const URLARG_TYPE_BOOLEAN: UrlArgTypeDef<boolean> = {
-    getParser: () => memoize((v: string) => v === 'true'),
+    getParser: () => v => v === 'true',
     isEqual: (v1, v2) => !!v1 === !!v2,
     format: v => v.toString(),
 };
@@ -24,11 +24,11 @@ const empty: string[] = [];
 // @ts-ignore
 const createStringArrayParser = (_key: string) => {
     const parser = memoize(
-        (v: string, _defaultValue: any): string[] => {
-            const result = v.length ? v.split(',').slice() : empty;
+        (v: string, defaultValue: string[] = empty): string[] => {
+            const result = v.length ? v.split(',').slice() : defaultValue;
             return result;
         },
-        v => v.toString()
+        (v: string, defaultValue: string[] = empty) => v.toString() + defaultValue
     );
     return parser;
 };
