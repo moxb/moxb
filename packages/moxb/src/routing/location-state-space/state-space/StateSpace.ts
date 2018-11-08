@@ -1,19 +1,23 @@
-// This interface describes a possible state for a part of the app UI
-import { UIFragment } from '../../UIFragment';
-import { UIFragmentSpec } from '../../UIFragmentSpec';
+/**
+ * This interface describes a possible state for a part of the app UI
+ *
+ * Since this data structure is UI-Framework agnostic,
+ * you will have to provide your own UI-related (label and content) types
+ * as type parameters.
+ */
 
-export interface SubState {
+export interface SubState<LabelType, WidgetType> {
     /**
      * The label to identify this sub-state,
      *
      * when offered up for selection in a menu or similar
      */
-    label: UIFragment;
+    label: LabelType;
 
     /**
      * A special label to use when this sub-state is active
      */
-    activeLabel?: UIFragment;
+    activeLabel?: LabelType;
 
     /**
      * The key to identify this sub-state. (Can be undefined if this is the root state)
@@ -38,12 +42,12 @@ export interface SubState {
     /**
      * What content so show in this sub-state?
      */
-    fragment?: UIFragmentSpec;
+    fragment?: WidgetType;
 
     /**
      * Any further child states (for sub-menus, etc)
      */
-    subStates?: SubState[];
+    subStates?: SubState<LabelType, WidgetType>[];
 
     /**
      * If this is a group menu item, should the items in this group be added "flat" in the same spacec,
@@ -60,12 +64,12 @@ export interface SubState {
 /**
  * The totality of all possible states for a given part of the app UI
  */
-export type StateSpace = SubState[];
+export type StateSpace<LabelType, WidgetType> = SubState<LabelType, WidgetType>[];
 
 /**
  * This interface describes how the identify a sub-state within a state-space
  */
-export interface SubStateInContext extends SubState {
+export interface SubStateInContext<LabelType, WidgetType> extends SubState<LabelType, WidgetType> {
     /**
      * What are the parent path tokens to choose to reach the level
      * where the current sub-state is directly accessible?
@@ -90,10 +94,10 @@ export interface SubStateInContext extends SubState {
     /**
      * We are restricting the SubStates array so that we know that they all must have context, too
      */
-    subStates?: SubStateInContext[];
+    subStates?: SubStateInContext<LabelType, WidgetType>[];
 }
 
 /**
  * A condition used to decide whether or not to offer a given SubState
  */
-export type StateCondition = (item: SubState) => boolean;
+export type StateCondition<LabelType, WidgetType> = (item: SubState<LabelType, WidgetType>) => boolean;

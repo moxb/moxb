@@ -1,6 +1,6 @@
 import { StateSpace } from '../StateSpace';
 
-export const testStateSpace: StateSpace = [
+export const testStateSpace: StateSpace<string, any> = [
     {
         label: 'Root state',
         root: true,

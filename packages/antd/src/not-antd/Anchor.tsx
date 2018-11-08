@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UIFragment, renderUIFragment } from '@moxb/moxb';
+import { renderUIFragment, UIFragment } from './UIFragment';
 
 /**
  * Parameters for describing an anchor

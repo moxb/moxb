@@ -7,10 +7,10 @@ import { MoreMenusAnt } from './menus/MoreMenusAnt';
 
 // @ts-ignore
 import lockImgUrl from '../images/lock.jpg';
-
 import { StateSpace } from '@moxb/moxb';
+import { UIFragmentSpec, UIFragment } from '@moxb/antd';
 
-export const mainMenu: StateSpace = [
+export const mainMenu: StateSpace<UIFragment, UIFragmentSpec> = [
     {
         root: true,
         label: 'All Components',
