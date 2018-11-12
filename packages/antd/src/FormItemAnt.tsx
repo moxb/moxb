@@ -49,6 +49,6 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
  */
 export function parsePropsForChild<T, O>(bindProps: T, op: O): T & O {
     // @ts-ignore
-    const { children, label, formStyle, labelCol, wrapperCol, ...props } = parseProps(bindProps, op);
+    const { label, formStyle, labelCol, wrapperCol, ...props } = parseProps(bindProps, op);
     return props;
 }
