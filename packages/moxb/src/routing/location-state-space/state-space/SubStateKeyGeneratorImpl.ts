@@ -2,7 +2,7 @@ import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { SubState } from './StateSpace';
 
 export class SubStateKeyGeneratorImpl implements SubStateKeyGenerator {
-    public getKey(parentPathTokens: string[], state: SubState) {
+    public getKey(parentPathTokens: string[], state: SubState<any, any>) {
         const { key, root, subStates } = state;
         if (parentPathTokens === undefined) {
             console.log('oops');

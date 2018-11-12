@@ -5,5 +5,5 @@
 import { SubState } from './StateSpace';
 
 export interface SubStateKeyGenerator {
-    getKey: (parentPathTokens: string[], state: SubState) => string;
+    getKey: (parentPathTokens: string[], state: SubState<any, any>) => string;
 }

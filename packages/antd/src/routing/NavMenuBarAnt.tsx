@@ -6,11 +6,11 @@ import {
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerProps,
     LocationDependentStateSpaceHandlerImpl,
-    renderUIFragment,
 } from '@moxb/moxb';
 import * as Anchor from '../not-antd/Anchor';
+import { renderUIFragment, UIFragment, UIFragmentSpec } from '../not-antd';
 
-export type NavMenuProps = LocationDependentStateSpaceHandlerProps;
+export type NavMenuProps = LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec>;
 
 @inject('locationManager')
 @observer
@@ -19,7 +19,7 @@ export type NavMenuProps = LocationDependentStateSpaceHandlerProps;
  */
 export class NavMenuBarAnt extends React.Component<NavMenuProps> {
     protected readonly _id: string;
-    protected readonly _states: LocationDependentStateSpaceHandler;
+    protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec>;
 
     public constructor(props: NavMenuProps) {
         super(props);
@@ -34,7 +34,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
         });
     }
 
-    protected _renderSubStateLink(state: SubStateInContext) {
+    protected _renderSubStateLink(state: SubStateInContext<UIFragment, UIFragmentSpec>) {
         const { label, menuKey } = state;
         const url = this._states.getUrlForSubState(state);
         const anchorProps: Anchor.UIProps = {
@@ -49,7 +49,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
         );
     }
 
-    protected _renderSubStateGroup(state: SubStateInContext) {
+    protected _renderSubStateGroup(state: SubStateInContext<UIFragment, UIFragmentSpec>) {
         const { label, key, subStates, flat, menuKey } = state;
         if (!flat && !key) {
             throw new Error("Can't create a hierarchical menu group without a key!");
@@ -61,7 +61,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
         );
     }
 
-    protected _renderSubStateElement(state: SubStateInContext) {
+    protected _renderSubStateElement(state: SubStateInContext<UIFragment, UIFragmentSpec>) {
         const { isGroupOnly } = state;
         return isGroupOnly ? this._renderSubStateGroup(state) : this._renderSubStateLink(state);
     }

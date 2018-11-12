@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { StateSpace } from '@moxb/moxb';
 
 // @ts-ignore
 import blueUrl from '../../images/blue_blocks.png';
@@ -13,8 +12,10 @@ import redUrl from '../../images/red_blocks.gif';
 import threeUrl from '../../images/three_apples.jpg';
 // @ts-ignore
 import twoUrl from '../../images/two_apples.jpg';
+import { StateSpace } from '@moxb/moxb';
+import { UIFragmentSpec } from '@moxb/antd';
 
-export const subMenu1: StateSpace = [
+export const subMenu1: StateSpace<string, UIFragmentSpec> = [
     {
         key: 'one',
         root: true,
@@ -88,7 +89,7 @@ export const subMenu1: StateSpace = [
     },
 ];
 
-export const subMenu2: StateSpace = [
+export const subMenu2: StateSpace<string, UIFragmentSpec> = [
     {
         key: 'red',
         label: 'Red',

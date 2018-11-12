@@ -46,7 +46,7 @@
   },
   "peerDependencies": {
     "mobx": "^4.3.0 || ^5.0.0",
-    "tslib":  "^1.9.0"
+    "tslib": "^1.9.0"
   },
   "devDependencies": {
     "@types/history": "^4.7.0",
@@ -58,7 +58,6 @@
   "dependencies": {
     "history": "4.7.2",
     "lodash.memoize": "^4.1.2",
-    "react-mobx": "0.0.4",
     "urijs": "^1.19.1"
   }
 }
