@@ -57,7 +57,6 @@
   },
   "dependencies": {
     "history": "4.7.2",
-    "lodash.memoize": "^4.1.2",
     "urijs": "^1.19.1"
   }
 }
