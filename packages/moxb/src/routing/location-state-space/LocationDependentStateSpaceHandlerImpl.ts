@@ -31,7 +31,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
                   defaultValue:
                       typeof arg.defaultValue === 'object'
                           ? arg.defaultValue
-                          : URLARG_TYPE_ORDERED_STRING_ARRAY.getParser(arg.key)(arg.defaultValue, []),
+                          : URLARG_TYPE_ORDERED_STRING_ARRAY.getParser(arg.key)(arg.defaultValue) || [],
               })
             : undefined;
         this._parsedTokens = parsedTokens || 0;

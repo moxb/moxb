@@ -1,7 +1,6 @@
 import { createMemoryHistory } from 'history';
-import { BasicLocationManagerImpl } from '../../location-manager/BasicLocationManagerImpl';
-import { NativeUrlSchema } from '../../url-schema/NativeUrlSchema';
-import { LocationManager } from '../../location-manager/LocationManager';
+import { LocationManager, BasicLocationManagerImpl } from '../../location-manager';
+import { NativeUrlSchema } from '../../url-schema';
 import { UrlArgImpl } from '../UrlArgImpl';
 import { URLARG_TYPE_UNORDERED_STRING_ARRAY } from '../UrlArgTypes';
 import { cleanLocalhost } from '../../location-manager/__tests__/BasicLocationManagerImpl.test';
@@ -26,6 +25,11 @@ describe('UrlArgImpl', () => {
         expect(pocket.defined).toBeFalsy();
         fakeHistory.push('/?pocket=key');
         expect(pocket.defined).toBeTruthy();
+    });
+
+    it('should be able to read the default value, when the arg is not specified in URL', () => {
+        fakeHistory.push('/');
+        expect(pocket.value).toEqual(['dust']);
     });
 
     it('should be able to extract data from the location manager', () => {

@@ -10,7 +10,7 @@ function existsInQuery(query: Query, key: string) {
 
 function getFromQuery<T>(query: Query, key: string, parse: ParserFunc<T>, defaultValue: T) {
     const formatted: string = query[key];
-    return formatted === undefined ? defaultValue : parse(formatted, defaultValue);
+    return formatted === undefined ? defaultValue : parse(formatted);
 }
 
 export class UrlArgImpl<T> implements UrlArg<T> {

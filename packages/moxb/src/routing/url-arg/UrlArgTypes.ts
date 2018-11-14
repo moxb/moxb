@@ -14,7 +14,7 @@ export const URLARG_TYPE_STRING: UrlArgTypeDef<string> = {
  */
 export const URLARG_TYPE_BOOLEAN: UrlArgTypeDef<boolean> = {
     getParser: () => v => v === 'true',
-    isEqual: (v1, v2) => !!v1 === !!v2,
+    isEqual: (v1, v2) => !!v1 === !!v2, // No, this shouldn't be simplified.
     format: v => v.toString(),
 };
 
@@ -22,7 +22,7 @@ export const URLARG_TYPE_BOOLEAN: UrlArgTypeDef<boolean> = {
  * Ordered string list URL arguments
  */
 export const URLARG_TYPE_ORDERED_STRING_ARRAY: UrlArgTypeDef<string[]> = {
-    getParser: () => (v, defaultValue) => (v.length ? v.split(',') : defaultValue.slice()),
+    getParser: () => v => v.split(','),
     isEqual: (v1, v2) => v1.join(',') === v2.join(','),
     format: v => v.join(','),
 };
@@ -37,7 +37,7 @@ const formatOrderedArray = (v: string[]) =>
  * Unordered string array URL arguments
  */
 export const URLARG_TYPE_UNORDERED_STRING_ARRAY: UrlArgTypeDef<string[]> = {
-    getParser: () => (v, defaultValue) => (v.length ? v.split(',') : defaultValue.slice()).sort(),
+    getParser: () => v => v.split(',').sort(),
     isEqual: (v1, v2) => formatOrderedArray(v1) === formatOrderedArray(v2),
     format: formatOrderedArray,
 };
@@ -45,16 +45,13 @@ export const URLARG_TYPE_UNORDERED_STRING_ARRAY: UrlArgTypeDef<string[]> = {
 /**
  * Object URL argument
  */
-export function URLARG_TYPE_OBJECT<T>(): UrlArgTypeDef<T> {
-    const parser = (v: string, defaultValue: T): T => {
-        if (!v.length) {
-            return (null as any) as T;
-        }
+export function URLARG_TYPE_OBJECT<T>(): UrlArgTypeDef<T | null> {
+    const parser = (v: string): T | null => {
         try {
             return JSON.parse(atob(v));
         } catch (e) {
             console.log("Warning: Can't decode base64 encoded structure.");
-            return defaultValue;
+            return null;
         }
     };
 
