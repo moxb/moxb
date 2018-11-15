@@ -6,7 +6,7 @@ import {
 import { StateSpaceHandlerImpl } from './state-space/StateSpaceHandlerImpl';
 import { UrlArg, UrlArgImpl, URLARG_TYPE_ORDERED_STRING_ARRAY } from '../url-arg';
 import { SubStateInContext } from './state-space/StateSpace';
-import { doTokenStringsMatch, updateTokenString } from '../tokens';
+import { updateTokenString } from '../tokens';
 
 /**
  * This is the standard implementation of the StateSpaceAndLocationHandler.
@@ -42,45 +42,24 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
     }
 
     /**
-     * Does the given sub-state (group) has any active sub-states?
+     * Get the current tokens
      */
-    protected _hasActiveSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): boolean {
-        const { subStates, isGroupOnly, flat } = state;
-        if (!isGroupOnly || !flat) {
-            throw new Error('This method is only for flat groups');
-        }
-        let result = false;
-        subStates!.forEach(subState => {
-            if (this.isSubStateActive(subState)) {
-                result = true;
-            }
-        });
-        return result;
+    protected _getCurrentTokens(): string[] {
+        return this._urlArg ? this._urlArg.value : this._locationManager.pathTokens;
+    }
+
+    /**
+     * Get the current number of parsed tokens
+     */
+    protected _getParsedTokenCount(): number {
+        return this._urlArg ? 0 : this._parsedTokens;
     }
 
     /**
      * Is the give sub-state currently active?
      */
     public isSubStateActive(state: SubStateInContext<LabelType, WidgetType, DataType>) {
-        const { parentPathTokens, root, key, isGroupOnly, flat } = state;
-        if (root || key) {
-            const currentTokens = this._urlArg ? this._urlArg.value : this._locationManager.pathTokens;
-            const mustBeExact: boolean = !!root; // No, this can't be simplified.
-            const tokens = [...parentPathTokens, root ? '' : key!];
-            if (isGroupOnly && flat) {
-                return this._hasActiveSubState(state);
-            }
-            const result = doTokenStringsMatch(
-                currentTokens,
-                tokens,
-                this._urlArg ? 0 : this._parsedTokens,
-                mustBeExact,
-                this._debug
-            );
-            return result;
-        } else {
-            return false;
-        }
+        return this.isSubStateActiveForTokens(state, this._getCurrentTokens(), this._getParsedTokenCount());
     }
 
     /**
@@ -88,19 +67,14 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
      * @param leavesOnly Should we skip groups?
      */
     public getActiveSubStates(leavesOnly: boolean): SubStateInContext<LabelType, WidgetType, DataType>[] {
-        const states = leavesOnly ? this._allSubStates.filter(s => !s.isGroupOnly) : this._allSubStates;
-        return states.filter(this.isSubStateActive);
+        return this.getActiveSubStatesForTokens(this._getCurrentTokens(), this._getParsedTokenCount(), leavesOnly);
     }
 
     /**
      * Return the single active sub-state leaf, if any
      */
     public getActiveSubState(): SubStateInContext<LabelType, WidgetType, DataType> | null {
-        const results = this.getActiveSubStates(true);
-        if (results.length > 1) {
-            throw new Error('Uh-oh. More than one active state found');
-        }
-        return results[0] || null;
+        return this.findSubStateForTokens(this._getCurrentTokens(), this._getParsedTokenCount());
     }
 
     /**
@@ -162,12 +136,12 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
     /**
      * Select the sub-state addressed by the given string of tokens
      */
-    public selectByTokens(tokens: string[]) {
-        const subState = this.findSubState(tokens);
+    public selectByTokens(wantedTokens: string[]) {
+        const subState = this.findSubStateForTokens(wantedTokens);
         if (subState) {
             this.selectSubState(subState);
         } else {
-            throw new Error("Couldn't find sub-state with tokens [" + tokens.join(', ') + '].');
+            throw new Error("Couldn't find sub-state with tokens [" + wantedTokens.join(', ') + '].');
         }
     }
 }

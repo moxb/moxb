@@ -46,12 +46,14 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
     }
 
     protected _renderSubStateLink(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
-        const { label, menuKey } = state;
+        const { label, key, menuKey, newWindow, linkClassName } = state;
         const url = this._states.getUrlForSubState(state);
         const anchorProps: Anchor.UIProps = {
-            label,
+            label: label || key,
             href: url,
-            onClick: () => this._states.selectSubState(state),
+            target: newWindow ? '_blank' : undefined,
+            onClick: newWindow ? undefined : () => this._states.selectSubState(state),
+            className: linkClassName,
         };
         return (
             <Menu.Item key={menuKey}>
@@ -66,7 +68,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
             throw new Error("Can't create a hierarchical menu group without a key!");
         }
         return (
-            <Menu.SubMenu key={menuKey} title={renderUIFragment(label)}>
+            <Menu.SubMenu key={menuKey} title={renderUIFragment(label || key || '***')}>
                 {subStates!.map(this._renderSubStateElement)}
             </Menu.SubMenu>
         );

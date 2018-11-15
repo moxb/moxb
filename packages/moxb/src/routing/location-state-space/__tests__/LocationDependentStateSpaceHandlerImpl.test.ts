@@ -1,9 +1,10 @@
 import { createMemoryHistory } from 'history';
 import { LocationDependentStateSpaceHandlerImpl } from '../LocationDependentStateSpaceHandlerImpl';
-import { testStateSpace } from '../state-space/__tests__/TestStateSpace';
+import { TestData, testStateSpace } from '../state-space/__tests__/TestStateSpace';
 import { NativeUrlSchema } from '../../url-schema';
 import { LocationManager, BasicLocationManagerImpl } from '../../location-manager';
 import { UrlArgImpl, URLARG_TYPE_STRING } from '../../url-arg';
+import { LocationDependentStateSpaceHandler } from '../LocationDependentStateSpaceHandler';
 
 describe('Location-Dependent State-Space-Handler implementation, powered by path', () => {
     const fakeHistory = createMemoryHistory();
@@ -14,7 +15,11 @@ describe('Location-Dependent State-Space-Handler implementation, powered by path
     blm.watchHistory();
     const locationManager: LocationManager = blm;
 
-    const handler = new LocationDependentStateSpaceHandlerImpl({
+    const handler: LocationDependentStateSpaceHandler<
+        string,
+        any,
+        TestData
+    > = new LocationDependentStateSpaceHandlerImpl({
         locationManager,
         subStates: testStateSpace,
         filterCondition: state => !(state.data && state.data.secret), // in menus, we will hide the "secret" items

@@ -2,7 +2,7 @@ import { SubState, StateCondition, SubStateInContext } from './StateSpace';
 import { StateSpaceHandler, StateSpaceHandlerProps } from './StateSpaceHandler';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { SubStateKeyGeneratorImpl } from './SubStateKeyGeneratorImpl';
-import { doTokenStringsMatch, isTokenEmpty } from '../../tokens';
+import { doTokenStringsMatch } from '../../tokens';
 
 /**
  * Recursively filter out the sub-states that are hidden or don't match the filter
@@ -94,44 +94,98 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         }
     }
 
-    public findSubState(
-        currentTokens: (string | null)[],
+    /**
+     * Does the given sub-state (group) has any active sub-states, for the given set of tokens?
+     *
+     * @param state The sub-state to check
+     * @param wantedTokens The token list to check against
+     * @param parsedTokens The number of tokens already parser
+     * @private
+     */
+    protected _hasActiveSubStateForTokens(
+        state: SubStateInContext<LabelType, WidgetType, DataType>,
+        wantedTokens: (string | null)[],
+        parsedTokens = 0
+    ): boolean {
+        const { subStates, isGroupOnly, flat } = state;
+        if (!isGroupOnly || !flat) {
+            throw new Error('This method is only for flat groups');
+        }
+        let result = false;
+        subStates!.forEach(subState => {
+            if (this.isSubStateActiveForTokens(subState, wantedTokens, parsedTokens)) {
+                result = true;
+            }
+        });
+        return result;
+    }
+
+    /**
+     * Is the given sub-state active for a given set of tokens?
+     *
+     * @param state The sub-state to check
+     * @param wantedTokens The token list to check against
+     * @param parsedTokens The number of tokens already parser
+     * @private
+     */
+    public isSubStateActiveForTokens(
+        state: SubStateInContext<LabelType, WidgetType, DataType>,
+        wantedTokens: (string | null)[],
+        parsedTokens = 0
+    ) {
+        const { isGroupOnly, flat, totalPathTokens, root } = state;
+        if (isGroupOnly && flat) {
+            return this._hasActiveSubStateForTokens(state, wantedTokens, parsedTokens);
+        }
+        const matches =
+            !isGroupOnly && doTokenStringsMatch(wantedTokens, totalPathTokens, parsedTokens, !!root, this._debug);
+        if (this._debug) {
+            console.log(
+                'State space handler',
+                this._id,
+                'Testing state',
+                state,
+                'current tokens',
+                wantedTokens,
+                'state tokens',
+                totalPathTokens,
+                'parsedTokens',
+                parsedTokens,
+                'match?',
+                matches
+            );
+        }
+        return matches;
+    }
+
+    public getActiveSubStatesForTokens(wantedTokens: (string | null)[], parsedTokens: number, leavesOnly: boolean) {
+        const states = leavesOnly ? this._allSubStates.filter(s => !s.isGroupOnly) : this._allSubStates;
+        const results = states.filter(state => this.isSubStateActiveForTokens(state, wantedTokens, parsedTokens));
+        return results;
+    }
+
+    public findSubStateForTokens(
+        wantedTokens: (string | null)[],
         parsedTokens = 0
     ): SubStateInContext<LabelType, WidgetType, DataType> | null {
-        const level = parsedTokens;
-        const keyToken = currentTokens[level];
-        if (isTokenEmpty(keyToken)) {
-            return this.findRoot();
-        }
-        const result = this._allSubStates.find(state => {
-            const { isGroupOnly, totalPathTokens, root } = state;
-            const matches =
-                !isGroupOnly && doTokenStringsMatch(currentTokens, totalPathTokens, parsedTokens, !!root, this._debug);
-            if (this._debug) {
-                console.log(
-                    'State space handler',
-                    this._id,
-                    'Testing state',
-                    state,
-                    'current tokens',
-                    currentTokens,
-                    'state tokens',
-                    totalPathTokens,
-                    'parsedTokens',
-                    parsedTokens,
-                    'match?',
-                    matches
-                );
-            }
-            return matches;
-        });
-        if (result) {
-            return result;
-        } else {
-            // const validKeys = this._subStatesInContext.map(s => s.key);
-            // console.log('Nothing found when looking for a state with key', keyToken, 'valid keys are:', validKeys);
-            // console.log('all subStates are', this._allSubStates);
-            return null;
+        // const level = parsedTokens;
+        // const keyToken = currentTokens[level];
+        // if (isTokenEmpty(keyToken)) {
+        //     return this.findRoot();
+        // }
+        const results = this.getActiveSubStatesForTokens(wantedTokens, parsedTokens, true);
+        switch (results.length) {
+            case 0:
+                // const validKeys = this._subStatesInContext.map(s => s.key);
+                // console.log('Nothing found when looking for a state with key', keyToken, 'valid keys are:', validKeys);
+                // console.log('all subStates are', this._allSubStates);
+                return null;
+            case 1:
+                return results[0];
+            default:
+                // We have multiple matches.
+                console.log(results);
+                throw new Error('Multiple identical keys on the same level are unsupported.');
         }
     }
 

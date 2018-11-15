@@ -12,7 +12,7 @@ export interface SubState<LabelType, WidgetType, DataType> {
      *
      * when offered up for selection in a menu or similar
      */
-    label: LabelType;
+    label?: LabelType;
 
     /**
      * A special label to use when this sub-state is active
@@ -59,6 +59,16 @@ export interface SubState<LabelType, WidgetType, DataType> {
      * Custom data
      */
     data?: DataType;
+
+    /**
+     * When showing this in a menu, should we open link in a new window?
+     */
+    newWindow?: boolean;
+
+    /**
+     *
+     */
+    linkClassName?: string;
 }
 
 /**

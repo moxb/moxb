@@ -29,4 +29,4 @@ export {
     LocationDependentStateSpaceHandlerImpl,
 } from './location-state-space';
 
-export { Navigable, getNextPathToken } from './navigable';
+export { Navigable, getNextPathToken, getParsedPathTokens } from './navigable';

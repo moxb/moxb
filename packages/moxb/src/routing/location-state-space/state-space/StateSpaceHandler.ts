@@ -22,12 +22,38 @@ export interface StateSpaceHandler<LabelType, WidgetType, DataType> {
     findRoot(): SubState<LabelType, WidgetType, DataType>;
 
     /**
+     * Is the given sub-state active for a given set of tokens?
+     *
+     * @param state The sub-state to check
+     * @param wantedTokens The token list to check against
+     * @param parsedTokens The number of tokens already parser
+     */
+    isSubStateActiveForTokens(
+        state: SubStateInContext<LabelType, WidgetType, DataType>,
+        wantedTokens: (string | null)[],
+        parsedTokens: number
+    ): boolean;
+
+    /**
+     * Collect the active sub-states for a given set of tokens
+     *
+     * @param wantedTokens The token list to check against
+     * @param parsedTokens The number of tokens already parser
+     * @param leavesOnly Should we skip groups?
+     */
+    getActiveSubStatesForTokens(
+        wantedTokens: (string | null)[],
+        parsedTokens: number,
+        leavesOnly: boolean
+    ): SubStateInContext<LabelType, WidgetType, DataType>[];
+
+    /**
      * Find the subState for a given token.
      *
      * If token is null or empty string, returns the root subState.
      */
-    findSubState(
-        currentTokens: (string | null)[],
+    findSubStateForTokens(
+        wantedTokens: (string | null)[],
         parsedTokens?: number
     ): SubStateInContext<LabelType, WidgetType, DataType> | null;
 

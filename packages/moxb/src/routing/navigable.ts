@@ -22,3 +22,11 @@ export const getNextPathToken = (props: Navigable & UsesLocation): string => {
     const { locationManager, parsedTokens } = props;
     return locationManager!.pathTokens[parsedTokens!];
 };
+
+/**
+ * Extract the already parsed path tokens from the location manager, based on the number of parsed tokens passed down
+ */
+export const getParsedPathTokens = (props: Navigable & UsesLocation) => {
+    const { locationManager, parsedTokens } = props;
+    return locationManager!.pathTokens.slice(0, parsedTokens!);
+};

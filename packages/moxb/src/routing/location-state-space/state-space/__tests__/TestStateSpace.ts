@@ -1,6 +1,6 @@
 import { StateSpace } from '../StateSpace';
 
-interface TestData {
+export interface TestData {
     secret: boolean;
 }
 
