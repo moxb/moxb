@@ -10,8 +10,8 @@ import {
 import { renderUIFragment, UIFragment } from './UIFragment';
 import { extractUIFragmentFromSpec, UIFragmentSpec } from './UIFragmentSpec';
 
-export interface LocationDependentAreaProps
-    extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec> {
+export interface LocationDependentAreaProps<DataType>
+    extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
     /**
      * When multiple parts of the layout needs to change
      * based on the same value, we can describe all of those
@@ -44,10 +44,10 @@ export interface LocationDependentAreaProps
 
 @inject('locationManager')
 @observer
-export class LocationDependentArea extends React.Component<LocationDependentAreaProps> {
-    protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec>;
+export class LocationDependentArea<DataType> extends React.Component<LocationDependentAreaProps<DataType>> {
+    protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>;
 
-    public constructor(props: LocationDependentAreaProps) {
+    public constructor(props: LocationDependentAreaProps<DataType>) {
         super(props);
 
         const { id, part, fallback, mountAll, ...remnantProps } = props;
@@ -63,7 +63,10 @@ export class LocationDependentArea extends React.Component<LocationDependentArea
         }
     }
 
-    protected renderSubState(subState: SubStateInContext<UIFragment, UIFragmentSpec> | null, invisible?: boolean) {
+    protected renderSubState(
+        subState: SubStateInContext<UIFragment, UIFragmentSpec, DataType> | null,
+        invisible?: boolean
+    ) {
         const { parsedTokens, fallback, part } = this.props;
         const newParsedTokens = (parsedTokens || 0) + (subState ? subState.totalPathTokens.length : 1);
         const fragment = extractUIFragmentFromSpec((subState || ({} as any)).fragment, fallback, part);

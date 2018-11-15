@@ -11,9 +11,14 @@ export interface AnchorParams {
     title?: string;
 
     /**
-     * Any classnamse to apply
+     * Any classnames to apply
      */
     className?: string;
+
+    /**
+     * Any direct styles to apply
+     */
+    style?: React.CSSProperties;
 
     /**
      * Label to use.
@@ -85,7 +90,7 @@ export class Anchor extends React.PureComponent<UIProps> {
     }
 
     public render() {
-        const { label, title, children, className, href, disabled } = this.props;
+        const { label, title, children, className, style, href, disabled } = this.props;
         return (
             <a
                 href={href || '#'}
@@ -93,6 +98,7 @@ export class Anchor extends React.PureComponent<UIProps> {
                 onClick={this.cancelEvent}
                 title={title}
                 className={className + (disabled ? ' disabled' : '')}
+                style={style}
             >
                 {renderUIFragment(label || '')}
                 {children}

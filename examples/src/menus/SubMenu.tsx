@@ -15,7 +15,7 @@ import twoUrl from '../../images/two_apples.jpg';
 import { StateSpace } from '@moxb/moxb';
 import { UIFragmentSpec } from '@moxb/antd';
 
-export const subMenu1: StateSpace<string, UIFragmentSpec> = [
+export const subMenu1: StateSpace<string, UIFragmentSpec, {}> = [
     {
         key: 'one',
         root: true,
@@ -89,7 +89,7 @@ export const subMenu1: StateSpace<string, UIFragmentSpec> = [
     },
 ];
 
-export const subMenu2: StateSpace<string, UIFragmentSpec> = [
+export const subMenu2: StateSpace<string, UIFragmentSpec, {}> = [
     {
         key: 'red',
         label: 'Red',

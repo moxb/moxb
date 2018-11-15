@@ -10,7 +10,7 @@ import lockImgUrl from '../images/lock.jpg';
 import { StateSpace } from '@moxb/moxb';
 import { UIFragmentSpec, UIFragment } from '@moxb/antd';
 
-export const mainMenu: StateSpace<UIFragment, UIFragmentSpec> = [
+export const mainMenu: StateSpace<UIFragment, UIFragmentSpec, {}> = [
     {
         root: true,
         label: 'All Components',

@@ -10,23 +10,34 @@ import {
 import * as Anchor from '../not-antd/Anchor';
 import { renderUIFragment, UIFragment, UIFragmentSpec } from '../not-antd';
 
-export type NavMenuProps = LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec>;
+export interface NavMenuProps<DataType>
+    extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
+    /**
+     * Any extra menu items to add
+     */
+    extras?: JSX.Element[];
+
+    /**
+     * Any direct styles to apply
+     */
+    style?: React.CSSProperties;
+}
 
 @inject('locationManager')
 @observer
 /**
  * This widget show an Ant menu bar, based on the state-space.
  */
-export class NavMenuBarAnt extends React.Component<NavMenuProps> {
+export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataType>> {
     protected readonly _id: string;
-    protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec>;
+    protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>;
 
-    public constructor(props: NavMenuProps) {
+    public constructor(props: NavMenuProps<DataType>) {
         super(props);
         this._renderSubStateLink = this._renderSubStateLink.bind(this);
         this._renderSubStateGroup = this._renderSubStateGroup.bind(this);
         this._renderSubStateElement = this._renderSubStateElement.bind(this);
-        const { id, children: _children, ...stateProps } = this.props;
+        const { id, children: _children, extras, style, ...stateProps } = this.props;
         this._id = id || 'no-id';
         this._states = new LocationDependentStateSpaceHandlerImpl({
             ...stateProps,
@@ -34,7 +45,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
         });
     }
 
-    protected _renderSubStateLink(state: SubStateInContext<UIFragment, UIFragmentSpec>) {
+    protected _renderSubStateLink(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
         const { label, menuKey } = state;
         const url = this._states.getUrlForSubState(state);
         const anchorProps: Anchor.UIProps = {
@@ -49,7 +60,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
         );
     }
 
-    protected _renderSubStateGroup(state: SubStateInContext<UIFragment, UIFragmentSpec>) {
+    protected _renderSubStateGroup(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
         const { label, key, subStates, flat, menuKey } = state;
         if (!flat && !key) {
             throw new Error("Can't create a hierarchical menu group without a key!");
@@ -61,7 +72,7 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
         );
     }
 
-    protected _renderSubStateElement(state: SubStateInContext<UIFragment, UIFragmentSpec>) {
+    protected _renderSubStateElement(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
         const { isGroupOnly } = state;
         return isGroupOnly ? this._renderSubStateGroup(state) : this._renderSubStateLink(state);
     }
@@ -70,9 +81,11 @@ export class NavMenuBarAnt extends React.Component<NavMenuProps> {
         // AndD's Menu is smart enough to automatically indicate active state
         // on all groups, so we only ask for the leaves.
         const selectedMenuKeys = this._states.getActiveSubStateMenuKeys(true);
+        const { extras, style } = this.props;
         return (
-            <Menu selectedKeys={selectedMenuKeys} mode="horizontal" style={{ lineHeight: '64px' }}>
+            <Menu selectedKeys={selectedMenuKeys} mode="horizontal" style={style}>
                 {this._states.getFilteredSubStates().map(this._renderSubStateElement)}
+                {...extras || []}
             </Menu>
         );
     }
