@@ -1,11 +1,9 @@
 import { createMemoryHistory } from 'history';
 import { LocationDependentStateSpaceHandlerImpl } from '../LocationDependentStateSpaceHandlerImpl';
 import { testStateSpace } from '../state-space/__tests__/TestStateSpace';
-import { BasicLocationManagerImpl } from '../../location-manager/BasicLocationManagerImpl';
-import { NativeUrlSchema } from '../../url-schema/NativeUrlSchema';
-import { LocationManager } from '../../location-manager/LocationManager';
-import { UrlArgImpl } from '../../url-arg/UrlArgImpl';
-import { URLARG_TYPE_STRING } from '../../url-arg/UrlArgTypes';
+import { NativeUrlSchema } from '../../url-schema';
+import { LocationManager, BasicLocationManagerImpl } from '../../location-manager';
+import { UrlArgImpl, URLARG_TYPE_STRING } from '../../url-arg';
 
 describe('Location-Dependent State-Space-Handler implementation, powered by path', () => {
     const fakeHistory = createMemoryHistory();
@@ -19,7 +17,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by path
     const handler = new LocationDependentStateSpaceHandlerImpl({
         locationManager,
         subStates: testStateSpace,
-        filterCondition: state => !(state.custom && state.custom.secret), // in menus, we will hide the "secret" items
+        filterCondition: state => !(state.data && state.data.secret), // in menus, we will hide the "secret" items
         id: 'test loc dep state-space handler 1 (path based)',
         // no parsed tokens first
     });
@@ -110,7 +108,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     const handler = new LocationDependentStateSpaceHandlerImpl({
         locationManager,
         subStates: testStateSpace,
-        filterCondition: state => !(state.custom && state.custom.secret), // in menus, we will hide the "secret" items
+        filterCondition: state => !(state.data && state.data.secret), // in menus, we will hide the "secret" items
         id: 'test loc dep state-space handler 2 (arg based)',
         arg: where,
     });
@@ -195,7 +193,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by path
     const handler = new LocationDependentStateSpaceHandlerImpl({
         locationManager,
         subStates: testStateSpace,
-        filterCondition: state => !(state.custom && state.custom.secret), // in menus, we will hide the "secret" items
+        filterCondition: state => !(state.data && state.data.secret), // in menus, we will hide the "secret" items
         id: 'test loc dep state-space handler 3 (path based, with prefix)',
         parsedTokens: 1, // The first token on the path will be ignored
     });

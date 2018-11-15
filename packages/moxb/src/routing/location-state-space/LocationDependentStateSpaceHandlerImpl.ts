@@ -13,14 +13,14 @@ import { doTokenStringsMatch, updateTokenString } from '../tokens';
  *
  * See the StateSpaceAndLocationHandler interface for more details.
  */
-export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType>
-    extends StateSpaceHandlerImpl<LabelType, WidgetType>
-    implements LocationDependentStateSpaceHandler<LabelType, WidgetType> {
+export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataType>
+    extends StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
+    implements LocationDependentStateSpaceHandler<LabelType, WidgetType, DataType> {
     protected readonly _locationManager: LocationManager;
     protected readonly _urlArg?: UrlArg<string[]>;
     protected readonly _parsedTokens: number;
 
-    public constructor(props: LocationDependentStateSpaceHandlerProps<LabelType, WidgetType>) {
+    public constructor(props: LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
         super(props);
         const { locationManager, parsedTokens, arg } = props;
         this._locationManager = locationManager!;
@@ -44,7 +44,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType>
     /**
      * Does the given sub-state (group) has any active sub-states?
      */
-    protected _hasActiveSubState(state: SubStateInContext<LabelType, WidgetType>): boolean {
+    protected _hasActiveSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): boolean {
         const { subStates, isGroupOnly, flat } = state;
         if (!isGroupOnly || !flat) {
             throw new Error('This method is only for flat groups');
@@ -61,7 +61,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType>
     /**
      * Is the give sub-state currently active?
      */
-    public isSubStateActive(state: SubStateInContext<LabelType, WidgetType>) {
+    public isSubStateActive(state: SubStateInContext<LabelType, WidgetType, DataType>) {
         const { parentPathTokens, root, key, isGroupOnly, flat } = state;
         if (root || key) {
             const currentTokens = this._urlArg ? this._urlArg.value : this._locationManager.pathTokens;
@@ -87,7 +87,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType>
      * Return a list of currently active sub-states
      * @param leavesOnly Should we skip groups?
      */
-    public getActiveSubStates(leavesOnly: boolean): SubStateInContext<LabelType, WidgetType>[] {
+    public getActiveSubStates(leavesOnly: boolean): SubStateInContext<LabelType, WidgetType, DataType>[] {
         const states = leavesOnly ? this._allSubStates.filter(s => !s.isGroupOnly) : this._allSubStates;
         return states.filter(this.isSubStateActive);
     }
@@ -95,7 +95,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType>
     /**
      * Return the single active sub-state leaf, if any
      */
-    public getActiveSubState(): SubStateInContext<LabelType, WidgetType> | null {
+    public getActiveSubState(): SubStateInContext<LabelType, WidgetType, DataType> | null {
         const results = this.getActiveSubStates(true);
         if (results.length > 1) {
             throw new Error('Uh-oh. More than one active state found');
@@ -116,7 +116,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType>
      *
      * @param state The sub-state to select
      */
-    protected _getArgValueForSubState(state: SubStateInContext<LabelType, WidgetType>): string[] {
+    protected _getArgValueForSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): string[] {
         const currentTokens = this._urlArg!.value;
         const newTokens = updateTokenString(currentTokens, 0, state.totalPathTokens);
         return newTokens;
@@ -125,7 +125,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType>
     /**
      * Return the URL that would select a given sub-state
      */
-    public getUrlForSubState(state: SubStateInContext<LabelType, WidgetType>): string {
+    public getUrlForSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): string {
         if (this._urlArg) {
             const value = this._getArgValueForSubState(state);
             return this._urlArg.getModifiedUrl(value);
@@ -140,7 +140,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType>
      * @param state The sub-state to select
      * @param method The method for updating the URL
      */
-    public selectSubState(state: SubStateInContext<LabelType, WidgetType>, method?: UpdateMethod) {
+    public selectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>, method?: UpdateMethod) {
         if (this.isSubStateActive(state)) {
             //            console.log("Not jumping, already in state", state);
         } else {

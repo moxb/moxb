@@ -10,16 +10,16 @@ import { SubStateKeyGenerator } from './SubStateKeyGenerator';
  * you will have to provide your own UI-related (label and content) types
  * as type parameters.
  */
-export interface StateSpaceHandler<LabelType, WidgetType> {
+export interface StateSpaceHandler<LabelType, WidgetType, DataType> {
     /**
      * Expose the subStates together with the computed context information.
      */
-    readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType>[];
+    readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType, DataType>[];
 
     /**
      * Find the root subState, if defined.
      */
-    findRoot(): SubState<LabelType, WidgetType>;
+    findRoot(): SubState<LabelType, WidgetType, DataType>;
 
     /**
      * Find the subState for a given token.
@@ -29,18 +29,18 @@ export interface StateSpaceHandler<LabelType, WidgetType> {
     findSubState(
         currentTokens: (string | null)[],
         parsedTokens?: number
-    ): SubStateInContext<LabelType, WidgetType> | null;
+    ): SubStateInContext<LabelType, WidgetType, DataType> | null;
 
     /**
      * Get a list of subStates that are not hidden, and match the specified filter, if any
      */
-    getFilteredSubStates(): SubStateInContext<LabelType, WidgetType>[];
+    getFilteredSubStates(): SubStateInContext<LabelType, WidgetType, DataType>[];
 }
 
 /**
  * The props given to a StateSpaceHandler
  */
-export interface StateSpaceHandlerProps<LabelType, WidgetType> {
+export interface StateSpaceHandlerProps<LabelType, WidgetType, DataType> {
     /**
      * An optional ID, for debugging
      */
@@ -49,12 +49,12 @@ export interface StateSpaceHandlerProps<LabelType, WidgetType> {
     /**
      * The list of sub-states to work with
      */
-    subStates: StateSpace<LabelType, WidgetType>;
+    subStates: StateSpace<LabelType, WidgetType, DataType>;
 
     /**
      * An optional condition to use for filtering when displaying in a menu
      */
-    filterCondition?: StateCondition<LabelType, WidgetType>;
+    filterCondition?: StateCondition<LabelType, WidgetType, DataType>;
 
     /**
      * A key generator to use to address hierarchically nested sub-states.

@@ -4,7 +4,7 @@ import { testStateSpace } from './TestStateSpace';
 describe('State-Space Handler implementation', () => {
     const handler = new StateSpaceHandlerImpl({
         subStates: testStateSpace,
-        filterCondition: state => !(state.custom && state.custom.secret), // in menus, we will hide the "secret" items
+        filterCondition: state => !(state.data && state.data.secret), // in menus, we will hide the "secret" items
         id: 'test state space',
         // debug: true,
     });

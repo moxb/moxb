@@ -5,8 +5,8 @@ import { UrlArg } from '../url-arg';
 import { Navigable } from '../navigable';
 import { SubStateInContext } from './state-space/StateSpace';
 
-export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType>
-    extends StateSpaceHandlerProps<LabelType, WidgetType>,
+export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>
+    extends StateSpaceHandlerProps<LabelType, WidgetType, DataType>,
         UsesLocation,
         Navigable {
     /**
@@ -26,24 +26,24 @@ export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType>
  * you will have to provide your own UI-related (label and content) types
  * as type parameters.
  */
-export interface LocationDependentStateSpaceHandler<LabelType, WidgetType>
-    extends StateSpaceHandler<LabelType, WidgetType> {
+export interface LocationDependentStateSpaceHandler<LabelType, WidgetType, DataType>
+    extends StateSpaceHandler<LabelType, WidgetType, DataType> {
     /**
      * Is this SubState currently active? (Given the location.)
      */
-    isSubStateActive(state: SubStateInContext<LabelType, WidgetType>): boolean;
+    isSubStateActive(state: SubStateInContext<LabelType, WidgetType, DataType>): boolean;
 
     /**
      * Get the list of active SubStates at the current location, potentially including groups.
      *
      * leavesOnly: get only the terminal sub-states, no groups
      */
-    getActiveSubStates(leavesOnly: boolean): SubStateInContext<LabelType, WidgetType>[];
+    getActiveSubStates(leavesOnly: boolean): SubStateInContext<LabelType, WidgetType, DataType>[];
 
     /**
      * Get the (single) active sub-state at the current location. (Must be a leaf.)
      */
-    getActiveSubState(): SubStateInContext<LabelType, WidgetType> | null;
+    getActiveSubState(): SubStateInContext<LabelType, WidgetType, DataType> | null;
 
     /**
      * Get the list of the menu keys of the active SubStates. (At the current location.)
@@ -55,7 +55,7 @@ export interface LocationDependentStateSpaceHandler<LabelType, WidgetType>
     /**
      * Change the location so that the given SubState becomes active.
      */
-    selectSubState(state: SubStateInContext<LabelType, WidgetType>): void;
+    selectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): void;
 
     /**
      * Change the location so that the SubState with the given key becomes active.
@@ -65,5 +65,5 @@ export interface LocationDependentStateSpaceHandler<LabelType, WidgetType>
     /**
      * Get the URL that would select a given sub-state
      */
-    getUrlForSubState(state: SubStateInContext<LabelType, WidgetType>): string;
+    getUrlForSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): string;
 }

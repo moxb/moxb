@@ -6,7 +6,7 @@
  * as type parameters.
  */
 
-export interface SubState<LabelType, WidgetType> {
+export interface SubState<LabelType, WidgetType, DataType> {
     /**
      * The label to identify this sub-state,
      *
@@ -47,7 +47,7 @@ export interface SubState<LabelType, WidgetType> {
     /**
      * Any further child states (for sub-menus, etc)
      */
-    subStates?: SubState<LabelType, WidgetType>[];
+    subStates?: SubState<LabelType, WidgetType, DataType>[];
 
     /**
      * If this is a group menu item, should the items in this group be added "flat" in the same spacec,
@@ -58,18 +58,18 @@ export interface SubState<LabelType, WidgetType> {
     /**
      * Custom data
      */
-    custom?: any;
+    data?: DataType;
 }
 
 /**
  * The totality of all possible states for a given part of the app UI
  */
-export type StateSpace<LabelType, WidgetType> = SubState<LabelType, WidgetType>[];
+export type StateSpace<LabelType, WidgetType, DataType> = SubState<LabelType, WidgetType, DataType>[];
 
 /**
  * This interface describes how the identify a sub-state within a state-space
  */
-export interface SubStateInContext<LabelType, WidgetType> extends SubState<LabelType, WidgetType> {
+export interface SubStateInContext<LabelType, WidgetType, DataType> extends SubState<LabelType, WidgetType, DataType> {
     /**
      * What are the parent path tokens to choose to reach the level
      * where the current sub-state is directly accessible?
@@ -94,10 +94,12 @@ export interface SubStateInContext<LabelType, WidgetType> extends SubState<Label
     /**
      * We are restricting the SubStates array so that we know that they all must have context, too
      */
-    subStates?: SubStateInContext<LabelType, WidgetType>[];
+    subStates?: SubStateInContext<LabelType, WidgetType, DataType>[];
 }
 
 /**
  * A condition used to decide whether or not to offer a given SubState
  */
-export type StateCondition<LabelType, WidgetType> = (item: SubState<LabelType, WidgetType>) => boolean;
+export type StateCondition<LabelType, WidgetType, DataType> = (
+    item: SubState<LabelType, WidgetType, DataType>
+) => boolean;

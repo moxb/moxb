@@ -1,6 +1,10 @@
 import { StateSpace } from '../StateSpace';
 
-export const testStateSpace: StateSpace<string, any> = [
+interface TestData {
+    secret: boolean;
+}
+
+export const testStateSpace: StateSpace<string, any, TestData> = [
     {
         label: 'Root state',
         root: true,
@@ -44,7 +48,7 @@ export const testStateSpace: StateSpace<string, any> = [
             {
                 key: 'child4',
                 label: 'Child 4',
-                custom: {
+                data: {
                     secret: true,
                 },
             },

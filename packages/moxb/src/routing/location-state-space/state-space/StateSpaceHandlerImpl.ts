@@ -10,10 +10,10 @@ import { doTokenStringsMatch, isTokenEmpty } from '../../tokens';
  * @param states the SubStates to start with
  * @param filter the optional condition to use for filtering
  */
-function filterSubStates<LabelType, WidgetType>(
-    states: SubStateInContext<LabelType, WidgetType>[],
-    filter?: StateCondition<LabelType, WidgetType>
-): SubStateInContext<LabelType, WidgetType>[] {
+function filterSubStates<LabelType, WidgetType, DataType>(
+    states: SubStateInContext<LabelType, WidgetType, DataType>[],
+    filter?: StateCondition<LabelType, WidgetType, DataType>
+): SubStateInContext<LabelType, WidgetType, DataType>[] {
     return states.filter(state => !state.hidden && (!filter || filter(state))).map(state => {
         if (state.subStates) {
             return {
@@ -31,13 +31,14 @@ function filterSubStates<LabelType, WidgetType>(
  *
  * See the StateSpaceHandler interface for more details.
  */
-export class StateSpaceHandlerImpl<LabelType, WidgetType> implements StateSpaceHandler<LabelType, WidgetType> {
+export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
+    implements StateSpaceHandler<LabelType, WidgetType, DataType> {
     protected readonly _id: string;
     protected readonly _debug?: boolean;
     protected readonly _keyGen: SubStateKeyGenerator;
-    public readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType>[];
-    protected readonly _allSubStates: SubStateInContext<LabelType, WidgetType>[];
-    protected readonly _filterCondition?: StateCondition<LabelType, WidgetType>;
+    public readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType, DataType>[];
+    protected readonly _allSubStates: SubStateInContext<LabelType, WidgetType, DataType>[];
+    protected readonly _filterCondition?: StateCondition<LabelType, WidgetType, DataType>;
 
     /**
      * Add context info around a given sub-state
@@ -47,8 +48,8 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType> implements StateSpaceH
      */
     protected _addContext(
         parentPathTokens: string[],
-        state: SubState<LabelType, WidgetType>
-    ): SubStateInContext<LabelType, WidgetType> {
+        state: SubState<LabelType, WidgetType, DataType>
+    ): SubStateInContext<LabelType, WidgetType, DataType> {
         const { root, key, subStates, flat } = state;
         const newTokens = !!subStates ? (flat ? [] : [key!]) : root ? [] : [key!];
         const totalPathTokens: string[] = [...parentPathTokens, ...newTokens];
@@ -63,15 +64,15 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType> implements StateSpaceH
     }
 
     protected _enumerateSubStates(
-        state: SubStateInContext<LabelType, WidgetType>
-    ): SubStateInContext<LabelType, WidgetType>[] {
-        const subStates: SubStateInContext<LabelType, WidgetType>[] = state.subStates
+        state: SubStateInContext<LabelType, WidgetType, DataType>
+    ): SubStateInContext<LabelType, WidgetType, DataType>[] {
+        const subStates: SubStateInContext<LabelType, WidgetType, DataType>[] = state.subStates
             ? Array.prototype.concat(...state.subStates.map(s => this._enumerateSubStates(s)))
             : [];
         return [state, ...subStates];
     }
 
-    public constructor(props: StateSpaceHandlerProps<LabelType, WidgetType>) {
+    public constructor(props: StateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
         const { id, keyGen, subStates, filterCondition, debug } = props;
         this._id = id || 'no-id';
         this._debug = debug;
@@ -83,7 +84,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType> implements StateSpaceH
         this._filterCondition = filterCondition;
     }
 
-    public findRoot(): SubStateInContext<LabelType, WidgetType> {
+    public findRoot(): SubStateInContext<LabelType, WidgetType, DataType> {
         const result = this._subStatesInContext.find(state => !!state.root);
         if (result) {
             return result;
@@ -96,7 +97,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType> implements StateSpaceH
     public findSubState(
         currentTokens: (string | null)[],
         parsedTokens = 0
-    ): SubStateInContext<LabelType, WidgetType> | null {
+    ): SubStateInContext<LabelType, WidgetType, DataType> | null {
         const level = parsedTokens;
         const keyToken = currentTokens[level];
         if (isTokenEmpty(keyToken)) {
@@ -134,7 +135,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType> implements StateSpaceH
         }
     }
 
-    public getFilteredSubStates(): SubStateInContext<LabelType, WidgetType>[] {
+    public getFilteredSubStates(): SubStateInContext<LabelType, WidgetType, DataType>[] {
         return filterSubStates(this._subStatesInContext, this._filterCondition);
     }
 }
