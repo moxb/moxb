@@ -13,15 +13,15 @@ describe('URL arg type boolean', () => {
     });
 
     it('should be able to parse true', () => {
-        expect(parser('true', false)).toBe(true);
+        expect(parser('true')).toBe(true);
     });
 
     it('should be able to parse false', () => {
-        expect(parser('false', false)).toBe(false);
+        expect(parser('false')).toBe(false);
     });
 
     it('should interpreted random junk as false', () => {
-        expect(parser('magic', false)).toBe(false);
+        expect(parser('magic')).toBe(false);
     });
 
     it('should correctly recognize true to be equal to true', () => {

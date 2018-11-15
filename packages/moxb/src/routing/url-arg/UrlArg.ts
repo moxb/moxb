@@ -2,7 +2,7 @@ import { UpdateMethod } from '../location-manager/LocationManager';
 import { Query } from '../url-schema/UrlSchema';
 
 export interface ParserFunc<T> {
-    (formatted: string, defaultValue: T): T;
+    (formatted: string): T;
 }
 
 interface EqualityTester<T> {
