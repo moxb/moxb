@@ -34,6 +34,11 @@ export interface AnchorParams {
      * Any custom data
      */
     data?: any;
+
+    /**
+     * This goes straight to HTML
+     */
+    target?: string;
 }
 
 export interface TargetParams {
@@ -90,7 +95,7 @@ export class Anchor extends React.PureComponent<UIProps> {
     }
 
     public render() {
-        const { label, title, children, className, style, href, disabled } = this.props;
+        const { label, title, children, className, style, href, target, disabled } = this.props;
         return (
             <a
                 href={href || '#'}
@@ -99,6 +104,7 @@ export class Anchor extends React.PureComponent<UIProps> {
                 title={title}
                 className={className + (disabled ? ' disabled' : '')}
                 style={style}
+                target={target || '_self'}
             >
                 {renderUIFragment(label || '')}
                 {children}
