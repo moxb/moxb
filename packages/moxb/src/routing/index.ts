@@ -30,3 +30,5 @@ export {
 } from './location-state-space';
 
 export { Navigable, getNextPathToken, getParsedPathTokens } from './navigable';
+
+export { isTokenEmpty } from './tokens';
