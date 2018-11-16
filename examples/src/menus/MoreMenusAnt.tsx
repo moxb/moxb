@@ -30,7 +30,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         <div>And here is a text field</div>
                         <TextFormAnt operation={url!.bindSearch} />
                         <hr />
-                        <Link pathTokens={['moreMenus', 'two']} label="Select 'two' on the left tab menu!" />
+                        <Link to={['moreMenus', 'two']} label="Select 'two' on the left tab menu!" />
                         <hr />
                         <ArgChangingLink arg={url!.color!} value="blue" label="Set the color to blue!" />
                         <hr />

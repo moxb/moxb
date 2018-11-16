@@ -7,7 +7,7 @@ export interface LinkParams extends Anchor.AnchorParams {
     /**
      * The path tokens to set
      */
-    pathTokens: string[];
+    to: string[];
 
     /**
      * Set the number of tokens to be preserved. further tokens will be dropped.
@@ -29,13 +29,13 @@ export class Link extends React.Component<LinkProps & UsesLocation> {
     }
 
     protected handleClick() {
-        const { locationManager, pathTokens, position } = this.props;
-        locationManager!.setPathTokens(position || 0, pathTokens);
+        const { locationManager, to, position } = this.props;
+        locationManager!.setPathTokens(position || 0, to);
     }
 
     public render() {
-        const { locationManager, pathTokens, position, children, ...remnants } = this.props;
-        const url = locationManager!.getURLForPathTokens(position || 0, pathTokens);
+        const { locationManager, to, position, children, ...remnants } = this.props;
+        const url = locationManager!.getURLForPathTokens(position || 0, to);
         const anchorProps: Anchor.UIProps = {
             ...remnants,
             href: url,
