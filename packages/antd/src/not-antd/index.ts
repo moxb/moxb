@@ -5,3 +5,4 @@ export { LocationDependentArea, LocationDependentAreaProps } from './LocationDep
 export { UIFragment, renderUIFragment } from './UIFragment';
 export { UIFragmentSpec, extractUIFragmentFromSpec } from './UIFragmentSpec';
 export { Anchor } from './Anchor';
+export { rootOrDetails, DetailProps } from './rootOrDetails';

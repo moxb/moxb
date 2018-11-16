@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-type Component<T> = {
-    (props: T): JSX.Element;
-};
+type Component<T> = (props: T) => JSX.Element | null;
 
 /**
  * A UIFragment is something that can be displayed.

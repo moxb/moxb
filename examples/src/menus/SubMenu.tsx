@@ -10,9 +10,11 @@ import greenUrl from '../../images/green_blocks.jpg';
 import redUrl from '../../images/red_blocks.gif';
 // @ts-ignore
 import twoUrl from '../../images/two_apples.jpg';
+// @ts-ignore
+import threeUrl from '../../images/three_apples.jpg';
 import { StateSpace } from '@moxb/moxb';
-import { UIFragmentSpec } from '@moxb/antd';
-import { ThreeStuff } from './ThreeStuff';
+import { UIFragmentSpec, rootOrDetails } from '@moxb/antd';
+import { DetailDisplayer } from './DetailDisplayer';
 
 export const subMenu1: StateSpace<string, UIFragmentSpec, {}> = [
     {
@@ -39,7 +41,15 @@ export const subMenu1: StateSpace<string, UIFragmentSpec, {}> = [
     {
         key: 'three',
         label: 'Three',
-        fragment: ThreeStuff,
+        fragment: rootOrDetails({
+            root: (
+                <div>
+                    Three apples: <br />
+                    <img src={threeUrl} />
+                </div>
+            ),
+            details: DetailDisplayer,
+        }),
     },
     {
         key: 'thirty',
