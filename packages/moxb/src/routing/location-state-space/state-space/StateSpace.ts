@@ -1,12 +1,49 @@
-/**
- * This interface describes a possible state for a part of the app UI
- *
- * Since this data structure is UI-Framework agnostic,
- * you will have to provide your own UI-related (label and content) types
- * as type parameters.
- */
+export interface SubStateCoreInfo<WidgetType, DataType> {
+    /**
+     * What content so show in this sub-state?
+     */
+    fragment?: WidgetType;
 
-export interface SubState<LabelType, WidgetType, DataType> {
+    /**
+     * Custom data
+     */
+    data?: DataType;
+}
+
+export interface SubStateRelations<LabelType, WidgetType, DataType> {
+    /**
+     * The key to identify this sub-state. (Can be undefined if this is the root state)
+     */
+    key?: string;
+
+    /**
+     * Is this the root state?
+     */
+    root?: boolean;
+
+    /**
+     * Any further child states (for sub-menus, etc)
+     */
+    subStates?: SubState<LabelType, WidgetType, DataType>[];
+
+    /**
+     * If this is a group menu item, should the items in this group be added "flat" in the same spacec,
+     * without prefixing the key of this state? (defaults to false.)
+     */
+    flat?: boolean;
+}
+
+export interface SubStateDisplayInfo<LabelType> {
+    /**
+     * Should this option be offered in menus and such?
+     */
+    hidden?: boolean;
+
+    /**
+     * Is this option currently disabled? If yes, this will option will be displayed, but won't be selectable.
+     */
+    disabled?: boolean;
+
     /**
      * The label to identify this sub-state,
      *
@@ -20,56 +57,27 @@ export interface SubState<LabelType, WidgetType, DataType> {
     activeLabel?: LabelType;
 
     /**
-     * The key to identify this sub-state. (Can be undefined if this is the root state)
-     */
-    key?: string;
-
-    /**
-     * Is this the root state?
-     */
-    root?: boolean;
-
-    /**
-     * Should this option be offered in menus and such?
-     */
-    hidden?: boolean;
-
-    /**
-     * Is this option currently disabled? If yes, this will option will be displayed, but won't be selectable.
-     */
-    disabled?: boolean;
-
-    /**
-     * What content so show in this sub-state?
-     */
-    fragment?: WidgetType;
-
-    /**
-     * Any further child states (for sub-menus, etc)
-     */
-    subStates?: SubState<LabelType, WidgetType, DataType>[];
-
-    /**
-     * If this is a group menu item, should the items in this group be added "flat" in the same spacec,
-     * without prefixing the key of this state? (defaults to false.)
-     */
-    flat?: boolean;
-
-    /**
-     * Custom data
-     */
-    data?: DataType;
-
-    /**
      * When showing this in a menu, should we open link in a new window?
      */
     newWindow?: boolean;
 
     /**
-     *
+     * Extra classes to use when displaying the link
      */
     linkClassName?: string;
 }
+
+/**
+ * This interface describes a possible state for a part of the app UI
+ *
+ * Since this data structure is UI-Framework agnostic,
+ * you will have to provide your own UI-related (label and content) types
+ * as type parameters.
+ */
+export interface SubState<LabelType, WidgetType, DataType>
+    extends SubStateCoreInfo<WidgetType, DataType>,
+        SubStateRelations<LabelType, WidgetType, DataType>,
+        SubStateDisplayInfo<LabelType> {}
 
 /**
  * The totality of all possible states for a given part of the app UI

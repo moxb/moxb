@@ -8,7 +8,14 @@ export {
 
 export { UrlSchema, NativeUrlSchema, QueryBasedUrlSchema, HashBasedUrlSchema } from './url-schema';
 
-export { SubState, StateCondition, SubStateInContext, StateSpace } from './location-state-space/state-space/StateSpace';
+export {
+    SubState,
+    SubStateCoreInfo,
+    SubStateDisplayInfo,
+    StateCondition,
+    SubStateInContext,
+    StateSpace,
+} from './location-state-space/state-space/StateSpace';
 
 export {
     UrlArgDefinition,

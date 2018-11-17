@@ -6,3 +6,4 @@ export { UIFragment, renderUIFragment } from './UIFragment';
 export { UIFragmentSpec, extractUIFragmentFromSpec } from './UIFragmentSpec';
 export { Anchor } from './Anchor';
 export { rootOrDetails, DetailProps } from './rootOrDetails';
+export { renderFallback } from './rendering';

@@ -6,10 +6,10 @@ import {
     LocationDependentStateSpaceHandlerImpl,
     SubStateInContext,
     LocationDependentStateSpaceHandlerProps,
-    Navigable,
 } from '@moxb/moxb';
-import { renderUIFragment, UIFragment } from './UIFragment';
-import { extractUIFragmentFromSpec, UIFragmentSpec } from './UIFragmentSpec';
+import { UIFragment } from './UIFragment';
+import { UIFragmentSpec } from './UIFragmentSpec';
+import { renderSubStateCore } from './rendering';
 
 export interface LocationDependentAreaProps<DataType>
     extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
@@ -68,24 +68,19 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         subState: SubStateInContext<UIFragment, UIFragmentSpec, DataType> | null,
         invisible?: boolean
     ) {
-        const { parsedTokens, filterCondition, fallback, part } = this.props;
-        const newParsedTokens = (parsedTokens || 0) + (subState ? subState.totalPathTokens.length : 1);
-        const fragment = extractUIFragmentFromSpec((subState || ({} as any)).fragment, fallback, part);
-        this.debugLog('Rendering fragment', fragment);
-        const navigableChildProps: Navigable<UIFragmentSpec, DataType> = {
-            parsedTokens: newParsedTokens,
-            filterCondition,
-            fallback,
-            part,
-        };
-        const props: any = {
+        const extraProps: any = {
             key: subState ? subState.key : 'missing',
-            ...navigableChildProps,
         };
         if (invisible) {
-            props.invisible = true;
+            extraProps.invisible = true;
         }
-        return renderUIFragment(fragment, props);
+        return renderSubStateCore({
+            state: subState,
+            navigationContext: this.props,
+            tokenIncrease: subState ? subState.totalPathTokens.length : 1,
+            checkCondition: false, // We don't ever get to select this sub-state if the condition fails
+            extraProps,
+        });
     }
 
     public render() {
