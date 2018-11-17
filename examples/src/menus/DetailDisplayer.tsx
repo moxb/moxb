@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { UsesLocation, Navigable, getParsedPathTokens } from '@moxb/moxb';
-import { DetailProps } from '@moxb/antd';
+import { DetailProps, UIFragmentSpec } from '@moxb/antd';
 
 @inject('locationManager')
 @observer
-export class DetailDisplayer extends React.Component<Navigable & UsesLocation & DetailProps> {
+export class DetailDisplayer extends React.Component<Navigable<any, UIFragmentSpec> & UsesLocation & DetailProps<any>> {
     public render() {
         return (
             <div>

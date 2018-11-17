@@ -110,6 +110,4 @@ export interface SubStateInContext<LabelType, WidgetType, DataType> extends SubS
 /**
  * A condition used to decide whether or not to offer a given SubState
  */
-export type StateCondition<LabelType, WidgetType, DataType> = (
-    item: SubState<LabelType, WidgetType, DataType>
-) => boolean;
+export type StateCondition<DataType> = (data?: DataType) => boolean;

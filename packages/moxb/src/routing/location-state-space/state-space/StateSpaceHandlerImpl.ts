@@ -1,5 +1,5 @@
 import { SubState, StateCondition, SubStateInContext } from './StateSpace';
-import { StateSpaceHandler, StateSpaceHandlerProps } from './StateSpaceHandler';
+import { StateSpaceHandler, StateSpaceHandlerProps, FilterParams } from './StateSpaceHandler';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { SubStateKeyGeneratorImpl } from './SubStateKeyGeneratorImpl';
 import { doTokenStringsMatch } from '../../tokens';
@@ -8,22 +8,37 @@ import { doTokenStringsMatch } from '../../tokens';
  * Recursively filter out the sub-states that are hidden or don't match the filter
  *
  * @param states the SubStates to start with
- * @param filter the optional condition to use for filtering
+ * @param condition the optional condition to use for filtering
+ * @param params Configuration about what to filter for
  */
 function filterSubStates<LabelType, WidgetType, DataType>(
     states: SubStateInContext<LabelType, WidgetType, DataType>[],
-    filter?: StateCondition<LabelType, WidgetType, DataType>
+    condition: StateCondition<DataType> | undefined,
+    params: FilterParams
 ): SubStateInContext<LabelType, WidgetType, DataType>[] {
-    return states.filter(state => !state.hidden && (!filter || filter(state))).map(state => {
-        if (state.subStates) {
-            return {
-                ...state,
-                subStates: filterSubStates(state.subStates, filter),
-            };
-        } else {
-            return state;
-        }
-    });
+    return states
+        .filter(state => {
+            // Filter based on visibility
+            if (params.onlyVisible && state.hidden) {
+                return false;
+            }
+            // Filter based on the condition
+            if (params.onlySatisfying && condition && !condition(state.data)) {
+                return false;
+            }
+            // All good
+            return true;
+        })
+        .map(state => {
+            if (state.subStates) {
+                return {
+                    ...state,
+                    subStates: filterSubStates(state.subStates, condition, params),
+                };
+            } else {
+                return state;
+            }
+        });
 }
 
 /**
@@ -38,7 +53,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     protected readonly _keyGen: SubStateKeyGenerator;
     public readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _allSubStates: SubStateInContext<LabelType, WidgetType, DataType>[];
-    protected readonly _filterCondition?: StateCondition<LabelType, WidgetType, DataType>;
+    protected readonly _filterCondition?: StateCondition<DataType>;
 
     /**
      * Add context info around a given sub-state
@@ -126,7 +141,6 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
      * @param state The sub-state to check
      * @param wantedTokens The token list to check against
      * @param parsedTokens The number of tokens already parser
-     * @private
      */
     public isSubStateActiveForTokens(
         state: SubStateInContext<LabelType, WidgetType, DataType>,
@@ -158,8 +172,12 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         return matches;
     }
 
-    public getActiveSubStatesForTokens(wantedTokens: (string | null)[], parsedTokens: number, leavesOnly: boolean) {
-        const states = leavesOnly ? this._allSubStates.filter(s => !s.isGroupOnly) : this._allSubStates;
+    public getActiveSubStatesForTokens(wantedTokens: (string | null)[], parsedTokens: number, onlyLeaves: boolean) {
+        const states = this.getFilteredSubStates({
+            recursive: true,
+            onlyLeaves,
+            onlySatisfying: true,
+        });
         const results = states.filter(state => this.isSubStateActiveForTokens(state, wantedTokens, parsedTokens));
         return results;
     }
@@ -168,11 +186,6 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         wantedTokens: (string | null)[],
         parsedTokens = 0
     ): SubStateInContext<LabelType, WidgetType, DataType> | null {
-        // const level = parsedTokens;
-        // const keyToken = currentTokens[level];
-        // if (isTokenEmpty(keyToken)) {
-        //     return this.findRoot();
-        // }
         const results = this.getActiveSubStatesForTokens(wantedTokens, parsedTokens, true);
         switch (results.length) {
             case 0:
@@ -189,7 +202,12 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         }
     }
 
-    public getFilteredSubStates(): SubStateInContext<LabelType, WidgetType, DataType>[] {
-        return filterSubStates(this._subStatesInContext, this._filterCondition);
+    public getFilteredSubStates(params: FilterParams): SubStateInContext<LabelType, WidgetType, DataType>[] {
+        const result = filterSubStates(
+            params.recursive ? this._allSubStates : this._subStatesInContext,
+            this._filterCondition,
+            params
+        );
+        return params.onlyLeaves ? result.filter(s => !s.isGroupOnly) : result;
     }
 }

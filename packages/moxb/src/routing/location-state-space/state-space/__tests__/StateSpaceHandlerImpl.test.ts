@@ -4,7 +4,7 @@ import { testStateSpace } from './TestStateSpace';
 describe('State-Space Handler implementation', () => {
     const handler = new StateSpaceHandlerImpl({
         subStates: testStateSpace,
-        filterCondition: state => !(state.data && state.data.secret), // in menus, we will hide the "secret" items
+        filterCondition: data => !(data && data.secret), // in menus, we will hide the "secret" items
         id: 'test state space',
         // debug: true,
     });
@@ -78,7 +78,13 @@ describe('State-Space Handler implementation', () => {
     });
 
     it('should be able to enumerate the non-hidden top-level sub-states', () => {
-        expect(handler.getFilteredSubStates().map(state => state.label)).toEqual([
+        expect(
+            handler
+                .getFilteredSubStates({
+                    onlyVisible: true,
+                })
+                .map(state => state.label)
+        ).toEqual([
             'Root state',
             'Foo',
             // Bar is hidden
@@ -87,10 +93,28 @@ describe('State-Space Handler implementation', () => {
         ]);
     });
 
+    it('should be able to include hidden elements, too', () => {
+        expect(
+            handler
+                .getFilteredSubStates({
+                    onlyVisible: false,
+                })
+                .map(state => state.label)
+        ).toEqual([
+            'Root state',
+            'Foo',
+            'Bar', // Bar is included, because we are not filtering for hidden elements
+            'Group 1',
+            'Group 2',
+        ]);
+    });
+
     it('should be able to do the visible filtering recursively', () => {
         expect(
             handler
-                .getFilteredSubStates()[3] // this is Group 2
+                .getFilteredSubStates({
+                    onlySatisfying: true,
+                })[4] // this is Group 2
                 .subStates!.map(state => state.label)
         ).toEqual([
             'Child 3',

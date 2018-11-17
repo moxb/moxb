@@ -1,6 +1,13 @@
 import { StateSpace, SubState, StateCondition, SubStateInContext } from './StateSpace';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 
+export interface FilterParams {
+    recursive?: boolean;
+    onlyVisible?: boolean;
+    onlyLeaves?: boolean;
+    onlySatisfying?: boolean;
+}
+
 /**
  * A StateSpace handler takes a description of the state-space
  * (that is, the list of defined sub-states for a given part of the app),
@@ -60,7 +67,7 @@ export interface StateSpaceHandler<LabelType, WidgetType, DataType> {
     /**
      * Get a list of subStates that are not hidden, and match the specified filter, if any
      */
-    getFilteredSubStates(): SubStateInContext<LabelType, WidgetType, DataType>[];
+    getFilteredSubStates(params: FilterParams): SubStateInContext<LabelType, WidgetType, DataType>[];
 }
 
 /**
@@ -80,7 +87,7 @@ export interface StateSpaceHandlerProps<LabelType, WidgetType, DataType> {
     /**
      * An optional condition to use for filtering when displaying in a menu
      */
-    filterCondition?: StateCondition<LabelType, WidgetType, DataType>;
+    filterCondition?: StateCondition<DataType>;
 
     /**
      * A key generator to use to address hierarchically nested sub-states.

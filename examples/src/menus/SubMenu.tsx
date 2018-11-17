@@ -42,13 +42,17 @@ export const subMenu1: StateSpace<string, UIFragmentSpec, {}> = [
         key: 'three',
         label: 'Three',
         fragment: rootOrDetails({
-            root: (
-                <div>
-                    Three apples: <br />
-                    <img src={threeUrl} />
-                </div>
-            ),
-            details: DetailDisplayer,
+            ifRoot: {
+                fragment: (
+                    <div>
+                        Three apples: <br />
+                        <img src={threeUrl} />
+                    </div>
+                ),
+            },
+            ifDetails: {
+                fragment: DetailDisplayer,
+            },
         }),
     },
     {

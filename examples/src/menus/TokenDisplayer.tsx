@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { UsesLocation, Navigable, getNextPathToken, getParsedPathTokens } from '@moxb/moxb';
+import { UIFragmentSpec } from '@moxb/antd';
 
 @inject('locationManager')
 @observer
-export class TokenDisplayer extends React.Component<Navigable & UsesLocation> {
+export class TokenDisplayer extends React.Component<Navigable<any, UIFragmentSpec> & UsesLocation> {
     public render() {
         return (
             <div>

@@ -8,7 +8,7 @@ import { SubStateInContext } from './state-space/StateSpace';
 export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>
     extends StateSpaceHandlerProps<LabelType, WidgetType, DataType>,
         UsesLocation,
-        Navigable {
+        Navigable<WidgetType, DataType> {
     /**
      * The URL argument (if any) driving this component.
      */

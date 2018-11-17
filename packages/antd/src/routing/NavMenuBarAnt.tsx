@@ -86,7 +86,12 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         const { extras, style } = this.props;
         return (
             <Menu selectedKeys={selectedMenuKeys} mode="horizontal" style={style}>
-                {this._states.getFilteredSubStates().map(this._renderSubStateElement)}
+                {this._states
+                    .getFilteredSubStates({
+                        onlyVisible: true,
+                        onlySatisfying: true,
+                    })
+                    .map(this._renderSubStateElement)}
                 {...extras || []}
             </Menu>
         );

@@ -6,6 +6,7 @@ import {
     LocationDependentStateSpaceHandlerImpl,
     SubStateInContext,
     LocationDependentStateSpaceHandlerProps,
+    Navigable,
 } from '@moxb/moxb';
 import { renderUIFragment, UIFragment } from './UIFragment';
 import { extractUIFragmentFromSpec, UIFragmentSpec } from './UIFragmentSpec';
@@ -53,7 +54,7 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         const { id, part, fallback, mountAll, ...remnantProps } = props;
         this._states = new LocationDependentStateSpaceHandlerImpl({
             ...remnantProps,
-            id: 'changing content of' + id,
+            id: 'changing content of ' + id,
         });
     }
 
@@ -67,13 +68,19 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         subState: SubStateInContext<UIFragment, UIFragmentSpec, DataType> | null,
         invisible?: boolean
     ) {
-        const { parsedTokens, fallback, part } = this.props;
+        const { parsedTokens, filterCondition, fallback, part } = this.props;
         const newParsedTokens = (parsedTokens || 0) + (subState ? subState.totalPathTokens.length : 1);
         const fragment = extractUIFragmentFromSpec((subState || ({} as any)).fragment, fallback, part);
         this.debugLog('Rendering fragment', fragment);
-        const props: any = {
+        const navigableChildProps: Navigable<UIFragmentSpec, DataType> = {
             parsedTokens: newParsedTokens,
+            filterCondition,
+            fallback,
+            part,
+        };
+        const props: any = {
             key: subState ? subState.key : 'missing',
+            ...navigableChildProps,
         };
         if (invisible) {
             props.invisible = true;
