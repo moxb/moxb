@@ -1,4 +1,5 @@
 export {
+    UpdateMethod,
     LocationManager,
     UsesLocation,
     QueryChange,
