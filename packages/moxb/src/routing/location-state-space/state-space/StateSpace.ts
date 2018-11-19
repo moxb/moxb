@@ -73,6 +73,11 @@ export interface SubStateDisplayInfo<LabelType> {
     newWindow?: boolean;
 
     /**
+     * Extra classes to use then displaying the menu item
+     */
+    itemClassName?: string;
+
+    /**
      * Extra classes to use when displaying the link
      */
     linkClassName?: string;
