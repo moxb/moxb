@@ -115,17 +115,17 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
      * @param method The method for updating the URL
      */
     public selectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>, method?: UpdateMethod) {
-        if (this.isSubStateActive(state)) {
-            //            console.log("Not jumping, already in state", state);
+        // if (this.isSubStateActive(state)) {
+        //     console.log('Not jumping, already in state', state);
+        // } else {
+        const { totalPathTokens } = state;
+        if (this._urlArg) {
+            const value = this._getArgValueForSubState(state);
+            this._urlArg.value = value;
         } else {
-            const { totalPathTokens } = state;
-            if (this._urlArg) {
-                const value = this._getArgValueForSubState(state);
-                this._urlArg.value = value;
-            } else {
-                this._locationManager.setPathTokens(this._parsedTokens, totalPathTokens, method);
-            }
+            this._locationManager.setPathTokens(this._parsedTokens, totalPathTokens, method);
         }
+        // }
     }
 
     /**
