@@ -51,7 +51,6 @@
   "devDependencies": {
     "@types/history": "^4.7.0",
     "@types/jest": "^23.3.2",
-    "@types/lodash.memoize": "^4.1.4",
     "@types/urijs": "^1.15.38",
     "mobx": "^4.3.0 || ^5.0.0"
   },
