@@ -20,3 +20,7 @@ export class Redirect extends React.Component<UsesLocation & RedirectProps> {
         return <div>Redirecting to {this.props.to.join('/')} ... </div>;
     }
 }
+
+export const redirect = (props: RedirectProps) => <Redirect {...props} />;
+
+export const redirectTo = (to: string[]) => redirect({ to });

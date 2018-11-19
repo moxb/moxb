@@ -7,4 +7,4 @@ export { UIFragmentSpec, extractUIFragmentFromSpec } from './UIFragmentSpec';
 export { Anchor } from './Anchor';
 export { rootOrDetails, DetailProps } from './rootOrDetails';
 export { renderFallback } from './rendering';
-export { Redirect } from './Redirect';
+export { Redirect, redirect, redirectTo } from './Redirect';
