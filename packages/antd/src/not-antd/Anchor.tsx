@@ -96,16 +96,23 @@ export class Anchor extends React.PureComponent<UIProps> {
 
     public render() {
         const { label, title, children, className, style, href, target, disabled } = this.props;
+        const anchorProps: any = {
+            href: href || '#',
+            onMouseDown: this.handleClick,
+            onClick: this.cancelEvent,
+            title,
+        };
+        if (!!className || disabled) {
+            anchorProps.className = (className || '') + (disabled ? ' disabled' : '');
+        }
+        if (target) {
+            anchorProps.target = target;
+        }
+        if (style) {
+            anchorProps.style = style;
+        }
         return (
-            <a
-                href={href || '#'}
-                onMouseDown={this.handleClick}
-                onClick={this.cancelEvent}
-                title={title}
-                className={className + (disabled ? ' disabled' : '')}
-                style={style}
-                target={target || '_self'}
-            >
+            <a {...anchorProps}>
                 {renderUIFragment(label || '')}
                 {children}
             </a>
