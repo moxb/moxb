@@ -14,7 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "jest": "^23.6.0",
-    "lerna": "^3.4.0",
+    "lerna": "^3.4.3",
     "npm-check": "^5.9.0",
     "prettier": "^1.14.3",
     "ts-jest": "^23.10.3",
