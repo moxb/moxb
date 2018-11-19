@@ -5,7 +5,7 @@ import { DetailProps, UIFragmentSpec } from '@moxb/antd';
 
 @inject('locationManager')
 @observer
-export class DetailDisplayer extends React.Component<Navigable<any, UIFragmentSpec> & UsesLocation & DetailProps<any>> {
+export class DetailDisplayer extends React.Component<Navigable<any, UIFragmentSpec> & UsesLocation & DetailProps> {
     public render() {
         return (
             <div>

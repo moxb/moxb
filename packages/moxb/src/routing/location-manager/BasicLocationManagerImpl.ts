@@ -1,13 +1,13 @@
 import { observable, action } from 'mobx';
 import { UrlSchema, Query } from '../url-schema/UrlSchema';
-import { NativeUrlSchema } from '../url-schema/NativeUrlSchema';
-import { UrlArg } from '../url-arg/UrlArg';
+import { NativeUrlSchema } from '../url-schema';
+import { UrlArg } from '../url-arg';
 
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
 import { Location as MyLocation, History as MyHistory, LocationDescriptorObject, createBrowserHistory } from 'history';
 
-import { LocationManager, UpdateMethod, QueryChange } from './LocationManager';
+import { LocationManager, UpdateMethod, QueryChange, Redirect } from './LocationManager';
 import { doTokenStringsMatch, updateTokenString } from '../tokens';
 
 const debug = false;
@@ -36,6 +36,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _schema: UrlSchema;
     protected readonly _permanentArgs: UrlArg<any>[] = [];
     protected readonly _history: MyHistory;
+    protected readonly _redirects: Redirect[] = [];
 
     public constructor(props: Props) {
         this._schema = props.urlSchema || new NativeUrlSchema();
@@ -134,6 +135,23 @@ export class BasicLocationManagerImpl implements LocationManager {
         const pathChanged = JSON.stringify(pathTokens) !== JSON.stringify(this.pathTokens);
         const searchChanged = oldQueryString !== newQueryString;
 
+        let jumped = false;
+        this._redirects.forEach(redirect => {
+            if (jumped) {
+                return;
+            }
+            const { condition, fromTokens, root = false, toTokens, updateMethod, copy = false } = redirect;
+            if (doTokenStringsMatch(pathTokens, fromTokens, 0, root) && (!condition || condition())) {
+                const target = copy ? [...toTokens, ...pathTokens.slice(fromTokens.length)] : toTokens;
+                // console.log('Jumping to', target);
+                jumped = true;
+                this.setPathTokens(0, target, updateMethod);
+            }
+        });
+
+        if (jumped) {
+            return;
+        }
         this.handleLocationChange(pathChanged, pathTokens, searchChanged, newQuery);
 
         if (debug) {
@@ -229,5 +247,9 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     public registerUrlArg(arg: UrlArg<any>) {
         this._permanentArgs.push(arg);
+    }
+
+    public setRedirect(redirect: Redirect) {
+        this._redirects.push(redirect);
     }
 }

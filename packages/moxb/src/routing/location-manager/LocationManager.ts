@@ -1,4 +1,4 @@
-import { UrlArg } from '../url-arg/UrlArg';
+import { UrlArg } from '../url-arg';
 
 import { Query } from '../url-schema/UrlSchema';
 
@@ -14,6 +14,26 @@ export type QueryChange = {
  * The possible methods for updating the location, in relation to the history.
  */
 export type UpdateMethod = 'push' | 'replace';
+
+export interface Redirect {
+    // Where should we jump from?
+    fromTokens: string[];
+
+    // Is there a condition that must be checked before jumping?
+    condition?: () => boolean;
+
+    // Jump only if there are no more tokens? (default: false)
+    root?: boolean;
+
+    // Where should we jump to?
+    toTokens: string[];
+
+    // Should we copy any remaining tokens to the new path? (default: false)
+    copy?: boolean;
+
+    // Should we use push or replace?
+    updateMethod?: UpdateMethod;
+}
 
 /**
  * The Location Manager is responsible for tracking the location (ie. URL) of the application,
@@ -105,6 +125,11 @@ export interface LocationManager {
      * Register a permanent URl argument.
      */
     registerUrlArg: (arg: UrlArg<any>) => void;
+
+    /**
+     * Set a redirect
+     */
+    setRedirect: (redirect: Redirect) => void;
 }
 
 /**

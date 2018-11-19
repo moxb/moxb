@@ -13,6 +13,14 @@ export class LocationStoreImpl extends BasicLocationManagerImpl {
             urlSchema: new QueryBasedUrlSchema(),
             // urlSchema: new HashBasedUrlSchema(),
         });
+
+        this.setRedirect({
+            fromTokens: ['portal'],
+            //            root: true,
+            toTokens: ['foo'],
+            //            copy: true,
+        });
+
         this.watchHistory();
     }
 }
