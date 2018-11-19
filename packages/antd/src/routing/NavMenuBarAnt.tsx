@@ -46,29 +46,34 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
     }
 
     protected _renderSubStateLink(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
-        const { label, key, menuKey, newWindow, linkClassName } = state;
-        const url = this._states.getUrlForSubState(state);
-        const anchorProps: Anchor.UIProps = {
-            label: label || key,
-            href: url,
-            target: newWindow ? '_blank' : undefined,
-            onClick: newWindow ? undefined : () => this._states.selectSubState(state),
-            className: linkClassName,
-        };
-        return (
-            <Menu.Item key={menuKey}>
-                <Anchor.Anchor {...anchorProps} />
-            </Menu.Item>
-        );
+        const { label, key, menuKey, newWindow, linkClassName, linkStyle, noLink } = state;
+        if (noLink) {
+            return <Menu.Item key={menuKey}>{renderUIFragment(label || key || 'item')}</Menu.Item>;
+        } else {
+            const url = this._states.getUrlForSubState(state);
+            const anchorProps: Anchor.UIProps = {
+                label: label || key,
+                href: url,
+                target: newWindow ? '_blank' : undefined,
+                onClick: newWindow ? undefined : () => this._states.selectSubState(state),
+                className: linkClassName,
+                style: linkStyle,
+            };
+            return (
+                <Menu.Item key={menuKey}>
+                    <Anchor.Anchor {...anchorProps} />
+                </Menu.Item>
+            );
+        }
     }
 
     protected _renderSubStateGroup(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
-        const { label, key, subStates, flat, menuKey } = state;
+        const { label, key, subStates, flat, menuKey, linkStyle } = state;
         if (!flat && !key) {
             throw new Error("Can't create a hierarchical menu group without a key!");
         }
         return (
-            <Menu.SubMenu key={menuKey} title={renderUIFragment(label || key || '***')}>
+            <Menu.SubMenu key={menuKey} title={renderUIFragment(label || key || '***')} style={linkStyle}>
                 {subStates!.map(this._renderSubStateElement)}
             </Menu.SubMenu>
         );

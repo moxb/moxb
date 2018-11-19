@@ -11,7 +11,7 @@ export interface AnchorParams {
     title?: string;
 
     /**
-     * Any classnames to apply
+     * Any class names to apply
      */
     className?: string;
 

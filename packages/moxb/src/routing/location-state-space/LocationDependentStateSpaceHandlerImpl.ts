@@ -118,17 +118,12 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
         if (this.isSubStateActive(state)) {
             //            console.log("Not jumping, already in state", state);
         } else {
-            const { root, parentPathTokens, key } = state;
+            const { totalPathTokens } = state;
             if (this._urlArg) {
                 const value = this._getArgValueForSubState(state);
                 this._urlArg.value = value;
             } else {
-                //                console.log("Should change token #", this._parsedTokens, "to", state)
-                this._locationManager.setPathTokens(
-                    this._parsedTokens,
-                    root ? parentPathTokens : [...parentPathTokens, key!],
-                    method
-                );
+                this._locationManager.setPathTokens(this._parsedTokens, totalPathTokens, method);
             }
         }
     }

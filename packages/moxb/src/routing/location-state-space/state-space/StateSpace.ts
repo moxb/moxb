@@ -27,10 +27,21 @@ export interface SubStateRelations<LabelType, WidgetType, DataType> {
     subStates?: SubState<LabelType, WidgetType, DataType>[];
 
     /**
-     * If this is a group menu item, should the items in this group be added "flat" in the same spacec,
+     * If this is a group menu item, should the items in this group be added "flat" in the same space,
      * without prefixing the key of this state? (defaults to false.)
      */
     flat?: boolean;
+
+    /**
+     * Display-only sub-states are only considered when drawing menus, but not considered
+     * when doing the actual routing. The main use-case is to add arbitrary menu items
+     */
+    displayOnly?: boolean;
+
+    /**
+     * Specify an arbitrary list of path tokens to use for this sub-state
+     */
+    pathTokens?: string[];
 }
 
 export interface SubStateDisplayInfo<LabelType> {
@@ -65,6 +76,17 @@ export interface SubStateDisplayInfo<LabelType> {
      * Extra classes to use when displaying the link
      */
     linkClassName?: string;
+
+    /**
+     * Extra styles to use when displaying the link
+     */
+    linkStyle?: React.CSSProperties;
+
+    /**
+     * Don't render this element as a link in menus, since it's some kind
+     * of custom component, which will be provided as the label.
+     */
+    noLink?: boolean;
 }
 
 /**

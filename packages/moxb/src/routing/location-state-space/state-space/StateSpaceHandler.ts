@@ -6,6 +6,7 @@ export interface FilterParams {
     onlyVisible?: boolean;
     onlyLeaves?: boolean;
     onlySatisfying?: boolean;
+    noDisplayOnly?: boolean;
 }
 
 /**

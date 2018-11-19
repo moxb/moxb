@@ -26,6 +26,9 @@ function filterSubStates<LabelType, WidgetType, DataType>(
             if (params.onlySatisfying && condition && !condition(state.data)) {
                 return false;
             }
+            if (params.noDisplayOnly && state.displayOnly) {
+                return false;
+            }
             // All good
             return true;
         })
@@ -65,9 +68,9 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         parentPathTokens: string[],
         state: SubState<LabelType, WidgetType, DataType>
     ): SubStateInContext<LabelType, WidgetType, DataType> {
-        const { root, key, subStates, flat } = state;
+        const { root, key, subStates, flat, pathTokens } = state;
         const newTokens = !!subStates ? (flat ? [] : [key!]) : root ? [] : [key!];
-        const totalPathTokens: string[] = [...parentPathTokens, ...newTokens];
+        const totalPathTokens: string[] = pathTokens ? pathTokens : [...parentPathTokens, ...newTokens];
         return {
             ...state,
             parentPathTokens,
@@ -177,6 +180,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
             recursive: true,
             onlyLeaves,
             onlySatisfying: true,
+            noDisplayOnly: true,
         });
         const results = states.filter(state => this.isSubStateActiveForTokens(state, wantedTokens, parsedTokens));
         return results;
