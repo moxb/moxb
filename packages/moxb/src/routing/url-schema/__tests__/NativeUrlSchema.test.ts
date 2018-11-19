@@ -47,8 +47,8 @@ describe('Native URL schema', () => {
         });
     });
 
-    it('should not add any slashes when the path is empty', () => {
-        expect(schema.getLocation(testLocation, [], {}).pathname).toEqual('');
+    it('should add a slashes when the path is empty', () => {
+        expect(schema.getLocation(testLocation, [], {}).pathname).toEqual('/');
     });
 
     it('should not be confused if there is only one argument', () => {

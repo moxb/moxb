@@ -22,7 +22,7 @@ export class NativeUrlSchema implements UrlSchema {
     public getLocation(location: MyLocation, pathTokens: string[], query: Query): MyLocation {
         return {
             ...location,
-            pathname: pathTokens.length ? '/' + pathTokens.join('/') : '',
+            pathname: '/' + pathTokens.join('/'),
             search: new MyURI().search(query).search(),
         };
     }
