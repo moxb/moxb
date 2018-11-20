@@ -38,6 +38,7 @@ export const mainMenu: StateSpace<UIFragment, UIFragmentSpec, {}> = [
         fragment: {
             main: MemTableAnt,
         },
+        tokenMapping: ['groupId', 'objectId'],
     },
     {
         key: 'moreMenus',

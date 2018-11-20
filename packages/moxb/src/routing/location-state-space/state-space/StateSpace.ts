@@ -8,6 +8,11 @@ export interface SubStateCoreInfo<WidgetType, DataType> {
      * Custom data
      */
     data?: DataType;
+
+    /**
+     * Names for any remaining tokens, if required
+     */
+    tokenMapping?: string[];
 }
 
 export interface SubStateRelations<LabelType, WidgetType, DataType> {

@@ -10,3 +10,4 @@ export {
 } from './UrlArgTypes';
 
 export { UrlArgImpl } from './UrlArgImpl';
+export { UrlTokenImpl } from './UrlTokenImpl';
