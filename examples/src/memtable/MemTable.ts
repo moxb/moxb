@@ -11,4 +11,6 @@ export interface MemTableData {
 export interface MemTable {
     readonly rows: moxb.Numeric;
     readonly table: moxb.Table<MemTableData>;
+    groupId: string;
+    objectId: string;
 }

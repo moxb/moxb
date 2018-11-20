@@ -59,7 +59,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
                 style: linkStyle,
             };
             if (linkClassName) {
-                anchorProps.className: linkClassName;
+                anchorProps.className = linkClassName;
             }
             const itemProps: any = {};
             if (itemClassName) {

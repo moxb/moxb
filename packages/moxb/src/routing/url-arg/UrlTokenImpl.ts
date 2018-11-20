@@ -1,37 +1,27 @@
 import { computed } from 'mobx';
 
 import { Query } from '../url-schema/UrlSchema';
-import { LocationManager, UpdateMethod } from '../location-manager';
+import { UpdateMethod } from '../location-manager';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
+import { existsInQuery, getFromQuery } from './UrlArgImpl';
+import { TokenManager } from '../TokenManager';
 
-export function existsInQuery(query: Query, key: string) {
-    return query[key] !== undefined;
-}
-
-export function getFromQuery<T>(query: Query, key: string, parse: ParserFunc<T>, defaultValue: T) {
-    const formatted: string = query[key];
-    return formatted === undefined ? defaultValue : parse(formatted);
-}
-
-export class UrlArgImpl<T> implements UrlArg<T> {
+export class UrlTokenImpl<T> implements UrlArg<T> {
     private readonly _def: UrlArgDefinition<T>;
     private readonly _parser: ParserFunc<T>;
     public readonly key: string;
     public readonly defaultValue: T;
 
-    public constructor(private readonly _locationManager: LocationManager, definition: UrlArgDefinition<T>) {
+    public constructor(private readonly _tokenManager: TokenManager, definition: UrlArgDefinition<T>) {
         const { parser, valueType, key } = (this._def = definition);
         this._parser = parser || valueType.getParser(key);
-        if (this._def.permanent) {
-            this._locationManager.registerUrlArg(this);
-        }
         this.key = this._def.key;
         this.defaultValue = this._def.defaultValue;
     }
 
     @computed
     public get defined() {
-        return existsInQuery(this._locationManager.query, this.key);
+        return existsInQuery(this._tokenManager.tokens, this.key);
     }
 
     // Extract the value from a given query
@@ -42,7 +32,7 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     @computed
     public get value() {
-        return this.getOnQuery(this._locationManager.query);
+        return this.getOnQuery(this._tokenManager.tokens);
     }
 
     public getRawValue(value: T) {
@@ -55,12 +45,12 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     public getModifiedUrl(value: T) {
         const rawValue = this.getRawValue(value);
-        return this._locationManager.getURLForQueryChange(this.key, rawValue);
+        return this._tokenManager.getURLForTokenChange(this.key, rawValue);
     }
 
     public set(value: T, method?: UpdateMethod) {
         const rawValue = this.getRawValue(value);
-        this._locationManager.setQuery(this.key, rawValue, method);
+        this._tokenManager.setToken(this.key, rawValue, method);
     }
 
     public set value(value: T) {
@@ -73,6 +63,6 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     @computed
     public get rawValue() {
-        return this._locationManager.query[this.key];
+        return this._tokenManager.tokens[this.key];
     }
 }

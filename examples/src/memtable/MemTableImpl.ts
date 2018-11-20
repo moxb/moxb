@@ -1,6 +1,7 @@
 import * as moxb from '@moxb/moxb';
 import { MemTable, MemTableData } from './MemTable';
 import { computed } from 'mobx';
+import { UrlStore } from '../store/UrlStore';
 
 const firstNames = [
     'James',
@@ -85,6 +86,24 @@ function createData(n: number): MemTableData[] {
 }
 
 export class MemTableImpl implements MemTable {
+    constructor(private readonly url: UrlStore) {}
+
+    get groupId() {
+        return this.url.groupId.value;
+    }
+
+    set groupId(value: string) {
+        this.url.groupId.value = value;
+    }
+
+    get objectId() {
+        return this.url.objectId.value;
+    }
+
+    set objectId(value: string) {
+        this.url.objectId.value = value;
+    }
+
     readonly rows: moxb.Numeric = new moxb.NumericImpl({
         id: 'memtable.rows',
         label: 'Number of rows',

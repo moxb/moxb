@@ -5,4 +5,6 @@ export interface UrlStore {
     readonly search: UrlArg<string>;
     readonly number: UrlArg<string>;
     readonly bindSearch: Text;
+    readonly groupId: UrlArg<string>;
+    readonly objectId: UrlArg<string>;
 }
