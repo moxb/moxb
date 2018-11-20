@@ -8,3 +8,7 @@ export interface UrlStore {
     readonly groupId: UrlArg<string>;
     readonly objectId: UrlArg<string>;
 }
+
+export interface UsesURL {
+    url: UrlStore;
+}

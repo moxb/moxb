@@ -4,10 +4,11 @@ import { NumericFormAnt, TableAnt, ColumnAntProps } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { MemTable, MemTableData } from './MemTable';
 import { ArgChangingLink } from '@moxb/antd';
+import { UsesURL } from '../store/UrlStore';
 
 @inject('memTable', 'url')
 @observer
-export class MemTableAnt extends React.Component<{ memTable?: MemTable }> {
+export class MemTableAnt extends React.Component<{ memTable?: MemTable } & UsesURL> {
     render() {
         const memTable = this.props.memTable!;
         const url = this.props.url;
