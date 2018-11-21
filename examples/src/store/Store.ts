@@ -9,14 +9,13 @@ import { LocationStoreImpl } from './LocationStoreImpl';
 import { UrlStore } from './UrlStore';
 import { UrlStoreImpl } from './UrlStoreImpl';
 import { TokenManager, TokenManagerImpl } from '../../../packages/moxb/src/routing';
-import { mainMenu } from '../MenuStructure';
 
 export interface Store {
     readonly app: Application;
     readonly memTable: MemTable;
     readonly view: ViewStore;
     readonly locationManager: LocationManager;
-    readonly tokens: TokenManager;
+    readonly tokenManager: TokenManager;
     readonly url: UrlStore;
 }
 
@@ -25,16 +24,13 @@ export class StoreImpl implements Store {
     readonly memTable: MemTable;
     readonly view: ViewStore;
     readonly locationManager: LocationManager;
-    readonly tokens: TokenManager;
+    readonly tokenManager: TokenManager;
     readonly url: UrlStore;
 
     constructor() {
         this.locationManager = new LocationStoreImpl();
-        this.tokens = new TokenManagerImpl({
-            locationManager: this.locationManager,
-            subStates: mainMenu,
-        });
-        this.url = new UrlStoreImpl(this.locationManager, this.tokens);
+        this.tokenManager = new TokenManagerImpl(this.locationManager);
+        this.url = new UrlStoreImpl(this.locationManager, this.tokenManager);
         this.app = new ApplicationImpl();
         this.memTable = new MemTableImpl(this.url);
         this.view = new ViewStoreImpl();
