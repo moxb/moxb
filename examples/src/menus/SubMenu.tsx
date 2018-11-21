@@ -41,6 +41,7 @@ export const subMenu1: StateSpace<string, UIFragmentSpec, {}> = [
     {
         key: 'three',
         label: 'Three',
+        tokenMapping: ['something'],
         fragment: rootOrDetails({
             ifRoot: {
                 fragment: (

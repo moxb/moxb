@@ -7,6 +7,7 @@ export interface UrlStore {
     readonly bindSearch: Text;
     readonly groupId: UrlArg<string>;
     readonly objectId: UrlArg<string>;
+    readonly something: UrlArg<string>;
 }
 
 export interface UsesURL {

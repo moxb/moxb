@@ -1,5 +1,4 @@
 import { computed } from 'mobx';
-
 import { Query } from '../url-schema/UrlSchema';
 import { UpdateMethod } from '../location-manager';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
@@ -20,8 +19,13 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     }
 
     @computed
+    private get _currentQuery() {
+        return this._tokenManager.tokens;
+    }
+
+    @computed
     public get defined() {
-        return existsInQuery(this._tokenManager.tokens, this.key);
+        return existsInQuery(this._currentQuery, this.key);
     }
 
     // Extract the value from a given query
@@ -32,7 +36,7 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
 
     @computed
     public get value() {
-        return this.getOnQuery(this._tokenManager.tokens);
+        return this.getOnQuery(this._currentQuery);
     }
 
     public getRawValue(value: T) {
@@ -63,6 +67,6 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
 
     @computed
     public get rawValue() {
-        return this._tokenManager.tokens[this.key];
+        return this._currentQuery[this.key];
     }
 }

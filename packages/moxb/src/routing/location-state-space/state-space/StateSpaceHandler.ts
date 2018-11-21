@@ -76,9 +76,9 @@ export interface StateSpaceHandler<LabelType, WidgetType, DataType> {
  */
 export interface StateSpaceHandlerProps<LabelType, WidgetType, DataType> {
     /**
-     * An optional ID, for debugging
+     * An ID, for debugging
      */
-    id?: string;
+    id: string;
 
     /**
      * The list of sub-states to work with

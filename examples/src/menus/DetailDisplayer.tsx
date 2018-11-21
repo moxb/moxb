@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { UsesLocation, Navigable, getParsedPathTokens } from '@moxb/moxb';
-import { DetailProps, UIFragmentSpec } from '@moxb/antd';
+import { UIFragmentSpec } from '@moxb/antd';
+import { UsesURL } from '../store/UrlStore';
 
-@inject('locationManager')
+@inject('locationManager', 'url')
 @observer
-export class DetailDisplayer extends React.Component<Navigable<any, UIFragmentSpec> & UsesLocation & DetailProps> {
+export class DetailDisplayer extends React.Component<Navigable<any, UIFragmentSpec> & UsesLocation & UsesURL> {
     public render() {
         return (
             <div>
@@ -13,7 +14,7 @@ export class DetailDisplayer extends React.Component<Navigable<any, UIFragmentSp
                     We are at <b>{getParsedPathTokens(this.props).join(' / ')}</b>
                 </div>
                 <div>
-                    Displaying content for token <b>{this.props.token}</b>
+                    Displaying content for topic <b>{this.props.url!.something.value}</b>
                 </div>
             </div>
         );

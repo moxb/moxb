@@ -1,4 +1,4 @@
-import { LocationManager, UpdateMethod } from '../location-manager/LocationManager';
+import { LocationManager, UpdateMethod } from '../location-manager';
 import {
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerProps,
@@ -7,6 +7,7 @@ import { StateSpaceHandlerImpl } from './state-space/StateSpaceHandlerImpl';
 import { UrlArg, UrlArgImpl, URLARG_TYPE_ORDERED_STRING_ARRAY } from '../url-arg';
 import { SubStateInContext } from './state-space/StateSpace';
 import { updateTokenString } from '../tokens';
+import { TokenManager } from '../TokenManager';
 
 /**
  * This is the standard implementation of the StateSpaceAndLocationHandler.
@@ -17,13 +18,16 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
     extends StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     implements LocationDependentStateSpaceHandler<LabelType, WidgetType, DataType> {
     protected readonly _locationManager: LocationManager;
+    protected readonly _tokenManager: TokenManager;
     protected readonly _urlArg?: UrlArg<string[]>;
     protected readonly _parsedTokens: number;
+    protected _mappingId?: string;
 
     public constructor(props: LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
         super(props);
-        const { locationManager, parsedTokens, arg } = props;
+        const { locationManager, tokenManager, parsedTokens, arg } = props;
         this._locationManager = locationManager!;
+        this._tokenManager = tokenManager!;
         this._urlArg = arg
             ? new UrlArgImpl(locationManager!, {
                   key: arg.key,
@@ -39,6 +43,19 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
             console.log('Parsed tokens for state-space-and-location-handler', this._id, ':', this._parsedTokens);
         }
         this.isSubStateActive = this.isSubStateActive.bind(this);
+    }
+
+    public registerTokenMappings() {
+        this._mappingId = this._tokenManager.addMappings({
+            id: 'mappings for ' + this._id,
+            subStates: this._subStates,
+            parsedTokens: this._parsedTokens,
+            filterCondition: this._filterCondition,
+        });
+    }
+
+    public unregisterTokenMappings() {
+        this._tokenManager.removeMappings(this._mappingId!);
     }
 
     /**

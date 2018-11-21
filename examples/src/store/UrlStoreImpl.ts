@@ -15,6 +15,7 @@ export class UrlStoreImpl implements UrlStore {
     readonly number: UrlArg<string>;
     readonly groupId: UrlArg<string>;
     readonly objectId: UrlArg<string>;
+    readonly something: UrlArg<string>;
 
     readonly bindSearch = new TextImpl({
         id: 'sampleSearch',
@@ -52,6 +53,12 @@ export class UrlStoreImpl implements UrlStore {
 
         this.objectId = new UrlTokenImpl(tokens, {
             key: 'objectId',
+            valueType: URLARG_TYPE_STRING,
+            defaultValue: '',
+        });
+
+        this.something = new UrlTokenImpl(tokens, {
+            key: 'something',
             valueType: URLARG_TYPE_STRING,
             defaultValue: '',
         });
