@@ -8,6 +8,7 @@ export type ValueOrFunction<T> = T | (() => T | undefined) | undefined;
 
 export function getValueOrFunction<T>(value: ValueOrFunction<T>): T | undefined {
     if (typeof value === 'function') {
+        // @ts-ignore -- it complains because T might be a function
         return value();
     } else {
         return value;

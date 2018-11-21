@@ -1,5 +1,5 @@
 import { action, computed, observable } from 'mobx';
-import { BindImpl, BindOptions, StringOrFunction, ValueOrFunction } from '../bind/BindImpl';
+import { BindImpl, BindOptions, getValueOrFunction, StringOrFunction, ValueOrFunction } from '../bind/BindImpl';
 import { t } from '../i18n/i18n';
 import { extractErrorString } from '../validation/ErrorMessage';
 import { Value } from './Value';
@@ -70,12 +70,8 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         }
     }
 
-    private getInitialValue() {
-        if (typeof this.impl.initialValue === 'function') {
-            return this.impl.initialValue();
-        } else {
-            return this.impl.initialValue;
-        }
+    private getInitialValue(): T | undefined {
+        return getValueOrFunction(this.impl.initialValue);
     }
     @computed
     get inputType() {
