@@ -16,7 +16,7 @@ export class AppRouterAnt extends React.Component<{ location?: LocationManager }
                         <NavigationAnt />
                     </Row>
                     <LocationDependentArea
-                        id="main area"
+                        id="main-area"
                         subStates={mainMenu}
                         fallback={defaultContent}
                         part="main"
@@ -24,7 +24,7 @@ export class AppRouterAnt extends React.Component<{ location?: LocationManager }
                     />
                     <hr />
                     <LocationDependentArea
-                        id="footer area"
+                        id="footer-area"
                         subStates={mainMenu}
                         fallback={defaultContent}
                         part="bottom"
