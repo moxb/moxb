@@ -4,10 +4,12 @@ import { UsesLocation } from '../location-manager';
 import { UrlArg } from '../url-arg';
 import { Navigable } from '../navigable';
 import { SubStateInContext } from './state-space/StateSpace';
+import { UsesTokenManager } from '../TokenManager';
 
 export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>
     extends StateSpaceHandlerProps<LabelType, WidgetType, DataType>,
         UsesLocation,
+        UsesTokenManager,
         Navigable<WidgetType, DataType> {
     /**
      * The URL argument (if any) driving this component.
@@ -28,6 +30,16 @@ export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, 
  */
 export interface LocationDependentStateSpaceHandler<LabelType, WidgetType, DataType>
     extends StateSpaceHandler<LabelType, WidgetType, DataType> {
+    /**
+     * Register the mappings belonging to this state sub-tree on the token manegr
+     */
+    registerTokenMappings(): void;
+
+    /**
+     * Unregister token mappings
+     */
+    unregisterTokenMappings(): void;
+
     /**
      * Is this SubState currently active? (Given the location.)
      */

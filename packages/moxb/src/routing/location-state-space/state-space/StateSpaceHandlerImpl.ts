@@ -1,4 +1,4 @@
-import { SubState, StateCondition, SubStateInContext } from './StateSpace';
+import { SubState, StateCondition, SubStateInContext, StateSpace } from './StateSpace';
 import { StateSpaceHandler, StateSpaceHandlerProps, FilterParams } from './StateSpaceHandler';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { SubStateKeyGeneratorImpl } from './SubStateKeyGeneratorImpl';
@@ -54,6 +54,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     protected readonly _id: string;
     protected readonly _debug?: boolean;
     protected readonly _keyGen: SubStateKeyGenerator;
+    protected readonly _subStates: StateSpace<LabelType, WidgetType, DataType>;
     public readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _allSubStates: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _filterCondition?: StateCondition<DataType>;
@@ -97,6 +98,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         this._keyGen = keyGen || new SubStateKeyGeneratorImpl();
         this._enumerateSubStates = this._enumerateSubStates.bind(this);
         this._addContext = this._addContext.bind(this);
+        this._subStates = subStates;
         this._subStatesInContext = subStates.map(s => this._addContext([], s));
         this._allSubStates = Array.prototype.concat(...this._subStatesInContext.map(this._enumerateSubStates));
         this._filterCondition = filterCondition;

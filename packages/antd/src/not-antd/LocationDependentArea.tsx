@@ -29,6 +29,11 @@ export interface LocationDependentAreaProps<DataType>
     fallback?: UIFragmentSpec;
 
     /**
+     * Should we use the token mappings defined for the sub-states?
+     */
+    useTokenMappings?: boolean;
+
+    /**
      * Should we mount (but hide) the content of all possible selections of the state space?
      *
      * This will pass an invisible = true parameter to all children. The children react to that.
@@ -43,7 +48,7 @@ export interface LocationDependentAreaProps<DataType>
     debug?: boolean;
 }
 
-@inject('locationManager')
+@inject('locationManager', 'tokenManager')
 @observer
 export class LocationDependentArea<DataType> extends React.Component<LocationDependentAreaProps<DataType>> {
     protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>;
@@ -51,11 +56,23 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
     public constructor(props: LocationDependentAreaProps<DataType>) {
         super(props);
 
-        const { id, part, fallback, mountAll, ...remnantProps } = props;
+        const { id, part, fallback, mountAll, useTokenMappings, ...remnantProps } = props;
         this._states = new LocationDependentStateSpaceHandlerImpl({
             ...remnantProps,
             id: 'changing content of ' + id,
         });
+    }
+
+    public componentDidMount() {
+        if (this.props.useTokenMappings) {
+            this._states.registerTokenMappings();
+        }
+    }
+
+    public componentWillUnmount() {
+        if (this.props.useTokenMappings) {
+            this._states.unregisterTokenMappings();
+        }
     }
 
     public debugLog(...messages: any[]) {
