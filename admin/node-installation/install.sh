@@ -25,7 +25,7 @@ rm -rf $INSTALLATION/installation
 mkdir -p $INSTALLATION/installation/current
 cd $INSTALLATION/installation
 
-wget $URL
+curl $URL --output $TAR
 
 tar -zxf $TAR --strip-components 1 -C current
 
