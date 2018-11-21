@@ -104,7 +104,7 @@ _check-for-only:
 
 .makehelper/node-installation: admin/node-installation/.node-version admin/node-installation/.npm-version admin/node-installation/install.sh
 	@echo "Installing node..."
-	@admin/bin/check-if-commands-exist.sh wget
+	@admin/bin/check-if-commands-exist.sh curl
 	@$(ACTIVATE) && admin/node-installation/install.sh
 	@touch $@
 
