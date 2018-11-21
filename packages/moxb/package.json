@@ -52,7 +52,7 @@
     "@types/history": "^4.7.0",
     "@types/jest": "^23.3.2",
     "@types/urijs": "^1.15.38",
-    "mobx": "^4.3.0 || ^5.0.0"
+    "mobx": "5.6.0"
   },
   "dependencies": {
     "history": "4.7.2",
