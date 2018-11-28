@@ -1,3 +1,4 @@
+import { SortOrder } from 'antd/es/table';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Table as MoxTable, t } from '@moxb/moxb';
@@ -26,18 +27,29 @@ function toCell(x: any) {
     }
     return x + '';
 }
+function toSortOrder(sortColumn: any): SortOrder | undefined {
+    if (!sortColumn) {
+        return undefined;
+    }
+    return sortColumn.sortDirection === 'ascending' ? 'ascend' : 'descend';
+}
+
 @observer
 export class TableAnt<T> extends React.Component<TableAntProps<T>> {
     render() {
         const { table, ...tableProps } = this.props;
+        const sort = table.sort.sort[0] || {};
         const columns = table.columns.map((column: any) => ({
             column: column.column,
             title: column.label,
             dataIndex: column.column,
             key: column.tableColumn,
             sorter: column.sortable,
+            defaultSortOrder: toSortOrder(column.preferredSortDirection),
+            sortOrder: sort.column === column.column && (toSortOrder(sort) as any),
             render: toCell,
         }));
+
         if (this.props.setupColumn) {
             columns.forEach((column: any) => this.props.setupColumn!(column));
         }
@@ -71,6 +83,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                             : undefined
                     }
                     onChange={(pagination, _filters, sorter) => {
+                        console.log('sorter=', sorter, _filters, pagination);
                         if (table.pagination) {
                             if (pagination.pageSize) {
                                 table.pagination.setPageSize(pagination.pageSize);
@@ -79,11 +92,15 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                                 table.pagination.setActivePage(pagination.current);
                             }
                         }
-                        if (sorter && sorter.columnKey) {
-                            table.sort.setSort(
-                                sorter.columnKey,
-                                sorter.order === 'ascend' ? 'ascending' : 'descending'
-                            );
+                        if (sorter) {
+                            if (!sorter.order) {
+                                // TODO clear sort
+                            } else {
+                                table.sort.setSort(
+                                    sorter.columnKey,
+                                    sorter.order === 'ascend' ? 'ascending' : 'descending'
+                                );
+                            }
                         }
                         // todo filter
                     }}
