@@ -14,24 +14,30 @@ export interface TableSort {
      */
     sort: SortColumn[];
 
-    // ToDo: Fix JSDoc params
     /**
      * Sets to the sort columns. SortColumns with other column will be pushed to the end.
-     * @param sortColumn
+     * @param {string} column
+     * @param {SortDirection} preferredSortDirection
      */
     toggleSort(column: string, preferredSortDirection: SortDirection): void;
+
     /**
      * Sets to the sort columns. SortColumns with other column will be pushed to the end.
-     * @param sortColumn
+     * @param {string} column
+     * @param {SortDirection} sortDirection
      */
     setSort(column: string, sortDirection: SortDirection): void;
 
     /**
      * Sorts the data and returns a new sorted array unless <code>inline===true</code>
-     * @param data
-     * @param inline optional parameter to sort data directly and not returning a copy
+     * @param {T[]} data
+     * @param {boolean} inline optional parameter to sort data directly and not returning a copy
+     * @returns {T[]}
      */
     sortData<T>(data: T[], inline?: boolean): T[];
 
+    /**
+     * Clears the list of sort columns
+     */
     clearSort(): void;
 }

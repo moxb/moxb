@@ -83,7 +83,6 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                             : undefined
                     }
                     onChange={(pagination, _filters, sorter) => {
-                        console.log('sorter=', sorter, _filters, pagination);
                         if (table.pagination) {
                             if (pagination.pageSize) {
                                 table.pagination.setPageSize(pagination.pageSize);
