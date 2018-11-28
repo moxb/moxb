@@ -38,7 +38,7 @@ function toSortOrder(sortColumn: any): SortOrder | undefined {
 export class TableAnt<T> extends React.Component<TableAntProps<T>> {
     render() {
         const { table, ...tableProps } = this.props;
-        const sort = table.sort.sort[0] || {};
+        const sort: any = table.sort.sort.length ? table.sort.sort[0] : {};
         const columns = table.columns.map((column: any) => ({
             column: column.column,
             title: column.label,
@@ -94,7 +94,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                         }
                         if (sorter) {
                             if (!sorter.order) {
-                                // TODO clear sort
+                                table.sort.clearSort();
                             } else {
                                 table.sort.setSort(
                                     sorter.columnKey,

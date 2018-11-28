@@ -25,6 +25,11 @@ export class TableSortImpl implements TableSort {
         this.sort = [sort, ...this.sort.filter(c => c.column !== sort.column)];
     }
 
+    @action.bound
+    clearSort() {
+        this.sort = [];
+    }
+
     sortData<T>(data: T[], inline?: boolean): T[] {
         const sortData: any[] = inline ? data : data.slice();
         sortData.sort((a: any, b: any) => {

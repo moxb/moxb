@@ -32,4 +32,6 @@ export interface TableSort {
      * @param inline optional parameter to sort data directly and not returning a copy
      */
     sortData<T>(data: T[], inline?: boolean): T[];
+
+    clearSort(): void;
 }
