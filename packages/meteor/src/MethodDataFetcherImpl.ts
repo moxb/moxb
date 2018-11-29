@@ -29,7 +29,7 @@ class CancelableDone<D> {
 export abstract class MethodDataFetcherImpl<Q, D extends Object> implements MeteorDataFetcher<Q, D> {
     private autorunDisposer!: IReactionDisposer;
     private dataFetcherFunction: MeteorDataFetcherFunction<D> | undefined;
-    @observable
+    @observable.struct
     private _data: D;
     @observable
     private _error: any;
