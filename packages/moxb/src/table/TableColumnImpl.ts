@@ -11,6 +11,7 @@ export interface TableColumnOptions extends BindOptions {
     sortable?: boolean;
     preferredSortDirection?: SortDirection;
     width?: number;
+    fixed?: 'left' | 'right';
 }
 
 export class TableColumnImpl extends BindImpl<TableColumnOptions> implements TableColumn {
@@ -30,9 +31,11 @@ export class TableColumnImpl extends BindImpl<TableColumnOptions> implements Tab
     get preferredSortDirection() {
         return this.impl.preferredSortDirection;
     }
+
     get sortable() {
         return !!this.impl.preferredSortDirection;
     }
+
     get sortDirection() {
         if (this.table.sort.sort.length === 0) {
             return undefined;
@@ -47,6 +50,12 @@ export class TableColumnImpl extends BindImpl<TableColumnOptions> implements Tab
     get width() {
         if (this.impl.width) {
             return this.impl.width;
+        }
+    }
+
+    get fixed() {
+        if (this.impl.fixed) {
+            return this.impl.fixed;
         }
     }
 }

@@ -37,4 +37,6 @@ export interface TableColumn extends Bind {
      * ToDo: specify a scale for that. i.e. 0-100%
      */
     readonly width?: number;
+
+    readonly fixed?: string;
 }

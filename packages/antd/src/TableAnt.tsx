@@ -45,6 +45,8 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
             dataIndex: column.column,
             key: column.tableColumn,
             sorter: column.sortable,
+            width: column.width || undefined,
+            fixed: column.fixed || undefined,
             defaultSortOrder: toSortOrder(column.preferredSortDirection),
             sortOrder: sort.column === column.column && (toSortOrder(sort) as any),
             render: toCell,
@@ -72,6 +74,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                     columns={columns}
                     dataSource={dataSource}
                     loading={!table.ready}
+                    scroll={{ x: 1500 }}
                     pagination={
                         table.pagination
                             ? {

@@ -11,31 +11,37 @@ exports[`TableAnt should render a table with content by default 1`] = `
           "column": "email",
           "dataIndex": "email",
           "defaultSortOrder": "descend",
+          "fixed": undefined,
           "key": "email",
           "render": [Function],
           "sortOrder": false,
           "sorter": true,
           "title": "E-Mail",
+          "width": undefined,
         },
         Object {
           "column": "fullName",
           "dataIndex": "fullName",
           "defaultSortOrder": "descend",
+          "fixed": undefined,
           "key": "fullName",
           "render": [Function],
           "sortOrder": false,
           "sorter": true,
           "title": "Full Name",
+          "width": undefined,
         },
         Object {
           "column": "createdAt",
           "dataIndex": "createdAt",
           "defaultSortOrder": "descend",
+          "fixed": undefined,
           "key": "createdAt",
           "render": [Function],
           "sortOrder": false,
           "sorter": true,
           "title": "Joined",
+          "width": undefined,
         },
       ]
     }
@@ -77,6 +83,11 @@ exports[`TableAnt should render a table with content by default 1`] = `
     onChange={[Function]}
     prefixCls="ant-table"
     rowKey="key"
+    scroll={
+      Object {
+        "x": 1500,
+      }
+    }
     showHeader={true}
     size="default"
     useFixedHeader={false}
@@ -168,31 +179,37 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
           "column": "email",
           "dataIndex": "email",
           "defaultSortOrder": "descend",
+          "fixed": undefined,
           "key": "email",
           "render": [Function],
           "sortOrder": false,
           "sorter": true,
           "title": "E-Mail",
+          "width": undefined,
         },
         Object {
           "column": "fullName",
           "dataIndex": "fullName",
           "defaultSortOrder": "descend",
+          "fixed": undefined,
           "key": "fullName",
           "render": [Function],
           "sortOrder": false,
           "sorter": true,
           "title": "Full Name",
+          "width": undefined,
         },
         Object {
           "column": "createdAt",
           "dataIndex": "createdAt",
           "defaultSortOrder": "descend",
+          "fixed": undefined,
           "key": "createdAt",
           "render": [Function],
           "sortOrder": false,
           "sorter": true,
           "title": "Joined",
+          "width": undefined,
         },
       ]
     }
@@ -247,6 +264,11 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
     }
     prefixCls="ant-table"
     rowKey="key"
+    scroll={
+      Object {
+        "x": 1500,
+      }
+    }
     showHeader={true}
     size="default"
     useFixedHeader={false}
@@ -265,31 +287,37 @@ exports[`TableAnt should render a table with setupColumn set 1`] = `
           "column": "email",
           "dataIndex": "email",
           "defaultSortOrder": "descend",
+          "fixed": undefined,
           "key": "email",
           "render": [Function],
           "sortOrder": false,
           "sorter": true,
           "title": "E-Mail",
+          "width": undefined,
         },
         Object {
           "column": "fullName",
           "dataIndex": "fullName",
           "defaultSortOrder": "descend",
+          "fixed": undefined,
           "key": "fullName",
           "render": [Function],
           "sortOrder": false,
           "sorter": true,
           "title": "Full Name",
+          "width": undefined,
         },
         Object {
           "column": "createdAt",
           "dataIndex": "createdAt",
           "defaultSortOrder": "descend",
+          "fixed": undefined,
           "key": "createdAt",
           "render": [Function],
           "sortOrder": false,
           "sorter": true,
           "title": "Joined",
+          "width": undefined,
         },
       ]
     }
@@ -331,6 +359,11 @@ exports[`TableAnt should render a table with setupColumn set 1`] = `
     onChange={[Function]}
     prefixCls="ant-table"
     rowKey="key"
+    scroll={
+      Object {
+        "x": 1500,
+      }
+    }
     setupColumn={[Function]}
     showHeader={true}
     size="default"
