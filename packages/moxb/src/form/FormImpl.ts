@@ -1,5 +1,5 @@
 import { computed, action } from 'mobx';
-import { Value, t, extractErrorString } from '..';
+import { Value, t, extractErrorString, ValueOrFunction } from '..';
 import { Form } from './Form';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 
@@ -7,13 +7,13 @@ export interface FormOptions extends BindOptions {
     /**
      * The 'values' contain all the children components bindings
      */
-    readonly values: Value<any>[];
+    readonly values: ValueOrFunction<Value<any>[]>;
 
     /**
      * Is called when Form.onSubmit is called
      * `done` must be called else the binding stays in saving state.
      *
-     * @param {value<T>} value
+     * @param {value} value
      * @param {(error: any) => void} done
      */
     onSubmit?(value: any, done: (error?: any) => void): void;
@@ -25,21 +25,39 @@ export interface FormOptions extends BindOptions {
 }
 
 export class FormImpl extends BindImpl<FormOptions> implements Form {
+    protected getValues(): Value<any>[] {
+        if (typeof this.impl.values === 'function') {
+            return this.impl.values() || [];
+        }
+        if (this.impl.values != null) {
+            return this.impl.values;
+        }
+        return [];
+    }
+
+    @computed
+    get values() {
+        return this.getValues();
+    }
+
     constructor(impl: FormOptions) {
         super(impl);
-        if (this.impl.values.length === 0) {
+        if (this.impl.values === undefined) {
+            throw new Error('The form implementation must have defined children components or a function.');
+        }
+        if (typeof this.impl.values !== 'function' && !this.impl.values.length) {
             throw new Error('The form implementation must have defined children components.');
         }
     }
 
     @computed
     get canSubmitForm() {
-        return this.impl.values.findIndex(v => v.isInitialValue as boolean) < 0;
+        return this.values.findIndex(v => v.isInitialValue as boolean) < 0;
     }
 
     @computed
     get allErrors(): string[] {
-        const valuesWithErrors = this.impl.values.filter(v => !!v.errors);
+        const valuesWithErrors = this.values.filter(v => !!v.errors);
         const allErrors: string[] = [];
         valuesWithErrors.forEach(v => {
             v.errors!.forEach(error => {
@@ -54,12 +72,12 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
 
     @computed
     get hasErrors() {
-        return !!(this.impl.values.find(v => v.errors!.length > 0) || this.errors!.length > 0);
+        return !!(this.values.find(v => v.errors!.length > 0) || this.errors!.length > 0);
     }
 
     @computed
     get hasChanges() {
-        return !this.impl.values.every(v => (v.isInitialValue === undefined ? true : v.isInitialValue));
+        return !this.values.every(v => (v.isInitialValue === undefined ? true : v.isInitialValue));
     }
 
     @action.bound
@@ -67,7 +85,7 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         if (!this.impl.doSubmitRefresh && evt) {
             evt.preventDefault();
         }
-        this.impl.values.forEach(v => v.save());
+        this.values.forEach(v => v.save());
         if (this.impl.onSubmit) {
             this.impl.onSubmit(this as any, this.submitDone);
         }
@@ -84,13 +102,13 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
 
     @action.bound
     resetValues() {
-        this.impl.values.forEach(v => v.resetToInitialValue());
+        this.values.forEach(v => v.resetToInitialValue());
     }
 
     @action.bound
     clearAllErrors() {
-        if (this.impl.values) {
-            this.impl.values.forEach(v => v.clearErrors());
+        if (this.values) {
+            this.values.forEach(v => v.clearErrors());
             this.clearErrors();
         }
     }
