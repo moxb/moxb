@@ -1,7 +1,7 @@
 import { SortDirection } from './TableSort';
 import { Bind } from '..';
 
-export interface TableColumn extends Bind {
+export interface TableColumn<CustomData = undefined> extends Bind<CustomData> {
     /**
      * The name of the column in the table. By default, it is the same as the id!
      */
