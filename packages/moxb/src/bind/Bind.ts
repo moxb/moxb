@@ -1,4 +1,4 @@
-export interface Bind {
+export interface Bind<CustomData> {
     /**
      * A `.` separated id user for translations
      */
@@ -24,4 +24,6 @@ export interface Bind {
     readonly error?: string | undefined | null;
     /** @deprecated since version v0.2.0-beta.7 */
     clearError(): void;
+
+    readonly customData?: CustomData;
 }
