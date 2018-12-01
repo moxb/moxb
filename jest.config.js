@@ -16,6 +16,7 @@ module.exports = {
         'packages/moxb',
         'packages/meteor',
         'packages/semui',
+        'packages/html',
     ],
     moduleFileExtensions: [
         'ts',
