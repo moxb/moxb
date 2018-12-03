@@ -5,7 +5,7 @@ import { SortDirection } from './TableSort';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 
 //ToDo: Add documentation :)
-export interface TableColumnOptions<CustomData = undefined> extends BindOptions<CustomData> {
+export interface TableColumnOptions extends BindOptions {
     column?: string;
     tableColumn?: string;
     sortable?: boolean;
@@ -14,11 +14,10 @@ export interface TableColumnOptions<CustomData = undefined> extends BindOptions<
     fixed?: 'left' | 'right';
 }
 
-export class TableColumnImpl<CustomData = undefined> extends BindImpl<TableColumnOptions<CustomData>, CustomData>
-    implements TableColumn<CustomData> {
+export class TableColumnImpl extends BindImpl<TableColumnOptions> implements TableColumn {
     readonly column: string;
     readonly tableColumn: string;
-    constructor(impl: TableColumnOptions<CustomData>, private readonly table: Table<any>) {
+    constructor(impl: TableColumnOptions, private readonly table: Table<any>) {
         super({ ...impl, id: table.id + '.' + impl.id });
         this.column = impl.column || impl.id;
         this.tableColumn = impl.tableColumn || this.column;

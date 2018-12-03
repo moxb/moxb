@@ -1,4 +1,4 @@
-export interface Bind<CustomData> {
+export interface Bind<CustomData = undefined> {
     /**
      * A `.` separated id user for translations
      */

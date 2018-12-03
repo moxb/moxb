@@ -23,7 +23,7 @@ export function getValueFromStringOrFunction(value: StringOrFunction): string | 
 /**
  * Used to set up {Bind} objects
  */
-export interface BindOptions<CustomData> {
+export interface BindOptions<CustomData = undefined> {
     id: string;
     /**
      * If label is a function it assumes that the function returns a translated label.
@@ -69,7 +69,7 @@ export interface BindOptions<CustomData> {
     customData?: ValueOrFunction<CustomData>;
 }
 
-export class BindImpl<Options extends BindOptions<CustomData>, CustomData> implements Bind<CustomData> {
+export class BindImpl<Options extends BindOptions<CustomData>, CustomData = undefined> implements Bind<CustomData> {
     readonly id: string;
     readonly domId: string;
     protected readonly impl: Options;
@@ -229,7 +229,7 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData> imple
 
     get customData() {
         if (typeof this.impl.customData === 'function') {
-            return this.impl.customData();
+            return (this.impl.customData as Function)();
         }
         if (this.impl.customData) {
             this.impl.customData;
