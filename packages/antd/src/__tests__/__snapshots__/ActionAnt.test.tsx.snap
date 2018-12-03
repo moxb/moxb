@@ -47,6 +47,7 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
       "getHelp": [Function],
       "getInvisible": [Function],
       "getLabel": [Function],
+      "getPending": [Function],
       "getReadonly": [Function],
       "id": "TheId",
       "impl": Object {
@@ -102,6 +103,7 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
         "getHelp": [Function],
         "getInvisible": [Function],
         "getLabel": [Function],
+        "getPending": [Function],
         "getReadonly": [Function],
         "id": "TheId",
         "impl": Object {
