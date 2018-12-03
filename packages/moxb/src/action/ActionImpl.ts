@@ -4,6 +4,7 @@ import { Action } from './Action';
 
 export interface ActionOptions extends BindOptions {
     fire(): void;
+    pending?: () => boolean;
 }
 
 export class ActionImpl extends BindImpl<ActionOptions> implements Action {
@@ -11,10 +12,22 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
         super(impl);
     }
 
+    protected getPending() {
+        return this.impl.pending ? this.impl.pending() : false;
+    }
+
+    get pending() {
+        return this.getPending();
+    }
+
     @action.bound
     fire() {
         if (this.enabled) {
-            this.impl.fire();
+            if (this.pending) {
+                console.warn(`cannot fire pending action ${this.id} '${this.label}'`);
+            } else {
+                this.impl.fire();
+            }
         } else {
             console.warn(`cannot fire disabled action ${this.id} '${this.label}'`);
         }

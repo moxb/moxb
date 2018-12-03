@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { BindAntProps, parseProps } from './BindAnt';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import { ButtonSize, ButtonType, ButtonShape } from 'antd/lib/button';
 import { NativeButtonProps } from 'antd/lib/button/button';
 import { Action } from '@moxb/moxb';
@@ -11,6 +11,20 @@ export type BindActionAntProps = BindAntProps<Action> & NativeButtonProps;
 
 @observer
 export class ActionButtonAnt extends React.Component<BindActionAntProps> {
+    protected handleClick() {
+        const { operation } = parseProps(this.props, this.props.operation);
+        if (operation.pending) {
+            // console.log('Ignoring click on pending operation');
+        } else {
+            operation.fire();
+        }
+    }
+
+    constructor(props: BindActionAntProps) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
     render() {
         const { operation, invisible, children, label, id, size, shape, htmlType, type, ...props } = parseProps(
             this.props,
@@ -22,7 +36,7 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
         return (
             <Button
                 id={id}
-                onClick={operation.fire}
+                onClick={this.handleClick}
                 {...props}
                 size={size as ButtonSize}
                 shape={shape as ButtonShape}
@@ -30,6 +44,7 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
                 htmlType={typeof htmlType === 'undefined' ? 'button' : htmlType}
             >
                 {children != null ? children : label}
+                {(operation as Action).pending && <Spin />}
             </Button>
         );
     }
