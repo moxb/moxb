@@ -23,7 +23,7 @@ export function getValueFromStringOrFunction(value: StringOrFunction): string | 
 /**
  * Used to set up {Bind} objects
  */
-export interface BindOptions {
+export interface BindOptions<CustomData = undefined> {
     id: string;
     /**
      * If label is a function it assumes that the function returns a translated label.
@@ -66,9 +66,10 @@ export interface BindOptions {
     setError?(error: string | undefined | null): void;
     clearErrors?(): void;
     validateField?(): void;
+    customData?: ValueOrFunction<CustomData>;
 }
 
-export class BindImpl<Options extends BindOptions> implements Bind {
+export class BindImpl<Options extends BindOptions<CustomData>, CustomData = undefined> implements Bind<CustomData> {
     readonly id: string;
     readonly domId: string;
     protected readonly impl: Options;
@@ -224,5 +225,15 @@ export class BindImpl<Options extends BindOptions> implements Bind {
         if (this.impl.validateField) {
             this.impl.validateField();
         }
+    }
+
+    get customData() {
+        if (typeof this.impl.customData === 'function') {
+            return (this.impl.customData as Function)();
+        }
+        if (this.impl.customData) {
+            this.impl.customData;
+        }
+        return undefined;
     }
 }

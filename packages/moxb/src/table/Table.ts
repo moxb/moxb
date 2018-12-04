@@ -8,7 +8,7 @@ import { TablePagination } from './TablePagination';
 import { TableSearch } from './TableSearch';
 import { Bind } from '../bind/Bind';
 
-export interface Table<T> extends Bind {
+export interface Table<T, CustomData = undefined> extends Bind<CustomData> {
     readonly ready: boolean;
 
     /**
