@@ -162,6 +162,11 @@ npm-update:
 	$(ACTIVATE) \
         && $(LERNA)  --concurrency=1 exec -- npm-check --update
 	$(ACTIVATE) && cd examples && npm-check --update
+
+.PHONY: npm-install
+npm-install:
+	$(ACTIVATE) \
+        && $(LERNA)  --concurrency=1 exec -- npm install
 ########################################################################################################################
 .PHONY: test
 test: run-unit-tests
