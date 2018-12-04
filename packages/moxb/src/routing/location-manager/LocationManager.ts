@@ -79,10 +79,23 @@ export interface LocationManager {
      * Set the last few path tokens.
      *
      * @param position Where to push the tokens? (Any tokens before this will be preserved.)
-     * @param tokens The tokens to push.
-     * @param method The method to use for updating the URL.
+     * @param tokens The tokens to set.
+
      */
     setPathTokens: (position: number, tokens: string[], method?: UpdateMethod) => void;
+
+    /**
+     * Appends a set of tokens to the current path
+     *
+     * @param tokens The tokens to append.
+     * @param method The method to use for updating the URL.
+     */
+    appendPathTokens: (tokens: string[], method?: UpdateMethod) => void;
+
+    /**
+     * Removes the given number of path tokens from the current path.
+     */
+    removePathTokens: (count: number, method?: UpdateMethod) => void;
 
     /**
      * the search queries for the current location
