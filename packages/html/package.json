@@ -1,0 +1,75 @@
+{
+  "name": "@moxb/html",
+  "version": "0.2.0-beta.9",
+  "description": "moxb html bindings",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "dist",
+  "typings": "dist/",
+  "files": [
+    "dist/**/*",
+    "src/**/*.less"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moxb/moxb.git"
+  },
+  "author": "moxb (moxb.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moxb/moxb/issues"
+  },
+  "homepage": "https://github.com/moxb/moxb#readme",
+  "keywords": [
+    "mobx",
+    "html",
+    "react",
+    "UI"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "setupTestFrameworkScriptFile": "../../jest/jestAdapter.js",
+    "testEnvironment": "jsdom",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.(css|less)$": "../../jest/jestMockStyle.js",
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "modulePaths": [
+      "<rootDir>/node_modules"
+    ],
+    "testMatch": [
+      "**/src/**/__tests__/*.(ts|tsx)"
+    ]
+  },
+  "peerDependencies": {
+    "@moxb/moxb": ">0.2.0-beta.8",
+    "mobx": "^4.3.0 || ^5.0.0",
+    "mobx-react": "^5.2.3",
+    "tslib": "^1.9.0"
+  },
+  "devDependencies": {
+    "@moxb/moxb": "^0.2.0-beta.9",
+    "@types/enzyme": "^3.1.13",
+    "@types/jest": "^23.3.1",
+    "@types/react-test-renderer": "^16.0.2",
+    "enzyme": "^3.4.1",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "enzyme-to-json": "^3.3.4",
+    "mobx": "5.6.0",
+    "mobx-react": "5.3.6",
+    "pretty": "^2.0.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  }
+}

@@ -17,7 +17,8 @@ PACKAGE_DIRS= \
    packages/moxb \
    packages/semui \
    packages/antd \
-   packages/meteor
+   packages/meteor \
+   packages/html
 
 EXAMPLE_DIRS= \
    examples
