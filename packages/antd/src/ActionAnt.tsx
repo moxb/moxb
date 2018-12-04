@@ -26,7 +26,7 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
     }
 
     render() {
-        const { operation, invisible, children, label, id, size, shape, htmlType, type, ...props } = parseProps(
+        const { operation, invisible, children, label, id, size, shape, htmlType, type, reason, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -41,6 +41,7 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
                 size={size as ButtonSize}
                 shape={shape as ButtonShape}
                 type={type as ButtonType}
+                title={reason}
                 htmlType={typeof htmlType === 'undefined' ? 'button' : htmlType}
             >
                 {children != null ? children : label}

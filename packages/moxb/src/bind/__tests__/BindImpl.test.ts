@@ -1,6 +1,6 @@
 import { setTFunction, t, translateKeysDefault, translateKeysOnly } from '../../i18n/i18n';
 import { Bind } from '../Bind';
-import { BindImpl, BindOptions, getValueFromStringOrFunction } from '../BindImpl';
+import { BindImpl, BindOptions, decideRefuse, getValueFromStringOrFunction } from '../BindImpl';
 
 describe('interface Bind', function() {
     function newBind(options: BindOptions) {
@@ -142,6 +142,8 @@ describe('interface Bind', function() {
             testDisabledFalse(null);
             testDisabledFalse('');
             testDisabledFalse(0);
+            testDisabledFalse(decideRefuse());
+            testDisabledFalse(decideRefuse('why now'));
         });
         it('should be not enabled', function() {
             function testDisabledFalse(value: any) {
@@ -168,6 +170,8 @@ describe('interface Bind', function() {
             testDisabledTrue(null);
             testDisabledTrue('');
             testDisabledTrue(0);
+            testDisabledTrue(decideRefuse());
+            testDisabledTrue(decideRefuse('i do not like it'));
         });
         it('should have the BindImpl as `this`', function() {
             let theThis: any = undefined;
@@ -182,6 +186,28 @@ describe('interface Bind', function() {
             expect(theThis).toBe(bind);
         });
     });
+
+    describe('reason', function() {
+        it('should be undefined by default', function() {
+            const bind: Bind = newBind({
+                id: 'test',
+            });
+            expect(bind.reason).toBeUndefined();
+        });
+        it('should return the reason provided by disabled function', function() {
+            function testReasonWhenDisabled(reason?: string) {
+                const disabled = jest.fn().mockReturnValue(decideRefuse(reason));
+                const bind: Bind = newBind({
+                    id: 'test',
+                    disabled,
+                });
+                expect(bind.reason).toBe(reason);
+            }
+            testReasonWhenDisabled('Becase we can');
+            testReasonWhenDisabled();
+        });
+    });
+
     describe('enabled', function() {
         it('should be true by default', function() {
             const bind: Bind = newBind({

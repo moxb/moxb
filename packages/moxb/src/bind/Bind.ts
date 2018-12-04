@@ -10,6 +10,7 @@ export interface Bind<CustomData = undefined> {
     readonly label?: string;
     readonly disabled: boolean; // same as !enabled
     readonly enabled: boolean; // same as !disabled
+    readonly reason?: string; // why is this disabled / enabled?
     readonly invisible: boolean;
     readonly readOnly?: boolean; // if false just display the value
     readonly help?: string;

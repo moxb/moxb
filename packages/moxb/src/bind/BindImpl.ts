@@ -20,6 +20,24 @@ export function getValueFromStringOrFunction(value: StringOrFunction): string | 
     return getValueOrFunction(value);
 }
 
+export interface Decision {
+    allowed: boolean;
+    reason?: string;
+}
+
+export const decideAccept = (reason?: string): Decision => ({ allowed: true, reason });
+export const decideRefuse = (reason?: string): Decision => ({ allowed: false, reason });
+
+type AnyDecision = boolean | Decision;
+
+function readDecision(decision: AnyDecision): boolean {
+    return decision === null ? false : typeof decision === 'object' ? (decision as Decision).allowed : !!decision;
+}
+
+function readReason(decision: AnyDecision): string | undefined {
+    return decision === null ? undefined : typeof decision === 'object' ? (decision as Decision).reason : undefined;
+}
+
 /**
  * Used to set up {Bind} objects
  */
@@ -36,13 +54,13 @@ export interface BindOptions<CustomData = undefined> {
      *
      * @returns {boolean} `true` if the the element should be disabled
      */
-    disabled?(): boolean;
+    disabled?(): AnyDecision;
 
     /**
      * Note: you can either specify a `disabled` or an `enabled` function!
      * @returns {boolean} `false` if the element should be disabled
      */
-    enabled?(): boolean;
+    enabled?(): AnyDecision;
 
     /**
      * If true the associated UI element does not show up in the UI (as if it would be `null`)
@@ -110,12 +128,12 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
     get disabled() {
         return this.getDisabled();
     }
-    protected getDisabled() {
+    protected getDisabled(): boolean {
         if (this.impl.disabled) {
-            return !!this.impl.disabled();
+            return readDecision(this.impl.disabled());
         }
         if (this.impl.enabled) {
-            return !this.impl.enabled();
+            return !readDecision(this.impl.enabled());
         }
         return false;
     }
@@ -123,6 +141,20 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
     @computed
     get enabled() {
         return !this.disabled;
+    }
+
+    @computed
+    get reason() {
+        return this.getReason();
+    }
+    protected getReason() {
+        if (this.impl.disabled) {
+            return readReason(this.impl.disabled());
+        }
+        if (this.impl.enabled) {
+            return readReason(this.impl.enabled());
+        }
+        return undefined;
     }
 
     @computed
