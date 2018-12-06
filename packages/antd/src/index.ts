@@ -2,6 +2,7 @@ export * from './ActionAnt';
 export * from './BindAnt';
 export * from './BoolAnt';
 export * from './ConfirmAnt';
+export * from './LabelAnt';
 export * from './ModalAnt';
 export * from './TextAnt';
 export * from './ManyOfAnt';
