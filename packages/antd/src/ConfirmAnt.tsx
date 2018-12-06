@@ -4,6 +4,7 @@ import { Modal } from 'antd';
 import { ModalFuncProps } from 'antd/lib/modal';
 import { Confirm as MoxbConfirm } from '@moxb/moxb';
 import { parseProps } from './BindAnt';
+import { BindMarkdownDiv } from './LabelAnt';
 
 export interface BindConfirmAntProps extends ModalFuncProps {
     operation: MoxbConfirm<any>;
@@ -24,7 +25,7 @@ export class ConfirmAnt extends React.Component<BindConfirmAntProps> {
                 okText={operation.confirmButton.label}
                 title={operation.header}
             >
-                {operation.content}
+                <BindMarkdownDiv text={operation.content} />
             </Modal>
         );
     }
