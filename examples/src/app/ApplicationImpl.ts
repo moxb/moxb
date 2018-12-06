@@ -12,6 +12,7 @@ import {
     Table,
     Time,
     Form,
+    Label,
     ActionImpl,
     BoolImpl,
     ConfirmImpl,
@@ -27,6 +28,7 @@ import {
     TimeImpl,
     FormImpl,
     ValueImpl,
+    LabelImpl,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 import { ApplicationMethods } from './ApplicationMethods';
@@ -47,6 +49,18 @@ export class ApplicationImpl implements Application {
         fire: () => {
             alert('Hello Button');
         },
+    });
+
+    readonly testLabel: Label = new LabelImpl({
+        id: 'ApplicationImpl.testLabel',
+        text: '<h2>LALALAL</h2>',
+        showRawText: false,
+    });
+
+    readonly testLabelMarkdown: Label = new LabelImpl({
+        id: 'ApplicationImpl.testLabel2',
+        text: '# Hello Button',
+        showRawText: false,
     });
 
     readonly testBool: Bool = new BoolImpl({

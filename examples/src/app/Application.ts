@@ -1,10 +1,27 @@
-import { Action, Bool, Confirm, Modal, Text, ManyOf, Numeric, OneOf, Table, Date, Time, Form, Value } from '@moxb/moxb';
+import {
+    Action,
+    Bool,
+    Confirm,
+    Modal,
+    Text,
+    ManyOf,
+    Numeric,
+    OneOf,
+    Table,
+    Date,
+    Time,
+    Form,
+    Value,
+    Label,
+} from '@moxb/moxb';
 
 export interface Application {
     readonly showCheckbox: boolean;
     newConfirmAction(): Action;
     newModalAction(): Action;
     readonly testAction: Action;
+    readonly testLabel: Label;
+    readonly testLabelMarkdown: Label;
     readonly testBool: Bool;
     readonly testConfirm: Confirm<any>;
     readonly testModal: Modal<any>;
