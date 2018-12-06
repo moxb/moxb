@@ -4,7 +4,7 @@ import {
     LocationDependentStateSpaceHandlerProps,
 } from './LocationDependentStateSpaceHandler';
 import { StateSpaceHandlerImpl } from './state-space/StateSpaceHandlerImpl';
-import { UrlArg, UrlArgImpl, URLARG_TYPE_ORDERED_STRING_ARRAY } from '../url-arg';
+import { UrlArg, URLARG_TYPE_ORDERED_STRING_ARRAY, AnyUrlArgImpl } from '../url-arg';
 import { SubStateInContext } from './state-space/StateSpace';
 import { updateTokenString } from '../tokens';
 import { TokenManager } from '../TokenManager';
@@ -28,15 +28,28 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
         const { locationManager, tokenManager, parsedTokens, arg } = props;
         this._locationManager = locationManager!;
         this._tokenManager = tokenManager!;
+        // Here, we are trying to wrap another URL argument around the passed-in one,
+        // So that it can support multi-token values (?q=foo.bar)
+        // We are using the originally defined arg as a back-end for this new var.
         this._urlArg = arg
-            ? new UrlArgImpl(locationManager!, {
-                  key: arg.key,
-                  valueType: URLARG_TYPE_ORDERED_STRING_ARRAY,
-                  defaultValue:
-                      typeof arg.defaultValue === 'object'
-                          ? arg.defaultValue
-                          : URLARG_TYPE_ORDERED_STRING_ARRAY.getParser(arg.key)(arg.defaultValue) || [],
-              })
+            ? new AnyUrlArgImpl(
+                  {
+                      key: arg.key,
+                      valueType: URLARG_TYPE_ORDERED_STRING_ARRAY,
+                      defaultValue:
+                          typeof arg.defaultValue === 'object'
+                              ? arg.defaultValue
+                              : URLARG_TYPE_ORDERED_STRING_ARRAY.getParser(arg.key)(arg.defaultValue) || [],
+                  },
+                  {
+                      get rawValue() {
+                          return arg!.value;
+                      },
+                      set rawValue(value) {
+                          arg!.value = value;
+                      },
+                  }
+              )
             : undefined;
         this._parsedTokens = parsedTokens || 0;
         if (this._debug) {
@@ -119,7 +132,12 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
     public getUrlForSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): string {
         if (this._urlArg) {
             const value = this._getArgValueForSubState(state);
-            return this._urlArg.getModifiedUrl(value);
+            const url = this._urlArg.getModifiedUrl(value);
+            if (url === undefined) {
+                throw new Error("Can't generate a link based on a non-URL arg!");
+            } else {
+                return url;
+            }
         } else {
             return this._locationManager.getURLForPathTokens(this._parsedTokens, state.totalPathTokens);
         }

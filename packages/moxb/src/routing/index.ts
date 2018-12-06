@@ -24,6 +24,8 @@ export {
     UrlArg,
     UrlArgImpl,
     UrlTokenImpl,
+    createInMemoryArg,
+    AnyUrlArgImpl,
     URLARG_TYPE_STRING,
     URLARG_TYPE_ORDERED_STRING_ARRAY,
     URLARG_TYPE_UNORDERED_STRING_ARRAY,

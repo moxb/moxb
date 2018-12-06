@@ -11,3 +11,5 @@ export {
 
 export { UrlArgImpl } from './UrlArgImpl';
 export { UrlTokenImpl } from './UrlTokenImpl';
+export { createInMemoryArg } from './InMemoryArgImpl';
+export { AnyUrlArgImpl } from './AnyUrlArgImpl';

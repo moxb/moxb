@@ -99,7 +99,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         const query: Query = {};
         this._permanentArgs.forEach(arg => {
             if (arg.defined) {
-                query[arg.key] = arg.rawValue;
+                query[arg.key] = arg.rawValue!;
             }
         });
         return query;

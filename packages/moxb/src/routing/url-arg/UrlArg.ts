@@ -60,8 +60,10 @@ export interface UrlArg<T> {
 
     /**
      * Get the URL string that would result if we modified the value
+     *
+     * Returns undefined if this arg doesn't care about the URL.
      */
-    getModifiedUrl(value: T): string;
+    getModifiedUrl(value: T): string | undefined;
 
     // ======= Anything below this level is quite technical,
     // you probably won't need to use it directly.
@@ -69,7 +71,7 @@ export interface UrlArg<T> {
     /**
      * Extract the value of this arg from a given query
      */
-    getOnQuery(query: Query): T;
+    getOnQuery(query: Query): T | undefined;
 
     /**
      * Get the raw (string) value corresponding to a given value
@@ -84,7 +86,7 @@ export interface UrlArg<T> {
     /**
      * Get the raw form of the value
      */
-    readonly rawValue: string;
+    readonly rawValue: string | undefined;
 
     /**
      * Get the default value
