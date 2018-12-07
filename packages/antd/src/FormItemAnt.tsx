@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import { parseProps, labelWithHelp, getErrorMessages } from './BindAnt';
 import { FormItem as MoxFormItem } from '@moxb/moxb';
 import { FormItemProps } from 'antd/lib/form/FormItem';
+import { BindMarkdownDiv } from './LabelAnt';
 
 export interface BindFormItemAntProps extends FormItemProps {
     operation: MoxFormItem;
@@ -18,7 +19,7 @@ export interface BindFormItemAntProps extends FormItemProps {
 @observer
 export class FormItemAnt extends React.Component<BindFormItemAntProps> {
     render() {
-        const { operation, id, children, label, formStyle, labelCol, wrapperCol, invisible } = parseProps(
+        const { operation, id, children, label, formStyle, labelCol, wrapperCol, invisible, extra } = parseProps(
             this.props,
             this.props.operation
         );
@@ -30,6 +31,7 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
                 id={id + '-formItem'}
                 label={labelWithHelp(label, operation.help)}
                 style={formStyle || undefined}
+                extra={extra ? <BindMarkdownDiv text={extra!.toString()} /> : null}
                 labelCol={labelCol}
                 wrapperCol={wrapperCol}
                 required={operation.required}
