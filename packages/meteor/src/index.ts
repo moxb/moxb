@@ -10,3 +10,4 @@ export * from './MeteorTableFetcherImpl';
 export * from './MethodDataFetcherImpl';
 export * from './QueryStringParser';
 export * from './MeteorMethod';
+export * from './MeteorAction';
