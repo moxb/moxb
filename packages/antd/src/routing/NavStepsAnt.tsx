@@ -9,24 +9,53 @@ import {
 import { UIFragment, UIFragmentSpec } from '../not-antd';
 import { Steps } from 'antd';
 import { StepsProps } from 'antd/lib/steps';
+export { StepsProps } from 'antd/lib/steps';
 
 const Step = Steps.Step;
+
+export enum StepStatus {
+    WAIT = 'wait',
+    PROCESS = 'process',
+    FINISH = 'finish',
+    ERROR = 'error',
+}
 
 export interface NavStepsProps<DataType>
     extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
     stepProps?: StepsProps;
+
+    /**
+     * Optionally, you can declare that the set of available states will never change.
+     *
+     * This makes some performance improvements possible.
+     */
+    staticStates?: boolean;
 }
 
 @observer
 export class NavStepsAnt<DataType> extends React.Component<NavStepsProps<DataType>> {
     protected readonly _id: string;
-    protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>;
+    protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType> | undefined;
 
     constructor(props: NavStepsProps<DataType>) {
         super(props);
-        const { id, stepProps, ...stateProps } = props;
-        this._id = id || 'no-id';
-        this._states = new LocationDependentStateSpaceHandlerImpl({
+        this._id = props.id || 'no-id';
+
+        const { id, stepProps = {}, staticStates, children, ...stateProps } = this.props;
+        this._states = staticStates
+            ? new LocationDependentStateSpaceHandlerImpl({
+                  ...stateProps,
+                  id: 'steps for ' + id,
+              })
+            : undefined;
+    }
+
+    protected getStates(): LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType> {
+        if (this._states) {
+            return this._states;
+        }
+        const { id, stepProps = {}, staticStates, children, ...stateProps } = this.props;
+        return new LocationDependentStateSpaceHandlerImpl({
             ...stateProps,
             id: 'steps for ' + id,
         });
@@ -37,17 +66,18 @@ export class NavStepsAnt<DataType> extends React.Component<NavStepsProps<DataTyp
     }
 
     render() {
-        const states = this._states.getFilteredSubStates({
+        const { stepProps = {} } = this.props;
+        const _states = this.getStates();
+        const visibleStates = _states.getFilteredSubStates({
             onlyVisible: true,
             onlySatisfying: true,
         });
-        const { stepProps = {} } = this.props;
-        const stateKeys = states.map(s => s.menuKey);
-        const selectedMenuKeys = this._states.getActiveSubStateMenuKeys(true);
-        const index = stateKeys.indexOf(selectedMenuKeys[0]);
+        const visibleStateKeys = visibleStates.map(s => s.menuKey);
+        const selectedMenuKeys = _states.getActiveSubStateMenuKeys(true);
+        const index = visibleStateKeys.indexOf(selectedMenuKeys[0]);
         return (
             <Steps {...stepProps} current={index}>
-                {states.map(this._renderSubStateElement)}
+                {visibleStates.map(this._renderSubStateElement)}
             </Steps>
         );
     }
