@@ -23,7 +23,7 @@ export class ConfirmAnt extends React.Component<BindConfirmAntProps> {
                 onCancel={operation.onCancel}
                 cancelText={operation.cancelButton.label}
                 okText={operation.confirmButton.label}
-                title={operation.header}
+                title={<BindMarkdownDiv text={operation.header || ''} />}
             >
                 <BindMarkdownDiv text={operation.content} />
             </Modal>
