@@ -4,6 +4,7 @@ import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 
 export interface UrlArgBackend {
     rawValue: string | undefined;
+    getModifiedUrl?: (value: string) => string | undefined;
 }
 
 export class AnyUrlArgImpl<T> implements UrlArg<T> {
@@ -34,16 +35,22 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
         return this.defined ? this._parser(this.backend.rawValue!) : this.defaultValue;
     }
 
-    public getRawValue(value: T) {
+    public getRawValue(value: T): string {
         const {
             valueType: { isEqual, format },
             defaultValue,
         } = this._def;
-        return isEqual(value, defaultValue) ? undefined : format(value);
+        return isEqual(value, defaultValue)
+            ? format(defaultValue) // TODO: this might not be the right thing to say here.
+            : format(value);
     }
 
-    public getModifiedUrl() {
-        return undefined;
+    public getModifiedUrl(value: T) {
+        const getter = this.backend.getModifiedUrl;
+        if (!getter) {
+            return undefined;
+        }
+        return getter(this.getRawValue(value));
     }
 
     public set(value: T) {

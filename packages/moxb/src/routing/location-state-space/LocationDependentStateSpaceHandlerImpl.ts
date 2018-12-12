@@ -48,6 +48,9 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
                       set rawValue(value) {
                           arg!.value = value;
                       },
+                      getModifiedUrl(value: string) {
+                          return arg.getModifiedUrl(value);
+                      },
                   }
               )
             : undefined;
@@ -134,7 +137,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
             const value = this._getArgValueForSubState(state);
             const url = this._urlArg.getModifiedUrl(value);
             if (url === undefined) {
-                throw new Error("Can't generate a link based on a non-URL arg!");
+                throw new Error(this._id + ": can't generate a link based on a non-URL arg!");
             } else {
                 return url;
             }
