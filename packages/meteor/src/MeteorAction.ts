@@ -1,6 +1,6 @@
 import { Action, ActionImpl, ActionOptions, BindOptions, ValueOrFunction } from '@moxb/moxb';
 import { MeteorMethodControl } from './MeteorMethod';
-import { Bit, BitImpl } from './Bit';
+import { observable } from 'mobx';
 
 /**
  * The main idea here is that it should be trivial to define a (moxb) Action that is backed by a Meteor method,
@@ -50,7 +50,7 @@ interface MeteorActionOptions<Input, Output> extends BindOptions {
 export function createMeteorAction<Input, Output>(options: MeteorActionOptions<Input, Output>): Action {
     const { method, input, before, failed, returned, debug, ...rest } = options;
 
-    const _pending: Bit = new BitImpl();
+    const _pending = observable.box(false);
 
     function getData(): Input {
         if (typeof input === 'function') {
@@ -68,9 +68,9 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
 
     const actionOptions: ActionOptions = {
         ...rest,
-        pending: () => _pending.value,
+        pending: () => _pending.get(),
         fire: () => {
-            _pending.set();
+            _pending.set(true);
             const data = getData();
             if (before) {
                 before(data);
@@ -83,7 +83,7 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
                     const stop = Date.now();
                     debugLog('Returned in', stop - start, 'ms.', 'result:', result);
                     returned(result);
-                    _pending.reset();
+                    _pending.set(false);
                 })
                 .catch(error => {
                     const stop = Date.now();
@@ -91,7 +91,7 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
                     if (failed) {
                         failed(error);
                     }
-                    _pending.reset();
+                    _pending.set(false);
                 });
         },
     };
