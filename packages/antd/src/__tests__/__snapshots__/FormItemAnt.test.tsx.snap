@@ -3,7 +3,6 @@
 exports[`FormItemAnt should render a form item by default 1`] = `
 <FormItem
   colon={true}
-  extra={null}
   hasFeedback={false}
   help={null}
   id="id-test_form-formItem"
