@@ -5,7 +5,7 @@ import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
 import { UsesLocation } from '@moxb/moxb';
 
-export interface LinkParams extends Anchor.AnchorParams {
+export interface LinkAntProps extends Anchor.AnchorParams {
     /**
      * The path tokens to set
      */
@@ -31,7 +31,7 @@ export interface LinkParams extends Anchor.AnchorParams {
     buttonProps?: ButtonProps;
 }
 
-type LinkProps = LinkParams & Anchor.Events;
+type LinkProps = LinkAntProps & Anchor.Events;
 
 @inject('locationManager')
 @observer
