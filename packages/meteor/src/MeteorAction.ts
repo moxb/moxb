@@ -40,8 +40,13 @@ interface MeteorActionOptions<Input, Output> extends BindOptions {
 
     /**
      * A callback to call when the method succeeds
+     *
+     * @param result       The returned data
+     * @param clearPending You can call this callback if you want to clear the pending flag sooner.
+     *                     The pending flag will normally be cleared right after this 'returned' callback
+     *                     is executed, but if you need it sooner, you can do that by calling this.
      */
-    returned: (result: Output) => void;
+    returned: (result: Output, clearPending: Function) => void;
 }
 
 /**
@@ -51,6 +56,8 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
     const { method, input, before, failed, returned, debug, ...rest } = options;
 
     const _pending = observable.box(false);
+
+    const clearPending = () => _pending.set(false);
 
     function getData(): Input {
         if (typeof input === 'function') {
@@ -82,8 +89,8 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
                 .then(result => {
                     const stop = Date.now();
                     debugLog('Returned in', stop - start, 'ms.', 'result:', result);
-                    returned(result);
-                    _pending.set(false);
+                    returned(result, clearPending);
+                    clearPending();
                 })
                 .catch(error => {
                     const stop = Date.now();
@@ -91,7 +98,7 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
                     if (failed) {
                         failed(error);
                     }
-                    _pending.set(false);
+                    clearPending();
                 });
         },
     };
