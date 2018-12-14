@@ -29,7 +29,7 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
                 this.impl.fire();
             }
         } else {
-            console.warn(`cannot fire disabled action ${this.id} '${this.label}'`);
+            console.warn(`cannot fire disabled action ${this.id} '${this.label}': ${this.reason}`);
         }
     }
 }
