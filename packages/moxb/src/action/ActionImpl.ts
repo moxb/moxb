@@ -3,7 +3,7 @@ import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Action } from './Action';
 
 export interface ActionOptions extends BindOptions {
-    fire(): void;
+    fire(): Promise<void> | void;
     pending?: () => boolean;
     readonly keyboardShortcuts?: string | string[];
 }
@@ -33,16 +33,31 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
     }
 
     @action.bound
-    fire() {
-        if (this.enabled) {
-            if (this.pending) {
-                console.warn(`cannot fire pending action ${this.id} '${this.label}'`);
+    firePromise() {
+        return new Promise<void>((resolve, reject) => {
+            if (this.enabled) {
+                if (this.pending) {
+                    const problem = `cannot fire pending action ${this.id} '${this.label}'`;
+                    console.warn(problem);
+                    reject(problem);
+                } else {
+                    const firing = this.impl.fire();
+                    if (firing) {
+                        firing.then(resolve, reject);
+                    } else {
+                        resolve();
+                    }
+                }
             } else {
-                this.impl.fire();
+                const problem = `cannot fire disabled action ${this.id} '${this.label}': ${this.reason}`;
+                console.warn(problem);
+                reject(problem);
             }
-        } else {
-            console.warn(`cannot fire disabled action ${this.id} '${this.label}': ${this.reason}`);
-        }
+        });
+    }
+
+    fire() {
+        this.firePromise().then(() => {}, () => {});
     }
 }
 
