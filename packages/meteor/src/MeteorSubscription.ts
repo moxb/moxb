@@ -6,4 +6,8 @@ export interface MeteorSubscription {
      * Background: we use mobx onBecomeObserved on this attribute to subscribe to the meteor subscription.
      */
     readonly isSubscriptionReady: boolean;
+    readonly hasFailed: boolean;
+    readonly error?: any;
+
+    readonly pending: boolean;
 }
