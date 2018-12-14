@@ -1,9 +1,8 @@
 import { Row } from 'antd';
 import * as React from 'react';
-import { NumericFormAnt, TableAnt, ColumnAntProps } from '@moxb/antd';
+import { NumericFormAnt, TableAnt, ColumnAntProps, LinkAnt } from '@moxb/antd';
 import { inject, observer } from 'mobx-react';
 import { MemTable, MemTableData } from './MemTable';
-import { ArgChangingLink } from '@moxb/antd';
 import { UsesURL } from '../store/UrlStore';
 
 @inject('memTable', 'url')
@@ -22,29 +21,29 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable } & UsesU
                 </span>
                 <br />
                 Goto Group{' '}
-                <ArgChangingLink arg={url.groupId} value="foo">
+                <LinkAnt argChanges={[{ arg: url.groupId, value: 'foo' }]}>
                     <code>'foo'</code>{' '}
-                </ArgChangingLink>
+                </LinkAnt>
                 or{' '}
-                <ArgChangingLink arg={url.groupId} value="bar">
+                <LinkAnt argChanges={[{ arg: url.groupId, value: 'bar' }]}>
                     <code>'bar'</code>{' '}
-                </ArgChangingLink>
+                </LinkAnt>
                 or{' '}
-                <ArgChangingLink arg={url.groupId} value="">
+                <LinkAnt argChanges={[{ arg: url.groupId, value: '' }]}>
                     <code>''</code>
-                </ArgChangingLink>
+                </LinkAnt>
                 <br /> Goto Object{' '}
-                <ArgChangingLink arg={url.objectId} value="ObjA">
+                <LinkAnt argChanges={[{ arg: url.objectId, value: 'ObjA' }]}>
                     <code>'ObjA'</code>{' '}
-                </ArgChangingLink>
+                </LinkAnt>
                 or{' '}
-                <ArgChangingLink arg={url.objectId} value="ObjB">
+                <LinkAnt argChanges={[{ arg: url.objectId, value: 'ObjB' }]}>
                     <code>'ObjB'</code>{' '}
-                </ArgChangingLink>
+                </LinkAnt>
                 or{' '}
-                <ArgChangingLink arg={url.objectId} value="">
+                <LinkAnt argChanges={[{ arg: url.objectId, value: '' }]}>
                     <code>''</code>
-                </ArgChangingLink>{' '}
+                </LinkAnt>{' '}
                 {!memTable.groupId && <i>(disallowed -- would normally be disabled, because no Group is specified)</i>}
                 <NumericFormAnt required operation={memTable.rows} />
                 <TableAnt table={memTable.table} setupColumn={column => this.renderColumn(column)} />

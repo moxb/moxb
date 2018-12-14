@@ -1,7 +1,7 @@
 import { createMemoryHistory } from 'history';
 import { BasicLocationManagerImpl } from '../BasicLocationManagerImpl';
 import { NativeUrlSchema } from '../../url-schema/NativeUrlSchema';
-import { LocationManager } from '../LocationManager';
+import { LocationManager, UpdateMethod } from '../LocationManager';
 import { UrlArgImpl } from '../../url-arg/UrlArgImpl';
 import { URLARG_TYPE_STRING } from '../../url-arg/UrlArgTypes';
 
@@ -157,8 +157,8 @@ describe('The Basic Location Manager implementation', () => {
     it('should be able to manipulate location without adding new entries to history', () => {
         fakeHistory.push('/');
         const startLength = fakeHistory.entries.length;
-        locationManager.setPathTokens(0, ['go', 'here'], 'replace');
-        locationManager.setQuery('foo', 'bar', 'replace');
+        locationManager.setPathTokens(0, ['go', 'here'], UpdateMethod.REPLACE);
+        locationManager.setQuery('foo', 'bar', UpdateMethod.REPLACE);
         const endLength = fakeHistory.entries.length;
         expect(endLength).toEqual(startLength);
     });

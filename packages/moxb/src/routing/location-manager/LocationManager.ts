@@ -13,7 +13,10 @@ export type QueryChange = {
 /**
  * The possible methods for updating the location, in relation to the history.
  */
-export type UpdateMethod = 'push' | 'replace';
+export enum UpdateMethod {
+    PUSH = 'push',
+    REPLACE = 'replace',
+}
 
 export interface Redirect {
     // Where should we jump from?
@@ -124,6 +127,17 @@ export interface LocationManager {
      * @param rawValue The new value to set (already in string form)
      */
     getURLForQueryChange: (key: string, rawValue: string | undefined) => string;
+
+    /**
+     * Determine the URL that we would get if we changed the path and also some URL arguments
+     *
+     * @param changes The changes to calculate
+     */
+    getURLForPathAndQueryChanges: (
+        position: number | undefined,
+        tokens: string[] | undefined,
+        queryChanges: QueryChange[] | undefined
+    ) => string;
 
     // Set a single query variable
     /**

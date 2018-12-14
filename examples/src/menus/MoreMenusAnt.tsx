@@ -1,11 +1,4 @@
-import {
-    MenuAndContentAnt,
-    TextFormAnt,
-    LinkAnt,
-    ArgChangingLink,
-    MultiArgChangingLink,
-    UIFragmentSpec,
-} from '@moxb/antd';
+import { MenuAndContentAnt, TextFormAnt, LinkAnt, UIFragmentSpec } from '@moxb/antd';
 import { Navigable } from '@moxb/moxb';
 
 import { Col, Row } from 'antd';
@@ -41,14 +34,15 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         <LinkAnt
                             widgetStyle="button"
                             to={['moreMenus', 'two']}
-                            label="Select 'two' on the left tab menu!"
+                            argChanges={[{ arg: url!.color, value: 'green' }]}
+                            label="Select 'two' on the left tab menu, and green color on the right one!"
                             buttonProps={{ type: 'primary' }}
                         />
                         <hr />
-                        <ArgChangingLink arg={url!.color!} value="blue" label="Set the color to blue!" />
+                        <LinkAnt argChanges={[{ arg: url!.color!, value: 'blue' }]} label="Set the color to blue!" />
                         <hr />
-                        <MultiArgChangingLink
-                            changes={[
+                        <LinkAnt
+                            argChanges={[
                                 {
                                     arg: url!.color,
                                     value: 'green',

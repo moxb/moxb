@@ -172,7 +172,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._history.listen((newLocation: MyLocation) => this.onLocationChanged(newLocation));
     }
 
-    protected _getLocationForQueryChanges(changes: QueryChange[]): MyLocation {
+    protected _getLocationForQueryChanges(changes: QueryChange[], baseLocation?: MyLocation): MyLocation {
         const query = this.query;
         changes.forEach(change => {
             const { key, value } = change;
@@ -183,7 +183,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                 query[key] = value;
             }
         });
-        const location = this._schema.getLocation(this._location, this.pathTokens, query);
+        const location = this._schema.getLocation(baseLocation || this._location, this.pathTokens, query);
         return location;
     }
 
@@ -198,6 +198,21 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     public getURLForQueryChanges(changes: QueryChange[]): string {
         const location = this._getLocationForQueryChanges(changes);
+        return locationToUrl(location);
+    }
+
+    public getURLForPathAndQueryChanges(
+        position = 0,
+        tokens: string[] | undefined,
+        queryChanges: QueryChange[] | undefined
+    ) {
+        let location = this._location;
+        if (tokens) {
+            location = this.getLocationForPathTokens(position, tokens);
+        }
+        if (queryChanges) {
+            location = this._getLocationForQueryChanges(queryChanges, location);
+        }
         return locationToUrl(location);
     }
 

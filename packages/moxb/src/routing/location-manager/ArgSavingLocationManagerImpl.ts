@@ -1,6 +1,6 @@
-import { Props as BasicProps } from './BasicLocationManagerImpl';
+import { BasicLocationManagerImpl, Props as BasicProps } from './BasicLocationManagerImpl';
 import { Query } from '../url-schema/UrlSchema';
-import { BasicLocationManagerImpl } from './BasicLocationManagerImpl';
+import { UpdateMethod } from './LocationManager';
 
 const saveArgsDebug = false;
 
@@ -81,7 +81,7 @@ export class ArgSavingLocationManagerImpl extends BasicLocationManagerImpl {
                     if (saveArgsDebug) {
                         console.log('Restoring saved search', jumpLoc);
                     }
-                    this._setLocation(jumpLoc, 'replace');
+                    this._setLocation(jumpLoc, UpdateMethod.REPLACE);
                 } else {
                     // console.log("No saved search for this path.");
                 }
