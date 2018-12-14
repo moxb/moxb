@@ -52,6 +52,24 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
 }
 
 @observer
+export class ActionSpanAnt extends React.Component<BindActionAntProps> {
+    render() {
+        const { operation, invisible, children, label, id, reason, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
+        if (invisible || operation.invisible) {
+            return null;
+        }
+        return (
+            <span id={id} onClick={operation.fire} title={reason} {...props as any}>
+                {children != null ? children : label}
+            </span>
+        );
+    }
+}
+
+@observer
 export class ActionFormButtonAnt extends React.Component<BindActionAntProps & BindFormItemAntProps> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
