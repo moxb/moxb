@@ -48,11 +48,17 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         return !this._isSubscriptionReady && !this._hasFailed;
     }
     protected _fail(error: any) {
-        this._hasFailed = true;
-        this._error = error;
+        if (error) {
+            // console.warn('Failing subscription', this._publicationName, ':', error);
+            this._hasFailed = true;
+            this._error = error;
+        }
     }
 
+    private _publicationName?: string;
+
     protected meteorSubscribe(publicationName: string, ...args: any[]) {
+        this._publicationName = publicationName;
         return Meteor.subscribe(publicationName, ...args, { onStop: this._fail });
     }
 
