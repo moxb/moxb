@@ -4,6 +4,7 @@ export * from './bool/Bool';
 export * from './confirm/Confirm';
 export * from './many-of/ManyOf';
 export * from './modal/Modal';
+export * from './label/Label';
 export * from './numeric/Numeric';
 export * from './date/Date';
 export * from './time/Time';

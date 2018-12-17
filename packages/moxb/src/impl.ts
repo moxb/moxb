@@ -4,6 +4,7 @@ export * from './bool/BoolImpl';
 export * from './confirm/ConfirmImpl';
 export * from './many-of/ManyOfImpl';
 export * from './modal/ModalImpl';
+export * from './label/LabelImpl';
 export * from './date/DateImpl';
 export * from './time/TimeImpl';
 export * from './numeric/NumericImpl';

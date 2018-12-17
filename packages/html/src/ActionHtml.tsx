@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { BindAntProps, parseProps } from 'BindHtml.tsx';
+import { BindAntProps, parseProps } from './BindHtml';
 import { Action } from '@moxb/moxb';
 
 @observer

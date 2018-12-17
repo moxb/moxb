@@ -4,6 +4,7 @@ export * from './BoolUi';
 export * from './ConfirmUi';
 export * from './ManyOfUi';
 export * from './ModalUi';
+export * from './LabelUi';
 export * from './NumericUi';
 export * from './OneOfUi';
 export * from './TablePaginationUi';

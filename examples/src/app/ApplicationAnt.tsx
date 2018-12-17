@@ -16,6 +16,8 @@ import {
     ActionFormButtonAnt,
     OneOfButtonFormAnt,
     TagAnt,
+    LabelAnt,
+    LabelMarkdownAnt,
 } from '@moxb/antd';
 import { Row, Col, Form } from 'antd';
 import { inject, observer } from 'mobx-react';
@@ -46,8 +48,13 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                         <Form>
                             <h1>Ant design Components</h1>
                             <hr />
-                            <h3>ActionButtonUI Component</h3>
-                            <ActionButtonAnt type="primary" operation={application.testAction} />
+                            <LabelMarkdownAnt operation={application.testLabelMarkdown} />
+                            <LabelAnt operation={application.testLabel} />
+                            <ActionButtonAnt
+                                id="application.test.impl.testButton1"
+                                type="primary"
+                                operation={application.testAction}
+                            />
                             <br />
                             <br />
                             <h3>ActionFormButtonUI Component</h3>

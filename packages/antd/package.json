@@ -74,5 +74,8 @@
     "pretty": "^2.0.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
+  },
+  "dependencies": {
+    "marked": "^0.5.2"
   }
 }
