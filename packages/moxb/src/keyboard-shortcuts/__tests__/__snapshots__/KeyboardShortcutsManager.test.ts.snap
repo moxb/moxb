@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`actionMd should write out all actions as markdown of one group 1`] = `
+"## File
+
+ - New: **mod+n**
+ - Save: **mod+s**"
+`;
+
+exports[`actionMd should write out all actions as markdown of tow groups 1`] = `
+"## Edit
+
+ - Redo: **shift+mod+z**, **mod+y**, **z**
+ - Undo: **mod+u**, **u**
+
+## File
+
+ - New: **mod+n**
+ - Save: **mod+s**"
+`;

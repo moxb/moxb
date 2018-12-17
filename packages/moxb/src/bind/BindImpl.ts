@@ -28,13 +28,13 @@ export interface Decision {
 export const decideAccept = (reason?: string): Decision => ({ allowed: true, reason });
 export const decideRefuse = (reason?: string): Decision => ({ allowed: false, reason });
 
-type AnyDecision = boolean | Decision;
+export type AnyDecision = boolean | Decision;
 
-function readDecision(decision: AnyDecision): boolean {
+export function readDecision(decision: AnyDecision): boolean {
     return decision === null ? false : typeof decision === 'object' ? (decision as Decision).allowed : !!decision;
 }
 
-function readReason(decision: AnyDecision): string | undefined {
+export function readReason(decision: AnyDecision): string | undefined {
     return decision === null ? undefined : typeof decision === 'object' ? (decision as Decision).reason : undefined;
 }
 

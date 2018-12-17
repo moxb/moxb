@@ -1,10 +1,11 @@
-import { action } from 'mobx';
+import { action, computed } from 'mobx';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Action } from './Action';
 
 export interface ActionOptions extends BindOptions {
     fire(): void;
     pending?: () => boolean;
+    readonly keyboardShortcuts?: string | string[];
 }
 
 export class ActionImpl extends BindImpl<ActionOptions> implements Action {
@@ -18,6 +19,17 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
 
     get pending() {
         return this.getPending();
+    }
+
+    @computed
+    get keyboardShortcuts() {
+        if (!this.impl.keyboardShortcuts) {
+            return [];
+        }
+        if (typeof this.impl.keyboardShortcuts === 'string') {
+            return [this.impl.keyboardShortcuts];
+        }
+        return this.impl.keyboardShortcuts;
     }
 
     @action.bound

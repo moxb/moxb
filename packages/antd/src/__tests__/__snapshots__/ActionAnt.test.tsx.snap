@@ -67,10 +67,10 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
           "isPendingUnobservation": false,
           "lastAccessedBy": 0,
           "lowestObserverState": 2,
-          "name": "ActionImpl@61.keys",
+          "name": "ActionImpl@66.keys",
           "observers": Set {},
         },
-        "name": "ActionImpl@61",
+        "name": "ActionImpl@66",
         "target": [Circular],
         "values": Map {
           "_errors" => Array [],
@@ -84,6 +84,7 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
           "errors" => Array [],
           "error" => undefined,
           "hasErrors" => false,
+          "keyboardShortcuts" => Array [],
         },
       },
     }
@@ -125,10 +126,10 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
             "isPendingUnobservation": false,
             "lastAccessedBy": 0,
             "lowestObserverState": 2,
-            "name": "ActionImpl@61.keys",
+            "name": "ActionImpl@66.keys",
             "observers": Set {},
           },
-          "name": "ActionImpl@61",
+          "name": "ActionImpl@66",
           "target": [Circular],
           "values": Map {
             "_errors" => Array [],
@@ -142,6 +143,7 @@ exports[`ActionFormButtonAnt should render a button by default 1`] = `
             "errors" => Array [],
             "error" => undefined,
             "hasErrors" => false,
+            "keyboardShortcuts" => Array [],
           },
         },
       }
