@@ -27,5 +27,6 @@ export * from './util/toJSON';
 export * from './util/idToDomId';
 export * from './i18n/i18n';
 export * from './form/FormImpl';
+export * from './keyboard-shortcuts/KeyboardShortcutsManagerImpl';
 // export * from './error/ErrorImpl';
 // export { t, tr, setTFunction } from './i18n/i18n';

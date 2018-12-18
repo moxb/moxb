@@ -69,4 +69,30 @@ describe('interface BindAction', function() {
             expect(bindAction).toBeDefined();
         });
     });
+    describe('keyboardShortcuts', function() {
+        it('should return empty array if not specified', function() {
+            const bindAction = new ActionImpl({
+                id: 'bind.action',
+                fire: () => {},
+            });
+            expect(bindAction.keyboardShortcuts).toEqual([]);
+        });
+
+        it('should return array with one shortcut if a string is given', function() {
+            const bindAction = new ActionButtonImpl({
+                id: 'bind.action',
+                keyboardShortcuts: 'the shortcut',
+                fire: () => {},
+            });
+            expect(bindAction.keyboardShortcuts).toEqual(['the shortcut']);
+        });
+        it('should return array with one shortcut if a n array of string is given', function() {
+            const bindAction = new ActionButtonImpl({
+                id: 'bind.action',
+                keyboardShortcuts: ['cmd 1', 'cmd 2', 'x'],
+                fire: () => {},
+            });
+            expect(bindAction.keyboardShortcuts).toEqual(['cmd 1', 'cmd 2', 'x']);
+        });
+    });
 });
