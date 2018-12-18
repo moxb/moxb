@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NumericAnt should render a numeric input by default 1`] = `
-<span>
-  <InputNumber
-    disabled={false}
-    id="the_id"
-    label="oh"
-    onChange={[Function]}
-    placeholder="Interval"
-    prefixCls="ant-input-number"
-    readOnly={false}
-    step={1}
-  />
-</span>
+<InputNumber
+  disabled={false}
+  formatter={[Function]}
+  id="the_id"
+  label="oh"
+  onChange={[Function]}
+  parser={[Function]}
+  placeholder="Interval"
+  prefixCls="ant-input-number"
+  readOnly={false}
+  step={1}
+/>
 `;
 
 exports[`NumericFormAnt should render form item with a text input by default 1`] = `
