@@ -15,20 +15,23 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
             return null;
         }
         return (
-            <InputNumber
-                id={id}
-                step={operation.step}
-                min={operation.min}
-                max={operation.max}
-                value={operation.value}
-                size={size as any}
-                placeholder="Interval"
-                onChange={value => {
-                    operation.setValue(parseInt(value as string));
-                    operation.onExitField();
-                }}
-                {...props}
-            />
+            <span>
+                <InputNumber
+                    id={id}
+                    step={operation.step}
+                    min={operation.min}
+                    max={operation.max}
+                    value={operation.value}
+                    size={size as any}
+                    placeholder={operation.placeholder || 'Interval'}
+                    onChange={value => {
+                        operation.setValue(parseInt(value as string));
+                        operation.onExitField();
+                    }}
+                    {...props}
+                />
+                {operation.unit && ' ' + operation.unit}
+            </span>
         );
     }
 }

@@ -5,4 +5,5 @@ export interface Numeric extends Value<number> {
     readonly min?: number;
     readonly max?: number;
     readonly step?: number;
+    readonly unit?: string;
 }
