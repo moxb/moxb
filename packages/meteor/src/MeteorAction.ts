@@ -76,31 +76,34 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
     const actionOptions: ActionOptions = {
         ...rest,
         pending: () => _pending.get(),
-        fire: () => {
-            _pending.set(true);
-            const data = getData();
-            if (before) {
-                before(data);
-            }
-            debugLog('Calling method', '"' + method.name + '"', 'with', data);
-            const start = Date.now();
-            method
-                .callPromise(data)
-                .then(result => {
-                    const stop = Date.now();
-                    debugLog('Returned in', stop - start, 'ms.', 'result:', result);
-                    returned(result, clearPending);
-                    clearPending();
-                })
-                .catch(error => {
-                    const stop = Date.now();
-                    debugLog('Failed in', stop - start, 'ms.', 'error:', error);
-                    if (failed) {
-                        failed(error);
-                    }
-                    clearPending();
-                });
-        },
+        fire: () =>
+            new Promise((resolve, reject) => {
+                _pending.set(true);
+                const data = getData();
+                if (before) {
+                    before(data);
+                }
+                debugLog('Calling method', '"' + method.name + '"', 'with', data);
+                const start = Date.now();
+                method
+                    .callPromise(data)
+                    .then(result => {
+                        const stop = Date.now();
+                        debugLog('Returned in', stop - start, 'ms.', 'result:', result);
+                        returned(result, clearPending);
+                        clearPending();
+                        resolve();
+                    })
+                    .catch(error => {
+                        const stop = Date.now();
+                        debugLog('Failed in', stop - start, 'ms.', 'error:', error);
+                        if (failed) {
+                            failed(error);
+                        }
+                        clearPending();
+                        reject(error);
+                    });
+            }),
     };
 
     return new ActionImpl(actionOptions);
