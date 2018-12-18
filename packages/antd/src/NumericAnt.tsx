@@ -14,6 +14,9 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
         if (invisible) {
             return null;
         }
+        const formatter = (value?: number | string) => (operation.unit ? `${value}${operation.unit}` : `${value}`);
+        const parser = (value?: string) =>
+            operation.unit ? parseInt(value!.replace(`${operation.unit}`, '') || '0') : parseInt(value || '0');
         return (
             <InputNumber
                 id={id}
@@ -22,9 +25,11 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
                 max={operation.max}
                 value={operation.value}
                 size={size as any}
-                placeholder="Interval"
+                placeholder={operation.placeholder || 'Interval'}
+                formatter={formatter}
+                parser={parser}
                 onChange={value => {
-                    operation.setValue(parseInt(value as string));
+                    operation.setValue(parseInt((value as string) || '0'));
                     operation.onExitField();
                 }}
                 {...props}

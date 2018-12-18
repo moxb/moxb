@@ -3,9 +3,11 @@
 exports[`NumericAnt should render a numeric input by default 1`] = `
 <InputNumber
   disabled={false}
+  formatter={[Function]}
   id="the_id"
   label="oh"
   onChange={[Function]}
+  parser={[Function]}
   placeholder="Interval"
   prefixCls="ant-input-number"
   readOnly={false}
@@ -52,10 +54,10 @@ exports[`NumericFormAnt should render form item with a text input by default 1`]
           "isPendingUnobservation": false,
           "lastAccessedBy": 0,
           "lowestObserverState": 2,
-          "name": "NumericImpl@64.keys",
+          "name": "NumericImpl@67.keys",
           "observers": Set {},
         },
-        "name": "NumericImpl@64",
+        "name": "NumericImpl@67",
         "target": [Circular],
         "values": Map {
           "_errors" => Array [],
@@ -80,6 +82,7 @@ exports[`NumericFormAnt should render form item with a text input by default 1`]
           "min" => undefined,
           "max" => undefined,
           "step" => undefined,
+          "unit" => undefined,
         },
       },
     }
@@ -125,10 +128,10 @@ exports[`NumericFormAnt should render form item with a text input by default 1`]
             "isPendingUnobservation": false,
             "lastAccessedBy": 0,
             "lowestObserverState": 2,
-            "name": "NumericImpl@64.keys",
+            "name": "NumericImpl@67.keys",
             "observers": Set {},
           },
-          "name": "NumericImpl@64",
+          "name": "NumericImpl@67",
           "target": [Circular],
           "values": Map {
             "_errors" => Array [],
@@ -153,6 +156,7 @@ exports[`NumericFormAnt should render form item with a text input by default 1`]
             "min" => undefined,
             "max" => undefined,
             "step" => undefined,
+            "unit" => undefined,
           },
         },
       }

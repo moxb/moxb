@@ -7,12 +7,15 @@ export interface NumericOptions extends ValueOptions<NumericImpl, number> {
     min?: number;
     max?: number;
     step?: number;
+    unit?: string;
 
     getMin?(): number;
 
     getMax?(): number;
 
     getStep?(): number;
+
+    getUnit?(): string;
 }
 
 export class NumericImpl extends ValueImpl<NumericImpl, number, NumericOptions> implements Numeric {
@@ -47,5 +50,13 @@ export class NumericImpl extends ValueImpl<NumericImpl, number, NumericOptions> 
             return this.impl.getStep();
         }
         return this.impl.step;
+    }
+
+    @computed
+    get unit() {
+        if (this.impl.getUnit) {
+            return this.impl.getUnit();
+        }
+        return this.impl.unit;
     }
 }

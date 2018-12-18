@@ -112,6 +112,7 @@ export class ApplicationImpl implements Application {
         onlyInteger: true,
         initialValue: 999,
         label: 'Only numbers',
+        unit: '€',
         required: true,
         onExitField: bind => {
             if (bind.value! < 900) {
