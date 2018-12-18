@@ -18,8 +18,9 @@ import {
     TagAnt,
     LabelAnt,
     LabelMarkdownAnt,
+    ActionSpanAnt,
 } from '@moxb/antd';
-import { Row, Col, Form } from 'antd';
+import { Row, Col, Form, Dropdown, Icon, Menu } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { toJSON } from '@moxb/moxb';
@@ -59,6 +60,22 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <h3>ActionFormButtonUI Component</h3>
                             <ActionFormButtonAnt type="primary" operation={application.testAction} />
+                            <br />
+                            <br />
+                            <Dropdown
+                                overlay={
+                                    <Menu>
+                                        <Menu.Item>1st menu item</Menu.Item>
+                                        <Menu.Item>
+                                            <ActionSpanAnt operation={application.testAction} />
+                                        </Menu.Item>
+                                    </Menu>
+                                }
+                            >
+                                <a className="ant-dropdown-link" href="#">
+                                    Dropdown menu <Icon type="down" />
+                                </a>
+                            </Dropdown>
                             <br />
                             <br />
                             <h3>BoolUI Component</h3>

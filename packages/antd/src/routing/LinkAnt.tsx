@@ -5,7 +5,7 @@ import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
 import { UsesLocation, UrlArg, QueryChange, UpdateMethod } from '@moxb/moxb';
 
-interface ArgChange<T> {
+export interface ArgChange<T> {
     arg: UrlArg<T>;
     value: T;
 }
