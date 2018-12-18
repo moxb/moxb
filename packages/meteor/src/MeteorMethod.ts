@@ -53,6 +53,15 @@ export interface MeteorMethodControl<Input, Output> {
     callPromise(data: Input): Promise<Output>;
 }
 
+export interface Problem {
+    path: string;
+    problem: string;
+}
+
+export class DetailedError {
+    constructor(readonly error: string, readonly reason: string, readonly details: Problem[]) {}
+}
+
 /**
  * Create a Meteor.Error out of any normal Error.
  */
