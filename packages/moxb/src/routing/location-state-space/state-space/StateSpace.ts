@@ -68,6 +68,11 @@ export interface SubStateDisplayInfo<LabelType> {
     label?: LabelType;
 
     /**
+     * Do we want to show some text when hovering with the cursor above the label?
+     */
+    title?: string;
+
+    /**
      * A special label to use when this sub-state is active
      */
     activeLabel?: LabelType;
