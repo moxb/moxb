@@ -1,5 +1,7 @@
 import { Action } from '../action/Action';
 
+export type KeyboardAction = Pick<Action, 'label' | 'keyboardShortcuts' | 'enabled' | 'fire'>;
+
 /**
  * A set of shortcuts that can be enabled independently
  */
@@ -7,7 +9,7 @@ export interface KeyboardShortcutGroup {
     readonly id: string;
     readonly label?: string;
     readonly enabled: boolean;
-    readonly shortcuts: Action[];
+    readonly shortcuts: KeyboardAction[];
 }
 
 export interface KeyboardShortcutsManager {

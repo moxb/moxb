@@ -1,9 +1,8 @@
 import { action as mobxAction, computed, observable } from 'mobx';
 import { t } from '../i18n/i18n';
 import { AnyDecision, StringOrFunction, readDecision } from '../bind/BindImpl';
-import { Action } from '../action/Action';
 
-import { KeyboardShortcutGroup, KeyboardShortcutsManager } from './KeyboardShortcutsManager';
+import { KeyboardShortcutGroup, KeyboardShortcutsManager, KeyboardAction } from './KeyboardShortcutsManager';
 
 export interface KeyboardShortGroupOptions {
     readonly id: string;
@@ -29,12 +28,12 @@ export interface KeyboardShortGroupOptions {
     /**
      * Must be a non changing list
      */
-    readonly shortcuts: Action[];
+    readonly shortcuts: KeyboardAction[];
 }
 
 export class KeyboardShortcutGroupImpl implements KeyboardShortcutGroup {
     readonly id: string;
-    readonly shortcuts: Action[];
+    readonly shortcuts: KeyboardAction[];
     constructor(private readonly impl: KeyboardShortGroupOptions) {
         this.id = impl.id;
         this.shortcuts = impl.shortcuts.slice();
@@ -67,8 +66,33 @@ export interface ShortcutBinder {
     unbind(key: string): void;
 }
 
+export class KeyboardActionDecorator implements KeyboardAction {
+    constructor(private readonly action: KeyboardAction) {}
+    get label() {
+        return this.getLabel();
+    }
+    protected getLabel() {
+        return this.action.label;
+    }
+    get keyboardShortcuts() {
+        return this.getKeyboardShortcuts();
+    }
+    protected getKeyboardShortcuts() {
+        return this.action.keyboardShortcuts;
+    }
+    get enabled() {
+        return this.getEnabled();
+    }
+    protected getEnabled() {
+        return this.action.enabled;
+    }
+    fire() {
+        this.action.fire();
+    }
+}
+
 class ShortcutAction {
-    constructor(private readonly group: KeyboardShortcutGroup, public readonly action: Action) {}
+    constructor(private readonly group: KeyboardShortcutGroup, public readonly action: KeyboardAction) {}
     get enabled() {
         return this.action.enabled && this.group.enabled;
     }
