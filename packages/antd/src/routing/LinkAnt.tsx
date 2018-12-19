@@ -54,8 +54,11 @@ export class LinkAnt extends React.Component<LinkProps & UsesLocation> {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    protected _getRealChanges(): QueryChange[] {
-        const { argChanges = [] } = this.props;
+    protected _getRealChanges(): QueryChange[] | undefined {
+        const { argChanges } = this.props;
+        if (!argChanges) {
+            return undefined;
+        }
         return argChanges.map(
             (change): QueryChange => ({
                 key: change.arg.key,
@@ -65,13 +68,14 @@ export class LinkAnt extends React.Component<LinkProps & UsesLocation> {
     }
 
     protected handleClick() {
-        const { locationManager, to, position, argChanges } = this.props;
+        const { locationManager, to, position } = this.props;
         if (to) {
             if (to) {
                 locationManager!.setPathTokens(position || 0, to);
             }
-            if (argChanges) {
-                locationManager!.setQueries(this._getRealChanges(), to ? UpdateMethod.REPLACE : UpdateMethod.PUSH);
+            const changes = this._getRealChanges();
+            if (changes) {
+                locationManager!.setQueries(changes, to ? UpdateMethod.REPLACE : UpdateMethod.PUSH);
             }
         }
     }

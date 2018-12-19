@@ -183,7 +183,9 @@ export class BasicLocationManagerImpl implements LocationManager {
                 query[key] = value;
             }
         });
-        const location = this._schema.getLocation(baseLocation || this._location, this.pathTokens, query);
+        const base = baseLocation || this.location;
+        const pathTokens = this._schema.getPathTokens(base);
+        const location = this._schema.getLocation(base, pathTokens, query);
         return location;
     }
 
@@ -213,7 +215,8 @@ export class BasicLocationManagerImpl implements LocationManager {
         if (queryChanges) {
             location = this._getLocationForQueryChanges(queryChanges, location);
         }
-        return locationToUrl(location);
+        const url = locationToUrl(location);
+        return url;
     }
 
     public getURLForQueryChange(key: string, value: string | undefined): string {
