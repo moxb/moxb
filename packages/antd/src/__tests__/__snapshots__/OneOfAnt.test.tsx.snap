@@ -11,7 +11,6 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
   readOnly={false}
 >
   <Radio
-    checked={false}
     key="b"
     prefixCls="ant-radio"
     type="radio"
@@ -20,7 +19,6 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
     Banana
   </Radio>
   <Radio
-    checked={false}
     key="a"
     prefixCls="ant-radio"
     type="radio"
@@ -29,7 +27,6 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
     Apples
   </Radio>
   <Radio
-    checked={false}
     key="p"
     prefixCls="ant-radio"
     type="radio"

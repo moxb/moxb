@@ -16,9 +16,9 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
             return null;
         }
         return (
-            <Radio.Group onChange={e => operation.setValue(e.target.value)} {...props}>
+            <Radio.Group onChange={e => operation.setValue(e.target.value)} {...props} value={operation.value}>
                 {operation.choices.map(opt => (
-                    <Radio key={opt.value} value={opt.value} checked={opt.value === operation.value}>
+                    <Radio key={opt.value} value={opt.value}>
                         {opt.widget ? opt.widget : opt.label}
                     </Radio>
                 ))}
@@ -50,9 +50,9 @@ export class OneOfButtonAnt extends React.Component<BindAntProps<OneOf> & RadioP
             return null;
         }
         return (
-            <Radio.Group onChange={e => operation.setValue(e.target.value)} {...props}>
+            <Radio.Group onChange={e => operation.setValue(e.target.value)} {...props} value={operation.value}>
                 {operation.choices.map(opt => (
-                    <Radio.Button key={opt.value} value={opt.value} checked={opt.value === operation.value}>
+                    <Radio.Button key={opt.value} value={opt.value}>
                         {opt.widget ? opt.widget : opt.label}
                     </Radio.Button>
                 ))}
