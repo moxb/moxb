@@ -45,8 +45,9 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         });
     }
 
+    // tslint:disable-next-line:cyclomatic-complexity
     protected _renderSubStateLink(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
-        const { label, key, menuKey, newWindow, itemClassName, linkClassName, linkStyle, noLink } = state;
+        const { label, key, menuKey, newWindow, itemClassName, linkClassName, linkStyle, noLink, title } = state;
         if (noLink) {
             return <Menu.Item key={menuKey}>{renderUIFragment(label || key || 'item')}</Menu.Item>;
         } else {
@@ -57,6 +58,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
                 target: newWindow ? '_blank' : undefined,
                 onClick: newWindow ? undefined : () => this._states.selectSubState(state),
                 style: linkStyle,
+                title,
             };
             if (linkClassName) {
                 anchorProps.className = linkClassName;
