@@ -17,27 +17,44 @@ describe('content', function() {
             cancelButton: new BindImpl({
                 id: 'cancel',
             }),
-            content,
         });
     });
-    it('should not be called when not shown', function() {
+    it('should not be called when not shown with a content set', function() {
+        const contentSet = jest.fn().mockReturnValue('Content Value');
+        const bindConfirmWithContent = new ConfirmImpl<any>({
+            confirmButton: new BindImpl({
+                id: 'ok',
+            }),
+            cancelButton: new BindImpl({
+                id: 'cancel',
+            }),
+            content: contentSet,
+        });
+        expect(bindConfirmWithContent.content).toBe('');
+        expect(contentSet).not.toBeCalled();
+        bindConfirmWithContent.show('data');
+
+        expect(bindConfirmWithContent.content).toBe('Content Value');
+        expect(contentSet).toBeCalled();
+
+        contentSet.mockReset();
+        bindConfirmWithContent.onCancel();
+        expect(bindConfirmWithContent.content).toBe('');
+        expect(contentSet).not.toBeCalled();
+    });
+    it('should not be called when not shown with no content set', function() {
         expect(bindConfirm.content).toBe('[ConfirmDialog.defaultContent]');
         expect(content).not.toBeCalled();
         bindConfirm.show('data');
+        expect(bindConfirm.content).toBe('[ConfirmDialog.defaultContent]');
 
-        expect(bindConfirm.content).toBe('Content Value');
-        expect(content).toBeCalled();
-
-        content.mockReset();
         bindConfirm.onCancel();
         expect(bindConfirm.content).toBe('[ConfirmDialog.defaultContent]');
         expect(content).not.toBeCalled();
     });
     it('should be called when shown', function() {
         bindConfirm.show('data');
-
-        expect(bindConfirm.content).toBe('Content Value');
-        expect(content).toBeCalled();
+        expect(bindConfirm.content).toBe('[ConfirmDialog.defaultContent]');
     });
     it('should not be called after canceled', function() {
         bindConfirm.show('data');
