@@ -54,8 +54,12 @@ export class ConfirmImpl<T> implements Confirm<T> {
     }
 
     get content() {
-        if (this.open && this.impl.content) {
-            return this.impl.content(this.data);
+        if (this.impl.content) {
+            if (this.open) {
+                return this.impl.content(this.data);
+            } else {
+                return '';
+            }
         }
         return t('ConfirmDialog.defaultContent', 'Are you sure?');
     }

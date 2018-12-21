@@ -22,7 +22,7 @@ exports[`ConfirmAnt should render a confirm dialog by default 1`] = `
   width={520}
 >
   <BindMarkdownDiv
-    text="Are you sure?"
+    text=""
   />
 </Modal>
 `;
