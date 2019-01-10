@@ -1,3 +1,4 @@
+import { observable } from 'mobx';
 import * as React from 'react';
 import { Menu } from 'antd';
 import { observer, inject } from 'mobx-react';
@@ -30,19 +31,30 @@ export interface NavMenuProps<DataType>
  */
 export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataType>> {
     protected readonly _id: string;
-    protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>;
+    @observable.ref
+    protected _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>;
 
     public constructor(props: NavMenuProps<DataType>) {
         super(props);
         this._renderSubStateLink = this._renderSubStateLink.bind(this);
         this._renderSubStateGroup = this._renderSubStateGroup.bind(this);
         this._renderSubStateElement = this._renderSubStateElement.bind(this);
+        this._id = this.props.id || 'no-id';
+        this._states = this.getLocationDependantStateSpaceHandler();
+    }
+
+    private getLocationDependantStateSpaceHandler() {
         const { id, children: _children, extras, style, ...stateProps } = this.props;
-        this._id = id || 'no-id';
-        this._states = new LocationDependentStateSpaceHandlerImpl({
+
+        return new LocationDependentStateSpaceHandlerImpl({
             ...stateProps,
-            id: 'menu bar of ' + id,
+            id: 'menu bar of ' + this._id,
         });
+    }
+
+    componentDidUpdate() {
+        // to be reactive, we have to update the
+        this._states = this.getLocationDependantStateSpaceHandler();
     }
 
     // tslint:disable-next-line:cyclomatic-complexity
