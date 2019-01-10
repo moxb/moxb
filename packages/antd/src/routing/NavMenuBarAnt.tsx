@@ -1,4 +1,3 @@
-import { observable } from 'mobx';
 import * as React from 'react';
 import { Menu } from 'antd';
 import { observer, inject } from 'mobx-react';
@@ -30,45 +29,30 @@ export interface NavMenuProps<DataType>
  * This widget show an Ant menu bar, based on the state-space.
  */
 export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataType>> {
-    protected readonly _id: string;
-    @observable.ref
-    protected _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>;
-
-    public constructor(props: NavMenuProps<DataType>) {
-        super(props);
-        this._renderSubStateLink = this._renderSubStateLink.bind(this);
-        this._renderSubStateGroup = this._renderSubStateGroup.bind(this);
-        this._renderSubStateElement = this._renderSubStateElement.bind(this);
-        this._id = this.props.id || 'no-id';
-        this._states = this.getLocationDependantStateSpaceHandler();
-    }
-
-    private getLocationDependantStateSpaceHandler() {
+    protected getLocationDependantStateSpaceHandler() {
         const { id, children: _children, extras, style, ...stateProps } = this.props;
 
         return new LocationDependentStateSpaceHandlerImpl({
             ...stateProps,
-            id: 'menu bar of ' + this._id,
+            id: 'menu bar of ' + (this.props.id || 'no-id'),
         });
     }
 
-    componentDidUpdate() {
-        // to be reactive, we have to update the
-        this._states = this.getLocationDependantStateSpaceHandler();
-    }
-
     // tslint:disable-next-line:cyclomatic-complexity
-    protected _renderSubStateLink(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
+    protected renderSubStateLink(
+        states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
+        state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
+    ) {
         const { label, key, menuKey, newWindow, itemClassName, linkClassName, linkStyle, noLink, title } = state;
         if (noLink) {
             return <Menu.Item key={menuKey}>{renderUIFragment(label || key || 'item')}</Menu.Item>;
         } else {
-            const url = this._states.getUrlForSubState(state);
+            const url = states.getUrlForSubState(state);
             const anchorProps: Anchor.UIProps = {
                 label: label || key,
                 href: url,
                 target: newWindow ? '_blank' : undefined,
-                onClick: newWindow ? undefined : () => this._states.selectSubState(state),
+                onClick: newWindow ? undefined : () => states.selectSubState(state),
                 style: linkStyle,
                 title,
             };
@@ -87,36 +71,43 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         }
     }
 
-    protected _renderSubStateGroup(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
+    protected renderSubStateGroup(
+        states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
+        state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
+    ) {
         const { label, key, subStates, flat, menuKey, linkStyle } = state;
         if (!flat && !key) {
             throw new Error("Can't create a hierarchical menu group without a key!");
         }
         return (
             <Menu.SubMenu key={menuKey} title={renderUIFragment(label || key || '***')} style={linkStyle}>
-                {subStates!.map(this._renderSubStateElement)}
+                {subStates!.map(s => this.renderSubStateElement(states, s))}
             </Menu.SubMenu>
         );
     }
 
-    protected _renderSubStateElement(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
+    protected renderSubStateElement(
+        states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
+        state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
+    ) {
         const { isGroupOnly } = state;
-        return isGroupOnly ? this._renderSubStateGroup(state) : this._renderSubStateLink(state);
+        return isGroupOnly ? this.renderSubStateGroup(states, state) : this.renderSubStateLink(states, state);
     }
 
     public render() {
+        const states = this.getLocationDependantStateSpaceHandler();
         // AndD's Menu is smart enough to automatically indicate active state
         // on all groups, so we only ask for the leaves.
-        const selectedMenuKeys = this._states.getActiveSubStateMenuKeys(true);
+        const selectedMenuKeys = states.getActiveSubStateMenuKeys(true);
         const { extras, style } = this.props;
         return (
             <Menu selectedKeys={selectedMenuKeys} mode="horizontal" style={style}>
-                {this._states
+                {states
                     .getFilteredSubStates({
                         onlyVisible: true,
                         onlySatisfying: true,
                     })
-                    .map(this._renderSubStateElement)}
+                    .map(state => this.renderSubStateElement(states, state))}
                 {...extras || []}
             </Menu>
         );
