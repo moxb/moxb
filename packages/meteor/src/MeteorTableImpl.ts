@@ -1,4 +1,4 @@
-import { SortColumn, t, extractErrorString, toId, TableImpl, TableOptions, TablePaginationImpl } from '@moxb/moxb';
+import { extractErrorString, SortColumn, t, TableImpl, TableOptions, TablePaginationImpl, toId } from '@moxb/moxb';
 import { Mongo } from 'meteor/mongo';
 import { MeteorDataFetcherDone } from './MeteorDataFetcher';
 import { MeteorTableData, MeteorTableFetcher, MeteorTableQuery } from './MeteorTableFetcher';

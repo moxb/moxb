@@ -1,12 +1,12 @@
-import { Select, Checkbox, Row, Col } from 'antd';
-import { SelectProps } from 'antd/lib/select';
+import { ManyOf } from '@moxb/moxb';
+import { Checkbox, Col, Row, Select } from 'antd';
 import { CheckboxGroupProps } from 'antd/lib/checkbox';
+import { SelectProps } from 'antd/lib/select';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
-import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
-import { ManyOf } from '@moxb/moxb';
+import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 @observer
 export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {

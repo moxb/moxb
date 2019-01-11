@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
-import { BindAntProps, parseProps } from './BindAnt';
-import { Button, Spin } from 'antd';
-import { ButtonSize, ButtonType, ButtonShape } from 'antd/lib/button';
-import { NativeButtonProps } from 'antd/lib/button/button';
 import { Action } from '@moxb/moxb';
-import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
+import { Button, Spin } from 'antd';
+import { ButtonShape, ButtonSize, ButtonType } from 'antd/lib/button';
+import { NativeButtonProps } from 'antd/lib/button/button';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import { BindAntProps, parseProps } from './BindAnt';
+import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 export type BindActionAntProps = BindAntProps<Action> & NativeButtonProps;
 

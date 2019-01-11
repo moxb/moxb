@@ -1,9 +1,9 @@
+import { t, Table as MoxTable } from '@moxb/moxb';
+import { Alert, Table } from 'antd';
 import { SortOrder } from 'antd/es/table';
+import { ColumnProps, TableProps } from 'antd/lib/table/interface';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Table as MoxTable, t } from '@moxb/moxb';
-import { Alert, Table } from 'antd';
-import { ColumnProps, TableProps } from 'antd/lib/table/interface';
 import { TextSearchAnt } from './TextAnt';
 
 export interface ColumnAntProps<T> extends ColumnProps<T> {

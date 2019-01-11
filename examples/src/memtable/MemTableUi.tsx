@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { NumericUi, TableSearchUi, TableUi, TablePaginationUi } from '@moxb/semui';
+import { NumericUi, TablePaginationUi, TableSearchUi, TableUi } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
-import { Form, Table, Container } from 'semantic-ui-react';
+import * as React from 'react';
+import { Container, Form, Table } from 'semantic-ui-react';
 import { NavigationUi } from '../common/NavigationUi';
 import { MemTable } from './MemTable';
 

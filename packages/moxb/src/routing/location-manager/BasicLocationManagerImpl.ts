@@ -1,14 +1,14 @@
-import { observable, action } from 'mobx';
-import { UrlSchema, Query } from '../url-schema/UrlSchema';
-import { NativeUrlSchema } from '../url-schema';
+import { createBrowserHistory, History as MyHistory, Location as MyLocation, LocationDescriptorObject } from 'history';
+import { action, observable } from 'mobx';
+import { doTokenStringsMatch, updateTokenString } from '../tokens';
 import { UrlArg } from '../url-arg';
+import { NativeUrlSchema } from '../url-schema';
+import { Query, UrlSchema } from '../url-schema/UrlSchema';
+
+import { LocationManager, QueryChange, Redirect, UpdateMethod } from './LocationManager';
 
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
-import { Location as MyLocation, History as MyHistory, LocationDescriptorObject, createBrowserHistory } from 'history';
-
-import { LocationManager, UpdateMethod, QueryChange, Redirect } from './LocationManager';
-import { doTokenStringsMatch, updateTokenString } from '../tokens';
 
 const debug = false;
 

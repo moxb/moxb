@@ -1,15 +1,14 @@
-import * as React from 'react';
-import { inject, observer } from 'mobx-react';
-
 import {
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerImpl,
-    SubStateInContext,
     LocationDependentStateSpaceHandlerProps,
+    SubStateInContext,
 } from '@moxb/moxb';
+import { inject, observer } from 'mobx-react';
+import * as React from 'react';
+import { renderSubStateCore } from './rendering';
 import { UIFragment } from './UIFragment';
 import { UIFragmentSpec } from './UIFragmentSpec';
-import { renderSubStateCore } from './rendering';
 
 export interface LocationDependentAreaProps<DataType>
     extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {

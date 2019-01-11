@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { Menu } from 'antd';
-import { observer, inject } from 'mobx-react';
 import {
-    SubStateInContext,
     LocationDependentStateSpaceHandler,
-    LocationDependentStateSpaceHandlerProps,
     LocationDependentStateSpaceHandlerImpl,
+    LocationDependentStateSpaceHandlerProps,
+    SubStateInContext,
 } from '@moxb/moxb';
-import * as Anchor from '../not-antd/Anchor';
+import { Menu } from 'antd';
+import { inject, observer } from 'mobx-react';
+import * as React from 'react';
 import { renderUIFragment, UIFragment, UIFragmentSpec } from '../not-antd';
+import * as Anchor from '../not-antd/Anchor';
 
 export interface NavMenuProps<DataType>
     extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {

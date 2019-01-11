@@ -1,7 +1,7 @@
+import { ActionImpl } from '@moxb/moxb';
 import { mount, ReactWrapper, shallow } from 'enzyme';
 import * as React from 'react';
 import { Form } from 'semantic-ui-react';
-import { ActionImpl } from '@moxb/moxb';
 import { ActionFormButtonUi, ActionUiProps } from '../ActionUi';
 import pretty = require('pretty');
 

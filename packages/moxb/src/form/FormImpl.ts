@@ -1,7 +1,7 @@
-import { computed, action } from 'mobx';
-import { Value, t, extractErrorString, ValueOrFunction } from '..';
-import { Form } from './Form';
+import { action, computed } from 'mobx';
+import { extractErrorString, t, Value, ValueOrFunction } from '..';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
+import { Form } from './Form';
 
 export interface FormOptions extends BindOptions {
     /**

@@ -1,10 +1,10 @@
-import { observer } from 'mobx-react';
-import * as React from 'react';
+import { Bool } from '@moxb/moxb';
 import { Checkbox } from 'antd';
 import { CheckboxProps } from 'antd/lib/checkbox';
-import { labelWithHelp, BindAntProps, parseProps } from './BindAnt';
-import { Bool } from '@moxb/moxb';
 import { FormItemProps } from 'antd/lib/form/FormItem';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import { BindAntProps, labelWithHelp, parseProps } from './BindAnt';
 import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 @observer

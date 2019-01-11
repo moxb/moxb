@@ -1,4 +1,4 @@
-import { FormAnt, TextFormAnt, ActionButtonAnt } from '@moxb/antd';
+import { ActionButtonAnt, FormAnt, TextFormAnt } from '@moxb/antd';
 import { Icon, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';

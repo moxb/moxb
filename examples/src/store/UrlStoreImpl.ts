@@ -1,11 +1,11 @@
 import {
+    LocationManager,
+    TextImpl,
+    TokenManager,
     UrlArg,
+    URLARG_TYPE_STRING,
     UrlArgImpl,
     UrlTokenImpl,
-    URLARG_TYPE_STRING,
-    LocationManager,
-    TokenManager,
-    TextImpl,
 } from '@moxb/moxb';
 import { UrlStore } from './UrlStore';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { LocationDependentArea, LocationDependentAreaProps } from '../not-antd';
 
 import { NavMenuBarAnt, NavMenuProps } from './NavMenuBarAnt';
-import { LocationDependentArea, LocationDependentAreaProps } from '../not-antd';
 
 export type UIProps<DataType> = NavMenuProps<DataType> & LocationDependentAreaProps<DataType>;
 

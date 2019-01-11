@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { inject, observer } from 'mobx-react';
-import * as Anchor from '../not-antd/Anchor';
+import { QueryChange, UpdateMethod, UrlArg, UsesLocation } from '@moxb/moxb';
 import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
-import { UsesLocation, UrlArg, QueryChange, UpdateMethod } from '@moxb/moxb';
+import { inject, observer } from 'mobx-react';
+import * as React from 'react';
+import * as Anchor from '../not-antd/Anchor';
 
 export interface ArgChange<T> {
     arg: UrlArg<T>;

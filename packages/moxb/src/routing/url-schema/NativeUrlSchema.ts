@@ -1,6 +1,6 @@
 const MyURI = require('urijs');
 import { Location as MyLocation } from 'history';
-import { UrlSchema, Query } from './UrlSchema';
+import { Query, UrlSchema } from './UrlSchema';
 
 /**
  * This is simple URL schema that uses the native path and search feature.

@@ -1,8 +1,8 @@
+import { Bind } from '@moxb/moxb';
 import * as marked from 'marked';
 import * as React from 'react';
 
 import { Icon, Popup } from 'semantic-ui-react';
-import { Bind } from '@moxb/moxb';
 
 export interface BindUiProps<T extends Bind> {
     operation: T;

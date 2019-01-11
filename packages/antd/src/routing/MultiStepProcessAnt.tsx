@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { MultiStepProcess, StateSpace } from '@moxb/moxb';
+import { Alert, Col, Row } from 'antd';
 import { observer } from 'mobx-react';
-import { Row, Col, Alert } from 'antd';
-import { StateSpace, MultiStepProcess } from '@moxb/moxb';
+import * as React from 'react';
+import { ActionButtonAnt } from '../ActionAnt';
 import { LocationDependentArea, UIFragmentSpec } from '../not-antd';
 import { NavStepsAnt, StepsProps, StepStatus } from './NavStepsAnt';
-import { ActionButtonAnt } from '../ActionAnt';
 
 export interface MultiStepProcessProps<Step> {
     id: string;

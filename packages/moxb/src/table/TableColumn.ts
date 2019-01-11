@@ -1,5 +1,5 @@
-import { SortDirection } from './TableSort';
 import { Bind } from '..';
+import { SortDirection } from './TableSort';
 
 export interface TableColumn extends Bind {
     /**

@@ -1,7 +1,7 @@
+import * as moxb from '@moxb/moxb';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Table, TableProps } from 'semantic-ui-react';
-import * as moxb from '@moxb/moxb';
 
 //import './TableUi.styles.less';
 

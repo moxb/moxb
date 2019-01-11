@@ -1,9 +1,9 @@
-import { observable, computed, action } from 'mobx';
-import { TokenManager, TokenMappings } from './TokenManager';
+import { action, computed, observable } from 'mobx';
 import { LocationManager, UpdateMethod } from './location-manager';
-import { Query } from './url-schema/UrlSchema';
 import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerImpl } from './location-state-space';
+import { TokenManager, TokenMappings } from './TokenManager';
 import { isTokenEmpty } from './tokens';
+import { Query } from './url-schema/UrlSchema';
 
 interface LiveTokenMappings<DataType> extends TokenMappings<DataType> {
     states: LocationDependentStateSpaceHandler<any, any, DataType>;

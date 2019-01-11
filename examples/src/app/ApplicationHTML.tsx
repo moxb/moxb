@@ -1,7 +1,7 @@
 // import { ActionButtonHtml, ActionAnchorHtml } from '@moxb/html/dist/ActionHtml';
+import { toJSON } from '@moxb/moxb';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { toJSON } from '@moxb/moxb';
 import { Application } from './Application';
 
 // helper function to print recursive mobx trees

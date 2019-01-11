@@ -1,11 +1,11 @@
-import { MenuAndContentAnt, TextFormAnt, LinkAnt, UIFragmentSpec } from '@moxb/antd';
+import { LinkAnt, MenuAndContentAnt, TextFormAnt, UIFragmentSpec } from '@moxb/antd';
 import { Navigable } from '@moxb/moxb';
 
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
 import * as React from 'react';
-import { subMenu1, subMenu2 } from './SubMenu';
 import { UrlStore } from '../store/UrlStore';
+import { subMenu1, subMenu2 } from './SubMenu';
 
 @inject('url')
 export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable<any, UIFragmentSpec>> {

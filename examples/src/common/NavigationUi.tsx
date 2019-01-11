@@ -1,7 +1,7 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { ViewStoreImpl } from '../store/ViewStoreImpl';
 import { Menu } from 'semantic-ui-react';
+import { ViewStoreImpl } from '../store/ViewStoreImpl';
 
 @inject('view')
 @observer

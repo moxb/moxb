@@ -1,6 +1,6 @@
 import { Navigable, SubStateCoreInfo } from '@moxb/moxb';
-import { extractUIFragmentFromSpec, UIFragmentSpec } from './UIFragmentSpec';
 import { renderUIFragment } from './UIFragment';
+import { extractUIFragmentFromSpec, UIFragmentSpec } from './UIFragmentSpec';
 
 export function renderFallback(props: Navigable<UIFragmentSpec, any>) {
     const { filterCondition, fallback, part, parsedTokens } = props;

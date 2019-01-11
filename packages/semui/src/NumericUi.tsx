@@ -1,9 +1,9 @@
+import { Numeric, t } from '@moxb/moxb';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Form, FormInputProps, Input, Message } from 'semantic-ui-react';
-import { parseProps, labelWithHelp } from './BindUi';
-import { Numeric, t } from '@moxb/moxb';
+import { labelWithHelp, parseProps } from './BindUi';
 
 export interface BindNumericUiProps extends React.HTMLProps<HTMLFormElement> {
     operation: Numeric;

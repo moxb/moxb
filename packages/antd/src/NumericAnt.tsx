@@ -1,11 +1,11 @@
+import { Numeric } from '@moxb/moxb';
+import { InputNumber } from 'antd';
+import { FormItemProps } from 'antd/lib/form/FormItem';
+import { InputNumberProps } from 'antd/lib/input-number';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { InputNumber } from 'antd';
 import { BindAntProps, parseProps } from './BindAnt';
-import { InputNumberProps } from 'antd/lib/input-number';
-import { FormItemProps } from 'antd/lib/form/FormItem';
 import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
-import { Numeric } from '@moxb/moxb';
 
 @observer
 export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNumberProps> {

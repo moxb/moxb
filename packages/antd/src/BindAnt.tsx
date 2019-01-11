@@ -1,7 +1,7 @@
-import { CSSProperties } from 'react';
-import * as React from 'react';
 import { Bind } from '@moxb/moxb';
-import { Tooltip, Icon } from 'antd';
+import { Icon, Tooltip } from 'antd';
+import * as React from 'react';
+import { CSSProperties } from 'react';
 
 export interface BindAntProps<T extends Bind> {
     operation: T;

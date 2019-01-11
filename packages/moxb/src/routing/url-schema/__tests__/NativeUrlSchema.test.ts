@@ -1,5 +1,5 @@
-import { NativeUrlSchema } from '../NativeUrlSchema';
 import { Location as MyLocation } from 'history';
+import { NativeUrlSchema } from '../NativeUrlSchema';
 
 describe('Native URL schema', () => {
     const testLocation: MyLocation = {

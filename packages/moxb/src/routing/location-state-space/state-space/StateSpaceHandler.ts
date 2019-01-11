@@ -1,4 +1,4 @@
-import { StateSpace, SubState, StateCondition, SubStateInContext } from './StateSpace';
+import { StateCondition, StateSpace, SubState, SubStateInContext } from './StateSpace';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 
 export interface FilterParams {

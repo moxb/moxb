@@ -1,5 +1,5 @@
-import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { SubState } from './StateSpace';
+import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 
 export class SubStateKeyGeneratorImpl implements SubStateKeyGenerator {
     public getKey(parentPathTokens: string[], state: SubState<any, any, any>) {

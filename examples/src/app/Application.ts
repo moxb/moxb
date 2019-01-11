@@ -2,17 +2,17 @@ import {
     Action,
     Bool,
     Confirm,
-    Modal,
-    Text,
+    Date,
+    Form,
+    Label,
     ManyOf,
+    Modal,
     Numeric,
     OneOf,
     Table,
-    Date,
+    Text,
     Time,
-    Form,
     Value,
-    Label,
 } from '@moxb/moxb';
 
 export interface Application {

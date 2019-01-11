@@ -1,6 +1,6 @@
+import { ActionFormButtonUi, FormUi, TextUi } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { FormUi, TextUi, ActionFormButtonUi } from '@moxb/semui';
 import { Container } from 'semantic-ui-react';
 import { Application } from '../app/Application';
 import { NavigationUi } from '../common/NavigationUi';

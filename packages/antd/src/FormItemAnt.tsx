@@ -1,11 +1,11 @@
-import { Form } from 'antd';
-import { ColProps } from 'antd/lib/grid';
-import { CSSProperties } from 'react';
-import * as React from 'react';
-import { observer } from 'mobx-react';
-import { parseProps, labelWithHelp, getErrorMessages } from './BindAnt';
 import { FormItem as MoxFormItem } from '@moxb/moxb';
+import { Form } from 'antd';
 import { FormItemProps } from 'antd/lib/form/FormItem';
+import { ColProps } from 'antd/lib/grid';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import { CSSProperties } from 'react';
+import { getErrorMessages, labelWithHelp, parseProps } from './BindAnt';
 import { BindMarkdownDiv } from './LabelAnt';
 
 export interface BindFormItemAntProps extends FormItemProps {

@@ -1,9 +1,9 @@
 import { createMemoryHistory } from 'history';
-import { LocationManager, BasicLocationManagerImpl } from '../../location-manager';
+import { BasicLocationManagerImpl, LocationManager } from '../../location-manager';
+import { cleanLocalhost } from '../../location-manager/__tests__/BasicLocationManagerImpl.test';
 import { NativeUrlSchema } from '../../url-schema';
 import { UrlArgImpl } from '../UrlArgImpl';
 import { URLARG_TYPE_UNORDERED_STRING_ARRAY } from '../UrlArgTypes';
-import { cleanLocalhost } from '../../location-manager/__tests__/BasicLocationManagerImpl.test';
 
 describe('UrlArgImpl', () => {
     const fakeHistory = createMemoryHistory();

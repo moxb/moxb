@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { ViewStore } from './ViewStore';
 
 export class ViewStoreImpl implements ViewStore {

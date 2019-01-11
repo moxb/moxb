@@ -1,5 +1,5 @@
-import { BasicLocationManagerImpl, Props as BasicProps } from './BasicLocationManagerImpl';
 import { Query } from '../url-schema/UrlSchema';
+import { BasicLocationManagerImpl, Props as BasicProps } from './BasicLocationManagerImpl';
 import { UpdateMethod } from './LocationManager';
 
 const saveArgsDebug = false;

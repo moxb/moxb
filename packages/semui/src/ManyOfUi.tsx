@@ -1,9 +1,9 @@
+import { ManyOf, t } from '@moxb/moxb';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Form, FormFieldProps, Message, Dropdown } from 'semantic-ui-react';
-import { BindUiProps, parseProps, labelWithHelp } from './BindUi';
-import { ManyOf, t } from '@moxb/moxb';
+import { Dropdown, Form, FormFieldProps, Message } from 'semantic-ui-react';
+import { BindUiProps, labelWithHelp, parseProps } from './BindUi';
 
 @observer
 export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & FormFieldProps> {

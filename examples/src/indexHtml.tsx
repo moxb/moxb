@@ -1,6 +1,6 @@
+import { Provider } from 'mobx-react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Provider } from 'mobx-react';
 import { ApplicationHTML } from './app/ApplicationHTML';
 
 import { StoreImpl } from './store/Store';

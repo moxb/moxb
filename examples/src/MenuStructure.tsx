@@ -1,14 +1,13 @@
+import { UIFragment, UIFragmentSpec } from '@moxb/antd';
+import { StateSpace } from '@moxb/moxb';
 import * as React from 'react';
+// @ts-ignore
+import lockImgUrl from '../images/lock.jpg';
+import { ApplicationAnt } from './app/ApplicationAnt';
 
 import { LoginFormAnt } from './form/LoginFormAnt';
 import { MemTableAnt } from './memtable/MemTableAnt';
-import { ApplicationAnt } from './app/ApplicationAnt';
 import { MoreMenusAnt } from './menus/MoreMenusAnt';
-
-// @ts-ignore
-import lockImgUrl from '../images/lock.jpg';
-import { StateSpace } from '@moxb/moxb';
-import { UIFragmentSpec, UIFragment } from '@moxb/antd';
 
 export const mainMenu: StateSpace<UIFragment, UIFragmentSpec, {}> = [
     {

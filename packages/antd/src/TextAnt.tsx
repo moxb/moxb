@@ -1,10 +1,10 @@
-import { observer } from 'mobx-react';
-import * as React from 'react';
-import { parseProps, BindAntProps } from './BindAnt';
+import { Text } from '@moxb/moxb';
 import { Input } from 'antd';
 import { InputProps } from 'antd/lib/input';
-import { Text } from '@moxb/moxb';
-import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import { BindAntProps, parseProps } from './BindAnt';
+import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 export interface BindStringAntProps extends BindAntProps<Text>, InputProps {
     operation: Text;

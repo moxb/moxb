@@ -1,10 +1,10 @@
 import { createMemoryHistory } from 'history';
+import { BasicLocationManagerImpl, LocationManager } from '../../location-manager';
+import { URLARG_TYPE_STRING, UrlArgImpl } from '../../url-arg';
+import { NativeUrlSchema } from '../../url-schema';
+import { LocationDependentStateSpaceHandler } from '../LocationDependentStateSpaceHandler';
 import { LocationDependentStateSpaceHandlerImpl } from '../LocationDependentStateSpaceHandlerImpl';
 import { TestData, testStateSpace } from '../state-space/__tests__/TestStateSpace';
-import { NativeUrlSchema } from '../../url-schema';
-import { LocationManager, BasicLocationManagerImpl } from '../../location-manager';
-import { UrlArgImpl, URLARG_TYPE_STRING } from '../../url-arg';
-import { LocationDependentStateSpaceHandler } from '../LocationDependentStateSpaceHandler';
 
 describe('Location-Dependent State-Space-Handler implementation, powered by path', () => {
     const fakeHistory = createMemoryHistory();

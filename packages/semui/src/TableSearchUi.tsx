@@ -1,9 +1,9 @@
+import { TableSearch } from '@moxb/moxb';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Form, Icon } from 'semantic-ui-react';
 import { ActionButtonUi, ActionFormButtonUi } from './ActionUi';
 import { TextUi } from './TextUi';
-import { TableSearch } from '@moxb/moxb';
 
 export interface BindTableSearchUiProps {
     search: TableSearch;

@@ -1,4 +1,4 @@
-import { ModalImpl, ActionImpl } from '@moxb/moxb';
+import { ActionImpl, ModalImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { ModalAnt } from '../ModalAnt';

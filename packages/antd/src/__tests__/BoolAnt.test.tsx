@@ -1,7 +1,7 @@
-import { shallow, mount } from 'enzyme';
+import { BoolImpl } from '@moxb/moxb';
+import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { BoolAnt, BoolFormAnt } from '../BoolAnt';
-import { BoolImpl } from '@moxb/moxb';
 
 describe('BoolAnt', function() {
     it('should render a checkbox by default', function() {

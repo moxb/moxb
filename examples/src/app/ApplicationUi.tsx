@@ -1,22 +1,22 @@
-import * as React from 'react';
+import { toJSON } from '@moxb/moxb';
 import {
     ActionButtonUi,
+    ActionDropdownItemUi,
     ActionFormButtonUi,
     BoolUi,
-    ActionDropdownItemUi,
     ConfirmUi,
     ManyOfUi,
     ModalUi,
-    TextUi,
     NumericUi,
-    OneOfUi,
     OneOfSelectUi,
+    OneOfUi,
+    TextUi,
 } from '@moxb/semui';
 import { inject, observer } from 'mobx-react';
+import * as React from 'react';
+import { Container, Dropdown, Form } from 'semantic-ui-react';
 import { NavigationUi } from '../common/NavigationUi';
 import { Application } from './Application';
-import { Container, Dropdown, Form } from 'semantic-ui-react';
-import { toJSON } from '@moxb/moxb';
 
 // helper function to print recursive mobx trees
 (window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {

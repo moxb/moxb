@@ -1,6 +1,6 @@
 const MyURI = require('urijs');
 import { Location as MyLocation } from 'history';
-import { UrlSchema, Query } from './UrlSchema';
+import { Query, UrlSchema } from './UrlSchema';
 
 export interface Props {
     pathKey?: string;

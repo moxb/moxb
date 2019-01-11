@@ -1,12 +1,12 @@
+import { OneOf } from '@moxb/moxb';
+import { Radio, Select } from 'antd';
+import { FormItemProps } from 'antd/lib/form/FormItem';
+import { RadioGroupProps, RadioProps } from 'antd/lib/radio';
+import { OptionProps, SelectProps } from 'antd/lib/select';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Select, Radio } from 'antd';
-import { SelectProps, OptionProps } from 'antd/lib/select';
-import { RadioProps, RadioGroupProps } from 'antd/lib/radio';
 import { BindAntProps, parseProps } from './BindAnt';
-import { FormItemProps } from 'antd/lib/form/FormItem';
-import { FormItemAnt, BindFormItemAntProps, parsePropsForChild } from './FormItemAnt';
-import { OneOf } from '@moxb/moxb';
+import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 @observer
 export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps> {

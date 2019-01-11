@@ -1,6 +1,6 @@
-import { Query } from './url-schema/UrlSchema';
 import { UpdateMethod } from './location-manager';
 import { StateCondition, StateSpace } from './location-state-space/state-space/StateSpace';
+import { Query } from './url-schema/UrlSchema';
 
 export interface TokenMappings<DataType> {
     id: string;

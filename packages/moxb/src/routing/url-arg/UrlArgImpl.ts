@@ -1,7 +1,7 @@
 import { computed } from 'mobx';
+import { LocationManager, UpdateMethod } from '../location-manager';
 
 import { Query } from '../url-schema/UrlSchema';
-import { LocationManager, UpdateMethod } from '../location-manager';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 
 export function existsInQuery(query: Query, key: string) {

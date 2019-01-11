@@ -1,13 +1,13 @@
 import { LocationManager, UpdateMethod } from '../location-manager';
+import { TokenManager } from '../TokenManager';
+import { updateTokenString } from '../tokens';
+import { AnyUrlArgImpl, UrlArg, URLARG_TYPE_ORDERED_STRING_ARRAY } from '../url-arg';
 import {
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerProps,
 } from './LocationDependentStateSpaceHandler';
-import { StateSpaceHandlerImpl } from './state-space/StateSpaceHandlerImpl';
-import { UrlArg, URLARG_TYPE_ORDERED_STRING_ARRAY, AnyUrlArgImpl } from '../url-arg';
 import { SubStateInContext } from './state-space/StateSpace';
-import { updateTokenString } from '../tokens';
-import { TokenManager } from '../TokenManager';
+import { StateSpaceHandlerImpl } from './state-space/StateSpaceHandlerImpl';
 
 /**
  * This is the standard implementation of the StateSpaceAndLocationHandler.

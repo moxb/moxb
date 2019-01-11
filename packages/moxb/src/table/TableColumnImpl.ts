@@ -1,8 +1,8 @@
 import { action } from 'mobx';
+import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Table } from './Table';
 import { TableColumn } from './TableColumn';
 import { SortDirection } from './TableSort';
-import { BindImpl, BindOptions } from '../bind/BindImpl';
 
 //ToDo: Add documentation :)
 export interface TableColumnOptions extends BindOptions {

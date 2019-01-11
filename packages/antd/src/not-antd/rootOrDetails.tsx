@@ -1,7 +1,7 @@
+import { getNextPathToken, isTokenEmpty, Navigable, SubStateCoreInfo, UsesLocation } from '@moxb/moxb';
 import { inject, observer } from 'mobx-react';
-import { Navigable, UsesLocation, SubStateCoreInfo, getNextPathToken, isTokenEmpty } from '@moxb/moxb';
-import { UIFragmentSpec } from './UIFragmentSpec';
 import { renderSubStateCore } from './rendering';
+import { UIFragmentSpec } from './UIFragmentSpec';
 
 /**
  * This is the full spec of the root-or-details component

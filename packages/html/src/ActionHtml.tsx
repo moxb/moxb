@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
-import { BindAntProps, parseProps } from './BindHtml';
 import { Action } from '@moxb/moxb';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import { BindAntProps, parseProps } from './BindHtml';
 
 @observer
 export class ActionButtonHtml extends React.Component<BindAntProps<Action> & HTMLButtonElement> {

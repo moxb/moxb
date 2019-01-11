@@ -1,4 +1,4 @@
-import { FormImpl, Form, TextImpl } from '../..';
+import { Form, FormImpl, TextImpl } from '../..';
 
 describe('Form', function() {
     let bindForm: Form;

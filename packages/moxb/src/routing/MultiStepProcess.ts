@@ -1,5 +1,5 @@
-import { UrlArg } from './url-arg';
 import { Action } from '../action/Action';
+import { UrlArg } from './url-arg';
 
 export interface MultiStepProcess<Step> {
     readonly currentStep: UrlArg<Step>;

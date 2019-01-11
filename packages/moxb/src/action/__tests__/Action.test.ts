@@ -1,4 +1,4 @@
-import { ActionImpl, ActionButtonImpl } from '../ActionImpl';
+import { ActionButtonImpl, ActionImpl } from '../ActionImpl';
 
 describe('interface BindAction', function() {
     describe('fire', function() {

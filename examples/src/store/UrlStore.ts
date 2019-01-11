@@ -1,4 +1,4 @@
-import { UrlArg, Text } from '@moxb/moxb';
+import { Text, UrlArg } from '@moxb/moxb';
 
 export interface UrlStore {
     readonly color: UrlArg<string>;

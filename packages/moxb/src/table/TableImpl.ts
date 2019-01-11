@@ -1,11 +1,11 @@
 import { computed } from 'mobx';
+import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Table } from './Table';
 import { TableColumn } from './TableColumn';
 import { TablePagination } from './TablePagination';
 import { TableSearch } from './TableSearch';
 import { SortColumn, TableSort } from './TableSort';
 import { TableSortImpl } from './TableSortImpl';
-import { BindImpl, BindOptions } from '../bind/BindImpl';
 
 export interface TableOptions<T> extends BindOptions {
     columns(bind: TableImpl<T>): TableColumn[];

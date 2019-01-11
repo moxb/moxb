@@ -1,8 +1,8 @@
-import { observer } from 'mobx-react';
-import * as React from 'react';
+import { Confirm as MoxbConfirm } from '@moxb/moxb';
 import { Modal } from 'antd';
 import { ModalFuncProps } from 'antd/lib/modal';
-import { Confirm as MoxbConfirm } from '@moxb/moxb';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 import { parseProps } from './BindAnt';
 import { BindMarkdownDiv } from './LabelAnt';
 

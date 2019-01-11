@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { inject, observer } from 'mobx-react';
-import { UsesLocation, Navigable, getParsedPathTokens } from '@moxb/moxb';
 import { UIFragmentSpec } from '@moxb/antd';
+import { getParsedPathTokens, Navigable, UsesLocation } from '@moxb/moxb';
+import { inject, observer } from 'mobx-react';
+import * as React from 'react';
 import { UsesURL } from '../store/UrlStore';
 
 @inject('locationManager', 'url')

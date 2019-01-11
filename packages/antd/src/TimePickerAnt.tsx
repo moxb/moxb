@@ -1,13 +1,13 @@
-import { FormItemProps } from 'antd/lib/form';
-import { observer } from 'mobx-react';
-import { CSSProperties } from 'react';
-import * as React from 'react';
-import { TimePicker } from 'antd';
-import { TimePickerProps } from 'antd/lib/time-picker';
-import { parseProps } from './BindAnt';
 import { Time } from '@moxb/moxb';
-import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import { TimePicker } from 'antd';
+import { FormItemProps } from 'antd/lib/form';
+import { TimePickerProps } from 'antd/lib/time-picker';
+import { observer } from 'mobx-react';
 import * as moment from 'moment';
+import * as React from 'react';
+import { CSSProperties } from 'react';
+import { parseProps } from './BindAnt';
+import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 export interface BindTimePickerAntProps extends TimePickerProps {
     operation: Time;

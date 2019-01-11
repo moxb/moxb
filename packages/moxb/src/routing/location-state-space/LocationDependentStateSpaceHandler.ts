@@ -1,10 +1,9 @@
-import { StateSpaceHandlerProps, StateSpaceHandler } from './state-space/StateSpaceHandler';
-
 import { UsesLocation } from '../location-manager';
-import { UrlArg } from '../url-arg';
 import { Navigable } from '../navigable';
-import { SubStateInContext } from './state-space/StateSpace';
 import { UsesTokenManager } from '../TokenManager';
+import { UrlArg } from '../url-arg';
+import { SubStateInContext } from './state-space/StateSpace';
+import { StateSpaceHandler, StateSpaceHandlerProps } from './state-space/StateSpaceHandler';
 
 export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>
     extends StateSpaceHandlerProps<LabelType, WidgetType, DataType>,

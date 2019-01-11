@@ -1,5 +1,5 @@
 import { ActionImpl } from '@moxb/moxb';
-import { shallow, mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { ActionButtonAnt, ActionFormButtonAnt } from '../ActionAnt';
 

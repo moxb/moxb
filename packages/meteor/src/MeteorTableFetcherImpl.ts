@@ -1,7 +1,7 @@
-import { MeteorTableData, MeteorTableQuery } from './MeteorTableFetcher';
 import { action } from 'mobx';
-import { MethodDataFetcherImpl } from './MethodDataFetcherImpl';
 import { MeteorDataFetcherDone } from './MeteorDataFetcher';
+import { MeteorTableData, MeteorTableQuery } from './MeteorTableFetcher';
+import { MethodDataFetcherImpl } from './MethodDataFetcherImpl';
 
 export class MeteorTableFetcherImpl<T> extends MethodDataFetcherImpl<MeteorTableQuery, MeteorTableData<T>> {
     constructor(

@@ -1,19 +1,18 @@
+import { rootOrDetails, UIFragmentSpec } from '@moxb/antd';
+import { StateSpace } from '@moxb/moxb';
 import * as React from 'react';
-
 // @ts-ignore
 import blueUrl from '../../images/blue_blocks.png';
 // @ts-ignore
-import oneUrl from '../../images/one_apple.jpg';
-// @ts-ignore
 import greenUrl from '../../images/green_blocks.jpg';
+// @ts-ignore
+import oneUrl from '../../images/one_apple.jpg';
 // @ts-ignore
 import redUrl from '../../images/red_blocks.gif';
 // @ts-ignore
-import twoUrl from '../../images/two_apples.jpg';
-// @ts-ignore
 import threeUrl from '../../images/three_apples.jpg';
-import { StateSpace } from '@moxb/moxb';
-import { UIFragmentSpec, rootOrDetails } from '@moxb/antd';
+// @ts-ignore
+import twoUrl from '../../images/two_apples.jpg';
 import { DetailDisplayer } from './DetailDisplayer';
 
 export const subMenu1: StateSpace<string, UIFragmentSpec, {}> = [

@@ -1,9 +1,9 @@
+import { LocationDependentArea } from '@moxb/antd';
+
+import { LocationManager } from '@moxb/moxb';
 import { Layout, Row } from 'antd';
 import * as React from 'react';
 import { NavigationAnt } from '../common/NavigationAnt';
-
-import { LocationManager } from '@moxb/moxb';
-import { LocationDependentArea } from '@moxb/antd';
 
 import { defaultContent, mainMenu } from '../MenuStructure';
 

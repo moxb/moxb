@@ -1,7 +1,7 @@
 import * as moxb from '@moxb/moxb';
-import { MemTable, MemTableData } from './MemTable';
 import { computed } from 'mobx';
 import { UrlStore } from '../store/UrlStore';
+import { MemTable, MemTableData } from './MemTable';
 
 const firstNames = [
     'James',

@@ -1,6 +1,6 @@
 import { Table } from '../Table';
-import { TableImpl } from '../TableImpl';
 import { TableColumnImpl } from '../TableColumnImpl';
+import { TableImpl } from '../TableImpl';
 
 describe('columns', function() {
     let table: Table<any>;

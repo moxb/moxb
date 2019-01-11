@@ -1,10 +1,10 @@
-import { setTFunction, translateKeysDefault, translateDefault } from '../../i18n/i18n';
-import { ActionImpl } from '../../action/ActionImpl';
 import { Action } from '../../action/Action';
+import { ActionImpl } from '../../action/ActionImpl';
+import { setTFunction, translateDefault, translateKeysDefault } from '../../i18n/i18n';
 import { KeyboardShortcutGroup, KeyboardShortcutsManager } from '../KeyboardShortcutsManager';
 import {
-    KeyboardShortcutsManagerImpl,
     KeyboardShortcutGroupImpl,
+    KeyboardShortcutsManagerImpl,
     ShortcutBinder,
 } from '../KeyboardShortcutsManagerImpl';
 

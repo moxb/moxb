@@ -1,6 +1,6 @@
+import * as moment from 'moment';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { Date } from './Date';
-import * as moment from 'moment';
 
 export interface DateOptions extends ValueOptions<DateImpl, moment.Moment> {}
 

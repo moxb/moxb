@@ -1,4 +1,4 @@
-import { getFieldFilter, parseQuery, _forTest } from '../QueryStringParser';
+import { _forTest, getFieldFilter, parseQuery } from '../QueryStringParser';
 
 const containsFieldValue = _forTest.containsFieldValue;
 const getFieldValue = _forTest.getFieldValue;

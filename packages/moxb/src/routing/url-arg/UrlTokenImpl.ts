@@ -1,9 +1,9 @@
 import { computed } from 'mobx';
-import { Query } from '../url-schema/UrlSchema';
 import { UpdateMethod } from '../location-manager';
+import { TokenManager } from '../TokenManager';
+import { Query } from '../url-schema/UrlSchema';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 import { existsInQuery, getFromQuery } from './UrlArgImpl';
-import { TokenManager } from '../TokenManager';
 
 export class UrlTokenImpl<T> implements UrlArg<T> {
     private readonly _def: UrlArgDefinition<T>;

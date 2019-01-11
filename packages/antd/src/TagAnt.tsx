@@ -1,5 +1,5 @@
-import { Value as MoxbValue, t } from '@moxb/moxb';
-import { Input, Tag, Icon } from 'antd';
+import { t, Value as MoxbValue } from '@moxb/moxb';
+import { Icon, Input, Tag } from 'antd';
 import { TagProps } from 'antd/lib/tag';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';

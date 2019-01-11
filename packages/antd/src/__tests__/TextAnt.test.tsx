@@ -1,5 +1,5 @@
 import { TextImpl } from '@moxb/moxb';
-import { shallow, mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { TextAnt, TextFormAnt, TextSearchAnt } from '../TextAnt';
 

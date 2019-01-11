@@ -1,4 +1,4 @@
-import { ConfirmImpl, BindImpl } from '@moxb/moxb';
+import { BindImpl, ConfirmImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { ConfirmAnt } from '../ConfirmAnt';

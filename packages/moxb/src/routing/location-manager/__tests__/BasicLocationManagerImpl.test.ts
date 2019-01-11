@@ -1,9 +1,9 @@
 import { createMemoryHistory } from 'history';
-import { BasicLocationManagerImpl } from '../BasicLocationManagerImpl';
-import { NativeUrlSchema } from '../../url-schema/NativeUrlSchema';
-import { LocationManager, UpdateMethod } from '../LocationManager';
 import { UrlArgImpl } from '../../url-arg/UrlArgImpl';
 import { URLARG_TYPE_STRING } from '../../url-arg/UrlArgTypes';
+import { NativeUrlSchema } from '../../url-schema/NativeUrlSchema';
+import { BasicLocationManagerImpl } from '../BasicLocationManagerImpl';
+import { LocationManager, UpdateMethod } from '../LocationManager';
 
 // A "localhost" prefix might make it into URLs, depending on the lib versions.
 // We want to remove them, for uniform testing.

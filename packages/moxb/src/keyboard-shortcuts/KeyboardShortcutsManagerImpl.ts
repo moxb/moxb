@@ -1,8 +1,8 @@
 import { action as mobxAction, computed, observable } from 'mobx';
+import { AnyDecision, readDecision, StringOrFunction } from '../bind/BindImpl';
 import { t } from '../i18n/i18n';
-import { AnyDecision, StringOrFunction, readDecision } from '../bind/BindImpl';
 
-import { KeyboardShortcutGroup, KeyboardShortcutsManager, KeyboardAction } from './KeyboardShortcutsManager';
+import { KeyboardAction, KeyboardShortcutGroup, KeyboardShortcutsManager } from './KeyboardShortcutsManager';
 
 export interface KeyboardShortGroupOptions {
     readonly id: string;

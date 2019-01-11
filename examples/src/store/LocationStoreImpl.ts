@@ -1,9 +1,5 @@
 // import { createMemoryHistory } from 'history';
-import {
-    BasicLocationManagerImpl,
-    QueryBasedUrlSchema,
-    // HashBasedUrlSchema,
-} from '@moxb/moxb';
+import { BasicLocationManagerImpl, QueryBasedUrlSchema } from '@moxb/moxb';
 
 export class LocationStoreImpl extends BasicLocationManagerImpl {
     public constructor() {

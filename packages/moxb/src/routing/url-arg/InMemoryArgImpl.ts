@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
-import { UrlArg, UrlArgDefinition } from './UrlArg';
 import { AnyUrlArgImpl, UrlArgBackend } from './AnyUrlArgImpl';
+import { UrlArg, UrlArgDefinition } from './UrlArg';
 
 class MiniStore implements UrlArgBackend {
     @observable

@@ -1,8 +1,8 @@
-import * as React from 'react';
 import { NavMenuBarAnt } from '@moxb/antd';
+import { UsesLocation } from '@moxb/moxb';
+import * as React from 'react';
 
 import { mainMenu } from '../MenuStructure';
-import { UsesLocation } from '@moxb/moxb';
 
 export class NavigationAnt extends React.Component<UsesLocation> {
     render() {

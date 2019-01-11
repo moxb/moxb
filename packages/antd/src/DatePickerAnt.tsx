@@ -1,13 +1,13 @@
-import { FormItemProps } from 'antd/lib/form';
-import { observer } from 'mobx-react';
-import { CSSProperties } from 'react';
-import * as React from 'react';
+import { Date } from '@moxb/moxb';
 import { DatePicker } from 'antd';
 import { DatePickerProps } from 'antd/lib/date-picker/interface';
-import { parseProps } from './BindAnt';
-import { Date } from '@moxb/moxb';
-import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import { FormItemProps } from 'antd/lib/form';
+import { observer } from 'mobx-react';
 import * as moment from 'moment';
+import * as React from 'react';
+import { CSSProperties } from 'react';
+import { parseProps } from './BindAnt';
+import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 export interface BindDatePickerAntProps extends DatePickerProps {
     operation: Date;

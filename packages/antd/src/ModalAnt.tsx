@@ -1,8 +1,8 @@
-import { observer } from 'mobx-react';
-import * as React from 'react';
 import { Modal as MoxbModal } from '@moxb/moxb';
 import { Modal } from 'antd';
 import { ModalFuncProps } from 'antd/lib/modal';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 
 export interface BindModalAntProps<T> extends ModalFuncProps {
     operation: MoxbModal<T>;
