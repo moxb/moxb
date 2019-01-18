@@ -8,14 +8,16 @@ import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { MouseEvent } from 'react';
 
-export type BindActionAntProps = BindAntProps<Action> & NativeButtonProps;
+export interface ActionAntProps {
+    stopPropagation?: boolean;
+}
+
+export type BindActionAntProps = BindAntProps<Action> & ActionAntProps & NativeButtonProps;
 
 @observer
 export class ActionButtonAnt extends React.Component<BindActionAntProps> {
     protected handleClick(event: MouseEvent<any>) {
         const { operation, stopPropagation } = parseProps(this.props, this.props.operation);
-
-        console.log('event', event);
 
         if (stopPropagation) {
             event.stopPropagation();
