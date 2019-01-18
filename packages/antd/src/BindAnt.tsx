@@ -7,6 +7,7 @@ export interface BindAntProps<T extends Bind> {
     operation: T;
     invisible?: boolean;
     formStyle?: CSSProperties;
+    stopPropagation?: boolean;
 }
 
 /**
