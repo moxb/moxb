@@ -6,13 +6,23 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import { MouseEvent } from 'react';
 
-export type BindActionAntProps = BindAntProps<Action> & NativeButtonProps;
+export interface ActionAntProps {
+    stopPropagation?: boolean;
+}
+
+export type BindActionAntProps = BindAntProps<Action> & ActionAntProps & NativeButtonProps;
 
 @observer
 export class ActionButtonAnt extends React.Component<BindActionAntProps> {
-    protected handleClick() {
-        const { operation } = parseProps(this.props, this.props.operation);
+    protected handleClick(event: MouseEvent<any>) {
+        const { operation, stopPropagation } = parseProps(this.props, this.props.operation);
+
+        if (stopPropagation) {
+            event.stopPropagation();
+        }
+
         if (operation.pending) {
             // console.log('Ignoring click on pending operation');
         } else {
@@ -45,7 +55,7 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
                 htmlType={typeof htmlType === 'undefined' ? 'button' : htmlType}
             >
                 {children != null ? children : label}
-                {(operation as Action).pending && <Spin />}
+                {operation.pending && <Spin />}
             </Button>
         );
     }
@@ -53,8 +63,23 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
 
 @observer
 export class ActionSpanAnt extends React.Component<BindActionAntProps> {
+    protected handleClick(event: MouseEvent<any>) {
+        const { operation, stopPropagation } = parseProps(this.props, this.props.operation);
+
+        if (stopPropagation) {
+            event.stopPropagation();
+        }
+
+        operation.fire();
+    }
+
+    constructor(props: BindActionAntProps) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
     render() {
-        const { operation, invisible, children, label, id, reason, ...props } = parseProps(
+        const { operation, invisible, children, label, id, reason, stopPropagation, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -62,7 +87,7 @@ export class ActionSpanAnt extends React.Component<BindActionAntProps> {
             return null;
         }
         return (
-            <span id={id} onClick={operation.fire} title={reason} {...props as any}>
+            <span id={id} onClick={this.handleClick} title={reason} {...props as any}>
                 {children != null ? children : label}
             </span>
         );
