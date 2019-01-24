@@ -1,4 +1,4 @@
-import { UpdateMethod } from '../location-manager/LocationManager';
+import { UpdateMethod } from '../location-manager';
 import { Query } from '../url-schema/UrlSchema';
 
 export interface ParserFunc<T> {
@@ -92,4 +92,14 @@ export interface UrlArg<T> {
      * Get the default value
      */
     readonly defaultValue: T;
+}
+
+/**
+ * Information about a planned change in a URL argument
+ *
+ * Using the definition of the url argument
+ */
+export interface ArgChange<T> {
+    arg: UrlArg<T>;
+    value: T;
 }

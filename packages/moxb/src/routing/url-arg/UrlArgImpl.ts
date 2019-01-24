@@ -1,8 +1,8 @@
 import { computed } from 'mobx';
-import { LocationManager, UpdateMethod } from '../location-manager';
+import { LocationManager, QueryChange, UpdateMethod } from '../location-manager';
 
 import { Query } from '../url-schema/UrlSchema';
-import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
+import { ArgChange, ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 
 export function existsInQuery(query: Query, key: string) {
     return query[key] !== undefined;
@@ -76,3 +76,11 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this._locationManager.query[this.key];
     }
 }
+
+export const serializeArgChange = (change: ArgChange<any>): QueryChange => ({
+    key: change.arg.key,
+    value: change.arg.getRawValue(change.value),
+});
+
+export const serializeArgChanges = (changes?: ArgChange<any>[]): QueryChange[] =>
+    changes ? changes.map(c => serializeArgChange(c)) : [];

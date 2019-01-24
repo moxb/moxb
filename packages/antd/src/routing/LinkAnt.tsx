@@ -1,45 +1,26 @@
-import { QueryChange, UpdateMethod, UrlArg, UsesLocation } from '@moxb/moxb';
+import { CoreLinkProps, serializeArgChanges, UpdateMethod, UsesLocation } from '@moxb/moxb';
 import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import * as Anchor from '../not-antd/Anchor';
 
-export interface ArgChange<T> {
-    arg: UrlArg<T>;
-    value: T;
-}
+export type LinkAntProps = Anchor.AnchorParams &
+    CoreLinkProps & {
+        /**
+         * How do you want to render this link? (Optional; defaults to "anchor")
+         *
+         * Supported values are:
+         * - 'anchor',
+         * - 'button',
+         */
+        widgetStyle?: string;
 
-export interface LinkAntProps extends Anchor.AnchorParams {
-    /**
-     * The path tokens to set
-     */
-    to?: string[];
-
-    /**
-     * Set the number of tokens to be preserved. further tokens will be dropped.
-     */
-    position?: number;
-
-    /**
-     * Do we have to set any URL arguments?
-     */
-    argChanges?: ArgChange<any>[];
-
-    /**
-     * How do you want to render this link? (Optional; defaults to "anchor")
-     *
-     * Supported values are:
-     * - 'anchor',
-     * - 'button',
-     */
-    widgetStyle?: string;
-
-    /**
-     * Any extra properties to pass down to the button
-     */
-    buttonProps?: ButtonProps;
-}
+        /**
+         * Any extra properties to pass down to the button
+         */
+        buttonProps?: ButtonProps;
+    };
 
 type LinkProps = LinkAntProps & Anchor.Events;
 
@@ -54,30 +35,13 @@ export class LinkAnt extends React.Component<LinkProps & UsesLocation> {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    protected _getRealChanges(): QueryChange[] | undefined {
-        const { argChanges } = this.props;
-        if (!argChanges) {
-            return undefined;
-        }
-        return argChanges.map(
-            (change): QueryChange => ({
-                key: change.arg.key,
-                value: change.arg.getRawValue(change.value),
-            })
-        );
-    }
-
     protected handleClick() {
-        const { locationManager, to, position } = this.props;
+        const { locationManager, to, position, argChanges } = this.props;
+        const changes = serializeArgChanges(argChanges);
         if (to) {
-            if (to) {
-                locationManager!.setPathTokens(position || 0, to);
-            }
-            const changes = this._getRealChanges();
-            if (changes) {
-                locationManager!.setQueries(changes, to ? UpdateMethod.REPLACE : UpdateMethod.PUSH);
-            }
+            locationManager!.setPathTokens(position || 0, to);
         }
+        locationManager!.setQueries(changes, to ? UpdateMethod.REPLACE : UpdateMethod.PUSH);
     }
 
     public render() {
@@ -91,7 +55,8 @@ export class LinkAnt extends React.Component<LinkProps & UsesLocation> {
             children,
             ...remnants
         } = this.props;
-        const url = locationManager!.getURLForPathAndQueryChanges(position || 0, to, this._getRealChanges());
+        const changes = serializeArgChanges(argChanges);
+        const url = locationManager!.getURLForPathAndQueryChanges(position || 0, to, changes);
         switch (widgetStyle) {
             case 'anchor':
                 const anchorProps: Anchor.UIProps = {
