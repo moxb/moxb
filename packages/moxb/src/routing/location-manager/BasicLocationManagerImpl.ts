@@ -1,11 +1,11 @@
-import { createBrowserHistory, History as MyHistory, Location as MyLocation, LocationDescriptorObject } from 'history';
-import { action, observable } from 'mobx';
-import { doTokenStringsMatch, updateTokenString } from '../tokens';
-import { UrlArg } from '../url-arg';
-import { NativeUrlSchema } from '../url-schema';
-import { Query, UrlSchema } from '../url-schema/UrlSchema';
+import {createBrowserHistory, History as MyHistory, Location as MyLocation, LocationDescriptorObject} from 'history';
+import {action, observable} from 'mobx';
+import {doTokenStringsMatch, updateTokenString} from '../tokens';
+import {UrlArg} from '../url-arg';
+import {NativeUrlSchema} from '../url-schema';
+import {Query, UrlSchema} from '../url-schema/UrlSchema';
 
-import { LocationManager, QueryChange, Redirect, UpdateMethod } from './LocationManager';
+import {LocationManager, QueryChange, Redirect, UpdateMethod} from './LocationManager';
 
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
@@ -230,6 +230,10 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     @action
     public setQueries(changes: QueryChange[], method?: UpdateMethod) {
+        if (!changes.length) {
+            // There is nothing to change
+            return;
+        }
         const location = this._getLocationForQueryChanges(changes);
         this._setLocation(location, method);
     }
