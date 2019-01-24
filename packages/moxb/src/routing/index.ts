@@ -7,6 +7,8 @@ export {
     ArgSavingLocationManagerImpl,
 } from './location-manager';
 
+export { CoreLinkProps } from './linking';
+
 export { UrlSchema, NativeUrlSchema, QueryBasedUrlSchema, HashBasedUrlSchema } from './url-schema';
 
 export {
@@ -24,7 +26,9 @@ export {
     UrlArg,
     UrlArgImpl,
     UrlTokenImpl,
+    ArgChange,
     createInMemoryArg,
+    serializeArgChanges,
     AnyUrlArgImpl,
     URLARG_TYPE_STRING,
     URLARG_TYPE_ORDERED_STRING_ARRAY,

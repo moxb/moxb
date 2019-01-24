@@ -230,6 +230,10 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     @action
     public setQueries(changes: QueryChange[], method?: UpdateMethod) {
+        if (!changes.length) {
+            // There is nothing to change
+            return;
+        }
         const location = this._getLocationForQueryChanges(changes);
         this._setLocation(location, method);
     }

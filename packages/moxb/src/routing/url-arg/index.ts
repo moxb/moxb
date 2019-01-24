@@ -1,4 +1,4 @@
-export { UrlArgDefinition, UrlArgTypeDef, UrlArg } from './UrlArg';
+export { UrlArgDefinition, UrlArgTypeDef, UrlArg, ArgChange } from './UrlArg';
 
 export {
     URLARG_TYPE_STRING,
@@ -9,7 +9,7 @@ export {
     URLARG_TYPE_URLENCODED,
 } from './UrlArgTypes';
 
-export { UrlArgImpl } from './UrlArgImpl';
+export { UrlArgImpl, serializeArgChanges } from './UrlArgImpl';
 export { UrlTokenImpl } from './UrlTokenImpl';
 export { createInMemoryArg } from './InMemoryArgImpl';
 export { AnyUrlArgImpl } from './AnyUrlArgImpl';
