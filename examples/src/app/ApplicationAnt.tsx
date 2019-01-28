@@ -19,6 +19,7 @@ import {
     TextAnt,
     TextFormAnt,
     TimePickerAnt,
+    ActionToggleButtonAnt,
 } from '@moxb/antd';
 import { toJSON } from '@moxb/moxb';
 import { Col, Dropdown, Form, Icon, Menu, Row } from 'antd';
@@ -60,6 +61,15 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <h3>ActionFormButtonUI Component</h3>
                             <ActionFormButtonAnt type="primary" operation={application.testAction} />
+                            <br />
+                            <br />
+                            <h3>ActionToggleButtonUI Component</h3>
+                            <ActionToggleButtonAnt
+                                id="application.test.impl.toggleButton"
+                                backgroundColor="#003f54"
+                                labelColor="#FFFFFF"
+                                operation={application.testBool}
+                            />
                             <br />
                             <br />
                             <Dropdown

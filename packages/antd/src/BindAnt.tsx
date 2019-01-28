@@ -5,6 +5,7 @@ import { CSSProperties } from 'react';
 
 export interface BindAntProps<T extends Bind> {
     operation: T;
+    id?: string;
     invisible?: boolean;
     formStyle?: CSSProperties;
 }

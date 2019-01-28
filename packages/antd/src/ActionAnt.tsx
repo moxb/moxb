@@ -1,4 +1,4 @@
-import { Action } from '@moxb/moxb';
+import { Action, Bool } from '@moxb/moxb';
 import { Button, Spin } from 'antd';
 import { ButtonShape, ButtonSize, ButtonType } from 'antd/lib/button';
 import { NativeButtonProps } from 'antd/lib/button/button';
@@ -90,6 +90,30 @@ export class ActionSpanAnt extends React.Component<BindActionAntProps> {
             <span id={id} onClick={this.handleClick} title={reason} {...props as any}>
                 {children != null ? children : label}
             </span>
+        );
+    }
+}
+
+@observer
+export class ActionToggleButtonAnt extends React.Component<
+    { backgroundColor: string; labelColor: string } & BindAntProps<Bool>
+> {
+    render() {
+        const { operation, invisible, children, label, id, reason, backgroundColor, labelColor, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
+        if (invisible || operation.invisible) {
+            return null;
+        }
+        const style: React.CSSProperties = {
+            backgroundColor: operation.value ? labelColor : backgroundColor,
+            color: operation.value ? backgroundColor : labelColor,
+        };
+        return (
+            <Button id={id} onClick={() => operation.toggle()} style={style} title={reason} {...props as any}>
+                {children != null ? children : label}
+            </Button>
         );
     }
 }
