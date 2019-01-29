@@ -66,8 +66,8 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <h3>ActionToggleButtonUI Component</h3>
                             <ActionToggleButtonAnt
                                 id="application.test.impl.toggleButton"
-                                backgroundColor="#003f54"
-                                labelColor="#FFFFFF"
+                                backgroundColor="#FFFFFF"
+                                labelColor="#003f54"
                                 operation={application.testBool}
                             />
                             <br />

@@ -108,10 +108,17 @@ export class ActionToggleButtonAnt extends React.Component<
         }
         const style: React.CSSProperties = {
             backgroundColor: operation.value ? labelColor : backgroundColor,
-            color: operation.value ? backgroundColor : labelColor,
+            color: operation.value ? backgroundColor : undefined,
+            boxShadow: operation.value ? 'rgba(51, 51, 51, 0.85) 0px 0px 5px inset' : undefined,
         };
         return (
-            <Button id={id} onClick={() => operation.toggle()} style={style} title={reason} {...props as any}>
+            <Button
+                id={id}
+                onClick={() => operation.toggle()}
+                style={operation.disabled ? undefined : style}
+                title={reason}
+                {...props as any}
+            >
                 {children != null ? children : label}
             </Button>
         );
