@@ -8,6 +8,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 ### Breaking Changes
 
 ### Added
+* Added new toggle button component for the ant design package
 * Added the original onSubmit form event to the form operation, so the event handling can be done in a callback.
 
 ### Changed
