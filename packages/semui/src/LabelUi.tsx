@@ -2,7 +2,7 @@ import { Label } from '@moxb/moxb';
 import * as marked from 'marked';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { parseProps } from './BindUi';
+import { parseProps, stripSurroundingP } from './BindUi';
 
 export interface BindLabelAntProps extends React.HTMLProps<HTMLDivElement> {
     operation: Label;
@@ -21,11 +21,7 @@ export class LabelUi extends React.Component<BindLabelAntProps> {
 export class LabelMarkdownUi extends React.Component<BindLabelAntProps> {
     render() {
         const { operation, ...props } = parseProps(this.props);
-        const html = !operation.showRawText
-            ? marked(operation.text!)
-                  .replace(/^<p>/, '')
-                  .replace(/<\/p>$/, '')
-            : operation.text!;
+        const html = !operation.showRawText ? stripSurroundingP(marked(operation.text || '')) : operation.text!;
         return <div dangerouslySetInnerHTML={{ __html: html }} {...props} />;
     }
 }

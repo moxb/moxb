@@ -20,6 +20,14 @@ export class LabelAnt extends React.Component<BindLabelAntProps> {
     }
 }
 
+/**
+ * Remove a `<p>...</p>` that surrounds the html.
+ * @param html
+ */
+function stripSurroundingP(html: string) {
+    return html.replace(/^\s*<p>/, '').replace(/<\/p>\s*$/, '');
+}
+
 @observer
 export class LabelMarkdownAnt extends React.Component<BindLabelAntProps> {
     render() {
@@ -27,11 +35,7 @@ export class LabelMarkdownAnt extends React.Component<BindLabelAntProps> {
         if (invisible) {
             return null;
         }
-        const html = !operation.showRawText
-            ? marked(operation.text!)
-                  .replace(/^<p>/, '')
-                  .replace(/<\/p>$/, '')
-            : operation.text!;
+        const html = !operation.showRawText ? stripSurroundingP(marked(operation.text || '')) : operation.text!;
         return <div dangerouslySetInnerHTML={{ __html: html }} {...props} />;
     }
 }
@@ -43,9 +47,7 @@ export class LabelMarkdownAnt extends React.Component<BindLabelAntProps> {
 export class BindMarkdownDiv extends React.Component<{ text: string } & React.HTMLProps<HTMLDivElement>> {
     render() {
         const { text, ...props } = this.props;
-        const html = marked(text ? text : '')
-            .replace(/^<p>/, '')
-            .replace(/<\/p>/, '');
+        const html = stripSurroundingP(marked(text || ''));
         return <div dangerouslySetInnerHTML={{ __html: html }} {...props} />;
     }
 }
