@@ -1,5 +1,7 @@
-import { Action, Bind } from '@moxb/moxb';
+import { Action, Bind, OneOf } from '@moxb/moxb';
 import { Button, Tooltip } from 'antd';
+import { ButtonType } from 'antd/lib/button';
+import { TooltipProps } from 'antd/lib/tooltip';
 import { observer } from 'mobx-react';
 import { ReactElement } from 'react';
 import * as React from 'react';
@@ -13,21 +15,22 @@ function toolTipText(action: Bind | Action) {
     return (action.label || action.help || '') + (shortcuts && '\n\n' + shortcuts);
 }
 
-@observer
-export class ToolTipAnt extends React.Component<{
-    operation?: Bind;
+export interface BindToolTipAntProps extends TooltipProps {
+    operation?: Bind | Action | OneOf;
     icon?: string;
     text?: string;
-    type?: string;
-    placement?: any;
-}> {
+    type?: ButtonType;
+}
+
+@observer
+export class ToolTipAnt extends React.Component<BindToolTipAntProps> {
     render() {
-        const { operation, children, placement } = this.props;
+        const { operation, children, placement, ...props } = this.props;
         if (!operation) {
             return children;
         }
         const childrenWithProps = React.Children.map(children, child =>
-            React.cloneElement(child as ReactElement<any>, { operation })
+            React.cloneElement(child as ReactElement<any>, { operation, ...props })
         );
         return (
             <Tooltip placement={placement || 'top'} title={<BindMarkdownDiv text={toolTipText(operation)} />}>
@@ -38,18 +41,18 @@ export class ToolTipAnt extends React.Component<{
 }
 
 @observer
-export class ToolTipButton extends React.Component<{
-    operation: Action;
-    icon?: string;
-    text?: string;
-    type?: string;
-}> {
+export class ToolTipButton extends React.Component<BindToolTipAntProps> {
     render() {
-        const { operation, icon, text } = this.props;
-        const type = operation.customData ? 'dashed' : 'ghost';
+        const { operation, icon, text, type } = this.props;
+        const selectedType = operation!.customData ? 'dashed' : 'ghost';
         return (
             <ToolTipAnt operation={operation}>
-                <Button type={type} onClick={operation.fire} disabled={operation.disabled} icon={icon}>
+                <Button
+                    type={type || selectedType}
+                    onClick={(operation as Action).fire}
+                    disabled={operation!.disabled}
+                    icon={icon}
+                >
                     {text}
                 </Button>
             </ToolTipAnt>
