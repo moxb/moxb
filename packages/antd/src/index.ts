@@ -13,5 +13,6 @@ export * from './DatePickerAnt';
 export * from './TimePickerAnt';
 export * from './FormAnt';
 export * from './TagAnt';
+export * from './ToolTipAnt';
 export * from './not-antd';
 export * from './routing';
