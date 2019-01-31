@@ -10,7 +10,8 @@ see [ChangeLog](./ChangeLog.md)
 
 - in the top level `package.json` update the version (it's not done by lerna)
   - make sure that `package-lock.json` is up to date
-- commit all changes
 - call `make` 
+- commit all changes
+- push all changes
 - `. ./admin/activate`
 - `lerna publish`
