@@ -45,7 +45,7 @@ export class BindMarkdownDiv extends React.Component<{ text: string } & React.HT
         const { text, ...props } = this.props;
         const html = marked(text ? text : '')
             .replace(/^<p>/, '')
-            .replace(/<\/p>$/, '');
+            .replace(/<\/p>/, '');
         return <div dangerouslySetInnerHTML={{ __html: html }} {...props} />;
     }
 }
