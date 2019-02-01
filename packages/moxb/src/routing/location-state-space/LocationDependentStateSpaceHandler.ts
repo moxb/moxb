@@ -4,6 +4,7 @@ import { UsesTokenManager } from '../TokenManager';
 import { UrlArg } from '../url-arg';
 import { SubStateInContext } from './state-space/StateSpace';
 import { StateSpaceHandler, StateSpaceHandlerProps } from './state-space/StateSpaceHandler';
+import { LocationUser } from '../location-manager/LocationManager';
 
 export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>
     extends StateSpaceHandlerProps<LabelType, WidgetType, DataType>,
@@ -14,6 +15,12 @@ export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, 
      * The URL argument (if any) driving this component.
      */
     arg?: UrlArg<any>;
+
+    /**
+     * Should we register this object with a location manager as a Location user?
+     * (Required for registering on-leave handlers and such)
+     */
+    locationUser?: boolean;
 }
 
 /**
@@ -28,7 +35,8 @@ export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, 
  * as type parameters.
  */
 export interface LocationDependentStateSpaceHandler<LabelType, WidgetType, DataType>
-    extends StateSpaceHandler<LabelType, WidgetType, DataType> {
+    extends StateSpaceHandler<LabelType, WidgetType, DataType>,
+        LocationUser {
     /**
      * Register the mappings belonging to this state sub-tree on the token manegr
      */
@@ -66,12 +74,17 @@ export interface LocationDependentStateSpaceHandler<LabelType, WidgetType, DataT
     /**
      * Change the location so that the given SubState becomes active.
      */
-    selectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): void;
+    doSelectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): void;
+
+    /**
+     * Gracefully attempt to change the location so that the given SubState becomes active.
+     */
+    trySelectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): Promise<boolean>;
 
     /**
      * Change the location so that the SubState with the given key becomes active.
      */
-    selectByTokens(tokens: string[]): void;
+    doSelectByTokens(tokens: string[]): void;
 
     /**
      * Get the URL that would select a given sub-state

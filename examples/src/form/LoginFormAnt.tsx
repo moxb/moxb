@@ -1,3 +1,4 @@
+import { NavigableContent } from '@moxb/moxb';
 import { ActionButtonAnt, FormAnt, TextFormAnt } from '@moxb/antd';
 import { Icon, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
@@ -6,7 +7,17 @@ import { Application } from '../app/Application';
 
 @inject('app')
 @observer
-export class LoginFormAnt extends React.Component<{ app?: Application }> {
+export class LoginFormAnt extends React.Component<{ app?: Application } & NavigableContent<any, any>> {
+    componentDidMount(): void {
+        const { navControl } = this.props;
+        navControl.registerStateHooks({
+            getLeaveQuestion: () =>
+                this.props.app!.formPasswordText.value
+                    ? 'Really leave the login form? You have already entered your super secure password!'
+                    : null,
+        });
+    }
+
     render() {
         console.log('Rendering login form');
         const application = this.props.app;

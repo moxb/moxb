@@ -3,6 +3,7 @@ import { LocationManager, QueryChange, UpdateMethod } from '../location-manager'
 
 import { Query } from '../url-schema/UrlSchema';
 import { ArgChange, ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
+import { TestLocation } from '../location-manager/LocationManager';
 
 export function existsInQuery(query: Query, key: string) {
     return query[key] !== undefined;
@@ -45,6 +46,10 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this.getOnQuery(this._locationManager.query);
     }
 
+    public valueOn(location: TestLocation) {
+        return this.getOnQuery(location.query);
+    }
+
     public getRawValue(value: T) {
         const {
             valueType: { isEqual, format },
@@ -58,17 +63,22 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this._locationManager.getURLForQueryChange(this.key, rawValue);
     }
 
-    public set(value: T, method?: UpdateMethod) {
+    public doSet(value: T, method?: UpdateMethod) {
         const rawValue = this.getRawValue(value);
-        this._locationManager.setQuery(this.key, rawValue, method);
+        this._locationManager.doSetQuery(this.key, rawValue, method);
     }
 
-    public set value(value: T) {
-        this.set(value);
+    public trySet(value: T, method?: UpdateMethod): Promise<boolean> {
+        const rawValue = this.getRawValue(value);
+        return this._locationManager.trySetQuery(this.key, rawValue, method);
     }
 
-    public reset(method?: UpdateMethod) {
-        this.set(this._def.defaultValue, method);
+    public doReset(method?: UpdateMethod) {
+        this.doSet(this._def.defaultValue, method);
+    }
+
+    public tryReset(method?: UpdateMethod): Promise<boolean> {
+        return this.trySet(this._def.defaultValue, method);
     }
 
     @computed

@@ -1,5 +1,5 @@
 import { UpdateMethod } from '../location-manager';
-import { Query } from '../url-schema/UrlSchema';
+import { TestLocation } from '../location-manager/LocationManager';
 
 export interface ParserFunc<T> {
     (formatted: string): T;
@@ -41,7 +41,12 @@ export interface UrlArg<T> {
      *
      * Can be read or written
      */
-    value: T;
+    readonly value: T;
+
+    /**
+     * Get the value as it would be if we were at the given test location
+     */
+    valueOn(location: TestLocation): T;
 
     /**
      * Explicitly set the current value.
@@ -49,14 +54,29 @@ export interface UrlArg<T> {
      * @param value The new value
      * @param method The method for updating the URL (push or replace)
      */
-    set(value: T, method?: UpdateMethod): void;
+    doSet(value: T, method?: UpdateMethod): void;
+
+    /**
+     * Explicitly try to set the current value.
+     *
+     * @param value The new value
+     * @param method The method for updating the URL (push or replace)
+     */
+    trySet(value: T, method?: UpdateMethod): Promise<boolean>;
 
     /**
      * Reset the value to default
      *
      * @param method The method for updating the URL (push or replace)
      */
-    reset(method?: UpdateMethod): void;
+    doReset(method?: UpdateMethod): void;
+
+    /**
+     * Reset the value to default
+     *
+     * @param method The method for updating the URL (push or replace)
+     */
+    tryReset(method?: UpdateMethod): Promise<boolean>;
 
     /**
      * Get the URL string that would result if we modified the value
@@ -68,10 +88,10 @@ export interface UrlArg<T> {
     // ======= Anything below this level is quite technical,
     // you probably won't need to use it directly.
 
-    /**
-     * Extract the value of this arg from a given query
-     */
-    getOnQuery(query: Query): T | undefined;
+    // /**
+    //  * Extract the value of this arg from a given query
+    //  */
+    // getOnQuery(query: Query): T | undefined;
 
     /**
      * Get the raw (string) value corresponding to a given value

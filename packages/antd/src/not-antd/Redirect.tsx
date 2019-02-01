@@ -13,7 +13,7 @@ interface RedirectProps {
 export class Redirect extends React.Component<UsesLocation & RedirectProps> {
     public componentDidMount() {
         const { locationManager, position = 0, to, updateMethod } = this.props;
-        locationManager!.setPathTokens(position, to, updateMethod);
+        locationManager!.doSetPathTokens(position, to, updateMethod);
     }
 
     render() {

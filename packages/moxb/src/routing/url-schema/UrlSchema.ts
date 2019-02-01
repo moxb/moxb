@@ -1,4 +1,4 @@
-import { Location as MyLocation } from 'history';
+import { Location as MyLocation, LocationDescriptorObject } from 'history';
 
 /**
  * A simple Map/Dict type used to represent the URL arguments.
@@ -14,12 +14,12 @@ export interface UrlSchema {
     /**
      * Extract the path tokens from a location
      */
-    getPathTokens(location: MyLocation): string[];
+    getPathTokens(location: MyLocation | LocationDescriptorObject): string[];
 
     /**
      * Extract the URL arguments from a location
      */
-    getQuery(location: MyLocation): Query;
+    getQuery(location: MyLocation | LocationDescriptorObject): Query;
 
     /**
      * Encode the path tokens and the URL arguments in a given location

@@ -1,13 +1,12 @@
 import { LocationDependentArea } from '@moxb/antd';
 
-import { LocationManager } from '@moxb/moxb';
 import { Layout, Row } from 'antd';
 import * as React from 'react';
 import { NavigationAnt } from '../common/NavigationAnt';
 
 import { defaultContent, mainMenu } from '../MenuStructure';
 
-export class AppRouterAnt extends React.Component<{ location?: LocationManager }> {
+export class AppRouterAnt extends React.Component {
     render() {
         return (
             <Layout>

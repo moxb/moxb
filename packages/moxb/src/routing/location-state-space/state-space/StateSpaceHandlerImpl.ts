@@ -3,6 +3,7 @@ import { StateCondition, StateSpace, SubState, SubStateInContext } from './State
 import { FilterParams, StateSpaceHandler, StateSpaceHandlerProps } from './StateSpaceHandler';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { SubStateKeyGeneratorImpl } from './SubStateKeyGeneratorImpl';
+import { NavStateHooks } from '../../navigable';
 
 /**
  * Recursively filter out the sub-states that are hidden or don't match the filter
@@ -44,6 +45,10 @@ function filterSubStates<LabelType, WidgetType, DataType>(
         });
 }
 
+interface HookMap {
+    [index: string]: NavStateHooks;
+}
+
 /**
  * This is the standard implementation for StateSpaceHandler.
  *
@@ -58,6 +63,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     public readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _allSubStates: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _filterCondition?: StateCondition<DataType>;
+    public readonly stateHooks: HookMap = {};
 
     /**
      * Add context info around a given sub-state
@@ -215,5 +221,17 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
             params
         );
         return params.onlyLeaves ? result.filter(s => !s.isGroupOnly) : result;
+    }
+
+    registerNavStateHooksForSubState(
+        subState: SubStateInContext<LabelType, WidgetType, DataType> | null,
+        hooks: NavStateHooks
+    ) {
+        if (!subState) {
+            // console.log('Ignoring dirty tester for missing subState');
+        } else {
+            // console.log('SubState', subState.menuKey, 'has state hooks', hooks);
+            this.stateHooks[subState.menuKey] = hooks;
+        }
     }
 }

@@ -1,3 +1,4 @@
+import { when } from 'mobx';
 import { createMemoryHistory } from 'history';
 import { UrlArgImpl } from '../../url-arg/UrlArgImpl';
 import { URLARG_TYPE_STRING } from '../../url-arg/UrlArgTypes';
@@ -31,14 +32,22 @@ describe('The Basic Location Manager implementation', () => {
         defaultValue: '',
     });
 
-    it('Should provide path tokens', () => {
+    it('Should provide path tokens', async () => {
+        fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/foo/bar');
+        await when(() => !!locationManager.pathTokens.length);
         expect(locationManager.pathTokens).toEqual(['foo', 'bar']);
     });
 
-    it('Should be able to set path tokens', () => {
+    it('Should be able to set path tokens', async () => {
+        fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/nowhere?foo=bar&sticky=glue');
-        locationManager.setPathTokens(0, ['new1', 'new2']);
+        await when(() => !!locationManager.pathTokens.length);
+        expect(foo.value).toBe('bar');
+        expect(sticky.value).toBe('glue');
+        locationManager.doSetPathTokens(0, ['new1', 'new2']);
         expect(fakeHistory.location.pathname).toBe('/new1/new2');
 
         // Normal args will be dropped
@@ -52,16 +61,21 @@ describe('The Basic Location Manager implementation', () => {
         expect(sticky.value).toBe('glue');
     });
 
-    it('Should be able to set path tokens starting with a give number', () => {
-        locationManager.setPathTokens(0, ['new1', 'new2']);
-        locationManager.setPathTokens(1, ['newer1', 'newer2']);
+    it('Should be able to set path tokens starting with a give number', async () => {
+        fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
+        locationManager.doSetPathTokens(0, ['new1', 'new2']);
+        locationManager.doSetPathTokens(1, ['newer1', 'newer2']);
         expect(fakeHistory.location.pathname).toBe('/new1/newer1/newer2');
     });
 
     // TODO: doPathTokensMatch
 
-    it('Should be able to provide URL for path tokens', () => {
+    it('Should be able to provide URL for path tokens', async () => {
+        fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/where?foo=bar&sticky=glue');
+        await when(() => !!locationManager.pathTokens.length);
         expect(
             cleanLocalhost(
                 locationManager.getURLForPathTokens(
@@ -72,16 +86,22 @@ describe('The Basic Location Manager implementation', () => {
         ).toBe('/some/place/else?sticky=glue'); // Normal arg is dropped, permanent is preserved
     });
 
-    it('Should provide url search arguments', () => {
-        fakeHistory.push('?key1=value1&key2=value2');
+    it('Should provide url search arguments', async () => {
+        fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
+        fakeHistory.push('whatever?key1=value1&key2=value2');
+        await when(() => !!locationManager.pathTokens.length);
         expect(locationManager.query).toEqual({
             key1: 'value1',
             key2: 'value2',
         });
     });
 
-    it('Should be able to provide URL for query changes', () => {
+    it('Should be able to provide URL for query changes', async () => {
+        fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/where?foo=bar&sticky=glue');
+        await when(() => !!locationManager.pathTokens.length);
         expect(
             cleanLocalhost(
                 locationManager.getURLForQueryChanges([
@@ -98,16 +118,22 @@ describe('The Basic Location Manager implementation', () => {
         ).toBe('/some/where?foo=bar&sticky=honey&weather=windy'); // Path is preserved, args changed/added
     });
 
-    it('Should be able to provide URL for a single query change', () => {
+    it('Should be able to provide URL for a single query change', async () => {
+        fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/where?foo=bar&sticky=glue');
+        await when(() => !!locationManager.pathTokens.length);
         expect(cleanLocalhost(locationManager.getURLForQueryChange('sticky', 'honey'))).toBe(
             '/some/where?foo=bar&sticky=honey'
         ); // Path is changed, single arg is changed
     });
 
-    it('should be able to set url search arguments', () => {
+    it('should be able to set url search arguments', async () => {
+        fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/path?a=a&b=b&c=c');
-        locationManager.setQueries([
+        await when(() => !!locationManager.pathTokens.length);
+        locationManager.doSetQueries([
             {
                 key: 'b',
                 value: 'new-b',
@@ -130,9 +156,12 @@ describe('The Basic Location Manager implementation', () => {
         });
     });
 
-    it('should be able to set a single search argument', () => {
+    it('should be able to set a single search argument', async () => {
+        fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/path?a=a&b=b&c=c');
-        locationManager.setQuery('b', 'new-b');
+        await when(() => !!locationManager.pathTokens.length);
+        locationManager.doSetQuery('b', 'new-b');
         expect(locationManager.pathTokens).toEqual([
             // Path doesn't change
             'some',
@@ -145,20 +174,22 @@ describe('The Basic Location Manager implementation', () => {
         });
     });
 
-    it('should create new entries in history by default', () => {
+    it('should create new entries in history by default', async () => {
         fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
         const startLength = fakeHistory.entries.length;
-        locationManager.setPathTokens(0, ['go', 'here']);
-        locationManager.setQuery('foo', 'bar');
+        locationManager.doSetPathTokens(0, ['go', 'here']);
+        locationManager.doSetQuery('foo', 'bar');
         const endLength = fakeHistory.entries.length;
         expect(endLength).toEqual(startLength + 2);
     });
 
-    it('should be able to manipulate location without adding new entries to history', () => {
+    it('should be able to manipulate location without adding new entries to history', async () => {
         fakeHistory.push('/');
+        await when(() => !locationManager.pathTokens.length);
         const startLength = fakeHistory.entries.length;
-        locationManager.setPathTokens(0, ['go', 'here'], UpdateMethod.REPLACE);
-        locationManager.setQuery('foo', 'bar', UpdateMethod.REPLACE);
+        locationManager.doSetPathTokens(0, ['go', 'here'], UpdateMethod.REPLACE);
+        locationManager.doSetQuery('foo', 'bar', UpdateMethod.REPLACE);
         const endLength = fakeHistory.entries.length;
         expect(endLength).toEqual(startLength);
     });

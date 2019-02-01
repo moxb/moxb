@@ -1,5 +1,6 @@
 import { StateCondition, StateSpace, SubState, SubStateInContext } from './StateSpace';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
+import { NavStateHooks } from '../../navigable';
 
 export interface FilterParams {
     recursive?: boolean;
@@ -69,6 +70,17 @@ export interface StateSpaceHandler<LabelType, WidgetType, DataType> {
      * Get a list of subStates that are not hidden, and match the specified filter, if any
      */
     getFilteredSubStates(params: FilterParams): SubStateInContext<LabelType, WidgetType, DataType>[];
+
+    /**
+     * Register navigation state change hooks for a given sub-state
+     *
+     * @param subState
+     * @param hooks
+     */
+    registerNavStateHooksForSubState(
+        subState: SubStateInContext<LabelType, WidgetType, DataType> | null,
+        hooks: NavStateHooks
+    ): void;
 }
 
 /**

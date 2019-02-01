@@ -1,9 +1,13 @@
 import { computed } from 'mobx';
 
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
+import { TestLocation } from '../location-manager/LocationManager';
 
 export interface UrlArgBackend {
-    rawValue: string | undefined;
+    readonly rawValue: string | undefined;
+    rawValueOn(location: TestLocation | undefined): string | undefined;
+    doSet: (value: string) => void;
+    trySet: (value: string) => Promise<boolean>;
     getModifiedUrl?: (value: string) => string | undefined;
 }
 
@@ -25,14 +29,22 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
         return this.backend.rawValue !== undefined;
     }
 
-    // Extract the value from a given query
-    public getOnQuery() {
-        return undefined;
-    }
+    // // Extract the value from a given query
+    // public getOnQuery() {
+    //     return undefined;
+    // }
 
     @computed
     public get value() {
         return this.defined ? this._parser(this.backend.rawValue!) : this.defaultValue;
+    }
+
+    definedOn(location: TestLocation) {
+        return this.backend.rawValueOn(location) !== undefined;
+    }
+
+    valueOn(location: TestLocation) {
+        return this.definedOn(location) ? this._parser(this.backend.rawValueOn(location)!) : this.defaultValue;
     }
 
     public getRawValue(value: T): string {
@@ -53,16 +65,20 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
         return getter(this.getRawValue(value));
     }
 
-    public set(value: T) {
-        this.backend.rawValue = this.getRawValue(value);
+    public doSet(value: T) {
+        this.backend.doSet(this.getRawValue(value));
     }
 
-    public set value(value: T) {
-        this.set(value);
+    public doReset() {
+        this.doSet(this._def.defaultValue);
     }
 
-    public reset() {
-        this.set(this._def.defaultValue);
+    public trySet(value: T): Promise<boolean> {
+        return this.backend.trySet(this.getRawValue(value));
+    }
+
+    public tryReset() {
+        return this.trySet(this._def.defaultValue);
     }
 
     @computed

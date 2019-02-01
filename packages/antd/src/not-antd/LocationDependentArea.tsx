@@ -59,6 +59,7 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         this._states = new LocationDependentStateSpaceHandlerImpl({
             ...remnantProps,
             id: 'changing content of ' + id,
+            locationUser: true,
         });
     }
 
@@ -96,6 +97,9 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
             tokenIncrease: subState ? subState.totalPathTokens.length : 1,
             checkCondition: false, // We don't ever get to select this sub-state if the condition fails
             extraProps,
+            navControl: {
+                registerStateHooks: hooks => this._states.registerNavStateHooksForSubState(subState, hooks),
+            },
         });
     }
 

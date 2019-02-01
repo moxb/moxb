@@ -20,7 +20,7 @@ export class UrlStoreImpl implements UrlStore {
     readonly bindSearch = new TextImpl({
         id: 'sampleSearch',
         label: 'Search',
-        setValue: value => (this.search.value = value),
+        setValue: value => this.search.doSet(value),
         getValue: () => this.search.value,
     });
 

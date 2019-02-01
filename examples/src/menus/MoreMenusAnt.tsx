@@ -52,7 +52,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                                     value: 'treasure',
                                 },
                             ]}
-                            label="Set color to green, search to gold!"
+                            label="Set color to green, and search for treasure!"
                         />
                         <hr />
                         <div>

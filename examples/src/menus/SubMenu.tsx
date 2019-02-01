@@ -1,5 +1,5 @@
 import { rootOrDetails, UIFragmentSpec } from '@moxb/antd';
-import { StateSpace } from '@moxb/moxb';
+import { StateSpace, NavigableContent } from '@moxb/moxb';
 import * as React from 'react';
 // @ts-ignore
 import blueUrl from '../../images/blue_blocks.png';
@@ -97,6 +97,25 @@ export const subMenu1: StateSpace<string, UIFragmentSpec, {}> = [
     },
 ];
 
+class GreenBlocks extends React.Component<NavigableContent<string, UIFragmentSpec>> {
+    componentDidMount(): void {
+        const { navControl } = this.props;
+        navControl.registerStateHooks({
+            getLeaveQuestion: () => 'Do you really want to leave these nice green blocks?',
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                {'(Mostly) green-ish blocks: '}
+                <br />
+                <img src={greenUrl} />
+            </div>
+        );
+    }
+}
+
 export const subMenu2: StateSpace<string, UIFragmentSpec, {}> = [
     {
         key: 'red',
@@ -121,12 +140,6 @@ export const subMenu2: StateSpace<string, UIFragmentSpec, {}> = [
     {
         key: 'green',
         label: 'Green',
-        fragment: (
-            <div>
-                {'(Mostly) green blocks: '}
-                <br />
-                <img src={greenUrl} />
-            </div>
-        ),
+        fragment: GreenBlocks,
     },
 ];

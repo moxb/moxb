@@ -1,4 +1,4 @@
-import { CoreLinkProps, serializeArgChanges, UpdateMethod, UsesLocation } from '@moxb/moxb';
+import { CoreLinkProps, serializeArgChanges, UsesLocation } from '@moxb/moxb';
 import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
 import { inject, observer } from 'mobx-react';
@@ -38,10 +38,7 @@ export class LinkAnt extends React.Component<LinkProps & UsesLocation> {
     protected handleClick() {
         const { locationManager, to, position, argChanges } = this.props;
         const changes = serializeArgChanges(argChanges);
-        if (to) {
-            locationManager!.setPathTokens(position || 0, to);
-        }
-        locationManager!.setQueries(changes, to ? UpdateMethod.REPLACE : UpdateMethod.PUSH);
+        locationManager!.trySetPathTokensAndQueries(position || 0, to, changes);
     }
 
     public render() {
