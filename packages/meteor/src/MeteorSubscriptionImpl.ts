@@ -68,7 +68,7 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         }
     }
 
-    private _publicationName?: string;
+    protected _publicationName?: string;
 
     protected meteorSubscribe(publicationName: string, ...args: any[]) {
         this._publicationName = publicationName;
