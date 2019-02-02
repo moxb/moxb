@@ -2,6 +2,7 @@ import { TimeImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { TimePickerAnt, TimePickerFormAnt } from '../TimePickerAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('TimePickerAnt', function() {
     it('should render a time picker by default', function() {
@@ -10,7 +11,7 @@ describe('TimePickerAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallow(<TimePickerAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<TimePickerAnt operation={operation} />))).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new TimeImpl({
@@ -29,7 +30,7 @@ describe('TimePickerFormAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallow(<TimePickerFormAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<TimePickerFormAnt operation={operation} />))).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new TimeImpl({

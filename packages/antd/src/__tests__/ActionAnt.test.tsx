@@ -2,6 +2,7 @@ import { ActionImpl } from '@moxb/moxb';
 import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { ActionButtonAnt, ActionFormButtonAnt } from '../ActionAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('ActionButtonAnt', function() {
     it('should render a button by default', function() {
@@ -11,7 +12,7 @@ describe('ActionButtonAnt', function() {
             label: 'aha',
             disabled: () => true,
         });
-        expect(shallow(<ActionButtonAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<ActionButtonAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should render a button with children instead of a label', function() {
@@ -19,7 +20,9 @@ describe('ActionButtonAnt', function() {
             id: 'TheId',
             fire: jest.fn(),
         });
-        expect(shallow(<ActionButtonAnt operation={operation}>FooButton</ActionButtonAnt>)).toMatchSnapshot();
+        expect(
+            shallowMoxbToJson(shallow(<ActionButtonAnt operation={operation}>FooButton</ActionButtonAnt>))
+        ).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -65,7 +68,7 @@ describe('ActionFormButtonAnt', function() {
             label: 'aha',
             disabled: () => true,
         });
-        expect(shallow(<ActionFormButtonAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<ActionFormButtonAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {

@@ -2,6 +2,7 @@ import { NumericImpl } from '@moxb/moxb';
 import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { NumericAnt, NumericFormAnt } from '../NumericAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('NumericAnt', function() {
     it('should render a numeric input by default', function() {
@@ -10,7 +11,7 @@ describe('NumericAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallow(<NumericAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<NumericAnt operation={operation} />))).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new NumericImpl({
@@ -46,7 +47,7 @@ describe('NumericFormAnt', function() {
             initialValue: 12,
             disabled: () => false,
         });
-        expect(shallow(<NumericFormAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<NumericFormAnt operation={operation} />))).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new NumericImpl({

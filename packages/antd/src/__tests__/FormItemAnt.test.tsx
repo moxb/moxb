@@ -2,6 +2,7 @@ import { FormImpl, TextImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { FormItemAnt } from '../FormItemAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('FormItemAnt', function() {
     const formUserText = new TextImpl({
@@ -22,7 +23,7 @@ describe('FormItemAnt', function() {
             values: [formUserText, formPasswordText],
             onSubmit: () => onSubmitMock,
         });
-        expect(shallow(<FormItemAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<FormItemAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
