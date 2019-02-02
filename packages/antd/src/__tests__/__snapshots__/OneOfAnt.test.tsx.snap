@@ -7,12 +7,10 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
   id="id-test_radio_of_one"
   label="Select one of"
   onChange={[Function]}
-  prefixCls="ant-radio"
   readOnly={false}
 >
   <Radio
     key="b"
-    prefixCls="ant-radio"
     type="radio"
     value="b"
   >
@@ -20,7 +18,6 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
   </Radio>
   <Radio
     key="a"
-    prefixCls="ant-radio"
     type="radio"
     value="a"
   >
@@ -28,7 +25,6 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
   </Radio>
   <Radio
     key="p"
-    prefixCls="ant-radio"
     type="radio"
     value="p"
   >
@@ -71,7 +67,6 @@ exports[`OneOfSelectAnt should render a select control by default 1`] = `
   label="Select one of"
   mode="default"
   onChange={[Function]}
-  prefixCls="ant-select"
   readOnly={false}
   showSearch={false}
   transitionName="slide-up"

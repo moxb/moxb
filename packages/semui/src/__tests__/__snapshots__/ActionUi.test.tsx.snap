@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionFormButtonUi html should match snapshot 1`] = `"<div class=\\"field\\"><button id=\\"action-id\\" class=\\"ui button\\" role=\\"button\\"></button></div>"`;
+exports[`ActionFormButtonUi html should match snapshot 1`] = `"<div class=\\"field\\"><button id=\\"action-id\\" class=\\"ui button\\"></button></div>"`;
 
 exports[`ActionFormButtonUi should match snapshot 1`] = `
 <FormButton

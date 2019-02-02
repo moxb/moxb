@@ -9,7 +9,6 @@ exports[`ActionButtonAnt should render a button by default 1`] = `
   id="the_id"
   loading={false}
   onClick={[Function]}
-  prefixCls="ant-btn"
   readOnly={false}
 >
   aha
@@ -25,7 +24,6 @@ exports[`ActionButtonAnt should render a button with children instead of a label
   id="the_id"
   loading={false}
   onClick={[Function]}
-  prefixCls="ant-btn"
   readOnly={false}
 >
   FooButton

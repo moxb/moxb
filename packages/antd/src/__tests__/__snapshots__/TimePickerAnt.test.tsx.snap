@@ -17,7 +17,6 @@ exports[`TimePickerAnt should render a time picker by default 1`] = `
   label="oh"
   onChange={[Function]}
   placement="bottomLeft"
-  prefixCls="ant-time-picker"
   readOnly={false}
   transitionName="slide-up"
 />

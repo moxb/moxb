@@ -8,7 +8,6 @@ exports[`ManyOfAnt should render a select control by default 1`] = `
   label="Choose your snack"
   mode="default"
   onChange={[Function]}
-  prefixCls="ant-select"
   readOnly={false}
   showSearch={false}
   transitionName="slide-up"
@@ -42,7 +41,6 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
   label="Choose your snack"
   onChange={[Function]}
   options={Array []}
-  prefixCls="ant-checkbox"
   readOnly={false}
   value={Array []}
 >
@@ -54,7 +52,6 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
     >
       <Checkbox
         indeterminate={false}
-        prefixCls="ant-checkbox"
         value="b"
       >
         Banana
@@ -65,7 +62,6 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
     >
       <Checkbox
         indeterminate={false}
-        prefixCls="ant-checkbox"
         value="a"
       >
         Apples
@@ -76,7 +72,6 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
     >
       <Checkbox
         indeterminate={false}
-        prefixCls="ant-checkbox"
         value="p"
       >
         Peaches

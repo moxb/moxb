@@ -9,7 +9,6 @@ exports[`NumericAnt should render a numeric input by default 1`] = `
   onChange={[Function]}
   parser={[Function]}
   placeholder="Interval"
-  prefixCls="ant-input-number"
   readOnly={false}
   step={1}
 />

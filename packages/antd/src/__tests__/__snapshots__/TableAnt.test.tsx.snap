@@ -81,7 +81,6 @@ exports[`TableAnt should render a table with content by default 1`] = `
     loading={false}
     locale={Object {}}
     onChange={[Function]}
-    prefixCls="ant-table"
     rowKey="key"
     scroll={
       Object {
@@ -90,6 +89,12 @@ exports[`TableAnt should render a table with content by default 1`] = `
     }
     showHeader={true}
     size="default"
+    sortDirections={
+      Array [
+        "ascend",
+        "descend",
+      ]
+    }
     useFixedHeader={false}
   />
 </Fragment>
@@ -200,7 +205,6 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
         "total": 4,
       }
     }
-    prefixCls="ant-table"
     rowKey="key"
     scroll={
       Object {
@@ -209,6 +213,12 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
     }
     showHeader={true}
     size="default"
+    sortDirections={
+      Array [
+        "ascend",
+        "descend",
+      ]
+    }
     useFixedHeader={false}
   />
 </Fragment>
@@ -295,7 +305,6 @@ exports[`TableAnt should render a table with setupColumn set 1`] = `
     loading={false}
     locale={Object {}}
     onChange={[Function]}
-    prefixCls="ant-table"
     rowKey="key"
     scroll={
       Object {
@@ -305,6 +314,12 @@ exports[`TableAnt should render a table with setupColumn set 1`] = `
     setupColumn={[Function]}
     showHeader={true}
     size="default"
+    sortDirections={
+      Array [
+        "ascend",
+        "descend",
+      ]
+    }
     useFixedHeader={false}
   />
 </Fragment>

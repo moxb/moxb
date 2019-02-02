@@ -7,7 +7,6 @@ exports[`FormAnt should render a form element by default 1`] = `
   id="id-test_form"
   layout="horizontal"
   onSubmit={[Function]}
-  prefixCls="ant-form"
   readOnly={false}
 />
 `;
