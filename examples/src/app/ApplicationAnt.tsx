@@ -20,6 +20,7 @@ import {
     TextFormAnt,
     TimePickerAnt,
     ActionToggleButtonAnt,
+    ToolTipButton,
 } from '@moxb/antd';
 import { toJSON } from '@moxb/moxb';
 import { Col, Dropdown, Form, Icon, Menu, Row } from 'antd';
@@ -70,6 +71,10 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                 labelColor="#003f54"
                                 operation={application.testBool}
                             />
+                            <h3>TooltipButton Component</h3>
+                            <ToolTipButton type="primary" operation={application.testAction} text={'Label'} />
+                            <br />
+                            <br />
                             <br />
                             <br />
                             <Dropdown
