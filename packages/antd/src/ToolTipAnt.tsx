@@ -32,11 +32,15 @@ export class ToolTipAnt extends React.Component<BindToolTipAntProps> {
         const childrenWithProps = React.Children.map(children, child =>
             React.cloneElement(child as ReactElement<any>, { operation, ...props })
         );
-        return (
-            <Tooltip placement={placement || 'top'} title={<BindMarkdownDiv text={toolTipText(operation)} />}>
-                {childrenWithProps}
-            </Tooltip>
-        );
+        if (operation!.disabled) {
+            return <>{childrenWithProps}</>;
+        } else {
+            return (
+                <Tooltip placement={placement || 'top'} title={<BindMarkdownDiv text={toolTipText(operation)} />}>
+                    {childrenWithProps}
+                </Tooltip>
+            );
+        }
     }
 }
 
@@ -45,17 +49,32 @@ export class ToolTipButton extends React.Component<BindToolTipAntProps> {
     render() {
         const { operation, icon, text, type } = this.props;
         const selectedType = operation!.customData ? 'dashed' : 'ghost';
-        return (
-            <ToolTipAnt operation={operation}>
+        if (operation!.disabled) {
+            return (
                 <Button
                     type={type || selectedType}
                     onClick={(operation as Action).fire}
                     disabled={operation!.disabled}
+                    htmlType="button"
                     icon={icon}
                 >
                     {text}
                 </Button>
-            </ToolTipAnt>
-        );
+            );
+        } else {
+            return (
+                <ToolTipAnt operation={operation}>
+                    <Button
+                        type={type || selectedType}
+                        onClick={(operation as Action).fire}
+                        disabled={operation!.disabled}
+                        htmlType="button"
+                        icon={icon}
+                    >
+                        {text}
+                    </Button>
+                </ToolTipAnt>
+            );
+        }
     }
 }
