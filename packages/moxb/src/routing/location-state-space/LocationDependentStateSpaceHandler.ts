@@ -4,7 +4,7 @@ import { UsesTokenManager } from '../TokenManager';
 import { UrlArg } from '../url-arg';
 import { SubStateInContext } from './state-space/StateSpace';
 import { StateSpaceHandler, StateSpaceHandlerProps } from './state-space/StateSpaceHandler';
-import { LocationUser } from '../location-manager/LocationManager';
+import { LocationChangeInterceptor } from '../location-manager/LocationManager';
 
 export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>
     extends StateSpaceHandlerProps<LabelType, WidgetType, DataType>,
@@ -17,10 +17,10 @@ export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, 
     arg?: UrlArg<any>;
 
     /**
-     * Should we register this object with a location manager as a Location user?
+     * Should we register this object with a location manager as a change interceptor?
      * (Required for registering on-leave handlers and such)
      */
-    locationUser?: boolean;
+    intercept?: boolean;
 }
 
 /**
@@ -36,7 +36,7 @@ export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, 
  */
 export interface LocationDependentStateSpaceHandler<LabelType, WidgetType, DataType>
     extends StateSpaceHandler<LabelType, WidgetType, DataType>,
-        LocationUser {
+        LocationChangeInterceptor {
     /**
      * Register the mappings belonging to this state sub-tree on the token manegr
      */

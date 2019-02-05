@@ -59,7 +59,7 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         this._states = new LocationDependentStateSpaceHandlerImpl({
             ...remnantProps,
             id: 'changing content of ' + id,
-            locationUser: true,
+            intercept: true,
         });
     }
 

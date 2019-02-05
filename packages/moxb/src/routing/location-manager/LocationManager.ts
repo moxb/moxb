@@ -14,11 +14,17 @@ export type QueryChange = {
  * The possible methods for updating the location, in relation to the history.
  */
 export enum UpdateMethod {
-    NONE = 'none', // Don't set the location at all
+    NONE = 'none', // Don't set the location at all. Used for test-runs.
     PUSH = 'push', // Push a new element to the history
     REPLACE = 'replace', // Replace the current element of history
 }
 
+/**
+ * This interface describes a redirect.
+ *
+ * Redirects are supposed to statically declared, while initializing the application.
+ * (See the `setRedirect()` call on the `LocationManager` interface.)
+ */
 export interface Redirect {
     // Where should we jump from?
     fromTokens: string[];
@@ -36,6 +42,20 @@ export interface Redirect {
     copy?: boolean;
 }
 
+/**
+ * This interface is internal to the navigation system.
+ * Some components can recognize their interest for navigation changes,
+ * in order to signal that it might be problematic (ie. the user might lose
+ * some unsaved data.)
+ *
+ * (See the `LocationUser` interface, and
+ * the `registerUser()` method on the `LocationManager` interface.)
+ *
+ * Then these components will be notified about where we want to go.
+ * When doing that, then we must pass on the wanted location.
+ * For this, we use an interface that is _similar_ to `LocationManager`,
+ * but a lot more restricted. This interface described that object.
+ */
 export interface TestLocation {
     /**
      * path tokens for the current location
@@ -58,22 +78,34 @@ export interface TestLocation {
 }
 
 /**
- * The interface a component that is interested in messing with location changes
- * must implement.
+ * This interface is internal to the navigation system.
+ * The interface a components that are interested in messing with location changes.
  */
-export interface LocationUser {
-    tryLocation(location: TestLocation): string[];
+export interface LocationChangeInterceptor {
+    /**
+     * This hook will be called before any "soft" navigation change event can succeed,
+     * in order to collect any confirmation questions that must be presented to the user.
+     *
+     * @param location: Where we want to go
+     */
+    anyQuestionsFor(location: TestLocation): string[];
 }
 
 /**
  * The Location Manager is responsible for tracking the location (ie. URL) of the application,
  * and abstract away the interface by providing separate path tokens and URL arguments.
+ *
+ * In many cases, the APIs come in pairs: there is a `doWhatever()` and a `tryWhatever()` call.
+ * The `doWhatever()` call always executes the operation, while the `tryWhatever()` version
+ * will first negotiate will all the registered navigation interceptors, then maybe
+ * ask for a confirmation from the user, and then might (or might not) execute the change.
+ * These `tryWhatever()` calls always return a `Promise<boolean>`.
  */
 export interface LocationManager {
     /**
      * Register a component that is interested in the location.
      */
-    registerUser: (user: LocationUser) => void;
+    registerChangeInterceptor: (interceptor: LocationChangeInterceptor) => void;
 
     /**
      * These flags describe whether the current location should be

@@ -25,7 +25,10 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
     protected readonly _parsedTokens: number;
     protected _mappingId?: string;
 
-    tryLocation(location: TestLocation): string[] {
+    /**
+     * This is our "change interceptor" hook, that will be called by the LocationManager.
+     */
+    anyQuestionsFor(location: TestLocation): string[] {
         //        console.log("Should test whether it's OK to go to", location.pathTokens);
 
         // Find out which states are active now
@@ -38,16 +41,16 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
             true
         );
 
-        // Find out which states will be disabled
+        // Find out which states would be disabled by the change
         const disabledSubStates = oldSubStates.filter(s => newSubStates.indexOf(s) === -1);
 
-        // Collect dirty testers belonging to the deactivated states
+        // Collect testers belonging to the would-be deactivated states
         const activeTesters = disabledSubStates
             .filter(state => !!this.stateHooks[state.menuKey]) // Get the states that have hooks
             .map(s => this.stateHooks[s.menuKey].getLeaveQuestion) // get the leave question generators
             .filter(gen => !!gen) as LeaveQuestionGenerator[]; // filter the omitted generators // We know that these are all real
 
-        // Collect problems
+        // Collect and return all the questions
         return activeTesters // for all active question generators
             .map(test => test()) // get the questions
             .filter(q => !!q) as string[]; // filter out undefined // we know that these are all strings, since we have filtered the junk
@@ -55,10 +58,17 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
 
     public constructor(props: LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
         super(props);
-        const { locationManager, tokenManager, parsedTokens, arg, locationUser } = props;
+        const { locationManager, tokenManager, parsedTokens, arg, intercept } = props;
         this._locationManager = locationManager!;
-        if (locationUser) {
-            this._locationManager.registerUser(this);
+        if (intercept) {
+            /**
+             * We register ourselves as a change interceptor,
+             * because we might have to hide some content
+             * on location changes, and we want to know about that
+             * in advance, so that we can suggest some questions to ask
+             * from the user.
+             */
+            this._locationManager.registerChangeInterceptor(this);
         }
         this._tokenManager = tokenManager!;
         // Here, we are trying to wrap another URL argument around the passed-in one,
