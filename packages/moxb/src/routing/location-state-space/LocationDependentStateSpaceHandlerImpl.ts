@@ -8,6 +8,8 @@ import {
 } from './LocationDependentStateSpaceHandler';
 import { SubStateInContext } from './state-space/StateSpace';
 import { StateSpaceHandlerImpl } from './state-space/StateSpaceHandlerImpl';
+import { TestLocation } from '../location-manager/LocationManager';
+import { LeaveQuestionGenerator } from '../navigable';
 
 /**
  * This is the standard implementation of the StateSpaceAndLocationHandler.
@@ -23,10 +25,51 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
     protected readonly _parsedTokens: number;
     protected _mappingId?: string;
 
+    /**
+     * This is our "change interceptor" hook, that will be called by the LocationManager.
+     */
+    anyQuestionsFor(location: TestLocation): string[] {
+        //        console.log("Should test whether it's OK to go to", location.pathTokens);
+
+        // Find out which states are active now
+        const oldSubStates = this.getActiveSubStates(true);
+
+        // Find out which states would be active after the change
+        const newSubStates = this.getActiveSubStatesForTokens(
+            this._getTestTokens(location),
+            this._getParsedTokenCount(),
+            true
+        );
+
+        // Find out which states would be disabled by the change
+        const disabledSubStates = oldSubStates.filter(s => newSubStates.indexOf(s) === -1);
+
+        // Collect testers belonging to the would-be deactivated states
+        const activeTesters = disabledSubStates
+            .filter(state => !!this.stateHooks[state.menuKey]) // Get the states that have hooks
+            .map(s => this.stateHooks[s.menuKey].getLeaveQuestion) // get the leave question generators
+            .filter(gen => !!gen) as LeaveQuestionGenerator[]; // filter the omitted generators // We know that these are all real
+
+        // Collect and return all the questions
+        return activeTesters // for all active question generators
+            .map(test => test()) // get the questions
+            .filter(q => !!q) as string[]; // filter out undefined // we know that these are all strings, since we have filtered the junk
+    }
+
     public constructor(props: LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
         super(props);
-        const { locationManager, tokenManager, parsedTokens, arg } = props;
+        const { locationManager, tokenManager, parsedTokens, arg, intercept } = props;
         this._locationManager = locationManager!;
+        if (intercept) {
+            /**
+             * We register ourselves as a change interceptor,
+             * because we might have to hide some content
+             * on location changes, and we want to know about that
+             * in advance, so that we can suggest some questions to ask
+             * from the user.
+             */
+            this._locationManager.registerChangeInterceptor(this);
+        }
         this._tokenManager = tokenManager!;
         // Here, we are trying to wrap another URL argument around the passed-in one,
         // So that it can support multi-token values (?q=foo.bar)
@@ -45,8 +88,14 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
                       get rawValue() {
                           return arg!.value;
                       },
-                      set rawValue(value) {
-                          arg!.value = value;
+                      rawValueOn(location: TestLocation) {
+                          return arg.valueOn(location);
+                      },
+                      doSet(value) {
+                          arg!.doSet(value);
+                      },
+                      trySet(value) {
+                          return arg!.trySet(value);
                       },
                       getModifiedUrl(value: string) {
                           return arg.getModifiedUrl(value);
@@ -79,6 +128,13 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
      */
     protected _getCurrentTokens(): string[] {
         return this._urlArg ? this._urlArg.value : this._locationManager.pathTokens;
+    }
+
+    /**
+     * Get the current tokens
+     */
+    protected _getTestTokens(location: TestLocation): string[] {
+        return this._urlArg ? this._urlArg.valueOn(location) : location.pathTokens;
     }
 
     /**
@@ -152,27 +208,33 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
      * @param state The sub-state to select
      * @param method The method for updating the URL
      */
-    public selectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>, method?: UpdateMethod) {
-        // if (this.isSubStateActive(state)) {
-        //     console.log('Not jumping, already in state', state);
-        // } else {
+    public doSelectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>, method?: UpdateMethod) {
         const { totalPathTokens } = state;
         if (this._urlArg) {
             const value = this._getArgValueForSubState(state);
-            this._urlArg.value = value;
+            this._urlArg.doSet(value);
         } else {
-            this._locationManager.setPathTokens(this._parsedTokens, totalPathTokens, method);
+            this._locationManager.doSetPathTokens(this._parsedTokens, totalPathTokens, method);
         }
-        // }
+    }
+
+    public trySelectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>, method?: UpdateMethod) {
+        const { totalPathTokens } = state;
+        if (this._urlArg) {
+            const value = this._getArgValueForSubState(state);
+            return this._urlArg.trySet(value);
+        } else {
+            return this._locationManager.trySetPathTokens(this._parsedTokens, totalPathTokens, method);
+        }
     }
 
     /**
      * Select the sub-state addressed by the given string of tokens
      */
-    public selectByTokens(wantedTokens: string[]) {
+    public doSelectByTokens(wantedTokens: string[]) {
         const subState = this.findSubStateForTokens(wantedTokens);
         if (subState) {
-            this.selectSubState(subState);
+            this.doSelectSubState(subState);
         } else {
             throw new Error("Couldn't find sub-state with tokens [" + wantedTokens.join(', ') + '].');
         }

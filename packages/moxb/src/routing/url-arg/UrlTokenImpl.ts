@@ -4,6 +4,7 @@ import { TokenManager } from '../TokenManager';
 import { Query } from '../url-schema/UrlSchema';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 import { existsInQuery, getFromQuery } from './UrlArgImpl';
+import { TestLocation } from '../location-manager/LocationManager';
 
 export class UrlTokenImpl<T> implements UrlArg<T> {
     private readonly _def: UrlArgDefinition<T>;
@@ -29,7 +30,7 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     }
 
     // Extract the value from a given query
-    public getOnQuery(query: Query) {
+    getOnQuery(query: Query) {
         const { defaultValue } = this._def;
         return getFromQuery(query, this.key, this._parser, defaultValue);
     }
@@ -37,6 +38,10 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     @computed
     public get value() {
         return this.getOnQuery(this._currentQuery);
+    }
+
+    valueOn(location: TestLocation) {
+        return this.getOnQuery(location.query);
     }
 
     public getRawValue(value: T) {
@@ -52,17 +57,22 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
         return this._tokenManager.getURLForTokenChange(this.key, rawValue);
     }
 
-    public set(value: T, method?: UpdateMethod) {
+    public doSet(value: T, method?: UpdateMethod) {
         const rawValue = this.getRawValue(value);
-        this._tokenManager.setToken(this.key, rawValue, method);
+        this._tokenManager.doSetToken(this.key, rawValue, method);
     }
 
-    public set value(value: T) {
-        this.set(value);
+    public doReset(method?: UpdateMethod) {
+        this.doSet(this._def.defaultValue, method);
     }
 
-    public reset(method?: UpdateMethod) {
-        this.set(this._def.defaultValue, method);
+    public trySet(value: T, method?: UpdateMethod) {
+        const rawValue = this.getRawValue(value);
+        return this._tokenManager.trySetToken(this.key, rawValue, method);
+    }
+
+    public tryReset(method?: UpdateMethod) {
+        return this.trySet(this._def.defaultValue, method);
     }
 
     @computed

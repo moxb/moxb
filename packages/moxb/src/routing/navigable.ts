@@ -7,6 +7,34 @@
 import { UsesLocation } from './location-manager';
 import { StateCondition } from './location-state-space/state-space/StateSpace';
 
+export type LeaveQuestionGenerator = () => string | null | undefined;
+
+/**
+ * These are the hooks that a Navigable component can optionally implement and register
+ * to a nav control.
+ */
+export interface NavStateHooks {
+    /**
+     * Is it OK if we leave this state right now?
+     * If there is some unsaved data, then return a string,
+     * which will be presented to the user, in a question to confirm.
+     *
+     * If there is no unsaved data, return null or undefined.
+     */
+    getLeaveQuestion?: LeaveQuestionGenerator;
+}
+
+/**
+ * Nav control interface, to control various aspects of the navigation
+ */
+export interface NavControl {
+    registerStateHooks: (hooks: NavStateHooks) => void;
+}
+
+/**
+ * This data structure will be made available to components
+ * that are rendered as part of the navigation process
+ */
 export interface Navigable<WidgetType, DataType> {
     /**
      * The number of tokens that have already been parsed, is any.
@@ -18,6 +46,15 @@ export interface Navigable<WidgetType, DataType> {
     filterCondition?: StateCondition<DataType>;
     fallback?: WidgetType;
     part?: string;
+}
+
+/**
+ * This data structure will be made available to components
+ * that are rendered as part of the navigation process,
+ * and have own content
+ */
+export interface NavigableContent<WidgetType, DataType> extends Navigable<WidgetType, DataType> {
+    navControl: NavControl;
 }
 
 /**

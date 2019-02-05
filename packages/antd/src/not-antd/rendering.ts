@@ -1,4 +1,4 @@
-import { Navigable, SubStateCoreInfo } from '@moxb/moxb';
+import { Navigable, NavigableContent, SubStateCoreInfo, NavControl } from '@moxb/moxb';
 import { renderUIFragment } from './UIFragment';
 import { extractUIFragmentFromSpec, UIFragmentSpec } from './UIFragmentSpec';
 
@@ -20,21 +20,23 @@ interface RenderProps<DataType> {
     tokenIncrease?: number;
     extraProps?: any;
     checkCondition?: boolean;
+    navControl: NavControl;
 }
 
 export function renderSubStateCore<DataType>(props: RenderProps<DataType>) {
-    const { state, navigationContext, tokenIncrease = 0, extraProps = {}, checkCondition } = props;
+    const { state, navigationContext, tokenIncrease = 0, extraProps = {}, checkCondition, navControl } = props;
     const { filterCondition, parsedTokens, fallback, part } = navigationContext;
     if (checkCondition && state && state.data && filterCondition) {
         if (!filterCondition(state.data)) {
             return renderFallback(navigationContext);
         }
     }
-    const navigableChildParams: Navigable<UIFragmentSpec, DataType> = {
+    const navigableChildParams: NavigableContent<UIFragmentSpec, DataType> = {
         parsedTokens: (parsedTokens || 0) + tokenIncrease,
         fallback,
         filterCondition,
         part,
+        navControl,
     };
     const childProps = {
         ...extraProps,

@@ -93,7 +93,7 @@ export class MemTableImpl implements MemTable {
     }
 
     set groupId(value: string) {
-        this.url.groupId.value = value;
+        this.url.groupId.doSet(value);
     }
 
     get objectId() {
@@ -101,7 +101,7 @@ export class MemTableImpl implements MemTable {
     }
 
     set objectId(value: string) {
-        this.url.objectId.value = value;
+        this.url.objectId.doSet(value);
     }
 
     readonly rows: moxb.Numeric = new moxb.NumericImpl({

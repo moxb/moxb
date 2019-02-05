@@ -24,7 +24,9 @@ export interface TokenManager {
     // Accessing tokens
 
     tokens: Query;
-    setToken(key: string, value: any, updateMethod?: UpdateMethod): void;
+    doSetToken(key: string, value: any, updateMethod?: UpdateMethod): void;
+
+    trySetToken(key: string, value: any, updateMethod?: UpdateMethod): Promise<boolean>;
 
     getURLForTokenChange(key: string, value: any): string;
 }

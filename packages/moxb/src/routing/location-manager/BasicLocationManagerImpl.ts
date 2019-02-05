@@ -5,7 +5,16 @@ import { UrlArg } from '../url-arg';
 import { NativeUrlSchema } from '../url-schema';
 import { Query, UrlSchema } from '../url-schema/UrlSchema';
 
-import { LocationManager, QueryChange, Redirect, UpdateMethod } from './LocationManager';
+import {
+    LocationChangeInterceptor,
+    LocationManager,
+    QueryChange,
+    Redirect,
+    TestLocation,
+    UpdateMethod,
+} from './LocationManager';
+import { LocationCommunicator } from './LocationCommunicator';
+import { BasicLocationCommunicator } from './BasicLocationCommunicator';
 
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
@@ -23,6 +32,7 @@ const noLocation: MyLocation = {
 export interface Props {
     urlSchema?: UrlSchema;
     history?: MyHistory;
+    communicator?: LocationCommunicator;
 }
 
 const locationToUrl = (location: MyLocation): string =>
@@ -37,10 +47,30 @@ export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _permanentArgs: UrlArg<any>[] = [];
     protected readonly _history: MyHistory;
     protected readonly _redirects: Redirect[] = [];
+    protected readonly _communicator: LocationCommunicator;
+
+    // Have we just modified the URL ourselves?
+    protected _setting = false;
 
     public constructor(props: Props) {
         this._schema = props.urlSchema || new NativeUrlSchema();
         this._history = props.history || createBrowserHistory();
+        this._communicator = props.communicator || new BasicLocationCommunicator();
+    }
+
+    /**
+     * This is where we collect who we have to ask before executing a navigation change.
+     */
+    protected readonly _interceptors: LocationChangeInterceptor[] = [];
+
+    /**
+     * Register a new interceptor that we have to talk to before executing a navigation change.
+     */
+    registerChangeInterceptor(interceptor: LocationChangeInterceptor) {
+        if (this._interceptors.indexOf(interceptor) === -1) {
+            // We don't want to add anyone twice.
+            this._interceptors.push(interceptor);
+        }
     }
 
     // Private field to store the final bit.
@@ -87,11 +117,91 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     @action
-    protected _setLocation(location: LocationDescriptorObject, method?: UpdateMethod) {
-        if (method === 'replace') {
-            this._history.replace(location);
+    protected _doSetLocation(location: LocationDescriptorObject, method: UpdateMethod = UpdateMethod.PUSH) {
+        /**
+         * Since we are going to modify the URL, we make a note for ourselves, so that
+         * when the URL is modified, and we are notified about the change, we should know
+         * that we don't have to check this navigation change again, since it has already
+         * been "cleared" by us once.
+         * (This will be used in the `onLocationChanged()` function.)
+         */
+        this._setting = true;
+        switch (method) {
+            case UpdateMethod.NONE:
+                // We don't really have to touch the URL.
+                // We only wanted a dry-run, to test is this change would be OK.
+                break;
+            case UpdateMethod.REPLACE:
+                this._history.replace(location);
+                break;
+            case UpdateMethod.PUSH:
+                this._history.push(location);
+                break;
+            default:
+                console.warn('Huh? Unknown URL update method requested:', method);
+        }
+    }
+
+    /**
+     * Try to set the location to a new value.
+     *
+     * This method may ask for confirmation, it necessary.
+     *
+     * @param location The new location to set
+     * @param method   The method to use for updating the URL
+     */
+    protected _trySetLocation(location: LocationDescriptorObject, method?: UpdateMethod): Promise<boolean> {
+        // If we tried to do something else previously, now we want something else,
+        // so the previous question (if any) is no longer relevant.
+        this._communicator.revokeCurrentQuestion();
+
+        const pathTokens = this._schema.getPathTokens(location);
+        const query = this._schema.getQuery(location);
+
+        /**
+         * Here we compile the object that will contain all the information about the wanted location.
+         * We will pass this object on to change interceptors, who might want to ask questions to the user.
+         * This object mocks a subset of the `LocationManager` API.
+         */
+        const testLocation: TestLocation = {
+            pathTokens,
+            query,
+            doPathTokensMatch(
+                wantedTokens: string[],
+                parsedTokens: number,
+                exactOnly: boolean,
+                debugMode?: boolean
+            ): boolean {
+                return doTokenStringsMatch(pathTokens, wantedTokens, parsedTokens, exactOnly, debugMode);
+            },
+        };
+
+        // This is where we will collect the questions that must be asked from the user.
+        const questions: string[] = [];
+        this._interceptors // Go over all the registered interceptors
+            .forEach(interceptor => questions.push(...interceptor.anyQuestionsFor(testLocation)));
+
+        if (questions.length) {
+            // It seems that we must some questions to the user first.
+            return new Promise<boolean>(resolve => {
+                // console.log('There seem to be some questions:', questions);
+                this._communicator.confirmLeave(questions).then(decision => {
+                    if (decision) {
+                        // According to the user's decision, we are OK,
+                        // so we can execute the change.
+                        this._doSetLocation(location, method);
+                        resolve(true);
+                    } else {
+                        // The user has refused,
+                        // so we are not going anywhere.
+                        resolve(false);
+                    }
+                });
+            });
         } else {
-            this._history.push(location);
+            // No questions asked, so we can simply execute the change.
+            this._doSetLocation(location, method);
+            return Promise.resolve(true);
         }
     }
 
@@ -105,60 +215,87 @@ export class BasicLocationManagerImpl implements LocationManager {
         return query;
     }
 
-    // This is an extension point for reacting to location changes.
-    protected handleLocationChange(
-        _pathChanged: boolean,
-        _pathTokens: string[],
-        _searchChanged: boolean,
-        _query: Query
-    ) {
-        //        console.log("Handler: basic");
+    /**
+     * Restore the stored location to the browser URL,
+     * @private
+     */
+    protected _restoreStoredLocation() {
+        if (!this._communicator.isActive()) {
+            // If another change is under progress, we shouldn't touch the URL
+            this._doSetLocation(this._location, UpdateMethod.REPLACE);
+        }
     }
 
-    // Handler to be called when a location change is detected
-    protected onLocationChanged(newLocation: MyLocation) {
+    /**
+     * Internal method to react to a location change detected in the browser.
+     */
+    protected _onLocationChanged(newLocation: MyLocation) {
         const pathTokens = this._schema.getPathTokens(newLocation);
 
-        const oldQuery = this.query;
-        const oldQueryString = JSON.stringify(oldQuery);
-
-        const newQuery = this._schema.getQuery(newLocation);
-        const newQueryString = JSON.stringify(newQuery);
-
-        /*
-        console.log(
-            "*** Location change",
-            this.path, oldSearch,
-            newPath, newSearch,
-        );
-        */
-        const pathChanged = JSON.stringify(pathTokens) !== JSON.stringify(this.pathTokens);
-        const searchChanged = oldQueryString !== newQueryString;
-
+        /**
+         * First we will check whether or not one of the registered
+         * redirects would be triggered by this change,
+         * because in that case, we want to do something completely different.
+         */
         let jumped = false;
         this._redirects.forEach(redirect => {
             if (jumped) {
                 return;
             }
-            const { condition, fromTokens, root = false, toTokens, updateMethod, copy = false } = redirect;
+            const { condition, fromTokens, root = false, toTokens, copy = false } = redirect;
             if (doTokenStringsMatch(pathTokens, fromTokens, 0, root) && (!condition || condition())) {
+                // We have found a match! This redirect would be triggered
+
+                // Now let's see where we would go to....
                 const target = copy ? [...toTokens, ...pathTokens.slice(fromTokens.length)] : toTokens;
                 // console.log('Jumping to', target);
-                jumped = true;
-                this.setPathTokens(0, target, updateMethod);
+
+                jumped = true; // We are setting this flag a reminder for ourselves.
+
+                if (this._setting) {
+                    // We are doing the URL change, so no reason to verify it again
+                    this._setting = false; // Reset the flag, not that we have used it.
+                    // We can execute the change right away.
+                    this.doSetPathTokens(0, target, UpdateMethod.REPLACE);
+                } else {
+                    // This change is really coming from the browser, thus we need to verify
+                    this.trySetPathTokens(0, target, UpdateMethod.REPLACE).then(result => {
+                        if (!result) {
+                            this._restoreStoredLocation();
+                        }
+                    });
+                }
             }
         });
 
         if (jumped) {
+            // We have hit one of the redirects, so no further processing necessary.
             return;
         }
-        this.handleLocationChange(pathChanged, pathTokens, searchChanged, newQuery);
 
+        // No redirect is involved, therefore we are supposed go to the exact
+        // location described by the URL.
         if (debug) {
             console.log('Recording change to', JSON.stringify(newLocation));
         }
-        // Update the stored location
-        this._location = newLocation;
+
+        if (this._setting) {
+            // Is this a change triggered by our code?
+            this._setting = false; // Reset the flag, not that we have used it.
+            // We are doing the change, no reason to verify it again.
+            // We can just update the stored location, and everything is OK.
+            this._location = newLocation;
+        } else {
+            // This change is coming from the browser, thus we need to verify
+            this._trySetLocation(newLocation, UpdateMethod.NONE).then(result => {
+                if (result) {
+                    // Actually update the stored location
+                    this._location = newLocation;
+                } else {
+                    this._restoreStoredLocation();
+                }
+            });
+        }
     }
 
     // Activate the router
@@ -166,10 +303,10 @@ export class BasicLocationManagerImpl implements LocationManager {
     public watchHistory() {
         // Set the initial location
         const location = (this._history as any).location;
-        this.onLocationChanged(location);
+        this._onLocationChanged(location);
 
         // Watch for future changes
-        this._history.listen((newLocation: MyLocation) => this.onLocationChanged(newLocation));
+        this._history.listen((newLocation: MyLocation) => this._onLocationChanged(newLocation));
     }
 
     protected _getLocationForQueryChanges(changes: QueryChange[], baseLocation?: MyLocation): MyLocation {
@@ -189,21 +326,12 @@ export class BasicLocationManagerImpl implements LocationManager {
         return location;
     }
 
-    protected _getLocationForQueryChange(key: string, value: string | undefined) {
-        return this._getLocationForQueryChanges([
-            {
-                key,
-                value,
-            },
-        ]);
-    }
-
     public getURLForQueryChanges(changes: QueryChange[]): string {
         const location = this._getLocationForQueryChanges(changes);
         return locationToUrl(location);
     }
 
-    public getURLForPathAndQueryChanges(
+    protected _getLocationForPathAndQueryChanges(
         position = 0,
         tokens: string[] | undefined,
         queryChanges: QueryChange[] | undefined
@@ -215,6 +343,15 @@ export class BasicLocationManagerImpl implements LocationManager {
         if (queryChanges) {
             location = this._getLocationForQueryChanges(queryChanges, location);
         }
+        return location;
+    }
+
+    public getURLForPathAndQueryChanges(
+        position = 0,
+        tokens: string[] | undefined,
+        queryChanges: QueryChange[] | undefined
+    ) {
+        const location = this._getLocationForPathAndQueryChanges(position, tokens, queryChanges);
         const url = locationToUrl(location);
         return url;
     }
@@ -229,17 +366,39 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     @action
-    public setQueries(changes: QueryChange[], method?: UpdateMethod) {
+    public doSetQueries(changes: QueryChange[], method?: UpdateMethod) {
         if (!changes.length) {
             // There is nothing to change
             return;
         }
         const location = this._getLocationForQueryChanges(changes);
-        this._setLocation(location, method);
+        this._doSetLocation(location, method);
     }
+
+    public trySetQueries(changes: QueryChange[], method?: UpdateMethod): Promise<boolean> {
+        if (!changes.length) {
+            // There is nothing to change
+            return Promise.resolve(true);
+        }
+        const location = this._getLocationForQueryChanges(changes);
+        return this._trySetLocation(location, method);
+    }
+
     @action
-    public setQuery(key: string, value: string | undefined, method?: UpdateMethod) {
-        this.setQueries(
+    public doSetQuery(key: string, value: string | undefined, method?: UpdateMethod) {
+        this.doSetQueries(
+            [
+                {
+                    key,
+                    value,
+                },
+            ],
+            method
+        );
+    }
+
+    public trySetQuery(key: string, value: string | undefined, method?: UpdateMethod): Promise<boolean> {
+        return this.trySetQueries(
             [
                 {
                     key,
@@ -262,17 +421,30 @@ export class BasicLocationManagerImpl implements LocationManager {
         return locationToUrl(location);
     }
     @action
-    public setPathTokens(position: number, tokens: string[], method?: UpdateMethod) {
+    public doSetPathTokens(position: number, tokens: string[], method?: UpdateMethod) {
         const location = this.getLocationForPathTokens(position, tokens);
-        this._setLocation(location, method);
+        this._doSetLocation(location, method);
     }
 
-    public appendPathTokens(tokens: string[], method?: UpdateMethod) {
-        this.setPathTokens(this.pathTokens.length, tokens, method);
+    public trySetPathTokens(position: number, tokens: string[], method?: UpdateMethod): Promise<boolean> {
+        const location = this.getLocationForPathTokens(position, tokens);
+        return this._trySetLocation(location, method);
     }
 
-    public removePathTokens(count: number, method?: UpdateMethod) {
-        this.setPathTokens(this.pathTokens.length - count, [], method);
+    public doAppendPathTokens(tokens: string[], method?: UpdateMethod) {
+        this.doSetPathTokens(this.pathTokens.length, tokens, method);
+    }
+
+    public doRemovePathTokens(count: number, method?: UpdateMethod) {
+        this.doSetPathTokens(this.pathTokens.length - count, [], method);
+    }
+
+    public tryAppendPathTokens(tokens: string[], method?: UpdateMethod) {
+        return this.trySetPathTokens(this.pathTokens.length, tokens, method);
+    }
+
+    public tryRemovePathTokens(count: number, method?: UpdateMethod) {
+        return this.trySetPathTokens(this.pathTokens.length - count, [], method);
     }
 
     public registerUrlArg(arg: UrlArg<any>) {
@@ -281,5 +453,27 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     public setRedirect(redirect: Redirect) {
         this._redirects.push(redirect);
+    }
+
+    @action
+    public doSetPathTokensAndQueries(
+        position: number,
+        tokens: string[] | undefined,
+        queryChanges: QueryChange[] | undefined,
+        method?: UpdateMethod
+    ) {
+        const location = this._getLocationForPathAndQueryChanges(position, tokens, queryChanges);
+        this._doSetLocation(location, method);
+    }
+
+    @action
+    public trySetPathTokensAndQueries(
+        position: number,
+        tokens: string[] | undefined,
+        queryChanges: QueryChange[] | undefined,
+        method?: UpdateMethod
+    ) {
+        const location = this._getLocationForPathAndQueryChanges(position, tokens, queryChanges);
+        return this._trySetLocation(location, method);
     }
 }

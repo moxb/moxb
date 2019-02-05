@@ -1,4 +1,2 @@
-export { UpdateMethod, LocationManager, UsesLocation, QueryChange } from './LocationManager';
+export { UpdateMethod, LocationManager, UsesLocation, QueryChange, TestLocation } from './LocationManager';
 export { BasicLocationManagerImpl } from './BasicLocationManagerImpl';
-
-export { ArgSavingLocationManagerImpl } from './ArgSavingLocationManagerImpl';

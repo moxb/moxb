@@ -1,4 +1,12 @@
-import { getNextPathToken, isTokenEmpty, Navigable, SubStateCoreInfo, UsesLocation } from '@moxb/moxb';
+import {
+    getNextPathToken,
+    isTokenEmpty,
+    Navigable,
+    NavStateHooks,
+    SubStateCoreInfo,
+    TestLocation,
+    UsesLocation,
+} from '@moxb/moxb';
 import { inject, observer } from 'mobx-react';
 import { renderSubStateCore } from './rendering';
 import { UIFragmentSpec } from './UIFragmentSpec';
@@ -11,7 +19,7 @@ interface OwnProps<DataType> {
     ifDetails: SubStateCoreInfo<UIFragmentSpec, DataType>;
 }
 
-interface ComponentProps<DataType> extends UsesLocation, Navigable<UIFragmentSpec, DataType> {}
+type ComponentProps<DataType> = UsesLocation & Navigable<UIFragmentSpec, DataType>;
 
 export interface DetailProps {
     token: string;
@@ -20,6 +28,58 @@ export interface DetailProps {
 export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
     return inject('locationManager')(
         observer((props: ComponentProps<DataType>) => {
+            let rootHooks: NavStateHooks | undefined;
+            const registerNavStateHooksForRoot = (hooks: NavStateHooks) => (rootHooks = hooks);
+
+            let detailHooks: NavStateHooks | undefined;
+            const registerNavStateHooksForDetail = (hooks: NavStateHooks) => (detailHooks = hooks);
+
+            /**
+             * We register ourselves as a change interceptor,
+             * because we might have to hide some content
+             * on location changes, and we want to know about that
+             * in advance, so that we can suggest some questions to ask
+             * from the user.
+             */
+            props.locationManager!.registerChangeInterceptor({
+                /**
+                 * This is our "change interceptor" hook, that will be called by the
+                 * `LocationManager`.
+                 */
+                anyQuestionsFor(location: TestLocation): string[] {
+                    const oldToken = getNextPathToken(props);
+                    const oldRoot = isTokenEmpty(oldToken);
+
+                    const newToken = location.pathTokens[props.parsedTokens!];
+                    const newRoot = isTokenEmpty(newToken);
+
+                    if (newRoot) {
+                        if (oldRoot) {
+                            // Staying at root, nothing to do.
+                        } else {
+                            // Going from detail to root.
+                            // We would hide the detail, so check with it.
+                            if (detailHooks && detailHooks.getLeaveQuestion) {
+                                const q = detailHooks.getLeaveQuestion();
+                                return q ? [q] : [];
+                            }
+                        }
+                    } else {
+                        if (oldRoot) {
+                            // Going from root to detail.
+                            // We would hide the root, so check with it.
+                            if (rootHooks && rootHooks.getLeaveQuestion) {
+                                const q = rootHooks.getLeaveQuestion();
+                                return q ? [q] : [];
+                            }
+                        } else {
+                            // Staying ad detail, nothing to do
+                        }
+                    }
+                    return [];
+                },
+            });
+
             const { ifRoot, ifDetails } = ownProps;
             const token = getNextPathToken(props);
             if (isTokenEmpty(token)) {
@@ -27,6 +87,9 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
                     state: ifRoot,
                     navigationContext: props,
                     checkCondition: true,
+                    navControl: {
+                        registerStateHooks: registerNavStateHooksForRoot,
+                    },
                 });
             } else {
                 const detailProps: DetailProps = {
@@ -38,6 +101,9 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
                     tokenIncrease: 1,
                     extraProps: detailProps,
                     checkCondition: true,
+                    navControl: {
+                        registerStateHooks: registerNavStateHooksForDetail,
+                    },
                 });
             }
         })

@@ -2,9 +2,9 @@ export {
     UpdateMethod,
     LocationManager,
     UsesLocation,
+    TestLocation,
     QueryChange,
     BasicLocationManagerImpl,
-    ArgSavingLocationManagerImpl,
 } from './location-manager';
 
 export { CoreLinkProps } from './linking';
@@ -44,7 +44,14 @@ export {
     LocationDependentStateSpaceHandlerImpl,
 } from './location-state-space';
 
-export { Navigable, getNextPathToken, getParsedPathTokens } from './navigable';
+export {
+    Navigable,
+    NavigableContent,
+    getNextPathToken,
+    getParsedPathTokens,
+    NavControl,
+    NavStateHooks,
+} from './navigable';
 
 export { isTokenEmpty } from './tokens';
 

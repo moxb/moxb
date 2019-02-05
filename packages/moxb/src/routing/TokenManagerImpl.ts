@@ -93,7 +93,7 @@ export class TokenManagerImpl implements TokenManager {
         return result;
     }
 
-    public setToken(key: string, value: string, updateMethod?: UpdateMethod) {
+    public doSetToken(key: string, value: string, updateMethod?: UpdateMethod) {
         const mappings = this._activeMappings;
         if (!mappings) {
             console.warn("Can't find any active mappings, not setting any tokens");
@@ -121,10 +121,45 @@ export class TokenManagerImpl implements TokenManager {
             }
             localTokens[index] = value;
             localTokens.splice(index + 1);
-            this._locationManager.setPathTokens(parsedTokens, localTokens, updateMethod);
+            this._locationManager.doSetPathTokens(parsedTokens, localTokens, updateMethod);
         } else {
             console.warn("Invalid state, can't set tokens!");
             return;
+        }
+    }
+
+    public trySetToken(key: string, value: string, updateMethod?: UpdateMethod): Promise<boolean> {
+        const mappings = this._activeMappings;
+        if (!mappings) {
+            console.warn("Can't find any active mappings, not setting any tokens");
+            return Promise.resolve(false);
+        }
+        const state = mappings.states.getActiveSubState();
+        if (state) {
+            const { tokenMapping, totalPathTokens } = state;
+            if (!tokenMapping) {
+                console.warn("No mappings for this state, can't set tokens!");
+                return Promise.resolve(false);
+            }
+            const index = tokenMapping.indexOf(key);
+            if (index === -1) {
+                console.warn('No mapping for found for token ' + key);
+                return Promise.resolve(false);
+            }
+            const parsedTokens = mappings.parsedTokens + totalPathTokens.length;
+            const localTokens = this._locationManager.pathTokens.slice(parsedTokens);
+            for (let i = 0; i < index; i++) {
+                if (isTokenEmpty(localTokens[i])) {
+                    console.warn("Previous tokens are missing, can't set" + key);
+                    return Promise.resolve(false);
+                }
+            }
+            localTokens[index] = value;
+            localTokens.splice(index + 1);
+            return this._locationManager.trySetPathTokens(parsedTokens, localTokens, updateMethod);
+        } else {
+            console.warn("Invalid state, can't set tokens!");
+            return Promise.resolve(false);
         }
     }
 

@@ -52,7 +52,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
                 label: label || key,
                 href: url,
                 target: newWindow ? '_blank' : undefined,
-                onClick: newWindow ? undefined : () => states.selectSubState(state),
+                onClick: newWindow ? undefined : () => states.trySelectSubState(state),
                 style: linkStyle,
                 title,
             };
