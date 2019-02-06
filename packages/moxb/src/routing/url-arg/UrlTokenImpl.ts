@@ -1,5 +1,5 @@
 import { computed } from 'mobx';
-import { UpdateMethod } from '../location-manager';
+import { SuccessCallback, UpdateMethod } from '../location-manager';
 import { TokenManager } from '../TokenManager';
 import { Query } from '../url-schema/UrlSchema';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
@@ -66,13 +66,13 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
         this.doSet(this._def.defaultValue, method);
     }
 
-    public trySet(value: T, method?: UpdateMethod) {
+    public trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback) {
         const rawValue = this.getRawValue(value);
-        return this._tokenManager.trySetToken(this.key, rawValue, method);
+        this._tokenManager.trySetToken(this.key, rawValue, method, callback);
     }
 
-    public tryReset(method?: UpdateMethod) {
-        return this.trySet(this._def.defaultValue, method);
+    public tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
+        this.trySet(this._def.defaultValue, method, callback);
     }
 
     @computed

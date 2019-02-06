@@ -1,4 +1,4 @@
-import { LocationManager, UpdateMethod } from '../location-manager';
+import { LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TokenManager } from '../TokenManager';
 import { updateTokenString } from '../tokens';
 import { AnyUrlArgImpl, UrlArg, URLARG_TYPE_ORDERED_STRING_ARRAY } from '../url-arg';
@@ -94,8 +94,8 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
                       doSet(value) {
                           arg!.doSet(value);
                       },
-                      trySet(value) {
-                          return arg!.trySet(value);
+                      trySet(value, callback?: SuccessCallback) {
+                          arg!.trySet(value, undefined, callback);
                       },
                       getModifiedUrl(value: string) {
                           return arg.getModifiedUrl(value);
@@ -218,13 +218,17 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
         }
     }
 
-    public trySelectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>, method?: UpdateMethod) {
+    public trySelectSubState(
+        state: SubStateInContext<LabelType, WidgetType, DataType>,
+        method?: UpdateMethod,
+        callback?: SuccessCallback
+    ) {
         const { totalPathTokens } = state;
         if (this._urlArg) {
             const value = this._getArgValueForSubState(state);
-            return this._urlArg.trySet(value);
+            return this._urlArg.trySet(value, method, callback);
         } else {
-            return this._locationManager.trySetPathTokens(this._parsedTokens, totalPathTokens, method);
+            this._locationManager.trySetPathTokens(this._parsedTokens, totalPathTokens, method, callback);
         }
     }
 

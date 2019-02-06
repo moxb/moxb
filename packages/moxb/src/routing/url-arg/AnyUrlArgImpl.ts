@@ -1,13 +1,13 @@
 import { computed } from 'mobx';
 
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
-import { TestLocation } from '../location-manager/LocationManager';
+import { SuccessCallback, TestLocation, UpdateMethod } from '../location-manager/LocationManager';
 
 export interface UrlArgBackend {
     readonly rawValue: string | undefined;
     rawValueOn(location: TestLocation | undefined): string | undefined;
     doSet: (value: string) => void;
-    trySet: (value: string) => Promise<boolean>;
+    trySet: (value: string, callback?: SuccessCallback) => void;
     getModifiedUrl?: (value: string) => string | undefined;
 }
 
@@ -73,12 +73,12 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
         this.doSet(this._def.defaultValue);
     }
 
-    public trySet(value: T): Promise<boolean> {
-        return this.backend.trySet(this.getRawValue(value));
+    public trySet(value: T, _method?: UpdateMethod, callback?: SuccessCallback) {
+        this.backend.trySet(this.getRawValue(value), callback);
     }
 
-    public tryReset() {
-        return this.trySet(this._def.defaultValue);
+    public tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
+        this.trySet(this._def.defaultValue, method, callback);
     }
 
     @computed

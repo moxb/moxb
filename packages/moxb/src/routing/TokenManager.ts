@@ -1,4 +1,4 @@
-import { UpdateMethod } from './location-manager';
+import { SuccessCallback, UpdateMethod } from './location-manager';
 import { StateCondition, StateSpace } from './location-state-space/state-space/StateSpace';
 import { Query } from './url-schema/UrlSchema';
 
@@ -26,7 +26,7 @@ export interface TokenManager {
     tokens: Query;
     doSetToken(key: string, value: any, updateMethod?: UpdateMethod): void;
 
-    trySetToken(key: string, value: any, updateMethod?: UpdateMethod): Promise<boolean>;
+    trySetToken(key: string, value: any, updateMethod?: UpdateMethod, callback?: SuccessCallback): void;
 
     getURLForTokenChange(key: string, value: any): string;
 }

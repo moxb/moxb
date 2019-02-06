@@ -174,7 +174,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
         fakeHistory.push('/');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=unicorn');
-        await when(() => !locationManager.query.where);
+        await when(() => !!locationManager.query.where);
         expect(handler.getActiveSubState()).toBeNull();
     });
 

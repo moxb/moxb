@@ -1,5 +1,5 @@
 import { action, computed, observable } from 'mobx';
-import { LocationManager, UpdateMethod } from './location-manager';
+import { LocationManager, SuccessCallback, UpdateMethod } from './location-manager';
 import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerImpl } from './location-state-space';
 import { TokenManager, TokenMappings } from './TokenManager';
 import { isTokenEmpty } from './tokens';
@@ -128,38 +128,53 @@ export class TokenManagerImpl implements TokenManager {
         }
     }
 
-    public trySetToken(key: string, value: string, updateMethod?: UpdateMethod): Promise<boolean> {
+    public trySetToken(key: string, value: string, updateMethod?: UpdateMethod, callback?: SuccessCallback): void {
         const mappings = this._activeMappings;
         if (!mappings) {
             console.warn("Can't find any active mappings, not setting any tokens");
-            return Promise.resolve(false);
+            if (callback) {
+                callback(false);
+            }
+            return;
         }
         const state = mappings.states.getActiveSubState();
         if (state) {
             const { tokenMapping, totalPathTokens } = state;
             if (!tokenMapping) {
                 console.warn("No mappings for this state, can't set tokens!");
-                return Promise.resolve(false);
+                if (callback) {
+                    callback(false);
+                }
+                return;
             }
             const index = tokenMapping.indexOf(key);
             if (index === -1) {
                 console.warn('No mapping for found for token ' + key);
-                return Promise.resolve(false);
+                if (callback) {
+                    callback(false);
+                }
+                return;
             }
             const parsedTokens = mappings.parsedTokens + totalPathTokens.length;
             const localTokens = this._locationManager.pathTokens.slice(parsedTokens);
             for (let i = 0; i < index; i++) {
                 if (isTokenEmpty(localTokens[i])) {
                     console.warn("Previous tokens are missing, can't set" + key);
-                    return Promise.resolve(false);
+                    if (callback) {
+                        callback(false);
+                    }
+                    return;
                 }
             }
             localTokens[index] = value;
             localTokens.splice(index + 1);
-            return this._locationManager.trySetPathTokens(parsedTokens, localTokens, updateMethod);
+            this._locationManager.trySetPathTokens(parsedTokens, localTokens, updateMethod, callback);
         } else {
             console.warn("Invalid state, can't set tokens!");
-            return Promise.resolve(false);
+            if (callback) {
+                callback(false);
+            }
+            return;
         }
     }
 

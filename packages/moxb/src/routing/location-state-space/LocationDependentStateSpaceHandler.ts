@@ -1,4 +1,4 @@
-import { UsesLocation } from '../location-manager';
+import { SuccessCallback, UpdateMethod, UsesLocation } from '../location-manager';
 import { Navigable } from '../navigable';
 import { UsesTokenManager } from '../TokenManager';
 import { UrlArg } from '../url-arg';
@@ -79,7 +79,11 @@ export interface LocationDependentStateSpaceHandler<LabelType, WidgetType, DataT
     /**
      * Gracefully attempt to change the location so that the given SubState becomes active.
      */
-    trySelectSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): Promise<boolean>;
+    trySelectSubState(
+        state: SubStateInContext<LabelType, WidgetType, DataType>,
+        method?: UpdateMethod,
+        callback?: SuccessCallback
+    ): void;
 
     /**
      * Change the location so that the SubState with the given key becomes active.
