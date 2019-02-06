@@ -1,5 +1,5 @@
 import { computed } from 'mobx';
-import { LocationManager, QueryChange, UpdateMethod } from '../location-manager';
+import { LocationManager, QueryChange, SuccessCallback, UpdateMethod } from '../location-manager';
 
 import { Query } from '../url-schema/UrlSchema';
 import { ArgChange, ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
@@ -68,17 +68,17 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         this._locationManager.doSetQuery(this.key, rawValue, method);
     }
 
-    public trySet(value: T, method?: UpdateMethod): Promise<boolean> {
+    public trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback) {
         const rawValue = this.getRawValue(value);
-        return this._locationManager.trySetQuery(this.key, rawValue, method);
+        this._locationManager.trySetQuery(this.key, rawValue, method, callback);
     }
 
     public doReset(method?: UpdateMethod) {
         this.doSet(this._def.defaultValue, method);
     }
 
-    public tryReset(method?: UpdateMethod): Promise<boolean> {
-        return this.trySet(this._def.defaultValue, method);
+    public tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
+        this.trySet(this._def.defaultValue, method, callback);
     }
 
     @computed

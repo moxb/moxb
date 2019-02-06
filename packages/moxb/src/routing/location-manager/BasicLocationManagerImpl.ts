@@ -10,6 +10,7 @@ import {
     LocationManager,
     QueryChange,
     Redirect,
+    SuccessCallback,
     TestLocation,
     UpdateMethod,
 } from './LocationManager';
@@ -149,8 +150,9 @@ export class BasicLocationManagerImpl implements LocationManager {
      *
      * @param location The new location to set
      * @param method   The method to use for updating the URL
+     * @param callback Callback to call with the result status
      */
-    protected _trySetLocation(location: LocationDescriptorObject, method?: UpdateMethod): Promise<boolean> {
+    protected _trySetLocation(location: LocationDescriptorObject, method?: UpdateMethod, callback?: SuccessCallback) {
         // If we tried to do something else previously, now we want something else,
         // so the previous question (if any) is no longer relevant.
         this._communicator.revokeCurrentQuestion();
@@ -183,25 +185,30 @@ export class BasicLocationManagerImpl implements LocationManager {
 
         if (questions.length) {
             // It seems that we must some questions to the user first.
-            return new Promise<boolean>(resolve => {
-                // console.log('There seem to be some questions:', questions);
-                this._communicator.confirmLeave(questions).then(decision => {
-                    if (decision) {
-                        // According to the user's decision, we are OK,
-                        // so we can execute the change.
-                        this._doSetLocation(location, method);
-                        resolve(true);
-                    } else {
-                        // The user has refused,
-                        // so we are not going anywhere.
-                        resolve(false);
+
+            // console.log('There seem to be some questions:', questions);
+            this._communicator.confirmLeave(questions).then(decision => {
+                if (decision) {
+                    // According to the user's decision, we are OK,
+                    // so we can execute the change.
+                    this._doSetLocation(location, method);
+                    if (callback) {
+                        callback(true);
                     }
-                });
+                } else {
+                    // The user has refused,
+                    // so we are not going anywhere.
+                    if (callback) {
+                        callback(false);
+                    }
+                }
             });
         } else {
             // No questions asked, so we can simply execute the change.
             this._doSetLocation(location, method);
-            return Promise.resolve(true);
+            if (callback) {
+                callback(true);
+            }
         }
     }
 
@@ -259,7 +266,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                     this.doSetPathTokens(0, target, UpdateMethod.REPLACE);
                 } else {
                     // This change is really coming from the browser, thus we need to verify
-                    this.trySetPathTokens(0, target, UpdateMethod.REPLACE).then(result => {
+                    this.trySetPathTokens(0, target, UpdateMethod.REPLACE, result => {
                         if (!result) {
                             this._restoreStoredLocation();
                         }
@@ -287,7 +294,7 @@ export class BasicLocationManagerImpl implements LocationManager {
             this._location = newLocation;
         } else {
             // This change is coming from the browser, thus we need to verify
-            this._trySetLocation(newLocation, UpdateMethod.NONE).then(result => {
+            this._trySetLocation(newLocation, UpdateMethod.NONE, result => {
                 if (result) {
                     // Actually update the stored location
                     this._location = newLocation;
@@ -375,13 +382,13 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._doSetLocation(location, method);
     }
 
-    public trySetQueries(changes: QueryChange[], method?: UpdateMethod): Promise<boolean> {
+    public trySetQueries(changes: QueryChange[], method?: UpdateMethod, callback?: SuccessCallback) {
         if (!changes.length) {
             // There is nothing to change
             return Promise.resolve(true);
         }
         const location = this._getLocationForQueryChanges(changes);
-        return this._trySetLocation(location, method);
+        this._trySetLocation(location, method, callback);
     }
 
     @action
@@ -397,15 +404,21 @@ export class BasicLocationManagerImpl implements LocationManager {
         );
     }
 
-    public trySetQuery(key: string, value: string | undefined, method?: UpdateMethod): Promise<boolean> {
-        return this.trySetQueries(
+    public trySetQuery(
+        key: string,
+        value: string | undefined,
+        method?: UpdateMethod,
+        callback?: SuccessCallback
+    ): void {
+        this.trySetQueries(
             [
                 {
                     key,
                     value,
                 },
             ],
-            method
+            method,
+            callback
         );
     }
 
@@ -426,9 +439,9 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._doSetLocation(location, method);
     }
 
-    public trySetPathTokens(position: number, tokens: string[], method?: UpdateMethod): Promise<boolean> {
+    public trySetPathTokens(position: number, tokens: string[], method?: UpdateMethod, callback?: SuccessCallback) {
         const location = this.getLocationForPathTokens(position, tokens);
-        return this._trySetLocation(location, method);
+        this._trySetLocation(location, method, callback);
     }
 
     public doAppendPathTokens(tokens: string[], method?: UpdateMethod) {
@@ -439,12 +452,12 @@ export class BasicLocationManagerImpl implements LocationManager {
         this.doSetPathTokens(this.pathTokens.length - count, [], method);
     }
 
-    public tryAppendPathTokens(tokens: string[], method?: UpdateMethod) {
-        return this.trySetPathTokens(this.pathTokens.length, tokens, method);
+    public tryAppendPathTokens(tokens: string[], method?: UpdateMethod, callback?: SuccessCallback) {
+        this.trySetPathTokens(this.pathTokens.length, tokens, method, callback);
     }
 
-    public tryRemovePathTokens(count: number, method?: UpdateMethod) {
-        return this.trySetPathTokens(this.pathTokens.length - count, [], method);
+    public tryRemovePathTokens(count: number, method?: UpdateMethod, callback?: SuccessCallback) {
+        this.trySetPathTokens(this.pathTokens.length - count, [], method, callback);
     }
 
     public registerUrlArg(arg: UrlArg<any>) {
@@ -471,9 +484,10 @@ export class BasicLocationManagerImpl implements LocationManager {
         position: number,
         tokens: string[] | undefined,
         queryChanges: QueryChange[] | undefined,
-        method?: UpdateMethod
+        method?: UpdateMethod,
+        callback?: SuccessCallback
     ) {
         const location = this._getLocationForPathAndQueryChanges(position, tokens, queryChanges);
-        return this._trySetLocation(location, method);
+        this._trySetLocation(location, method, callback);
     }
 }

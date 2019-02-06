@@ -2,6 +2,8 @@ import { UrlArg } from '../url-arg';
 
 import { Query } from '../url-schema/UrlSchema';
 
+export type SuccessCallback = (value: boolean) => void;
+
 /**
  * Information about a planned change in the URl arguments
  */
@@ -95,11 +97,13 @@ export interface LocationChangeInterceptor {
  * The Location Manager is responsible for tracking the location (ie. URL) of the application,
  * and abstract away the interface by providing separate path tokens and URL arguments.
  *
- * In many cases, the APIs come in pairs: there is a `doWhatever()` and a `tryWhatever()` call.
- * The `doWhatever()` call always executes the operation, while the `tryWhatever()` version
- * will first negotiate will all the registered navigation interceptors, then maybe
- * ask for a confirmation from the user, and then might (or might not) execute the change.
- * These `tryWhatever()` calls always return a `Promise<boolean>`.
+ * In many cases, the APIs come in pairs:
+ * - there is a `doWhatever()` call, which executes the operation right away,
+ * - there is a `tryWhatever()` call, which will negotiate will all the registered
+ *   navigation interceptors, then maybe ask for a confirmation from the user,
+ *   and then might (or might not) execute the change.
+ *   These second method accepts an optional callback as a final parameter,
+ *   which will be called with a boolean value, signaling whether it was executed or now.
  */
 export interface LocationManager {
     /**
@@ -158,7 +162,7 @@ export interface LocationManager {
      * @param tokens The tokens to set.
      * @param method The method to use for updating the URL.
      */
-    trySetPathTokens: (position: number, tokens: string[], method?: UpdateMethod) => Promise<boolean>;
+    trySetPathTokens: (position: number, tokens: string[], method?: UpdateMethod, callback?: SuccessCallback) => void;
 
     /**
      * Appends a set of tokens to the current path
@@ -179,12 +183,12 @@ export interface LocationManager {
      * @param tokens The tokens to append.
      * @param method The method to use for updating the URL.
      */
-    tryAppendPathTokens: (tokens: string[], method?: UpdateMethod) => Promise<boolean>;
+    tryAppendPathTokens: (tokens: string[], method?: UpdateMethod, callback?: SuccessCallback) => void;
 
     /**
      * Removes the given number of path tokens from the current path.
      */
-    tryRemovePathTokens: (count: number, method?: UpdateMethod) => Promise<boolean>;
+    tryRemovePathTokens: (count: number, method?: UpdateMethod, callback?: SuccessCallback) => void;
 
     /**
      * the search queries for the current location
@@ -212,7 +216,7 @@ export interface LocationManager {
      * @param changes The changes to execute
      * @param method The method to use for updating the URL.
      */
-    trySetQueries: (changes: QueryChange[], method?: UpdateMethod) => Promise<boolean>;
+    trySetQueries: (changes: QueryChange[], method?: UpdateMethod, callback?: SuccessCallback) => void;
 
     /**
      * Set the last few path tokens, and also some queries
@@ -241,8 +245,9 @@ export interface LocationManager {
         position: number,
         tokens: string[] | undefined,
         changes: QueryChange[] | undefined,
-        method?: UpdateMethod
-    ) => Promise<boolean>;
+        method?: UpdateMethod,
+        callback?: SuccessCallback
+    ) => void;
 
     /**
      * Determine the URL that we would get if we changed an URL argument
@@ -277,7 +282,7 @@ export interface LocationManager {
      * @param rawValue The new value to set (already in string form)
      * @param method The method to use for updating the URL.
      */
-    trySetQuery: (key: string, rawValue: string | undefined, method?: UpdateMethod) => Promise<boolean>;
+    trySetQuery: (key: string, rawValue: string | undefined, method?: UpdateMethod, success?: SuccessCallback) => void;
 
     /**
      * Register a permanent URl argument.

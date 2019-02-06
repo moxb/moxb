@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 import { AnyUrlArgImpl, UrlArgBackend } from './AnyUrlArgImpl';
 import { UrlArg, UrlArgDefinition } from './UrlArg';
-import { TestLocation } from '../location-manager/LocationManager';
+import { SuccessCallback, TestLocation } from '../location-manager/LocationManager';
 
 class MiniStore implements UrlArgBackend {
     @observable
@@ -15,9 +15,11 @@ class MiniStore implements UrlArgBackend {
         this.raw = value;
     }
 
-    trySet(value: string | undefined): Promise<boolean> {
+    trySet(value?: string, callback?: SuccessCallback): void {
         this.raw = value;
-        return Promise.resolve(true);
+        if (callback) {
+            callback(true);
+        }
     }
 
     set rawValue(value: string | undefined) {

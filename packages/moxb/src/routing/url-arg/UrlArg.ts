@@ -1,4 +1,4 @@
-import { UpdateMethod } from '../location-manager';
+import { SuccessCallback, UpdateMethod } from '../location-manager';
 import { TestLocation } from '../location-manager/LocationManager';
 
 export interface ParserFunc<T> {
@@ -61,8 +61,9 @@ export interface UrlArg<T> {
      *
      * @param value The new value
      * @param method The method for updating the URL (push or replace)
+     * @param callback Callback to call with the result status
      */
-    trySet(value: T, method?: UpdateMethod): Promise<boolean>;
+    trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback): void;
 
     /**
      * Reset the value to default
@@ -75,8 +76,9 @@ export interface UrlArg<T> {
      * Reset the value to default
      *
      * @param method The method for updating the URL (push or replace)
+     * @param callback Callback to call with the result status
      */
-    tryReset(method?: UpdateMethod): Promise<boolean>;
+    tryReset(method?: UpdateMethod, callback?: SuccessCallback): void;
 
     /**
      * Get the URL string that would result if we modified the value
