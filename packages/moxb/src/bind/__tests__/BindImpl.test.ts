@@ -459,6 +459,41 @@ describe('interface Bind', function() {
             expect(bind.hasErrors).toEqual(true);
         });
 
+        it('should not show duplicates when getError returns multiple errors', function() {
+            const bind: Bind = newBind({
+                id: 'test',
+                getErrors: jest.fn().mockReturnValue(['Error 1', 'Error 1', 'Error 2', 'Error 1']),
+            });
+            expect(bind.errors).toEqual(['Error 1', 'Error 2']);
+            expect(bind.hasErrors).toEqual(true);
+        });
+
+        it('should not show duplicates when multiple setError is called', function() {
+            const bind: Bind = newBind({
+                id: 'test',
+            });
+            bind.setError('Error 1');
+            bind.setError('Error 2');
+            bind.setError('Error 1');
+            expect(bind.errors).toEqual(['Error 1', 'Error 2']);
+            expect(bind.hasErrors).toEqual(true);
+        });
+
+        it('should not show duplicates when multiple setError is called and getErrors returns errors', function() {
+            const bind: Bind = newBind({
+                id: 'test',
+                getErrors: jest
+                    .fn()
+                    .mockReturnValue(['Error 1', 'Error 1', 'Error 2', 'Error 1', 'Only Function Error']),
+            });
+            bind.setError('Error 1');
+            bind.setError('Error 2');
+            bind.setError('Error 1');
+            bind.setError('Set Error 1');
+            expect(bind.errors).toEqual(['Error 1', 'Error 2', 'Only Function Error', 'Set Error 1']);
+            expect(bind.hasErrors).toEqual(true);
+        });
+
         it('should have the BindImpl as `this`', function() {
             let theThis: any = undefined;
             const getErrors = jest.fn().mockImplementation(function(this: any) {
