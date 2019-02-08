@@ -859,6 +859,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     id: 'test',
                     required: true,
                 });
+                expect(bind.required).toBe(true);
                 bind.save();
                 expect(bind.errors!.length).toBe(1);
                 expect(bind.errors).toContain('[ValueImpl.error.required] This field is required and must be set');
@@ -868,14 +869,23 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     id: 'test',
                     required: true,
                 });
+                expect(bind.required).toBe(true);
                 bind.onExitField();
                 expect(bind.errors!.length).toBe(1);
                 expect(bind.errors).toContain('[ValueImpl.error.required] This field is required and must be set');
+            });
+            it('should be false if options.required is false', function() {
+                const bind: Value<string> = bindStringValue({
+                    id: 'test',
+                    required: false,
+                });
+                expect(bind.required).toBe(false);
             });
             it('should not create an error, if required is not defined', function() {
                 const bind: Value<string> = bindStringValue({
                     id: 'test',
                 });
+                expect(bind.required).toBeUndefined();
                 bind.save();
                 expect(bind.errors!.length).toBe(0);
             });
