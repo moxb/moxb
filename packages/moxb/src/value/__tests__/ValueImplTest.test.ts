@@ -388,6 +388,53 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                         bind.setValue('foo');
                         expect(bind.isInitialValue).toBe(true);
                     });
+                    describe('with compare function and complicated data', function() {
+                        interface Data {
+                            name: string;
+                            data: number[];
+                        }
+                        it('should be true with the default compare', function() {
+                            const bind: Value<Data> = new ValueImpl<any, Data, any>({
+                                id: 'theId',
+                                initialValue: () => ({ name: 'foo', data: [1, 2, 3] }),
+                            });
+                            bind.setValue({ name: 'foo', data: [1, 2, 3] });
+                            expect(bind.isInitialValue).toBe(true);
+                        });
+                        it('should be false if something is different in the deep structure', function() {
+                            const bind: Value<Data> = new ValueImpl<any, Data, any>({
+                                id: 'theId',
+                                initialValue: () => ({ name: 'foo', data: [1, 2, 3] }),
+                            });
+                            bind.setValue({ name: 'foo', data: [3, 2, 1] });
+                            expect(bind.isInitialValue).toBe(false);
+                        });
+                        it('should be false with === compare', function() {
+                            const bind: Value<Data> = new ValueImpl<any, Data, ValueOptions<any, Data>>({
+                                id: 'theId',
+                                initialValue: () => ({ name: 'foo', data: [1, 2, 3] }),
+                                valueCompareFunction: (a, b) => a === b,
+                            });
+                            bind.setValue({ name: 'foo', data: [1, 2, 3] });
+                            expect(bind.isInitialValue).toBe(false);
+                        });
+                        it('should true if default and value are undefined', function() {
+                            const bind: Value<Data | undefined> = new ValueImpl<any, Data, ValueOptions<any, Data>>({
+                                id: 'theId',
+                                initialValue: () => undefined,
+                            });
+                            bind.setValue(undefined);
+                            expect(bind.isInitialValue).toBe(true);
+                        });
+                        it('should false if value is set and initialValue is undefined', function() {
+                            const bind: Value<Data | undefined> = new ValueImpl<any, Data, ValueOptions<any, Data>>({
+                                id: 'theId',
+                                initialValue: () => undefined,
+                            });
+                            bind.setValue({ name: 'foo', data: [1, 2, 3] });
+                            expect(bind.isInitialValue).toBe(false);
+                        });
+                    });
                 });
 
                 describe('with setValue', function() {
