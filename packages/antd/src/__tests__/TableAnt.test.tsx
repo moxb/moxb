@@ -15,7 +15,7 @@ describe('TableAnt', function() {
         column.render = (columnData: any) => columnData.toString();
     }
     function newTableOperation(opt?: any) {
-        return new TableImpl(
+        return new TableImpl<any>(
             Object.assign(
                 {
                     id: 'table',

@@ -1,4 +1,6 @@
 import { LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
+import { TestLocation } from '../location-manager/LocationManager';
+import { LeaveQuestionGenerator } from '../navigable';
 import { TokenManager } from '../TokenManager';
 import { updateTokenString } from '../tokens';
 import { AnyUrlArgImpl, UrlArg, URLARG_TYPE_ORDERED_STRING_ARRAY } from '../url-arg';
@@ -8,8 +10,6 @@ import {
 } from './LocationDependentStateSpaceHandler';
 import { SubStateInContext } from './state-space/StateSpace';
 import { StateSpaceHandlerImpl } from './state-space/StateSpaceHandlerImpl';
-import { TestLocation } from '../location-manager/LocationManager';
-import { LeaveQuestionGenerator } from '../navigable';
 
 /**
  * This is the standard implementation of the StateSpaceAndLocationHandler.
@@ -226,7 +226,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
         const { totalPathTokens } = state;
         if (this._urlArg) {
             const value = this._getArgValueForSubState(state);
-            return this._urlArg.trySet(value, method, callback);
+            this._urlArg.trySet(value, method, callback);
         } else {
             this._locationManager.trySetPathTokens(this._parsedTokens, totalPathTokens, method, callback);
         }

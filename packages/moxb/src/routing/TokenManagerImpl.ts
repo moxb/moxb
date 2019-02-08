@@ -128,6 +128,7 @@ export class TokenManagerImpl implements TokenManager {
         }
     }
 
+    // tslint:disable-next-line:cyclomatic-complexity
     public trySetToken(key: string, value: string, updateMethod?: UpdateMethod, callback?: SuccessCallback): void {
         const mappings = this._activeMappings;
         if (!mappings) {

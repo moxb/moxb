@@ -55,7 +55,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
         if (this.props.setupColumn) {
             columns.forEach((column: any) => this.props.setupColumn!(column));
         }
-        const dataSource = table.data.map((data: any, idx: number) => ({ key: idx + '', ...(data as any) }));
+        const dataSource = table.data.map((data: any, idx: number) => ({ key: idx + '', ...data }));
         return (
             <>
                 {table.errors!.length > 0 && (

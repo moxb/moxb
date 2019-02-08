@@ -52,7 +52,7 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
 
     @computed
     get canSubmitForm() {
-        return this.values.findIndex(v => v.isInitialValue as boolean) < 0;
+        return this.values.findIndex(v => !!v.isInitialValue) < 0;
     }
 
     @computed
