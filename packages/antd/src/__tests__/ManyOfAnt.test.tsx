@@ -2,6 +2,7 @@ import { ManyOfImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { ManyOfAnt, ManyOfCheckboxAnt, ManyOfFormAnt } from '../ManyOfAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 const manyChoices: any[] = [];
 const allChoices = [{ label: 'Banana', value: 'b' }, { label: 'Apples', value: 'a' }, { label: 'Peaches', value: 'p' }];
@@ -16,7 +17,7 @@ describe('ManyOfAnt', function() {
             placeholder: () => 'Please select',
             onSave: () => {},
         });
-        expect(shallow(<ManyOfAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<ManyOfAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -43,7 +44,7 @@ describe('ManyOfCheckboxAnt', function() {
             placeholder: () => 'Please select',
             onSave: () => {},
         });
-        expect(shallow(<ManyOfCheckboxAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<ManyOfCheckboxAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -70,7 +71,7 @@ describe('ManyOfFormAnt', function() {
             placeholder: () => 'Please select',
             onSave: () => {},
         });
-        expect(shallow(<ManyOfFormAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<ManyOfFormAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {

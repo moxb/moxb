@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, comparer, computed, observable } from 'mobx';
 import { BindImpl, BindOptions, getValueOrFunction, StringOrFunction, ValueOrFunction } from '../bind/BindImpl';
 import { t } from '../i18n/i18n';
 import { extractErrorString } from '../validation/ErrorMessage';
@@ -9,6 +9,14 @@ export interface ValueOptions<B, T> extends BindOptions {
     required?: boolean;
 
     initialValue?: ValueOrFunction<T>;
+
+    /**
+     * A function used to compare the initialValue with the current value.
+     * It defaults to mobx.comparer.structural.
+     * @param a
+     * @param b
+     */
+    valueCompareFunction?(a: T, b: T): boolean;
 
     setValue?(value: T): void; // is bound!
 
@@ -150,10 +158,21 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         if (this.impl.initialValue === undefined) {
             return undefined;
         } else {
-            return this.getInitialValue() === this.value;
+            return this.compare(this.getInitialValue(), this.value);
         }
     }
-
+    protected compare(a: T | undefined, b: T | undefined) {
+        if (a === b) {
+            return true;
+        }
+        if (a === undefined || b === undefined) {
+            return false;
+        }
+        if (this.impl.valueCompareFunction) {
+            return this.impl.valueCompareFunction(a, b);
+        }
+        return comparer.structural(a, b);
+    }
     @action.bound
     resetToInitialValue() {
         if (this.impl.setValue) {

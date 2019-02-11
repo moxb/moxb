@@ -2,6 +2,7 @@ import { TextImpl } from '@moxb/moxb';
 import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { TextAnt, TextFormAnt, TextSearchAnt } from '../TextAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('TextAnt', function() {
     it('should render a text input by default', function() {
@@ -10,7 +11,7 @@ describe('TextAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallow(<TextAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<TextAnt operation={operation} />))).toMatchSnapshot();
     });
     it('should render a textarea with the control option set', function() {
         const operation = new TextImpl({
@@ -19,7 +20,7 @@ describe('TextAnt', function() {
             control: 'textarea',
             disabled: () => false,
         });
-        expect(shallow(<TextAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<TextAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -72,7 +73,7 @@ describe('TextFormAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallow(<TextFormAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<TextFormAnt operation={operation} />))).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new TextImpl({
@@ -106,7 +107,7 @@ describe('TextSearchAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallow(<TextSearchAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<TextSearchAnt operation={operation} />))).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new TextImpl({

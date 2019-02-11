@@ -94,6 +94,7 @@ export class Anchor extends React.PureComponent<UIProps> {
         onClick(data);
     }
 
+    // tslint:disable-next-line:cyclomatic-complexity
     public render() {
         const { label, title, children, className, style, href, target, disabled } = this.props;
         const anchorProps: any = {

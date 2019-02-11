@@ -2,6 +2,7 @@ import { BindImpl, ConfirmImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { ConfirmAnt } from '../ConfirmAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('ConfirmAnt', function() {
     it('should render a confirm dialog by default', function() {
@@ -18,6 +19,6 @@ describe('ConfirmAnt', function() {
             header: () => 'Confirm dialog',
             confirm: () => alert('You confirmed the action'),
         });
-        expect(shallow(<ConfirmAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<ConfirmAnt operation={operation} />))).toMatchSnapshot();
     });
 });

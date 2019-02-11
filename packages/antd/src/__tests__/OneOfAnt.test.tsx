@@ -2,6 +2,7 @@ import { OneOfImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { OneOfAnt, OneOfFormAnt, OneOfSelectAnt, OneOfSelectFormAnt } from '../OneOfAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 const allChoices = [{ label: 'Banana', value: 'b' }, { label: 'Apples', value: 'a' }, { label: 'Peaches', value: 'p' }];
 
@@ -13,7 +14,7 @@ describe('OneOfAnt', function() {
             placeholder: '...',
             choices: () => allChoices,
         });
-        expect(shallow(<OneOfAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<OneOfAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -36,7 +37,7 @@ describe('OneOfFormAnt', function() {
             placeholder: '...',
             choices: () => allChoices,
         });
-        expect(shallow(<OneOfFormAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<OneOfFormAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -59,7 +60,7 @@ describe('OneOfSelectAnt', function() {
             placeholder: '...',
             choices: () => allChoices,
         });
-        expect(shallow(<OneOfSelectAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<OneOfSelectAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -82,7 +83,7 @@ describe('OneOfAnt', function() {
             placeholder: '...',
             choices: () => allChoices,
         });
-        expect(shallow(<OneOfSelectFormAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<OneOfSelectFormAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {

@@ -2,6 +2,7 @@ import { DateImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { DatePickerAnt, DatePickerFormAnt } from '../DatePickerAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('DatePickerAnt', function() {
     it('should render a date picker by default', function() {
@@ -10,7 +11,7 @@ describe('DatePickerAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallow(<DatePickerAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<DatePickerAnt operation={operation} />))).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new DateImpl({
@@ -29,7 +30,7 @@ describe('DatePickerFormAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallow(<DatePickerFormAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<DatePickerFormAnt operation={operation} />))).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new DateImpl({

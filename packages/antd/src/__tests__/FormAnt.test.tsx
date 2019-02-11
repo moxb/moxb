@@ -2,6 +2,7 @@ import { FormImpl, TextImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { FormAnt } from '../FormAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('FormAnt', function() {
     const onSaveUserText = jest.fn();
@@ -33,7 +34,7 @@ describe('FormAnt', function() {
 
     it('should render a form element by default', function() {
         const operation = newFormOperation();
-        expect(shallow(<FormAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<FormAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should throw if no values for children were defined', function() {

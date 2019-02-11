@@ -388,6 +388,53 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                         bind.setValue('foo');
                         expect(bind.isInitialValue).toBe(true);
                     });
+                    describe('with compare function and complicated data', function() {
+                        interface Data {
+                            name: string;
+                            data: number[];
+                        }
+                        it('should be true with the default compare', function() {
+                            const bind: Value<Data> = new ValueImpl<any, Data, any>({
+                                id: 'theId',
+                                initialValue: () => ({ name: 'foo', data: [1, 2, 3] }),
+                            });
+                            bind.setValue({ name: 'foo', data: [1, 2, 3] });
+                            expect(bind.isInitialValue).toBe(true);
+                        });
+                        it('should be false if something is different in the deep structure', function() {
+                            const bind: Value<Data> = new ValueImpl<any, Data, any>({
+                                id: 'theId',
+                                initialValue: () => ({ name: 'foo', data: [1, 2, 3] }),
+                            });
+                            bind.setValue({ name: 'foo', data: [3, 2, 1] });
+                            expect(bind.isInitialValue).toBe(false);
+                        });
+                        it('should be false with === compare', function() {
+                            const bind: Value<Data> = new ValueImpl<any, Data, ValueOptions<any, Data>>({
+                                id: 'theId',
+                                initialValue: () => ({ name: 'foo', data: [1, 2, 3] }),
+                                valueCompareFunction: (a, b) => a === b,
+                            });
+                            bind.setValue({ name: 'foo', data: [1, 2, 3] });
+                            expect(bind.isInitialValue).toBe(false);
+                        });
+                        it('should true if default and value are undefined', function() {
+                            const bind: Value<Data | undefined> = new ValueImpl<any, Data, ValueOptions<any, Data>>({
+                                id: 'theId',
+                                initialValue: () => undefined,
+                            });
+                            bind.setValue(undefined);
+                            expect(bind.isInitialValue).toBe(true);
+                        });
+                        it('should false if value is set and initialValue is undefined', function() {
+                            const bind: Value<Data | undefined> = new ValueImpl<any, Data, ValueOptions<any, Data>>({
+                                id: 'theId',
+                                initialValue: () => undefined,
+                            });
+                            bind.setValue({ name: 'foo', data: [1, 2, 3] });
+                            expect(bind.isInitialValue).toBe(false);
+                        });
+                    });
                 });
 
                 describe('with setValue', function() {
@@ -812,6 +859,7 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     id: 'test',
                     required: true,
                 });
+                expect(bind.required).toBe(true);
                 bind.save();
                 expect(bind.errors!.length).toBe(1);
                 expect(bind.errors).toContain('[ValueImpl.error.required] This field is required and must be set');
@@ -821,14 +869,23 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     id: 'test',
                     required: true,
                 });
+                expect(bind.required).toBe(true);
                 bind.onExitField();
                 expect(bind.errors!.length).toBe(1);
                 expect(bind.errors).toContain('[ValueImpl.error.required] This field is required and must be set');
+            });
+            it('should be false if options.required is false', function() {
+                const bind: Value<string> = bindStringValue({
+                    id: 'test',
+                    required: false,
+                });
+                expect(bind.required).toBe(false);
             });
             it('should not create an error, if required is not defined', function() {
                 const bind: Value<string> = bindStringValue({
                     id: 'test',
                 });
+                expect(bind.required).toBeUndefined();
                 bind.save();
                 expect(bind.errors!.length).toBe(0);
             });

@@ -2,6 +2,7 @@ import { TableColumnImpl, TableImpl, TablePaginationImpl, TableSearchImpl } from
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { ColumnAntProps, TableAnt } from '../TableAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('TableAnt', function() {
     const data = [
@@ -14,7 +15,7 @@ describe('TableAnt', function() {
         column.render = (columnData: any) => columnData.toString();
     }
     function newTableOperation(opt?: any) {
-        return new TableImpl(
+        return new TableImpl<any>(
             Object.assign(
                 {
                     id: 'table',
@@ -52,7 +53,7 @@ describe('TableAnt', function() {
     }
     it('should render a table with content by default', function() {
         const operation = newTableOperation();
-        expect(shallow(<TableAnt table={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<TableAnt table={operation} />))).toMatchSnapshot();
     });
 
     it('should show an alert, if an error in the table happened', function() {
@@ -69,7 +70,9 @@ describe('TableAnt', function() {
 
     it('should render a table with setupColumn set', function() {
         const operation = newTableOperation();
-        expect(shallow(<TableAnt table={operation} setupColumn={column => renderColumn(column)} />)).toMatchSnapshot();
+        expect(
+            shallowMoxbToJson(shallow(<TableAnt table={operation} setupColumn={column => renderColumn(column)} />))
+        ).toMatchSnapshot();
     });
 
     it('should render a table with search field and pagination', function() {
@@ -79,6 +82,6 @@ describe('TableAnt', function() {
                 totalAmount: () => 4,
             }),
         });
-        expect(shallow(<TableAnt table={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<TableAnt table={operation} />))).toMatchSnapshot();
     });
 });

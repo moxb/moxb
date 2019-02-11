@@ -4,6 +4,8 @@ import { doTokenStringsMatch, updateTokenString } from '../tokens';
 import { UrlArg } from '../url-arg';
 import { NativeUrlSchema } from '../url-schema';
 import { Query, UrlSchema } from '../url-schema/UrlSchema';
+import { BasicLocationCommunicator } from './BasicLocationCommunicator';
+import { LocationCommunicator } from './LocationCommunicator';
 
 import {
     LocationChangeInterceptor,
@@ -14,8 +16,6 @@ import {
     TestLocation,
     UpdateMethod,
 } from './LocationManager';
-import { LocationCommunicator } from './LocationCommunicator';
-import { BasicLocationCommunicator } from './BasicLocationCommunicator';
 
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
@@ -187,22 +187,25 @@ export class BasicLocationManagerImpl implements LocationManager {
             // It seems that we must some questions to the user first.
 
             // console.log('There seem to be some questions:', questions);
-            this._communicator.confirmLeave(questions).then(decision => {
-                if (decision) {
-                    // According to the user's decision, we are OK,
-                    // so we can execute the change.
-                    this._doSetLocation(location, method);
-                    if (callback) {
-                        callback(true);
+            this._communicator
+                .confirmLeave(questions)
+                .then(decision => {
+                    if (decision) {
+                        // According to the user's decision, we are OK,
+                        // so we can execute the change.
+                        this._doSetLocation(location, method);
+                        if (callback) {
+                            callback(true);
+                        }
+                    } else {
+                        // The user has refused,
+                        // so we are not going anywhere.
+                        if (callback) {
+                            callback(false);
+                        }
                     }
-                } else {
-                    // The user has refused,
-                    // so we are not going anywhere.
-                    if (callback) {
-                        callback(false);
-                    }
-                }
-            });
+                })
+                .catch(reason => console.error(reason));
         } else {
             // No questions asked, so we can simply execute the change.
             this._doSetLocation(location, method);

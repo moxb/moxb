@@ -46,6 +46,7 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
                  * This is our "change interceptor" hook, that will be called by the
                  * `LocationManager`.
                  */
+                // tslint:disable-next-line:cyclomatic-complexity
                 anyQuestionsFor(location: TestLocation): string[] {
                     const oldToken = getNextPathToken(props);
                     const oldRoot = isTokenEmpty(oldToken);

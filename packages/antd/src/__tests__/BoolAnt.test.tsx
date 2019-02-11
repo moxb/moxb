@@ -2,6 +2,7 @@ import { BoolImpl } from '@moxb/moxb';
 import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { BoolAnt, BoolFormAnt } from '../BoolAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('BoolAnt', function() {
     it('should render a checkbox by default', function() {
@@ -9,7 +10,7 @@ describe('BoolAnt', function() {
             id: 'TheId',
             label: 'oh',
         });
-        expect(shallow(<BoolAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<BoolAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -44,7 +45,7 @@ describe('BoolFormAnt', function() {
             id: 'TheId',
             label: 'oh',
         });
-        expect(shallow(<BoolFormAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<BoolFormAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {

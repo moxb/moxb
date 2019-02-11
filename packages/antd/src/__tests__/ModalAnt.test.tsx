@@ -2,6 +2,7 @@ import { ActionImpl, ModalImpl } from '@moxb/moxb';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { ModalAnt } from '../ModalAnt';
+import { shallowMoxbToJson } from './enzymeHelper';
 
 describe('ModalAnt', function() {
     it('should render a modal dialog by default', function() {
@@ -20,7 +21,7 @@ describe('ModalAnt', function() {
             ],
             header: () => 'New Modal Header',
         });
-        expect(shallow(<ModalAnt operation={operation} />)).toMatchSnapshot();
+        expect(shallowMoxbToJson(shallow(<ModalAnt operation={operation} />))).toMatchSnapshot();
     });
 
     it('should return null and print a warning, if only one button was defined', function() {

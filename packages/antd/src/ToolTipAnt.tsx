@@ -3,8 +3,8 @@ import { Button, Tooltip } from 'antd';
 import { ButtonType } from 'antd/lib/button';
 import { TooltipProps } from 'antd/lib/tooltip';
 import { observer } from 'mobx-react';
-import { ReactElement } from 'react';
 import * as React from 'react';
+import { ReactElement } from 'react';
 import { BindMarkdownDiv } from './LabelAnt';
 
 function toolTipText(action: Bind | Action) {
@@ -32,7 +32,7 @@ export class ToolTipAnt extends React.Component<BindToolTipAntProps> {
         const childrenWithProps = React.Children.map(children, child =>
             React.cloneElement(child as ReactElement<any>, { operation, ...props })
         );
-        if (operation!.disabled) {
+        if (operation.disabled) {
             return <>{childrenWithProps}</>;
         } else {
             return (
