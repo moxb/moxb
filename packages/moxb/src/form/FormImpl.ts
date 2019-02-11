@@ -58,16 +58,17 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
     @computed
     get allErrors(): string[] {
         const valuesWithErrors = this.values.filter(v => !!v.errors);
-        const allErrors: string[] = [];
+        // Set keeps the items in insertion order
+        const allErrors = new Set<string>();
         valuesWithErrors.forEach(v => {
             v.errors!.forEach(error => {
-                allErrors.push(v.label ? v.label + ': ' + t(error, error) : t(error, error));
+                allErrors.add(v.label ? v.label + ': ' + t(error, error) : t(error, error));
             });
         });
         this.errors!.forEach(error => {
-            allErrors.push(this.label ? this.label + ': ' + t(error, error) : t(error, error));
+            allErrors.add(this.label ? this.label + ': ' + t(error, error) : t(error, error));
         });
-        return allErrors;
+        return Array.from(allErrors);
     }
 
     @computed

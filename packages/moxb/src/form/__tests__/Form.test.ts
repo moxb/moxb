@@ -104,6 +104,29 @@ describe('Form', function() {
             bindNoPass.setError('bar');
             expect(bindForm.allErrors).toEqual(['foo', 'doo', 'bar']);
         });
+        it('should return an array with all occurred errors without duplicates', function() {
+            bindText.clearErrors();
+            bindPass.clearErrors();
+            const bindNoText = new TextImpl({
+                id: 'textNoLabel',
+                onSave: onSaveUserText,
+                initialValue: () => 'foo',
+            });
+            const bindNoPass = new TextImpl({
+                id: 'passwordNoLAbel',
+                onSave: onSavePasswordText,
+            });
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
+                values: [bindNoText, bindNoPass],
+            });
+            bindNoText.setError('foo');
+            bindNoText.setError('doo');
+            bindNoPass.setError('bar');
+            bindNoPass.setError('foo');
+            bindNoText.setError('doo');
+            expect(bindForm.allErrors).toEqual(['foo', 'doo', 'bar']);
+        });
     });
 
     describe('hasErrors', function() {

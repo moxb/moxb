@@ -204,7 +204,7 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
     @computed
     get error() {
         if (this.hasErrors) {
-            return (this.getErrors() as string[]).join(' ');
+            return this.getErrors().join(' ');
         } else {
             return undefined;
         }
@@ -222,12 +222,10 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
             this._errors!.push(error!);
         }
     }
-    protected getErrors() {
-        if (this.impl.getErrors) {
-            return this.impl.getErrors();
-        } else {
-            return this._errors;
-        }
+    protected getErrors(): string[] {
+        const errors = (this.impl.getErrors && this.impl.getErrors()) || [];
+        // Set keeps the items in insertion order
+        return Array.from(new Set([...errors, ...(this._errors || [])]));
     }
 
     @action.bound
