@@ -26,7 +26,7 @@ function extractMessage(error: any) {
     if (typeof error.error === 'string') {
         message = error.error;
     }
-    message = message || error.message || error.reason;
+    message = message || error.reason || error.message;
     return message;
 }
 
@@ -37,7 +37,7 @@ function extractMessage(error: any) {
  * @constructor
  */
 export function extractErrorMessages(error: any): ErrorMessage[] {
-    if (error.details && error.details.length) {
+    if (error.details && error.details.length && error.details instanceof Array) {
         // this is a simple schema error
         return error.details.map((e: any) => ({ key: e.type, fieldName: e.name, message: e.message, value: e.value }));
     } else {
