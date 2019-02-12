@@ -29,7 +29,21 @@ function extractMessage(error: any) {
     message = message || error.reason || error.message;
     return message;
 }
-
+function parseSimpleSchemaErrors(error: any): ErrorMessage[] | undefined {
+    if (error.details && error.details.length && error.details instanceof Array) {
+        // this is a simple schema error
+        try {
+            return error.details.map((e: any) => ({
+                key: e.type,
+                fieldName: e.name,
+                message: e.message,
+                value: e.value,
+            }));
+        } catch (e) {
+            // ignore
+        }
+    }
+}
 /**
  * Extracts an error form
  * @param error
@@ -37,25 +51,24 @@ function extractMessage(error: any) {
  * @constructor
  */
 export function extractErrorMessages(error: any): ErrorMessage[] {
-    if (error.details && error.details.length && error.details instanceof Array) {
-        // this is a simple schema error
-        return error.details.map((e: any) => ({ key: e.type, fieldName: e.name, message: e.message, value: e.value }));
-    } else {
-        let message = extractMessage(error);
-        let code;
-        if (typeof error.error === 'number') {
-            code = error.error;
-        }
-        let key = extractErrorKey(error);
-        if (!key) {
-            key = message;
-        }
-        if (!message) {
-            message = key;
-        }
-        const reason = error.reason || message;
-        return [{ key, message, reason, code }];
+    const simpleSchemaErrors = parseSimpleSchemaErrors(error);
+    if (simpleSchemaErrors) {
+        return simpleSchemaErrors;
     }
+    let message = extractMessage(error);
+    let code;
+    if (typeof error.error === 'number') {
+        code = error.error;
+    }
+    let key = extractErrorKey(error);
+    if (!key) {
+        key = message;
+    }
+    if (!message) {
+        message = key;
+    }
+    const reason = error.reason || message;
+    return [{ key, message, reason, code }];
 }
 
 /**
