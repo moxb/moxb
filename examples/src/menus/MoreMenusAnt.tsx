@@ -1,4 +1,4 @@
-import { LinkAnt, MenuAndContentAnt, TextFormAnt, UIFragmentSpec } from '@moxb/antd';
+import { LinkAnt, MenuAndContentAnt, TextFormAnt, UIFragmentSpec, NavTabBarAnt } from '@moxb/antd';
 import { Navigable } from '@moxb/moxb';
 
 import { Col, Row } from 'antd';
@@ -59,9 +59,10 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         <div>
                             This menu (on the right) is <i>not</i> part of the global navigation.
                         </div>
-                        <MenuAndContentAnt
+                        <NavTabBarAnt
                             id="right-menu"
                             arg={url!.color}
+                            mode="left"
                             subStates={subMenu2}
                             fallback="Unknown color"
                             debug={false}
