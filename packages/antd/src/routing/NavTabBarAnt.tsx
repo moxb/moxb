@@ -42,6 +42,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         return new LocationDependentStateSpaceHandlerImpl({
             ...stateProps,
             id: 'tab bar of ' + (this.props.id || 'no-id'),
+            intercept: true,
         });
     }
 
