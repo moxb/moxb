@@ -145,6 +145,17 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     /**
+     * This is where we will collect the questions that must be asked from the user,
+     * in order to navigate to a new location
+     */
+    protected _collectQuestionsFor(testLocation: TestLocation): string[] {
+        const questions: string[] = [];
+        this._interceptors // Go over all the registered interceptors
+            .forEach(interceptor => questions.push(...interceptor.anyQuestionsFor(testLocation)));
+        return questions;
+    }
+
+    /**
      * Try to set the location to a new value.
      *
      * This method may ask for confirmation, it necessary.
@@ -180,9 +191,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         };
 
         // This is where we will collect the questions that must be asked from the user.
-        const questions: string[] = [];
-        this._interceptors // Go over all the registered interceptors
-            .forEach(interceptor => questions.push(...interceptor.anyQuestionsFor(testLocation)));
+        const questions = this._collectQuestionsFor(testLocation);
 
         if (questions.length) {
             // It seems that we must some questions to the user first.
