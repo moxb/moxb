@@ -126,16 +126,17 @@ export class BasicLocationManagerImpl implements LocationManager {
          * been "cleared" by us once.
          * (This will be used in the `onLocationChanged()` function.)
          */
-        this._setting = true;
         switch (method) {
             case UpdateMethod.NONE:
                 // We don't really have to touch the URL.
                 // We only wanted a dry-run, to test is this change would be OK.
                 break;
             case UpdateMethod.REPLACE:
+                this._setting = true;
                 this._history.replace(location);
                 break;
             case UpdateMethod.PUSH:
+                this._setting = true;
                 this._history.push(location);
                 break;
             default:
