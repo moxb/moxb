@@ -7,6 +7,8 @@ import * as React from 'react';
 
 export interface TagAntProps extends TagProps {
     operation: MoxbValue<string[]>;
+    newItemLabel?: string;
+    tagColor?: string;
 }
 
 export interface TagAntState {
@@ -61,7 +63,7 @@ export class TagAnt extends React.Component<TagAntProps, TagAntState> {
         return (
             <div>
                 {this.props.operation.value!.map(tag => (
-                    <Tag key={tag} closable afterClose={() => this.handleClose(tag)}>
+                    <Tag key={tag} closable color={this.props.tagColor} afterClose={() => this.handleClose(tag)}>
                         {tag}
                     </Tag>
                 ))}
@@ -80,7 +82,7 @@ export class TagAnt extends React.Component<TagAntProps, TagAntState> {
                 {!inputVisible && (
                     <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
                         <Icon type="plus" />
-                        {t('TagAnt.newTag', 'New Tag')}
+                        {this.props.newItemLabel || t('TagAnt.newTag', 'New Tag')}
                     </Tag>
                 )}
             </div>

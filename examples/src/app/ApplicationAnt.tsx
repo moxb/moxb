@@ -131,7 +131,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <br />
                             <h3>TagAnt Component</h3>
-                            <TagAnt operation={application.testTags} />
+                            <TagAnt operation={application.testTags} tagColor="#87d068" newItemLabel={'tstst'} />
                             <br />
                             <br />
                             <h3>ManyOfAnt Component</h3>
