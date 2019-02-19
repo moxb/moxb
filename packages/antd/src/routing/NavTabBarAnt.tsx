@@ -57,15 +57,16 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         }
         return (
             <TabPane key={key} tab={label || key} {...itemProps}>
-                {renderSubStateCore({
-                    state: state,
-                    navigationContext: this.props,
-                    tokenIncrease: state ? state.totalPathTokens.length : 1,
-                    checkCondition: false,
-                    navControl: {
-                        registerStateHooks: hooks => states.registerNavStateHooksForSubState(state, hooks),
-                    },
-                })}
+                {states.isSubStateActive(state) &&
+                    renderSubStateCore({
+                        state: state,
+                        navigationContext: this.props,
+                        tokenIncrease: state ? state.totalPathTokens.length : 1,
+                        checkCondition: false,
+                        navControl: {
+                            registerStateHooks: hooks => states.registerNavStateHooksForSubState(state, hooks),
+                        },
+                    })}
             </TabPane>
         );
     }
