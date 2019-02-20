@@ -126,21 +126,33 @@ export class BasicLocationManagerImpl implements LocationManager {
          * been "cleared" by us once.
          * (This will be used in the `onLocationChanged()` function.)
          */
-        this._setting = true;
         switch (method) {
             case UpdateMethod.NONE:
                 // We don't really have to touch the URL.
                 // We only wanted a dry-run, to test is this change would be OK.
                 break;
             case UpdateMethod.REPLACE:
+                this._setting = true;
                 this._history.replace(location);
                 break;
             case UpdateMethod.PUSH:
+                this._setting = true;
                 this._history.push(location);
                 break;
             default:
                 console.warn('Huh? Unknown URL update method requested:', method);
         }
+    }
+
+    /**
+     * This is where we will collect the questions that must be asked from the user,
+     * in order to navigate to a new location
+     */
+    protected _collectQuestionsFor(testLocation: TestLocation): string[] {
+        const questions: string[] = [];
+        this._interceptors // Go over all the registered interceptors
+            .forEach(interceptor => questions.push(...interceptor.anyQuestionsFor(testLocation)));
+        return questions;
     }
 
     /**
@@ -179,9 +191,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         };
 
         // This is where we will collect the questions that must be asked from the user.
-        const questions: string[] = [];
-        this._interceptors // Go over all the registered interceptors
-            .forEach(interceptor => questions.push(...interceptor.anyQuestionsFor(testLocation)));
+        const questions = this._collectQuestionsFor(testLocation);
 
         if (questions.length) {
             // It seems that we must some questions to the user first.
