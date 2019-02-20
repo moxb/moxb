@@ -68,9 +68,15 @@ export class BasicLocationManagerImpl implements LocationManager {
      * Register a new interceptor that we have to talk to before executing a navigation change.
      */
     registerChangeInterceptor(interceptor: LocationChangeInterceptor) {
-        if (this._interceptors.indexOf(interceptor) === -1) {
+        const newId = interceptor.getId();
+        const index = this._interceptors.findIndex(i => i.getId() === newId);
+        if (index === -1) {
             // We don't want to add anyone twice.
             this._interceptors.push(interceptor);
+            // console.log('Added new interceptor', newId);
+        } else {
+            this._interceptors[index] = interceptor;
+            // console.log('Updated interceptor', newId);
         }
     }
 

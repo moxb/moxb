@@ -1,3 +1,4 @@
+const uuidv4 = require('uuid/v4');
 import {
     getNextPathToken,
     isTokenEmpty,
@@ -26,6 +27,7 @@ export interface DetailProps {
 }
 
 export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
+    const nodeId = uuidv4();
     return inject('locationManager')(
         observer((props: ComponentProps<DataType>) => {
             let rootHooks: NavStateHooks | undefined;
@@ -42,6 +44,10 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
              * from the user.
              */
             props.locationManager!.registerChangeInterceptor({
+                getId() {
+                    return nodeId;
+                },
+
                 /**
                  * This is our "change interceptor" hook, that will be called by the
                  * `LocationManager`.

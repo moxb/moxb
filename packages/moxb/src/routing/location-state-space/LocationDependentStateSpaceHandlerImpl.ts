@@ -25,6 +25,10 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
     protected readonly _parsedTokens: number;
     protected _mappingId?: string;
 
+    getId() {
+        return this._id;
+    }
+
     /**
      * This is our "change interceptor" hook, that will be called by the LocationManager.
      */
