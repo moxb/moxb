@@ -81,7 +81,10 @@ export class OneOfButtonFormAnt extends React.Component<
 @observer
 export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & SelectProps> {
     render() {
-        const { operation, invisible, value, placeholder, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, value, placeholder, mode, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
@@ -90,7 +93,7 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
                 value={this.props.operation.value || ''}
                 placeholder={placeholder}
-                mode="default"
+                mode={mode || 'default'}
                 {...props}
             >
                 {operation.choices.map(opt => (
@@ -138,7 +141,7 @@ interface SelectStylingProps {
     // open?: boolean;
     // onDropdownVisibleChange?: (open: boolean) => void;
     // autoClearSearchValue?: boolean;
-    // mode?: 'default' | 'multiple' | 'tags' | 'combobox' | string;
+    mode?: 'default' | 'multiple' | 'tags' | 'combobox' | string;
     // optionLabelProp?: string;
     // firstActiveValue?: string | string[];
     // onBlur?: (value: SelectValue) => void;
