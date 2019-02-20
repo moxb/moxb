@@ -8,6 +8,7 @@ import { Tabs } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { UIFragment, UIFragmentSpec } from '../not-antd';
+import * as Anchor from '../not-antd/Anchor';
 import { renderSubStateCore } from '../not-antd/rendering';
 
 const TabPane = Tabs.TabPane;
@@ -51,13 +52,27 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
     ) {
-        const { label, key, itemClassName } = state;
+        const { label, key, menuKey, itemClassName, newWindow, linkStyle, linkClassName, title } = state;
+
+        const url = states.getUrlForSubState(state);
+        const anchorProps: Anchor.UIProps = {
+            label: label || key,
+            href: url,
+            target: newWindow ? '_blank' : undefined,
+            onClick: newWindow ? undefined : () => states.trySelectSubState(state),
+            style: linkStyle,
+            title,
+        };
+        if (linkClassName) {
+            anchorProps.className = linkClassName;
+        }
         const itemProps: any = {};
         if (itemClassName) {
             itemProps.className = itemClassName;
         }
+        const tabLabel = <Anchor.Anchor {...anchorProps} />;
         return (
-            <TabPane key={key} tab={label || key} {...itemProps}>
+            <TabPane key={menuKey} tab={tabLabel} {...itemProps}>
                 {states.isSubStateActive(state) &&
                     renderSubStateCore({
                         state: state,
@@ -78,13 +93,16 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         return (
             <Tabs
                 tabPosition={mode || 'top'}
-                activeKey={states.getActiveSubState() !== null ? states.getActiveSubState()!.key : undefined}
-                onChange={(key: string) => {
-                    const allStates = states.getFilteredSubStates({});
-                    const currentState = allStates.find(state => state.key === key);
-                    if (currentState) {
-                        states.doSelectSubState(currentState);
-                    }
+                activeKey={states.getActiveSubStateMenuKeys(true)[0]}
+                onTabClick={(menuKey: string) => {
+                    /**
+                     * Normally we shouldn't get here, since the click is going to be captured
+                     * by the Anchor widget. However, it's possible that the Anchor widget
+                     * doesn't cover the whole area of the tab, and so it's still possible to
+                     * click on the tab. For those cases, we add this fallback function here.
+                     */
+                    // console.log('Clicked on tab "' + menuKey + '". This should not be happening.');
+                    states.trySelectSubState(states.findStateForMenuKey(menuKey));
                 }}
                 style={style}
             >
