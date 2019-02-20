@@ -1,5 +1,5 @@
 import { rootOrDetails, UIFragmentSpec } from '@moxb/antd';
-import { StateSpace, NavigableContent } from '@moxb/moxb';
+import { NavigableContent, StateSpace } from '@moxb/moxb';
 import * as React from 'react';
 // @ts-ignore
 import blueUrl from '../../images/blue_blocks.png';
@@ -130,6 +130,7 @@ export const subMenu2: StateSpace<string, UIFragmentSpec, {}> = [
     {
         key: 'blue',
         label: 'Blue',
+        title: 'Like the oceans',
         fragment: (
             <div>
                 Blue blocks: <br />
