@@ -85,6 +85,12 @@ export interface TestLocation {
  */
 export interface LocationChangeInterceptor {
     /**
+     * Each location change interceptor should be able to return a unique ID.
+     * This ID is used to recognize newer iterations of the same component.
+     */
+    getId(): string;
+
+    /**
      * This hook will be called before any "soft" navigation change event can succeed,
      * in order to collect any confirmation questions that must be presented to the user.
      *
