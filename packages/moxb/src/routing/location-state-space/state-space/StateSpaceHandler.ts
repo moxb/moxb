@@ -31,6 +31,11 @@ export interface StateSpaceHandler<LabelType, WidgetType, DataType> {
     findRoot(): SubState<LabelType, WidgetType, DataType>;
 
     /**
+     * Find a subState with a given menuKey
+     */
+    findStateForMenuKey(menuKey: string): SubStateInContext<LabelType, WidgetType, DataType>;
+
+    /**
      * Is the given sub-state active for a given set of tokens?
      *
      * @param state The sub-state to check

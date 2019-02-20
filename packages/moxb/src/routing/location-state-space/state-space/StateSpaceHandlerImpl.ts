@@ -120,6 +120,16 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         }
     }
 
+    public findStateForMenuKey(menuKey: string): SubStateInContext<LabelType, WidgetType, DataType> {
+        const result = this._subStatesInContext.find(state => state.menuKey === menuKey);
+        if (result) {
+            return result;
+        } else {
+            console.log("Can't find sub-state with menuKey '" + menuKey + "'.");
+            throw new Error("Can't find wanted subState");
+        }
+    }
+
     /**
      * Does the given sub-state (group) has any active sub-states, for the given set of tokens?
      *
