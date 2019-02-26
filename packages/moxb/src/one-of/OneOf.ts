@@ -1,7 +1,7 @@
 import { Value } from '../value/Value';
 
-export interface BindOneOfChoice {
-    value: string;
+export interface BindOneOfChoice<T = string> {
+    value: T;
 
     /**
      * If no label specified, the value is used as label
@@ -14,6 +14,6 @@ export interface BindOneOfChoice {
     widget?: any;
 }
 
-export interface OneOf extends Value<string> {
-    readonly choices: BindOneOfChoice[];
+export interface OneOf<T = string> extends Value<T> {
+    readonly choices: BindOneOfChoice<T>[];
 }
