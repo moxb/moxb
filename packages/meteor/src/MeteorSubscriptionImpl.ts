@@ -2,6 +2,7 @@ import { Tracker } from 'meteor/tracker';
 import { action, autorun, IReactionDisposer, observable, onBecomeObserved, onBecomeUnobserved } from 'mobx';
 import { meteorAutorun } from './MeteorDependencies';
 import { MeteorSubscription } from './MeteorSubscription';
+import { extractErrorString } from '@moxb/moxb';
 
 export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
     @observable
@@ -11,7 +12,7 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
     @observable
     private _hasFailed = false;
     @observable
-    private _error?: any;
+    private _errors: any[] = [];
 
     private subscriptionTracker?: Tracker.Computation;
     private mobxAutoRun?: IReactionDisposer;
@@ -28,22 +29,34 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         this._fail = this._fail.bind(this);
     }
 
-    /**
-     * This is observed to
-     * @returns {boolean}
-     */
+    /** @deprecated since version v0.2.0-beta.18 */
     get isSubscriptionReady() {
         return this._isSubscriptionReady;
     }
+    /** @deprecated since version v0.2.0-beta.18 */
     set isSubscriptionReady(value: boolean) {
         this._isSubscriptionReady = value;
+    }
+
+    /**
+     * Mark this subscription as ready.
+     * (This only makes sense during testing.)
+     */
+    _setReady() {
+        this._isSubscriptionReady = true;
     }
     get hasFailed() {
         return this._hasFailed;
     }
-    get error() {
-        return this._error;
+
+    get errors() {
+        return this._errors.slice();
     }
+
+    get errorMessage() {
+        return this._errors.map(extractErrorString).join('\n\n');
+    }
+
     get pending() {
         return !this._isSubscriptionReady && !this._hasFailed;
     }
@@ -51,7 +64,7 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         if (error) {
             // console.warn('Failing subscription', this._publicationName, ':', error);
             this._hasFailed = true;
-            this._error = error;
+            this._errors.push(error);
         }
     }
 
@@ -64,7 +77,7 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
 
     @action.bound
     private subscribe() {
-        this._error = undefined;
+        this._errors = [];
         this._hasFailed = false;
         this.nSubscriptions++;
         if (this.nSubscriptions === 1 && this.mobxAutoRun == undefined) {
