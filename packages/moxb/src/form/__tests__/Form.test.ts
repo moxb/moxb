@@ -8,6 +8,8 @@ describe('Form', function() {
     const bindText = new TextImpl({
         id: 'text',
         label: 'text',
+        required: true,
+        isGiven: value => !!value && value !== 'magic',
         onSave: onSaveUserText,
         initialValue: () => 'foo',
     });
@@ -156,6 +158,32 @@ describe('Form', function() {
             });
             bindForm.setError('foo');
             expect(bindForm.hasErrors).toEqual(true);
+        });
+    });
+
+    describe('hasMissingRequired', function() {
+        it('should return true if we have missing required fields', function() {
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
+                values: [bindText, bindPass],
+            });
+            bindText.setValue('');
+            expect(bindForm.hasMissingRequired).toBeTruthy();
+            bindText.setValue('apple');
+            expect(bindForm.hasMissingRequired).toBeFalsy();
+        });
+
+        it('should consider the configured isGiven function', function() {
+            bindForm = new FormImpl({
+                id: 'Impl.testForm',
+                values: [bindText, bindPass],
+            });
+            bindText.setValue('');
+            expect(bindForm.hasMissingRequired).toBeTruthy();
+            bindText.setValue('magic'); // According to the definition of bindText, this string doesn't count.
+            expect(bindForm.hasMissingRequired).toBeTruthy();
+            bindText.setValue('apple');
+            expect(bindForm.hasMissingRequired).toBeFalsy();
         });
     });
 

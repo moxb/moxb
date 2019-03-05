@@ -17,6 +17,11 @@ export interface Form extends Bind {
     hasChanges: boolean;
 
     /**
+     * Does the form has a required field that is not filled out?
+     */
+    hasMissingRequired: boolean;
+
+    /**
      * Contains the list of tracked errors by the children components
      */
     allErrors: string[];
