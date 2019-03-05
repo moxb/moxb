@@ -8,6 +8,7 @@ export interface Value<T> extends Bind {
     readonly value?: T;
     readonly placeholder?: string;
     readonly required?: boolean;
+    readonly isGiven: boolean;
 
     /**
      * If the value is same as he initial value.

@@ -4,9 +4,23 @@ import { t } from '../i18n/i18n';
 import { extractErrorString } from '../validation/ErrorMessage';
 import { Value } from './Value';
 
+const defaultIsGivenFunction = (value: any) => !!value;
+
 export interface ValueOptions<B, T> extends BindOptions {
     inputType?: string;
+
+    /**
+     * Is this value required?
+     *
+     * If yes, you probably won't be able to save a form if not given. (See isGiven below)
+     */
     required?: boolean;
+
+    /**
+     * A function used to detect if this value is "given". (whatever that means in the context.)
+     * This will be used to test the presence of required values.
+     */
+    isGiven?: (value: T | undefined | null) => boolean;
 
     initialValue?: ValueOrFunction<T>;
 
@@ -126,6 +140,12 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         return this.impl.required;
     }
 
+    @computed
+    get isGiven() {
+        const testFunction = this.impl.isGiven || defaultIsGivenFunction;
+        return testFunction(this.value);
+    }
+
     @action.bound
     setValue(value: T) {
         if (this.impl.onSetValue) {
@@ -187,7 +207,7 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
 
     @action.bound
     save() {
-        if (this.impl.required && this.getInitialValue() === this.value) {
+        if (this.impl.required && !this.isGiven) {
             this.setError(t('ValueImpl.error.required', 'This field is required and must be set'));
         }
         if (this.impl.onSave && !this.isInitialValue) {
@@ -219,7 +239,7 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         if (this.impl.onExitField) {
             this.impl.onExitField(this as any);
         }
-        if (this.impl.required && this.getInitialValue() === this.value) {
+        if (this.impl.required && !this.isGiven) {
             this.setError(t('ValueImpl.error.required', 'This field is required and must be set'));
         }
     }

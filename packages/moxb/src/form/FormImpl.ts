@@ -81,6 +81,11 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         return !this.values.every(v => (v.isInitialValue === undefined ? true : v.isInitialValue));
     }
 
+    @computed
+    get hasMissingRequired() {
+        return !this.values.filter(v => v.required).every(v => v.isGiven);
+    }
+
     @action.bound
     onSubmitForm(evt?: any) {
         if (!this.impl.doSubmitRefresh && evt) {

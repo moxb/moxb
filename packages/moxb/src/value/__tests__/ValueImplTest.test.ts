@@ -12,10 +12,12 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
     function bindStringValue(opts: ValueOptions<ValueImplForTest<string>, string>): Value<string> {
         return new ValueImplForTest(opts);
     }
-    function bindStringValueOrNull(opts: ValueOptions<ValueImplForTest<string>, string | null>): Value<string | null> {
+    function bindStringValueOrNull(
+        opts: ValueOptions<ValueImplForTest<string | null>, string | null>
+    ): Value<string | null> {
         return new ValueImplForTest(opts);
     }
-    describe('interfce Value', function() {
+    describe('interface Value', function() {
         describe('placeholder', function() {
             beforeEach(function() {
                 setTFunction(translateKeysDefault);
@@ -158,6 +160,30 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     });
                     bind.value;
                     expect(theThis).toBe(bind);
+                });
+            });
+
+            describe('isGiven()', function() {
+                it('by default, it should simply look for a true-ish value', function() {
+                    const bind: Value<string> = bindStringValue({
+                        id: 'test',
+                        initialValue: () => 'foo',
+                    });
+                    expect(bind.isGiven).toBeTruthy();
+                    bind.setValue('');
+                    expect(bind.value).toBeFalsy();
+                });
+
+                it('should be able to recognize special cases, as per configuration', function() {
+                    const bind: Value<string> = bindStringValue({
+                        id: 'test',
+                        isGiven: value => !!value && value !== 'foo',
+                    });
+                    expect(bind.isGiven).toBeFalsy();
+                    bind.setValue('foo');
+                    expect(bind.isGiven).toBeFalsy();
+                    bind.setValue('bar');
+                    expect(bind.isGiven).toBeTruthy();
                 });
             });
 
