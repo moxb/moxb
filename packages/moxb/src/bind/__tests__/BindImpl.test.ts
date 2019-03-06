@@ -1,6 +1,7 @@
 import { setTFunction, t, translateKeysDefault, translateKeysOnly } from '../../i18n/i18n';
 import { Bind } from '../Bind';
-import { BindImpl, BindOptions, decideRefuse, getValueFromStringOrFunction } from '../BindImpl';
+import { BindImpl, BindOptions, getValueFromStringOrFunction } from '../BindImpl';
+import { decideRefuse } from '../../decision';
 
 describe('interface Bind', function() {
     function newBind(options: BindOptions) {

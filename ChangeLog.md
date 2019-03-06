@@ -13,6 +13,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Changed
 
+* Separated the decision-related code (from binding) into a new module, so that it can be more easily reused by other components. 
+
 ### Fixed
 
 * If the `Makefile`, any file in `admin/makefiles` or the `tsconfig.json` or `package-lock.json` changes,
