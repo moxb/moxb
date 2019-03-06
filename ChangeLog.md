@@ -14,6 +14,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 ### Changed
 
 * Separated the decision-related code (from binding) into a new module, so that it can be more easily reused by other components. 
+* Enhanced `registerMeteorMethod` with new configuration options and behaviors
 
 ### Fixed
 
