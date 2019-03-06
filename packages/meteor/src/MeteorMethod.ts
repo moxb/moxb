@@ -1,3 +1,4 @@
+import { observable } from 'mobx';
 import { meteorCall, MeteorCallback } from './MeteorCall';
 
 /**
@@ -17,6 +18,13 @@ export interface MeteorMethodDefinition<Input, Output> {
      * Do we want to see debug output?
      */
     debug?: boolean;
+
+    /**
+     * Should this method be registered on the server side only?
+     *
+     * If set, then there will be no simulation for this method.
+     */
+    serverOnly?: boolean;
 
     /**
      * The code to execute (on the server side) when the method is executed.
@@ -43,7 +51,7 @@ export interface MeteorMethodControl<Input, Output> {
      * @param data     The data to provide to the method
      * @param callback The callback to call when finished
      */
-    call(data: Input, callback: MeteorCallback<Output>): void;
+    call(data: Input, callback?: MeteorCallback<Output>): void;
 
     /**
      * Call the method, using Promise-style syntax
@@ -51,6 +59,13 @@ export interface MeteorMethodControl<Input, Output> {
      * @param data The data to provide to the method.
      */
     callPromise(data: Input): Promise<Output>;
+
+    /**
+     * Tells you if the method is currently being executed.
+     *
+     * This field is mobx-reactive.
+     */
+    pending: boolean;
 }
 
 export interface Problem {
@@ -95,8 +110,8 @@ export function wrapException<A extends Function>(f: A): A {
 export function registerMeteorMethod<Input, Output>(
     method: MeteorMethodDefinition<Input, Output>
 ): MeteorMethodControl<Input, Output> {
-    const { name, debug, execute } = method;
-    if (Meteor.isServer) {
+    const { name, debug, execute, serverOnly } = method;
+    if (Meteor.isServer || !serverOnly) {
         // console.log('Publishing Meteor method', name);
         Meteor.methods({
             [name]: (input: Input) => {
@@ -115,14 +130,26 @@ export function registerMeteorMethod<Input, Output>(
             },
         });
     }
+    const pending = observable.box(false);
     return {
         name,
-        call: (data: Input, callback: MeteorCallback<Output>) => {
-            meteorCall(name, data, callback);
+        get pending(): boolean {
+            return pending.get();
+        },
+        call: (data: Input, callback?: MeteorCallback<Output>) => {
+            pending.set(true);
+            meteorCall(name, data, (error?: any, result?: any) => {
+                pending.set(false);
+                if (callback) {
+                    callback(error, result);
+                }
+            });
         },
         callPromise: (data: Input): Promise<Output> =>
             new Promise<Output>((resolve, reject) => {
+                pending.set(true);
                 meteorCall(name, data, (error: any, result: Output) => {
+                    pending.set(false);
                     if (error) {
                         reject(error);
                     } else {
