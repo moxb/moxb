@@ -3,6 +3,7 @@ import { t } from '../i18n/i18n';
 import { bindAllTo } from '../util/bindAllTo';
 import { idToDomId } from '../util/idToDomId';
 import { Bind } from './Bind';
+import { AnyDecision, readDecision, readReason } from '../decision';
 
 export type ValueOrFunction<T> = T | (() => T | undefined) | undefined;
 
@@ -18,24 +19,6 @@ export function getValueOrFunction<T>(value: ValueOrFunction<T>): T | undefined 
 export type StringOrFunction = ValueOrFunction<string>;
 export function getValueFromStringOrFunction(value: StringOrFunction): string | undefined {
     return getValueOrFunction(value);
-}
-
-export interface Decision {
-    allowed: boolean;
-    reason?: string;
-}
-
-export const decideAccept = (reason?: string): Decision => ({ allowed: true, reason });
-export const decideRefuse = (reason?: string): Decision => ({ allowed: false, reason });
-
-export type AnyDecision = boolean | Decision;
-
-export function readDecision(decision: AnyDecision): boolean {
-    return decision === null ? false : typeof decision === 'object' ? (decision as Decision).allowed : !!decision;
-}
-
-export function readReason(decision: AnyDecision): string | undefined {
-    return decision === null ? undefined : typeof decision === 'object' ? (decision as Decision).reason : undefined;
 }
 
 /**
