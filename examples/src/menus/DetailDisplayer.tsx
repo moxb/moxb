@@ -8,8 +8,10 @@ import { UsesURL } from '../store/UrlStore';
 @observer
 export class DetailDisplayer extends React.Component<NavigableContent<any, UIFragmentSpec> & UsesLocation & UsesURL> {
     componentDidMount() {
-        this.props.navControl.registerStateHooks({
+        this.props.navControl.registerStateHooks('details', {
             getLeaveQuestion: () => 'Do you really want to leave behind the details?',
+            onEnter: () => console.log('Entered details'),
+            onLeave: () => console.log('Leaving details'),
         });
     }
 

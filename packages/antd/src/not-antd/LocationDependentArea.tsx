@@ -91,14 +91,43 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         if (invisible) {
             extraProps.invisible = true;
         }
+        const tokenIncrease = subState ? subState.totalPathTokens.length : 1;
+        const parsedTokens = this.props.parsedTokens || 0; //  + tokenIncrease;
         return renderSubStateCore({
             state: subState,
             navigationContext: this.props,
-            tokenIncrease: subState ? subState.totalPathTokens.length : 1,
+            tokenIncrease,
             checkCondition: false, // We don't ever get to select this sub-state if the condition fails
             extraProps,
             navControl: {
-                registerStateHooks: hooks => this._states.registerNavStateHooksForSubState(subState, hooks),
+                registerStateHooks: (componentId, hooks) =>
+                    this._states.registerNavStateHooksForSubState(subState, componentId, hooks),
+                unregisterStateHooks: componentId =>
+                    this._states.unregisterNavStateHooksForSubState(subState, componentId),
+                isActive: () =>
+                    (!this.props.navControl || this.props.navControl.isActive()) && // Is the whole area active?
+                    !!subState && // The fallback is never really considered to be active
+                    this._states.isSubStateActive(subState), // Is the current sub-state active?
+                wouldBeActive: testLocation => {
+                    const upstream = !this.props.navControl || this.props.navControl.wouldBeActive(testLocation);
+                    if (!upstream) {
+                        return false;
+                    }
+                    const realState = !!subState; // The fallback is never considered to be active
+                    if (!realState) {
+                        return false;
+                    }
+                    const active = this._states.isSubStateActiveForTokens(
+                        subState!,
+                        testLocation.pathTokens,
+                        parsedTokens
+                    );
+                    return active;
+                },
+
+                // (!this.props.navControl || this.props.navControl.wouldBeActive(testLocation)) && // Would upstream be active?
+                // !!subState && // The fallback is never considered to be active
+                // this._states.isSubStateActiveForTokens(subState, testLocation.pathTokens, parsedTokens),
             },
         });
     }

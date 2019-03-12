@@ -51,11 +51,13 @@
   "devDependencies": {
     "@types/history": "^4.7.0",
     "@types/jest": "^23.3.2",
+    "@types/lodash.flatten": "4.4.6",
     "@types/urijs": "^1.15.38",
     "mobx": "5.6.0"
   },
   "dependencies": {
     "history": "4.7.2",
+    "lodash.flatten": "^4.4.0",
     "urijs": "^1.19.1"
   }
 }

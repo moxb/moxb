@@ -80,11 +80,24 @@ export interface StateSpaceHandler<LabelType, WidgetType, DataType> {
      * Register navigation state change hooks for a given sub-state
      *
      * @param subState
+     * @componentId
      * @param hooks
      */
     registerNavStateHooksForSubState(
         subState: SubStateInContext<LabelType, WidgetType, DataType> | null,
+        componentId: string,
         hooks: NavStateHooks
+    ): void;
+
+    /**
+     * Unregister navigation state change hooks for a given sub-state
+     *
+     * @param subState
+     * @componentId
+     */
+    unregisterNavStateHooksForSubState(
+        subState: SubStateInContext<LabelType, WidgetType, DataType> | null,
+        componentId: string
     ): void;
 }
 

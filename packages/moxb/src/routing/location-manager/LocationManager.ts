@@ -97,6 +97,16 @@ export interface LocationChangeInterceptor {
      * @param location: Where we want to go
      */
     anyQuestionsFor(location: TestLocation): string[];
+
+    /**
+     * This hook will be called before the location changes
+     */
+    onBeforeChange(newLocation: TestLocation): void;
+
+    /**
+     * This hook will be called after the location changes
+     */
+    onAfterChange(oldLocation: TestLocation): void;
 }
 
 /**

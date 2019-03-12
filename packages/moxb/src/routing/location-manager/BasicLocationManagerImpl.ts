@@ -124,7 +124,19 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     @action
-    protected _doSetLocation(location: LocationDescriptorObject, method: UpdateMethod = UpdateMethod.PUSH) {
+    protected _doSetLocation(newLocation: LocationDescriptorObject, method: UpdateMethod = UpdateMethod.PUSH) {
+        if (method === UpdateMethod.NONE) {
+            // We don't really have to touch the URL.
+            // We only wanted a dry-run, to test is this change would be OK.
+            return;
+        }
+
+        const newTestLocation = this._createTestLocation(newLocation);
+
+        // Notify everyone before the change happens
+        this._interceptors // Go over all the registered interceptors
+            .forEach(interceptor => interceptor.onBeforeChange(newTestLocation));
+
         /**
          * Since we are going to modify the URL, we make a note for ourselves, so that
          * when the URL is modified, and we are notified about the change, we should know
@@ -132,18 +144,15 @@ export class BasicLocationManagerImpl implements LocationManager {
          * been "cleared" by us once.
          * (This will be used in the `onLocationChanged()` function.)
          */
+        this._setting = true;
+
+        // Execute the change
         switch (method) {
-            case UpdateMethod.NONE:
-                // We don't really have to touch the URL.
-                // We only wanted a dry-run, to test is this change would be OK.
-                break;
             case UpdateMethod.REPLACE:
-                this._setting = true;
-                this._history.replace(location);
+                this._history.replace(newLocation);
                 break;
             case UpdateMethod.PUSH:
-                this._setting = true;
-                this._history.push(location);
+                this._history.push(newLocation);
                 break;
             default:
                 console.warn('Huh? Unknown URL update method requested:', method);
@@ -161,6 +170,31 @@ export class BasicLocationManagerImpl implements LocationManager {
         return questions;
     }
 
+    protected _createTestLocation(location: LocationDescriptorObject): TestLocation {
+        const pathTokens = this._schema.getPathTokens(location);
+        const query = this._schema.getQuery(location);
+
+        /**
+         * Here we compile the object that will contain all the information about the wanted location.
+         * We will pass this object on to change interceptors, who might want to ask questions to the user.
+         * This object mocks a subset of the `LocationManager` API.
+         */
+        const result: TestLocation = {
+            pathTokens,
+            query,
+            doPathTokensMatch(
+                wantedTokens: string[],
+                parsedTokens: number,
+                exactOnly: boolean,
+                debugMode?: boolean
+            ): boolean {
+                return doTokenStringsMatch(pathTokens, wantedTokens, parsedTokens, exactOnly, debugMode);
+            },
+        };
+
+        return result;
+    }
+
     /**
      * Try to set the location to a new value.
      *
@@ -175,26 +209,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         // so the previous question (if any) is no longer relevant.
         this._communicator.revokeCurrentQuestion();
 
-        const pathTokens = this._schema.getPathTokens(location);
-        const query = this._schema.getQuery(location);
-
-        /**
-         * Here we compile the object that will contain all the information about the wanted location.
-         * We will pass this object on to change interceptors, who might want to ask questions to the user.
-         * This object mocks a subset of the `LocationManager` API.
-         */
-        const testLocation: TestLocation = {
-            pathTokens,
-            query,
-            doPathTokensMatch(
-                wantedTokens: string[],
-                parsedTokens: number,
-                exactOnly: boolean,
-                debugMode?: boolean
-            ): boolean {
-                return doTokenStringsMatch(pathTokens, wantedTokens, parsedTokens, exactOnly, debugMode);
-            },
-        };
+        const testLocation = this._createTestLocation(location);
 
         // This is where we will collect the questions that must be asked from the user.
         const questions = this._collectQuestionsFor(testLocation);
@@ -310,13 +325,38 @@ export class BasicLocationManagerImpl implements LocationManager {
             this._setting = false; // Reset the flag, not that we have used it.
             // We are doing the change, no reason to verify it again.
             // We can just update the stored location, and everything is OK.
+
+            // Save the old location
+            const oldTestLocation = this._createTestLocation(this._location);
+
+            // Actually update the stored location
             this._location = newLocation;
+
+            // Notify everyone after the change happened
+            setTimeout(() =>
+                this._interceptors // Go over all the registered interceptors
+                    .forEach(interceptor => interceptor.onAfterChange(oldTestLocation))
+            );
         } else {
             // This change is coming from the browser, thus we need to verify
             this._trySetLocation(newLocation, UpdateMethod.NONE, result => {
                 if (result) {
+                    // Notify everyone before the change happens
+                    const newTestLocation = this._createTestLocation(newLocation);
+                    this._interceptors // Go over all the registered interceptors
+                        .forEach(interceptor => interceptor.onBeforeChange(newTestLocation));
+
+                    // Save the old location
+                    const oldTestLocation = this._createTestLocation(this._location);
+
                     // Actually update the stored location
                     this._location = newLocation;
+
+                    // Notify everyone after the change happened
+                    setTimeout(() =>
+                        this._interceptors // Go over all the registered interceptors
+                            .forEach(interceptor => interceptor.onAfterChange(oldTestLocation))
+                    );
                 } else {
                     this._restoreStoredLocation();
                 }

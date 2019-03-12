@@ -132,7 +132,7 @@ export interface SubStateInContext<LabelType, WidgetType, DataType> extends SubS
     parentPathTokens: string[];
 
     /**
-     * What are the parent path tokens to choose to reach this sub-state?
+     * What is the full list of path tokens to choose to reach this sub-state?
      */
     totalPathTokens: string[];
 

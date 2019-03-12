@@ -4,7 +4,7 @@
  * When we render it, if it is an active component, it needs to know
  * where it stands in the tree.
  */
-import { UsesLocation } from './location-manager';
+import { TestLocation, UsesLocation } from './location-manager';
 import { StateCondition } from './location-state-space/state-space/StateSpace';
 
 export type LeaveQuestionGenerator = () => string | null | undefined;
@@ -22,13 +22,45 @@ export interface NavStateHooks {
      * If there is no unsaved data, return null or undefined.
      */
     getLeaveQuestion?: LeaveQuestionGenerator;
+
+    /**
+     * This function will be called _after_ the navigation system enters this state
+     */
+    onEnter?: () => void;
+
+    /**
+     * This function will be called _before_ the navigation system leaves this state
+     */
+    onLeave?: () => void;
 }
 
 /**
  * Nav control interface, to control various aspects of the navigation
+ *
+ * This control interface is passed down, from the component responsible for the naviation,
+ * to the actual UI parts that are rendered by them. The component can access the navigation
+ * system using these APIs
  */
 export interface NavControl {
-    registerStateHooks: (hooks: NavStateHooks) => void;
+    /**
+     * Am I currently active?
+     */
+    isActive: () => boolean;
+
+    /**
+     * Would this sub-state be active if we moved to this location?
+     */
+    wouldBeActive: (location: TestLocation) => boolean;
+
+    /**
+     * Register some hooks to be called on navigation events
+     */
+    registerStateHooks: (componentId: string, hooks: NavStateHooks) => void;
+
+    /**
+     * Unregister navigation event hooks
+     */
+    unregisterStateHooks: (componentId: string) => void;
 }
 
 /**

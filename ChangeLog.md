@@ -10,11 +10,15 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 ### Added
 * Added new toggle button component for the ant design package
 * Added the original onSubmit form event to the form operation, so the event handling can be done in a callback.
+* Added `onEnter()` and `onLeave()` navigation state hooks.
+* Added `unregisterStateHooks()` API to remove navigation state hooks.
+* Added `isAvtive()` and `wouldBeActive()` APIs to the `NavControl` interface.
 
 ### Changed
 
 * Separated the decision-related code (from binding) into a new module, so that it can be more easily reused by other components. 
 * Enhanced `registerMeteorMethod` with new configuration options and behaviors
+* Changed the `registerStateHooks` API: now a component ID is also mandatory.
 
 ### Fixed
 

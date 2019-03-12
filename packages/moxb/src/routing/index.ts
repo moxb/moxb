@@ -20,6 +20,8 @@ export {
     StateSpace,
 } from './location-state-space/state-space/StateSpace';
 
+export { HookMap } from './location-state-space/state-space/StateSpaceHandlerImpl';
+
 export {
     UrlArgDefinition,
     UrlArgTypeDef,

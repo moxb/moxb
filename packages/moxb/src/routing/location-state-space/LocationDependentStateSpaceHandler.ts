@@ -1,5 +1,5 @@
 import { SuccessCallback, UpdateMethod, UsesLocation } from '../location-manager';
-import { Navigable } from '../navigable';
+import { Navigable, NavControl } from '../navigable';
 import { UsesTokenManager } from '../TokenManager';
 import { UrlArg } from '../url-arg';
 import { SubStateInContext } from './state-space/StateSpace';
@@ -21,6 +21,11 @@ export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, 
      * (Required for registering on-leave handlers and such)
      */
     intercept?: boolean;
+
+    /**
+     * If this component is embedded in a larger navigation space, we can pass in some controls
+     */
+    navControl?: NavControl;
 }
 
 /**

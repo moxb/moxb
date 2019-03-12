@@ -52,6 +52,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
     ) {
+        const { navControl } = this.props;
         const { label, key, menuKey, itemClassName, newWindow, linkStyle, linkClassName, title } = state;
 
         const url = states.getUrlForSubState(state);
@@ -71,16 +72,25 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
             itemProps.className = itemClassName;
         }
         const tabLabel = <Anchor.Anchor {...anchorProps} />;
+        const tokenIncrease = state ? state.totalPathTokens.length : 1;
+        const parsedTokens = (this.props.parsedTokens || 0) + tokenIncrease;
         return (
             <TabPane key={menuKey} tab={tabLabel} {...itemProps}>
                 {states.isSubStateActive(state) &&
                     renderSubStateCore({
-                        state: state,
+                        state,
                         navigationContext: this.props,
-                        tokenIncrease: state ? state.totalPathTokens.length : 1,
+                        tokenIncrease,
                         checkCondition: false,
                         navControl: {
-                            registerStateHooks: hooks => states.registerNavStateHooksForSubState(state, hooks),
+                            registerStateHooks: (componentId, hooks) =>
+                                states.registerNavStateHooksForSubState(state, componentId, hooks),
+                            unregisterStateHooks: componentId =>
+                                states.unregisterNavStateHooksForSubState(state, componentId),
+                            isActive: () => (!navControl || navControl.isActive()) && states.isSubStateActive(state),
+                            wouldBeActive: testLocation =>
+                                (!navControl || navControl.wouldBeActive(testLocation)) &&
+                                states.isSubStateActiveForTokens(state, testLocation.pathTokens, parsedTokens),
                         },
                     })}
             </TabPane>

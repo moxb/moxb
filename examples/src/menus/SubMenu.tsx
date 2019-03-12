@@ -42,6 +42,7 @@ export const subMenu1: StateSpace<string, UIFragmentSpec, {}> = [
         label: 'Three',
         tokenMapping: ['something'],
         fragment: rootOrDetails({
+            id: 'three-details',
             ifRoot: {
                 fragment: (
                     <div>
@@ -97,12 +98,48 @@ export const subMenu1: StateSpace<string, UIFragmentSpec, {}> = [
     },
 ];
 
+class BlueBlocks extends React.Component<NavigableContent<string, UIFragmentSpec>> {
+    constructor(props: NavigableContent<string, UIFragmentSpec>) {
+        super(props);
+        const { navControl } = this.props;
+        navControl.registerStateHooks('blue blocks', {
+            onEnter: () => {
+                console.log('Entered blue blocks');
+            },
+
+            onLeave: () => {
+                console.log('Going to leave blue blocks.');
+            },
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                Blue blocks: <br />
+                <img src={blueUrl} />
+            </div>
+        );
+    }
+}
+
 class GreenBlocks extends React.Component<NavigableContent<string, UIFragmentSpec>> {
     componentDidMount(): void {
         const { navControl } = this.props;
-        navControl.registerStateHooks({
+        navControl.registerStateHooks('green blocks', {
             getLeaveQuestion: () => 'Do you really want to leave these nice green blocks?',
+            onEnter: () => {
+                console.log('Entered green blocks');
+            },
+
+            onLeave: () => {
+                console.log('Going to leave green blocks.');
+            },
         });
+        // navControl.unregisterStateHooks('green blocks');
+        // navControl.registerStateHooks('green-green blocks', {
+        //     getLeaveQuestion: () => 'Do you really want to leave these nice green-green blocks?',
+        // });
     }
 
     render() {
@@ -131,12 +168,7 @@ export const subMenu2: StateSpace<string, UIFragmentSpec, {}> = [
         key: 'blue',
         label: 'Blue',
         title: 'Like the oceans',
-        fragment: (
-            <div>
-                Blue blocks: <br />
-                <img src={blueUrl} />
-            </div>
-        ),
+        fragment: BlueBlocks,
     },
     {
         key: 'green',

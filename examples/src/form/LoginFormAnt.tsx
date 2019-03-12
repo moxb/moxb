@@ -10,7 +10,7 @@ import { Application } from '../app/Application';
 export class LoginFormAnt extends React.Component<{ app?: Application } & NavigableContent<any, any>> {
     componentDidMount(): void {
         const { navControl } = this.props;
-        navControl.registerStateHooks({
+        navControl.registerStateHooks('login form', {
             getLeaveQuestion: () =>
                 this.props.app!.formPasswordText.value
                     ? 'Really leave the login form? You have already entered your super secure password!'
