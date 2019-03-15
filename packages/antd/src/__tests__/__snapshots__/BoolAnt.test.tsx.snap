@@ -6,7 +6,6 @@ exports[`BoolAnt should render a checkbox by default 1`] = `
   id="the_id"
   indeterminate={true}
   onChange={[Function]}
-  prefixCls="ant-checkbox"
   readOnly={false}
 >
   oh

@@ -11,7 +11,6 @@ exports[`ConfirmAnt should render a confirm dialog by default 1`] = `
   okType="primary"
   onCancel={[Function]}
   onOk={[Function]}
-  prefixCls="ant-modal"
   title={
     <BindMarkdownDiv
       text=""

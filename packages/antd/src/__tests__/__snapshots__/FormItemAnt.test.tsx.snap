@@ -2,11 +2,9 @@
 
 exports[`FormItemAnt should render a form item by default 1`] = `
 <FormItem
-  colon={true}
   hasFeedback={false}
   help={null}
   id="id-test_form-formItem"
-  prefixCls="ant-form"
 />
 `;
 
@@ -27,6 +25,7 @@ exports[`FormItemAnt should show an error message on failure 1`] = `
           class="ant-form-item-children-icon"
         >
           <i
+            aria-label="icon: close-circle"
             class="anticon anticon-close-circle"
           >
             <svg

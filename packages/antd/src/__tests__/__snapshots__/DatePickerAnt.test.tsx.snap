@@ -3,16 +3,13 @@
 exports[`DatePickerAnt should render a date picker by default 1`] = `
 <PickerWrapper
   disabled={false}
-  format="YYYY-MM-DD"
   id="the_id"
-  inputPrefixCls="ant-input"
   label="oh"
   locale={Object {}}
   onChange={[Function]}
   onOk={[Function]}
   onOpenChange={[Function]}
   popupStyle={Object {}}
-  prefixCls="ant-calendar"
   readOnly={false}
   transitionName="slide-up"
 />

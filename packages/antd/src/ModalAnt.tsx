@@ -11,9 +11,9 @@ export interface BindModalAntProps<T> extends ModalFuncProps {
 @observer
 export class ModalAnt<T> extends React.Component<BindModalAntProps<T>> {
     /*
-    * Ant Design has no concept for multiple actions in a modal dialog, it will always be an 'okButton' and
-    * a 'cancelButton', so we will warn the user, that not more actions are available.
-    * */
+     * Ant Design has no concept for multiple actions in a modal dialog, it will always be an 'okButton' and
+     * a 'cancelButton', so we will warn the user, that not more actions are available.
+     * */
     render() {
         const { operation, children, ...props } = this.props;
         if (operation.actions!.length !== 2) {

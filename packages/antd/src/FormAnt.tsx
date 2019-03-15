@@ -20,16 +20,15 @@ export class FormAnt extends React.Component<FormProps & BindFormAntProps> {
         return (
             <Form onSubmit={operation.onSubmitForm} {...props as any}>
                 {children}
-                {!hideErrors &&
-                    operation.hasErrors && (
-                        <Alert
-                            message={t('FormAnt.errors.header', 'Errors')}
-                            description={operation.allErrors}
-                            type="error"
-                            closable
-                            onClose={operation.clearErrors}
-                        />
-                    )}
+                {!hideErrors && operation.hasErrors && (
+                    <Alert
+                        message={t('FormAnt.errors.header', 'Errors')}
+                        description={operation.allErrors}
+                        type="error"
+                        closable
+                        onClose={operation.clearErrors}
+                    />
+                )}
             </Form>
         );
     }

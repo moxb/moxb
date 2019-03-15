@@ -13,13 +13,13 @@
   "author": "moxb (moxb.org)",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^23.6.0",
-    "lerna": "^3.4.3",
+    "jest": "^24.5.0",
+    "lerna": "^3.13.1",
     "npm-check": "^5.9.0",
-    "prettier": "^1.14.3",
-    "ts-jest": "^23.10.3",
-    "tslint": "^5.11.0",
-    "typescript": "^3.0.3"
+    "prettier": "^1.16.4",
+    "ts-jest": "^24.0.0",
+    "tslint": "^5.14.0",
+    "typescript": "^3.3.3333"
   },
   "bugs": {
     "url": "https://github.com/moxb/moxb/issues"
@@ -34,6 +34,5 @@
     "ant-design",
     "react",
     "UI"
-  ],
-  "dependencies": {}
+  ]
 }
