@@ -80,7 +80,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
     ) {
-        const { label, key, subStates, flat, menuKey, linkStyle } = state;
+        const { label, key, subStates, flat, menuKey, linkStyle, itemClassName } = state;
         if (!flat && !key) {
             throw new Error("Can't create a hierarchical menu group without a key!");
         }
@@ -91,12 +91,20 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         );
     }
 
+    protected renderSeparator(state: SubStateInContext<UIFragment, any, any>) {
+        return <Menu.Divider key={state.menuKey} />;
+    }
+
     protected renderSubStateElement(
         states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
     ) {
-        const { isGroupOnly } = state;
-        return isGroupOnly ? this.renderSubStateGroup(states, state) : this.renderSubStateLink(states, state);
+        const { isGroupOnly, separator } = state;
+        return separator
+            ? this.renderSeparator(state)
+            : isGroupOnly
+            ? this.renderSubStateGroup(states, state)
+            : this.renderSubStateLink(states, state);
     }
 
     public render() {
