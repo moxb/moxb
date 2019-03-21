@@ -102,6 +102,11 @@ export interface SubStateDisplayInfo<LabelType> {
      * of custom component, which will be provided as the label.
      */
     noLink?: boolean;
+
+    /**
+     * Is this a separator? If yes, nothing else needs to be specified.
+     */
+    separator?: boolean;
 }
 
 /**
