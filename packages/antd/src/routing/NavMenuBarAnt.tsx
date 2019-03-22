@@ -87,12 +87,17 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
     ) {
-        const { label, key, subStates, flat, menuKey, linkStyle } = state;
+        const { label, key, subStates, flat, menuKey, linkStyle, itemClassName } = state;
         if (!flat && !key) {
             throw new Error("Can't create a hierarchical menu group without a key!");
         }
         return (
-            <Menu.SubMenu key={menuKey} title={renderUIFragment(label || key || '***')} style={linkStyle}>
+            <Menu.SubMenu
+                key={menuKey}
+                className={itemClassName}
+                title={renderUIFragment(label || key || '***')}
+                style={linkStyle}
+            >
                 {subStates!.map(s => this.renderSubStateElement(states, s))}
             </Menu.SubMenu>
         );
