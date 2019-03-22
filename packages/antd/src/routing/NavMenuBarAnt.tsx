@@ -1,4 +1,5 @@
 import {
+    idToDomId,
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
@@ -49,8 +50,15 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
     ) {
         const { label, key, menuKey, newWindow, itemClassName, linkClassName, linkStyle, noLink, title } = state;
+        // use `.` to separate the items and the convert it to a DOM id (which converts all . to -)
+        const itemId = idToDomId('menuItem.' + this.props.id + '.' + menuKey);
+        const itemProps: any = {};
         if (noLink) {
-            return <Menu.Item key={menuKey}>{renderUIFragment(label || key || 'item')}</Menu.Item>;
+            return (
+                <Menu.Item id={itemId} key={menuKey} {...itemProps}>
+                    {renderUIFragment(label || key || 'item')}
+                </Menu.Item>
+            );
         } else {
             const url = states.getUrlForSubState(state);
             const anchorProps: Anchor.UIProps = {
@@ -64,11 +72,9 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
             if (linkClassName) {
                 anchorProps.className = linkClassName;
             }
-            const itemProps: any = {};
             if (itemClassName) {
                 itemProps.className = itemClassName;
             }
-            const itemId = 'menuItem_' + this.props.id + '_' + menuKey;
             return (
                 <Menu.Item id={itemId} key={menuKey} {...itemProps}>
                     <Anchor.Anchor {...anchorProps} />
