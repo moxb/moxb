@@ -11,6 +11,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 * Added new toggle button component for the ant design package
 * Added the original onSubmit form event to the form operation, so the event handling can be done in a callback.
 * Added support for easily adding separators in submenus
+* Menu items now get IDs, for easier testing
 
 ### Changed
 

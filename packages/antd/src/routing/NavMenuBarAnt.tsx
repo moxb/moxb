@@ -68,8 +68,9 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
             if (itemClassName) {
                 itemProps.className = itemClassName;
             }
+            const itemId = 'menuItem_' + this.props.id + '_' + menuKey;
             return (
-                <Menu.Item key={menuKey} {...itemProps}>
+                <Menu.Item id={itemId} key={menuKey} {...itemProps}>
                     <Anchor.Anchor {...anchorProps} />
                 </Menu.Item>
             );
