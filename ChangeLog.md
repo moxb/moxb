@@ -18,7 +18,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 * Separated the decision-related code (from binding) into a new module, so that it can be more easily reused by other components. 
 * Enhanced `registerMeteorMethod` with new configuration options and behaviors
-
+* Improved parsing of meteor queries
+  - better regex parsing
+  - remove not needed  `$and` and `$or`
+  
 ### Fixed
 
 * If the `Makefile`, any file in `admin/makefiles` or the `tsconfig.json` or `package-lock.json` changes,
