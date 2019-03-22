@@ -12,6 +12,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 * Added the original onSubmit form event to the form operation, so the event handling can be done in a callback.
 * Added support for easily adding separators in submenus
 * Menu items now get IDs, for easier testing
+* Added support for passing on class names for submenus
 
 ### Changed
 
