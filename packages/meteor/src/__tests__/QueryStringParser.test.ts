@@ -74,6 +74,45 @@ describe('parseQuery', function() {
         };
         expect(() => parseQuery('???', null, ['field', 'nested.field'])).toThrow(/Invalid regular expression/);
     });
+    it('should turn regex objects into $regex', function() {
+        expect(parseQuery('', { name: /xxx/i }, [])).toEqual({
+            name: {
+                $regex: 'xxx',
+                $options: 'i',
+            },
+        });
+    });
+    it('should negate regex', function() {
+        expect(parseQuery('-foo:/bar/', undefined, [])).toEqual({
+            foo: {
+                $regex: '^(?!.*bar)',
+                $options: 'i',
+            },
+        });
+    });
+    it('should eliminate `or`', function() {
+        expect(parseQuery('', { $or: [{ x: 1 }] }, [])).toEqual({
+            x: 1,
+        });
+    });
+    it('should eliminate `and`', function() {
+        expect(parseQuery('', { $and: [{ foo: 1 }] }, [])).toEqual({
+            foo: 1,
+        });
+    });
+    it('should eliminate `and` `or` nested', function() {
+        expect(parseQuery('', { $and: [{ $or: [{ x: 1 }] }] }, [])).toEqual({
+            x: 1,
+        });
+    });
+    it('should eliminate `or` `and` nested', function() {
+        expect(parseQuery('', { $or: [{ $and: [{ $or: [{ x: 1 }] }] }] }, [])).toEqual({
+            x: 1,
+        });
+    });
+    it('should empty array should be empty object', function() {
+        expect(parseQuery('', [], [])).toEqual({});
+    });
 });
 
 describe('parseQueryString', function() {

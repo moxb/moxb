@@ -214,7 +214,7 @@ function parseQueryString(query: string): ParsedQuery {
  * @param {string[]} fields that should be searched
  * @returns {{$and:any[]} | {}}
  */
-export function parseQuery<T>(
+function parseQueryBasic<T>(
     queryString: string,
     additionalFilter: object | undefined | null,
     fields: string[]
@@ -473,6 +473,84 @@ function flattenKeepKeys(obj: any) {
 export function getFieldFilter(query: Mongo.Selector<any>) {
     const newObj = flattenKeepSpecial(query);
     return getTopLevelFields(newObj);
+}
+//----------------------------------------------------------
+
+/**
+ *
+ * @param {string} queryString a string line `foo -bar x:/ccc/`
+ * @param additionalFilter additional mongo queries or undefined
+ * @param {string[]} fields that should be searched
+ * @returns {{$and:any[]} | {}}
+ */
+export function parseQuery(queryString: string, additionalFilter: object | undefined | null, fields: string[]) {
+    function negateRegex(obj: any) {
+        if (isObject(obj)) {
+            return negateRegexObject(obj);
+        } else if (Array.isArray(obj)) {
+            return negateRegexArray(obj);
+        } else {
+            return obj;
+        }
+    }
+
+    function negateRegexObject(obj: any) {
+        let toReturn: any = {};
+        for (const key in obj) {
+            const value = obj[key];
+            if (key === '$not' && value.$regex != null) {
+                toReturn = { ...toReturn, ...value, $regex: '^(?!.*' + value.$regex + ')' };
+            } else {
+                toReturn[key] = negateRegex(value);
+            }
+        }
+        return toReturn;
+    }
+
+    function negateRegexArray(array: any[]): any[] {
+        return array.map(negateRegex);
+    }
+
+    //----------------------------------------------------------
+
+    function simplifyAndOr(obj: any): any {
+        if (isObject(obj)) {
+            return simplifyAndOrObject(obj);
+        } else if (Array.isArray(obj)) {
+            return simplifyAndOrArray(obj);
+        } else {
+            return obj;
+        }
+    }
+
+    function simplifyAndOrObject(obj: any) {
+        if (Object.keys(obj).length === 1) {
+            const query = obj.$or || obj.$and;
+            if (query && Array.isArray(query) && query.length === 1) {
+                return simplifyAndOr(query[0]);
+            }
+        }
+        const toReturn: any = {};
+        for (const key in obj) {
+            toReturn[key] = simplifyAndOr(obj[key]);
+        }
+        return toReturn;
+    }
+
+    function simplifyAndOrArray(array: any[]): any[] {
+        return array.map(simplifyAndOr);
+    }
+    // return parseQueryBasic(queryString, additionalFilter, fields);
+    return simplifyAndOr(
+        //
+        negateRegexObject(
+            //
+            replaceRegexObject(
+                //
+                parseQueryBasic(queryString, additionalFilter, fields)
+            )
+        )
+    );
 }
 
 export const _forTest = {
