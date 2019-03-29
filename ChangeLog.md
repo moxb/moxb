@@ -24,6 +24,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
   
 ### Fixed
 
+* Fix placeholder text display for OneOfSelect and ManyOfSelect ant design components
 * If the `Makefile`, any file in `admin/makefiles` or the `tsconfig.json` or `package-lock.json` changes,
   we have to re-run `tsc`
 * Fixed error handling for form errors, e.g. errors from callbacks.

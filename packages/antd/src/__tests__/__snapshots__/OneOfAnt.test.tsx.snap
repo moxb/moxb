@@ -67,10 +67,10 @@ exports[`OneOfSelectAnt should render a select control by default 1`] = `
   label="Select one of"
   mode="default"
   onChange={[Function]}
+  placeholder="..."
   readOnly={false}
   showSearch={false}
   transitionName="slide-up"
-  value=""
 >
   <Option
     key="b"

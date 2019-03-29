@@ -81,18 +81,15 @@ export class OneOfButtonFormAnt extends React.Component<
 @observer
 export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & SelectProps> {
     render() {
-        const { operation, invisible, value, placeholder, mode, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, mode, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
             <Select
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
-                value={this.props.operation.value || ''}
-                placeholder={placeholder}
+                value={operation.value || undefined}
+                placeholder={operation.placeholder}
                 mode={mode || 'default'}
                 {...props}
             >
