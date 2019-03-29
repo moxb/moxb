@@ -11,7 +11,7 @@ import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormIte
 @observer
 export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {
     render() {
-        const { operation, invisible, mode, children, defaultValue, placeholder, ...props } = parseProps(
+        const { operation, invisible, mode, children, defaultValue, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -23,8 +23,8 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
         return (
             <Select
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
-                value={value}
-                placeholder={placeholder}
+                value={value || undefined}
+                placeholder={operation.placeholder}
                 defaultValue={defaultValue}
                 mode={typeof mode === 'undefined' ? 'default' : mode}
                 {...props}

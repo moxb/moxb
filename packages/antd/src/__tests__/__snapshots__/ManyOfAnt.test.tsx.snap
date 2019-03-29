@@ -8,6 +8,7 @@ exports[`ManyOfAnt should render a select control by default 1`] = `
   label="Choose your snack"
   mode="default"
   onChange={[Function]}
+  placeholder="Please select"
   readOnly={false}
   showSearch={false}
   transitionName="slide-up"
