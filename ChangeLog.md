@@ -5,6 +5,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+
+# [v0.2.0-beta.19](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.19) (2019-03-29)
+
+
 ### Breaking Changes
 
 ### Added
