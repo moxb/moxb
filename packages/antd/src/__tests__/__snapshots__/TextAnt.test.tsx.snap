@@ -41,15 +41,29 @@ exports[`TextFormAnt should render form item with a text input by default 1`] = 
 `;
 
 exports[`TextSearchAnt should render search text input by default 1`] = `
-<Search
-  disabled={false}
-  enterButton={false}
-  id="the_id"
-  label="oh"
-  onBlur={[Function]}
-  onChange={[Function]}
-  onFocus={[Function]}
-  readOnly={false}
-  value=""
-/>
+<div
+  style={
+    Object {
+      "marginBottom": "1.5em",
+      "position": "relative",
+    }
+  }
+>
+  <Search
+    disabled={false}
+    enterButton={false}
+    id="the_id"
+    label="oh"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    readOnly={false}
+    style={
+      Object {
+        "marginBottom": "0",
+      }
+    }
+    value=""
+  />
+</div>
 `;
