@@ -4,7 +4,6 @@ import { SortOrder } from 'antd/es/table';
 import { ColumnProps, TableProps } from 'antd/lib/table/interface';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { TextSearchAnt } from './TextAnt';
 
 export interface ColumnAntProps<T> extends ColumnProps<T> {
     dataIndex: string;
@@ -61,15 +60,6 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                 {table.errors!.length > 0 && (
                     <Alert message={t('Table.Error.title', 'Error')} description={table.errors} type="error" />
                 )}
-                {table.search && (
-                    <TextSearchAnt
-                        required
-                        style={{ marginBottom: '1.5em' }}
-                        enterButton={t('Table.Search.title', 'Search')}
-                        operation={table.search.searchField}
-                        onSearch={() => table.search!.searchAction.fire()}
-                    />
-                )}
                 <Table
                     columns={columns}
                     dataSource={dataSource}
@@ -105,7 +95,6 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                                 );
                             }
                         }
-                        // todo filter
                     }}
                     {...tableProps}
                 />

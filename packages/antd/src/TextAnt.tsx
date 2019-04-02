@@ -1,6 +1,6 @@
-import { Text } from '@moxb/moxb';
+import { Text, Action, t } from '@moxb/moxb';
 import { Input, Button, Icon } from 'antd';
-import { InputProps } from 'antd/lib/input';
+import { InputProps, SearchProps } from 'antd/lib/input';
 import { observer } from 'mobx-react';
 import { CSSProperties } from 'react';
 import * as React from 'react';
@@ -15,10 +15,13 @@ export interface BindStringAntProps extends BindAntProps<Text>, InputProps {
     rows?: number;
 }
 
-export interface BindSearchStringAntProps extends BindStringAntProps {
+export interface BindSearchStringAntProps extends SearchProps {
+    operation: Text;
+    searchAction: Action;
     enterButton?: string;
-    clearBtnStyle?: {};
-    onSearch?(): void;
+    clearbuttonstyle?: {};
+    style?: {};
+    btnText?: string;
 }
 
 @observer
@@ -82,11 +85,14 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
 
     render() {
         const Search = Input.Search;
-        const { operation, id, value, invisible, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, id, value, invisible, style, enterButton, searchAction, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
-        const clearBtnStyle: CSSProperties = {
+        const clearButtonStyle: CSSProperties = this.props.clearbuttonstyle || {
             position: 'absolute',
             display: 'block',
             right: this.clearBtnOffset,
@@ -100,7 +106,7 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
         };
 
         return (
-            <div style={{ position: 'relative', marginBottom: '1.5em' }}>
+            <div style={{ ...style, ...{ position: 'relative', marginBottom: '1.5em' } }}>
                 <Search
                     id={id}
                     placeholder={operation.placeholder}
@@ -109,15 +115,19 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
                     value={operation.value || value || ''}
                     style={{ marginBottom: '0' }}
                     onChange={(e: any) => operation.setValue(e.target.value)}
+                    enterButton={enterButton || t('TableSearchAnt.btnTitle', 'Search')}
+                    onSearch={() => searchAction.fire()}
                     {...props as any}
                 />
                 {operation.value && operation.value.length > 0 && (
                     <Button
                         id={id + '-clearBtn'}
-                        style={this.props.clearBtnStyle || clearBtnStyle}
+                        style={clearButtonStyle}
+                        htmlType="button"
                         onClick={() => {
                             operation.setValue('');
                             document.getElementById(id)!.focus();
+                            searchAction.fire();
                         }}
                     >
                         <Icon type="close" />

@@ -1,4 +1,4 @@
-import { TextImpl } from '@moxb/moxb';
+import { TextImpl, ActionImpl } from '@moxb/moxb';
 import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { TextAnt, TextFormAnt, TextSearchAnt } from '../TextAnt';
@@ -107,7 +107,13 @@ describe('TextSearchAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallowMoxbToJson(shallow(<TextSearchAnt operation={operation} />))).toMatchSnapshot();
+        const searchAction = new ActionImpl({
+            id: 'Action',
+            fire: () => {},
+        });
+        expect(
+            shallowMoxbToJson(shallow(<TextSearchAnt operation={operation} searchAction={searchAction} />))
+        ).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new TextImpl({
@@ -115,14 +121,22 @@ describe('TextSearchAnt', function() {
             label: 'oh',
             invisible: () => true,
         });
-        expect(shallow(<TextSearchAnt operation={operation} />).type()).toBeNull();
+        const searchAction = new ActionImpl({
+            id: 'Action',
+            fire: () => {},
+        });
+        expect(shallow(<TextSearchAnt operation={operation} searchAction={searchAction} />).type()).toBeNull();
     });
     it('should call onChange if the input value changes', function() {
         const operation = new TextImpl({
             id: 'TheId',
             label: 'oh',
         });
-        const wrapper = mount(<TextSearchAnt operation={operation} />);
+        const searchAction = new ActionImpl({
+            id: 'Action',
+            fire: () => {},
+        });
+        const wrapper = mount(<TextSearchAnt operation={operation} searchAction={searchAction} />);
         const input: any = wrapper.find('input').first();
         input.simulate('change', { target: { value: 'Changed' } });
         expect(
