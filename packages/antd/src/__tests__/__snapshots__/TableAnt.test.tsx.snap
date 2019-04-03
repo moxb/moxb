@@ -102,17 +102,6 @@ exports[`TableAnt should render a table with content by default 1`] = `
 
 exports[`TableAnt should render a table with search field and pagination 1`] = `
 <Fragment>
-  <TextSearchAnt
-    enterButton="Search"
-    onSearch={[Function]}
-    operation="bound TextImpl"
-    required={true}
-    style={
-      Object {
-        "marginBottom": "1.5em",
-      }
-    }
-  />
   <Table
     bordered={false}
     className=""

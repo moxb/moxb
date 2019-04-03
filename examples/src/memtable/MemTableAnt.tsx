@@ -1,4 +1,4 @@
-import { ColumnAntProps, LinkAnt, NumericFormAnt, TableAnt } from '@moxb/antd';
+import { ColumnAntProps, LinkAnt, NumericFormAnt, TableAnt, TextSearchAnt } from '@moxb/antd';
 import { Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
@@ -46,6 +46,10 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable } & UsesU
                 </LinkAnt>{' '}
                 {!memTable.groupId && <i>(disallowed -- would normally be disabled, because no Group is specified)</i>}
                 <NumericFormAnt required operation={memTable.rows} />
+                <TextSearchAnt
+                    operation={memTable.table.search!.searchField}
+                    searchAction={memTable.table.search!.searchAction}
+                />
                 <TableAnt table={memTable.table} setupColumn={column => this.renderColumn(column)} />
             </Row>
         );

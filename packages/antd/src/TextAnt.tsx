@@ -1,7 +1,8 @@
-import { Text } from '@moxb/moxb';
-import { Input } from 'antd';
-import { InputProps } from 'antd/lib/input';
+import { Text, Action, t } from '@moxb/moxb';
+import { Input, Button, Icon } from 'antd';
+import { InputProps, SearchProps } from 'antd/lib/input';
 import { observer } from 'mobx-react';
+import { CSSProperties } from 'react';
 import * as React from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
@@ -14,9 +15,13 @@ export interface BindStringAntProps extends BindAntProps<Text>, InputProps {
     rows?: number;
 }
 
-export interface BindSearchStringAntProps extends BindStringAntProps {
+export interface BindSearchStringAntProps extends SearchProps {
+    operation: Text;
+    searchAction: Action;
     enterButton?: string;
-    onSearch?(): void;
+    clearbuttonstyle?: {};
+    style?: {};
+    btnText?: string;
 }
 
 @observer
@@ -60,22 +65,75 @@ export class TextAnt extends React.Component<BindStringAntProps> {
  */
 @observer
 export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
+    private clearBtnOffset: string;
+
+    constructor(props: BindSearchStringAntProps) {
+        super(props);
+        this.clearBtnOffset = '85px';
+    }
+
+    componentDidMount(): void {
+        this.getSearchBtnWidth();
+    }
+
+    getSearchBtnWidth() {
+        // The search button can change in size, so we adjust the clear btn position
+        const elements = document.getElementsByClassName('ant-input-search-button');
+        const requiredElement = elements[0] as HTMLElement;
+        this.clearBtnOffset = requiredElement ? requiredElement.offsetWidth + 10 + 'px' : '85px';
+    }
+
     render() {
         const Search = Input.Search;
-        const { operation, id, value, invisible, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, id, value, invisible, style, enterButton, searchAction, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
+        const clearButtonStyle: CSSProperties = this.props.clearbuttonstyle || {
+            position: 'absolute',
+            display: 'block',
+            right: this.clearBtnOffset,
+            height: '24px',
+            width: '24px',
+            borderRadius: '20px',
+            padding: '0px',
+            top: '4px',
+            backgroundColor: 'lightgrey',
+            zIndex: 1,
+        };
+
         return (
-            <Search
-                id={id}
-                placeholder={operation.placeholder}
-                onFocus={operation.onEnterField}
-                onBlur={operation.onExitField}
-                value={operation.value || value || ''}
-                onChange={(e: any) => operation.setValue(e.target.value)}
-                {...props as any}
-            />
+            <div style={{ ...style, ...{ position: 'relative', marginBottom: '1.5em' } }}>
+                <Search
+                    id={id}
+                    placeholder={operation.placeholder}
+                    onFocus={operation.onEnterField}
+                    onBlur={operation.onExitField}
+                    value={operation.value || value || ''}
+                    style={{ marginBottom: '0' }}
+                    onChange={(e: any) => operation.setValue(e.target.value)}
+                    enterButton={enterButton || t('TableSearchAnt.btnTitle', 'Search')}
+                    onSearch={() => searchAction.fire()}
+                    {...props as any}
+                />
+                {operation.value && operation.value.length > 0 && (
+                    <Button
+                        id={id + '-clearBtn'}
+                        style={clearButtonStyle}
+                        htmlType="button"
+                        onClick={() => {
+                            operation.setValue('');
+                            document.getElementById(id)!.focus();
+                            searchAction.fire();
+                        }}
+                    >
+                        <Icon type="close" />
+                    </Button>
+                )}
+            </div>
         );
     }
 }
