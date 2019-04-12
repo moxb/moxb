@@ -109,7 +109,11 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         this.debugLog('wantedChild is', wantedChild);
         if (mountAll) {
             this.debugLog('Rendering all children at once');
-            return <div>{this._states._subStatesInContext.map(s => this.renderSubState(s, s !== wantedChild))}</div>;
+            return this._states._subStatesInContext.map((s, i) => (
+                <div key={`${i}`} style={{ display: s !== wantedChild ? 'none' : undefined }}>
+                    {this.renderSubState(s, s !== wantedChild)}
+                </div>
+            ));
         } else {
             return this.renderSubState(wantedChild);
         }
