@@ -2,7 +2,7 @@ import { Bind } from '..';
 
 export interface Label extends Bind {
     /**
-     * The text which should be displayed in the label
+     * The text which should be displayed in the label.
      */
     text?: string;
     /**
