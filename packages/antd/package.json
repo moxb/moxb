@@ -50,7 +50,7 @@
       "<rootDir>/node_modules"
     ],
     "testMatch": [
-      "**/src/**/__tests__/*.(ts|tsx)"
+      "**/src/**/__tests__/*.test.(ts|tsx)"
     ]
   },
   "peerDependencies": {
