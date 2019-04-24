@@ -16,4 +16,5 @@ export interface BindOneOfChoice<T = string> {
 
 export interface OneOf<T = string> extends Value<T> {
     readonly choices: BindOneOfChoice<T>[];
+    readonly choice: string | undefined;
 }

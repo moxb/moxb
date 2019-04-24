@@ -20,4 +20,10 @@ export class OneOfImpl<T = string> extends ValueImpl<OneOfImpl, T, OneOfOptions<
             return this.impl.choices || [];
         }
     }
+
+    @computed
+    get choice(): string | undefined {
+        const choice = this.choices.find(c => c.value === this.value);
+        return choice ? choice.label : undefined;
+    }
 }

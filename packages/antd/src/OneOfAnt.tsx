@@ -45,9 +45,12 @@ export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioPro
 @observer
 export class OneOfButtonAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps> {
     render() {
-        const { operation, invisible, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, readOnly, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
+        }
+        if (readOnly) {
+            return <span>{operation.choice}</span>;
         }
         return (
             <Radio.Group onChange={e => operation.setValue(e.target.value)} {...props} value={operation.value}>
@@ -81,9 +84,12 @@ export class OneOfButtonFormAnt extends React.Component<
 @observer
 export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & SelectProps> {
     render() {
-        const { operation, invisible, mode, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, readOnly, mode, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
+        }
+        if (readOnly) {
+            return <span>{operation.choice}</span>;
         }
         return (
             <Select
