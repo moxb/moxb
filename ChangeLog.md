@@ -5,6 +5,30 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Breaking Changes
+* Removed the `key` field from the `UrlArg` interface
+* Removed some APIs from LocationManager that were inconsistent
+  with the contract implied by the `UrlArg` interface.
+  (Ie. `serializeArgChanges`)
+
+### Added
+* Exposed some of the (previously) internal APIs of LocationManager.
+  * `location`
+  * `trySetLocation()`
+  * `getNewLocationForQueryChanges()`
+  * `getNewLocationForPathAndQueryChanges()`
+  These are mostly useful for other navigational components.
+* Also export utility function `locationToUrl()`   
+   
+* Added a new API to `UrlArg` (and all implementations): `getModifiedLocation()`
+  This can be used for calculating what would be the new location if a given arg was changed to the given value.
+  This API is defined so that it's possible to cascade multiple calls for multiple args.
+  
+### Fixed
+* The Path-token - based UrlArgs didn't play nice with <LinkAnt>. Also, <LinkAnt> couldn't properly handle multiple 
+  args that had different implementations. Now this has been fixed - using the newly introduced API.
+* Made sure that permanent UrlArgs are always handled properly,
+  independent of the implementation   
 
 # [v0.2.0-beta.19](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.19) (2019-03-29)
 

@@ -1,3 +1,4 @@
+import { Location as MyLocation } from 'history';
 import { SuccessCallback, UpdateMethod } from './location-manager';
 import { StateCondition, StateSpace } from './location-state-space/state-space/StateSpace';
 import { Query } from './url-schema/UrlSchema';
@@ -28,7 +29,9 @@ export interface TokenManager {
 
     trySetToken(key: string, value: any, updateMethod?: UpdateMethod, callback?: SuccessCallback): void;
 
-    getURLForTokenChange(key: string, value: any): string;
+    getCurrentLocation(): MyLocation;
+
+    getLocationForTokenChange(startLocation: MyLocation, key: string, value: any): MyLocation;
 }
 
 /**

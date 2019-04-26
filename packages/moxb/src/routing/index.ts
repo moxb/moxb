@@ -5,6 +5,7 @@ export {
     TestLocation,
     QueryChange,
     BasicLocationManagerImpl,
+    locationToUrl,
 } from './location-manager';
 
 export { CoreLinkProps } from './linking';
@@ -28,7 +29,6 @@ export {
     UrlTokenImpl,
     ArgChange,
     createInMemoryArg,
-    serializeArgChanges,
     AnyUrlArgImpl,
     URLARG_TYPE_STRING,
     URLARG_TYPE_ORDERED_STRING_ARRAY,

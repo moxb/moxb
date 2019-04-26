@@ -62,7 +62,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
 
     public constructor(props: LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
         super(props);
-        const { locationManager, tokenManager, parsedTokens, arg, intercept } = props;
+        const { id, locationManager, tokenManager, parsedTokens, arg, intercept } = props;
         this._locationManager = locationManager!;
         if (intercept) {
             /**
@@ -81,12 +81,11 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
         this._urlArg = arg
             ? new AnyUrlArgImpl(
                   {
-                      key: arg.key,
                       valueType: URLARG_TYPE_ORDERED_STRING_ARRAY,
                       defaultValue:
                           typeof arg.defaultValue === 'object'
                               ? arg.defaultValue
-                              : URLARG_TYPE_ORDERED_STRING_ARRAY.getParser(arg.key)(arg.defaultValue) || [],
+                              : URLARG_TYPE_ORDERED_STRING_ARRAY.getParser('arg-for-' + id)(arg.defaultValue) || [],
                   },
                   {
                       get rawValue() {

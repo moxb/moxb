@@ -1,6 +1,7 @@
 import { computed } from 'mobx';
 
-import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
+import { Location as MyLocation } from 'history';
+import { ArgDefinition, ParserFunc, UrlArg } from './UrlArg';
 import { SuccessCallback, TestLocation, UpdateMethod } from '../location-manager/LocationManager';
 
 export interface UrlArgBackend {
@@ -8,19 +9,18 @@ export interface UrlArgBackend {
     rawValueOn(location: TestLocation | undefined): string | undefined;
     doSet: (value: string) => void;
     trySet: (value: string, callback?: SuccessCallback) => void;
+    getModifiedLocation?: (start: MyLocation, value: string) => MyLocation;
     getModifiedUrl?: (value: string) => string | undefined;
 }
 
 export class AnyUrlArgImpl<T> implements UrlArg<T> {
-    private readonly _def: UrlArgDefinition<T>;
+    private readonly _def: ArgDefinition<T>;
     private readonly _parser: ParserFunc<T>;
-    public readonly key: string;
     public readonly defaultValue: T;
 
-    public constructor(definition: UrlArgDefinition<T>, protected readonly backend: UrlArgBackend) {
-        const { parser, valueType, key } = (this._def = definition);
-        this._parser = parser || valueType.getParser(key);
-        this.key = this._def.key;
+    public constructor(definition: ArgDefinition<T>, protected readonly backend: UrlArgBackend) {
+        const { parser, valueType } = (this._def = definition);
+        this._parser = parser || valueType.getParser(JSON.stringify(definition));
         this.defaultValue = this._def.defaultValue;
     }
 
@@ -28,11 +28,6 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
     public get defined() {
         return this.backend.rawValue !== undefined;
     }
-
-    // // Extract the value from a given query
-    // public getOnQuery() {
-    //     return undefined;
-    // }
 
     @computed
     public get value() {
@@ -55,6 +50,14 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
         return isEqual(value, defaultValue)
             ? format(defaultValue) // TODO: this might not be the right thing to say here.
             : format(value);
+    }
+
+    public getModifiedLocation(start: MyLocation, value: T) {
+        const getter = this.backend.getModifiedLocation;
+        if (!getter) {
+            return start;
+        }
+        return getter(start, this.getRawValue(value));
     }
 
     public getModifiedUrl(value: T) {

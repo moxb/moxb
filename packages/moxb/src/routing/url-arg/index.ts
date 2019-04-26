@@ -9,7 +9,7 @@ export {
     URLARG_TYPE_URLENCODED,
 } from './UrlArgTypes';
 
-export { UrlArgImpl, serializeArgChanges } from './UrlArgImpl';
+export { UrlArgImpl } from './UrlArgImpl';
 export { UrlTokenImpl } from './UrlTokenImpl';
 export { createInMemoryArg } from './InMemoryArgImpl';
 export { AnyUrlArgImpl } from './AnyUrlArgImpl';

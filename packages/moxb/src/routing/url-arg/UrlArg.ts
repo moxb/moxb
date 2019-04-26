@@ -1,5 +1,6 @@
 import { SuccessCallback, UpdateMethod } from '../location-manager';
 import { TestLocation } from '../location-manager/LocationManager';
+import { Location as MyLocation } from 'history';
 
 export interface ParserFunc<T> {
     (formatted: string): T;
@@ -19,11 +20,14 @@ export interface UrlArgTypeDef<T> {
     format: FormatterFunc<T>;
 }
 
-export interface UrlArgDefinition<T> {
-    key: string;
+export interface ArgDefinition<T> {
     valueType: UrlArgTypeDef<T>;
     parser?: ParserFunc<T>;
     defaultValue: T;
+}
+
+export interface UrlArgDefinition<T> extends ArgDefinition<T> {
+    key: string;
     permanent?: boolean;
 }
 
@@ -81,6 +85,13 @@ export interface UrlArg<T> {
     tryReset(method?: UpdateMethod, callback?: SuccessCallback): void;
 
     /**
+     * Get the Location that would result if we modified the value
+     *
+     * Returns the same value if this arg doesn't care about the URL.
+     */
+    getModifiedLocation(start: MyLocation, value: T): MyLocation;
+
+    /**
      * Get the URL string that would result if we modified the value
      *
      * Returns undefined if this arg doesn't care about the URL.
@@ -90,20 +101,10 @@ export interface UrlArg<T> {
     // ======= Anything below this level is quite technical,
     // you probably won't need to use it directly.
 
-    // /**
-    //  * Extract the value of this arg from a given query
-    //  */
-    // getOnQuery(query: Query): T | undefined;
-
     /**
      * Get the raw (string) value corresponding to a given value
      */
     getRawValue(value: T): string | undefined;
-
-    /**
-     * Get the key
-     */
-    readonly key: string;
 
     /**
      * Get the raw form of the value

@@ -1,3 +1,4 @@
+import { Location as MyLocation, LocationDescriptorObject } from 'history';
 import { UrlArg } from '../url-arg';
 
 import { Query } from '../url-schema/UrlSchema';
@@ -131,6 +132,11 @@ export interface LocationManager {
     temporary: boolean;
 
     /**
+     * The current location. Internal detail only, don't use it applications.
+     */
+    readonly location: MyLocation;
+
+    /**
      * path tokens for the current location
      */
     readonly pathTokens: string[];
@@ -240,6 +246,21 @@ export interface LocationManager {
     ) => void;
 
     /**
+     * Try to set the location to a new value.
+     *
+     * This method may ask for confirmation, it necessary.
+     *
+     * @param location The new location to set
+     * @param method   The method to use for updating the URL
+     * @param callback Callback to call with the result status
+     */
+    trySetLocation(
+        location: LocationDescriptorObject | undefined,
+        method?: UpdateMethod,
+        callback?: SuccessCallback
+    ): void;
+
+    /**
      * Set the last few path tokens, and also some queries
      *
      * @param position Where to push the tokens? (Any tokens before this will be preserved.)
@@ -262,6 +283,15 @@ export interface LocationManager {
      * @param rawValue The new value to set (already in string form)
      */
     getURLForQueryChange: (key: string, rawValue: string | undefined) => string;
+
+    getNewLocationForQueryChanges: (baseLocation: MyLocation | undefined, changes: QueryChange[]) => MyLocation;
+
+    getNewLocationForPathAndQueryChanges: (
+        baseLocation: MyLocation | undefined,
+        position: number | undefined,
+        tokens: string[] | undefined,
+        queryChanges: QueryChange[] | undefined
+    ) => MyLocation;
 
     /**
      * Determine the URL that we would get if we changed the path and also some URL arguments

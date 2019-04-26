@@ -1,3 +1,4 @@
+import { Location as MyLocation } from 'history';
 import { action, computed, observable } from 'mobx';
 import { LocationManager, SuccessCallback, UpdateMethod } from './location-manager';
 import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerImpl } from './location-state-space';
@@ -179,35 +180,47 @@ export class TokenManagerImpl implements TokenManager {
         }
     }
 
-    public getURLForTokenChange(_key: string, _value: string) {
-        return 'asd';
-        // const state = this._states.getActiveSubState();
-        // if (state) {
-        //     const { tokenMapping, totalPathTokens } = state;
-        //     if (!tokenMapping) {
-        //         console.warn("No mappings for this state, can't calculate URL!");
-        //         return '';
-        //     }
-        //     const index = tokenMapping.indexOf(key);
-        //     if (index === -1) {
-        //         console.warn('No mapping for found for token ' + key);
-        //         return '';
-        //     }
-        //     const parsedTokens = this._parsedTokens + totalPathTokens.length;
-        //     const allTokens = this._locationManager.pathTokens;
-        //     const localTokens = allTokens.slice(parsedTokens);
-        //     for (let i = 0; i < index; i++) {
-        //         if (isTokenEmpty(localTokens[i])) {
-        //             console.warn("Previous tokens are missing, can't set" + key);
-        //             return '';
-        //         }
-        //     }
-        //     localTokens[index] = value;
-        //     localTokens.splice(index + 1);
-        //     return this._locationManager.getURLForPathTokens(parsedTokens, localTokens);
-        // } else {
-        //     console.warn("Invalid state, can't calculate URL!");
-        //     return '';
-        // }
+    public getCurrentLocation(): MyLocation {
+        return this._locationManager.location;
+    }
+
+    public getLocationForTokenChange(startLocation: MyLocation, key: string, value: string): MyLocation {
+        const mappings = this._activeMappings;
+        if (!mappings) {
+            console.warn("Can't find any active mappings, not setting any tokens");
+            return startLocation;
+        }
+        const state = mappings.states.getActiveSubState();
+        if (state) {
+            const { tokenMapping, totalPathTokens } = state;
+            if (!tokenMapping) {
+                console.warn("No mappings for this state, can't set tokens!");
+                return startLocation;
+            }
+            const index = tokenMapping.indexOf(key);
+            if (index === -1) {
+                console.warn('No mapping for found for token ' + key);
+                return startLocation;
+            }
+            const parsedTokens = mappings.parsedTokens + totalPathTokens.length;
+            const localTokens = this._locationManager.pathTokens.slice(parsedTokens);
+            for (let i = 0; i < index; i++) {
+                if (isTokenEmpty(localTokens[i])) {
+                    console.warn("Previous tokens are missing, can't set" + key);
+                    return startLocation;
+                }
+            }
+            localTokens[index] = value;
+            localTokens.splice(index + 1);
+            return this._locationManager.getNewLocationForPathAndQueryChanges(
+                startLocation,
+                parsedTokens,
+                localTokens,
+                undefined
+            );
+        } else {
+            console.warn("Invalid state, can't set tokens!");
+            return startLocation;
+        }
     }
 }

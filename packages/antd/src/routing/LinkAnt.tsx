@@ -1,4 +1,5 @@
-import { CoreLinkProps, serializeArgChanges, UsesLocation } from '@moxb/moxb';
+import { Location as MyLocation } from 'history';
+import { CoreLinkProps, UsesLocation, locationToUrl } from '@moxb/moxb';
 import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
 import { inject, observer } from 'mobx-react';
@@ -35,25 +36,26 @@ export class LinkAnt extends React.Component<LinkProps & UsesLocation> {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    /**
+     * Calculate the location where this links should take us
+     */
+    protected getWantedLocation(): MyLocation {
+        const { position, to, argChanges } = this.props;
+        const locationManager = this.props.locationManager!;
+        const startLocation = locationManager.getNewLocationForPathAndQueryChanges(undefined, position, to, undefined);
+        return (argChanges || []).reduce(
+            (prevLocation: MyLocation, change) => change.arg.getModifiedLocation(prevLocation, change.value),
+            startLocation
+        );
+    }
+
     protected handleClick() {
-        const { locationManager, to, position, argChanges } = this.props;
-        const changes = serializeArgChanges(argChanges);
-        locationManager!.trySetPathTokensAndQueries(position || 0, to, changes);
+        this.props.locationManager!.trySetLocation(this.getWantedLocation());
     }
 
     public render() {
-        const {
-            locationManager,
-            to,
-            argChanges,
-            position,
-            widgetStyle = 'anchor',
-            buttonProps: extraButtonProps = {},
-            children,
-            ...remnants
-        } = this.props;
-        const changes = serializeArgChanges(argChanges);
-        const url = locationManager!.getURLForPathAndQueryChanges(position || 0, to, changes);
+        const { widgetStyle = 'anchor', buttonProps: extraButtonProps = {}, children, ...remnants } = this.props;
+        const url = locationToUrl(this.getWantedLocation());
         switch (widgetStyle) {
             case 'anchor':
                 const anchorProps: Anchor.UIProps = {
