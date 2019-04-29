@@ -1,7 +1,8 @@
 import * as moxb from '@moxb/moxb';
 import { computed } from 'mobx';
 import { UrlStore } from '../store/UrlStore';
-import { MemTable, MemTableData } from './MemTable';
+import { ClickHandler, MemTable, MemTableData } from './MemTable';
+import { OneOf, OneOfImpl, TokenManager } from '@moxb/moxb';
 
 const firstNames = [
     'James',
@@ -71,6 +72,8 @@ const emails = [
     'rocketmail.com',
 ];
 
+const allChoices = [{ label: 'Banana', value: 'b' }, { label: 'Apples', value: 'a' }, { label: 'Peaches', value: 'p' }];
+
 function createData(n: number): MemTableData[] {
     const result: MemTableData[] = [];
     const today = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
@@ -86,7 +89,7 @@ function createData(n: number): MemTableData[] {
 }
 
 export class MemTableImpl implements MemTable {
-    constructor(private readonly url: UrlStore) {}
+    constructor(private readonly url: UrlStore, private readonly tokenManager: TokenManager) {}
 
     get groupId() {
         return this.url.groupId.value;
@@ -102,6 +105,10 @@ export class MemTableImpl implements MemTable {
 
     set objectId(value: string) {
         this.url.objectId.doSet(value);
+    }
+
+    get hasSelection(): boolean {
+        return !!this.groupId && !!this.objectId;
     }
 
     readonly rows: moxb.Numeric = new moxb.NumericImpl({
@@ -186,4 +193,18 @@ export class MemTableImpl implements MemTable {
         }
         return data;
     }
+
+    getHandler(object: string): ClickHandler {
+        return () => (this.objectId = object);
+    }
+
+    readonly item: OneOf = new OneOfImpl({
+        id: 'userItemSelection',
+        label: 'Select an item!',
+        choices: () => allChoices,
+        getValue: (): string => this.tokenManager.tokens.itemKey,
+        setValue: (value: string) => {
+            this.tokenManager.trySetToken('itemKey', value);
+        },
+    });
 }
