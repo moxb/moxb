@@ -32,7 +32,7 @@ export class StoreImpl implements Store {
         this.tokenManager = new TokenManagerImpl(this.locationManager);
         this.url = new UrlStoreImpl(this.locationManager, this.tokenManager);
         this.app = new ApplicationImpl();
-        this.memTable = new MemTableImpl(this.url);
+        this.memTable = new MemTableImpl(this.url, this.tokenManager);
         this.view = new ViewStoreImpl();
     }
 }
