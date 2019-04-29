@@ -1,8 +1,9 @@
 import { computed } from 'mobx';
-import { LocationManager, QueryChange, SuccessCallback, UpdateMethod } from '../location-manager';
+import { Location as MyLocation } from 'history';
+import { LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
 
 import { Query } from '../url-schema/UrlSchema';
-import { ArgChange, ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
+import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 import { TestLocation } from '../location-manager/LocationManager';
 
 export function existsInQuery(query: Query, key: string) {
@@ -63,6 +64,11 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this._locationManager.getURLForQueryChange(this.key, rawValue);
     }
 
+    public getModifiedLocation(start: MyLocation, value: T) {
+        const rawValue = this.getRawValue(value);
+        return this._locationManager.getNewLocationForQueryChanges(start, [{ key: this.key, value: rawValue }]);
+    }
+
     public doSet(value: T, method?: UpdateMethod) {
         const rawValue = this.getRawValue(value);
         this._locationManager.doSetQuery(this.key, rawValue, method);
@@ -86,11 +92,3 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this._locationManager.query[this.key];
     }
 }
-
-export const serializeArgChange = (change: ArgChange<any>): QueryChange => ({
-    key: change.arg.key,
-    value: change.arg.getRawValue(change.value),
-});
-
-export const serializeArgChanges = (changes?: ArgChange<any>[]): QueryChange[] =>
-    changes ? changes.map(c => serializeArgChange(c)) : [];

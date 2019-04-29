@@ -1,5 +1,6 @@
+import { Location as MyLocation } from 'history';
 import { computed } from 'mobx';
-import { SuccessCallback, UpdateMethod } from '../location-manager';
+import { locationToUrl, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TokenManager } from '../TokenManager';
 import { Query } from '../url-schema/UrlSchema';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
@@ -52,9 +53,13 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
         return isEqual(value, defaultValue) ? undefined : format(value);
     }
 
-    public getModifiedUrl(value: T) {
+    public getModifiedLocation(startLocation: MyLocation, value: T) {
         const rawValue = this.getRawValue(value);
-        return this._tokenManager.getURLForTokenChange(this.key, rawValue);
+        return this._tokenManager.getLocationForTokenChange(startLocation, this.key, rawValue);
+    }
+
+    public getModifiedUrl(value: T) {
+        return locationToUrl(this.getModifiedLocation(this._tokenManager.getCurrentLocation(), value));
     }
 
     public doSet(value: T, method?: UpdateMethod) {

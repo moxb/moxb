@@ -3,7 +3,7 @@ import { action, observable } from 'mobx';
 import { doTokenStringsMatch, updateTokenString } from '../tokens';
 import { UrlArg } from '../url-arg';
 import { NativeUrlSchema } from '../url-schema';
-import { Query, UrlSchema } from '../url-schema/UrlSchema';
+import { UrlSchema } from '../url-schema/UrlSchema';
 import { BasicLocationCommunicator } from './BasicLocationCommunicator';
 import { LocationCommunicator } from './LocationCommunicator';
 
@@ -36,7 +36,7 @@ export interface Props {
     communicator?: LocationCommunicator;
 }
 
-const locationToUrl = (location: MyLocation): string =>
+export const locationToUrl = (location: MyLocation = noLocation): string =>
     new MyURI()
         .path(location.pathname)
         .search(location.search)
@@ -170,7 +170,14 @@ export class BasicLocationManagerImpl implements LocationManager {
      * @param method   The method to use for updating the URL
      * @param callback Callback to call with the result status
      */
-    protected _trySetLocation(location: LocationDescriptorObject, method?: UpdateMethod, callback?: SuccessCallback) {
+    trySetLocation(location: LocationDescriptorObject | undefined, method?: UpdateMethod, callback?: SuccessCallback) {
+        if (!location) {
+            if (callback) {
+                callback(true);
+            }
+            return;
+        }
+
         // If we tried to do something else previously, now we want something else,
         // so the previous question (if any) is no longer relevant.
         this._communicator.revokeCurrentQuestion();
@@ -229,16 +236,6 @@ export class BasicLocationManagerImpl implements LocationManager {
                 callback(true);
             }
         }
-    }
-
-    protected getPermanentArgs() {
-        const query: Query = {};
-        this._permanentArgs.forEach(arg => {
-            if (arg.defined) {
-                query[arg.key] = arg.rawValue!;
-            }
-        });
-        return query;
     }
 
     /**
@@ -313,7 +310,7 @@ export class BasicLocationManagerImpl implements LocationManager {
             this._location = newLocation;
         } else {
             // This change is coming from the browser, thus we need to verify
-            this._trySetLocation(newLocation, UpdateMethod.NONE, result => {
+            this.trySetLocation(newLocation, UpdateMethod.NONE, result => {
                 if (result) {
                     // Actually update the stored location
                     this._location = newLocation;
@@ -335,8 +332,10 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._history.listen((newLocation: MyLocation) => this._onLocationChanged(newLocation));
     }
 
-    protected _getLocationForQueryChanges(changes: QueryChange[], baseLocation?: MyLocation): MyLocation {
-        const query = this.query;
+    public getNewLocationForQueryChanges(baseLocation: MyLocation | undefined, changes: QueryChange[]): MyLocation {
+        const base = baseLocation || this.location;
+        const pathTokens = this._schema.getPathTokens(base);
+        const query = this._schema.getQuery(base);
         changes.forEach(change => {
             const { key, value } = change;
             if (value === undefined || value === null) {
@@ -346,28 +345,28 @@ export class BasicLocationManagerImpl implements LocationManager {
                 query[key] = value;
             }
         });
-        const base = baseLocation || this.location;
-        const pathTokens = this._schema.getPathTokens(base);
+
         const location = this._schema.getLocation(base, pathTokens, query);
         return location;
     }
 
     public getURLForQueryChanges(changes: QueryChange[]): string {
-        const location = this._getLocationForQueryChanges(changes);
+        const location = this.getNewLocationForQueryChanges(undefined, changes);
         return locationToUrl(location);
     }
 
-    protected _getLocationForPathAndQueryChanges(
+    public getNewLocationForPathAndQueryChanges(
+        baseLocation: MyLocation | undefined,
         position = 0,
         tokens: string[] | undefined,
         queryChanges: QueryChange[] | undefined
     ) {
-        let location = this._location;
+        let location = baseLocation || this._location;
         if (tokens) {
             location = this.getLocationForPathTokens(position, tokens);
         }
         if (queryChanges) {
-            location = this._getLocationForQueryChanges(queryChanges, location);
+            location = this.getNewLocationForQueryChanges(location, queryChanges);
         }
         return location;
     }
@@ -377,7 +376,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         tokens: string[] | undefined,
         queryChanges: QueryChange[] | undefined
     ) {
-        const location = this._getLocationForPathAndQueryChanges(position, tokens, queryChanges);
+        const location = this.getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
         const url = locationToUrl(location);
         return url;
     }
@@ -397,7 +396,7 @@ export class BasicLocationManagerImpl implements LocationManager {
             // There is nothing to change
             return;
         }
-        const location = this._getLocationForQueryChanges(changes);
+        const location = this.getNewLocationForQueryChanges(undefined, changes);
         this._doSetLocation(location, method);
     }
 
@@ -406,8 +405,8 @@ export class BasicLocationManagerImpl implements LocationManager {
             // There is nothing to change
             return Promise.resolve(true);
         }
-        const location = this._getLocationForQueryChanges(changes);
-        this._trySetLocation(location, method, callback);
+        const location = this.getNewLocationForQueryChanges(undefined, changes);
+        this.trySetLocation(location, method, callback);
     }
 
     @action
@@ -441,11 +440,24 @@ export class BasicLocationManagerImpl implements LocationManager {
         );
     }
 
-    public getLocationForPathTokens(position: number, tokens: string[]) {
+    public getLocationForPathTokens(position: number, tokens: string[]): MyLocation {
+        // First we back up the values of our permanent URL args
+        const backup = this._permanentArgs.map(arg => arg.value);
+
+        // Calculate the new string of path tokens
         const newTokens = updateTokenString(this.pathTokens, position, tokens);
-        const query = this.getPermanentArgs();
-        const location = this._schema.getLocation(this._location, newTokens, query);
-        return location;
+
+        // Calculate the new location by overwriting the path tokens and dropping the queries
+        const newLocation = this._schema.getLocation(this._location, newTokens, {});
+
+        // Re-apply the values of the permanent Url arguments from the backup
+        const result = this._permanentArgs.reduce(
+            (prevLocation, arg, index) => arg.getModifiedLocation(prevLocation, backup[index]),
+            newLocation
+        );
+
+        // Return the created result
+        return result;
     }
 
     public getURLForPathTokens(position: number, tokens: string[]) {
@@ -460,7 +472,7 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     public trySetPathTokens(position: number, tokens: string[], method?: UpdateMethod, callback?: SuccessCallback) {
         const location = this.getLocationForPathTokens(position, tokens);
-        this._trySetLocation(location, method, callback);
+        this.trySetLocation(location, method, callback);
     }
 
     public doAppendPathTokens(tokens: string[], method?: UpdateMethod) {
@@ -494,7 +506,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         queryChanges: QueryChange[] | undefined,
         method?: UpdateMethod
     ) {
-        const location = this._getLocationForPathAndQueryChanges(position, tokens, queryChanges);
+        const location = this.getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
         this._doSetLocation(location, method);
     }
 
@@ -506,7 +518,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         method?: UpdateMethod,
         callback?: SuccessCallback
     ) {
-        const location = this._getLocationForPathAndQueryChanges(position, tokens, queryChanges);
-        this._trySetLocation(location, method, callback);
+        const location = this.getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
+        this.trySetLocation(location, method, callback);
     }
 }

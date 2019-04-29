@@ -6,4 +6,4 @@ export {
     TestLocation,
     SuccessCallback,
 } from './LocationManager';
-export { BasicLocationManagerImpl } from './BasicLocationManagerImpl';
+export { BasicLocationManagerImpl, locationToUrl } from './BasicLocationManagerImpl';
