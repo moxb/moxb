@@ -13,11 +13,7 @@ interface LiveTokenMappings<DataType> extends TokenMappings<DataType> {
 export class TokenManagerImpl implements TokenManager {
     private readonly _mappings = observable.map<string, LiveTokenMappings<any>>();
 
-    constructor(private readonly _locationManager: LocationManager) {
-        // autorun(() => {
-        //     console.log('Tokens now:', this.tokens);
-        // });
-    }
+    constructor(private readonly _locationManager: LocationManager) {}
 
     @action
     addMappings<DataType>(mappings: TokenMappings<DataType>) {
@@ -50,25 +46,8 @@ export class TokenManagerImpl implements TokenManager {
     }
 
     @computed
-    private get _activeMappings(): LiveTokenMappings<any> | undefined {
-        let result: LiveTokenMappings<any> | undefined = undefined;
-
-        Array.from(this._mappings.values()).forEach(mapping => {
-            const active = true;
-            // console.log("Is mapping '" + mapping.id + "' active?", active);
-            if (!active) {
-                return;
-            }
-            if (!result || mapping.parsedTokens > result.parsedTokens) {
-                result = mapping;
-            }
-        });
-        // if (result) {
-        //     console.log("Using mapping '" + result!.id + "'");
-        // } else {
-        //     console.log('No valid mappings found');
-        // }
-        return result;
+    private get _activeMappings(): LiveTokenMappings<any>[] {
+        return Array.from(this._mappings.values());
     }
 
     @computed
@@ -76,107 +55,130 @@ export class TokenManagerImpl implements TokenManager {
         const result: Query = {};
         const allTokens = this._locationManager.pathTokens;
         const mappings = this._activeMappings;
-        if (!mappings) {
-            console.warn("Can't find any active mappings, not parsing path tokens");
-            return result;
-        }
-        const state = mappings.states.getActiveSubState();
-        if (state) {
-            const { tokenMapping, totalPathTokens } = state;
-            if (!tokenMapping) {
-                return result;
+        mappings.forEach(m => {
+            const state = m.states.getActiveSubState();
+            if (state) {
+                const { tokenMapping, totalPathTokens } = state;
+                if (!tokenMapping) {
+                    return;
+                }
+                const parsedTokens = m.parsedTokens + totalPathTokens.length;
+                tokenMapping.forEach((key, index) => {
+                    result[key] = allTokens[parsedTokens + index];
+                });
             }
-            const parsedTokens = mappings.parsedTokens + totalPathTokens.length;
-            tokenMapping.forEach((key, index) => {
-                result[key] = allTokens[parsedTokens + index];
-            });
-        }
+        });
         return result;
     }
 
     public doSetToken(key: string, value: string, updateMethod?: UpdateMethod) {
-        const mappings = this._activeMappings;
-        if (!mappings) {
-            console.warn("Can't find any active mappings, not setting any tokens");
-            return;
-        }
-        const state = mappings.states.getActiveSubState();
-        if (state) {
-            const { tokenMapping, totalPathTokens } = state;
-            if (!tokenMapping) {
-                console.warn("No mappings for this state, can't set tokens!");
-                return;
-            }
-            const index = tokenMapping.indexOf(key);
-            if (index === -1) {
-                console.warn('No mapping for found for token ' + key);
-                return;
-            }
-            const parsedTokens = mappings.parsedTokens + totalPathTokens.length;
-            const localTokens = this._locationManager.pathTokens.slice(parsedTokens);
-            for (let i = 0; i < index; i++) {
-                if (isTokenEmpty(localTokens[i])) {
-                    console.warn("Previous tokens are missing, can't set" + key);
+        this._activeMappings.forEach(({ states, parsedTokens }) => {
+            // console.log('Attempting to set token', key, 'on mapping', id);
+            const state = states.getActiveSubState();
+            if (state) {
+                const { tokenMapping, totalPathTokens } = state;
+                if (!tokenMapping) {
+                    // console.warn('No mappings found on the active state of', id, ", can't set tokens!");
                     return;
                 }
+                const index = tokenMapping.indexOf(key);
+                if (index === -1) {
+                    // console.warn('No mappings for path token', key, 'on the active state of', id, ", can't set token!");
+                    return;
+                }
+                const newParsedTokens = parsedTokens + totalPathTokens.length;
+                const localTokens = this._locationManager.pathTokens.slice(newParsedTokens);
+                for (let i = 0; i < index; i++) {
+                    if (isTokenEmpty(localTokens[i])) {
+                        // console.warn(
+                        //     "Previous tokens are missing, can't set path token",
+                        //     key,
+                        //     'based on the mappings in',
+                        //     id
+                        // );
+                        return;
+                    }
+                }
+                localTokens[index] = value;
+                // console.log(
+                //     'Found! After modifying token',
+                //     index + 1,
+                //     'new list tokens will be',
+                //     localTokens.join('/')
+                // );
+                localTokens.splice(index + 1);
+                this._locationManager.doSetPathTokens(newParsedTokens, localTokens, updateMethod);
+            } else {
+                // console.warn(
+                //     "Can't set token",
+                //     key,
+                //     'based on mappings',
+                //     id,
+                //     ', since this nav component seems to be in an invalid state.'
+                // );
+                return;
             }
-            localTokens[index] = value;
-            localTokens.splice(index + 1);
-            this._locationManager.doSetPathTokens(parsedTokens, localTokens, updateMethod);
-        } else {
-            console.warn("Invalid state, can't set tokens!");
-            return;
-        }
+        });
     }
 
     // tslint:disable-next-line:cyclomatic-complexity
     public trySetToken(key: string, value: string, updateMethod?: UpdateMethod, callback?: SuccessCallback): void {
-        const mappings = this._activeMappings;
-        if (!mappings) {
-            console.warn("Can't find any active mappings, not setting any tokens");
-            if (callback) {
-                callback(false);
-            }
-            return;
-        }
-        const state = mappings.states.getActiveSubState();
-        if (state) {
-            const { tokenMapping, totalPathTokens } = state;
-            if (!tokenMapping) {
-                console.warn("No mappings for this state, can't set tokens!");
-                if (callback) {
-                    callback(false);
-                }
-                return;
-            }
-            const index = tokenMapping.indexOf(key);
-            if (index === -1) {
-                console.warn('No mapping for found for token ' + key);
-                if (callback) {
-                    callback(false);
-                }
-                return;
-            }
-            const parsedTokens = mappings.parsedTokens + totalPathTokens.length;
-            const localTokens = this._locationManager.pathTokens.slice(parsedTokens);
-            for (let i = 0; i < index; i++) {
-                if (isTokenEmpty(localTokens[i])) {
-                    console.warn("Previous tokens are missing, can't set" + key);
-                    if (callback) {
-                        callback(false);
-                    }
+        let found = false;
+        // const mappings = this._activeMappings;
+        // if (!mappings) {
+        //     console.warn("Can't find any active mappings, not setting any tokens");
+        //     if (callback) {
+        //         callback(false);
+        //     }
+        //     return;
+        // }
+        this._activeMappings.forEach(({ states, parsedTokens }) => {
+            const state = states.getActiveSubState();
+            if (state) {
+                const { tokenMapping, totalPathTokens } = state;
+                if (!tokenMapping) {
+                    // console.warn("No mappings for this state, can't set tokens!");
+                    // if (callback) {
+                    //     callback(false);
+                    // }
                     return;
                 }
+                const index = tokenMapping.indexOf(key);
+                if (index === -1) {
+                    // console.warn('No mapping for found for token ' + key);
+                    // if (callback) {
+                    //     callback(false);
+                    // }
+                    return;
+                }
+                const newParsedTokens = parsedTokens + totalPathTokens.length;
+                const localTokens = this._locationManager.pathTokens.slice(newParsedTokens);
+                for (let i = 0; i < index; i++) {
+                    if (isTokenEmpty(localTokens[i])) {
+                        // console.warn("Previous tokens are missing, can't set" + key);
+                        // if (callback) {
+                        //     callback(false);
+                        // }
+                        return;
+                    }
+                }
+                found = true;
+                localTokens[index] = value;
+                localTokens.splice(index + 1);
+                this._locationManager.trySetPathTokens(newParsedTokens, localTokens, updateMethod, callback);
+            } else {
+                // console.warn("Invalid state, can't set tokens!");
+                // if (callback) {
+                //     callback(false);
+                // }
+                return;
             }
-            localTokens[index] = value;
-            localTokens.splice(index + 1);
-            this._locationManager.trySetPathTokens(parsedTokens, localTokens, updateMethod, callback);
-        } else {
-            console.warn("Invalid state, can't set tokens!");
+        });
+        if (!found) {
+            console.warn("Can't find a valid mapping for token", key, "; can't set token");
             if (callback) {
                 callback(false);
             }
-            return;
         }
     }
 
@@ -185,42 +187,40 @@ export class TokenManagerImpl implements TokenManager {
     }
 
     public getLocationForTokenChange(startLocation: MyLocation, key: string, value: string): MyLocation {
-        const mappings = this._activeMappings;
-        if (!mappings) {
-            console.warn("Can't find any active mappings, not setting any tokens");
-            return startLocation;
-        }
-        const state = mappings.states.getActiveSubState();
-        if (state) {
-            const { tokenMapping, totalPathTokens } = state;
-            if (!tokenMapping) {
-                console.warn("No mappings for this state, can't set tokens!");
-                return startLocation;
-            }
-            const index = tokenMapping.indexOf(key);
-            if (index === -1) {
-                console.warn('No mapping for found for token ' + key);
-                return startLocation;
-            }
-            const parsedTokens = mappings.parsedTokens + totalPathTokens.length;
-            const localTokens = this._locationManager.pathTokens.slice(parsedTokens);
-            for (let i = 0; i < index; i++) {
-                if (isTokenEmpty(localTokens[i])) {
-                    console.warn("Previous tokens are missing, can't set" + key);
-                    return startLocation;
+        return this._activeMappings.reduce((prevLocation: MyLocation, mappings) => {
+            const { states, parsedTokens: oldParsedTokens } = mappings;
+            const state = states.getActiveSubState();
+            if (state) {
+                const { tokenMapping, totalPathTokens } = state;
+                if (!tokenMapping) {
+                    // console.warn("No mappings for this state, can't set tokens!");
+                    return prevLocation;
                 }
+                const index = tokenMapping.indexOf(key);
+                if (index === -1) {
+                    // console.warn('No mapping for found for token ' + key);
+                    return prevLocation;
+                }
+                const parsedTokens = oldParsedTokens + totalPathTokens.length;
+                const localTokens = this._locationManager.pathTokens.slice(parsedTokens);
+                for (let i = 0; i < index; i++) {
+                    if (isTokenEmpty(localTokens[i])) {
+                        // console.warn("Previous tokens are missing, can't set" + key);
+                        return prevLocation;
+                    }
+                }
+                localTokens[index] = value;
+                localTokens.splice(index + 1);
+                return this._locationManager.getNewLocationForPathAndQueryChanges(
+                    prevLocation,
+                    parsedTokens,
+                    localTokens,
+                    undefined
+                );
+            } else {
+                // console.warn("Invalid state, can't set tokens!");
+                return prevLocation;
             }
-            localTokens[index] = value;
-            localTokens.splice(index + 1);
-            return this._locationManager.getNewLocationForPathAndQueryChanges(
-                startLocation,
-                parsedTokens,
-                localTokens,
-                undefined
-            );
-        } else {
-            console.warn("Invalid state, can't set tokens!");
-            return startLocation;
-        }
+        }, startLocation);
     }
 }
