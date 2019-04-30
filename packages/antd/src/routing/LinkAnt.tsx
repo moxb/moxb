@@ -40,9 +40,13 @@ export class LinkAnt extends React.Component<LinkProps & UsesLocation> {
      * Calculate the location where this links should take us
      */
     protected getWantedLocation(): MyLocation {
-        const { position, to, argChanges } = this.props;
+        const { position, to, argChanges, appendTokens, removeTokenCount } = this.props;
         const locationManager = this.props.locationManager!;
-        const startLocation = locationManager.getNewLocationForPathAndQueryChanges(undefined, position, to, undefined);
+        const startLocation = appendTokens
+            ? locationManager.getNewLocationForAppendedPathTokens(appendTokens)
+            : removeTokenCount
+            ? locationManager.getNewLocationForRemovedPathTokens(removeTokenCount)
+            : locationManager.getNewLocationForPathAndQueryChanges(undefined, position, to, undefined);
         return (argChanges || []).reduce(
             (prevLocation: MyLocation, change) => change.arg.getModifiedLocation(prevLocation, change.value),
             startLocation

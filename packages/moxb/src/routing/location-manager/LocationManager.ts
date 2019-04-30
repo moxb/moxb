@@ -190,6 +190,16 @@ export interface LocationManager {
     doRemovePathTokens: (count: number, method?: UpdateMethod) => void;
 
     /**
+     * Calculate what would be the new location, if these tokens were to be added to the path
+     */
+    getNewLocationForAppendedPathTokens: (tokens: string[]) => MyLocation;
+
+    /**
+     * Calculate what would be the new location, if this many tokens were to be removed from the path
+     */
+    getNewLocationForRemovedPathTokens: (count: number) => MyLocation;
+
+    /**
      * Tries to appends a set of tokens to the current path
      *
      * @param tokens The tokens to append.
@@ -284,8 +294,14 @@ export interface LocationManager {
      */
     getURLForQueryChange: (key: string, rawValue: string | undefined) => string;
 
+    /**
+     * Calculate what would be the new location, if these query changes were to be executed.
+     */
     getNewLocationForQueryChanges: (baseLocation: MyLocation | undefined, changes: QueryChange[]) => MyLocation;
 
+    /**
+     * Calculate what would be the new location, if these path tokens were to be set, and these query changes were to be executed.
+     */
     getNewLocationForPathAndQueryChanges: (
         baseLocation: MyLocation | undefined,
         position: number | undefined,

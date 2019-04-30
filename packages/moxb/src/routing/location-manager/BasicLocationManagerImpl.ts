@@ -475,6 +475,14 @@ export class BasicLocationManagerImpl implements LocationManager {
         this.trySetLocation(location, method, callback);
     }
 
+    public getNewLocationForAppendedPathTokens(tokens: string[]) {
+        return this.getLocationForPathTokens(this.pathTokens.length, tokens);
+    }
+
+    public getNewLocationForRemovedPathTokens(count: number) {
+        return this.getLocationForPathTokens(this.pathTokens.length - count, []);
+    }
+
     public doAppendPathTokens(tokens: string[], method?: UpdateMethod) {
         this.doSetPathTokens(this.pathTokens.length, tokens, method);
     }

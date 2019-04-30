@@ -15,6 +15,20 @@ export interface CoreLinkProps {
     position?: number;
 
     /**
+     * Tokens to append to the current tokens. (Optional.)
+     *
+     * Don't is this together with the "to" option.
+     */
+    appendTokens?: string[];
+
+    /**
+     * Number of tokens to remove from the current tokens. (Optional.)
+     *
+     * Don't is this together with the "to" option.
+     */
+    removeTokenCount?: number;
+
+    /**
      * Do we have to set any URL arguments?
      */
     argChanges?: ArgChange<any>[];
