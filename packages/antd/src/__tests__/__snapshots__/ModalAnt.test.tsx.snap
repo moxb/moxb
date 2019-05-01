@@ -14,6 +14,6 @@ exports[`ModalAnt should render a modal dialog by default 1`] = `
   title=""
   transitionName="zoom"
   visible={false}
-  width={520}
+  width="900px"
 />
 `;
