@@ -16,6 +16,7 @@ export interface Modal<T> {
 
     /**
      * Actions define the user action which be placed in Modal.Action, typically an array of BindActions.
+     * The first action must be the cancel action, the second action (if any) must be the confirm action.
      */
     readonly actions?: Action[];
 
