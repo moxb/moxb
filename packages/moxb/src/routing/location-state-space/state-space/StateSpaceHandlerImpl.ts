@@ -4,6 +4,7 @@ import { FilterParams, StateSpaceHandler, StateSpaceHandlerProps } from './State
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { SubStateKeyGeneratorImpl } from './SubStateKeyGeneratorImpl';
 import { NavStateHooks } from '../../navigable';
+import { LinkGenerator, NavRef } from '../../navigation-references';
 
 /**
  * Recursively filter out the sub-states that are hidden or don't match the filter
@@ -59,6 +60,8 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     protected readonly _id: string;
     protected readonly _debug?: boolean;
     protected readonly _keyGen: SubStateKeyGenerator;
+    protected readonly _linkGenerator?: LinkGenerator;
+    protected readonly _resolveNavRefs: boolean;
     protected readonly _subStates: StateSpace<LabelType, WidgetType, DataType>;
     public readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _allSubStates: SubStateInContext<LabelType, WidgetType, DataType>[];
@@ -75,9 +78,22 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         parentPathTokens: string[],
         state: SubState<LabelType, WidgetType, DataType>
     ): SubStateInContext<LabelType, WidgetType, DataType> {
-        const { root, key, subStates, flat, pathTokens } = state;
+        const { root, key, subStates, flat, pathTokens, navRefCall } = state;
         const newTokens = !!subStates ? (flat ? [] : [key!]) : root ? [] : [key!];
-        const totalPathTokens: string[] = pathTokens ? pathTokens : [...parentPathTokens, ...newTokens];
+
+        let totalPathTokens: string[];
+        if (navRefCall) {
+            if (this._resolveNavRefs) {
+                totalPathTokens = this._linkGenerator!.createLink(navRefCall).pathTokens;
+            } else {
+                // We are not resolving nav refs in this state space handler.
+                totalPathTokens = [];
+            }
+        } else if (pathTokens) {
+            totalPathTokens = pathTokens;
+        } else {
+            totalPathTokens = [...parentPathTokens, ...newTokens];
+        }
         return {
             ...state,
             parentPathTokens,
@@ -98,8 +114,10 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     }
 
     public constructor(props: StateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
-        const { id, keyGen, subStates, filterCondition, debug } = props;
+        const { id, keyGen, subStates, filterCondition, linkGenerator, debug } = props;
         this._id = id || 'no-id';
+        this._linkGenerator = linkGenerator;
+        this._resolveNavRefs = !!linkGenerator;
         this._debug = debug;
         this._keyGen = keyGen || new SubStateKeyGeneratorImpl();
         this._enumerateSubStates = this._enumerateSubStates.bind(this);
@@ -127,6 +145,22 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         } else {
             console.log("Can't find sub-state with menuKey '" + menuKey + "'.");
             throw new Error("Can't find wanted subState");
+        }
+    }
+
+    public findStateForNavRef(navRef: NavRef<any>): SubStateInContext<LabelType, WidgetType, DataType> {
+        const states = this.getFilteredSubStates({
+            recursive: true,
+            onlyLeaves: false,
+            onlySatisfying: false,
+            noDisplayOnly: true,
+        });
+        const result = states.find(state => state.navRef === navRef);
+        if (result) {
+            return result;
+        } else {
+            console.log("Can't find sub-state with navRef '" + navRef + "'.");
+            throw new Error("Can't find sub-state with navRef '" + navRef + "'!");
         }
     }
 

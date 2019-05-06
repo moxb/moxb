@@ -22,7 +22,7 @@ const MyURI = require('urijs');
 
 const debug = false;
 
-const noLocation: MyLocation = {
+export const noLocation: MyLocation = {
     pathname: '',
     search: '',
     state: null,
@@ -36,8 +36,14 @@ export interface Props {
     communicator?: LocationCommunicator;
 }
 
-export const locationToUrl = (location: MyLocation = noLocation): string =>
-    new MyURI()
+export interface LocationToUrlProps {
+    protocol: string;
+    hostname: string;
+    port: string;
+}
+
+export const locationToUrl = (location: MyLocation = noLocation, props?: LocationToUrlProps): string =>
+    (props ? new MyURI(props) : new MyURI())
         .path(location.pathname)
         .search(location.search)
         .hash((location as any).hash)
@@ -45,6 +51,11 @@ export const locationToUrl = (location: MyLocation = noLocation): string =>
 
 export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _schema: UrlSchema;
+
+    get urlSchema() {
+        return this._schema;
+    }
+
     protected readonly _permanentArgs: UrlArg<any>[] = [];
     protected readonly _history: MyHistory;
     protected readonly _redirects: Redirect[] = [];
@@ -124,7 +135,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     @action
-    protected _doSetLocation(location: LocationDescriptorObject, method: UpdateMethod = UpdateMethod.PUSH) {
+    doSetLocation(location: LocationDescriptorObject, method: UpdateMethod = UpdateMethod.PUSH) {
         /**
          * Since we are going to modify the URL, we make a note for ourselves, so that
          * when the URL is modified, and we are notified about the change, we should know
@@ -216,7 +227,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                     if (decision) {
                         // According to the user's decision, we are OK,
                         // so we can execute the change.
-                        this._doSetLocation(location, method);
+                        this.doSetLocation(location, method);
                         if (callback) {
                             callback(true);
                         }
@@ -231,7 +242,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                 .catch(reason => console.error(reason));
         } else {
             // No questions asked, so we can simply execute the change.
-            this._doSetLocation(location, method);
+            this.doSetLocation(location, method);
             if (callback) {
                 callback(true);
             }
@@ -245,7 +256,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     protected _restoreStoredLocation() {
         if (!this._communicator.isActive()) {
             // If another change is under progress, we shouldn't touch the URL
-            this._doSetLocation(this._location, UpdateMethod.REPLACE);
+            this.doSetLocation(this._location, UpdateMethod.REPLACE);
         }
     }
 
@@ -397,7 +408,7 @@ export class BasicLocationManagerImpl implements LocationManager {
             return;
         }
         const location = this.getNewLocationForQueryChanges(undefined, changes);
-        this._doSetLocation(location, method);
+        this.doSetLocation(location, method);
     }
 
     public trySetQueries(changes: QueryChange[], method?: UpdateMethod, callback?: SuccessCallback) {
@@ -467,7 +478,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     @action
     public doSetPathTokens(position: number, tokens: string[], method?: UpdateMethod) {
         const location = this.getLocationForPathTokens(position, tokens);
-        this._doSetLocation(location, method);
+        this.doSetLocation(location, method);
     }
 
     public trySetPathTokens(position: number, tokens: string[], method?: UpdateMethod, callback?: SuccessCallback) {
@@ -515,7 +526,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         method?: UpdateMethod
     ) {
         const location = this.getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
-        this._doSetLocation(location, method);
+        this.doSetLocation(location, method);
     }
 
     @action

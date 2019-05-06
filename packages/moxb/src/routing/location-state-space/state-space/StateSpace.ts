@@ -1,3 +1,5 @@
+import { NavRef, NavRefCall } from '../../navigation-references';
+
 export interface SubStateCoreInfo<WidgetType, DataType> {
     /**
      * What content so show in this sub-state?
@@ -47,6 +49,24 @@ export interface SubStateRelations<LabelType, WidgetType, DataType> {
      * Specify an arbitrary list of path tokens to use for this sub-state
      */
     pathTokens?: string[];
+
+    /**
+     * Use a NavRef scheme to specify where this state should point to.
+     *
+     * If given, pathTokens are ignored.
+     *
+     * Note that this can only be used if the given NavRev scheme has been
+     * attached to a state somewhere else in the menu.
+     */
+    navRefCall?: NavRefCall<any>;
+
+    /**
+     * Specify a NavRef schema, which can be used to address to this navigation state.
+     *
+     * Note that this doesn't change anything about this state;
+     * it just makes it addressable using the schema that we are attaching here.
+     */
+    navRef?: NavRef<any>;
 }
 
 export interface SubStateDisplayInfo<LabelType> {

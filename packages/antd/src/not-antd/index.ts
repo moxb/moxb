@@ -5,3 +5,4 @@ export { Anchor } from './Anchor';
 export { rootOrDetails, DetailProps } from './rootOrDetails';
 export { renderFallback } from './rendering';
 export { Redirect, redirect, redirectTo } from './Redirect';
+export { NavRefRedirect } from './NavRefRedirect';

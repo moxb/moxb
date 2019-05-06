@@ -1,8 +1,8 @@
+import { ArgChange } from '../url-arg';
+
 /**
  * A data structure to describe where a link should point to.
  */
-import { ArgChange } from '../url-arg';
-
 export interface CoreLinkProps {
     /**
      * The path tokens to set
