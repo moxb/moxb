@@ -1,12 +1,12 @@
-import { Action, Modal as MoxbModal } from '@moxb/moxb';
-import { Modal } from 'antd';
+import { Modal as MoxbModal, ModalActions } from '@moxb/moxb';
 import { ModalFuncProps } from 'antd/lib/modal';
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import { Modal } from 'antd';
 
-export interface BindModalAntProps<T> extends ModalFuncProps {
-    operation: MoxbModal<T>;
-    footer?(actions: Action[]): React.ReactNode;
+export interface BindModalAntProps<T, A extends ModalActions = ModalActions> extends ModalFuncProps {
+    operation: MoxbModal<T, A>;
+    footer?(actions: A): React.ReactNode;
 }
 
 // same sizes as semantic UI's modals
@@ -20,7 +20,7 @@ const SIZES = {
 };
 
 @observer
-export class ModalAnt<T> extends React.Component<BindModalAntProps<T>> {
+export class ModalAnt<T, A extends ModalActions = ModalActions> extends React.Component<BindModalAntProps<T, A>> {
     /*
      * Ant Design has no concept for multiple actions in a modal dialog, it will always be an 'okButton' and
      * a 'cancelButton', so we will warn the user, that not more actions are available.
@@ -35,7 +35,7 @@ export class ModalAnt<T> extends React.Component<BindModalAntProps<T>> {
                     {...props as any}
                     visible={operation.open}
                     title={operation.header}
-                    onCancel={operation.actions[0].fire}
+                    onCancel={operation.actions.cancel.fire}
                     footer={footer(operation.actions)}
                     width={size}
                 >
@@ -44,18 +44,14 @@ export class ModalAnt<T> extends React.Component<BindModalAntProps<T>> {
             );
         }
 
-        if (operation.actions!.length !== 2) {
-            console.warn('The modals for ant design UI components must have a fixed number of two actions.');
-            return null;
-        }
         return (
             <Modal
                 {...props as any}
                 visible={operation.open}
-                onCancel={operation.actions![0].fire}
-                onOk={operation.actions![1].fire}
-                cancelText={operation.actions![0].label}
-                okText={operation.actions![1].label}
+                onCancel={operation.actions.cancel.fire}
+                cancelText={operation.actions.cancel.label}
+                okText={operation.actions.confirm && operation.actions.confirm.label}
+                onOk={operation.actions.confirm && operation.actions.confirm.fire}
                 title={operation.header}
                 width={size}
             >

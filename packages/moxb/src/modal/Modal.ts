@@ -1,10 +1,15 @@
 import { Action } from '../action/Action';
 
+export interface ModalActions {
+    cancel: Action;
+    confirm?: Action;
+}
+
 /**
  * This is a representation of the Modal dialog:
  * https://react.semantic-ui.com/modules/modal
  */
-export interface Modal<T> {
+export interface Modal<T, A extends ModalActions> {
     /**
      * The data that is associated with the dialog
      */
@@ -18,7 +23,7 @@ export interface Modal<T> {
      * Actions define the user action which be placed in Modal.Action, typically an array of BindActions.
      * The first action must be the cancel action, the second action (if any) must be the confirm action.
      */
-    readonly actions?: Action[];
+    readonly actions: A;
 
     /**
      * If not falsely shown as Header of the dialog

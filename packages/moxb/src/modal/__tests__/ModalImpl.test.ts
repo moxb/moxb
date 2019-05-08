@@ -5,11 +5,11 @@ import { ModalImpl } from '../ModalImpl';
 
 describe('header', function() {
     let header = jest.fn();
-    let bindModal: Modal<any>;
+    let bindModal: Modal<any, any>;
 
     beforeEach(function() {
         header = jest.fn().mockReturnValue('Header Value');
-        bindModal = new ModalImpl<any>({ header });
+        bindModal = new ModalImpl<any, any>({ header, actions: () => ({ cancel: null }) });
     });
     it('should not be called when not shown', function() {
         expect(bindModal.header).toBe('');
@@ -41,7 +41,7 @@ describe('header', function() {
 
 describe('actions', function() {
     let actions = jest.fn();
-    let bindModal: Modal<any>;
+    let bindModal: Modal<any, any>;
     let testAction: Action;
     let fire: any;
 
@@ -52,7 +52,7 @@ describe('actions', function() {
             fire,
         });
         actions = jest.fn().mockReturnValue([testAction]);
-        bindModal = new ModalImpl<any>({
+        bindModal = new ModalImpl<any, any>({
             actions,
         });
     });
@@ -73,10 +73,10 @@ describe('actions', function() {
 });
 
 describe('open', function() {
-    let bindModal: Modal<any>;
+    let bindModal: Modal<any, any>;
 
     beforeEach(function() {
-        bindModal = new ModalImpl<any>({});
+        bindModal = new ModalImpl<any, any>({ actions: () => ({ cancel: null }) });
     });
     it('should be true, if the modal is shown', function() {
         expect(bindModal.open).toBe(false);
@@ -92,10 +92,10 @@ describe('open', function() {
 });
 
 describe('data', function() {
-    let bindModal: Modal<any>;
+    let bindModal: Modal<any, any>;
 
     beforeEach(function() {
-        bindModal = new ModalImpl<any>({
+        bindModal = new ModalImpl<any, any>({
             header: data => data,
             actions: data => [data],
         });

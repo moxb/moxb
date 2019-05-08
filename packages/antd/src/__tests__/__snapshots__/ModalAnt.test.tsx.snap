@@ -17,3 +17,23 @@ exports[`ModalAnt should render a modal dialog by default 1`] = `
   width="900px"
 />
 `;
+
+exports[`ModalAnt should support a custom footer 1`] = `
+<Modal
+  cancelButtonDisabled={false}
+  confirmLoading={false}
+  footer={
+    <div>
+      Hello World
+    </div>
+  }
+  maskTransitionName="fade"
+  okButtonDisabled={false}
+  okType="primary"
+  onCancel={[Function]}
+  title=""
+  transitionName="zoom"
+  visible={false}
+  width="900px"
+/>
+`;
