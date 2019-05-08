@@ -1,6 +1,7 @@
 import { StateCondition, StateSpace, SubState, SubStateInContext } from './StateSpace';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { NavStateHooks } from '../../navigable';
+import { LinkGenerator, NavRef } from '../../navigation-references';
 
 export interface FilterParams {
     recursive?: boolean;
@@ -32,8 +33,17 @@ export interface StateSpaceHandler<LabelType, WidgetType, DataType> {
 
     /**
      * Find a subState with a given menuKey
+     *
+     * If it can't be found, and exception is thrown.
      */
     findStateForMenuKey(menuKey: string): SubStateInContext<LabelType, WidgetType, DataType>;
+
+    /**
+     * Find a subState with a given navRef
+     *
+     * If it can't be found, and exception is thrown.
+     */
+    findStateForNavRef(navRef: NavRef<any>): SubStateInContext<LabelType, WidgetType, DataType>;
 
     /**
      * Is the given sub-state active for a given set of tokens?
@@ -111,6 +121,11 @@ export interface StateSpaceHandlerProps<LabelType, WidgetType, DataType> {
      * A key generator to use to address hierarchically nested sub-states.
      */
     keyGen?: SubStateKeyGenerator;
+
+    /**
+     * A link generator is necessary to resolve navigation refenreces.
+     */
+    linkGenerator?: LinkGenerator;
 
     /**
      * Should this component run in debug mode?

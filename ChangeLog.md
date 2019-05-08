@@ -23,6 +23,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 * Added a new API to `UrlArg` (and all implementations): `getModifiedLocation()`
   This can be used for calculating what would be the new location if a given arg was changed to the given value.
   This API is defined so that it's possible to cascade multiple calls for multiple args.
+* Added the `NavRef` and `LinkGenerator` system for attaching schemas to specific parts
+  of the navigation sub-tree, and then generating links and redirect to those states,
+  without knowing the exact path tokens.
   
 ### Fixed
 * The Path-token - based UrlArgs didn't play nice with <LinkAnt>. Also, <LinkAnt> couldn't properly handle multiple 

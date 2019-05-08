@@ -1,7 +1,7 @@
 import { Location as MyLocation, LocationDescriptorObject } from 'history';
 import { UrlArg } from '../url-arg';
 
-import { Query } from '../url-schema/UrlSchema';
+import { Query, UrlSchema } from '../url-schema/UrlSchema';
 
 export type SuccessCallback = (value: boolean) => void;
 
@@ -113,6 +113,11 @@ export interface LocationChangeInterceptor {
  *   which will be called with a boolean value, signaling whether it was executed or now.
  */
 export interface LocationManager {
+    /**
+     * Expose the currently used UrlSchema;
+     */
+    readonly urlSchema: UrlSchema;
+
     /**
      * Register a component that is interested in the location.
      */
@@ -269,6 +274,14 @@ export interface LocationManager {
         method?: UpdateMethod,
         callback?: SuccessCallback
     ): void;
+
+    /**
+     * Set the location to a new value.
+     *
+     * @param location The new location to set
+     * @param method   The method to use for updating the URL
+     */
+    doSetLocation(location: LocationDescriptorObject | undefined, method?: UpdateMethod): void;
 
     /**
      * Set the last few path tokens, and also some queries

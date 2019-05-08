@@ -22,6 +22,16 @@ export {
 } from './location-state-space/state-space/StateSpace';
 
 export {
+    NavRefProps,
+    NavRef,
+    NavRefCall,
+    defineNavRef,
+    parseNavRef,
+    LinkGenerator,
+    LinkGeneratorImpl,
+} from './navigation-references';
+
+export {
     UrlArgDefinition,
     UrlArgTypeDef,
     UrlArg,
