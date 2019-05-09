@@ -8,7 +8,7 @@ export interface ModalOptions<T, A> {
     size?: 'mini' | 'tiny' | 'small' | 'large' | 'fullscreen';
 }
 
-export class ModalImpl<T, A extends ModalActions> implements Modal<T, A> {
+export class ModalImpl<T, A extends ModalActions = ModalActions> implements Modal<T, A> {
     @observable
     open = false;
     @observable
