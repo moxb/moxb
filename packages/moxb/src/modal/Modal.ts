@@ -9,7 +9,7 @@ export interface ModalActions {
  * This is a representation of the Modal dialog:
  * https://react.semantic-ui.com/modules/modal
  */
-export interface Modal<T, A extends ModalActions> {
+export interface Modal<T, A extends ModalActions = ModalActions> {
     /**
      * The data that is associated with the dialog
      */
