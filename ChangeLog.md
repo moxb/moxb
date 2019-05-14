@@ -6,6 +6,18 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 # v.Next (Current)
 
 ### Breaking Changes
+
+### Added
+ * Declare that the `renderUIFragment()` function accepts undefined input, too
+ * Added `NavRadioButtonBarAnt` component, which is just like the `NavMenuBarAnt`, but with radio buttons 
+
+### Fixed
+ * Fixed a TS warning around btoa-lite
+
+
+# [v0.2.0-beta.23](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.23) (2019-05-29)
+
+### Breaking Changes
 * Removed the `key` field from the `UrlArg` interface
 * Removed some APIs from LocationManager that were inconsistent
   with the contract implied by the `UrlArg` interface.
