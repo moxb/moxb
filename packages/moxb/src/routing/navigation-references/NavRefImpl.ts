@@ -1,5 +1,5 @@
 import atob = require('atob');
-import btoa = require('btoa-lite');
+const btoa: any = require('btoa-lite');
 import { NavRef, NavRefCall } from './NavRef';
 import { LinkGenerator } from './LinkGenerator';
 import { SuccessCallback, UpdateMethod } from '../location-manager';
