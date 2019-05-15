@@ -1,0 +1,69 @@
+import {
+    LocationDependentStateSpaceHandler,
+    LocationDependentStateSpaceHandlerImpl,
+    LocationDependentStateSpaceHandlerProps,
+    OneOfImpl,
+} from '@moxb/moxb';
+import { inject, observer } from 'mobx-react';
+import * as React from 'react';
+import { renderUIFragment, UIFragment, UIFragmentSpec } from '../not-antd';
+import { OneOfButtonAnt } from '../OneOfAnt';
+
+export interface NavRadioButtonBarProps<DataType>
+    extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
+    /**
+     * Any extra menu items to add
+     */
+    extras?: JSX.Element[];
+
+    /**
+     * Any direct styles to apply
+     */
+    style?: React.CSSProperties;
+}
+
+@inject('locationManager')
+@observer
+/**
+ * This widget show an Ant tab bar, based on the state-space.
+ */
+export class NavRadioButtonBarAnt<DataType> extends React.Component<NavRadioButtonBarProps<DataType>> {
+    protected getLocationDependantStateSpaceHandler() {
+        const { id, children: _children, extras, style, ...stateProps } = this.props;
+
+        return new LocationDependentStateSpaceHandlerImpl({
+            ...stateProps,
+            id: 'tab bar of ' + (this.props.id || 'no-id'),
+            intercept: true,
+        });
+    }
+
+    public render() {
+        const states: LocationDependentStateSpaceHandler<
+            UIFragment,
+            UIFragmentSpec,
+            DataType
+        > = this.getLocationDependantStateSpaceHandler();
+        const { extras, style } = this.props;
+        const operation = new OneOfImpl({
+            id: 'oneOf.' + this.props.id,
+            getValue: () => states.getActiveSubStateMenuKeys(true)[0],
+            setValue: value => states.trySelectSubState(states.findStateForMenuKey(value)),
+            choices: states
+                .getFilteredSubStates({
+                    onlyVisible: true,
+                    onlySatisfying: true,
+                })
+                .map(state => ({
+                    value: state.menuKey,
+                    widget: renderUIFragment(state.label),
+                })),
+        });
+        return (
+            <div id={'radioButtonMenu.' + this.props.id} style={style}>
+                <OneOfButtonAnt operation={operation} />
+                {...extras || []}
+            </div>
+        );
+    }
+}
