@@ -97,7 +97,7 @@ describe('data', function() {
     beforeEach(function() {
         bindModal = new ModalImpl<any, any>({
             header: data => data,
-            actions: data => [data],
+            actions: data => ({ theData: data }),
         });
     });
     it('should be set via the show function', function() {
@@ -112,6 +112,6 @@ describe('data', function() {
 
     it('should be available to the actions property', function() {
         bindModal.show('data');
-        expect(bindModal.actions).toEqual(['data']);
+        expect(bindModal.actions).toEqual({ theData: 'data' });
     });
 });

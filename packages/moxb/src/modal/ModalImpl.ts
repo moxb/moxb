@@ -40,7 +40,15 @@ export class ModalImpl<T, A extends ModalActions = ModalActions> implements Moda
     }
 
     get actions() {
-        return this.impl.actions(this.data);
+        const actions = this.impl.actions(this.data);
+        // TODO backward compatibility hack -- remove later
+        if (Array.isArray(actions)) {
+            return {
+                cancel: actions[0],
+                confirm: actions[1],
+            } as any;
+        }
+        return actions;
     }
 
     get header() {
