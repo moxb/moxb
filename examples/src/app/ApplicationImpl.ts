@@ -130,7 +130,7 @@ export class ApplicationImpl implements Application {
     });
 
     readonly testModal: Modal<any> = new ModalImpl<any>({
-        actions: () => [this.action1Modal, this.actionCancelModal(this.testModal)],
+        actions: () => ({ confirm: this.action1Modal, cancel: this.actionCancelModal(this.testModal) }),
         header: () => 'New Modal Header',
     });
 

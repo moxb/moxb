@@ -1,22 +1,21 @@
 import { action, observable } from 'mobx';
-import { Action } from '../action/Action';
-import { Modal } from './Modal';
+import { Modal, ModalActions } from './Modal';
 
-export interface ModalOptions<T> {
+export interface ModalOptions<T, A> {
     header?(data: T): string;
-    actions?(data: T): Action[];
+    actions(data: T): A;
     onClose?(): void;
     size?: 'mini' | 'tiny' | 'small' | 'large' | 'fullscreen';
 }
 
-export class ModalImpl<T> implements Modal<T> {
+export class ModalImpl<T, A extends ModalActions = ModalActions> implements Modal<T, A> {
     @observable
     open = false;
     @observable
     data!: T;
-    private readonly impl: ModalOptions<T>;
+    private readonly impl: ModalOptions<T, A>;
 
-    constructor(impl: ModalOptions<T>) {
+    constructor(impl: ModalOptions<T, A>) {
         this.impl = impl;
     }
 
@@ -41,9 +40,15 @@ export class ModalImpl<T> implements Modal<T> {
     }
 
     get actions() {
-        if (this.impl.actions) {
-            return this.impl.actions(this.data);
+        const actions = this.impl.actions(this.data);
+        // TODO backward compatibility hack -- remove later
+        if (Array.isArray(actions)) {
+            return {
+                cancel: actions[0],
+                confirm: actions[1],
+            } as any;
         }
+        return actions;
     }
 
     get header() {

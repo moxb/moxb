@@ -9,7 +9,7 @@ describe('header', function() {
 
     beforeEach(function() {
         header = jest.fn().mockReturnValue('Header Value');
-        bindModal = new ModalImpl<any>({ header });
+        bindModal = new ModalImpl<any, any>({ header, actions: () => ({ cancel: null }) });
     });
     it('should not be called when not shown', function() {
         expect(bindModal.header).toBe('');
@@ -51,13 +51,13 @@ describe('actions', function() {
             id: 'action',
             fire,
         });
-        actions = jest.fn().mockReturnValue([testAction]);
+        actions = jest.fn().mockReturnValue({ cancel: testAction });
         bindModal = new ModalImpl<any>({
             actions,
         });
     });
-    it('should be contain BindActions and be callable actions', function() {
-        expect(bindModal.actions).toEqual([testAction]);
+    it('should contain BindActions and be callable actions', function() {
+        expect(bindModal.actions).toEqual({ cancel: testAction });
         expect(actions).toBeCalled();
         bindModal.show();
 
@@ -66,9 +66,9 @@ describe('actions', function() {
         expect(fire).toBeCalled();
     });
     it('should be of type BindAction', function() {
-        expect(bindModal.actions).toEqual([testAction]);
-        expect(bindModal.actions![0]).toBeInstanceOf(ActionImpl);
-        expect(bindModal.actions![0].fire).toBeDefined();
+        expect(bindModal.actions).toEqual({ cancel: testAction });
+        expect(bindModal.actions.cancel).toBeInstanceOf(ActionImpl);
+        expect(bindModal.actions.cancel.fire).toBeDefined();
     });
 });
 
@@ -76,7 +76,7 @@ describe('open', function() {
     let bindModal: Modal<any>;
 
     beforeEach(function() {
-        bindModal = new ModalImpl<any>({});
+        bindModal = new ModalImpl<any, any>({ actions: () => ({ cancel: null }) });
     });
     it('should be true, if the modal is shown', function() {
         expect(bindModal.open).toBe(false);
@@ -95,9 +95,9 @@ describe('data', function() {
     let bindModal: Modal<any>;
 
     beforeEach(function() {
-        bindModal = new ModalImpl<any>({
+        bindModal = new ModalImpl<any, any>({
             header: data => data,
-            actions: data => [data],
+            actions: data => ({ theData: data }),
         });
     });
     it('should be set via the show function', function() {
@@ -112,6 +112,6 @@ describe('data', function() {
 
     it('should be available to the actions property', function() {
         bindModal.show('data');
-        expect(bindModal.actions).toEqual(['data']);
+        expect(bindModal.actions).toEqual({ theData: 'data' });
     });
 });

@@ -6,7 +6,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 # v.Next (Current)
 
 ### Breaking Changes
-
+ * `Modal` now takes an interface with actions (instead of an array). However, the array still works but
+    will be removed soon.
+ 
 ### Added
  * Declare that the `renderUIFragment()` function accepts undefined input, too
  * Added `NavRadioButtonBarAnt` component, which is just like the `NavMenuBarAnt`, but with radio buttons 
