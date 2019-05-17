@@ -10,7 +10,8 @@ import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormIte
 import { DropDownProps } from 'antd/lib/dropdown';
 import { action } from 'mobx';
 import { ClickParam } from 'antd/lib/menu';
-import { Omit } from 'antd/lib/_util/type';
+
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 @observer
 export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps> {
@@ -86,7 +87,9 @@ export class OneOfButtonFormAnt extends React.Component<
 }
 
 @observer
-export class OneOfDropDownAnt extends React.Component<BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'>> {
+export class OneOfDropDownAnt extends React.Component<
+    BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'> & { style?: React.CSSProperties }
+> {
     @action.bound
     onSelect(params: ClickParam) {
         const { operation } = this.props;
@@ -122,12 +125,11 @@ export class OneOfDropDownAnt extends React.Component<BindAntProps<OneOf> & Omit
 
         const overlay = (
             <Menu>
-                {operation.choices.map((choice, index) =>
-                    (
-                        <Menu.Item key={index} onClick={this.onSelect}>
-                            {choice.widget || choice.label}
-                        </Menu.Item>
-                    ))}
+                {operation.choices.map((choice, index) => (
+                    <Menu.Item key={index} onClick={this.onSelect}>
+                        {choice.widget || choice.label}
+                    </Menu.Item>
+                ))}
             </Menu>
         );
 
