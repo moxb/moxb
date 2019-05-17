@@ -46,6 +46,65 @@ exports[`OneOfAnt should render a select control by default 1`] = `
 </FormItemAnt>
 `;
 
+exports[`OneOfDropDownAnt should render a select control by default 1`] = `
+<Dropdown
+  disabled={false}
+  id="id-test_radio_of_one"
+  label="Select one of"
+  mouseEnterDelay={0.15}
+  mouseLeaveDelay={0.1}
+  overlay={
+    <Menu
+      className=""
+      focusable={false}
+      theme="light"
+    >
+      <MenuItem
+        onClick={[Function]}
+      >
+        Banana
+      </MenuItem>
+      <MenuItem
+        onClick={[Function]}
+      >
+        Apples
+      </MenuItem>
+      <MenuItem
+        onClick={[Function]}
+      >
+        Peaches
+      </MenuItem>
+    </Menu>
+  }
+  placement="bottomLeft"
+>
+  <Button
+    block={false}
+    ghost={false}
+    loading={false}
+  >
+    ...
+     
+    <Icon
+      type="down"
+    />
+  </Button>
+</Dropdown>
+`;
+
+exports[`OneOfDropDownFormAnt should render a dropdown control by default 1`] = `
+<FormItemAnt
+  operation="bound OneOfImpl"
+>
+  <OneOfDropDownAnt
+    disabled={false}
+    id="id-test_drop_down_of_one"
+    operation="bound OneOfImpl"
+    readOnly={false}
+  />
+</FormItemAnt>
+`;
+
 exports[`OneOfFormAnt should render a radio button group by default 1`] = `
 <FormItemAnt
   operation="bound OneOfImpl"
@@ -90,4 +149,17 @@ exports[`OneOfSelectAnt should render a select control by default 1`] = `
     Peaches
   </Option>
 </Select>
+`;
+
+exports[`OneOfSelectFormAnt should render a select control by default 1`] = `
+<FormItemAnt
+  operation="bound OneOfImpl"
+>
+  <OneOfSelectAnt
+    disabled={false}
+    id="id-test_radio_of_one"
+    operation="bound OneOfImpl"
+    readOnly={false}
+  />
+</FormItemAnt>
 `;
