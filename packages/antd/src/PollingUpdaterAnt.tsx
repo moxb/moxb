@@ -17,6 +17,16 @@ interface PollingUpdaterImpl {
     readonly updateFrequency: number;
 
     /**
+     * Should we show a pop-up window, with information about update times? (Default: true)
+     */
+    showPopup?: boolean;
+
+    /**
+     * Should it be possible to trigger an update by clicking?
+     */
+    canClick?: boolean;
+
+    /**
      * What should be in the title, when the popup is shown?
      */
     title: string;
@@ -69,19 +79,20 @@ export class PollingUpdaterAnt extends React.Component<PollingUpdaterProps> {
         if (this._alive) {
             return;
         }
+        const { updateFrequency } = this.props.operation;
         this._alive = true;
         this._update();
-        this._polling = setInterval(() => this._update(), this.props.operation.updateFrequency * 1000);
+        this._polling = setInterval(() => this._update(), updateFrequency * 1000);
         this._counter = setInterval(() => {
             const age = this._lastUpdate ? Math.round((Date.now() - this._lastUpdate) / 1000) : undefined;
             this._updateText =
                 age !== undefined
                     ? t(
                           'pollingUpdater.updateAge.text',
-                          'Updated {{age}} seconds ago. Next update in {{left}} seconds. Click to update now.',
-                          { age, left: this.props.operation.updateFrequency - age }
+                          'Updated {{age}} seconds ago. Next update in {{left}} seconds.',
+                          { age, left: updateFrequency - age }
                       )
-                    : 'Click to load';
+                    : t('pollingUpdater.neverLoaded', 'Never loaded.');
         }, 1000);
     }
 
@@ -105,14 +116,35 @@ export class PollingUpdaterAnt extends React.Component<PollingUpdaterProps> {
 
     render() {
         const { operation } = this.props;
-        return this._failed ? (
+        const { title, showPopup, canClick } = operation;
+
+        const coreContent = this._failed ? (
             <Alert message={this._errorMessage} type={'warning'} />
         ) : (
-            <Popover content={<span>{this._updateText}</span>} title={operation.title} trigger="hover">
-                <span onClick={this._update}>
-                    {renderUIFragment(this._content)} {this._pending && <Spin />}
-                </span>
+            <span onClick={canClick !== false ? this._update : undefined}>
+                {renderUIFragment(this._content)} {this._pending && <Spin />}
+            </span>
+        );
+        const clickText =
+            canClick === false
+                ? undefined
+                : this._lastUpdate
+                ? t('pollingUpdater.clickToUpdate', 'Click to update now.')
+                : t('pollingUpdater.clickToLoad', 'Click to load.');
+        return showPopup !== false ? (
+            <Popover
+                content={
+                    <span>
+                        {this._updateText} {clickText}
+                    </span>
+                }
+                title={title}
+                trigger="hover"
+            >
+                {coreContent}
             </Popover>
+        ) : (
+            coreContent
         );
     }
 
