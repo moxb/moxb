@@ -30,7 +30,7 @@ export class ToolTipAnt extends React.Component<BindToolTipAntProps> {
             return children;
         }
         const childrenWithProps = React.Children.map(children, child =>
-            React.cloneElement(child as ReactElement<any>, { operation, ...props })
+            React.cloneElement(child as ReactElement, { operation, ...props })
         );
         if (operation.disabled) {
             return <>{childrenWithProps}</>;
