@@ -17,3 +17,4 @@ export * from './TagAnt';
 export * from './ToolTipAnt';
 export * from './not-antd';
 export * from './routing';
+export * from './PollingUpdaterAnt';
