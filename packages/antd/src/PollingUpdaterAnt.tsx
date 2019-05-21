@@ -17,14 +17,14 @@ interface PollingUpdaterImpl {
     readonly updateFrequency: number;
 
     /**
-     * Should we show a pop-up window, with information about update times? (Default: true)
+     * Don't show the pop-up window, with information about update times. (Default: false - show the popup)
      */
-    showPopup?: boolean;
+    noPopup?: boolean;
 
     /**
-     * Should it be possible to trigger an update by clicking?
+     * Disable for mechanism for for triggering an update by clicking. (Default: false - updates are enabled)
      */
-    canClick?: boolean;
+    noUpdateOnClick?: boolean;
 
     /**
      * What should be in the title, when the popup is shown?
@@ -116,22 +116,23 @@ export class PollingUpdaterAnt extends React.Component<PollingUpdaterProps> {
 
     render() {
         const { operation } = this.props;
-        const { title, showPopup, canClick } = operation;
+        const { title, noPopup, noUpdateOnClick } = operation;
 
         const coreContent = this._failed ? (
             <Alert message={this._errorMessage} type={'warning'} />
         ) : (
-            <span onClick={canClick !== false ? this._update : undefined}>
+            <span onClick={noUpdateOnClick ? undefined : this._update}>
                 {renderUIFragment(this._content)} {this._pending && <Spin />}
             </span>
         );
-        const clickText =
-            canClick === false
-                ? undefined
-                : this._lastUpdate
-                ? t('pollingUpdater.clickToUpdate', 'Click to update now.')
-                : t('pollingUpdater.clickToLoad', 'Click to load.');
-        return showPopup !== false ? (
+        const clickText = noUpdateOnClick
+            ? undefined
+            : this._lastUpdate
+            ? t('pollingUpdater.clickToUpdate', 'Click to update now.')
+            : t('pollingUpdater.clickToLoad', 'Click to load.');
+        return noPopup ? (
+            coreContent
+        ) : (
             <Popover
                 content={
                     <span>
@@ -143,8 +144,6 @@ export class PollingUpdaterAnt extends React.Component<PollingUpdaterProps> {
             >
                 {coreContent}
             </Popover>
-        ) : (
-            coreContent
         );
     }
 
