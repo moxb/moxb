@@ -28,6 +28,8 @@ import {
     Time,
     TimeImpl,
     ValueImpl,
+    Value,
+    ValueOptions,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 import { Application, ApplicationAPI } from './Application';
@@ -134,7 +136,7 @@ export class ApplicationImpl implements Application {
         header: () => 'New Modal Header',
     });
 
-    readonly testTags = new ValueImpl({
+    readonly testTags: Value<{}> = new ValueImpl<{}, string[], ValueOptions<{}, string[]>>({
         id: 'ApplicationImpl.testTags',
         initialValue: () => ['Unremovable', 'Tag 2', 'Tag 3'],
     });

@@ -37,7 +37,7 @@ describe('OneOfAnt', function() {
 });
 
 describe('OneOfFormAnt', function() {
-    it('should render a radio button group by default', function() {
+    it('should render a radio button group with form by default', function() {
         const operation = new OneOfImpl({
             id: 'id.testRadioOfOne',
             label: 'Select one of',
@@ -60,7 +60,7 @@ describe('OneOfFormAnt', function() {
 });
 
 describe('OneOfSelectAnt', function() {
-    it('should render a select control by default', function() {
+    it('should render a select control', function() {
         const operation = new OneOfImpl({
             id: 'id.testRadioOfOne',
             label: 'Select one of',
@@ -83,7 +83,7 @@ describe('OneOfSelectAnt', function() {
 });
 
 describe('OneOfSelectFormAnt', function() {
-    it('should render a select control by default', function() {
+    it('should render a select control with form', function() {
         const operation = new OneOfImpl({
             id: 'id.testRadioOfOne',
             label: 'Select one of',
@@ -106,7 +106,7 @@ describe('OneOfSelectFormAnt', function() {
 });
 
 describe('OneOfDropDownAnt', function() {
-    it('should render a select control by default', function() {
+    it('should render a dropdown control', function() {
         const operation = new OneOfImpl({
             id: 'id.testRadioOfOne',
             label: 'Select one of',
@@ -129,7 +129,7 @@ describe('OneOfDropDownAnt', function() {
 });
 
 describe('OneOfDropDownFormAnt', function() {
-    it('should render a dropdown control by default', function() {
+    it('should render a dropdown control with form', function() {
         const operation = new OneOfImpl({
             id: 'id.testDropDownOfOne',
             label: 'Select one of',

@@ -14,7 +14,13 @@ export class ApplicationMethods implements ApplicationAPI {
     }
     submitLogin(name: string, password: string, done: MeteorCallback<void>) {
         if (name === 'demo' && password === 'demo') {
-            setTimeout(() => done(alert(`You successfully logged in with ${name} ${password}`)), 500);
+            setTimeout(
+                () =>
+                    done(() => {
+                        alert(`You successfully logged in with ${name} ${password}`);
+                    }),
+                500
+            );
         } else {
             setTimeout(() => done(new Error('Login failed! Username or password incorrect!')), 500);
         }

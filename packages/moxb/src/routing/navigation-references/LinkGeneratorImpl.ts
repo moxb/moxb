@@ -13,7 +13,7 @@ export class LinkGeneratorImpl implements LinkGenerator {
     protected _preparing = false;
     protected _states: StateSpaceHandler<any, any, any> | undefined;
 
-    constructor(private props: LinkGeneratorProps) {
+    constructor(private readonly props: LinkGeneratorProps) {
         const { locationManager, urlSchema } = props;
         this._schema = locationManager ? locationManager.urlSchema : urlSchema || new NativeUrlSchema();
     }
