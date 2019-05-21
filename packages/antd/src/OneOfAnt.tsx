@@ -98,29 +98,32 @@ export class OneOfDropDownAnt extends React.Component<
         operation.setValue(operation.choices[index].value);
     }
 
-    getChoiceLabel(): string | undefined {
+    getChoiceLabel(): React.ReactNode | undefined {
         const { operation } = this.props;
         if (!operation.choice) {
-            return operation.placeholder;
+            return <span style={{ color: '#aaaaaa' }}>{operation.placeholder}</span>;
         }
 
         for (const choice of operation.choices) {
             if (choice.value === operation.choice) {
-                return choice.label;
+                return <span>{choice.label}</span>;
             }
         }
 
-        return operation.choice;
+        return <span>{operation.choice}</span>;
     }
 
     render() {
-        const { operation, invisible, readOnly, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, readOnly, trigger = ['click'], id, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
 
         if (readOnly) {
-            return <span>{this.getChoiceLabel()}</span>;
+            return this.getChoiceLabel();
         }
 
         const overlay = (
@@ -133,9 +136,17 @@ export class OneOfDropDownAnt extends React.Component<
             </Menu>
         );
 
+        // antd DropDown does not set the ID on the created html element, set it manually to the button to fix all the tests
         return (
-            <Dropdown overlay={overlay} {...props}>
-                <Button>
+            <Dropdown overlay={overlay} trigger={trigger as any} {...props}>
+                <Button
+                    id={id}
+                    style={{
+                        display: 'inline-flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
                     {this.getChoiceLabel()} <Icon type="down" />
                 </Button>
             </Dropdown>

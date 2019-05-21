@@ -62,7 +62,7 @@ describe('OneOfFormAnt', function() {
 describe('OneOfSelectAnt', function() {
     it('should render a select control', function() {
         const operation = new OneOfImpl({
-            id: 'id.testRadioOfOne',
+            id: 'id.testSelectOfOne',
             label: 'Select one of',
             placeholder: '...',
             choices: () => allChoices,
@@ -72,7 +72,7 @@ describe('OneOfSelectAnt', function() {
 
     it('should return null if invisible', function() {
         const operation = new OneOfImpl({
-            id: 'id.testRadioOfOne',
+            id: 'id.testSelectOfOne',
             label: 'Select one of',
             placeholder: '...',
             choices: () => allChoices,
@@ -85,7 +85,7 @@ describe('OneOfSelectAnt', function() {
 describe('OneOfSelectFormAnt', function() {
     it('should render a select control with form', function() {
         const operation = new OneOfImpl({
-            id: 'id.testRadioOfOne',
+            id: 'id.testSelectOfOne',
             label: 'Select one of',
             placeholder: '...',
             choices: () => allChoices,
@@ -95,7 +95,7 @@ describe('OneOfSelectFormAnt', function() {
 
     it('should return null if invisible', function() {
         const operation = new OneOfImpl({
-            id: 'id.testRadioOfOne',
+            id: 'id.testSelectOfOne',
             label: 'Select one of',
             placeholder: '...',
             choices: () => allChoices,
@@ -108,7 +108,7 @@ describe('OneOfSelectFormAnt', function() {
 describe('OneOfDropDownAnt', function() {
     it('should render a dropdown control', function() {
         const operation = new OneOfImpl({
-            id: 'id.testRadioOfOne',
+            id: 'id.testDropDownOfOne',
             label: 'Select one of',
             placeholder: '...',
             choices: () => allChoices,
@@ -118,7 +118,7 @@ describe('OneOfDropDownAnt', function() {
 
     it('should return null if invisible', function() {
         const operation = new OneOfImpl({
-            id: 'id.testRadioOfOne',
+            id: 'id.testDropDownOfOne',
             label: 'Select one of',
             placeholder: '...',
             choices: () => allChoices,
