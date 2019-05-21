@@ -21,6 +21,7 @@ import {
     TimePickerAnt,
     ActionToggleButtonAnt,
     ToolTipButton,
+    PollingUpdaterAnt,
 } from '@moxb/antd';
 import { toJSON } from '@moxb/moxb';
 import { Col, Dropdown, Form, Icon, Menu, Row } from 'antd';
@@ -168,6 +169,19 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <hr />
                             <h3>Table Component</h3>
                             <TableAnt table={application.testTable} />
+                            <br />
+                            <br />
+                            <PollingUpdaterAnt
+                                operation={{
+                                    updateFrequency: 5,
+                                    title: 'Time watcher',
+                                    update: callback => {
+                                        // A fake/demo update function, which checks the time
+                                        callback(undefined, `Latest time is: ${new Date().toString()}`);
+                                    },
+                                }}
+                            />
+                            <br />
                             <br />
                             <div id="spacer" style={{ paddingBottom: '100px' }} />
                         </Form>
