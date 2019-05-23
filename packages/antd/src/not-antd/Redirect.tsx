@@ -1,4 +1,4 @@
-import { UpdateMethod, UsesLocation } from '@moxb/moxb';
+import { UpdateMethod, UsesLocation, NavRef } from '@moxb/moxb';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 
@@ -24,3 +24,15 @@ export class Redirect extends React.Component<UsesLocation & RedirectProps> {
 export const redirect = (props: RedirectProps) => <Redirect {...props} />;
 
 export const redirectTo = (to: string[]) => redirect({ to });
+
+export function redirectToNavRef<InputType>(
+    navRef: NavRef<InputType>,
+    tokens?: InputType,
+    updateMethod?: UpdateMethod
+) {
+    const link = navRef.createDirectLink(tokens);
+    return redirect({
+        to: link.pathTokens,
+        updateMethod,
+    });
+}

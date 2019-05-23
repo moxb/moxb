@@ -13,6 +13,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
  * Declare that the `renderUIFragment()` function accepts undefined input, too
  * Added `NavRadioButtonBarAnt` component, which is just like the `NavMenuBarAnt`, but with radio buttons 
  * Adding `PollingUpdaterAnt` component, for displaying some content that is periodically updated
+ * Added `redirectToNavRef()` function, for adding redirect components to NavRefs
+ * Teach `LinkAnt` to handle `NavRef`s directly, too
 
 ### Fixed
  * Fixed a TS warning around btoa-lite
