@@ -4,6 +4,7 @@ import { Modal, ModalActions } from './Modal';
 export interface ModalOptions<T, A> {
     header?(data: T): string;
     actions(data: T): A;
+    onOpen?(): void;
     onClose?(): void;
     size?: 'mini' | 'tiny' | 'small' | 'large' | 'fullscreen';
 }
@@ -22,6 +23,11 @@ export class ModalImpl<T, A extends ModalActions = ModalActions> implements Moda
     @action.bound
     show(data: T) {
         this.data = data;
+
+        if (this.impl.onOpen) {
+            this.impl.onOpen();
+        }
+
         this.open = true;
     }
     close() {
