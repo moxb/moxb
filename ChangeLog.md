@@ -8,6 +8,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 ### Breaking Changes
  * `Modal` now takes an interface with actions (instead of an array). However, the array still works but
     will be removed soon.
+ * `NavRadioButtonBarAnt` used to take and `extras` prop (for a list of extra components to display),
+    but this caused some problems, because React doesn't like rendering components from a list
+    without unique keys. (And since the components can come from different sources, there is no way
+    to reliably assign keys.) Reducing it to accepting a single component.
  
 ### Added
  * Declare that the `renderUIFragment()` function accepts undefined input, too

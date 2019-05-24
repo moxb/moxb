@@ -14,7 +14,7 @@ export interface NavRadioButtonBarProps<DataType>
     /**
      * Any extra menu items to add
      */
-    extras?: JSX.Element[];
+    extra?: JSX.Element;
 
     /**
      * Any direct styles to apply
@@ -29,7 +29,7 @@ export interface NavRadioButtonBarProps<DataType>
  */
 export class NavRadioButtonBarAnt<DataType> extends React.Component<NavRadioButtonBarProps<DataType>> {
     protected getLocationDependantStateSpaceHandler() {
-        const { id, children: _children, extras, style, ...stateProps } = this.props;
+        const { id, children: _children, extra, style, ...stateProps } = this.props;
 
         return new LocationDependentStateSpaceHandlerImpl({
             ...stateProps,
@@ -44,7 +44,7 @@ export class NavRadioButtonBarAnt<DataType> extends React.Component<NavRadioButt
             UIFragmentSpec,
             DataType
         > = this.getLocationDependantStateSpaceHandler();
-        const { extras, style } = this.props;
+        const { extra, style } = this.props;
         const operation = new OneOfImpl({
             id: 'oneOf.' + this.props.id,
             getValue: () => states.getActiveSubStateMenuKeys(true)[0],
@@ -62,7 +62,7 @@ export class NavRadioButtonBarAnt<DataType> extends React.Component<NavRadioButt
         return (
             <div id={'radioButtonMenu.' + this.props.id} style={style}>
                 <OneOfButtonAnt operation={operation} />
-                {...extras || []}
+                {extra}
             </div>
         );
     }
