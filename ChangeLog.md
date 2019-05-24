@@ -19,6 +19,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Fixed
  * Fixed a TS warning around btoa-lite
+ * When using the `mountAll` option with a menu, rendering of "fallback"
+   content was broken. (Ie. when a non-existent item is requested from the menu.)
+   Also, we were rendering _all_ the sub-states, not only those that were currently
+   available, considering the conditions. These problems have been fixed.  
 
 
 # [v0.2.0-beta.23](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.23) (2019-05-29)
