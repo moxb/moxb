@@ -15,6 +15,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
  * Adding `PollingUpdaterAnt` component, for displaying some content that is periodically updated
  * Added `redirectToNavRef()` function, for adding redirect components to NavRefs
  * Teach `LinkAnt` to handle `NavRef`s directly, too
+ * Exported one more interface with a group of `LinkAnt` parameters -- useful when creating custom link components.
 
 ### Fixed
  * Fixed a TS warning around btoa-lite

@@ -6,28 +6,31 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import * as Anchor from '../not-antd/Anchor';
 
+export interface LinkAntStyleProps {
+    /**
+     * How do you want to render this link? (Optional; defaults to "anchor")
+     *
+     * Supported values are:
+     * - 'anchor',
+     * - 'button',
+     */
+    widgetStyle?: string;
+
+    /**
+     * Any extra properties to pass down to the button
+     */
+    buttonProps?: ButtonProps;
+}
+
 export type LinkAntProps = Anchor.AnchorParams &
-    CoreLinkProps & {
+    CoreLinkProps &
+    LinkAntStyleProps & {
         /**
          * Should this link point to a NavRef?
          *
          * When given, this will override to, appendTokens, etc..
          */
         toRef?: NavRef<void | {}> | NavRefCall<any>;
-
-        /**
-         * How do you want to render this link? (Optional; defaults to "anchor")
-         *
-         * Supported values are:
-         * - 'anchor',
-         * - 'button',
-         */
-        widgetStyle?: string;
-
-        /**
-         * Any extra properties to pass down to the button
-         */
-        buttonProps?: ButtonProps;
     };
 
 type LinkProps = LinkAntProps & Anchor.Events;
