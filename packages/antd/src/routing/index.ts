@@ -1,4 +1,4 @@
-export { LinkAnt, LinkAntProps } from './LinkAnt';
+export { LinkAnt, LinkAntProps, LinkAntStyleProps } from './LinkAnt';
 export { NavMenuBarAnt } from './NavMenuBarAnt';
 export { NavTabBarAnt } from './NavTabBarAnt';
 export { MenuAndContentAnt } from './MenuAndContentAnt';
