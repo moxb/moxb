@@ -6,6 +6,7 @@ describe('getIn', function() {
         expect(getIn({ nested: { field: false } }, 'nested.field')).toBe(false);
         expect(getIn({ shallowValue: 'shallow' }, 'shallowValue')).toBe('shallow');
         expect(getIn({ set: { to: { undefined: undefined } } }, 'set.to.undefined')).toBe(undefined);
+        expect(getIn({ set: { to: { value: { foo: 'bar' } } } }, 'set.to.value')).toEqual({ foo: 'bar' });
     });
     it('should return undefined for non-existing keys', function() {
         expect(getIn({ nested: { field: 'nested' } }, 'not.existing')).toBe(undefined);
@@ -18,6 +19,7 @@ describe('isIn', function() {
         expect(isIn({ nested: { value: 'nested' } }, 'nested.value')).toBe(true);
         expect(isIn({ shallowValue: 0 }, 'shallowValue')).toBe(true);
         expect(isIn({ set: { to: { undefined: undefined } } }, 'set.to.undefined')).toBe(true);
+        expect(isIn({ set: { to: { value: { foo: 'bar' } } } }, 'set.to.value')).toBe(true);
     });
 
     it('should return false for non-existing keys', function() {
@@ -35,8 +37,8 @@ describe('setIn', function() {
         });
         expect(setIn({}, 'nested.value', 'nested2')).toEqual({ nested: { value: 'nested2' } });
         expect(setIn({ shallow: 'shallow', nested: { value: 'nested' } }, 'nested.value2', 'nested2')).toEqual({
-            nested: { value: 'nested', value2: 'nested2' },
             shallow: 'shallow',
+            nested: { value: 'nested', value2: 'nested2' },
         });
     });
 });

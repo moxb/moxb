@@ -1,13 +1,14 @@
-import * as uuid from 'uuid/v4';
 import { Mongo } from 'meteor/mongo';
-
-import { MiddlewareUpsertPayload, MiddlewareUpsertResult, MiddlewareRemovePayload } from './MongoCollectionMiddleware';
-import {
-    MiddlewareUpdatePayload,
-    MongoCollectionMiddleware,
-    MiddlewareInsertPayload,
-} from './MongoCollectionMiddleware';
+import * as uuid from 'uuid/v4';
 import { getIn, setIn } from '../utils';
+import {
+    MiddlewareInsertPayload,
+    MiddlewareRemovePayload,
+    MiddlewareUpdatePayload,
+    MiddlewareUpsertPayload,
+    MiddlewareUpsertResult,
+    MongoCollectionMiddleware
+} from './MongoCollectionMiddleware';
 
 export type ActivityLogOperation = 'activityOpCreate' | 'activityOpUpdate' | 'activityOpDelete';
 export type ActivityLogFieldOperation = 'activityFieldOpCreate' | 'activityFieldOpUpdate' | 'activityFieldOpDelete';
@@ -177,15 +178,27 @@ interface InternalLog {
     value: any;
 }
 
-export interface EmptyLog {
-    userInfo?: any;
-    type: string;
-}
+/**
+ * T is the document in the collection tat should be tracked
+ * Log type of the log entries.
+ */
+export interface ActivityLogMiddlewareOptions<T, Log extends ActivityLog = ActivityLog> {
+    /**
+     * Creates a new empty log entry with default values for all required fields.
+     */
+    createLog(): Log;
 
-export interface ActivityLogMiddlewareOptions<T, U = any, Log extends ActivityLog = ActivityLog> {
-    createLog(): EmptyLog;
+    /**
+     * The collection that is used for logging
+     */
     logCollection: Mongo.Collection<Log>;
+    /**
+     * Any field that is set to `true` will be tracked.
+     */
     tracked: NestedKeyOf<T>;
+    /**
+     * Make sure we add the logging only on the server. Use `Meteor.isServer` here.
+     */
     isServer: boolean;
 }
 
