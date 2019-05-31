@@ -114,10 +114,9 @@ export class OneOfDropDownAnt extends React.Component<
     }
 
     render() {
-        const { operation, invisible, readOnly, trigger = ['click'], id, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
+        const { operation, invisible, readOnly, id, ...props } = parseProps(this.props, this.props.operation);
+        const trigger = props.trigger || ['click'];
+        delete props.trigger;
         if (invisible) {
             return null;
         }
@@ -138,7 +137,7 @@ export class OneOfDropDownAnt extends React.Component<
 
         // antd DropDown does not set the ID on the created html element, set it manually to the button to fix all the tests
         return (
-            <Dropdown overlay={overlay} trigger={trigger as any} {...props}>
+            <Dropdown overlay={overlay} trigger={trigger} {...props}>
                 <Button
                     id={id}
                     style={{

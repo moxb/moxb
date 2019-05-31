@@ -11,3 +11,5 @@ export * from './MethodDataFetcherImpl';
 export * from './QueryStringParser';
 export * from './MeteorMethod';
 export * from './MeteorAction';
+export * from './mongo';
+export * from './utils';
