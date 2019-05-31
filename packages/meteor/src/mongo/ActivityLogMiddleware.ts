@@ -7,7 +7,7 @@ import {
     MiddlewareUpdatePayload,
     MiddlewareUpsertPayload,
     MiddlewareUpsertResult,
-    MongoCollectionMiddleware
+    MongoCollectionMiddleware,
 } from './MongoCollectionMiddleware';
 
 export type ActivityLogOperation = 'activityOpCreate' | 'activityOpUpdate' | 'activityOpDelete';
