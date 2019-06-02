@@ -1,9 +1,9 @@
-import { Text, Action, t } from '@moxb/moxb';
-import { Input, Button, Icon } from 'antd';
+import { Action, t, Text } from '@moxb/moxb';
+import { Button, Icon, Input } from 'antd';
 import { InputProps, SearchProps } from 'antd/lib/input';
 import { observer } from 'mobx-react';
-import { CSSProperties } from 'react';
 import * as React from 'react';
+import { CSSProperties } from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
@@ -83,6 +83,12 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
         this.clearBtnOffset = requiredElement ? requiredElement.offsetWidth + 10 + 'px' : '85px';
     }
 
+    handleKeyDown(e: React.KeyboardEvent<HTMLElement>, inputValue?: Text) {
+        if (e.keyCode === 27 && inputValue) {
+            inputValue.setValue('');
+        }
+    }
+
     render() {
         const Search = Input.Search;
         const { operation, id, value, invisible, style, enterButton, searchAction, ...props } = parseProps(
@@ -117,6 +123,7 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
                     onChange={(e: any) => operation.setValue(e.target.value)}
                     enterButton={enterButton || t('TableSearchAnt.btnTitle', 'Search')}
                     onSearch={() => searchAction.fire()}
+                    onKeyDown={e => this.handleKeyDown(e, operation)}
                     {...props as any}
                 />
                 {operation.value && operation.value.length > 0 && (
