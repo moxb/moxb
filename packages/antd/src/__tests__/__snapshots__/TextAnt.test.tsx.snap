@@ -57,6 +57,7 @@ exports[`TextSearchAnt should render search text input by default 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
+    onKeyDown={[Function]}
     onSearch={[Function]}
     readOnly={false}
     style={
