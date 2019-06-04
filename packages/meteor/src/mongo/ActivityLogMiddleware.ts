@@ -178,6 +178,11 @@ interface InternalLog {
     value: any;
 }
 
+export interface EmptyLog {
+    type: string;
+    userInfo?: any;
+}
+
 /**
  * T is the document in the collection tat should be tracked
  * Log type of the log entries.
@@ -186,7 +191,7 @@ export interface ActivityLogMiddlewareOptions<T, Log extends ActivityLog = Activ
     /**
      * Creates a new empty log entry with default values for all required fields.
      */
-    createLog(): Log;
+    createLog(): EmptyLog;
 
     /**
      * The collection that is used for logging
@@ -252,7 +257,7 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
     }
 
     private readonly _doLog = (log: InternalLog) => {
-        const empty = this.options.createLog();
+        const empty: any = this.options.createLog();
         this.options.logCollection.insert({
             ...empty,
             ...log,
