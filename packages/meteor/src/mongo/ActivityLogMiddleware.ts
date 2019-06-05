@@ -178,11 +178,6 @@ interface InternalLog {
     value: any;
 }
 
-export interface EmptyLog {
-    type: string;
-    userInfo?: any;
-}
-
 /**
  * T is the document in the collection tat should be tracked
  * Log type of the log entries.
@@ -191,7 +186,7 @@ export interface ActivityLogMiddlewareOptions<T, Log extends ActivityLog = Activ
     /**
      * Creates a new empty log entry with default values for all required fields.
      */
-    createLog(): EmptyLog;
+    createLog(): Pick<Log, 'type' | 'userInfo'>;
 
     /**
      * The collection that is used for logging
@@ -257,9 +252,11 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
     }
 
     private readonly _doLog = (log: InternalLog) => {
-        const empty: any = this.options.createLog();
+        // the cast `created: any` is necessary here because typescript
+        // cannot associate the following object to a Log
+        const created: any = this.options.createLog();
         this.options.logCollection.insert({
-            ...empty,
+            ...created,
             ...log,
             timestamp: this.timestamp,
             operationId: this.operationId,
@@ -295,10 +292,8 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
 
     private readonly _logUpdate = (payload: LogUpdatePayload<T>, result: number) => {
         const { documentsBefore } = payload;
-        // fetch the documents are the update
+        // fetch the documents after the update
         const documentsAfter = this._fetchDocuments(payload);
-
-        // console.log('Logging update: ' + JSON.stringify({ documentsBefore, documentsAfter }, null, 2));
 
         const logs = getActivityLogs(documentsBefore, documentsAfter, this.trackedFields);
         logs.forEach(this._doLog);
