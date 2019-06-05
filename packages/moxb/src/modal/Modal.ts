@@ -28,7 +28,7 @@ export interface Modal<T, A extends ModalActions = ModalActions> {
     /**
      * If not falsely shown as Header of the dialog
      */
-    readonly header?: string;
+    readonly header?: string | React.ReactNode;
 
     /**
      * Show the dialog with a given value. The implementation uses the value on confirm
