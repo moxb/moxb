@@ -4,6 +4,8 @@ import { ActionImpl } from '../action/ActionImpl';
 import { Text } from '../text/Text';
 import { TextImpl } from '../text/TextImpl';
 import { TableSearch } from './TableSearch';
+import { QueryFilter } from '../query/QueryFilter';
+import { QueryFilterImpl } from '../query/QueryFilterImpl';
 
 export class TableSearchImpl implements TableSearch {
     @observable
@@ -36,4 +38,20 @@ export class TableSearchImpl implements TableSearch {
     setQuery(query: string) {
         this.query = query;
     }
+
+    readonly queryFilter: QueryFilter = new QueryFilterImpl({
+        getQuery: () => {
+            return this.query;
+        },
+        setQuery: this.setQuery,
+    });
+
+    readonly searchFieldFilter: QueryFilter = new QueryFilterImpl({
+        getQuery: () => {
+            return this.searchField.value || '';
+        },
+        setQuery: (query: string) => {
+            this.searchField.setValue(query);
+        },
+    });
 }
