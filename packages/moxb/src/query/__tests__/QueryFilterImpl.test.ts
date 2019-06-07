@@ -1,7 +1,7 @@
 import { QueryFilterImpl } from '../QueryFilterImpl';
 
 class QueryString {
-    constructor(private query: string = '') {}
+    constructor(private query = '') {}
     getQuery() {
         return this.query;
     }
@@ -20,6 +20,27 @@ describe('QueryFilterImpl', function() {
 
         filter.addCondition({ type: 'equals', field: 'field2', value: 'single-value' });
         expect(filter.queryString.getQuery()).toBe('test.field:"value with spaces" field2:single-value');
+
+        filter.addCondition({ type: 'equals', field: 'field2', value: 'single-value' });
+        expect(filter.queryString.getQuery()).toBe('test.field:"value with spaces" field2:single-value');
+    });
+    it('adding an existing condition should not change the string', function() {
+        const filter = new QueryFilterImpl(new QueryString('foo test.field:"cool stuff" bar'));
+
+        filter.addCondition({ type: 'equals', field: 'test.field', value: 'cool stuff' });
+        expect(filter.queryString.getQuery()).toBe('foo test.field:"cool stuff" bar');
+    });
+    it('added strings should be quoted correctly', function() {
+        const filter = new QueryFilterImpl(new QueryString());
+
+        filter.addCondition({ type: 'equals', field: 'test.field', value: 'a"quote' });
+        expect(filter.queryString.getQuery()).toBe('test.field:"a\\"quote"');
+
+        filter.removeCondition({ type: 'equals', field: 'test.field', value: 'a"quote' });
+        expect(filter.queryString.getQuery()).toBe('');
+
+        filter.addCondition({ type: 'equals', field: 'test.field', value: 'x\tx' });
+        expect(filter.queryString.getQuery()).toBe('test.field:"x\tx"');
     });
     it('removes condition from queryString', function() {
         const filter = new QueryFilterImpl(new QueryString('f1:value1 f2:"value 2" f3:value3 f4:"value 4"'));

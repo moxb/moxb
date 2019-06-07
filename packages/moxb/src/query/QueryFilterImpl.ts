@@ -1,11 +1,19 @@
-import { QueryString, QueryFilter, Condition } from './QueryFilter';
+import { Condition, QueryFilter, QueryString } from './QueryFilter';
+
+/**
+ * Quotes a string if it contains whitespace or other 'strange' characters
+ * @param string
+ */
+function quoteStringIfNeeded(string: string) {
+    if (string.match(/[\s"\\]/)) {
+        return '"' + string.replace(/(["\\])/g, '\\$1') + '"';
+    }
+    return string;
+}
 
 const STRINGIFIERS: { [type: string]: (condition: Condition) => string } = {
     equals(condition: Condition) {
-        let value = condition.value;
-        if (value.includes(' ')) {
-            value = `"${condition.value}"`;
-        }
+        const value = quoteStringIfNeeded(condition.value);
         return `${condition.field}:${value}`;
     },
 };
@@ -23,6 +31,10 @@ export class QueryFilterImpl implements QueryFilter {
     constructor(public readonly queryString: QueryString) {}
 
     addCondition(condition: Condition): void {
+        // do not add the same condition multiple times
+        if (this.hasCondition(condition)) {
+            return;
+        }
         const query = `${this.queryString.getQuery()} ${toString(condition)} `.trim();
         this.queryString.setQuery(query);
     }
