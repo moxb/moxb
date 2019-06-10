@@ -127,6 +127,10 @@ export interface SubStateDisplayInfo<LabelType> {
      * Is this a separator? If yes, nothing else needs to be specified.
      */
     separator?: boolean;
+    /**
+     * Style to be added to the main div.
+     */
+    containerStyle?: React.CSSProperties;
 }
 
 /**

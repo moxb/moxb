@@ -117,7 +117,7 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
                     noDisplayOnly: true,
                 })
                 .map((s, i) => (
-                    <div key={`${i}`} style={{ display: s !== wantedChild ? 'none' : undefined }}>
+                    <div key={`${i}`} style={s !== wantedChild ? { display: 'none' } : s.containerStyle}>
                         {this.renderSubState(s, s !== wantedChild)}
                     </div>
                 ));
