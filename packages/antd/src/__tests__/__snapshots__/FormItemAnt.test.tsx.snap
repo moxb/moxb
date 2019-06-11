@@ -13,7 +13,7 @@ exports[`FormItemAnt should show an error message on failure 1`] = `
   class="ant-row ant-form-item ant-form-item-with-help"
 >
   <div
-    class="ant-form-item-control-wrapper"
+    class="ant-col ant-form-item-control-wrapper"
   >
     <div
       class="ant-form-item-control has-feedback has-error"
@@ -33,6 +33,7 @@ exports[`FormItemAnt should show an error message on failure 1`] = `
               class=""
               data-icon="close-circle"
               fill="currentColor"
+              focusable="false"
               height="1em"
               viewBox="64 64 896 896"
               width="1em"

@@ -5,6 +5,7 @@ ADMIN = $(ROOT)/admin
 
 TOUCH = touch
 CP = cp
+CD = cd
 
 MKDIR = mkdir
 RM = rm
@@ -165,6 +166,8 @@ npm-update:
 
 .PHONY: npm-install
 npm-install:
+	$(ACTIVATE) && $(NPM) install
+	$(ACTIVATE) && $(CD) examples && $(NPM) install && $(CD) ..
 	$(ACTIVATE) \
         && $(LERNA)  --concurrency=1 exec -- npm install
 ########################################################################################################################
