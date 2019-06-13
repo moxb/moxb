@@ -2,6 +2,7 @@
  * An UIFragmentMap is simply a map of UI fragments.
  */
 import { UIFragment } from './UIFragment';
+import { isForwardRef } from './isForwardRef';
 
 /**
  * An UIFragmentMap is a map of UIFragments.
@@ -24,25 +25,28 @@ export type UIFragmentSpec = UIFragment | UIFragmentMap;
 /**
  * Determine whether an UIFragmentSpec value is actually a map
  */
-const isUIFragmentMap = (spec: UIFragmentSpec): boolean => {
-    if (typeof spec !== 'object') {
+const isUIFragmentMap = (spec: any): spec is UIFragmentMap => {
+    if (!spec || typeof spec !== 'object') {
         return false;
     }
-    if ((spec as any).main) {
+    if (spec.main) {
         return true;
     }
-    return !(spec as any).props;
+    // handle forward refs
+    if (isForwardRef(spec)) {
+        return false;
+    }
+    return !spec.props;
 };
 
 /**
  * Convert an UIFragmentSpec to the map format, if it's not already a map
  */
 const getUIFragmentMap = (spec: UIFragmentSpec): UIFragmentMap => {
-    const alreadyMap = isUIFragmentMap(spec);
-    if (alreadyMap) {
-        return spec as UIFragmentMap;
+    if (isUIFragmentMap(spec)) {
+        return spec;
     } else {
-        return { main: spec as UIFragment };
+        return { main: spec };
     }
 };
 

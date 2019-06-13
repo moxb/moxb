@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { isForwardRef } from './isForwardRef';
 
 type Component<T> = (props: T) => JSX.Element | null;
 
@@ -19,13 +20,9 @@ export const renderUIFragment = (fragment: UIFragment | undefined, props: Object
     if (fragment === undefined) {
         return null;
     }
-    if (typeof fragment === 'function') {
-        // This is a component
-        const component: Component<any> = fragment as Component<any>;
-        return React.createElement(component, props);
-    } else {
-        // This is an element
-        const element: JSX.Element = fragment as JSX.Element;
-        return element;
+
+    if (typeof fragment === 'function' || isForwardRef(fragment)) {
+        return React.createElement(fragment as any, props);
     }
+    return fragment as JSX.Element;
 };

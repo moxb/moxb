@@ -2,11 +2,9 @@
 
 exports[`ModalAnt should render a modal dialog by default 1`] = `
 <Modal
-  cancelButtonDisabled={false}
   cancelText="Action"
   confirmLoading={false}
   maskTransitionName="fade"
-  okButtonDisabled={false}
   okText="Cancel"
   okType="primary"
   onCancel={[Function]}
@@ -20,7 +18,6 @@ exports[`ModalAnt should render a modal dialog by default 1`] = `
 
 exports[`ModalAnt should support a custom footer 1`] = `
 <Modal
-  cancelButtonDisabled={false}
   confirmLoading={false}
   footer={
     <div>
@@ -28,7 +25,6 @@ exports[`ModalAnt should support a custom footer 1`] = `
     </div>
   }
   maskTransitionName="fade"
-  okButtonDisabled={false}
   okType="primary"
   onCancel={[Function]}
   title=""

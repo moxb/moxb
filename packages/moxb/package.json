@@ -45,19 +45,20 @@
     ]
   },
   "peerDependencies": {
-    "mobx": "^4.3.0 || ^5.0.0",
-    "tslib": "^1.9.0"
+    "mobx": "^5.10.0",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@types/atob": "2.1.2",
-    "@types/history": "^4.7.2",
-    "@types/jest": "^24.0.11",
-    "@types/urijs": "^1.15.38",
-    "mobx": "=5.7.0"
+    "@types/history": "4.7.2",
+    "@types/jest": "24.0.13",
+    "@types/urijs": "1.19.1",
+    "mobx": "5.10.0",
+    "tslib": "1.9.3"
   },
   "dependencies": {
-    "btoa-lite": "^1.0.0",
-    "history": "^4.7.2",
-    "urijs": "^1.19.1"
+    "btoa-lite": "1.0.0",
+    "history": "4.9.0",
+    "urijs": "1.19.1"
   }
 }

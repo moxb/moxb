@@ -40,16 +40,12 @@ export class TableSearchImpl implements TableSearch {
     }
 
     readonly queryFilter: QueryFilter = new QueryFilterImpl({
-        getQuery: () => {
-            return this.query;
-        },
+        getQuery: () => this.query,
         setQuery: this.setQuery,
     });
 
     readonly searchFieldFilter: QueryFilter = new QueryFilterImpl({
-        getQuery: () => {
-            return this.searchField.value || '';
-        },
+        getQuery: () => this.searchField.value || '',
         setQuery: (query: string) => {
             this.searchField.setValue(query);
         },

@@ -40,11 +40,7 @@ exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
   mouseEnterDelay={0.15}
   mouseLeaveDelay={0.1}
   overlay={
-    <Menu
-      className=""
-      focusable={false}
-      theme="light"
-    >
+    <Menu>
       <MenuItem
         onClick={[Function]}
       >
@@ -72,6 +68,7 @@ exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
   <Button
     block={false}
     ghost={false}
+    htmlType="button"
     id="id-test_drop_down_of_one"
     loading={false}
     style={
