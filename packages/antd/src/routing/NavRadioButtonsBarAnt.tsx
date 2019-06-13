@@ -1,4 +1,5 @@
 import {
+    idToDomId,
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
@@ -59,8 +60,9 @@ export class NavRadioButtonBarAnt<DataType> extends React.Component<NavRadioButt
                     widget: renderUIFragment(state.label),
                 })),
         });
+        const id = idToDomId('radioButtonMenu.' + this.props.id);
         return (
-            <div id={'radioButtonMenu.' + this.props.id} style={style}>
+            <div data-testid={id} id={id} style={style}>
                 <OneOfButtonAnt operation={operation} />
                 {extra}
             </div>

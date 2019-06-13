@@ -22,6 +22,7 @@ export class BoolUi extends React.Component<{ operation: Bool } & FormCheckboxPr
 
                 <Checkbox
                     id={id + '_in'}
+                    data-testid={id}
                     type={operation.inputType || this.props.type || 'checkbox'}
                     checked={operation.value}
                     onChange={() => operation.toggle()}

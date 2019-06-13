@@ -20,6 +20,7 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
         return (
             <InputNumber
                 id={id}
+                data-testid={operation.id}
                 step={operation.step}
                 min={operation.min}
                 max={operation.max}

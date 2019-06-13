@@ -55,7 +55,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         const itemProps: any = {};
         if (noLink) {
             return (
-                <Menu.Item id={itemId} key={menuKey} {...itemProps}>
+                <Menu.Item data-testid={itemId} id={itemId} key={menuKey} {...itemProps}>
                     {renderUIFragment(label || key || 'item')}
                 </Menu.Item>
             );
@@ -76,7 +76,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
                 itemProps.className = itemClassName;
             }
             return (
-                <Menu.Item id={itemId} key={menuKey} {...itemProps}>
+                <Menu.Item data-testid={itemId} id={itemId} key={menuKey} {...itemProps}>
                     <Anchor.Anchor {...anchorProps} />
                 </Menu.Item>
             );
@@ -91,8 +91,10 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         if (!flat && !key) {
             throw new Error("Can't create a hierarchical menu group without a key!");
         }
+        const itemId = idToDomId('menuItem.' + this.props.id + '.' + menuKey);
         return (
             <Menu.SubMenu
+                data-testid={itemId}
                 key={menuKey}
                 className={itemClassName}
                 title={renderUIFragment(label || key || '***')}

@@ -46,6 +46,7 @@ exports[`TableAnt should render a table with content by default 1`] = `
         },
       ]
     }
+    data-testid="table"
     dataSource={
       Array [
         Object {
@@ -147,6 +148,7 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
         },
       ]
     }
+    data-testid="table"
     dataSource={
       Array [
         Object {
@@ -262,6 +264,7 @@ exports[`TableAnt should render a table with setupColumn set 1`] = `
         },
       ]
     }
+    data-testid="table"
     dataSource={
       Array [
         Object {

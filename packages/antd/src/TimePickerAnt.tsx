@@ -23,6 +23,7 @@ export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
         }
         return (
             <TimePicker
+                data-testid={operation.id}
                 placeholder={operation.placeholder}
                 value={operation.value}
                 onChange={(time: moment.Moment, _timeString: string) => operation.setValue(time)}

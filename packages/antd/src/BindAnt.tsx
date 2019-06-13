@@ -35,10 +35,10 @@ export function parseProps<T, O>(bindProps: T, _op: O): T & O {
     };
 }
 
-export function labelWithHelp(label: any, help?: string) {
+export function labelWithHelp(label: any, help?: string, id?: string) {
     if (help && typeof label === 'string') {
         return (
-            <span>
+            <span data-testid={id + '-help-label'}>
                 {label}{' '}
                 <Tooltip title={help}>
                     <Icon type="question-circle-o" />
@@ -52,7 +52,7 @@ export function labelWithHelp(label: any, help?: string) {
 
 export function getErrorMessages(errors: string[]) {
     return errors.map((err, idx) => (
-        <div key={'err_' + idx} className="ant-form-explain">
+        <div key={'err_' + idx} data-testid={'err_' + idx} className="ant-form-explain">
             {err}
         </div>
     ));

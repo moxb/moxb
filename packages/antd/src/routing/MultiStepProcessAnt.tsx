@@ -52,7 +52,7 @@ export class MultiStepProcessAnt extends React.Component<MultiStepProcessProps<a
             status: this.getStatus(),
         };
         return (
-            <div>
+            <div data-testid={id}>
                 <NavStepsAnt arg={currentStep} id={id + '-steps-indicator'} subStates={steps} stepProps={stepProps} />
                 {failed ? (
                     this.renderError()

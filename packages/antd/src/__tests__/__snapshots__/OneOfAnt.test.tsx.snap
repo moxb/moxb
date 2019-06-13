@@ -3,6 +3,7 @@
 exports[`OneOfAnt should render a radio button group by default 1`] = `
 <RadioGroup
   buttonStyle="outline"
+  data-testid="id-test_radio_of_one"
   disabled={false}
   id="id-test_radio_of_one"
   label="Select one of"
@@ -10,6 +11,7 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
   readOnly={false}
 >
   <Radio
+    data-testid="id-test_radio_of_one-b"
     key="b"
     type="radio"
     value="b"
@@ -17,6 +19,7 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
     Banana
   </Radio>
   <Radio
+    data-testid="id-test_radio_of_one-a"
     key="a"
     type="radio"
     value="a"
@@ -24,6 +27,7 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
     Apples
   </Radio>
   <Radio
+    data-testid="id-test_radio_of_one-p"
     key="p"
     type="radio"
     value="p"
@@ -35,23 +39,29 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
 
 exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
 <Dropdown
+  data-testid="id-test_drop_down_of_one"
   disabled={false}
   label="Select one of"
   mouseEnterDelay={0.15}
   mouseLeaveDelay={0.1}
   overlay={
-    <Menu>
+    <Menu
+      data-testid="id.testDropDownOfOne-menu"
+    >
       <MenuItem
+        data-testid="id-test_drop_down_of_one-menu-b"
         onClick={[Function]}
       >
         Banana
       </MenuItem>
       <MenuItem
+        data-testid="id-test_drop_down_of_one-menu-a"
         onClick={[Function]}
       >
         Apples
       </MenuItem>
       <MenuItem
+        data-testid="id-test_drop_down_of_one-menu-p"
         onClick={[Function]}
       >
         Peaches
@@ -102,7 +112,6 @@ exports[`OneOfDropDownFormAnt should render a dropdown control with form 1`] = `
 >
   <OneOfDropDownAnt
     disabled={false}
-    id="id-test_drop_down_of_one"
     operation="bound OneOfImpl"
     readOnly={false}
   />
@@ -125,6 +134,7 @@ exports[`OneOfFormAnt should render a radio button group with form by default 1`
 exports[`OneOfSelectAnt should render a select control 1`] = `
 <Select
   choiceTransitionName="zoom"
+  data-testid="id.testSelectOfOne"
   disabled={false}
   id="id-test_select_of_one"
   label="Select one of"
@@ -135,18 +145,21 @@ exports[`OneOfSelectAnt should render a select control 1`] = `
   transitionName="slide-up"
 >
   <Option
+    data-testid="id-test_select_of_one-b"
     key="b"
     value="b"
   >
     Banana
   </Option>
   <Option
+    data-testid="id-test_select_of_one-a"
     key="a"
     value="a"
   >
     Apples
   </Option>
   <Option
+    data-testid="id-test_select_of_one-p"
     key="p"
     value="p"
   >

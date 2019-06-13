@@ -52,6 +52,7 @@ export class ToolTipButton extends React.Component<BindToolTipAntProps> {
         if (operation!.disabled) {
             return (
                 <Button
+                    data-testid={operation!.id}
                     type={type || selectedType}
                     onClick={(operation as Action).fire}
                     disabled={operation!.disabled}
@@ -65,6 +66,7 @@ export class ToolTipButton extends React.Component<BindToolTipAntProps> {
             return (
                 <ToolTipAnt operation={operation}>
                     <Button
+                        data-testid={operation!.id}
                         type={type || selectedType}
                         onClick={(operation as Action).fire}
                         disabled={operation!.disabled}

@@ -1,4 +1,5 @@
 import {
+    idToDomId,
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
@@ -49,6 +50,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
 
     // tslint:disable-next-line:cyclomatic-complexity
     protected renderStateTabPane(
+        parentId: string,
         states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
     ) {
@@ -71,8 +73,9 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
             itemProps.className = itemClassName;
         }
         const tabLabel = <Anchor.Anchor {...anchorProps} />;
+        const id = idToDomId(`${parentId}.${menuKey}`);
         return (
-            <TabPane key={menuKey} tab={tabLabel} {...itemProps}>
+            <TabPane data-testid={id} key={menuKey} tab={tabLabel} {...itemProps}>
                 {states.isSubStateActive(state) &&
                     renderSubStateCore({
                         state: state,
@@ -89,9 +92,10 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
 
     public render() {
         const states = this.getLocationDependantStateSpaceHandler();
-        const { extras, style, mode } = this.props;
+        const { extras, style, mode, id } = this.props;
         return (
             <Tabs
+                data-testid={id}
                 tabPosition={mode || 'top'}
                 activeKey={states.getActiveSubStateMenuKeys(true)[0]}
                 onTabClick={(menuKey: string) => {
@@ -111,7 +115,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
                         onlyVisible: true,
                         onlySatisfying: true,
                     })
-                    .map(state => this.renderStateTabPane(states, state))}
+                    .map(state => this.renderStateTabPane(id, states, state))}
                 {...extras || []}
             </Tabs>
         );

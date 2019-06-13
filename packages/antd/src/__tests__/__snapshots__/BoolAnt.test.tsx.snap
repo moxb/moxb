@@ -2,6 +2,7 @@
 
 exports[`BoolAnt should render a checkbox by default 1`] = `
 <Checkbox
+  data-testid="TheId"
   disabled={false}
   id="the_id"
   indeterminate={true}

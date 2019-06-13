@@ -16,7 +16,11 @@ export class LabelAnt extends React.Component<BindLabelAntProps> {
             return null;
         }
         const escapedText = operation.showRawText ? operation.text! : operation.text!.replace(/<[^>]+>/g, '');
-        return <div {...props}>{escapedText}</div>;
+        return (
+            <div data-testid={operation.id} {...props}>
+                {escapedText}
+            </div>
+        );
     }
 }
 
@@ -36,7 +40,7 @@ export class LabelMarkdownAnt extends React.Component<BindLabelAntProps> {
             return null;
         }
         const html = !operation.showRawText ? stripSurroundingP(marked(operation.text || '')) : operation.text!;
-        return <div dangerouslySetInnerHTML={{ __html: html }} {...props} />;
+        return <div data-testid={operation.id} dangerouslySetInnerHTML={{ __html: html }} {...props} />;
     }
 }
 

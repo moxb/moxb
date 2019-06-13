@@ -1,15 +1,15 @@
-import { OneOf } from '@moxb/moxb';
-import { Radio, Select, Dropdown, Menu, Button, Icon } from 'antd';
+import { idToDomId, OneOf } from '@moxb/moxb';
+import { Button, Dropdown, Icon, Menu, Radio, Select } from 'antd';
+import { DropDownProps } from 'antd/lib/dropdown';
 import { FormItemProps } from 'antd/lib/form/FormItem';
+import { ClickParam } from 'antd/lib/menu';
 import { RadioGroupProps, RadioProps } from 'antd/lib/radio';
 import { SelectProps } from 'antd/lib/select';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
-import { DropDownProps } from 'antd/lib/dropdown';
-import { action } from 'mobx';
-import { ClickParam } from 'antd/lib/menu';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
@@ -21,9 +21,14 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
             return null;
         }
         return (
-            <Radio.Group onChange={e => operation.setValue(e.target.value)} {...props} value={operation.value}>
+            <Radio.Group
+                data-testid={idToDomId(operation.id)}
+                onChange={e => operation.setValue(e.target.value)}
+                {...props}
+                value={operation.value}
+            >
                 {operation.choices.map(opt => (
-                    <Radio key={opt.value} value={opt.value}>
+                    <Radio data-testid={idToDomId(operation.id + '.' + opt.value)} key={opt.value} value={opt.value}>
                         {opt.widget ? opt.widget : opt.label}
                     </Radio>
                 ))}
@@ -58,9 +63,18 @@ export class OneOfButtonAnt extends React.Component<BindAntProps<OneOf> & RadioP
             return <span>{operation.choice}</span>;
         }
         return (
-            <Radio.Group onChange={e => operation.setValue(e.target.value)} {...props} value={operation.value}>
+            <Radio.Group
+                data-testid={operation.id}
+                onChange={e => operation.setValue(e.target.value)}
+                {...props}
+                value={operation.value}
+            >
                 {operation.choices.map(opt => (
-                    <Radio.Button key={opt.value} value={opt.value}>
+                    <Radio.Button
+                        data-testid={idToDomId(operation.id + '.' + opt.value)}
+                        key={opt.value}
+                        value={opt.value}
+                    >
                         {opt.widget ? opt.widget : opt.label}
                     </Radio.Button>
                 ))}
@@ -126,9 +140,13 @@ export class OneOfDropDownAnt extends React.Component<
         }
 
         const overlay = (
-            <Menu>
+            <Menu data-testid={operation.id + '-menu'}>
                 {operation.choices.map((choice, index) => (
-                    <Menu.Item key={index} onClick={this.onSelect}>
+                    <Menu.Item
+                        data-testid={idToDomId(operation.id + '.menu.' + choice.value)}
+                        key={index}
+                        onClick={this.onSelect}
+                    >
                         {choice.widget || choice.label}
                     </Menu.Item>
                 ))}
@@ -137,7 +155,7 @@ export class OneOfDropDownAnt extends React.Component<
 
         // antd DropDown does not set the ID on the created html element, set it manually to the button to fix all the tests
         return (
-            <Dropdown overlay={overlay} trigger={trigger} {...props}>
+            <Dropdown data-testid={id} overlay={overlay} trigger={trigger} {...props}>
                 <Button
                     id={id}
                     style={{
@@ -158,7 +176,7 @@ export class OneOfDropDownFormAnt extends React.Component<
     BindAntProps<OneOf> & BindFormItemAntProps & Omit<DropDownProps, 'overlay'>
 > {
     render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+        const { operation, invisible, id, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
@@ -178,11 +196,12 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
             return null;
         }
         if (readOnly) {
-            return <span>{operation.choice}</span>;
+            return <span data-testid={operation.id}>{operation.choice}</span>;
         }
 
         return (
             <Select
+                data-testid={operation.id}
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
                 value={operation.value || undefined}
                 placeholder={operation.placeholder}
@@ -190,7 +209,11 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
                 {...props}
             >
                 {operation.choices.map(opt => (
-                    <Select.Option key={opt.value} value={opt.value}>
+                    <Select.Option
+                        data-testid={idToDomId(operation.id + '.' + opt.value)}
+                        key={opt.value}
+                        value={opt.value}
+                    >
                         {opt.widget ? opt.widget : opt.label}
                     </Select.Option>
                 ))}

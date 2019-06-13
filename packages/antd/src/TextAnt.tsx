@@ -36,6 +36,7 @@ export class TextAnt extends React.Component<BindStringAntProps> {
             return (
                 <Input.TextArea
                     id={id}
+                    data-testid={id}
                     placeholder={operation.placeholder}
                     onFocus={operation.onEnterField}
                     onBlur={operation.onExitField}
@@ -48,6 +49,7 @@ export class TextAnt extends React.Component<BindStringAntProps> {
             return (
                 <Input
                     id={id}
+                    data-testid={id}
                     placeholder={operation.placeholder}
                     onFocus={operation.onEnterField}
                     onBlur={operation.onExitField}
