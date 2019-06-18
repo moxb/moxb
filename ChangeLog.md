@@ -6,6 +6,14 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 # v.Next (Current)
 
 ### Breaking Changes
+
+### Added
+
+### Fixed
+
+# [v0.2.0-beta.24](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.24) (2019-06-03)
+
+### Breaking Changes
  * `Modal` now takes an interface with actions (instead of an array). However, the array still works but
     will be removed soon.
  * `NavRadioButtonBarAnt` used to take and `extras` prop (for a list of extra components to display),
@@ -67,18 +75,29 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 ### Added
 * Added new toggle button component for the ant design package
 * Added the original onSubmit form event to the form operation, so the event handling can be done in a callback.
+<<<<<<< HEAD
 * Added support for easily adding separators in submenus
 * Menu items now get IDs, for easier testing
 * Added support for passing on class names for submenus
+=======
+* Added `onEnter()` and `onLeave()` navigation state hooks.
+* Added `unregisterStateHooks()` API to remove navigation state hooks.
+* Added `isAvtive()` and `wouldBeActive()` APIs to the `NavControl` interface.
+>>>>>>> [WIP] Extend NavControl interface
 
 ### Changed
 
 * Separated the decision-related code (from binding) into a new module, so that it can be more easily reused by other components. 
 * Enhanced `registerMeteorMethod` with new configuration options and behaviors
+<<<<<<< HEAD
 * Improved parsing of meteor queries
   - better regex parsing
   - remove not needed  `$and` and `$or`
   
+=======
+* Changed the `registerStateHooks` API: now a component ID is also mandatory.
+
+>>>>>>> [WIP] Extend NavControl interface
 ### Fixed
 
 * Fix placeholder text display for OneOfSelect and ManyOfSelect ant design components
