@@ -2,6 +2,7 @@
 
 exports[`NumericAnt should render a numeric input by default 1`] = `
 <InputNumber
+  data-testid="TheId"
   disabled={false}
   formatter={[Function]}
   id="the_id"

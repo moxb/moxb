@@ -28,7 +28,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
  * Added `redirectToNavRef()` function, for adding redirect components to NavRefs
  * Teach `LinkAnt` to handle `NavRef`s directly, too
  * Exported one more interface with a group of `LinkAnt` parameters -- useful when creating custom link components.
-
+ * `data-testid` to `antd` elements. Can be used to detect elements in integration tests.
+ 
 ### Fixed
  * Fixed a TS warning around btoa-lite
  * When using the `mountAll` option with a menu, rendering of "fallback"

@@ -10,6 +10,7 @@ exports[`TimePickerAnt should render a time picker by default 1`] = `
       ],
     }
   }
+  data-testid="TheId"
   disabled={false}
   focusOnOpen={true}
   hideDisabledOptions={false}

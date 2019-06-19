@@ -18,13 +18,14 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
         const indeterminate = operation.value == null;
         return (
             <Checkbox
+                data-testid={operation.id}
                 checked={operation.value}
                 onChange={() => operation.toggle()}
                 indeterminate={indeterminate}
                 {...props}
             >
                 {children}
-                {labelWithHelp(label, operation.help)}
+                {labelWithHelp(label, operation.help, operation.id)}
             </Checkbox>
         );
     }

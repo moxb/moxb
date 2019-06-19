@@ -3,6 +3,7 @@
 exports[`ActionButtonAnt should render a button by default 1`] = `
 <Button
   block={false}
+  data-testid="the_id"
   disabled={true}
   ghost={false}
   htmlType="button"
@@ -18,6 +19,7 @@ exports[`ActionButtonAnt should render a button by default 1`] = `
 exports[`ActionButtonAnt should render a button with children instead of a label 1`] = `
 <Button
   block={false}
+  data-testid="the_id"
   disabled={false}
   ghost={false}
   htmlType="button"

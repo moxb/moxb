@@ -3,6 +3,7 @@
 exports[`FormAnt should render a form element by default 1`] = `
 <Form
   colon={true}
+  data-testid="id.testForm"
   disabled={false}
   hideRequiredMark={false}
   id="id-test_form"

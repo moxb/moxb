@@ -1,4 +1,4 @@
-import { ManyOf } from '@moxb/moxb';
+import { idToDomId, ManyOf } from '@moxb/moxb';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { CheckboxGroupProps } from 'antd/lib/checkbox';
 import { SelectProps } from 'antd/lib/select';
@@ -22,6 +22,7 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
         const value = toJS(operation.value);
         return (
             <Select
+                data-testid={operation.id}
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
                 value={value || undefined}
                 placeholder={operation.placeholder}
@@ -30,7 +31,11 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
                 {...props}
             >
                 {operation.choices.map((opt: any) => (
-                    <Select.Option key={opt.value} value={opt.value}>
+                    <Select.Option
+                        data-testid={idToDomId(operation.id + '.' + opt.value)}
+                        key={opt.value}
+                        value={opt.value}
+                    >
                         {opt.label}
                     </Select.Option>
                 ))}
@@ -51,6 +56,7 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
         const value = toJS(operation.value);
         return (
             <Checkbox.Group
+                data-testid={operation.id}
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
                 value={value}
                 defaultValue={defaultValue}
@@ -59,7 +65,9 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
                 <Row>
                     {operation.choices.map((opt: any) => (
                         <Col key={opt.value}>
-                            <Checkbox value={opt.value}>{opt.label}</Checkbox>
+                            <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
+                                {opt.label}
+                            </Checkbox>
                         </Col>
                     ))}
                     {children}

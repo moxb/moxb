@@ -61,9 +61,15 @@ export class TagAnt extends React.Component<TagAntProps, TagAntState> {
     render() {
         const { inputVisible, inputValue } = this.state;
         return (
-            <div>
+            <div data-testid={this.props.operation.id}>
                 {this.props.operation.value!.map(tag => (
-                    <Tag key={tag} closable color={this.props.tagColor} afterClose={() => this.handleClose(tag)}>
+                    <Tag
+                        data-testid={tag}
+                        key={tag}
+                        closable
+                        color={this.props.tagColor}
+                        afterClose={() => this.handleClose(tag)}
+                    >
                         {tag}
                     </Tag>
                 ))}

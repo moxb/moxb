@@ -2,6 +2,7 @@
 
 exports[`DatePickerAnt should render a date picker by default 1`] = `
 <PickerWrapper
+  data-testid="TheId"
   disabled={false}
   id="the_id"
   label="oh"

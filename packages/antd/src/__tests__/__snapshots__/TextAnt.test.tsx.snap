@@ -2,6 +2,7 @@
 
 exports[`TextAnt should render a text input by default 1`] = `
 <Input
+  data-testid="the_id"
   disabled={false}
   id="the_id"
   label="oh"
@@ -16,6 +17,7 @@ exports[`TextAnt should render a text input by default 1`] = `
 
 exports[`TextAnt should render a textarea with the control option set 1`] = `
 <TextArea
+  data-testid="the_id"
   disabled={false}
   id="the_id"
   label="oh"

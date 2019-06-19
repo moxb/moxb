@@ -61,6 +61,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                     <Alert message={t('Table.Error.title', 'Error')} description={table.errors} type="error" />
                 )}
                 <Table
+                    data-testid={table.id}
                     columns={columns}
                     dataSource={dataSource}
                     loading={!table.ready}

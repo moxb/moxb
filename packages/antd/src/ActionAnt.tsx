@@ -4,9 +4,9 @@ import { ButtonShape, ButtonSize, ButtonType } from 'antd/lib/button';
 import { NativeButtonProps } from 'antd/lib/button/button';
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import { MouseEvent } from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
-import { MouseEvent } from 'react';
 
 export interface ActionAntProps {
     stopPropagation?: boolean;
@@ -46,6 +46,7 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
         return (
             <Button
                 id={id}
+                data-testid={id}
                 onClick={this.handleClick}
                 {...props}
                 size={size as ButtonSize}
@@ -87,7 +88,7 @@ export class ActionSpanAnt extends React.Component<BindActionAntProps> {
             return null;
         }
         return (
-            <span id={id} onClick={this.handleClick} title={reason} {...props as any}>
+            <span id={id} data-testid={id} onClick={this.handleClick} title={reason} {...props as any}>
                 {children != null ? children : label}
             </span>
         );
@@ -114,6 +115,7 @@ export class ActionToggleButtonAnt extends React.Component<
         return (
             <Button
                 id={id}
+                data-testid={id}
                 onClick={() => operation.toggle()}
                 style={operation.disabled ? undefined : style}
                 title={reason}

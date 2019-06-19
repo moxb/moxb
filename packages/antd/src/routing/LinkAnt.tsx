@@ -1,7 +1,7 @@
-import { Location as MyLocation } from 'history';
-import { CoreLinkProps, UsesLocation, locationToUrl, NavRef, NavRefCall } from '@moxb/moxb';
+import { CoreLinkProps, locationToUrl, NavRef, NavRefCall, UsesLocation } from '@moxb/moxb';
 import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
+import { Location as MyLocation } from 'history';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import * as Anchor from '../not-antd/Anchor';
@@ -105,7 +105,7 @@ export class LinkAnt extends React.Component<LinkProps & UsesLocation> {
                     style,
                 };
                 return (
-                    <Button {...extraButtonProps as any} {...buttonProps}>
+                    <Button data-testid={url} {...extraButtonProps as any} {...buttonProps}>
                         {label}
                         {children}
                     </Button>

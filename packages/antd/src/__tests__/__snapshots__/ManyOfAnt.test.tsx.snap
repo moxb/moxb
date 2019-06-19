@@ -3,6 +3,7 @@
 exports[`ManyOfAnt should render a select control by default 1`] = `
 <Select
   choiceTransitionName="zoom"
+  data-testid="Id.manyOf"
   disabled={false}
   id="id-many_of"
   label="Choose your snack"
@@ -15,18 +16,21 @@ exports[`ManyOfAnt should render a select control by default 1`] = `
   value={Array []}
 >
   <Option
+    data-testid="id-many_of-b"
     key="b"
     value="b"
   >
     Banana
   </Option>
   <Option
+    data-testid="id-many_of-a"
     key="a"
     value="a"
   >
     Apples
   </Option>
   <Option
+    data-testid="id-many_of-p"
     key="p"
     value="p"
   >
@@ -37,6 +41,7 @@ exports[`ManyOfAnt should render a select control by default 1`] = `
 
 exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
 <CheckboxGroup
+  data-testid="Id.manyOf"
   disabled={false}
   id="id-many_of"
   label="Choose your snack"
@@ -52,6 +57,7 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
       key="b"
     >
       <Checkbox
+        data-testid="id-many_of-b"
         indeterminate={false}
         value="b"
       >
@@ -62,6 +68,7 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
       key="a"
     >
       <Checkbox
+        data-testid="id-many_of-a"
         indeterminate={false}
         value="a"
       >
@@ -72,6 +79,7 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
       key="p"
     >
       <Checkbox
+        data-testid="id-many_of-p"
         indeterminate={false}
         value="p"
       >

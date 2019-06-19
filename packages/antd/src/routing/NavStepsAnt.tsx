@@ -1,4 +1,5 @@
 import {
+    idToDomId,
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
@@ -63,11 +64,12 @@ export class NavStepsAnt<DataType> extends React.Component<NavStepsProps<DataTyp
     }
 
     protected _renderSubStateElement(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
-        return <Step key={state.menuKey} title={state.label} />;
+        const id = idToDomId(`${this.props.id}.step.${state.menuKey}`);
+        return <Step data-testid={id} key={state.menuKey} title={state.label} />;
     }
 
     render() {
-        const { stepProps = {} } = this.props;
+        const { stepProps = {}, id } = this.props;
         const _states = this.getStates();
         const visibleStates = _states.getFilteredSubStates({
             onlyVisible: true,
@@ -77,7 +79,7 @@ export class NavStepsAnt<DataType> extends React.Component<NavStepsProps<DataTyp
         const selectedMenuKeys = _states.getActiveSubStateMenuKeys(true);
         const index = visibleStateKeys.indexOf(selectedMenuKeys[0]);
         return (
-            <Steps {...stepProps} current={index}>
+            <Steps data-testid={id} {...stepProps} current={index}>
                 {visibleStates.map(this._renderSubStateElement)}
             </Steps>
         );
