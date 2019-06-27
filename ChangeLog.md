@@ -5,11 +5,20 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+
+# [v0.2.0-beta.25](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.25) (2019-06-27)
+
 ### Breaking Changes
 
 ### Added
-
+ * Allow using a ReactNode component in the modal.header.
+ * Support conditions in TableSearch
+ * Allow styling location dependent containers
+  
 ### Fixed
+ * Replace EmptyLog type in activity logger
+ * Improved QueryString quoting
+
 
 # [v0.2.0-beta.24](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.24) (2019-06-03)
 
