@@ -18,7 +18,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 ### Fixed
  * Replace EmptyLog type in activity logger
  * Improved QueryString quoting
-
+ * Fixed a function scoping bug in NavStepAnds
 
 # [v0.2.0-beta.24](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.24) (2019-06-03)
 
