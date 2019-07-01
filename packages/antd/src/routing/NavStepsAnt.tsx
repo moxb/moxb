@@ -44,6 +44,7 @@ export class NavStepsAnt<DataType> extends React.Component<NavStepsProps<DataTyp
         this._id = props.id || 'no-id';
 
         const { id, stepProps = {}, staticStates, children, ...stateProps } = this.props;
+        this._renderSubStateElement = this._renderSubStateElement.bind(this);
         this._states = staticStates
             ? new LocationDependentStateSpaceHandlerImpl({
                   ...stateProps,
