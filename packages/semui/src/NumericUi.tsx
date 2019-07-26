@@ -41,7 +41,7 @@ export class NumericUi extends React.Component<FormInputProps & BindNumericUiPro
                     onChange={e => operation.setValue(parseInt((e.target as any).value))}
                     onFocus={operation.onEnterField}
                     onBlur={operation.onExitField}
-                    {...props as any}
+                    {...(props as any)}
                 />
 
                 {!hideErrors && (

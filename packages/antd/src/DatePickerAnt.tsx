@@ -27,7 +27,7 @@ export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
                 placeholder={operation.placeholder}
                 value={operation.value}
                 onChange={(date: moment.Moment, _dateString: string) => operation.setValue(date)}
-                {...props as any}
+                {...(props as any)}
             />
         );
     }
@@ -41,7 +41,7 @@ export class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & 
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <DatePickerAnt operation={operation} {...props} />
             </FormItemAnt>
         );

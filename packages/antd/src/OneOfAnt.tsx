@@ -45,7 +45,7 @@ export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioPro
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <OneOfAnt operation={operation} {...props} />
             </FormItemAnt>
         );
@@ -93,7 +93,7 @@ export class OneOfButtonFormAnt extends React.Component<
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <OneOfButtonAnt operation={operation} {...props} />
             </FormItemAnt>
         );
@@ -181,7 +181,7 @@ export class OneOfDropDownFormAnt extends React.Component<
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <OneOfDropDownAnt operation={operation} {...props} />
             </FormItemAnt>
         );
@@ -230,7 +230,7 @@ export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & Bi
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <OneOfSelectAnt operation={operation} {...props} />
             </FormItemAnt>
         );

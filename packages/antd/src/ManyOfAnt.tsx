@@ -85,7 +85,7 @@ export class ManyOfFormAnt extends React.Component<SelectProps & BindAntProps<Ma
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <ManyOfAnt operation={operation} {...props} />
             </FormItemAnt>
         );

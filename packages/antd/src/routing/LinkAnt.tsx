@@ -105,7 +105,7 @@ export class LinkAnt extends React.Component<LinkProps & UsesLocation> {
                     style,
                 };
                 return (
-                    <Button data-testid={url} {...extraButtonProps as any} {...buttonProps}>
+                    <Button data-testid={url} {...(extraButtonProps as any)} {...buttonProps}>
                         {label}
                         {children}
                     </Button>

@@ -42,7 +42,7 @@ export class TextAnt extends React.Component<BindStringAntProps> {
                     onBlur={operation.onExitField}
                     value={operation.value || value || ''}
                     onChange={(e: any) => operation.setValue(e.target.value)}
-                    {...props as any}
+                    {...(props as any)}
                 />
             );
         } else {
@@ -55,7 +55,7 @@ export class TextAnt extends React.Component<BindStringAntProps> {
                     onBlur={operation.onExitField}
                     value={operation.value || value || ''}
                     onChange={(e: any) => operation.setValue(e.target.value)}
-                    {...props as any}
+                    {...(props as any)}
                 />
             );
         }
@@ -126,7 +126,7 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
                     enterButton={enterButton || t('TableSearchAnt.btnTitle', 'Search')}
                     onSearch={() => searchAction.fire()}
                     onKeyDown={e => this.handleKeyDown(e, operation)}
-                    {...props as any}
+                    {...(props as any)}
                 />
                 {operation.value && operation.value.length > 0 && (
                     <Button
@@ -155,7 +155,7 @@ export class TextFormAnt extends React.Component<BindStringAntProps & BindFormIt
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <TextAnt operation={operation} {...props} />
             </FormItemAnt>
         );

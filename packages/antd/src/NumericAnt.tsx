@@ -47,7 +47,7 @@ export class NumericFormAnt extends React.Component<BindAntProps<Numeric> & Inpu
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <NumericAnt operation={operation} {...props} />
             </FormItemAnt>
         );
