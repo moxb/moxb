@@ -88,7 +88,7 @@ export class ActionSpanAnt extends React.Component<BindActionAntProps> {
             return null;
         }
         return (
-            <span id={id} data-testid={id} onClick={this.handleClick} title={reason} {...props as any}>
+            <span id={id} data-testid={id} onClick={this.handleClick} title={reason} {...(props as any)}>
                 {children != null ? children : label}
             </span>
         );
@@ -119,7 +119,7 @@ export class ActionToggleButtonAnt extends React.Component<
                 onClick={() => operation.toggle()}
                 style={operation.disabled ? undefined : style}
                 title={reason}
-                {...props as any}
+                {...(props as any)}
             >
                 {children != null ? children : label}
             </Button>
@@ -135,7 +135,7 @@ export class ActionFormButtonAnt extends React.Component<BindActionAntProps & Bi
             return null;
         }
         return (
-            <FormItemAnt operation={operation} label={null} {...this.props as any}>
+            <FormItemAnt operation={operation} label={null} {...(this.props as any)}>
                 <ActionButtonAnt htmlType="submit" operation={operation} {...props} />
             </FormItemAnt>
         );

@@ -32,7 +32,7 @@ export class ModalAnt<T, A extends ModalActions = ModalActions> extends React.Co
         if (footer && operation.actions) {
             return (
                 <Modal
-                    {...props as any}
+                    {...(props as any)}
                     visible={operation.open}
                     title={operation.header}
                     onCancel={operation.actions.cancel.fire}
@@ -46,7 +46,7 @@ export class ModalAnt<T, A extends ModalActions = ModalActions> extends React.Co
 
         return (
             <Modal
-                {...props as any}
+                {...(props as any)}
                 visible={operation.open}
                 onCancel={operation.actions.cancel.fire}
                 cancelText={operation.actions.cancel.label}

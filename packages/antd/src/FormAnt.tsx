@@ -18,7 +18,7 @@ export class FormAnt extends React.Component<FormProps & BindFormAntProps> {
             return null;
         }
         return (
-            <Form data-testid={operation.id} onSubmit={operation.onSubmitForm} {...props as any}>
+            <Form data-testid={operation.id} onSubmit={operation.onSubmitForm} {...(props as any)}>
                 {children}
                 {!hideErrors && operation.hasErrors && (
                     <Alert

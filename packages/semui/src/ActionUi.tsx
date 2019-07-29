@@ -60,7 +60,7 @@ export class ActionDropdownItemUi extends React.Component<BindUiProps<Action> & 
         }
         // color, size and width cause problems when in ...props
         return (
-            <Dropdown.Item id={id} onClick={operation.fire} {...props as any}>
+            <Dropdown.Item id={id} onClick={operation.fire} {...(props as any)}>
                 {children || label}
             </Dropdown.Item>
         );

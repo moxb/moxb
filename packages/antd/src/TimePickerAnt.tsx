@@ -27,7 +27,7 @@ export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
                 placeholder={operation.placeholder}
                 value={operation.value}
                 onChange={(time: moment.Moment, _timeString: string) => operation.setValue(time)}
-                {...props as any}
+                {...(props as any)}
             />
         );
     }
@@ -41,7 +41,7 @@ export class TimePickerFormAnt extends React.Component<BindTimePickerAntProps & 
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <TimePickerAnt operation={operation} {...props} />
             </FormItemAnt>
         );

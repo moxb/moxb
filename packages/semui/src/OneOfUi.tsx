@@ -71,7 +71,7 @@ export class OneOfSelectUi extends React.Component<BindUiProps<OneOf> & FormFiel
                     defaultValue={operation.value}
                     width={width as any}
                     type={type as any}
-                    {...props as any}
+                    {...(props as any)}
                 />
 
                 {!hideErrors && (

@@ -39,7 +39,7 @@ export class BoolFormAnt extends React.Component<BindAntProps<Bool> & FormItemPr
             return null;
         }
         return (
-            <FormItemAnt operation={operation} {...this.props as any}>
+            <FormItemAnt operation={operation} {...(this.props as any)}>
                 <BoolAnt operation={operation} {...props} />
             </FormItemAnt>
         );

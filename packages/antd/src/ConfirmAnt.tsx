@@ -17,7 +17,7 @@ export class ConfirmAnt extends React.Component<BindConfirmAntProps> {
         const { operation, ...props } = parseProps(this.props, this.props.operation);
         return (
             <Modal
-                {...props as any}
+                {...(props as any)}
                 onOk={operation.onConfirm}
                 visible={operation.open}
                 onCancel={operation.onCancel}

@@ -27,7 +27,7 @@ export class BoolUi extends React.Component<{ operation: Bool } & FormCheckboxPr
                     checked={operation.value}
                     onChange={() => operation.toggle()}
                     indeterminate={indeterminate}
-                    {...props as any}
+                    {...(props as any)}
                 />
                 {children}
 
@@ -57,7 +57,7 @@ export class BoolDropdownItemUi extends React.Component<BindUiProps<Bool> & Drop
         }
         // color, size and width cause problems when in ...props
         return (
-            <Dropdown.Item id={id} onClick={operation.toggle} {...props as any}>
+            <Dropdown.Item id={id} onClick={operation.toggle} {...(props as any)}>
                 {children || operation.labelToggle || label}
             </Dropdown.Item>
         );

@@ -11,7 +11,7 @@ export class ActionButtonHtml extends React.Component<BindAntProps<Action> & HTM
             return null;
         }
         return (
-            <button id={id} onClick={operation.fire} {...props as any}>
+            <button id={id} onClick={operation.fire} {...(props as any)}>
                 {children != null ? children : label}
             </button>
         );
@@ -26,7 +26,7 @@ export class ActionAnchorHtml extends React.Component<BindAntProps<Action> & HTM
             return null;
         }
         return (
-            <a id={id} onClick={operation.fire} {...props as any}>
+            <a id={id} onClick={operation.fire} {...(props as any)}>
                 {children != null ? children : label}
             </a>
         );

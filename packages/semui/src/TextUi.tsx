@@ -43,7 +43,7 @@ export class TextUi extends React.Component<FormInputProps & BindStringUiProps> 
                         onChange={(e: any) => operation.setValue(e.target.value)}
                         onFocus={operation.onEnterField}
                         onBlur={operation.onExitField}
-                        {...props as any}
+                        {...(props as any)}
                     />
                 )}
                 {operation.control === 'textarea' && (
@@ -55,7 +55,7 @@ export class TextUi extends React.Component<FormInputProps & BindStringUiProps> 
                         onChange={(e: any) => operation.setValue(e.target.value)}
                         onFocus={operation.onEnterField}
                         onBlur={operation.onExitField}
-                        {...props as any}
+                        {...(props as any)}
                     />
                 )}
 
