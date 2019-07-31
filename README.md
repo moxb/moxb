@@ -12,6 +12,9 @@ see [ChangeLog](./ChangeLog.md)
   - make sure that `package-lock.json` is up to date
 - call `make` 
 - commit all changes
-- push all changes
+- push all changes (don't create the git tag, lerna will do it automatically)
 - `. ./admin/activate`
 - `lerna publish`
+- make sure that all 5 moxb packages will be published
+
+If `lerna publish` doesn't want to release use the `--force-publish` option.
