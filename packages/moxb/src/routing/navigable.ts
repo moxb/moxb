@@ -28,7 +28,30 @@ export interface NavStateHooks {
  * Nav control interface, to control various aspects of the navigation
  */
 export interface NavControl {
-    registerStateHooks: (hooks: NavStateHooks) => void;
+    /**
+     * Returns the name of the controller component. (For debug.)
+     */
+    getParentName: () => string;
+
+    /**
+     * Returns the names of all parent controller components. (For debug.)
+     */
+    getAncestorNames: () => string[];
+
+    /**
+     * Am I currently active?
+     */
+    isActive: () => boolean;
+
+    /**
+     * Register some hooks to be called on navigation events
+     */
+    registerStateHooks: (hooks: NavStateHooks, componentId?: string) => void;
+
+    /**
+     * Unregister navigation event hooks
+     */
+    unregisterStateHooks: (componentId?: string) => void;
 }
 
 /**

@@ -85,12 +85,14 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         subState: SubStateInContext<UIFragment, UIFragmentSpec, DataType> | null,
         invisible?: boolean
     ) {
+        const { navControl, id } = this.props;
         const extraProps: any = {
             key: subState ? subState.key : 'missing',
         };
         if (invisible) {
             extraProps.invisible = true;
         }
+        const parentName = 'LocationDependentArea:' + id + ':' + (subState ? subState.menuKey : 'null');
         return renderSubStateCore({
             state: subState,
             navigationContext: this.props,
@@ -98,7 +100,16 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
             checkCondition: false, // We don't ever get to select this sub-state if the condition fails
             extraProps,
             navControl: {
-                registerStateHooks: hooks => this._states.registerNavStateHooksForSubState(subState, hooks),
+                getParentName: () => parentName,
+                getAncestorNames: () => [...(navControl ? navControl.getAncestorNames() : []), parentName],
+                isActive: () =>
+                    (!navControl || navControl.isActive()) && // Is the whole area active?
+                    !!subState && // The fallback is never really considered to be active
+                    this._states.isSubStateActive(subState), // Is the current sub-state active?
+                registerStateHooks: (hooks, componentId?) =>
+                    this._states.registerNavStateHooksForSubState(subState!, hooks, componentId),
+                unregisterStateHooks: (componentId?) =>
+                    this._states.unregisterNavStateHooksForSubState(subState!, componentId),
             },
         });
     }

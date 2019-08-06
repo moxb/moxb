@@ -54,6 +54,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
     ) {
+        const { navControl } = this.props;
         const { label, key, menuKey, itemClassName, newWindow, linkStyle, linkClassName, title } = state;
 
         const url = states.getUrlForSubState(state);
@@ -74,6 +75,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         }
         const tabLabel = <Anchor.Anchor {...anchorProps} />;
         const id = idToDomId(`${parentId}.${menuKey}`);
+        const parentName = 'NavTabBarAnt:' + this.props.id + ':' + menuKey;
         return (
             <TabPane data-testid={id} key={menuKey} tab={tabLabel} {...itemProps}>
                 {states.isSubStateActive(state) &&
@@ -83,7 +85,13 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
                         tokenIncrease: state ? state.totalPathTokens.length : 1,
                         checkCondition: false,
                         navControl: {
-                            registerStateHooks: hooks => states.registerNavStateHooksForSubState(state, hooks),
+                            getParentName: () => parentName,
+                            getAncestorNames: () => [...(navControl ? navControl.getAncestorNames() : []), parentName],
+                            registerStateHooks: (hooks, componentId?) =>
+                                states.registerNavStateHooksForSubState(state, hooks, componentId),
+                            unregisterStateHooks: (componentId?) =>
+                                states.unregisterNavStateHooksForSubState(state, componentId),
+                            isActive: () => (!navControl || navControl.isActive()) && states.isSubStateActive(state),
                         },
                     })}
             </TabPane>

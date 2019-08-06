@@ -46,8 +46,34 @@ function filterSubStates<LabelType, WidgetType, DataType>(
         });
 }
 
-interface HookMap {
+interface _HookMap {
     [index: string]: NavStateHooks;
+}
+
+export class HookMap {
+    private _hooks: _HookMap = {};
+
+    constructor() {
+        this.set = this.set.bind(this);
+        this.reset = this.reset.bind(this);
+    }
+
+    set(hooks: NavStateHooks, id = 'default') {
+        this._hooks[id] = hooks;
+    }
+
+    reset(id = 'default') {
+        //tslint:disable no-dynamic-delete
+        delete this._hooks[id];
+    }
+
+    getAll(): NavStateHooks[] {
+        return Object.values(this._hooks);
+    }
+}
+
+interface HookMapMap {
+    [index: string]: HookMap;
 }
 
 /**
@@ -66,7 +92,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     public readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _allSubStates: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _filterCondition?: StateCondition<DataType>;
-    public readonly stateHooks: HookMap = {};
+    public readonly stateHooks: HookMapMap = {};
 
     /**
      * Add context info around a given sub-state
@@ -268,14 +294,24 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     }
 
     registerNavStateHooksForSubState(
-        subState: SubStateInContext<LabelType, WidgetType, DataType> | null,
-        hooks: NavStateHooks
+        subState: SubStateInContext<LabelType, WidgetType, DataType>,
+        hooks: NavStateHooks,
+        componentId?: string
     ) {
-        if (!subState) {
-            // console.log('Ignoring dirty tester for missing subState');
-        } else {
-            // console.log('SubState', subState.menuKey, 'has state hooks', hooks);
-            this.stateHooks[subState.menuKey] = hooks;
+        const { menuKey: stateId } = subState;
+        if (!this.stateHooks[stateId]) {
+            this.stateHooks[stateId] = new HookMap();
+        }
+        this.stateHooks[stateId].set(hooks, componentId);
+    }
+
+    unregisterNavStateHooksForSubState(
+        subState: SubStateInContext<LabelType, WidgetType, DataType>,
+        componentId?: string
+    ) {
+        const { menuKey: stateId } = subState;
+        if (this.stateHooks[stateId]) {
+            this.stateHooks[stateId].reset(componentId);
         }
     }
 }

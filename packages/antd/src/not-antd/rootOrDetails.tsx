@@ -2,11 +2,11 @@ const uuidv4 = require('uuid/v4');
 import {
     getNextPathToken,
     isTokenEmpty,
-    Navigable,
-    NavStateHooks,
+    NavigableContent,
     SubStateCoreInfo,
     TestLocation,
     UsesLocation,
+    HookMap,
 } from '@moxb/moxb';
 import { inject, observer } from 'mobx-react';
 import { renderSubStateCore } from './rendering';
@@ -20,7 +20,7 @@ interface OwnProps<DataType> {
     ifDetails: SubStateCoreInfo<UIFragmentSpec, DataType>;
 }
 
-type ComponentProps<DataType> = UsesLocation & Navigable<UIFragmentSpec, DataType>;
+type ComponentProps<DataType> = UsesLocation & NavigableContent<UIFragmentSpec, DataType>;
 
 export interface DetailProps {
     token: string;
@@ -30,11 +30,12 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
     const nodeId = uuidv4();
     return inject('locationManager')(
         observer((props: ComponentProps<DataType>) => {
-            let rootHooks: NavStateHooks | undefined;
-            const registerNavStateHooksForRoot = (hooks: NavStateHooks) => (rootHooks = hooks);
-
-            let detailHooks: NavStateHooks | undefined;
-            const registerNavStateHooksForDetail = (hooks: NavStateHooks) => (detailHooks = hooks);
+            const { navControl } = props;
+            console.log('root-or-details navControl is', navControl);
+            const rootHooks = new HookMap();
+            const detailHooks = new HookMap();
+            const isRootActive = () => navControl.isActive() && isTokenEmpty(getNextPathToken(props));
+            const isDetailActive = () => navControl.isActive() && !isRootActive();
 
             /**
              * We register ourselves as a change interceptor,
@@ -66,19 +67,19 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
                         } else {
                             // Going from detail to root.
                             // We would hide the detail, so check with it.
-                            if (detailHooks && detailHooks.getLeaveQuestion) {
-                                const q = detailHooks.getLeaveQuestion();
-                                return q ? [q] : [];
-                            }
+                            return detailHooks
+                                .getAll()
+                                .map(h => (h.getLeaveQuestion ? h.getLeaveQuestion() : undefined))
+                                .filter(q => !!q) as string[];
                         }
                     } else {
                         if (oldRoot) {
                             // Going from root to detail.
                             // We would hide the root, so check with it.
-                            if (rootHooks && rootHooks.getLeaveQuestion) {
-                                const q = rootHooks.getLeaveQuestion();
-                                return q ? [q] : [];
-                            }
+                            return rootHooks
+                                .getAll()
+                                .map(h => (h.getLeaveQuestion ? h.getLeaveQuestion() : undefined))
+                                .filter(q => !!q) as string[];
                         } else {
                             // Staying ad detail, nothing to do
                         }
@@ -95,7 +96,11 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
                     navigationContext: props,
                     checkCondition: true,
                     navControl: {
-                        registerStateHooks: registerNavStateHooksForRoot,
+                        getParentName: () => 'rootOrDetail:root',
+                        getAncestorNames: () => [...navControl.getAncestorNames(), 'rootOrDetail:root'],
+                        isActive: isRootActive,
+                        registerStateHooks: rootHooks.set,
+                        unregisterStateHooks: rootHooks.reset,
                     },
                 });
             } else {
@@ -109,7 +114,11 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
                     extraProps: detailProps,
                     checkCondition: true,
                     navControl: {
-                        registerStateHooks: registerNavStateHooksForDetail,
+                        getParentName: () => 'rootOrDetail:detail',
+                        getAncestorNames: () => [...navControl.getAncestorNames(), 'rootOrDetail:detail'],
+                        isActive: isDetailActive,
+                        registerStateHooks: detailHooks.set,
+                        unregisterStateHooks: detailHooks.reset,
                     },
                 });
             }

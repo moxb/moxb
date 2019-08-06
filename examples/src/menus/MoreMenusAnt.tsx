@@ -1,5 +1,5 @@
 import { LinkAnt, MenuAndContentAnt, TextFormAnt, UIFragmentSpec, NavTabBarAnt } from '@moxb/antd';
-import { Navigable } from '@moxb/moxb';
+import { NavigableContent } from '@moxb/moxb';
 
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
@@ -8,9 +8,9 @@ import { UrlStore } from '../store/UrlStore';
 import { subMenu1, subMenu2 } from './SubMenu';
 
 @inject('url')
-export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable<any, UIFragmentSpec>> {
+export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & NavigableContent<any, UIFragmentSpec>> {
     render() {
-        const { url } = this.props;
+        const { url, navControl } = this.props;
         return (
             <div>
                 <span>Here come some more menus.</span>
@@ -22,6 +22,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                             parsedTokens={this.props.parsedTokens}
                             // arg={url!.number}
                             subStates={subMenu1}
+                            navControl={navControl}
                             mode="horizontal"
                             useTokenMappings={true}
                             fallback="Unknown number"
@@ -64,6 +65,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                             arg={url!.color}
                             mode="left"
                             subStates={subMenu2}
+                            navControl={navControl}
                             fallback="Unknown color"
                             debug={false}
                         />
