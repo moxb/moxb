@@ -103,6 +103,7 @@ class GreenBlocks extends React.Component<NavigableContent<string, UIFragmentSpe
         navControl.registerStateHooks({
             getLeaveQuestion: () => 'Do you really want to leave these nice green blocks?',
         });
+        (global as any).greenControl = navControl;
     }
 
     render() {

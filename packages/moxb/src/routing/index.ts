@@ -52,6 +52,7 @@ export {
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerProps,
     LocationDependentStateSpaceHandlerImpl,
+    HookMap,
 } from './location-state-space';
 
 export {

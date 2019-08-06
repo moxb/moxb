@@ -5,6 +5,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Added
+- [VS-139](https://goessntl.atlassian.net/browse/VS-139) Extend the NavControl interface with new APIs
+  (preparation for page enter and leave hooks)
 
 # [v0.2.0-beta.25](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.25) (2019-06-27)
 

@@ -1,6 +1,6 @@
 import { LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TestLocation } from '../location-manager/LocationManager';
-import { LeaveQuestionGenerator } from '../navigable';
+import { NavStateHooks } from '../navigable';
 import { TokenManager } from '../TokenManager';
 import { updateTokenString } from '../tokens';
 import { AnyUrlArgImpl, UrlArg, URLARG_TYPE_ORDERED_STRING_ARRAY } from '../url-arg';
@@ -10,6 +10,7 @@ import {
 } from './LocationDependentStateSpaceHandler';
 import { SubStateInContext } from './state-space/StateSpace';
 import { StateSpaceHandlerImpl } from './state-space/StateSpaceHandlerImpl';
+import flatten = require('lodash.flatten');
 
 /**
  * This is the standard implementation of the StateSpaceAndLocationHandler.
@@ -30,34 +31,47 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
     }
 
     /**
-     * This is our "change interceptor" hook, that will be called by the LocationManager.
+     * Collect all the navigation state hooks for a given set of sub-states
      */
-    anyQuestionsFor(location: TestLocation): string[] {
-        //        console.log("Should test whether it's OK to go to", location.pathTokens);
+    _getHooksForStates(subStates: SubStateInContext<LabelType, WidgetType, DataType>[]): NavStateHooks[] {
+        return flatten(
+            // Since we will get an array of arrays, we will have to flatten it.
+            subStates // take all the sub-states
+                .map(s => this.stateHooks[s.menuKey]) // replace them with the defined hook map
+                .filter(map => !!map) // drop those when there are no hooks
+                .map(map => map.getAll()) // keep only the values of the map
+        ).filter(hook => !!hook); // drop any empty values
+    }
 
+    /**
+     * Compute which sub-states would be disabled, if we changed to this new location
+     */
+    _getLeaveHooksTo(newLocation: TestLocation): NavStateHooks[] {
         // Find out which states are active now
         const oldSubStates = this.getActiveSubStates(true);
 
         // Find out which states would be active after the change
         const newSubStates = this.getActiveSubStatesForTokens(
-            this._getTestTokens(location),
+            this._getTestTokens(newLocation),
             this._getParsedTokenCount(),
             true
         );
 
         // Find out which states would be disabled by the change
-        const disabledSubStates = oldSubStates.filter(s => newSubStates.indexOf(s) === -1);
+        const disablingStates = oldSubStates.filter(s => newSubStates.indexOf(s) === -1);
 
-        // Collect testers belonging to the would-be deactivated states
-        const activeTesters = disabledSubStates
-            .filter(state => !!this.stateHooks[state.menuKey]) // Get the states that have hooks
-            .map(s => this.stateHooks[s.menuKey].getLeaveQuestion) // get the leave question generators
-            .filter(gen => !!gen) as LeaveQuestionGenerator[]; // filter the omitted generators // We know that these are all real
+        return this._getHooksForStates(disablingStates);
+    }
 
-        // Collect and return all the questions
-        return activeTesters // for all active question generators
-            .map(test => test()) // get the questions
-            .filter(q => !!q) as string[]; // filter out undefined // we know that these are all strings, since we have filtered the junk
+    /**
+     * This is our "change interceptor" hook, that will be called by the LocationManager.
+     */
+    anyQuestionsFor(newLocation: TestLocation): string[] {
+        return this._getLeaveHooksTo(newLocation) // Analyse the changes
+            .map(h => h.getLeaveQuestion) // get the leave question generators
+            .filter(gen => !!gen) // filter the cases when no question generator is given
+            .map(test => test!()) // get the questions
+            .filter(q => !!q) as string[]; // filter out empty ones
     }
 
     public constructor(props: LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
