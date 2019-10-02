@@ -19,7 +19,7 @@ describe('FormAnt', function() {
         onSave: onSavePasswordText,
     });
 
-    function newFormOperation(opt?: any) {
+    function newFormOperation(...opt: any[]) {
         return new FormImpl(
             Object.assign(
                 {

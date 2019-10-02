@@ -14,7 +14,7 @@ describe('TableAnt', function() {
     function renderColumn(column: ColumnAntProps<any>) {
         column.render = (columnData: any) => columnData.toString();
     }
-    function newTableOperation(opt?: any) {
+    function newTableOperation(...opt: any[]) {
         return new TableImpl<any>(
             Object.assign(
                 {
