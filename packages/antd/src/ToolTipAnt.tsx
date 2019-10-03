@@ -1,7 +1,7 @@
 import { Action, Bind, OneOf } from '@moxb/moxb';
 import { Button, Tooltip } from 'antd';
 import { ButtonType } from 'antd/lib/button';
-import { TooltipProps } from 'antd/lib/tooltip';
+import { AbstractTooltipProps, RenderFunction } from 'antd/lib/tooltip';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { ReactElement } from 'react';
@@ -15,7 +15,10 @@ function toolTipText(action: Bind | Action) {
     return (action.label || action.help || '') + (shortcuts && '\n\n' + shortcuts);
 }
 
-export interface BindToolTipAntProps extends TooltipProps {
+// with the new antd version, we can no longer extend TooltipProps since it became a union type.
+export interface BindToolTipAntProps extends AbstractTooltipProps {
+    title?: React.ReactNode | RenderFunction;
+    overlay?: React.ReactNode | RenderFunction;
     operation?: Bind | Action | OneOf;
     icon?: string;
     text?: string;

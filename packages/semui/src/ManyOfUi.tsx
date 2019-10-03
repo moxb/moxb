@@ -8,7 +8,7 @@ import { BindUiProps, labelWithHelp, parseProps } from './BindUi';
 @observer
 export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & FormFieldProps> {
     render() {
-        const { operation, id, invisible, type, width, hideErrors, label, ...props } = parseProps(this.props);
+        const { operation, id, invisible, type, width, hideErrors, label, error, ...props } = parseProps(this.props);
         if (invisible || operation.invisible) {
             return null;
         }
@@ -26,6 +26,7 @@ export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & FormFieldPro
                     onChange={(_e, data) => operation.setValue(data.value as string[])}
                     options={options}
                     value={value}
+                    error={!!error}
                     {...props}
                     width={width as any}
                     type={type as any}
