@@ -1,5 +1,9 @@
 import { Condition, QueryFilter, QueryString } from './QueryFilter';
 
+function isNumber(string: string) {
+    return !isNaN(string as any);
+}
+
 /**
  * Quotes a string if it contains whitespace or other 'strange' characters
  * @param string
@@ -7,6 +11,9 @@ import { Condition, QueryFilter, QueryString } from './QueryFilter';
 function quoteStringIfNeeded(string: string) {
     if (string.match(/[\s"\\]/)) {
         return '"' + string.replace(/(["\\])/g, '\\$1') + '"';
+    }
+    if (isNumber(string)) {
+        return '/' + string + '/';
     }
     return string;
 }

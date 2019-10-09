@@ -108,4 +108,18 @@ describe('QueryFilterImpl', function() {
         expect(filter.hasCondition({ type: 'equals', field: 'f4', value: 'value 1' })).toBe(false);
         expect(filter.hasCondition({ type: 'equals', field: 'f4', value: 'value1' })).toBe(false);
     });
+    it('adds slashes to numbers', function() {
+        const filter = new QueryFilterImpl(new QueryString(''));
+        filter.addCondition({ type: 'equals', field: 'f1', value: '2019' });
+        expect(filter.queryString.getQuery()).toBe('f1:/2019/');
+
+        filter.addCondition({ type: 'equals', field: 'f2', value: '2019a' });
+        expect(filter.queryString.getQuery()).toBe('f1:/2019/ f2:2019a');
+
+        filter.toggleCondition({ type: 'equals', field: 'f1', value: '2019' });
+        expect(filter.queryString.getQuery()).toBe('f2:2019a');
+
+        filter.toggleCondition({ type: 'equals', field: 'f2', value: '2019a' });
+        expect(filter.queryString.getQuery()).toBe('');
+    });
 });
