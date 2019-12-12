@@ -45,6 +45,7 @@ export class ActionButtonUi extends React.Component<ActionUiProps> {
                 color={color as any}
                 size={size as any}
                 width={width as any}
+                loading={operation.pending}
             >
                 {children || label}
             </Button>

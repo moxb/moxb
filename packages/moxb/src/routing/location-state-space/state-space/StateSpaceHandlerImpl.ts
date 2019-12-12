@@ -51,7 +51,7 @@ interface _HookMap {
 }
 
 export class HookMap {
-    private _hooks: _HookMap = {};
+    private readonly _hooks: _HookMap = {};
 
     constructor() {
         this.set = this.set.bind(this);
