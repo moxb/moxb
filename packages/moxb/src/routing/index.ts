@@ -6,6 +6,8 @@ export {
     QueryChange,
     BasicLocationManagerImpl,
     locationToUrl,
+    pathAndQueryToLocation,
+    pathAndQueryToUrl,
 } from './location-manager';
 
 export { CoreLinkProps } from './linking';
