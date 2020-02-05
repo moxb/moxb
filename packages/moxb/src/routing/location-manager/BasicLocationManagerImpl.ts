@@ -3,7 +3,7 @@ import { action, observable } from 'mobx';
 import { doTokenStringsMatch, updateTokenString } from '../tokens';
 import { UrlArg } from '../url-arg';
 import { NativeUrlSchema } from '../url-schema';
-import { UrlSchema } from '../url-schema/UrlSchema';
+import { Query, UrlSchema } from '../url-schema/UrlSchema';
 import { BasicLocationCommunicator } from './BasicLocationCommunicator';
 import { LocationCommunicator } from './LocationCommunicator';
 
@@ -42,12 +42,31 @@ export interface LocationToUrlProps {
     port: string;
 }
 
-export const locationToUrl = (location: MyLocation = noLocation, props?: LocationToUrlProps): string =>
-    (props ? new MyURI(props) : new MyURI())
+export const pathAndQueryToLocation = (pathTokens: string[], query: Query, urlSchema?: UrlSchema): MyLocation => {
+    const schema = urlSchema || new NativeUrlSchema();
+    const location = schema.getLocation(noLocation, pathTokens, query);
+    return location;
+};
+
+export const locationToUrl = (location: MyLocation = noLocation, props?: LocationToUrlProps | string): string => {
+    const uri = props ? new MyURI(props) : new MyURI();
+    const newUri = uri
         .path(location.pathname)
         .search(location.search)
-        .hash((location as any).hash)
-        .toString();
+        .hash((location as any).hash);
+    return newUri.toString();
+};
+
+export const pathAndQueryToUrl = (
+    pathTokens: string[],
+    query: Query,
+    baseUrl: string,
+    urlSchema?: UrlSchema
+): string => {
+    const location = pathAndQueryToLocation(pathTokens, query, urlSchema);
+    const url = locationToUrl(location, baseUrl);
+    return url;
+};
 
 export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _schema: UrlSchema;
