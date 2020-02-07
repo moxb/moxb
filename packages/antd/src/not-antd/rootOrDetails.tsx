@@ -31,7 +31,7 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
     return inject('locationManager')(
         observer((props: ComponentProps<DataType>) => {
             const { navControl } = props;
-            console.log('root-or-details navControl is', navControl);
+            // console.log('root-or-details navControl is', navControl);
             const rootHooks = new HookMap();
             const detailHooks = new HookMap();
             const isRootActive = () => navControl.isActive() && isTokenEmpty(getNextPathToken(props));
