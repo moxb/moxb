@@ -39,7 +39,7 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
         const fullId = id + '-formItem';
         return (
             <Form.Item
-                id={fullId}
+                htmlFor={fullId}
                 data-testid={fullId}
                 label={labelWithHelp(label, operation.help, fullId)}
                 style={formStyle || undefined}
