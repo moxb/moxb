@@ -50,7 +50,7 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
                 }
             } else {
                 const problem = `cannot fire disabled action ${this.id} '${this.label}': ${this.reason}`;
-                console.warn(problem);
+                // console.warn(problem);
                 reject(problem);
             }
         });
