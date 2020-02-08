@@ -169,7 +169,7 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
                 }
             }
         } else {
-            console.warn(`cannot fire disabled value ${this.id} '${this.label}'`);
+            // console.warn(`cannot set disabled value ${this.id} '${this.label}'`);
         }
     }
 
