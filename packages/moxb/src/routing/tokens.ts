@@ -1,6 +1,8 @@
 /**
  * Decide whether a given token is considered to be empty.
  */
+import { getDebugLogger } from '../util/debugLog';
+
 export function isTokenEmpty(token: string | null | undefined): boolean {
     return token === '' || token === null || token === undefined;
 }
@@ -30,6 +32,7 @@ export function doTokenStringsMatch(
     exactOnly: boolean,
     debugMode?: boolean
 ) {
+    const logger = getDebugLogger('TokenStringMatcher', debugMode);
     let result = true;
     wantedTokens.forEach((token, index) => {
         if (!result) {
@@ -48,23 +51,19 @@ export function doTokenStringsMatch(
         const nextLevel = parsedTokens + wantedTokens.length;
         const nextToken = currentTokens[nextLevel];
         const empty = isTokenEmpty(nextToken);
-        if (debugMode) {
-            console.log(
-                'Testing if this is an exact match.',
-                'nextLevel is',
-                nextLevel,
-                'nextToken is',
-                nextToken,
-                typeof nextToken,
-                'empty?',
-                empty
-            );
-        }
+        logger.log(
+            'Testing if this is an exact match.',
+            'nextLevel is',
+            nextLevel,
+            'nextToken is',
+            nextToken,
+            typeof nextToken,
+            'empty?',
+            empty
+        );
         return empty;
     } else {
-        if (debugMode) {
-            console.log('Not exact match required, returning true');
-        }
+        logger.log('Not exact match required, returning true');
         return true;
     }
 }

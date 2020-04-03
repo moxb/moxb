@@ -1,5 +1,6 @@
 import { observable } from 'mobx';
 import { meteorCall, MeteorCallback } from './MeteorCall';
+import { getDebugLogger } from '@moxb/moxb';
 
 /**
  * Here, we provide a type-safe way to define and call a Meteor method.
@@ -111,21 +112,20 @@ export function registerMeteorMethod<Input, Output>(
     method: MeteorMethodDefinition<Input, Output>
 ): MeteorMethodControl<Input, Output> {
     const { name, debug, execute, serverOnly } = method;
+    const logger = getDebugLogger('Method ' + name, debug);
     if (Meteor.isServer || !serverOnly) {
-        // console.log('Publishing Meteor method', name);
+        logger.log('Publishing Meteor method', name);
         Meteor.methods({
             [name]: (input: Input) => {
                 // console.log('***Gonna check out if', name, 'is running in a simulation', this);
                 // if (!this || this.isSimulation) {
                 //     return;
                 // }
-                if (debug) {
-                    console.log('Method', name, 'with data', input);
-                }
+                logger.log('with data', input);
+
                 const result = wrapException(execute)(input);
-                if (debug) {
-                    console.log('Method', name, 'returns', result);
-                }
+                logger.log('returns', result);
+
                 return result;
             },
         });
