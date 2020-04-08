@@ -51,6 +51,9 @@ export class ToolTipAnt extends React.Component<BindToolTipAntProps> {
 export class ToolTipButton extends React.Component<BindToolTipAntProps> {
     render() {
         const { operation, icon, text, type } = this.props;
+        if (operation!.invisible) {
+            return null;
+        }
         const selectedType = operation!.customData ? 'dashed' : 'ghost';
         if (operation!.disabled) {
             return (
