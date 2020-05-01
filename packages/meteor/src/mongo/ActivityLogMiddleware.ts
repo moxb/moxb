@@ -290,7 +290,7 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
         return this.collection!.find(payload.selector, { fields: this.fieldsToFetch }).fetch() as any[];
     }
 
-    private readonly _logUpdate = (payload: LogUpdatePayload<T>, result: number) => {
+    private readonly _logUpdate = (payload: LogUpdatePayload<T>, _result: number) => {
         const { documentsBefore } = payload;
         // fetch the documents after the update
         const documentsAfter = this._fetchDocuments(payload);
@@ -341,7 +341,7 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
         return this._callNextAndLogResult({ ...payload, documentsBefore }, next, this._logUpsert);
     }
 
-    private readonly _logRemove = (payload: LogRemovePayload<T>, result: number) => {
+    private readonly _logRemove = (payload: LogRemovePayload<T>, _result: number) => {
         for (const fieldName of this.trackedFields) {
             for (const doc of payload.removed) {
                 if (typeof getIn(doc, fieldName) !== 'undefined') {
