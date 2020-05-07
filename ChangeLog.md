@@ -10,6 +10,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
   (preparation for page enter and leave hooks)
 - Added a small, conditional debug log utility
 - Added support for hiding ToolTipButtonAnt, via the operator's invisible flag. (Just like normal buttons.)
+- Added a [cached value utility](packages/moxb/src/cached-evaluator/readme.md) to cache values that are expensive
+  to retrieve. The cached value can have an expiration time.
+
 
 # [v0.2.0-beta.25](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.25) (2019-06-27)
 
