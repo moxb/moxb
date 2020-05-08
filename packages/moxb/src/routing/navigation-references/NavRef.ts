@@ -60,6 +60,13 @@ export interface NavRef<InputTokens> {
      * This requires a LinkGenerator and a LocationManager, so usually only works on the client.
      */
     doGoTo(tokens?: InputTokens, updateMethod?: UpdateMethod): void;
+
+    /**
+     * Open this specific state in a new window
+     *
+     * This requires a LinkGenerator and a LocationManager, so usually only works on the client.
+     */
+    openInNewWindow(tokens?: InputTokens): void;
 }
 
 /**

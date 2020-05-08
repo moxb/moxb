@@ -108,6 +108,16 @@ class NavRefImpl<InputTokens> implements NavRef<InputTokens> {
         }
         linkGenerator.doGoTo(this.call(tokens), updateMethod);
     }
+
+    openInNewWindow(tokens?: InputTokens) {
+        const { linkGenerator } = this.props;
+        if (!linkGenerator) {
+            throw new Error("This NavRef has been initialized without a LinkGenerator, so we can't jump to links.");
+        }
+        const link = linkGenerator.createLink(this.call(tokens));
+        const url = link.fullUrl;
+        window.open(url);
+    }
 }
 
 /**
