@@ -1,5 +1,6 @@
 import { Action, t, Text } from '@moxb/moxb';
-import { Button, Icon, Input } from 'antd';
+import { Button, Input } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 import { InputProps, SearchProps } from 'antd/lib/input';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -139,7 +140,7 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
                             searchAction.fire();
                         }}
                     >
-                        <Icon type="close" />
+                        <CloseOutlined translate="" />
                     </Button>
                 )}
             </div>

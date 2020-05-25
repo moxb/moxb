@@ -1,10 +1,11 @@
 import { idToDomId, OneOf } from '@moxb/moxb';
-import { Button, Dropdown, Icon, Menu, Radio, Select } from 'antd';
+import { Button, Dropdown, Menu, Radio, Select } from 'antd';
 import { DropDownProps } from 'antd/lib/dropdown';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { ClickParam } from 'antd/lib/menu';
 import { RadioGroupProps, RadioProps } from 'antd/lib/radio';
 import { SelectProps } from 'antd/lib/select';
+import { DownOutlined } from '@ant-design/icons';
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -164,7 +165,7 @@ export class OneOfDropDownAnt extends React.Component<
                         alignItems: 'center',
                     }}
                 >
-                    {this.getChoiceLabel()} <Icon type="down" />
+                    {this.getChoiceLabel()} <DownOutlined translate="" />
                 </Button>
             </Dropdown>
         );

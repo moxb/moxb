@@ -55,7 +55,8 @@
   },
   "peerDependencies": {
     "@moxb/moxb": ">0.2.0-beta.9",
-    "antd": "^3.19.2",
+    "@ant-design/icons": "^4.1.0",
+    "antd": "^4.2.5",
     "mobx": "^5.10.0",
     "mobx-react": "^6.0.3",
     "tslib": "^1.9.3"
@@ -65,15 +66,16 @@
     "@types/enzyme": "3.10.3",
     "@types/jest": "24.0.18",
     "@types/react-test-renderer": "16.9.0",
-    "antd": "3.23.5",
+    "@ant-design/icons": "^4.1.0",
+    "antd": "^4.2.5",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.14.0",
     "enzyme-to-json": "3.4.0",
     "mobx": "5.13.1",
     "mobx-react": "6.1.3",
     "pretty": "2.0.0",
-    "react": "16.10.1",
-    "react-dom": "16.10.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
     "tslib": "1.10.0"
   },
   "dependencies": {

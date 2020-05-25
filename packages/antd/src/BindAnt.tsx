@@ -1,5 +1,6 @@
 import { Bind } from '@moxb/moxb';
-import { Icon, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import * as React from 'react';
 import { CSSProperties } from 'react';
 
@@ -41,7 +42,7 @@ export function labelWithHelp(label: any, help?: string, id?: string) {
             <span data-testid={id + '-help-label'}>
                 {label}{' '}
                 <Tooltip title={help}>
-                    <Icon type="question-circle-o" />
+                    <QuestionCircleOutlined translate="" />
                 </Tooltip>
             </span>
         );
