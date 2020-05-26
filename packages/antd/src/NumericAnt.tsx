@@ -40,7 +40,7 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
 }
 
 @observer
-export class NumericFormAnt extends React.Component<BindAntProps<Numeric> & InputNumberProps & FormItemProps> {
+export class NumericFormAnt extends React.Component<BindAntProps<Numeric> & InputNumberProps & Partial<FormItemProps>> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {

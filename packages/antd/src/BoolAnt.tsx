@@ -32,7 +32,7 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
 }
 
 @observer
-export class BoolFormAnt extends React.Component<BindAntProps<Bool> & FormItemProps & CheckboxProps> {
+export class BoolFormAnt extends React.Component<BindAntProps<Bool> & Partial<FormItemProps> & CheckboxProps> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {

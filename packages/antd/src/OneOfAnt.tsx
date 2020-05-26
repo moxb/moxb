@@ -39,7 +39,7 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
 }
 
 @observer
-export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & FormItemProps> {
+export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & Partial<FormItemProps>> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
@@ -86,7 +86,7 @@ export class OneOfButtonAnt extends React.Component<BindAntProps<OneOf> & RadioP
 
 @observer
 export class OneOfButtonFormAnt extends React.Component<
-    BindAntProps<OneOf> & RadioProps & RadioGroupProps & FormItemProps
+    BindAntProps<OneOf> & RadioProps & RadioGroupProps & Partial<FormItemProps>
 > {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);

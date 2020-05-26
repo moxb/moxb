@@ -34,7 +34,7 @@ export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
 }
 
 @observer
-export class TimePickerFormAnt extends React.Component<BindTimePickerAntProps & FormItemProps> {
+export class TimePickerFormAnt extends React.Component<BindTimePickerAntProps & Partial<FormItemProps>> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {

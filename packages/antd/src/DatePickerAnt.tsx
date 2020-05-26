@@ -36,7 +36,7 @@ export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
 }
 
 @observer
-export class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & FormItemProps> {
+export class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & Partial<FormItemProps>> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
