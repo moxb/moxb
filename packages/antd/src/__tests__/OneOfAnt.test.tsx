@@ -44,7 +44,15 @@ describe('OneOfFormAnt', function() {
             placeholder: '...',
             choices: () => allChoices,
         });
-        expect(shallowMoxbToJson(shallow(<OneOfFormAnt operation={operation} />))).toMatchSnapshot();
+        expect(
+            shallowMoxbToJson(
+                shallow(
+                    <OneOfFormAnt operation={operation}>
+                        <></>
+                    </OneOfFormAnt>
+                )
+            )
+        ).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -55,7 +63,13 @@ describe('OneOfFormAnt', function() {
             choices: () => allChoices,
             invisible: () => true,
         });
-        expect(shallow(<OneOfFormAnt operation={operation} />).type()).toBeNull();
+        expect(
+            shallow(
+                <OneOfFormAnt operation={operation}>
+                    <></>
+                </OneOfFormAnt>
+            ).type()
+        ).toBeNull();
     });
 });
 
@@ -90,7 +104,15 @@ describe('OneOfSelectFormAnt', function() {
             placeholder: '...',
             choices: () => allChoices,
         });
-        expect(shallowMoxbToJson(shallow(<OneOfSelectFormAnt operation={operation} />))).toMatchSnapshot();
+        expect(
+            shallowMoxbToJson(
+                shallow(
+                    <OneOfSelectFormAnt operation={operation}>
+                        <></>
+                    </OneOfSelectFormAnt>
+                )
+            )
+        ).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -101,7 +123,13 @@ describe('OneOfSelectFormAnt', function() {
             choices: () => allChoices,
             invisible: () => true,
         });
-        expect(shallow(<OneOfSelectFormAnt operation={operation} />).type()).toBeNull();
+        expect(
+            shallow(
+                <OneOfSelectFormAnt operation={operation}>
+                    <></>
+                </OneOfSelectFormAnt>
+            ).type()
+        ).toBeNull();
     });
 });
 
@@ -136,7 +164,15 @@ describe('OneOfDropDownFormAnt', function() {
             placeholder: '...',
             choices: () => allChoices,
         });
-        expect(shallowMoxbToJson(shallow(<OneOfDropDownFormAnt operation={operation} />))).toMatchSnapshot();
+        expect(
+            shallowMoxbToJson(
+                shallow(
+                    <OneOfDropDownFormAnt operation={operation}>
+                        <></>
+                    </OneOfDropDownFormAnt>
+                )
+            )
+        ).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -147,6 +183,12 @@ describe('OneOfDropDownFormAnt', function() {
             choices: () => allChoices,
             invisible: () => true,
         });
-        expect(shallow(<OneOfDropDownFormAnt operation={operation} />).type()).toBeNull();
+        expect(
+            shallow(
+                <OneOfDropDownFormAnt operation={operation}>
+                    <></>
+                </OneOfDropDownFormAnt>
+            ).type()
+        ).toBeNull();
     });
 });

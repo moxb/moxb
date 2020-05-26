@@ -23,7 +23,15 @@ describe('FormItemAnt', function() {
             values: [formUserText, formPasswordText],
             onSubmit: () => onSubmitMock,
         });
-        expect(shallowMoxbToJson(shallow(<FormItemAnt operation={operation} />))).toMatchSnapshot();
+        expect(
+            shallowMoxbToJson(
+                shallow(
+                    <FormItemAnt operation={operation}>
+                        <></>
+                    </FormItemAnt>
+                )
+            )
+        ).toMatchSnapshot();
     });
 
     it('should return null if invisible', function() {
@@ -34,7 +42,13 @@ describe('FormItemAnt', function() {
             onSubmit: () => onSubmitMock,
             invisible: () => true,
         });
-        expect(shallow(<FormItemAnt operation={operation} />).type()).toBeNull();
+        expect(
+            shallow(
+                <FormItemAnt operation={operation}>
+                    <></>
+                </FormItemAnt>
+            ).type()
+        ).toBeNull();
     });
 
     it('should show an error message on failure', function() {
@@ -44,9 +58,13 @@ describe('FormItemAnt', function() {
             values: [formUserText, formPasswordText],
             onSubmit: () => onSubmitMock,
         });
-        const wrapper = shallow(<FormItemAnt operation={operation} />);
+        const wrapper = shallow(
+            <FormItemAnt operation={operation}>
+                <></>
+            </FormItemAnt>
+        );
         formUserText.setError('New error');
         expect(wrapper.render()).toMatchSnapshot();
-        expect(wrapper.render().find('div.ant-form-explain').length).toBe(1);
+        expect(wrapper.render().find('div.ant-form-explain').length).toBe(0);
     });
 });

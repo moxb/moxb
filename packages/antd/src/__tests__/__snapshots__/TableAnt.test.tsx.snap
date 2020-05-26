@@ -3,9 +3,6 @@
 exports[`TableAnt should render a table with content by default 1`] = `
 <Fragment>
   <Table
-    bordered={false}
-    childrenColumnName="children"
-    className=""
     columns={
       Array [
         Object {
@@ -79,9 +76,7 @@ exports[`TableAnt should render a table with content by default 1`] = `
         },
       ]
     }
-    indentSize={20}
     loading={false}
-    locale={Object {}}
     onChange={[Function]}
     rowKey="key"
     scroll={
@@ -89,15 +84,6 @@ exports[`TableAnt should render a table with content by default 1`] = `
         "x": 1500,
       }
     }
-    showHeader={true}
-    size="default"
-    sortDirections={
-      Array [
-        "ascend",
-        "descend",
-      ]
-    }
-    useFixedHeader={false}
   />
 </Fragment>
 `;
@@ -105,9 +91,6 @@ exports[`TableAnt should render a table with content by default 1`] = `
 exports[`TableAnt should render a table with search field and pagination 1`] = `
 <Fragment>
   <Table
-    bordered={false}
-    childrenColumnName="children"
-    className=""
     columns={
       Array [
         Object {
@@ -181,9 +164,7 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
         },
       ]
     }
-    indentSize={20}
     loading={false}
-    locale={Object {}}
     onChange={[Function]}
     pagination={
       Object {
@@ -205,15 +186,6 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
         "x": 1500,
       }
     }
-    showHeader={true}
-    size="default"
-    sortDirections={
-      Array [
-        "ascend",
-        "descend",
-      ]
-    }
-    useFixedHeader={false}
   />
 </Fragment>
 `;
@@ -221,9 +193,6 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
 exports[`TableAnt should render a table with setupColumn set 1`] = `
 <Fragment>
   <Table
-    bordered={false}
-    childrenColumnName="children"
-    className=""
     columns={
       Array [
         Object {
@@ -297,9 +266,7 @@ exports[`TableAnt should render a table with setupColumn set 1`] = `
         },
       ]
     }
-    indentSize={20}
     loading={false}
-    locale={Object {}}
     onChange={[Function]}
     rowKey="key"
     scroll={
@@ -308,15 +275,6 @@ exports[`TableAnt should render a table with setupColumn set 1`] = `
       }
     }
     setupColumn={[Function]}
-    showHeader={true}
-    size="default"
-    sortDirections={
-      Array [
-        "ascend",
-        "descend",
-      ]
-    }
-    useFixedHeader={false}
   />
 </Fragment>
 `;

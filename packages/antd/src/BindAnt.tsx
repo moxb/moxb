@@ -42,7 +42,7 @@ export function labelWithHelp(label: any, help?: string, id?: string) {
             <span data-testid={id + '-help-label'}>
                 {label}{' '}
                 <Tooltip title={help}>
-                    <QuestionCircleOutlined translate="" />
+                    <QuestionCircleOutlined />
                 </Tooltip>
             </span>
         );

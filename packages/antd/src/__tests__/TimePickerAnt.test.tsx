@@ -30,7 +30,15 @@ describe('TimePickerFormAnt', function() {
             label: 'oh',
             disabled: () => false,
         });
-        expect(shallowMoxbToJson(shallow(<TimePickerFormAnt operation={operation} />))).toMatchSnapshot();
+        expect(
+            shallowMoxbToJson(
+                shallow(
+                    <TimePickerFormAnt operation={operation}>
+                        <></>
+                    </TimePickerFormAnt>
+                )
+            )
+        ).toMatchSnapshot();
     });
     it('should return null if invisible', function() {
         const operation = new TimeImpl({
@@ -38,6 +46,12 @@ describe('TimePickerFormAnt', function() {
             label: 'oh',
             invisible: () => true,
         });
-        expect(shallow(<TimePickerFormAnt operation={operation} />).type()).toBeNull();
+        expect(
+            shallow(
+                <TimePickerFormAnt operation={operation}>
+                    <></>
+                </TimePickerFormAnt>
+            ).type()
+        ).toBeNull();
     });
 });

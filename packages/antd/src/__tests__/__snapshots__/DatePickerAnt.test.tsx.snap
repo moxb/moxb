@@ -1,18 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatePickerAnt should render a date picker by default 1`] = `
-<PickerWrapper
+<Picker
   data-testid="TheId"
   disabled={false}
   id="the_id"
   label="oh"
-  locale={Object {}}
   onChange={[Function]}
-  onOk={[Function]}
-  onOpenChange={[Function]}
-  popupStyle={Object {}}
   readOnly={false}
-  transitionName="slide-up"
 />
 `;
 

@@ -4,13 +4,13 @@ import { DropDownProps } from 'antd/lib/dropdown';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { ClickParam } from 'antd/lib/menu';
 import { RadioGroupProps, RadioProps } from 'antd/lib/radio';
-import { SelectProps } from 'antd/lib/select';
 import { DownOutlined } from '@ant-design/icons';
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import { SelectProps } from 'antd/lib/select';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
@@ -103,7 +103,11 @@ export class OneOfButtonFormAnt extends React.Component<
 
 @observer
 export class OneOfDropDownAnt extends React.Component<
-    BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'> & { style?: React.CSSProperties }
+    /* This any conversion needs to be done because the Moxb uses Parcel which uses the CSS-Tree module, which
+     *  introduces an incompatible CSSProperties IF.
+     *  For more: https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors
+     * */
+    BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'> & { style?: any }
 > {
     @action.bound
     onSelect(params: ClickParam) {
@@ -165,7 +169,7 @@ export class OneOfDropDownAnt extends React.Component<
                         alignItems: 'center',
                     }}
                 >
-                    {this.getChoiceLabel()} <DownOutlined translate="" />
+                    {this.getChoiceLabel()} <DownOutlined />
                 </Button>
             </Dropdown>
         );
@@ -190,7 +194,7 @@ export class OneOfDropDownFormAnt extends React.Component<
 }
 
 @observer
-export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & SelectProps> {
+export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & SelectProps<any>> {
     render() {
         const { operation, invisible, readOnly, mode, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
@@ -206,7 +210,7 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
                 value={operation.value || undefined}
                 placeholder={operation.placeholder}
-                mode={mode || 'default'}
+                mode={mode || 'tags'}
                 {...props}
             >
                 {operation.choices.map(opt => (
@@ -224,7 +228,7 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
 }
 
 @observer
-export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & BindFormItemAntProps & SelectProps> {
+export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & BindFormItemAntProps & SelectProps<any>> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {

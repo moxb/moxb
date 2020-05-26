@@ -2,6 +2,7 @@
 
 exports[`ManyOfAnt should render a select control by default 1`] = `
 <Select
+  bordered={true}
   choiceTransitionName="zoom"
   data-testid="Id.manyOf"
   disabled={false}
@@ -11,7 +12,6 @@ exports[`ManyOfAnt should render a select control by default 1`] = `
   onChange={[Function]}
   placeholder="Please select"
   readOnly={false}
-  showSearch={false}
   transitionName="slide-up"
   value={Array []}
 >

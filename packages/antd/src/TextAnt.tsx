@@ -4,7 +4,6 @@ import { CloseOutlined } from '@ant-design/icons';
 import { InputProps, SearchProps } from 'antd/lib/input';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { CSSProperties } from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
@@ -20,7 +19,7 @@ export interface BindSearchStringAntProps extends SearchProps {
     operation: Text;
     searchAction: Action;
     enterButton?: string;
-    clearbuttonstyle?: {};
+    clearbuttonstyle?: React.CSSProperties;
     style?: {};
     btnText?: string;
 }
@@ -101,7 +100,7 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
         if (invisible) {
             return null;
         }
-        const clearButtonStyle: CSSProperties = this.props.clearbuttonstyle || {
+        const clearButtonStyle: React.CSSProperties = this.props.clearbuttonstyle || {
             position: 'absolute',
             display: 'block',
             right: this.clearBtnOffset,
@@ -132,7 +131,11 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
                 {operation.value && operation.value.length > 0 && (
                     <Button
                         id={id + '-clearBtn'}
-                        style={clearButtonStyle}
+                        /* This any conversion needs to be done because the Moxb uses Parcel which uses the CSS-Tree module, which
+                         *  introduces an incompatible CSSProperties IF.
+                         *  For more: https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors
+                         * */
+                        style={clearButtonStyle as any}
                         htmlType="button"
                         onClick={() => {
                             operation.setValue('');
@@ -140,7 +143,7 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
                             searchAction.fire();
                         }}
                     >
-                        <CloseOutlined translate="" />
+                        <CloseOutlined />
                     </Button>
                 )}
             </div>
