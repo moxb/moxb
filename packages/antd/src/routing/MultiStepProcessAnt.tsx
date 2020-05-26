@@ -31,7 +31,7 @@ export class MultiStepProcessAnt extends React.Component<MultiStepProcessProps<a
         const { errorMessage, finish } = operation;
         return (
             <div>
-                <Row type="flex" justify="center" style={{ marginTop: '2rem' }}>
+                <Row justify="center" style={{ marginTop: '2rem' }}>
                     <Col span={14}>
                         <Alert message="Error" description={errorMessage} type="error" showIcon />
                     </Col>
