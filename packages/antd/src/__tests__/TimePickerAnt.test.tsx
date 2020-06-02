@@ -33,9 +33,7 @@ describe('TimePickerFormAnt', function() {
         expect(
             shallowMoxbToJson(
                 shallow(
-                    <TimePickerFormAnt operation={operation}>
-                        <></>
-                    </TimePickerFormAnt>
+                    <TimePickerFormAnt operation={operation}/>
                 )
             )
         ).toMatchSnapshot();
@@ -48,9 +46,7 @@ describe('TimePickerFormAnt', function() {
         });
         expect(
             shallow(
-                <TimePickerFormAnt operation={operation}>
-                    <></>
-                </TimePickerFormAnt>
+                <TimePickerFormAnt operation={operation}/>
             ).type()
         ).toBeNull();
     });

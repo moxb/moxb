@@ -26,9 +26,7 @@ describe('FormItemAnt', function() {
         expect(
             shallowMoxbToJson(
                 shallow(
-                    <FormItemAnt operation={operation}>
-                        <></>
-                    </FormItemAnt>
+                    <FormItemAnt operation={operation}/>
                 )
             )
         ).toMatchSnapshot();
@@ -44,9 +42,7 @@ describe('FormItemAnt', function() {
         });
         expect(
             shallow(
-                <FormItemAnt operation={operation}>
-                    <></>
-                </FormItemAnt>
+                <FormItemAnt operation={operation}/>
             ).type()
         ).toBeNull();
     });
@@ -59,9 +55,7 @@ describe('FormItemAnt', function() {
             onSubmit: () => onSubmitMock,
         });
         const wrapper = shallow(
-            <FormItemAnt operation={operation}>
-                <></>
-            </FormItemAnt>
+            <FormItemAnt operation={operation}/>
         );
         formUserText.setError('New error');
         expect(wrapper.render()).toMatchSnapshot();

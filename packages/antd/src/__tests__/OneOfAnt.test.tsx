@@ -47,9 +47,7 @@ describe('OneOfFormAnt', function() {
         expect(
             shallowMoxbToJson(
                 shallow(
-                    <OneOfFormAnt operation={operation}>
-                        <></>
-                    </OneOfFormAnt>
+                    <OneOfFormAnt operation={operation}/>
                 )
             )
         ).toMatchSnapshot();
@@ -65,9 +63,7 @@ describe('OneOfFormAnt', function() {
         });
         expect(
             shallow(
-                <OneOfFormAnt operation={operation}>
-                    <></>
-                </OneOfFormAnt>
+                <OneOfFormAnt operation={operation}/>
             ).type()
         ).toBeNull();
     });
@@ -107,9 +103,7 @@ describe('OneOfSelectFormAnt', function() {
         expect(
             shallowMoxbToJson(
                 shallow(
-                    <OneOfSelectFormAnt operation={operation}>
-                        <></>
-                    </OneOfSelectFormAnt>
+                    <OneOfSelectFormAnt operation={operation}/>
                 )
             )
         ).toMatchSnapshot();
@@ -125,9 +119,7 @@ describe('OneOfSelectFormAnt', function() {
         });
         expect(
             shallow(
-                <OneOfSelectFormAnt operation={operation}>
-                    <></>
-                </OneOfSelectFormAnt>
+                <OneOfSelectFormAnt operation={operation}/>
             ).type()
         ).toBeNull();
     });
@@ -167,9 +159,7 @@ describe('OneOfDropDownFormAnt', function() {
         expect(
             shallowMoxbToJson(
                 shallow(
-                    <OneOfDropDownFormAnt operation={operation}>
-                        <></>
-                    </OneOfDropDownFormAnt>
+                    <OneOfDropDownFormAnt operation={operation}/>
                 )
             )
         ).toMatchSnapshot();
@@ -185,9 +175,7 @@ describe('OneOfDropDownFormAnt', function() {
         });
         expect(
             shallow(
-                <OneOfDropDownFormAnt operation={operation}>
-                    <></>
-                </OneOfDropDownFormAnt>
+                <OneOfDropDownFormAnt operation={operation}/>
             ).type()
         ).toBeNull();
     });
