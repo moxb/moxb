@@ -135,7 +135,6 @@ exports[`OneOfSelectAnt should render a select control 1`] = `
   disabled={false}
   id="id-test_select_of_one"
   label="Select one of"
-  mode="tags"
   onChange={[Function]}
   placeholder="..."
   transitionName="slide-up"

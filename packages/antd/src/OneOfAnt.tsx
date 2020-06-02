@@ -210,7 +210,7 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
                 value={operation.value || undefined}
                 placeholder={operation.placeholder}
-                mode={mode || 'tags'}
+                mode={mode || undefined}
                 {...props}
             >
                 {operation.choices.map(opt => (
