@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OneOfAnt should render a radio button group by default 1`] = `
-<RadioGroup
-  buttonStyle="outline"
+<Memo(RadioGroup)
   data-testid="id-test_radio_of_one"
   disabled={false}
   id="id-test_radio_of_one"
@@ -34,7 +33,7 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
   >
     Peaches
   </Radio>
-</RadioGroup>
+</Memo(RadioGroup)>
 `;
 
 exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
