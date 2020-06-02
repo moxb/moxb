@@ -97,7 +97,7 @@ exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
     >
       ...
     </span>
-
+     
     <ForwardRef(DownOutlined) />
   </Button>
 </Dropdown>

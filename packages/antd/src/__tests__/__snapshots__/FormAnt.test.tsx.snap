@@ -5,7 +5,7 @@ exports[`FormAnt should render a form element by default 1`] = `
   data-testid="id.testForm"
   disabled={false}
   id="id-test_form"
-  onSubmit={[Function]}
+  onFinish={[Function]}
   readOnly={false}
 />
 `;
