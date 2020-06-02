@@ -107,7 +107,7 @@ export class OneOfDropDownAnt extends React.Component<
      *  introduces an incompatible CSSProperties IF.
      *  For more: https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors
      * */
-    BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'> & { style?: any }
+    BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'> & { style?: React.CSSProperties }
 > {
     @action.bound
     onSelect(params: ClickParam) {

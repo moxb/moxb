@@ -135,7 +135,7 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
                          *  introduces an incompatible CSSProperties IF.
                          *  For more: https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors
                          * */
-                        style={clearButtonStyle as any}
+                        style={clearButtonStyle}
                         htmlType="button"
                         onClick={() => {
                             operation.setValue('');
