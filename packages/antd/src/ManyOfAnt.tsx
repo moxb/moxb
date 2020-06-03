@@ -27,7 +27,7 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
                 value={value || undefined}
                 placeholder={operation.placeholder}
                 defaultValue={defaultValue}
-                mode={typeof mode === 'undefined' ? 'tags' : mode}
+                mode={mode}
                 {...props}
             >
                 {operation.choices.map((opt: any) => (

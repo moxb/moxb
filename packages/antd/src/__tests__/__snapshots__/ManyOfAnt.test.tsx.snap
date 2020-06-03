@@ -8,7 +8,6 @@ exports[`ManyOfAnt should render a select control by default 1`] = `
   disabled={false}
   id="id-many_of"
   label="Choose your snack"
-  mode="tags"
   onChange={[Function]}
   placeholder="Please select"
   readOnly={false}
