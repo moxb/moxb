@@ -24,7 +24,7 @@ export class FormAnt extends React.Component<FormProps & BindFormAntProps> {
                 {!hideErrors && operation.hasErrors && (
                     <Alert
                         message={t('FormAnt.errors.header', 'Errors')}
-                        description={operation.allErrors}
+                        description={ operation.allErrors.join(", ") }
                         type="error"
                         closable
                         onClose={operation.clearErrors}
