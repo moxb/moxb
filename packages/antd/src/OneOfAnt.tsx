@@ -24,11 +24,11 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
         return (
             <Radio.Group
                 data-testid={idToDomId(operation.id)}
-                onChange={(e) => operation.setValue(e.target.value)}
+                onChange={e => operation.setValue(e.target.value)}
                 {...props}
                 value={operation.value}
             >
-                {operation.choices.map((opt) => (
+                {operation.choices.map(opt => (
                     <Radio data-testid={idToDomId(operation.id + '.' + opt.value)} key={opt.value} value={opt.value}>
                         {opt.widget ? opt.widget : opt.label}
                     </Radio>
@@ -66,11 +66,11 @@ export class OneOfButtonAnt extends React.Component<BindAntProps<OneOf> & RadioP
         return (
             <Radio.Group
                 data-testid={operation.id}
-                onChange={(e) => operation.setValue(e.target.value)}
+                onChange={e => operation.setValue(e.target.value)}
                 {...props}
                 value={operation.value}
             >
-                {operation.choices.map((opt) => (
+                {operation.choices.map(opt => (
                     <Radio.Button
                         data-testid={idToDomId(operation.id + '.' + opt.value)}
                         key={opt.value}
@@ -209,7 +209,7 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
                 mode={mode}
                 {...props}
             >
-                {operation.choices.map((opt) => (
+                {operation.choices.map(opt => (
                     <Select.Option
                         data-testid={idToDomId(operation.id + '.' + opt.value)}
                         key={opt.value}
