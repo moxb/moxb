@@ -1,6 +1,7 @@
 import { NavigableContent } from '@moxb/moxb';
 import { ActionButtonAnt, FormAnt, TextFormAnt } from '@moxb/antd';
-import { Icon, Row } from 'antd';
+import { Row } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Application } from '../app/Application';
@@ -19,7 +20,6 @@ export class LoginFormAnt extends React.Component<{ app?: Application } & Naviga
     }
 
     render() {
-        console.log('Rendering login form');
         const application = this.props.app;
         return (
             <Row>
@@ -30,12 +30,12 @@ export class LoginFormAnt extends React.Component<{ app?: Application } & Naviga
                         Other inputs test the error validation.
                     </p>
                     <TextFormAnt
-                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} /> as any}
+                        prefix={(<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />) as any}
                         operation={application!.formUserText}
                     />
                     <TextFormAnt
                         type="password"
-                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} /> as any}
+                        prefix={(<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />) as any}
                         operation={application!.formPasswordText}
                     />
                     <ActionButtonAnt htmlType="submit" type="primary" operation={application!.formSubmitButton} />
