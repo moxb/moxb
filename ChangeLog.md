@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 
 # v.Next (Current)
+### Breaking Changes
+- Upgraded antd dependency to 4.x instead of 3.x
 
 # [v0.2.0-beta.36](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.36) (2019-05-12)
 
