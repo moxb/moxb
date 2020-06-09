@@ -5,10 +5,13 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.37](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.37) (2020-06-09)
+
 ### Breaking Changes
 - Upgraded antd dependency to 4.x instead of 3.x
 
 # [v0.2.0-beta.36](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.36) (2020-05-12)
+
 
 ### Added
 - Added support for opening NavRefs in new window
