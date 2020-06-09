@@ -65,7 +65,6 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                     columns={columns}
                     dataSource={dataSource}
                     loading={!table.ready}
-                    scroll={{ x: 1500 }}
                     pagination={
                         table.pagination
                             ? {

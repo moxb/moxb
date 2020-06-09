@@ -79,11 +79,6 @@ exports[`TableAnt should render a table with content by default 1`] = `
     loading={false}
     onChange={[Function]}
     rowKey="key"
-    scroll={
-      Object {
-        "x": 1500,
-      }
-    }
   />
 </Fragment>
 `;
@@ -181,11 +176,6 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
       }
     }
     rowKey="key"
-    scroll={
-      Object {
-        "x": 1500,
-      }
-    }
   />
 </Fragment>
 `;
@@ -269,11 +259,6 @@ exports[`TableAnt should render a table with setupColumn set 1`] = `
     loading={false}
     onChange={[Function]}
     rowKey="key"
-    scroll={
-      Object {
-        "x": 1500,
-      }
-    }
     setupColumn={[Function]}
   />
 </Fragment>
