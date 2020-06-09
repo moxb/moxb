@@ -1,6 +1,6 @@
 {
   "name": "@moxb/moxb",
-  "version": "0.2.0-beta.36",
+  "version": "0.2.0-beta.37",
   "description": "MobX data binding",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
