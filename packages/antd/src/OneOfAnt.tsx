@@ -24,11 +24,11 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
         return (
             <Radio.Group
                 data-testid={idToDomId(operation.id)}
-                onChange={e => operation.setValue(e.target.value)}
+                onChange={(e) => operation.setValue(e.target.value)}
                 {...props}
                 value={operation.value}
             >
-                {operation.choices.map(opt => (
+                {operation.choices.map((opt) => (
                     <Radio data-testid={idToDomId(operation.id + '.' + opt.value)} key={opt.value} value={opt.value}>
                         {opt.widget ? opt.widget : opt.label}
                     </Radio>
@@ -66,11 +66,11 @@ export class OneOfButtonAnt extends React.Component<BindAntProps<OneOf> & RadioP
         return (
             <Radio.Group
                 data-testid={operation.id}
-                onChange={e => operation.setValue(e.target.value)}
+                onChange={(e) => operation.setValue(e.target.value)}
                 {...props}
                 value={operation.value}
             >
-                {operation.choices.map(opt => (
+                {operation.choices.map((opt) => (
                     <Radio.Button
                         data-testid={idToDomId(operation.id + '.' + opt.value)}
                         key={opt.value}
@@ -103,10 +103,6 @@ export class OneOfButtonFormAnt extends React.Component<
 
 @observer
 export class OneOfDropDownAnt extends React.Component<
-    /* This any conversion needs to be done because the Moxb uses Parcel which uses the CSS-Tree module, which
-     *  introduces an incompatible CSSProperties IF.
-     *  For more: https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors
-     * */
     BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'> & { style?: React.CSSProperties }
 > {
     @action.bound
@@ -210,10 +206,10 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
                 onChange={(selectionValue: any) => operation.setValue(selectionValue)}
                 value={operation.value || undefined}
                 placeholder={operation.placeholder}
-                mode={mode || undefined}
+                mode={mode}
                 {...props}
             >
-                {operation.choices.map(opt => (
+                {operation.choices.map((opt) => (
                     <Select.Option
                         data-testid={idToDomId(operation.id + '.' + opt.value)}
                         key={opt.value}

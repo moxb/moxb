@@ -125,16 +125,12 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
                     onChange={(e: any) => operation.setValue(e.target.value)}
                     enterButton={enterButton || t('TableSearchAnt.btnTitle', 'Search')}
                     onSearch={() => searchAction.fire()}
-                    onKeyDown={e => this.handleKeyDown(e, operation)}
+                    onKeyDown={(e) => this.handleKeyDown(e, operation)}
                     {...(props as any)}
                 />
                 {operation.value && operation.value.length > 0 && (
                     <Button
                         id={id + '-clearBtn'}
-                        /* This any conversion needs to be done because the Moxb uses Parcel which uses the CSS-Tree module, which
-                         *  introduces an incompatible CSSProperties IF.
-                         *  For more: https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors
-                         * */
                         style={clearButtonStyle}
                         htmlType="button"
                         onClick={() => {
