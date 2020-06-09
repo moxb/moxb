@@ -2,24 +2,12 @@
 
 exports[`TimePickerAnt should render a time picker by default 1`] = `
 <TimePicker
-  align={
-    Object {
-      "offset": Array [
-        0,
-        -2,
-      ],
-    }
-  }
   data-testid="TheId"
   disabled={false}
-  focusOnOpen={true}
-  hideDisabledOptions={false}
   id="the_id"
   label="oh"
   onChange={[Function]}
-  placement="bottomLeft"
   readOnly={false}
-  transitionName="slide-up"
 />
 `;
 

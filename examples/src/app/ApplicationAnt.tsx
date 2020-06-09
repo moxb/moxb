@@ -24,7 +24,9 @@ import {
     PollingUpdaterAnt,
 } from '@moxb/antd';
 import { toJSON } from '@moxb/moxb';
-import { Col, Dropdown, Form, Icon, Menu, Row } from 'antd';
+import { Col, Dropdown, Form, Menu, Row } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Application } from './Application';
@@ -89,7 +91,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                 }
                             >
                                 <a className="ant-dropdown-link" href="#">
-                                    Dropdown menu <Icon type="down" />
+                                    Dropdown menu <DownOutlined translate="" />
                                 </a>
                             </Dropdown>
                             <br />

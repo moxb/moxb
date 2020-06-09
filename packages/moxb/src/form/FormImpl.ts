@@ -87,10 +87,7 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
     }
 
     @action.bound
-    onSubmitForm(evt?: any) {
-        if (!this.impl.doSubmitRefresh && evt) {
-            evt.preventDefault();
-        }
+    onSubmitForm() {
         this.values.forEach(v => v.save());
         if (this.impl.onSubmit) {
             this.impl.onSubmit(this as any, this.submitDone);

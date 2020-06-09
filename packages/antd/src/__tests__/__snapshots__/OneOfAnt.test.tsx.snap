@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OneOfAnt should render a radio button group by default 1`] = `
-<RadioGroup
-  buttonStyle="outline"
+<Memo(RadioGroup)
   data-testid="id-test_radio_of_one"
   disabled={false}
   id="id-test_radio_of_one"
@@ -34,7 +33,7 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
   >
     Peaches
   </Radio>
-</RadioGroup>
+</Memo(RadioGroup)>
 `;
 
 exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
@@ -68,7 +67,6 @@ exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
       </MenuItem>
     </Menu>
   }
-  placement="bottomLeft"
   trigger={
     Array [
       "click",
@@ -99,9 +97,7 @@ exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
       ...
     </span>
      
-    <Icon
-      type="down"
-    />
+    <ForwardRef(DownOutlined) />
   </Button>
 </Dropdown>
 `;
@@ -133,15 +129,14 @@ exports[`OneOfFormAnt should render a radio button group with form by default 1`
 
 exports[`OneOfSelectAnt should render a select control 1`] = `
 <Select
+  bordered={true}
   choiceTransitionName="zoom"
   data-testid="id.testSelectOfOne"
   disabled={false}
   id="id-test_select_of_one"
   label="Select one of"
-  mode="default"
   onChange={[Function]}
   placeholder="..."
-  showSearch={false}
   transitionName="slide-up"
 >
   <Option

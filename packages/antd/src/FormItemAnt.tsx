@@ -8,7 +8,9 @@ import { CSSProperties } from 'react';
 import { getErrorMessages, labelWithHelp, parseProps } from './BindAnt';
 import { BindMarkdownDiv } from './LabelAnt';
 
-export interface BindFormItemAntProps extends FormItemProps {
+// Due to the recent antd changes the children property in the FormItemProps component
+// became mandatory which is invalid
+export interface BindFormItemAntProps extends Partial<FormItemProps> {
     operation: MoxFormItem;
     formStyle?: CSSProperties;
     wrapperCol?: ColProps;

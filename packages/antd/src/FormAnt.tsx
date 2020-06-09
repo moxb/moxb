@@ -17,13 +17,14 @@ export class FormAnt extends React.Component<FormProps & BindFormAntProps> {
         if (invisible) {
             return null;
         }
+
         return (
-            <Form data-testid={operation.id} onSubmit={operation.onSubmitForm} {...(props as any)}>
+            <Form data-testid={operation.id} onFinish={operation.onSubmitForm} {...(props as any)}>
                 {children}
                 {!hideErrors && operation.hasErrors && (
                     <Alert
                         message={t('FormAnt.errors.header', 'Errors')}
-                        description={operation.allErrors}
+                        description={ operation.allErrors.join(", ") }
                         type="error"
                         closable
                         onClose={operation.clearErrors}

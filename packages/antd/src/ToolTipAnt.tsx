@@ -20,7 +20,7 @@ export interface BindToolTipAntProps extends AbstractTooltipProps {
     title?: React.ReactNode | RenderFunction;
     overlay?: React.ReactNode | RenderFunction;
     operation?: Bind | Action | OneOf;
-    icon?: string;
+    icon?: React.ReactNode;
     text?: string;
     type?: ButtonType;
 }

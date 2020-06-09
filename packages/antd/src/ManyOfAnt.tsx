@@ -1,15 +1,15 @@
 import { idToDomId, ManyOf } from '@moxb/moxb';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { CheckboxGroupProps } from 'antd/lib/checkbox';
-import { SelectProps } from 'antd/lib/select';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import { SelectProps } from 'antd/lib/select';
 
 @observer
-export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps> {
+export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps<any>> {
     render() {
         const { operation, invisible, mode, children, defaultValue, ...props } = parseProps(
             this.props,
@@ -27,7 +27,7 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
                 value={value || undefined}
                 placeholder={operation.placeholder}
                 defaultValue={defaultValue}
-                mode={typeof mode === 'undefined' ? 'default' : mode}
+                mode={mode}
                 {...props}
             >
                 {operation.choices.map((opt: any) => (
@@ -78,7 +78,7 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
 }
 
 @observer
-export class ManyOfFormAnt extends React.Component<SelectProps & BindAntProps<ManyOf> & BindFormItemAntProps> {
+export class ManyOfFormAnt extends React.Component<SelectProps<ManyOf> & BindAntProps<ManyOf> & BindFormItemAntProps> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {

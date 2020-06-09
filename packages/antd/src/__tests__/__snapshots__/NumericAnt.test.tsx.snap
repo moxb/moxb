@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NumericAnt should render a numeric input by default 1`] = `
-<InputNumber
+<ForwardRef
   data-testid="TheId"
   disabled={false}
   formatter={[Function]}

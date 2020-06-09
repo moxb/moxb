@@ -12,7 +12,7 @@ export type UIProps<DataType> = NavMenuProps<DataType> & LocationDependentAreaPr
 export class MenuAndContentAnt<DataType> extends React.Component<UIProps<DataType>> {
     public render() {
         return (
-            <div>
+            <div style={{ width: '100%' }}>
                 <NavMenuBarAnt {...this.props} />
                 <LocationDependentArea {...this.props} />
             </div>

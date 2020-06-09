@@ -1,5 +1,7 @@
 import { t, Value as MoxbValue } from '@moxb/moxb';
-import { Icon, Input, Tag } from 'antd';
+import { Input, Tag } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+
 import { TagProps } from 'antd/lib/tag';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
@@ -68,7 +70,7 @@ export class TagAnt extends React.Component<TagAntProps, TagAntState> {
                         key={tag}
                         closable
                         color={this.props.tagColor}
-                        afterClose={() => this.handleClose(tag)}
+                        onClose={() => this.handleClose(tag)}
                     >
                         {tag}
                     </Tag>
@@ -87,7 +89,7 @@ export class TagAnt extends React.Component<TagAntProps, TagAntState> {
                 )}
                 {!inputVisible && (
                     <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-                        <Icon type="plus" />
+                        <PlusOutlined />
                         {this.props.newItemLabel || t('TagAnt.newTag', 'New Tag')}
                     </Tag>
                 )}

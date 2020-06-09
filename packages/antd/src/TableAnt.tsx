@@ -1,9 +1,9 @@
 import { t, Table as MoxTable } from '@moxb/moxb';
 import { Alert, Table } from 'antd';
-import { SortOrder } from 'antd/es/table';
-import { ColumnProps, TableProps } from 'antd/lib/table/interface';
+import { SortOrder } from 'antd/lib/table/interface';
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import { ColumnProps, TableProps } from 'antd/lib/table';
 
 export interface ColumnAntProps<T> extends ColumnProps<T> {
     dataIndex: string;
@@ -65,7 +65,6 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                     columns={columns}
                     dataSource={dataSource}
                     loading={!table.ready}
-                    scroll={{ x: 1500 }}
                     pagination={
                         table.pagination
                             ? {
@@ -87,13 +86,17 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                             }
                         }
                         if (sorter) {
-                            if (!sorter.order) {
+                            const s = Array.isArray(sorter) ? sorter[0] : sorter;
+                            if (!s.order) {
                                 table.sort.clearSort();
                             } else {
-                                table.sort.setSort(
-                                    sorter.columnKey,
-                                    sorter.order === 'ascend' ? 'ascending' : 'descending'
-                                );
+                                const col =
+                                    typeof s.columnKey === 'string'
+                                        ? s.columnKey
+                                        : typeof s.columnKey === 'number'
+                                        ? s.columnKey.toString(10)
+                                        : '';
+                                table.sort.setSort(col, s.order === 'ascend' ? 'ascending' : 'descending');
                             }
                         }
                     }}

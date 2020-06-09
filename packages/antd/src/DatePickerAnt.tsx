@@ -1,18 +1,20 @@
 import { Date } from '@moxb/moxb';
 import { DatePicker } from 'antd';
-import { DatePickerProps } from 'antd/lib/date-picker/interface';
-import { FormItemProps } from 'antd/lib/form';
 import { observer } from 'mobx-react';
 import * as moment from 'moment';
 import * as React from 'react';
 import { CSSProperties } from 'react';
 import { parseProps } from './BindAnt';
 import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import { DatePickerProps } from 'antd/lib/date-picker';
+import { FormItemProps } from 'antd/lib/form';
 
-export interface BindDatePickerAntProps extends DatePickerProps {
+interface BindDatePickerAntBasicProps {
     operation: Date;
     formStyle?: CSSProperties;
 }
+
+export type BindDatePickerAntProps = BindDatePickerAntBasicProps & DatePickerProps;
 
 @observer
 export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
@@ -34,7 +36,7 @@ export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
 }
 
 @observer
-export class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & FormItemProps> {
+export class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & Partial<FormItemProps>> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {

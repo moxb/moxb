@@ -5,12 +5,15 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
-# [v0.2.0-beta.36](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.36) (2019-05-12)
+### Breaking Changes
+- Upgraded antd dependency to 4.x instead of 3.x
+
+# [v0.2.0-beta.36](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.36) (2020-05-12)
 
 ### Added
 - Added support for opening NavRefs in new window
 
-# [v0.2.0-beta.35](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.35) (2019-05-07)
+# [v0.2.0-beta.35](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.35) (2020-05-07)
 
 ### Added
 - [VS-139](https://goessntl.atlassian.net/browse/VS-139) Extend the NavControl interface with new APIs
