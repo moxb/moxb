@@ -30,6 +30,9 @@ import {
     ValueImpl,
     Value,
     ValueOptions,
+    Tree,
+    TreeImpl,
+    TreeNode,
 } from '@moxb/moxb';
 import { action, observable } from 'mobx';
 import { Application, ApplicationAPI } from './Application';
@@ -45,6 +48,8 @@ export class ApplicationImpl implements Application {
     @observable
     data: { _id: string; email: string; fullName: string; createdAt: string }[];
     readonly allChoices: { label: string; value: string }[];
+    readonly treeChoices: TreeNode[];
+    readonly defaultTreeChoices: string[];
 
     readonly testAction: Action = new ActionImpl({
         id: 'ApplicationImpl.testButton',
@@ -94,6 +99,14 @@ export class ApplicationImpl implements Application {
         initialValue: () => this.manyChoices,
         placeholder: () => 'Please select',
         onSave: () => {},
+    });
+
+    readonly testTree: Tree = new TreeImpl({
+        id: 'ApplicationImpl.testTree',
+        label: 'Select items',
+        nodes: () => this.treeChoices,
+        onSave: () => {},
+        initialValue: () => this.defaultTreeChoices,
     });
 
     readonly testTextfield: Text = new TextImpl({
@@ -265,6 +278,45 @@ export class ApplicationImpl implements Application {
             { _id: '3', email: 'jake@gmail.com', fullName: 'Jake Doe', createdAt: '2018-10-01' },
             { _id: '4', email: 'max@mustermann.com', fullName: 'Max Mustermann', createdAt: '2017-13-07' },
         ];
+
+        this.treeChoices = [
+            {
+                key: 'fruits',
+                title: 'Fruits',
+                children: [
+                    { key: 'apple', title: 'Apple', children: [] },
+                    { key: 'banana', title: 'Banana', children: [] },
+                    { key: 'kiwi', title: 'Kiwi', children: [] },
+                    { key: 'peach', title: 'Peach', children: [] },
+                ],
+            },
+            {
+                key: 'vegetables',
+                title: 'Vegetables',
+                children: [
+                    {
+                        key: 'cooked',
+                        title: 'Cooked',
+                        children: [
+                            { key: 'grain', title: 'Grain', children: [] },
+                            { key: 'potato', title: 'Potato', children: [] },
+                            { key: 'rice', title: 'Rice', children: [] },
+                        ],
+                    },
+                    {
+                        key: 'raw',
+                        title: 'Raw',
+                        children: [
+                            { key: 'carrot', title: 'Carrot', children: [] },
+                            { key: 'onion', title: 'Onion', children: [] },
+                            { key: 'tomato', title: 'Tomato', children: [] },
+                        ],
+                    },
+                ],
+            },
+        ];
+
+        this.defaultTreeChoices = ['apple', 'carrot'];
     }
 
     newConfirmAction() {

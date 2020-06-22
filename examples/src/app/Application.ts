@@ -13,6 +13,7 @@ import {
     Text,
     Time,
     Value,
+    Tree,
 } from '@moxb/moxb';
 
 export interface Application {
@@ -39,6 +40,7 @@ export interface Application {
     readonly testTable: Table<any>;
     readonly testForm: Form;
     readonly testTags: Value<any>;
+    readonly testTree: Tree;
 }
 
 export interface ApplicationAPI {

@@ -19,6 +19,7 @@ import {
     TextAnt,
     TextFormAnt,
     TimePickerAnt,
+    TreeAnt,
     ActionToggleButtonAnt,
     ToolTipButton,
     PollingUpdaterAnt,
@@ -91,7 +92,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                 }
                             >
                                 <a className="ant-dropdown-link" href="#">
-                                    Dropdown menu <DownOutlined translate="" />
+                                    Dropdown menu <DownOutlined />
                                 </a>
                             </Dropdown>
                             <br />
@@ -158,6 +159,10 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <br /> <h3>OneOf - Select Component</h3>
                             <OneOfSelectAnt operation={application.testOfOne} />
+                            <br />
+                            <br />
+                            <br /> <h3>Tree Component</h3>
+                            <TreeAnt operation={application.testTree} />
                             <br />
                             <br />
                             <h3>DatePicker Component</h3>

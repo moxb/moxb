@@ -16,6 +16,7 @@ export * from './table/TableSort';
 export * from './table/TableSearch';
 export * from './table/Table';
 export * from './text/Text';
+export * from './tree/Tree';
 export * from './value/Value';
 export * from './validation/ErrorMessage';
 export * from './validation/SimpleSchemaValidation';
