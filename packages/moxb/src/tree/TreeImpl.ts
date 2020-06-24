@@ -6,6 +6,7 @@ import { computed } from 'mobx';
 export interface TreeOptions extends ValueOptions<TreeImpl, string[]> {
     nodes?: ValueOrFunction<TreeNode[]>;
     expandValues?: ValueOrFunction<boolean>;
+    strictSelect?: ValueOrFunction<boolean>;
 }
 
 export class TreeImpl extends ValueImpl<TreeImpl, string[], TreeOptions> implements Tree {
@@ -28,6 +29,15 @@ export class TreeImpl extends ValueImpl<TreeImpl, string[], TreeOptions> impleme
             return this.impl.expandValues() || false;
         } else {
             return this.impl.expandValues || false;
+        }
+    }
+
+    @computed
+    get strictSelect(): boolean {
+        if (typeof this.impl.strictSelect === 'function') {
+            return this.impl.strictSelect() || false;
+        } else {
+            return this.impl.strictSelect || false;
         }
     }
 }

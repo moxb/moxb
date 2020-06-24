@@ -9,4 +9,5 @@ export interface TreeNode {
 export interface Tree extends Value<string[]> {
     readonly nodes: TreeNode[];
     readonly expandValues: boolean;
+    readonly strictSelect: boolean;
 }

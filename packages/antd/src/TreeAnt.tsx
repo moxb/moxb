@@ -20,6 +20,7 @@ export class TreeAnt extends React.Component<BindAntProps<Tree> & TreeProps> {
         return (
             <TreeComponent
                 checkable={true}
+                checkStrictly={operation.strictSelect || false}
                 data-testid={operation.id}
                 treeData={operation.nodes}
                 defaultExpandedKeys={operation.expandValues ? value || []: []}
