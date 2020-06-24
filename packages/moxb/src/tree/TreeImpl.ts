@@ -5,6 +5,7 @@ import { computed } from 'mobx';
 
 export interface TreeOptions extends ValueOptions<TreeImpl, string[]> {
     nodes?: ValueOrFunction<TreeNode[]>;
+    expandValues?: ValueOrFunction<boolean>;
 }
 
 export class TreeImpl extends ValueImpl<TreeImpl, string[], TreeOptions> implements Tree {
@@ -18,6 +19,15 @@ export class TreeImpl extends ValueImpl<TreeImpl, string[], TreeOptions> impleme
             return this.impl.nodes() || [];
         } else {
             return this.impl.nodes || [];
+        }
+    }
+
+    @computed
+    get expandValues(): boolean {
+        if (typeof this.impl.expandValues === 'function') {
+            return this.impl.expandValues() || false;
+        } else {
+            return this.impl.expandValues || false;
         }
     }
 }

@@ -105,6 +105,7 @@ export class ApplicationImpl implements Application {
         id: 'ApplicationImpl.testTree',
         label: 'Select items',
         nodes: () => this.treeChoices,
+        expandValues: () => true,
         onSave: () => {},
         initialValue: () => this.defaultTreeChoices,
     });
