@@ -1,7 +1,8 @@
 import { NavigableContent } from '@moxb/moxb';
 import { ActionButtonAnt, FormAnt, TextFormAnt } from '@moxb/antd';
 import { Row } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import UserOutlined from '@ant-design/icons/UserOutlined';
+import LockOutlined from '@ant-design/icons/LockOutlined';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Application } from '../app/Application';

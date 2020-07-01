@@ -25,7 +25,7 @@ import {
 } from '@moxb/antd';
 import { toJSON } from '@moxb/moxb';
 import { Col, Dropdown, Form, Menu, Row } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import DownOutlined from '@ant-design/icons/DownOutlined';
 
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';

@@ -1,6 +1,6 @@
 import { Bind } from '@moxb/moxb';
 import { Tooltip } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import QuestionCircleOutlined from '@ant-design/icons/QuestionCircleOutlined';
 import * as React from 'react';
 import { CSSProperties } from 'react';
 

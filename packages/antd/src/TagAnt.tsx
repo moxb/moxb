@@ -1,6 +1,6 @@
 import { t, Value as MoxbValue } from '@moxb/moxb';
 import { Input, Tag } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import PlusOutlined from '@ant-design/icons/PlusOutlined';
 
 import { TagProps } from 'antd/lib/tag';
 import { toJS } from 'mobx';

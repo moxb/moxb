@@ -4,7 +4,7 @@ import { DropDownProps } from 'antd/lib/dropdown';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { ClickParam } from 'antd/lib/menu';
 import { RadioGroupProps, RadioProps } from 'antd/lib/radio';
-import { DownOutlined } from '@ant-design/icons';
+import DownOutlined from '@ant-design/icons/DownOutlined';
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';

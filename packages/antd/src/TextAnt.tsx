@@ -1,6 +1,6 @@
 import { Action, t, Text } from '@moxb/moxb';
 import { Button, Input } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
+import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import { InputProps, SearchProps } from 'antd/lib/input';
 import { observer } from 'mobx-react';
 import * as React from 'react';

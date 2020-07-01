@@ -11,7 +11,7 @@
     "@moxb/antd": "0.2.0-beta.36",
     "@moxb/moxb": "0.2.0-beta.24",
     "@moxb/semui": "0.2.0-beta.24",
-    "antd": "4.3.1",
+    "antd": "4.4.0",
     "less": "3.9.0",
     "marked": "0.6.2",
     "mobx": "5.10.0",
