@@ -5,6 +5,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Changed
+ - Changed how we import Icons from antd. The old way was causing performance issues.
+
 # [v0.2.0-beta.37](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.37) (2020-06-09)
 
 ### Breaking Changes
