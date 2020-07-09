@@ -41,6 +41,7 @@ export interface Application {
     readonly testForm: Form;
     readonly testTags: Value<any>;
     readonly testTree: Tree;
+    readonly testTreeSelection: string;
 }
 
 export interface ApplicationAPI {

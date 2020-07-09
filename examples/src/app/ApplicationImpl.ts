@@ -34,7 +34,7 @@ import {
     TreeImpl,
     TreeNode,
 } from '@moxb/moxb';
-import { action, observable } from 'mobx';
+import { action, observable, computed } from 'mobx';
 import { Application, ApplicationAPI } from './Application';
 import { ApplicationMethods } from './ApplicationMethods';
 
@@ -110,6 +110,12 @@ export class ApplicationImpl implements Application {
         initialValue: () => this.defaultTreeChoices,
     });
 
+    @computed
+    get testTreeSelection(): string {
+        const { value } = this.testTree;
+        return value === undefined ? 'undefined' : value.map((v) => '"' + v + '"').join(', ');
+    }
+
     readonly testTextfield: Text = new TextImpl({
         id: 'ApplicationImpl.textfield',
         initialValue: () => '',
@@ -131,7 +137,7 @@ export class ApplicationImpl implements Application {
         label: 'Only numbers',
         unit: '€',
         required: true,
-        onExitField: bind => {
+        onExitField: (bind) => {
             if (bind.value! < 900) {
                 bind.setError(t('ApplicationImpl.numeric.error', 'The number must be greater than 900!'));
             }
@@ -184,7 +190,7 @@ export class ApplicationImpl implements Application {
         label: 'Username',
         required: true,
         placeholder: () => 'Username',
-        onExitField: bind => {
+        onExitField: (bind) => {
             if (bind.value !== '' && bind.value!.length < 3) {
                 bind.setError(t('ApplicationImpl.login.name', 'Username is too short, min. 3 characters.'));
             }
@@ -198,7 +204,7 @@ export class ApplicationImpl implements Application {
         label: 'Password',
         placeholder: () => 'Password',
         help: () => 'Help me with this text.',
-        onExitField: bind => {
+        onExitField: (bind) => {
             if (bind.value !== '' && bind.value!.length < 4) {
                 bind.setError(t('ApplicationImpl.login.password', 'Password must have at least 3 characters.'));
             }
@@ -219,8 +225,8 @@ export class ApplicationImpl implements Application {
 
     readonly testTable: Table<any> = new TableImpl<any>({
         id: 'table',
-        data: tab => tab.sort.sortData(this.data),
-        columns: bind => [
+        data: (tab) => tab.sort.sortData(this.data),
+        columns: (bind) => [
             new TableColumnImpl(
                 {
                     id: 'email',
@@ -285,10 +291,10 @@ export class ApplicationImpl implements Application {
                 key: 'fruits',
                 title: 'Fruits',
                 children: [
-                    { key: 'apple', title: 'Apple', children: [] },
-                    { key: 'banana', title: 'Banana', children: [] },
-                    { key: 'kiwi', title: 'Kiwi', children: [] },
-                    { key: 'peach', title: 'Peach', children: [] },
+                    { key: 'apple', title: 'Apple' },
+                    { key: 'banana', title: 'Banana' },
+                    { key: 'kiwi', title: 'Kiwi' },
+                    { key: 'peach', title: 'Peach' },
                 ],
             },
             {
@@ -299,18 +305,18 @@ export class ApplicationImpl implements Application {
                         key: 'cooked',
                         title: 'Cooked',
                         children: [
-                            { key: 'grain', title: 'Grain', children: [] },
-                            { key: 'potato', title: 'Potato', children: [] },
-                            { key: 'rice', title: 'Rice', children: [] },
+                            { key: 'grain', title: 'Grain' },
+                            { key: 'potato', title: 'Potato' },
+                            { key: 'rice', title: 'Rice' },
                         ],
                     },
                     {
                         key: 'raw',
                         title: 'Raw',
                         children: [
-                            { key: 'carrot', title: 'Carrot', children: [] },
-                            { key: 'onion', title: 'Onion', children: [] },
-                            { key: 'tomato', title: 'Tomato', children: [] },
+                            { key: 'carrot', title: 'Carrot' },
+                            { key: 'onion', title: 'Onion' },
+                            { key: 'tomato', title: 'Tomato' },
                         ],
                     },
                 ],
