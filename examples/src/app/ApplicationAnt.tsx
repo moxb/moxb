@@ -19,6 +19,7 @@ import {
     TextAnt,
     TextFormAnt,
     TimePickerAnt,
+    TreeAnt,
     ActionToggleButtonAnt,
     ToolTipButton,
     PollingUpdaterAnt,
@@ -32,7 +33,7 @@ import * as React from 'react';
 import { Application } from './Application';
 
 // helper function to print recursive mobx trees
-(window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {
+(window as any).js = function (value: any, ignore = /\b(store|storage)\b/) {
     return toJSON(value, ignore);
 };
 
@@ -91,7 +92,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                 }
                             >
                                 <a className="ant-dropdown-link" href="#">
-                                    Dropdown menu <DownOutlined translate="" />
+                                    Dropdown menu <DownOutlined />
                                 </a>
                             </Dropdown>
                             <br />
@@ -160,6 +161,11 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <OneOfSelectAnt operation={application.testOfOne} />
                             <br />
                             <br />
+                            <br /> <h3>Tree Component</h3>
+                            <TreeAnt operation={application.testTree} />
+                            <br />
+                            <span>Tree selection: {application.testTreeSelection}</span>
+                            <br />
                             <h3>DatePicker Component</h3>
                             <DatePickerAnt operation={application.testDate} />
                             <br />
@@ -177,7 +183,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                 operation={{
                                     updateFrequency: 5,
                                     title: 'Time watcher',
-                                    update: callback => {
+                                    update: (callback) => {
                                         // A fake/demo update function, which checks the time
                                         callback(undefined, `Latest time is: ${new Date().toString()}`);
                                     },

@@ -16,6 +16,7 @@ export * from './table/TableSearchImpl';
 export * from './table/TableSortImpl';
 export * from './table/TableImpl';
 export * from './text/TextImpl';
+export * from './tree/TreeImpl';
 export * from './value/ValueImpl';
 export * from './validation/SimpleSchemaValidationImpl';
 export * from './validation/ErrorMessage';
