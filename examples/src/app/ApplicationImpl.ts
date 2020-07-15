@@ -113,7 +113,7 @@ export class ApplicationImpl implements Application {
     @computed
     get testTreeSelection(): string {
         const { value } = this.testTree;
-        return value === undefined ? 'undefined' : value.map((v) => '"' + v + '"').join(', ');
+        return value === undefined ? 'undefined' : value.map(v => '"' + v + '"').join(', ');
     }
 
     readonly testTextfield: Text = new TextImpl({
@@ -137,7 +137,7 @@ export class ApplicationImpl implements Application {
         label: 'Only numbers',
         unit: '€',
         required: true,
-        onExitField: (bind) => {
+        onExitField: bind => {
             if (bind.value! < 900) {
                 bind.setError(t('ApplicationImpl.numeric.error', 'The number must be greater than 900!'));
             }
@@ -190,7 +190,7 @@ export class ApplicationImpl implements Application {
         label: 'Username',
         required: true,
         placeholder: () => 'Username',
-        onExitField: (bind) => {
+        onExitField: bind => {
             if (bind.value !== '' && bind.value!.length < 3) {
                 bind.setError(t('ApplicationImpl.login.name', 'Username is too short, min. 3 characters.'));
             }
@@ -204,7 +204,7 @@ export class ApplicationImpl implements Application {
         label: 'Password',
         placeholder: () => 'Password',
         help: () => 'Help me with this text.',
-        onExitField: (bind) => {
+        onExitField: bind => {
             if (bind.value !== '' && bind.value!.length < 4) {
                 bind.setError(t('ApplicationImpl.login.password', 'Password must have at least 3 characters.'));
             }
@@ -225,8 +225,8 @@ export class ApplicationImpl implements Application {
 
     readonly testTable: Table<any> = new TableImpl<any>({
         id: 'table',
-        data: (tab) => tab.sort.sortData(this.data),
-        columns: (bind) => [
+        data: tab => tab.sort.sortData(this.data),
+        columns: bind => [
             new TableColumnImpl(
                 {
                     id: 'email',

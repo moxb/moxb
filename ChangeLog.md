@@ -4,11 +4,12 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 
 # v.Next (Current)
+
+# [v0.2.0-beta.40](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.40) (2020-07-15)
 ### Added
 * Added `TreeAnt` component and `Tree` and `TreeImpl` store components to represent editing data in a treeView.
 
-
-# [v0.2.0-beta.38](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.39) (2020-07-02)
+# [v0.2.0-beta.39](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.39) (2020-07-02)
 
 ### Changed
  - Changed how we import Icons from antd. The old way was causing performance issues.
