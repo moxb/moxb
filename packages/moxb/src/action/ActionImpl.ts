@@ -57,7 +57,10 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
     }
 
     fire() {
-        this.firePromise().then(() => {}, () => {});
+        this.firePromise().then(
+            () => {},
+            () => {}
+        );
     }
 }
 

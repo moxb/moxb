@@ -26,7 +26,7 @@ describe('ActionFormButtonUi', () => {
         }
     });
 
-    it('should have one child', function() {
+    it('should have one child', function () {
         props = {
             operation: new ActionImpl({
                 id: 'the.id',
@@ -39,7 +39,7 @@ describe('ActionFormButtonUi', () => {
         expect(shallow(<ActionFormButtonUi {...props} />).find('#the-id').length).toBe(1);
         expect(component().find('#the-id').length).toBeGreaterThan(0);
     });
-    it('should match snapshot', function() {
+    it('should match snapshot', function () {
         props = {
             operation: new ActionImpl({
                 id: 'TheId',
@@ -48,7 +48,7 @@ describe('ActionFormButtonUi', () => {
         };
         expect(shallow(<ActionFormButtonUi {...props} />)).toMatchSnapshot();
     });
-    it('html should match snapshot', function() {
+    it('html should match snapshot', function () {
         props = {
             operation: new ActionImpl({
                 id: 'Action.id',
@@ -59,7 +59,7 @@ describe('ActionFormButtonUi', () => {
         // we use pretty to make it multi line...
         expect(pretty(mount(<ActionFormButtonUi {...props} />).html())).toMatchSnapshot();
     });
-    it('should fire on button click', function() {
+    it('should fire on button click', function () {
         const fire = jest.fn();
         props = {
             operation: new ActionImpl({
@@ -72,7 +72,7 @@ describe('ActionFormButtonUi', () => {
             .simulate('click');
         expect(fire).toBeCalled();
     });
-    it('should call disabled', function() {
+    it('should call disabled', function () {
         const disabled = jest.fn().mockReturnValue(false);
         props = {
             operation: new ActionImpl({
@@ -84,7 +84,7 @@ describe('ActionFormButtonUi', () => {
         shallow(<ActionFormButtonUi {...props} />);
         expect(disabled).toBeCalled();
     });
-    it('should call enabled', function() {
+    it('should call enabled', function () {
         const consoleWarn = jest.spyOn(console, 'warn');
         consoleWarn.mockImplementation(() => {});
 
@@ -104,7 +104,7 @@ describe('ActionFormButtonUi', () => {
         expect(fire).not.toBeCalled();
         consoleWarn.mockRestore();
     });
-    it('should console.warn if called with enabled', function() {
+    it('should console.warn if called with enabled', function () {
         const consoleWarn = jest.spyOn(console, 'warn');
         consoleWarn.mockImplementation(() => {});
 
@@ -123,7 +123,7 @@ describe('ActionFormButtonUi', () => {
         expect(consoleWarn).toBeCalled();
         consoleWarn.mockRestore();
     });
-    it('should not be disables when enabled is true', function() {
+    it('should not be disables when enabled is true', function () {
         const enabled = jest.fn().mockReturnValue(true);
         props = {
             operation: new ActionImpl({
@@ -134,12 +134,7 @@ describe('ActionFormButtonUi', () => {
         };
         const wrapper = shallow(<ActionFormButtonUi {...props} />);
         expect(wrapper.find(Form.Button).length).toBe(1);
-        expect(
-            wrapper
-                .find(Form.Button)
-                .render()
-                .find('button').length
-        ).toBe(1);
+        expect(wrapper.find(Form.Button).render().find('button').length).toBe(1);
         expect(wrapper.render().find('button.disabled').length).toBe(0);
         expect(enabled).toBeCalled();
     });

@@ -70,6 +70,6 @@ export function doTokenStringsMatch(
 
 export function updateTokenString(currentTokens: string[], position: number, tokens: string[]): string[] {
     const before = currentTokens.slice(0, position);
-    const newTokens = [...before, ...tokens.filter(t => !isTokenEmpty(t))];
+    const newTokens = [...before, ...tokens.filter((t) => !isTokenEmpty(t))];
     return newTokens;
 }

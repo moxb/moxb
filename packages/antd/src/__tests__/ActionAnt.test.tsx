@@ -4,8 +4,8 @@ import * as React from 'react';
 import { ActionButtonAnt, ActionFormButtonAnt } from '../ActionAnt';
 import { shallowMoxbToJson } from './enzymeHelper';
 
-describe('ActionButtonAnt', function() {
-    it('should render a button by default', function() {
+describe('ActionButtonAnt', function () {
+    it('should render a button by default', function () {
         const operation = new ActionImpl({
             id: 'TheId',
             fire: jest.fn(),
@@ -15,7 +15,7 @@ describe('ActionButtonAnt', function() {
         expect(shallowMoxbToJson(shallow(<ActionButtonAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should render a button with children instead of a label', function() {
+    it('should render a button with children instead of a label', function () {
         const operation = new ActionImpl({
             id: 'TheId',
             fire: jest.fn(),
@@ -25,7 +25,7 @@ describe('ActionButtonAnt', function() {
         ).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new ActionImpl({
             id: 'TheId',
             fire: jest.fn(),
@@ -35,7 +35,7 @@ describe('ActionButtonAnt', function() {
         expect(shallow(<ActionButtonAnt operation={operation} />).type()).toBeNull();
     });
 
-    it('should call fire() if the button was clicked', function() {
+    it('should call fire() if the button was clicked', function () {
         const mockCallBack = jest.fn();
         const operation = new ActionImpl({
             id: 'TheId',
@@ -46,7 +46,7 @@ describe('ActionButtonAnt', function() {
         button.find('button').simulate('click');
         expect(mockCallBack.mock.calls.length).toEqual(1);
     });
-    it('should not call fire() if the button was disabled and clicked', function() {
+    it('should not call fire() if the button was disabled and clicked', function () {
         const mockCallBack = jest.fn();
         const operation = new ActionImpl({
             id: 'TheId',
@@ -60,8 +60,8 @@ describe('ActionButtonAnt', function() {
     });
 });
 
-describe('ActionFormButtonAnt', function() {
-    it('should render a button by default', function() {
+describe('ActionFormButtonAnt', function () {
+    it('should render a button by default', function () {
         const operation = new ActionImpl({
             id: 'TheId',
             fire: jest.fn(),
@@ -71,7 +71,7 @@ describe('ActionFormButtonAnt', function() {
         expect(shallowMoxbToJson(shallow(<ActionFormButtonAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new ActionImpl({
             id: 'TheId',
             fire: jest.fn(),

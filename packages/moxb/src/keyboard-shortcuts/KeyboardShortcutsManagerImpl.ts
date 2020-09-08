@@ -117,14 +117,14 @@ export class KeyboardShortcutsManagerImpl implements KeyboardShortcutsManager {
         // re-registering shortcuts should move it to the front
         this.unregisterKeyboardShortcuts(shortcuts);
         this._shortcuts.unshift(shortcuts);
-        shortcuts.shortcuts.forEach(action => {
-            action.keyboardShortcuts.forEach(shortcut => {
+        shortcuts.shortcuts.forEach((action) => {
+            action.keyboardShortcuts.forEach((shortcut) => {
                 let actions = this.keyboardMap.get(shortcut);
                 if (!actions) {
                     actions = [];
                     this.keyboardMap.set(shortcut, actions);
                     this.binder.bind(shortcut, () => {
-                        const enabledAction = actions!.find(a => a.enabled);
+                        const enabledAction = actions!.find((a) => a.enabled);
                         if (enabledAction) {
                             enabledAction.fire();
                         }
@@ -140,11 +140,11 @@ export class KeyboardShortcutsManagerImpl implements KeyboardShortcutsManager {
         const index = this._shortcuts.indexOf(shortcuts);
         if (index >= 0) {
             this._shortcuts.splice(index, 1);
-            shortcuts.shortcuts.forEach(action => {
-                action.keyboardShortcuts.forEach(shortcut => {
+            shortcuts.shortcuts.forEach((action) => {
+                action.keyboardShortcuts.forEach((shortcut) => {
                     const actions = this.keyboardMap.get(shortcut);
                     if (actions) {
-                        const indexAction = actions.findIndex(a => a.action === action);
+                        const indexAction = actions.findIndex((a) => a.action === action);
                         if (indexAction >= 0) {
                             actions.splice(indexAction, 1);
                         }
@@ -166,14 +166,14 @@ export class KeyboardShortcutsManagerImpl implements KeyboardShortcutsManager {
         return this.shortcuts
             .slice()
             .sort((a, b) => (a.label || '').localeCompare(b.label || ''))
-            .filter(s => s.enabled && !!s.shortcuts.find(a => a.enabled))
+            .filter((s) => s.enabled && !!s.shortcuts.find((a) => a.enabled))
             .map(
-                group =>
+                (group) =>
                     `## ${group.label}\n\n${group.shortcuts
                         .sort((a, b) => (a.label || '').localeCompare(b.label || ''))
                         .map(
-                            action =>
-                                ` - ${action.label}: ${action.keyboardShortcuts.map(sc => `**${sc}**`).join(', ')}`
+                            (action) =>
+                                ` - ${action.label}: ${action.keyboardShortcuts.map((sc) => `**${sc}**`).join(', ')}`
                         )
                         .join('\n')}`
             )

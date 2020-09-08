@@ -5,10 +5,14 @@ import { ManyOfAnt, ManyOfCheckboxAnt, ManyOfFormAnt } from '../ManyOfAnt';
 import { shallowMoxbToJson } from './enzymeHelper';
 
 const manyChoices: any[] = [];
-const allChoices = [{ label: 'Banana', value: 'b' }, { label: 'Apples', value: 'a' }, { label: 'Peaches', value: 'p' }];
+const allChoices = [
+    { label: 'Banana', value: 'b' },
+    { label: 'Apples', value: 'a' },
+    { label: 'Peaches', value: 'p' },
+];
 
-describe('ManyOfAnt', function() {
-    it('should render a select control by default', function() {
+describe('ManyOfAnt', function () {
+    it('should render a select control by default', function () {
         const operation = new ManyOfImpl({
             id: 'Id.manyOf',
             label: 'Choose your snack',
@@ -20,7 +24,7 @@ describe('ManyOfAnt', function() {
         expect(shallowMoxbToJson(shallow(<ManyOfAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new ManyOfImpl({
             id: 'Id.manyOf',
             label: 'Choose your snack',
@@ -34,8 +38,8 @@ describe('ManyOfAnt', function() {
     });
 });
 
-describe('ManyOfCheckboxAnt', function() {
-    it('should render a checkboxes by default', function() {
+describe('ManyOfCheckboxAnt', function () {
+    it('should render a checkboxes by default', function () {
         const operation = new ManyOfImpl({
             id: 'Id.manyOf',
             label: 'Choose your snack',
@@ -47,7 +51,7 @@ describe('ManyOfCheckboxAnt', function() {
         expect(shallowMoxbToJson(shallow(<ManyOfCheckboxAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new ManyOfImpl({
             id: 'Id.manyOf',
             label: 'Choose your snack',
@@ -61,8 +65,8 @@ describe('ManyOfCheckboxAnt', function() {
     });
 });
 
-describe('ManyOfFormAnt', function() {
-    it('should render a checkboxes by default', function() {
+describe('ManyOfFormAnt', function () {
+    it('should render a checkboxes by default', function () {
         const operation = new ManyOfImpl({
             id: 'Id.manyOf',
             label: 'Choose your snack',
@@ -74,7 +78,7 @@ describe('ManyOfFormAnt', function() {
         expect(shallowMoxbToJson(shallow(<ManyOfFormAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new ManyOfImpl({
             id: 'Id.manyOf',
             label: 'Choose your snack',

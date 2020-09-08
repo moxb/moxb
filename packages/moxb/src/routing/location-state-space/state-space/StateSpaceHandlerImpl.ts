@@ -19,7 +19,7 @@ function filterSubStates<LabelType, WidgetType, DataType>(
     params: FilterParams
 ): SubStateInContext<LabelType, WidgetType, DataType>[] {
     return states
-        .filter(state => {
+        .filter((state) => {
             // Filter based on visibility
             if (params.onlyVisible && state.hidden) {
                 return false;
@@ -34,7 +34,7 @@ function filterSubStates<LabelType, WidgetType, DataType>(
             // All good
             return true;
         })
-        .map(state => {
+        .map((state) => {
             if (state.subStates) {
                 return {
                     ...state,
@@ -125,7 +125,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
             parentPathTokens,
             totalPathTokens,
             isGroupOnly: !!subStates,
-            subStates: subStates ? subStates.map(s => this._addContext(totalPathTokens, s)) : undefined,
+            subStates: subStates ? subStates.map((s) => this._addContext(totalPathTokens, s)) : undefined,
             menuKey: this._keyGen.getKey(parentPathTokens, state),
         };
     }
@@ -134,7 +134,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         state: SubStateInContext<LabelType, WidgetType, DataType>
     ): SubStateInContext<LabelType, WidgetType, DataType>[] {
         const subStates: SubStateInContext<LabelType, WidgetType, DataType>[] = state.subStates
-            ? Array.prototype.concat(...state.subStates.map(s => this._enumerateSubStates(s)))
+            ? Array.prototype.concat(...state.subStates.map((s) => this._enumerateSubStates(s)))
             : [];
         return [state, ...subStates];
     }
@@ -149,13 +149,13 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         this._enumerateSubStates = this._enumerateSubStates.bind(this);
         this._addContext = this._addContext.bind(this);
         this._subStates = subStates;
-        this._subStatesInContext = subStates.map(s => this._addContext([], s));
+        this._subStatesInContext = subStates.map((s) => this._addContext([], s));
         this._allSubStates = Array.prototype.concat(...this._subStatesInContext.map(this._enumerateSubStates));
         this._filterCondition = filterCondition;
     }
 
     public findRoot(): SubStateInContext<LabelType, WidgetType, DataType> {
-        const result = this._subStatesInContext.find(state => !!state.root);
+        const result = this._subStatesInContext.find((state) => !!state.root);
         if (result) {
             return result;
         } else {
@@ -165,7 +165,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     }
 
     public findStateForMenuKey(menuKey: string): SubStateInContext<LabelType, WidgetType, DataType> {
-        const result = this._subStatesInContext.find(state => state.menuKey === menuKey);
+        const result = this._subStatesInContext.find((state) => state.menuKey === menuKey);
         if (result) {
             return result;
         } else {
@@ -181,7 +181,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
             onlySatisfying: false,
             noDisplayOnly: true,
         });
-        const result = states.find(state => state.navRef === navRef);
+        const result = states.find((state) => state.navRef === navRef);
         if (result) {
             return result;
         } else {
@@ -208,7 +208,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
             throw new Error('This method is only for flat groups');
         }
         let result = false;
-        subStates!.forEach(subState => {
+        subStates!.forEach((subState) => {
             if (this.isSubStateActiveForTokens(subState, wantedTokens, parsedTokens)) {
                 result = true;
             }
@@ -260,7 +260,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
             onlySatisfying: true,
             noDisplayOnly: true,
         });
-        const results = states.filter(state => this.isSubStateActiveForTokens(state, wantedTokens, parsedTokens));
+        const results = states.filter((state) => this.isSubStateActiveForTokens(state, wantedTokens, parsedTokens));
         return results;
     }
 
@@ -290,7 +290,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
             this._filterCondition,
             params
         );
-        return params.onlyLeaves ? result.filter(s => !s.isGroupOnly) : result;
+        return params.onlyLeaves ? result.filter((s) => !s.isGroupOnly) : result;
     }
 
     registerNavStateHooksForSubState(

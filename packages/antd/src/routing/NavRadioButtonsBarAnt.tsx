@@ -49,13 +49,13 @@ export class NavRadioButtonBarAnt<DataType> extends React.Component<NavRadioButt
         const operation = new OneOfImpl({
             id: 'oneOf.' + this.props.id,
             getValue: () => states.getActiveSubStateMenuKeys(true)[0],
-            setValue: value => states.trySelectSubState(states.findStateForMenuKey(value)),
+            setValue: (value) => states.trySelectSubState(states.findStateForMenuKey(value)),
             choices: states
                 .getFilteredSubStates({
                     onlyVisible: true,
                     onlySatisfying: true,
                 })
-                .map(state => ({
+                .map((state) => ({
                     value: state.menuKey,
                     widget: renderUIFragment(state.label),
                 })),

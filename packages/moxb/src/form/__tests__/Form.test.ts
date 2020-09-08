@@ -1,6 +1,6 @@
 import { Form, FormImpl, TextImpl } from '../..';
 
-describe('Form', function() {
+describe('Form', function () {
     let bindForm: Form;
     const onSaveUserText = jest.fn();
     const onSavePasswordText = jest.fn();
@@ -9,7 +9,7 @@ describe('Form', function() {
         id: 'text',
         label: 'text',
         required: true,
-        isGiven: value => !!value && value !== 'magic',
+        isGiven: (value) => !!value && value !== 'magic',
         onSave: onSaveUserText,
         initialValue: () => 'foo',
     });
@@ -19,8 +19,8 @@ describe('Form', function() {
         onSave: onSavePasswordText,
     });
 
-    describe('value', function() {
-        it('should throw if empty', function() {
+    describe('value', function () {
+        it('should throw if empty', function () {
             expect(() => {
                 bindForm = new FormImpl({
                     id: 'Impl.testForm',
@@ -29,7 +29,7 @@ describe('Form', function() {
             }).toThrow();
         });
 
-        it('should throw if not defined', function() {
+        it('should throw if not defined', function () {
             expect(() => {
                 bindForm = new FormImpl({
                     id: 'Impl.testForm',
@@ -39,8 +39,8 @@ describe('Form', function() {
         });
     });
 
-    describe('canSubmitForm', function() {
-        it('should return true, if the form has no longer the initial values ', function() {
+    describe('canSubmitForm', function () {
+        it('should return true, if the form has no longer the initial values ', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -49,7 +49,7 @@ describe('Form', function() {
             expect(bindForm.canSubmitForm).toEqual(true);
         });
 
-        it('should return false, if the form has not changed ', function() {
+        it('should return false, if the form has not changed ', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -60,8 +60,8 @@ describe('Form', function() {
         });
     });
 
-    describe('allErrors', function() {
-        it('should return an array with all occurred errors', function() {
+    describe('allErrors', function () {
+        it('should return an array with all occurred errors', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 label: 'form',
@@ -72,7 +72,7 @@ describe('Form', function() {
             bindPass.setError('bar');
             expect(bindForm.allErrors).toEqual(['text: foo', 'password: bar', 'form: doo']);
         });
-        it('should return an array with occurred errors from the children', function() {
+        it('should return an array with occurred errors from the children', function () {
             bindText.clearErrors();
             bindPass.clearErrors();
             bindForm = new FormImpl({
@@ -85,7 +85,7 @@ describe('Form', function() {
             expect(bindForm.allErrors).toEqual(['text: foo', 'text: doo', 'password: bar']);
         });
 
-        it('should return an array with all occurred errors', function() {
+        it('should return an array with all occurred errors', function () {
             bindText.clearErrors();
             bindPass.clearErrors();
             const bindNoText = new TextImpl({
@@ -106,7 +106,7 @@ describe('Form', function() {
             bindNoPass.setError('bar');
             expect(bindForm.allErrors).toEqual(['foo', 'doo', 'bar']);
         });
-        it('should return an array with all occurred errors without duplicates', function() {
+        it('should return an array with all occurred errors without duplicates', function () {
             bindText.clearErrors();
             bindPass.clearErrors();
             const bindNoText = new TextImpl({
@@ -131,8 +131,8 @@ describe('Form', function() {
         });
     });
 
-    describe('hasErrors', function() {
-        it('should return true if errors have occurred', function() {
+    describe('hasErrors', function () {
+        it('should return true if errors have occurred', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -141,7 +141,7 @@ describe('Form', function() {
             expect(bindForm.hasErrors).toEqual(true);
         });
 
-        it('should return false if no errors occurred', function() {
+        it('should return false if no errors occurred', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -151,7 +151,7 @@ describe('Form', function() {
             expect(bindForm.hasErrors).toEqual(false);
         });
 
-        it('should return true if an error in the form occurred', function() {
+        it('should return true if an error in the form occurred', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -161,8 +161,8 @@ describe('Form', function() {
         });
     });
 
-    describe('hasMissingRequired', function() {
-        it('should return true if we have missing required fields', function() {
+    describe('hasMissingRequired', function () {
+        it('should return true if we have missing required fields', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -173,7 +173,7 @@ describe('Form', function() {
             expect(bindForm.hasMissingRequired).toBeFalsy();
         });
 
-        it('should consider the configured isGiven function', function() {
+        it('should consider the configured isGiven function', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -187,8 +187,8 @@ describe('Form', function() {
         });
     });
 
-    describe('onSubmitForm', function() {
-        it('should call onSubmit for each child the onSave method', function() {
+    describe('onSubmitForm', function () {
+        it('should call onSubmit for each child the onSave method', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -203,8 +203,8 @@ describe('Form', function() {
         });
     });
 
-    describe('submitDone', function() {
-        it('should call submitDone after onSubmit with an error', function() {
+    describe('submitDone', function () {
+        it('should call submitDone after onSubmit with an error', function () {
             let theThis: any = undefined;
             const onSubmitMockNew = jest.fn((bind, done) => {
                 theThis = bind;
@@ -220,7 +220,7 @@ describe('Form', function() {
             expect(theThis).toBe(bindForm);
         });
 
-        it('should call submitDone after onSubmit with no error', function() {
+        it('should call submitDone after onSubmit with no error', function () {
             let theThis: any = undefined;
             const onSubmitMockNew = jest.fn((bind, done) => {
                 theThis = bind;
@@ -237,8 +237,8 @@ describe('Form', function() {
         });
     });
 
-    describe('resetValues', function() {
-        it('should reset all values to the initial ones', function() {
+    describe('resetValues', function () {
+        it('should reset all values to the initial ones', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -251,8 +251,8 @@ describe('Form', function() {
         });
     });
 
-    describe('hasChanges', function() {
-        it('should return true a value in a field has changed', function() {
+    describe('hasChanges', function () {
+        it('should return true a value in a field has changed', function () {
             bindForm = new FormImpl({
                 id: 'Impl.testForm',
                 values: [bindText, bindPass],
@@ -262,7 +262,7 @@ describe('Form', function() {
             expect(bindForm.hasChanges).toEqual(true);
         });
 
-        it('should return false, if all values are initial values', function() {
+        it('should return false, if all values are initial values', function () {
             const bindExtraText = new TextImpl({
                 id: 'text',
                 label: 'text',

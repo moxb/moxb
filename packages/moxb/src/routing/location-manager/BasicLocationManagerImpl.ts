@@ -99,7 +99,7 @@ export class BasicLocationManagerImpl implements LocationManager {
      */
     registerChangeInterceptor(interceptor: LocationChangeInterceptor) {
         const newId = interceptor.getId();
-        const index = this._interceptors.findIndex(i => i.getId() === newId);
+        const index = this._interceptors.findIndex((i) => i.getId() === newId);
         if (index === -1) {
             // We don't want to add anyone twice.
             this._interceptors.push(interceptor);
@@ -187,7 +187,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     protected _collectQuestionsFor(testLocation: TestLocation): string[] {
         const questions: string[] = [];
         this._interceptors // Go over all the registered interceptors
-            .forEach(interceptor => questions.push(...interceptor.anyQuestionsFor(testLocation)));
+            .forEach((interceptor) => questions.push(...interceptor.anyQuestionsFor(testLocation)));
         return questions;
     }
 
@@ -242,7 +242,7 @@ export class BasicLocationManagerImpl implements LocationManager {
             // console.log('There seem to be some questions:', questions);
             this._communicator
                 .confirmLeave(questions)
-                .then(decision => {
+                .then((decision) => {
                     if (decision) {
                         // According to the user's decision, we are OK,
                         // so we can execute the change.
@@ -258,7 +258,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                         }
                     }
                 })
-                .catch(reason => console.error(reason));
+                .catch((reason) => console.error(reason));
         } else {
             // No questions asked, so we can simply execute the change.
             this.doSetLocation(location, method);
@@ -291,7 +291,7 @@ export class BasicLocationManagerImpl implements LocationManager {
          * because in that case, we want to do something completely different.
          */
         let jumped = false;
-        this._redirects.forEach(redirect => {
+        this._redirects.forEach((redirect) => {
             if (jumped) {
                 return;
             }
@@ -312,7 +312,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                     this.doSetPathTokens(0, target, UpdateMethod.REPLACE);
                 } else {
                     // This change is really coming from the browser, thus we need to verify
-                    this.trySetPathTokens(0, target, UpdateMethod.REPLACE, result => {
+                    this.trySetPathTokens(0, target, UpdateMethod.REPLACE, (result) => {
                         if (!result) {
                             this._restoreStoredLocation();
                         }
@@ -340,7 +340,7 @@ export class BasicLocationManagerImpl implements LocationManager {
             this._location = newLocation;
         } else {
             // This change is coming from the browser, thus we need to verify
-            this.trySetLocation(newLocation, UpdateMethod.NONE, result => {
+            this.trySetLocation(newLocation, UpdateMethod.NONE, (result) => {
                 if (result) {
                     // Actually update the stored location
                     this._location = newLocation;
@@ -366,7 +366,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         const base = baseLocation || this.location;
         const pathTokens = this._schema.getPathTokens(base);
         const query = this._schema.getQuery(base);
-        changes.forEach(change => {
+        changes.forEach((change) => {
             const { key, value } = change;
             if (value === undefined || value === null) {
                 // tslint:disable-next-line:no-dynamic-delete
@@ -472,7 +472,7 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     public getLocationForPathTokens(position: number, tokens: string[]): MyLocation {
         // First we back up the values of our permanent URL args
-        const backup = this._permanentArgs.map(arg => arg.value);
+        const backup = this._permanentArgs.map((arg) => arg.value);
 
         // Calculate the new string of path tokens
         const newTokens = updateTokenString(this.pathTokens, position, tokens);

@@ -87,14 +87,14 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
                 const start = Date.now();
                 method
                     .callPromise(data)
-                    .then(result => {
+                    .then((result) => {
                         const stop = Date.now();
                         debugLog('Returned in', stop - start, 'ms.', 'result:', result);
                         returned(result, clearPending);
                         clearPending();
                         resolve();
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         const stop = Date.now();
                         debugLog('Failed in', stop - start, 'ms.', 'error:', error);
                         if (failed) {

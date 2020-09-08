@@ -3,7 +3,7 @@
  * @param {string} parts
  */
 export function toId(...parts: string[]) {
-    const joined = parts.filter(s => !!s).join('.');
+    const joined = parts.filter((s) => !!s).join('.');
     return removeDiacritics(joined)
         .replace(/[^_\w\d.]+/g, '_')
         .replace(/\.{2,}/g, '.')

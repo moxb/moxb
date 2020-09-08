@@ -10,7 +10,7 @@ import { BindMarkdownDiv } from './LabelAnt';
 function toolTipText(action: Bind | Action) {
     let shortcuts = '';
     if ((action as Action).keyboardShortcuts) {
-        shortcuts = (action as Action).keyboardShortcuts.map(s => '(**' + s + '**)').join('\n\n');
+        shortcuts = (action as Action).keyboardShortcuts.map((s) => '(**' + s + '**)').join('\n\n');
     }
     return (action.label || action.help || '') + (shortcuts && '\n\n' + shortcuts);
 }
@@ -32,7 +32,7 @@ export class ToolTipAnt extends React.Component<BindToolTipAntProps> {
         if (!operation) {
             return children;
         }
-        const childrenWithProps = React.Children.map(children, child =>
+        const childrenWithProps = React.Children.map(children, (child) =>
             React.cloneElement(child as ReactElement, { operation, ...props })
         );
         if (operation.disabled) {

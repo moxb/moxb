@@ -12,7 +12,7 @@ export class ManyOfUi extends React.Component<BindUiProps<ManyOf> & FormFieldPro
         if (invisible || operation.invisible) {
             return null;
         }
-        const options = operation.choices.map(c => ({ key: c.value, text: c.label, value: c.value }));
+        const options = operation.choices.map((c) => ({ key: c.value, text: c.label, value: c.value }));
         // make sure the value is not a mobx object...
         const value = toJS(operation.value);
         return (

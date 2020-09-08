@@ -59,7 +59,7 @@ function getActivityLogs(
 ): InternalLog[] {
     const result: InternalLog[] = [];
     documentsAfter.forEach(({ _id }, i) => {
-        trackedFields.forEach(fieldName => {
+        trackedFields.forEach((fieldName) => {
             const value = getIn(documentsAfter[i], fieldName);
             const valueBefore = getIn(documentsBefore[i], fieldName);
             const fieldOperation = getFieldOperation(valueBefore, value);
@@ -120,7 +120,7 @@ function getTrackedFields(keys: NestedKeyOf<any>, prefix = '', result: string[] 
  * This means the tracked fields, and their outer fields.
  */
 function getRelevantFields(keys: NestedKeyOf<any>, prefix = '', result: StringMap<true> = {}): StringMap<true> {
-    Object.keys(keys).forEach(key => {
+    Object.keys(keys).forEach((key) => {
         const fieldPath = getFieldPath(prefix, key);
         const value = keys[key];
         result[fieldPath] = true;
@@ -140,7 +140,7 @@ function getInsertedValue(valueOrModifier: any): any {
             delete result[key];
             switch (key) {
                 case '$set':
-                    Object.keys(valueOrModifier[key]).forEach(path => {
+                    Object.keys(valueOrModifier[key]).forEach((path) => {
                         setIn(result, path, valueOrModifier[key][path]);
                     });
                     break;
@@ -216,7 +216,7 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
         this.trackedFieldsMap = getRelevantFields(options.tracked);
 
         this.fieldsToFetch = {};
-        this.trackedFields.forEach(field => (this.fieldsToFetch[field] = 1));
+        this.trackedFields.forEach((field) => (this.fieldsToFetch[field] = 1));
     }
 
     onBeforeApplyToCollection(collection: Mongo.Collection<T>) {

@@ -123,7 +123,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
                         onlyVisible: true,
                         onlySatisfying: true,
                     })
-                    .map(state => this.renderStateTabPane(id, states, state))}
+                    .map((state) => this.renderStateTabPane(id, states, state))}
                 {...extras || []}
             </Tabs>
         );

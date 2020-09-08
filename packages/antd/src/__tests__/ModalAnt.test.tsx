@@ -9,8 +9,8 @@ interface CustomModalActions extends ModalActions {
     test2: string;
 }
 
-describe('ModalAnt', function() {
-    it('should render a modal dialog by default', function() {
+describe('ModalAnt', function () {
+    it('should render a modal dialog by default', function () {
         const operation = new ModalImpl<any, ModalActions>({
             actions: () => ({
                 cancel: new ActionImpl({
@@ -29,7 +29,7 @@ describe('ModalAnt', function() {
         expect(shallowMoxbToJson(shallow(<ModalAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should support a custom footer', function() {
+    it('should support a custom footer', function () {
         const operation = new ModalImpl<any, CustomModalActions>({
             actions: () => ({
                 cancel: new ActionImpl({
@@ -47,7 +47,7 @@ describe('ModalAnt', function() {
                 shallow(
                     <ModalAnt
                         operation={operation}
-                        footer={actions => <div>{`${actions.test1} ${actions.test2}`}</div>}
+                        footer={(actions) => <div>{`${actions.test1} ${actions.test2}`}</div>}
                     />
                 )
             )

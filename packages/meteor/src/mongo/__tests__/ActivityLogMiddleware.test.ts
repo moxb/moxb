@@ -12,7 +12,7 @@ interface ExpectedLog {
     valueType?: any;
 }
 
-describe('ActivityLogMiddleware', function() {
+describe('ActivityLogMiddleware', function () {
     const dataCollection = new Mongo.Collection<any>('data');
     const logCollection = new Mongo.Collection<any>('log');
     // the id of the document inserted in beforeEach()
@@ -49,7 +49,7 @@ describe('ActivityLogMiddleware', function() {
 
     function checkLogsContains(expected: ExpectedLog) {
         const logs = logCollection.find({}).fetch();
-        const log = logs.find(l => l.fieldName === expected.fieldName);
+        const log = logs.find((l) => l.fieldName === expected.fieldName);
         if (!log) {
             fail(`No log with field name ${expected.fieldName} in the logs.`);
         }
@@ -76,7 +76,7 @@ describe('ActivityLogMiddleware', function() {
         logCollection.remove({});
     }
 
-    beforeEach(function() {
+    beforeEach(function () {
         dataCollection.remove({});
         _id = dataCollection.insert({
             shallowField: 'shallow1',
@@ -90,7 +90,7 @@ describe('ActivityLogMiddleware', function() {
         clearLogs();
     });
 
-    it('Logs insert', function() {
+    it('Logs insert', function () {
         const documentId = dataCollection.insert({
             shallowField: 'shallow2',
             types: { string: 'string2', ignored: 'ignored2' },
@@ -114,7 +114,7 @@ describe('ActivityLogMiddleware', function() {
         });
     });
 
-    it('Logs update with object parameter', function() {
+    it('Logs update with object parameter', function () {
         // nested.field has the same value has before and should not be updated
         dataCollection.update(
             { _id },
@@ -141,7 +141,7 @@ describe('ActivityLogMiddleware', function() {
         });
     });
 
-    it('logs update with $set modifier', function() {
+    it('logs update with $set modifier', function () {
         // shallowField has the same value has before and should not be updated
         dataCollection.update(
             { _id },
@@ -159,7 +159,7 @@ describe('ActivityLogMiddleware', function() {
         });
     });
 
-    it('Logs update with $set modifier when updating outer object', function() {
+    it('Logs update with $set modifier when updating outer object', function () {
         dataCollection.update(
             { _id },
             {
@@ -193,7 +193,7 @@ describe('ActivityLogMiddleware', function() {
         });
     });
 
-    it('logs update with $inc modifier', function() {
+    it('logs update with $inc modifier', function () {
         dataCollection.update(
             { _id },
             {
@@ -211,7 +211,7 @@ describe('ActivityLogMiddleware', function() {
         });
     });
 
-    it('logs update with both $inc and $set modifiers', function() {
+    it('logs update with both $inc and $set modifiers', function () {
         // types.string is the same as before and should be ignored.
         dataCollection.update(
             { _id },
@@ -242,7 +242,7 @@ describe('ActivityLogMiddleware', function() {
         });
     });
 
-    it('logs upsert on update', function() {
+    it('logs upsert on update', function () {
         dataCollection.upsert(
             { _id },
             {
@@ -263,7 +263,7 @@ describe('ActivityLogMiddleware', function() {
         });
     });
 
-    it('logs upsert on insert with $set modifier', function() {
+    it('logs upsert on insert with $set modifier', function () {
         dataCollection.upsert(
             { _id: 'new-id' },
             {
@@ -288,7 +288,7 @@ describe('ActivityLogMiddleware', function() {
         });
     });
 
-    it('logs upsert on insert with value as modifier', function() {
+    it('logs upsert on insert with value as modifier', function () {
         dataCollection.upsert(
             { _id: 'new-id' },
             {
@@ -316,7 +316,7 @@ describe('ActivityLogMiddleware', function() {
         });
     });
 
-    it('logs remove and ignore unset fields', function() {
+    it('logs remove and ignore unset fields', function () {
         dataCollection.remove({ _id });
 
         checkLogsCountToBe(3);

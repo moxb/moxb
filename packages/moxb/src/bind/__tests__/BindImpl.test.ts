@@ -3,12 +3,12 @@ import { Bind } from '../Bind';
 import { BindImpl, BindOptions, getValueFromStringOrFunction } from '../BindImpl';
 import { decideRefuse } from '../../decision';
 
-describe('interface Bind', function() {
+describe('interface Bind', function () {
     function newBind(options: BindOptions) {
         return new BindImpl(options);
     }
-    describe('id', function() {
-        it('should throw if empty', function() {
+    describe('id', function () {
+        it('should throw if empty', function () {
             expect(() => {
                 newBind({
                     id: '',
@@ -16,7 +16,7 @@ describe('interface Bind', function() {
             }).toThrow();
         });
 
-        it('should throw if `.`', function() {
+        it('should throw if `.`', function () {
             expect(() => {
                 newBind({
                     id: '.',
@@ -24,7 +24,7 @@ describe('interface Bind', function() {
             }).toThrow();
         });
 
-        it('should throw if not id', function() {
+        it('should throw if not id', function () {
             expect(() => {
                 newBind({
                     id: 'foo-bar',
@@ -33,15 +33,15 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('domId', function() {
-        it('should be lowercase with underscores', function() {
+    describe('domId', function () {
+        it('should be lowercase with underscores', function () {
             const bind: Bind = newBind({
                 id: 'FooBar',
             });
             expect(bind.domId).toBe('foo_bar');
         });
 
-        it('should convert `.` to `-`', function() {
+        it('should convert `.` to `-`', function () {
             const bind: Bind = newBind({
                 id: 'foo.bar',
             });
@@ -49,12 +49,12 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('label', function() {
-        beforeEach(function() {
+    describe('label', function () {
+        beforeEach(function () {
             setTFunction(translateKeysDefault);
         });
 
-        it('should be undefined by default', function() {
+        it('should be undefined by default', function () {
             expect(t('key', 'The Default')).toBe('[key] The Default');
             const bind: Bind = newBind({
                 id: 'test',
@@ -62,14 +62,14 @@ describe('interface Bind', function() {
             expect(bind.domId).toBe('test');
             expect(bind.label).toBeUndefined();
         });
-        it('should be translated', function() {
+        it('should be translated', function () {
             const bind: Bind = newBind({
                 id: 'test',
                 label: 'Default String',
             });
             expect(bind.label).toBe('[test.label] Default String');
         });
-        it('should be updated when translation changes', function() {
+        it('should be updated when translation changes', function () {
             const bind: Bind = newBind({
                 id: 'test',
                 label: 'Default String',
@@ -77,7 +77,7 @@ describe('interface Bind', function() {
             setTFunction(translateKeysOnly);
             expect(bind.label).toBe('[test.label]');
         });
-        it('should take a function', function() {
+        it('should take a function', function () {
             const label = jest.fn().mockReturnValue('The Translated String');
             const bind: Bind = newBind({
                 id: 'test',
@@ -86,7 +86,7 @@ describe('interface Bind', function() {
             setTFunction(translateKeysOnly);
             expect(bind.label).toBe('The Translated String');
         });
-        it('should take a function that returns undefined', function() {
+        it('should take a function that returns undefined', function () {
             const label = jest.fn().mockReturnValue(undefined);
             const bind: Bind = newBind({
                 id: 'test',
@@ -95,9 +95,9 @@ describe('interface Bind', function() {
             setTFunction(translateKeysOnly);
             expect(bind.label).toBeUndefined();
         });
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const label = jest.fn().mockImplementation(function(this: any) {
+            const label = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -109,14 +109,14 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('disabled', function() {
-        it('should be false by default', function() {
+    describe('disabled', function () {
+        it('should be false by default', function () {
             const bind: Bind = newBind({
                 id: 'test',
             });
             expect(bind.disabled).toBe(false);
         });
-        it('should return true or the result of the disabled function', function() {
+        it('should return true or the result of the disabled function', function () {
             function testDisabledTrue(value: any) {
                 const disabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
@@ -129,7 +129,7 @@ describe('interface Bind', function() {
             testDisabledTrue('x');
             testDisabledTrue(1);
         });
-        it('should return true or the result of the disabled function', function() {
+        it('should return true or the result of the disabled function', function () {
             function testDisabledFalse(value: any) {
                 const disabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
@@ -146,7 +146,7 @@ describe('interface Bind', function() {
             testDisabledFalse(decideRefuse());
             testDisabledFalse(decideRefuse('why now'));
         });
-        it('should be not enabled', function() {
+        it('should be not enabled', function () {
             function testDisabledFalse(value: any) {
                 const enabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
@@ -174,9 +174,9 @@ describe('interface Bind', function() {
             testDisabledTrue(decideRefuse());
             testDisabledTrue(decideRefuse('i do not like it'));
         });
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const disabled = jest.fn().mockImplementation(function(this: any) {
+            const disabled = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -188,14 +188,14 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('reason', function() {
-        it('should be undefined by default', function() {
+    describe('reason', function () {
+        it('should be undefined by default', function () {
             const bind: Bind = newBind({
                 id: 'test',
             });
             expect(bind.reason).toBeUndefined();
         });
-        it('should return the reason provided by disabled function', function() {
+        it('should return the reason provided by disabled function', function () {
             function testReasonWhenDisabled(reason?: string) {
                 const disabled = jest.fn().mockReturnValue(decideRefuse(reason));
                 const bind: Bind = newBind({
@@ -209,14 +209,14 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('enabled', function() {
-        it('should be true by default', function() {
+    describe('enabled', function () {
+        it('should be true by default', function () {
             const bind: Bind = newBind({
                 id: 'test',
             });
             expect(bind.enabled).toBe(true);
         });
-        it('should be false by default', function() {
+        it('should be false by default', function () {
             function testEnabledToDisabled(value: any, expected: boolean) {
                 const enabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
@@ -235,7 +235,7 @@ describe('interface Bind', function() {
             testEnabledToDisabled('x', false);
             testEnabledToDisabled(1, false);
         });
-        it('should take the value as falsly/truly', function() {
+        it('should take the value as falsly/truly', function () {
             function testEnabled(value: any, expected: boolean) {
                 const enabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
@@ -254,7 +254,7 @@ describe('interface Bind', function() {
             testEnabled('x', true);
             testEnabled(1, true);
         });
-        it('should be not disabled', function() {
+        it('should be not disabled', function () {
             function testDisabledToEnabled(value: any, expected: boolean) {
                 const disabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
@@ -273,7 +273,7 @@ describe('interface Bind', function() {
             testDisabledToEnabled('x', false);
             testDisabledToEnabled(1, false);
         });
-        it('should not be possible to specify enabled and disabled', function() {
+        it('should not be possible to specify enabled and disabled', function () {
             expect(() =>
                 newBind({
                     id: 'test',
@@ -282,9 +282,9 @@ describe('interface Bind', function() {
                 })
             ).toThrow();
         });
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const enabled = jest.fn().mockImplementation(function(this: any) {
+            const enabled = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -296,14 +296,14 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('readOnly', function() {
-        it('should be false by default', function() {
+    describe('readOnly', function () {
+        it('should be false by default', function () {
             const bind: Bind = newBind({
                 id: 'test',
             });
             expect(bind.readOnly).toBe(false);
         });
-        it('should return false or the result of the readOnly function', function() {
+        it('should return false or the result of the readOnly function', function () {
             function testReadOnly(value: any, expected: boolean) {
                 const readOnly = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
@@ -322,9 +322,9 @@ describe('interface Bind', function() {
             testReadOnly('x', true);
             testReadOnly(1, true);
         });
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const readOnly = jest.fn().mockImplementation(function(this: any) {
+            const readOnly = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -336,14 +336,14 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('invisible', function() {
-        it('should be false by default', function() {
+    describe('invisible', function () {
+        it('should be false by default', function () {
             const bind: Bind = newBind({
                 id: 'test',
             });
             expect(bind.invisible).toBe(false);
         });
-        it('should return false or the result of the invisible function', function() {
+        it('should return false or the result of the invisible function', function () {
             function testInvidible(value: any, expected: boolean) {
                 const invisible = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
@@ -362,9 +362,9 @@ describe('interface Bind', function() {
             testInvidible('x', true);
             testInvidible(1, true);
         });
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const invisible = jest.fn().mockImplementation(function(this: any) {
+            const invisible = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -376,12 +376,12 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('help', function() {
-        beforeEach(function() {
+    describe('help', function () {
+        beforeEach(function () {
             setTFunction(translateKeysDefault);
         });
 
-        it('should be undefined by default', function() {
+        it('should be undefined by default', function () {
             expect(t('key', 'The Default')).toBe('[key] The Default');
             const bind: Bind = newBind({
                 id: 'test',
@@ -389,14 +389,14 @@ describe('interface Bind', function() {
             expect(bind.domId).toBe('test');
             expect(bind.help).toBeUndefined();
         });
-        it('should be translated', function() {
+        it('should be translated', function () {
             const bind: Bind = newBind({
                 id: 'test',
                 help: 'Default String',
             });
             expect(bind.help).toBe('[test.help] Default String');
         });
-        it('should be updated when translation changes', function() {
+        it('should be updated when translation changes', function () {
             const bind: Bind = newBind({
                 id: 'test',
                 help: 'Default String',
@@ -404,7 +404,7 @@ describe('interface Bind', function() {
             setTFunction(translateKeysOnly);
             expect(bind.help).toBe('[test.help]');
         });
-        it('should take a function', function() {
+        it('should take a function', function () {
             const help = jest.fn().mockReturnValue('The Translated String');
             const bind: Bind = newBind({
                 id: 'test',
@@ -413,7 +413,7 @@ describe('interface Bind', function() {
             setTFunction(translateKeysOnly);
             expect(bind.help).toBe('The Translated String');
         });
-        it('should take a function that returns undefined', function() {
+        it('should take a function that returns undefined', function () {
             const help = jest.fn().mockReturnValue(undefined);
             const bind: Bind = newBind({
                 id: 'test',
@@ -423,9 +423,9 @@ describe('interface Bind', function() {
             expect(bind.help).toBeUndefined();
         });
 
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const help = jest.fn().mockImplementation(function(this: any) {
+            const help = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -437,12 +437,12 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('errors', function() {
-        beforeEach(function() {
+    describe('errors', function () {
+        beforeEach(function () {
             setTFunction(translateKeysDefault);
         });
 
-        it('should be an empty array by default', function() {
+        it('should be an empty array by default', function () {
             expect(t('key', 'The Default')).toBe('[key] The Default');
             const bind: Bind = newBind({
                 id: 'test',
@@ -451,7 +451,7 @@ describe('interface Bind', function() {
             expect(bind.errors).toEqual([]);
             expect(bind.hasErrors).toEqual(false);
         });
-        it('should not be translated', function() {
+        it('should not be translated', function () {
             const bind: Bind = newBind({
                 id: 'test',
                 getErrors: jest.fn().mockReturnValue(['The Error']),
@@ -460,7 +460,7 @@ describe('interface Bind', function() {
             expect(bind.hasErrors).toEqual(true);
         });
 
-        it('should not show duplicates when getError returns multiple errors', function() {
+        it('should not show duplicates when getError returns multiple errors', function () {
             const bind: Bind = newBind({
                 id: 'test',
                 getErrors: jest.fn().mockReturnValue(['Error 1', 'Error 1', 'Error 2', 'Error 1']),
@@ -469,7 +469,7 @@ describe('interface Bind', function() {
             expect(bind.hasErrors).toEqual(true);
         });
 
-        it('should not show duplicates when multiple setError is called', function() {
+        it('should not show duplicates when multiple setError is called', function () {
             const bind: Bind = newBind({
                 id: 'test',
             });
@@ -480,7 +480,7 @@ describe('interface Bind', function() {
             expect(bind.hasErrors).toEqual(true);
         });
 
-        it('should not show duplicates when multiple setError is called and getErrors returns errors', function() {
+        it('should not show duplicates when multiple setError is called and getErrors returns errors', function () {
             const bind: Bind = newBind({
                 id: 'test',
                 getErrors: jest
@@ -495,9 +495,9 @@ describe('interface Bind', function() {
             expect(bind.hasErrors).toEqual(true);
         });
 
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const getErrors = jest.fn().mockImplementation(function(this: any) {
+            const getErrors = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -509,8 +509,8 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('setError()', function() {
-        it('should be called', function() {
+    describe('setError()', function () {
+        it('should be called', function () {
             const setError = jest.fn();
             const bind: Bind = newBind({
                 id: 'test',
@@ -521,9 +521,9 @@ describe('interface Bind', function() {
             expect(setError).toHaveBeenCalledWith('foo');
         });
 
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const setError = jest.fn().mockImplementation(function(this: any) {
+            const setError = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -534,7 +534,7 @@ describe('interface Bind', function() {
             expect(theThis).toBe(bind);
         });
 
-        it('should store all error in the errors array', function() {
+        it('should store all error in the errors array', function () {
             const bind: Bind = newBind({
                 id: 'test',
             });
@@ -545,8 +545,8 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('clearErrors', function() {
-        it('should be called', function() {
+    describe('clearErrors', function () {
+        it('should be called', function () {
             const clearErrors = jest.fn();
             const bind: Bind = newBind({
                 id: 'test',
@@ -559,7 +559,7 @@ describe('interface Bind', function() {
             expect(clearErrors).toHaveBeenCalledTimes(2);
         });
 
-        it('should clear error', function() {
+        it('should clear error', function () {
             const bind: Bind = newBind({
                 id: 'test',
             });
@@ -569,9 +569,9 @@ describe('interface Bind', function() {
             expect(bind.hasErrors).toEqual(false);
         });
 
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const clearErrors = jest.fn().mockImplementation(function(this: any) {
+            const clearErrors = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -583,8 +583,8 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('validateField', function() {
-        it('should be called', function() {
+    describe('validateField', function () {
+        it('should be called', function () {
             const validateField = jest.fn();
             const bind: Bind = newBind({
                 id: 'test',
@@ -597,9 +597,9 @@ describe('interface Bind', function() {
             expect(validateField).toHaveBeenCalledTimes(2);
         });
 
-        it('should have the BindImpl as `this`', function() {
+        it('should have the BindImpl as `this`', function () {
             let theThis: any = undefined;
-            const validateField = jest.fn().mockImplementation(function(this: any) {
+            const validateField = jest.fn().mockImplementation(function (this: any) {
                 theThis = this;
             });
             const bind: Bind = newBind({
@@ -611,17 +611,17 @@ describe('interface Bind', function() {
         });
     });
 
-    describe('getValueFromStringOrFunction', function() {
-        it('a string should return the string', function() {
+    describe('getValueFromStringOrFunction', function () {
+        it('a string should return the string', function () {
             expect(getValueFromStringOrFunction('foo')).toBe('foo');
         });
-        it('undefined should return string', function() {
+        it('undefined should return string', function () {
             expect(getValueFromStringOrFunction(undefined)).toBeUndefined();
         });
-        it('should return the result of the function', function() {
+        it('should return the result of the function', function () {
             expect(getValueFromStringOrFunction(() => 'bar')).toBe('bar');
         });
-        it('should return null', function() {
+        it('should return null', function () {
             expect(getValueFromStringOrFunction(() => undefined)).toBeUndefined();
         });
     });

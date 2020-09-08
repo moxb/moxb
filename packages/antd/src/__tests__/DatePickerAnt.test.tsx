@@ -4,8 +4,8 @@ import * as React from 'react';
 import { DatePickerAnt, DatePickerFormAnt } from '../DatePickerAnt';
 import { shallowMoxbToJson } from './enzymeHelper';
 
-describe('DatePickerAnt', function() {
-    it('should render a date picker by default', function() {
+describe('DatePickerAnt', function () {
+    it('should render a date picker by default', function () {
         const operation = new DateImpl({
             id: 'TheId',
             label: 'oh',
@@ -13,7 +13,7 @@ describe('DatePickerAnt', function() {
         });
         expect(shallowMoxbToJson(shallow(<DatePickerAnt operation={operation} />))).toMatchSnapshot();
     });
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new DateImpl({
             id: 'TheId',
             label: 'oh',
@@ -23,8 +23,8 @@ describe('DatePickerAnt', function() {
     });
 });
 
-describe('DatePickerFormAnt', function() {
-    it('should render form item with a date picker by default', function() {
+describe('DatePickerFormAnt', function () {
+    it('should render form item with a date picker by default', function () {
         const operation = new DateImpl({
             id: 'TheId',
             label: 'oh',
@@ -32,7 +32,7 @@ describe('DatePickerFormAnt', function() {
         });
         expect(shallowMoxbToJson(shallow(<DatePickerFormAnt operation={operation} />))).toMatchSnapshot();
     });
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new DateImpl({
             id: 'TheId',
             label: 'oh',

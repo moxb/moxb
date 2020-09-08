@@ -22,7 +22,7 @@ export class TableSortImpl implements TableSort {
     @action.bound
     setSort(column: string, sortDirection: SortDirection) {
         const sort = { column, sortDirection };
-        this.sort = [sort, ...this.sort.filter(c => c.column !== sort.column)];
+        this.sort = [sort, ...this.sort.filter((c) => c.column !== sort.column)];
     }
 
     @action.bound

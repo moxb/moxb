@@ -37,7 +37,7 @@ export class MeteorTableImpl<T> extends TableImpl<T> implements MeteorTableOpera
                   }),
         } as any);
         this.meteorImpl = impl;
-        this.tableFetcher.setDataFetcher(done => {
+        this.tableFetcher.setDataFetcher((done) => {
             let paginationFilterOptions = {};
             if (this.pagination) {
                 paginationFilterOptions = this.pagination.filterOptions;

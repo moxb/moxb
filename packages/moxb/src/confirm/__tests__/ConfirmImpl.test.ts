@@ -3,11 +3,11 @@ import { setTFunction, translateKeysOnly } from '../../i18n/i18n';
 import { Confirm } from '../Confirm';
 import { ConfirmImpl } from '../ConfirmImpl';
 
-describe('content', function() {
+describe('content', function () {
     let content = jest.fn();
     let bindConfirm: Confirm<any>;
 
-    beforeEach(function() {
+    beforeEach(function () {
         setTFunction(translateKeysOnly);
         content = jest.fn().mockReturnValue('Content Value');
         bindConfirm = new ConfirmImpl<any>({
@@ -19,7 +19,7 @@ describe('content', function() {
             }),
         });
     });
-    it('should not be called when not shown with a content set', function() {
+    it('should not be called when not shown with a content set', function () {
         const contentSet = jest.fn().mockReturnValue('Content Value');
         const bindConfirmWithContent = new ConfirmImpl<any>({
             confirmButton: new BindImpl({
@@ -42,7 +42,7 @@ describe('content', function() {
         expect(bindConfirmWithContent.content).toBe('');
         expect(contentSet).not.toBeCalled();
     });
-    it('should not be called when not shown with no content set', function() {
+    it('should not be called when not shown with no content set', function () {
         expect(bindConfirm.content).toBe('[ConfirmDialog.defaultContent]');
         expect(content).not.toBeCalled();
         bindConfirm.show('data');
@@ -52,18 +52,18 @@ describe('content', function() {
         expect(bindConfirm.content).toBe('[ConfirmDialog.defaultContent]');
         expect(content).not.toBeCalled();
     });
-    it('should be called when shown', function() {
+    it('should be called when shown', function () {
         bindConfirm.show('data');
         expect(bindConfirm.content).toBe('[ConfirmDialog.defaultContent]');
     });
-    it('should not be called after canceled', function() {
+    it('should not be called after canceled', function () {
         bindConfirm.show('data');
         bindConfirm.onCancel();
 
         expect(bindConfirm.content).toBe('[ConfirmDialog.defaultContent]');
         expect(content).not.toBeCalled();
     });
-    it('should not be called after confirmed', function() {
+    it('should not be called after confirmed', function () {
         bindConfirm.show('data');
         bindConfirm.onConfirm();
 
@@ -71,11 +71,11 @@ describe('content', function() {
         expect(content).not.toBeCalled();
     });
 });
-describe('header', function() {
+describe('header', function () {
     let header = jest.fn();
     let bindConfirm: Confirm<any>;
 
-    beforeEach(function() {
+    beforeEach(function () {
         header = jest.fn().mockReturnValue('Header Value');
         bindConfirm = new ConfirmImpl<any>({
             confirmButton: new BindImpl({
@@ -87,7 +87,7 @@ describe('header', function() {
             header,
         });
     });
-    it('should not be called when not shown', function() {
+    it('should not be called when not shown', function () {
         expect(bindConfirm.header).toBe('');
         expect(header).not.toBeCalled();
         bindConfirm.show('data');
@@ -100,20 +100,20 @@ describe('header', function() {
         expect(bindConfirm.header).toBe('');
         expect(header).not.toBeCalled();
     });
-    it('should be called when shown', function() {
+    it('should be called when shown', function () {
         bindConfirm.show('data');
 
         expect(bindConfirm.header).toBe('Header Value');
         expect(header).toBeCalled();
     });
-    it('should not be called after canceled', function() {
+    it('should not be called after canceled', function () {
         bindConfirm.show('data');
         bindConfirm.onCancel();
 
         expect(bindConfirm.header).toBe('');
         expect(header).not.toBeCalled();
     });
-    it('should not be called after confirmed', function() {
+    it('should not be called after confirmed', function () {
         bindConfirm.show('data');
         bindConfirm.onConfirm();
 

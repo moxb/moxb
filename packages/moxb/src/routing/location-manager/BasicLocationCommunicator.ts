@@ -17,7 +17,7 @@ export class BasicLocationCommunicator implements LocationCommunicator {
         }
         this.currentQuestion = questions.join(', ');
         // console.log('Asking a question', this.currentQuestion);
-        return new Promise<boolean>(resolve => {
+        return new Promise<boolean>((resolve) => {
             this.currentResolve = resolve;
             const decision = window.confirm(this.currentQuestion);
             if (decision) {

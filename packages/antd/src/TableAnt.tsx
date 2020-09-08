@@ -72,7 +72,7 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
                                   current: table.pagination.activePage,
                                   showSizeChanger: true,
                                   showQuickJumper: true,
-                                  pageSizeOptions: table.pagination.pageSizes.map(p => '' + p),
+                                  pageSizeOptions: table.pagination.pageSizes.map((p) => '' + p),
                               }
                             : undefined
                     }

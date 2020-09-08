@@ -18,7 +18,7 @@ export class OneOfUi extends React.Component<BindUiProps<OneOf> & FormRadioProps
                     {labelWithHelp(label != null ? label : operation.label, operation.help)}
                 </label>
 
-                {operation.choices.map(c => (
+                {operation.choices.map((c) => (
                     <Checkbox
                         radio
                         id={idToDomId(id + '-' + c.value)}
@@ -57,7 +57,7 @@ export class OneOfSelectUi extends React.Component<BindUiProps<OneOf> & FormFiel
         if (invisible) {
             return null;
         }
-        const options = operation.choices.map(c => ({ text: c.label, value: c.value }));
+        const options = operation.choices.map((c) => ({ text: c.label, value: c.value }));
         return (
             <Form.Field id={id} error={operation.hasErrors} required={required}>
                 <label htmlFor={id + '_in'}>

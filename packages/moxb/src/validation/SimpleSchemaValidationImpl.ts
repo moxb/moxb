@@ -23,8 +23,8 @@ export class SimpleSchemaValidationImpl implements SimpleSchemaValidation {
         const error = this.getValidationErrors();
         if (error) {
             extractErrorMessages(error)
-                .filter(e => !!e.fieldName)
-                .forEach(err => (errors[err.fieldName || ''] = err));
+                .filter((e) => !!e.fieldName)
+                .forEach((err) => (errors[err.fieldName || ''] = err));
         }
         return errors;
     }
