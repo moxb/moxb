@@ -72,7 +72,11 @@ const emails = [
     'rocketmail.com',
 ];
 
-const allChoices = [{ label: 'Banana', value: 'b' }, { label: 'Apples', value: 'a' }, { label: 'Peaches', value: 'p' }];
+const allChoices = [
+    { label: 'Banana', value: 'b' },
+    { label: 'Apples', value: 'a' },
+    { label: 'Peaches', value: 'p' },
+];
 
 function createData(n: number): MemTableData[] {
     const result: MemTableData[] = [];
@@ -118,7 +122,7 @@ export class MemTableImpl implements MemTable {
     });
     readonly table = new moxb.TableImpl<MemTableData>({
         id: 'memtable.table',
-        columns: table => [
+        columns: (table) => [
             new moxb.TableColumnImpl(
                 {
                     id: 'email',
@@ -172,11 +176,11 @@ export class MemTableImpl implements MemTable {
     private filter(data: MemTableData[]): MemTableData[] {
         if (this.table.search && this.table.search.query) {
             //simple algorithm: seach for each query independently
-            const queries = this.table.search.query.split(/\s+/).map(s => new RegExp(s, 'i'));
-            const fields = this.table.columns.map(c => c.column);
+            const queries = this.table.search.query.split(/\s+/).map((s) => new RegExp(s, 'i'));
+            const fields = this.table.columns.map((c) => c.column);
             for (const query of queries) {
                 // we treat the fields as strings and check if the value is included
-                data = data.filter((d: any) => fields.findIndex(f => query.test(d[f] + '')) >= 0);
+                data = data.filter((d: any) => fields.findIndex((f) => query.test(d[f] + '')) >= 0);
             }
             return data;
         } else {
