@@ -1,4 +1,9 @@
-import { createBrowserHistory, History as MyHistory, Location as MyLocation, LocationDescriptorObject } from 'history';
+import {
+    createBrowserHistory,
+    History as MyHistory,
+    Path as MyLocation,
+    To as LocationDescriptorObject,
+} from 'history';
 import { action, observable } from 'mobx';
 import { doTokenStringsMatch, updateTokenString } from '../tokens';
 import { UrlArg } from '../url-arg';
@@ -25,9 +30,7 @@ const debug = false;
 export const noLocation: MyLocation = {
     pathname: '',
     search: '',
-    state: null,
     hash: '',
-    key: '',
 };
 
 export interface Props {
@@ -359,7 +362,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._onLocationChanged(location);
 
         // Watch for future changes
-        this._history.listen((newLocation: MyLocation) => this._onLocationChanged(newLocation));
+        this._history.listen((update) => this._onLocationChanged(update.location));
     }
 
     public getNewLocationForQueryChanges(baseLocation: MyLocation | undefined, changes: QueryChange[]): MyLocation {

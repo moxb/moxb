@@ -161,7 +161,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should be able to find simple sub-states', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=foo');
         await when(() => !!locationManager.query.where);
@@ -171,7 +171,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should return null when asking for a non-existent sub-state', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=unicorn');
         await when(() => !!locationManager.query.where);
@@ -179,7 +179,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should be able to find embedded sub-states', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=group1,child1');
         await when(() => !!locationManager.query.where);
@@ -189,7 +189,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should not find embedded sub-states where they do not belong', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=child1');
         await when(() => !!locationManager.query.where);
@@ -197,7 +197,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should be able to find children from flat sub-states', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=child3');
         await when(() => !!locationManager.query.where);
@@ -207,7 +207,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should not find flat sub-states where they do not belong', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=group2,child3');
         await when(() => !!locationManager.query.where);
@@ -216,7 +216,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('when the tokens address a group, should return the root of that group', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=group1');
         await when(() => !!locationManager.query.where);
@@ -224,7 +224,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should correctly report the number of used tokens, when finding simple sub-states', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=foo');
         await when(() => !!locationManager.query.where);
@@ -232,7 +232,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should correctly report the number of used tokens, when finding embedded children', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=group1,child1');
         await when(() => !!locationManager.query.where);
@@ -240,7 +240,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should correctly report the number of used tokens, when finding flat children', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=child3');
         await when(() => !!locationManager.query.where);
@@ -248,7 +248,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
     });
 
     it('should correctly report the number of used tokens, when finding the root of a group', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.where);
         fakeHistory.push('/?where=group1');
         await when(() => !!locationManager.query.where);

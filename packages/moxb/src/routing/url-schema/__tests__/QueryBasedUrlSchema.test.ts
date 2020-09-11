@@ -1,4 +1,4 @@
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { QueryBasedUrlSchema } from '../QueryBasedUrlSchema';
 
 describe('Query-based URL schema', () => {
@@ -6,14 +6,12 @@ describe('Query-based URL schema', () => {
         pathname: '/alien/',
         search: '?path=/foo/bar/&key1=value1&key2=value2',
         hash: '#tag1',
-        state: undefined,
     };
 
     const testLocation2: MyLocation = {
         pathname: '/alien/',
         search: '?path=foo/bar&key1=value1&key2=value2',
         hash: '#tag1',
-        state: undefined,
     };
 
     const schema = new QueryBasedUrlSchema();

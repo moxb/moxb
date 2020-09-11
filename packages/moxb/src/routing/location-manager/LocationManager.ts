@@ -1,4 +1,4 @@
-import { Location as MyLocation, LocationDescriptorObject } from 'history';
+import { Path as MyLocation, To as LocationDescriptorObject } from 'history';
 import { UrlArg } from '../url-arg';
 
 import { Query, UrlSchema } from '../url-schema/UrlSchema';

@@ -1,7 +1,7 @@
 import { CoreLinkProps, locationToUrl, NavRef, NavRefCall, UsesLocation } from '@moxb/moxb';
 import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import * as Anchor from '../not-antd/Anchor';
