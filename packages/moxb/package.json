@@ -50,7 +50,6 @@
   },
   "devDependencies": {
     "@types/atob": "2.1.2",
-    "@types/history": "4.7.7",
     "@types/jest": "26.0.13",
     "@types/lodash.flatten": "4.4.6",
     "@types/urijs": "1.19.11",
