@@ -18,7 +18,7 @@ export class MemTableUi extends React.Component<{ memTable?: MemTable }> {
                     <TableSearchUi search={memTable.table.search!} />
                 </Form.Group>
                 <TableUi table={memTable.table}>
-                    {memTable.table.data.map(tableData => (
+                    {memTable.table.data.map((tableData) => (
                         <Table.Row key={tableData.id}>
                             <Table.Cell>{tableData.email}</Table.Cell>
                             <Table.Cell>{tableData.firstName}</Table.Cell>

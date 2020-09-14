@@ -1,6 +1,6 @@
 import { computed } from 'mobx';
 
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { ArgDefinition, ParserFunc, UrlArg } from './UrlArg';
 import { SuccessCallback, TestLocation, UpdateMethod } from '../location-manager/LocationManager';
 

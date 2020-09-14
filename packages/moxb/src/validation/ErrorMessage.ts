@@ -80,6 +80,6 @@ export function extractErrorString(error: any): string {
         return '';
     }
     return extractErrorMessages(error)
-        .map(e => e.message || e.reason || 'Error')
+        .map((e) => e.message || e.reason || 'Error')
         .join('\n');
 }

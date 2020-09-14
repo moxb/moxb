@@ -76,7 +76,7 @@ export class NavStepsAnt<DataType> extends React.Component<NavStepsProps<DataTyp
             onlyVisible: true,
             onlySatisfying: true,
         });
-        const visibleStateKeys = visibleStates.map(s => s.menuKey);
+        const visibleStateKeys = visibleStates.map((s) => s.menuKey);
         const selectedMenuKeys = _states.getActiveSubStateMenuKeys(true);
         const index = visibleStateKeys.indexOf(selectedMenuKeys[0]);
         return (

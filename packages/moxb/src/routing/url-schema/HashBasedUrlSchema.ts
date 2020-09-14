@@ -1,5 +1,5 @@
 const MyURI = require('urijs');
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { Query, UrlSchema } from './UrlSchema';
 
 export interface Props {}
@@ -13,7 +13,7 @@ export class HashBasedUrlSchema implements UrlSchema {
     public getPathTokens(location: MyLocation): string[] {
         const rawPath = location.hash.split('?')[0].substr(1);
         const cleanPath = rawPath[0] === '/' ? rawPath.substr(1) : rawPath;
-        const tokens = cleanPath.split('/').filter(token => token.length);
+        const tokens = cleanPath.split('/').filter((token) => token.length);
         return tokens;
     }
 
@@ -22,9 +22,7 @@ export class HashBasedUrlSchema implements UrlSchema {
         if (qPos === -1) {
             return {};
         } else {
-            return MyURI()
-                .search(location.hash.substr(qPos))
-                .search(true);
+            return MyURI().search(location.hash.substr(qPos)).search(true);
         }
     }
 

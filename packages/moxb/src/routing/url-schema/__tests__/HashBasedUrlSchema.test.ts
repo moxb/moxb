@@ -1,4 +1,4 @@
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { HashBasedUrlSchema } from '../HashBasedUrlSchema';
 
 describe('Hash-based URL schema', () => {
@@ -6,14 +6,12 @@ describe('Hash-based URL schema', () => {
         pathname: '/alienPath',
         search: '?alienKey=alienValue',
         hash: '#foo/bar?key1=value1&key2=value2',
-        state: undefined,
     };
 
     const testLocation2: MyLocation = {
         pathname: '/alienPath',
         search: '?alienKey=alienValue',
         hash: '#/foo/bar/?key1=value1&key2=value2',
-        state: undefined,
     };
 
     const schema = new HashBasedUrlSchema();

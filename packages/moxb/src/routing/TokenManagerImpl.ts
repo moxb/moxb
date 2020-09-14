@@ -1,4 +1,4 @@
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { action, computed, observable } from 'mobx';
 import { LocationManager, SuccessCallback, UpdateMethod } from './location-manager';
 import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerImpl } from './location-state-space';
@@ -55,7 +55,7 @@ export class TokenManagerImpl implements TokenManager {
         const result: Query = {};
         const allTokens = this._locationManager.pathTokens;
         const mappings = this._activeMappings;
-        mappings.forEach(m => {
+        mappings.forEach((m) => {
             const state = m.states.getActiveSubState();
             if (state) {
                 const { tokenMapping, totalPathTokens } = state;

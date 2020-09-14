@@ -4,8 +4,8 @@ import * as React from 'react';
 import { ConfirmAnt } from '../ConfirmAnt';
 import { shallowMoxbToJson } from './enzymeHelper';
 
-describe('ConfirmAnt', function() {
-    it('should render a confirm dialog by default', function() {
+describe('ConfirmAnt', function () {
+    it('should render a confirm dialog by default', function () {
         const operation = new ConfirmImpl<any>({
             cancelButton: new BindImpl({
                 id: 'ApplicationImpl.noConfirm',

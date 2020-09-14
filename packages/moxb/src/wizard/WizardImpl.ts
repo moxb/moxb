@@ -62,7 +62,7 @@ export abstract class WizardImpl implements Wizard {
     initialize() {
         const stepId = this.storage.getItem(this.wizardId + KEY_CURRENT_STEP);
         if (stepId) {
-            this.setCurrentStep(this.steps.find(s => s.id === stepId) || this.currentStep);
+            this.setCurrentStep(this.steps.find((s) => s.id === stepId) || this.currentStep);
         }
         this.initialized = true;
     }

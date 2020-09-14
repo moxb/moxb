@@ -23,7 +23,7 @@ export class OneOfImpl<T = string> extends ValueImpl<OneOfImpl, T, OneOfOptions<
 
     @computed
     get choice(): string | undefined {
-        const choice = this.choices.find(c => c.value === this.value);
+        const choice = this.choices.find((c) => c.value === this.value);
         return choice ? choice.label : undefined;
     }
 }

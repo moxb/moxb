@@ -43,7 +43,7 @@ export class TagAnt extends React.Component<TagAntProps, TagAntState> {
         this.setState({ inputVisible: true });
     }
     handleClose(removedTag: string) {
-        this.props.operation.setValue(this.props.operation.value!.filter(tag => tag !== removedTag));
+        this.props.operation.setValue(this.props.operation.value!.filter((tag) => tag !== removedTag));
     }
     handleInputChange(e: any) {
         this.setState({ inputValue: e.target.value });
@@ -64,7 +64,7 @@ export class TagAnt extends React.Component<TagAntProps, TagAntState> {
         const { inputVisible, inputValue } = this.state;
         return (
             <div data-testid={this.props.operation.id}>
-                {this.props.operation.value!.map(tag => (
+                {this.props.operation.value!.map((tag) => (
                     <Tag
                         data-testid={tag}
                         key={tag}

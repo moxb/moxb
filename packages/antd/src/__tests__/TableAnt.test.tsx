@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ColumnAntProps, TableAnt } from '../TableAnt';
 import { shallowMoxbToJson } from './enzymeHelper';
 
-describe('TableAnt', function() {
+describe('TableAnt', function () {
     const data = [
         { _id: '1', email: 'john@doe.com', fullName: 'John Doe', createdAt: '2018-01-01' },
         { _id: '2', email: 'johanna@yahoo.com', fullName: 'Johanna Doe', createdAt: '2018-05-01' },
@@ -51,31 +51,26 @@ describe('TableAnt', function() {
             )
         );
     }
-    it('should render a table with content by default', function() {
+    it('should render a table with content by default', function () {
         const operation = newTableOperation();
         expect(shallowMoxbToJson(shallow(<TableAnt table={operation} />))).toMatchSnapshot();
     });
 
-    it('should show an alert, if an error in the table happened', function() {
+    it('should show an alert, if an error in the table happened', function () {
         const operation = newTableOperation();
         operation.setError('New error');
         const wrapper = shallow(<TableAnt table={operation} />);
-        expect(
-            wrapper
-                .render()
-                .first()
-                .find('.ant-alert-message').length
-        ).toBe(1);
+        expect(wrapper.render().first().find('.ant-alert-message').length).toBe(1);
     });
 
-    it('should render a table with setupColumn set', function() {
+    it('should render a table with setupColumn set', function () {
         const operation = newTableOperation();
         expect(
-            shallowMoxbToJson(shallow(<TableAnt table={operation} setupColumn={column => renderColumn(column)} />))
+            shallowMoxbToJson(shallow(<TableAnt table={operation} setupColumn={(column) => renderColumn(column)} />))
         ).toMatchSnapshot();
     });
 
-    it('should render a table with search field and pagination', function() {
+    it('should render a table with search field and pagination', function () {
         const operation = newTableOperation({
             search: new TableSearchImpl(),
             pagination: new TablePaginationImpl({

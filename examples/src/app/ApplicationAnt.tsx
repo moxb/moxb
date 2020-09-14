@@ -33,7 +33,7 @@ import * as React from 'react';
 import { Application } from './Application';
 
 // helper function to print recursive mobx trees
-(window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {
+(window as any).js = function (value: any, ignore = /\b(store|storage)\b/) {
     return toJSON(value, ignore);
 };
 
@@ -183,7 +183,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                 operation={{
                                     updateFrequency: 5,
                                     title: 'Time watcher',
-                                    update: callback => {
+                                    update: (callback) => {
                                         // A fake/demo update function, which checks the time
                                         callback(undefined, `Latest time is: ${new Date().toString()}`);
                                     },

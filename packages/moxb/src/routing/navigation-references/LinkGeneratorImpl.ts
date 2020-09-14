@@ -47,7 +47,7 @@ export class LinkGeneratorImpl implements LinkGenerator {
         if (tokenMapping && tokenMapping.length && tokens) {
             let hasMissing = false;
             // Add all the tokens
-            tokenMapping.forEach(tokenName => {
+            tokenMapping.forEach((tokenName) => {
                 const tokenValue = (tokens as any)[tokenName];
                 const missing = tokenValue === undefined;
                 hasMissing = hasMissing || missing;

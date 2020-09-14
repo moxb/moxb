@@ -1,7 +1,7 @@
 import { TableSearchImpl } from '../TableSearchImpl';
 
-describe('TableSearchImpl', function() {
-    it('should properly bind queryFilter and searchFieldFilter', function() {
+describe('TableSearchImpl', function () {
+    it('should properly bind queryFilter and searchFieldFilter', function () {
         const search = new TableSearchImpl();
 
         expect(search.queryFilter.queryString.getQuery()).toBe('');

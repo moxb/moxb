@@ -1,7 +1,7 @@
 import { toDateOrNull } from './ToDate';
 
 function substituteQuotedCharacters(inner: string) {
-    return inner.replace(/\\./g, function(s) {
+    return inner.replace(/\\./g, function (s) {
         switch (s[1]) {
             case 'n':
                 return '\n';
@@ -107,9 +107,9 @@ const termSplitRegex = /(-?[\w\d_.]+:(?:\/(?:[^\/\\]+|\\.)*\/|"(?:[^"\\]+|\\.)*"
 
 function extractFilters(terms: string[]) {
     // the filter part are all fields that contain a ':'
-    const filters = terms.filter(s => s.match(fieldRegExp));
+    const filters = terms.filter((s) => s.match(fieldRegExp));
 
-    const andTerms = filters.map(s => {
+    const andTerms = filters.map((s) => {
         const match = s.match(fieldRegExp)!;
 
         let field = match[1];
@@ -145,7 +145,7 @@ function extractSort(sortTerms: string[]): SortTerm | undefined {
     }
     const sort: SortTerm = {};
 
-    sortTerms.forEach(term => {
+    sortTerms.forEach((term) => {
         const match = term.match(sortRegExp);
         if (match) {
             let dir = 1;
@@ -170,7 +170,7 @@ interface ParsedQuery {
 function getTerms(query: string): string[] {
     const splitTerms = query.split(termSplitRegex);
     // we now remove any empty string, null or undefined
-    return splitTerms.filter(s => s);
+    return splitTerms.filter((s) => s);
 }
 
 /**
@@ -187,10 +187,10 @@ function getTerms(query: string): string[] {
 function parseQueryString(query: string): ParsedQuery {
     const terms = getTerms(query);
     // all non fields (which does not contain a :) is joined to the search part of the query
-    const search = terms.filter(s => !s.match(fieldRegExp)).join(' ');
+    const search = terms.filter((s) => !s.match(fieldRegExp)).join(' ');
 
-    const filter = extractFilters(terms.filter(s => !s.match(sortRegExp)));
-    const sort = extractSort(terms.filter(s => s.match(sortRegExp)));
+    const filter = extractFilters(terms.filter((s) => !s.match(sortRegExp)));
+    const sort = extractSort(terms.filter((s) => s.match(sortRegExp)));
 
     // construct the result
     const result: any = {};
@@ -224,8 +224,8 @@ function parseQueryBasic<T>(
         const searchFilters = {
             $and: (search || '')
                 .split(/\s+/)
-                .filter(s => !!s)
-                .map(regex => getSearchStringFilter(regex, fields)),
+                .filter((s) => !!s)
+                .map((regex) => getSearchStringFilter(regex, fields)),
         };
         return replaceRegexObject(combineWithAnd(searchFilters, filter, additionalFilter));
     } catch (e) {
@@ -247,7 +247,7 @@ function getSearchStringFilter(regexString: string | undefined, fields: string[]
     const { expr, andOr } = extractExpr(regexString);
     return {
         // uses the regex and combines the
-        [andOr]: fields.map(f => ({ [f]: expr })),
+        [andOr]: fields.map((f) => ({ [f]: expr })),
         // [andOr]: [
         //     { title: expr },
         //     { userName: expr },
@@ -307,7 +307,7 @@ function setSearchField(query: string, field: string, value?: string): string {
     const terms = getTerms(query);
     const regExp = getFieldRegex(field);
 
-    const index = terms.findIndex(term => !!term.match(regExp));
+    const index = terms.findIndex((term) => !!term.match(regExp));
     if (!value) {
         if (index > -1) {
             terms.splice(index, 1);
@@ -339,7 +339,7 @@ function getFieldValueRaw(query: string, field: string, excludeNegations = false
     const terms = getTerms(query);
     const regExp = getFieldRegex(field, excludeNegations);
 
-    const term = terms.find(t => !!t.match(regExp));
+    const term = terms.find((t) => !!t.match(regExp));
     if (term != null) {
         const match = term.match(fieldRegExp)!;
         return match[2];
@@ -366,7 +366,7 @@ function getFieldValue(query: string, field: string, excludeNegations = false): 
 function containsFieldValue(query: string, field: string, excludeNegations = false): boolean {
     const terms = getTerms(query);
     const regExp = getFieldRegex(field, excludeNegations);
-    return terms.findIndex(term => !!term.match(regExp)) > -1;
+    return terms.findIndex((term) => !!term.match(regExp)) > -1;
 }
 
 function replaceRegexObject(obj: any) {
@@ -391,7 +391,7 @@ function replaceRegexObject(obj: any) {
 
 function replaceRegexArray(array: Array<any>) {
     const toReturn = array;
-    array.forEach(v => {
+    array.forEach((v) => {
         if (isObject(v)) {
             replaceRegexObject(v);
         } else if (Array.isArray(v)) {
@@ -426,7 +426,7 @@ function flattenKeepSpecial(obj: any) {
     for (const key in toReturn) {
         const newKey = key
             .split('.')
-            .filter(v => !v.startsWith('$'))
+            .filter((v) => !v.startsWith('$'))
             .join('.');
         if (key !== newKey) {
             // @ts-ignore

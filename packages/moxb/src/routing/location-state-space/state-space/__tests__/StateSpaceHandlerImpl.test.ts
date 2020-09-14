@@ -4,7 +4,7 @@ import { testStateSpace } from './TestStateSpace';
 describe('State-Space Handler implementation', () => {
     const handler = new StateSpaceHandlerImpl({
         subStates: testStateSpace,
-        filterCondition: data => !(data && data.secret), // in menus, we will hide the "secret" items
+        filterCondition: (data) => !(data && data.secret), // in menus, we will hide the "secret" items
         id: 'test state space',
         // debug: true,
     });
@@ -83,7 +83,7 @@ describe('State-Space Handler implementation', () => {
                 .getFilteredSubStates({
                     onlyVisible: true,
                 })
-                .map(state => state.label)
+                .map((state) => state.label)
         ).toEqual([
             'Root state',
             'Foo',
@@ -99,7 +99,7 @@ describe('State-Space Handler implementation', () => {
                 .getFilteredSubStates({
                     onlyVisible: false,
                 })
-                .map(state => state.label)
+                .map((state) => state.label)
         ).toEqual([
             'Root state',
             'Foo',
@@ -115,7 +115,7 @@ describe('State-Space Handler implementation', () => {
                 .getFilteredSubStates({
                     onlySatisfying: true,
                 })[4] // this is Group 2
-                .subStates!.map(state => state.label)
+                .subStates!.map((state) => state.label)
         ).toEqual([
             'Child 3',
             // Child 4 is secret, so the filtering function will hide it

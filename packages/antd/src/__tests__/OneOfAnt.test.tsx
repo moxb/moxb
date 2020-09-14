@@ -11,10 +11,14 @@ import {
 } from '../OneOfAnt';
 import { shallowMoxbToJson } from './enzymeHelper';
 
-const allChoices = [{ label: 'Banana', value: 'b' }, { label: 'Apples', value: 'a' }, { label: 'Peaches', value: 'p' }];
+const allChoices = [
+    { label: 'Banana', value: 'b' },
+    { label: 'Apples', value: 'a' },
+    { label: 'Peaches', value: 'p' },
+];
 
-describe('OneOfAnt', function() {
-    it('should render a radio button group by default', function() {
+describe('OneOfAnt', function () {
+    it('should render a radio button group by default', function () {
         const operation = new OneOfImpl({
             id: 'id.testRadioOfOne',
             label: 'Select one of',
@@ -24,7 +28,7 @@ describe('OneOfAnt', function() {
         expect(shallowMoxbToJson(shallow(<OneOfAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new OneOfImpl({
             id: 'id.testRadioOfOne',
             label: 'Select one of',
@@ -36,8 +40,8 @@ describe('OneOfAnt', function() {
     });
 });
 
-describe('OneOfFormAnt', function() {
-    it('should render a radio button group with form by default', function() {
+describe('OneOfFormAnt', function () {
+    it('should render a radio button group with form by default', function () {
         const operation = new OneOfImpl({
             id: 'id.testRadioOfOne',
             label: 'Select one of',
@@ -47,7 +51,7 @@ describe('OneOfFormAnt', function() {
         expect(shallowMoxbToJson(shallow(<OneOfFormAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new OneOfImpl({
             id: 'id.testRadioOfOne',
             label: 'Select one of',
@@ -59,8 +63,8 @@ describe('OneOfFormAnt', function() {
     });
 });
 
-describe('OneOfSelectAnt', function() {
-    it('should render a select control', function() {
+describe('OneOfSelectAnt', function () {
+    it('should render a select control', function () {
         const operation = new OneOfImpl({
             id: 'id.testSelectOfOne',
             label: 'Select one of',
@@ -70,7 +74,7 @@ describe('OneOfSelectAnt', function() {
         expect(shallowMoxbToJson(shallow(<OneOfSelectAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new OneOfImpl({
             id: 'id.testSelectOfOne',
             label: 'Select one of',
@@ -82,8 +86,8 @@ describe('OneOfSelectAnt', function() {
     });
 });
 
-describe('OneOfSelectFormAnt', function() {
-    it('should render a select control with form', function() {
+describe('OneOfSelectFormAnt', function () {
+    it('should render a select control with form', function () {
         const operation = new OneOfImpl({
             id: 'id.testSelectOfOne',
             label: 'Select one of',
@@ -93,7 +97,7 @@ describe('OneOfSelectFormAnt', function() {
         expect(shallowMoxbToJson(shallow(<OneOfSelectFormAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new OneOfImpl({
             id: 'id.testSelectOfOne',
             label: 'Select one of',
@@ -105,8 +109,8 @@ describe('OneOfSelectFormAnt', function() {
     });
 });
 
-describe('OneOfDropDownAnt', function() {
-    it('should render a dropdown control', function() {
+describe('OneOfDropDownAnt', function () {
+    it('should render a dropdown control', function () {
         const operation = new OneOfImpl({
             id: 'id.testDropDownOfOne',
             label: 'Select one of',
@@ -116,7 +120,7 @@ describe('OneOfDropDownAnt', function() {
         expect(shallowMoxbToJson(shallow(<OneOfDropDownAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new OneOfImpl({
             id: 'id.testDropDownOfOne',
             label: 'Select one of',
@@ -128,8 +132,8 @@ describe('OneOfDropDownAnt', function() {
     });
 });
 
-describe('OneOfDropDownFormAnt', function() {
-    it('should render a dropdown control with form', function() {
+describe('OneOfDropDownFormAnt', function () {
+    it('should render a dropdown control with form', function () {
         const operation = new OneOfImpl({
             id: 'id.testDropDownOfOne',
             label: 'Select one of',
@@ -139,7 +143,7 @@ describe('OneOfDropDownFormAnt', function() {
         expect(shallowMoxbToJson(shallow(<OneOfDropDownFormAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const operation = new OneOfImpl({
             id: 'id.testDropDownOfOne',
             label: 'Select one of',

@@ -23,20 +23,20 @@ export function applyMiddlewareToCollection<T>(
 
     const doInsert = collection.insert;
     collection.insert = (doc, callback) =>
-        middleware.insert({ doc, callback }, payload => doInsert.apply(collection, [payload.doc, payload.callback]));
+        middleware.insert({ doc, callback }, (payload) => doInsert.apply(collection, [payload.doc, payload.callback]));
     const doUpsert = collection.upsert;
     collection.upsert = (selector, modifier, options, callback) =>
-        middleware.upsert({ selector, modifier, options, callback }, payload =>
+        middleware.upsert({ selector, modifier, options, callback }, (payload) =>
             doUpsert.apply(collection, [payload.selector, payload.modifier, payload.options, payload.callback])
         );
     const doUpdate = collection.update;
     collection.update = (selector, modifier, options, callback) =>
-        middleware.update({ selector, modifier, options, callback }, payload =>
+        middleware.update({ selector, modifier, options, callback }, (payload) =>
             doUpdate.apply(collection, [payload.selector, payload.modifier, payload.options, payload.callback])
         );
     const doRemove = collection.remove;
     collection.remove = (selector, callback) =>
-        middleware.remove({ selector, callback }, payload =>
+        middleware.remove({ selector, callback }, (payload) =>
             doRemove.apply(collection, [payload.selector, payload.callback])
         );
 

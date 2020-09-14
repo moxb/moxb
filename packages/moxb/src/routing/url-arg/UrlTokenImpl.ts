@@ -1,4 +1,4 @@
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { computed } from 'mobx';
 import { locationToUrl, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TokenManager } from '../TokenManager';

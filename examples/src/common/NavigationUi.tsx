@@ -13,7 +13,7 @@ export class NavigationUi extends React.Component<{ view?: ViewStoreImpl }> {
                 <Menu.Item key="components">
                     <a
                         href={'/components/'}
-                        onClick={e => {
+                        onClick={(e) => {
                             e.preventDefault();
                             view.openIndexPage();
                             return false;
@@ -25,7 +25,7 @@ export class NavigationUi extends React.Component<{ view?: ViewStoreImpl }> {
                 <Menu.Item key="loginForm">
                     <a
                         href={'/loginForm/'}
-                        onClick={e => {
+                        onClick={(e) => {
                             e.preventDefault();
                             view.openLoginFormPage();
                             return false;
@@ -37,7 +37,7 @@ export class NavigationUi extends React.Component<{ view?: ViewStoreImpl }> {
                 <Menu.Item key="memTable">
                     <a
                         href={'/memTable/'}
-                        onClick={e => {
+                        onClick={(e) => {
                             e.preventDefault();
                             view.openMemTablePage();
                             return false;

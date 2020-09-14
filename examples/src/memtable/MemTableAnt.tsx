@@ -52,7 +52,7 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable } & UsesU
                     operation={memTable.table.search!.searchField}
                     searchAction={memTable.table.search!.searchAction}
                 />
-                <TableAnt table={memTable.table} setupColumn={column => this.renderColumn(column)} />
+                <TableAnt table={memTable.table} setupColumn={(column) => this.renderColumn(column)} />
                 {memTable.hasSelection && <UserInfoAnt parsedTokens={parsedTokens! + 2} />}
             </Row>
         );

@@ -1,4 +1,4 @@
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { StateSpace } from '../location-state-space/state-space/StateSpace';
 import { CoreLinkProps } from '../linking';
 import { UrlSchema } from '../url-schema';

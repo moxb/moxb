@@ -2,13 +2,13 @@ import { Table } from '../Table';
 import { TableColumnImpl } from '../TableColumnImpl';
 import { TableImpl } from '../TableImpl';
 
-describe('columns', function() {
+describe('columns', function () {
     let table: Table<any>;
 
-    beforeEach(function() {
+    beforeEach(function () {
         table = new TableImpl({
             id: 'table',
-            columns: t => [
+            columns: (t) => [
                 new TableColumnImpl({ id: 'col1' }, t),
                 new TableColumnImpl({ id: 'col.asc', preferredSortDirection: 'ascending' }, t),
                 new TableColumnImpl({ id: 'col.desc', preferredSortDirection: 'descending' }, t),
@@ -16,17 +16,17 @@ describe('columns', function() {
             data: () => [],
         });
     });
-    it('should should be set', function() {
+    it('should should be set', function () {
         expect(table.columns.length).toBe(3);
     });
 });
 
-describe('sort', function() {
+describe('sort', function () {
     let table: Table<any>;
-    beforeEach(function() {
+    beforeEach(function () {
         table = new TableImpl({
             id: 'table',
-            columns: t => [
+            columns: (t) => [
                 new TableColumnImpl({ id: 'c0' }, t),
                 new TableColumnImpl({ id: 'c1', preferredSortDirection: 'ascending' }, t),
                 new TableColumnImpl({ id: 'c2', preferredSortDirection: 'descending' }, t),
@@ -35,25 +35,25 @@ describe('sort', function() {
         });
     });
 
-    it('should be empty', function() {
+    it('should be empty', function () {
         expect(table.sort.sort).toEqual([]);
     });
 
-    it('should not change if column not sortable', function() {
+    it('should not change if column not sortable', function () {
         table.columns[0].toggleSort();
         expect(table.sort.sort).toEqual([]);
     });
 
-    it('should sort the default on first toggle', function() {
+    it('should sort the default on first toggle', function () {
         table.columns[1].toggleSort();
         expect(table.sort.sort).toEqual([{ column: 'c1', sortDirection: 'ascending' }]);
     });
-    it('should reverse toggle on second toggle', function() {
+    it('should reverse toggle on second toggle', function () {
         table.columns[1].toggleSort();
         table.columns[1].toggleSort();
         expect(table.sort.sort).toEqual([{ column: 'c1', sortDirection: 'descending' }]);
     });
-    it('should move previous sort as secondary', function() {
+    it('should move previous sort as secondary', function () {
         table.columns[1].toggleSort();
         table.columns[1].toggleSort();
         table.columns[2].toggleSort();
@@ -62,7 +62,7 @@ describe('sort', function() {
             { column: 'c1', sortDirection: 'descending' },
         ]);
     });
-    it('should move first sort with defaut as first column', function() {
+    it('should move first sort with defaut as first column', function () {
         table.columns[1].toggleSort();
         table.columns[2].toggleSort();
         table.columns[1].toggleSort();

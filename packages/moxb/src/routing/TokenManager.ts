@@ -1,4 +1,4 @@
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { SuccessCallback, UpdateMethod } from './location-manager';
 import { StateCondition, StateSpace } from './location-state-space/state-space/StateSpace';
 import { Query } from './url-schema/UrlSchema';

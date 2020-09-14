@@ -177,20 +177,20 @@ describe('The Basic Location Manager implementation', () => {
     it('should create new entries in history by default', async () => {
         fakeHistory.push('/');
         await when(() => !locationManager.pathTokens.length);
-        const startLength = fakeHistory.entries.length;
+        const startLength = fakeHistory.index;
         locationManager.doSetPathTokens(0, ['go', 'here']);
         locationManager.doSetQuery('foo', 'bar');
-        const endLength = fakeHistory.entries.length;
+        const endLength = fakeHistory.index;
         expect(endLength).toEqual(startLength + 2);
     });
 
     it('should be able to manipulate location without adding new entries to history', async () => {
         fakeHistory.push('/');
         await when(() => !locationManager.pathTokens.length);
-        const startLength = fakeHistory.entries.length;
+        const startLength = fakeHistory.index;
         locationManager.doSetPathTokens(0, ['go', 'here'], UpdateMethod.REPLACE);
         locationManager.doSetQuery('foo', 'bar', UpdateMethod.REPLACE);
-        const endLength = fakeHistory.entries.length;
+        const endLength = fakeHistory.index;
         expect(endLength).toEqual(startLength);
     });
 });

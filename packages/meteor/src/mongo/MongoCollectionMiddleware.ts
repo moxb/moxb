@@ -1,7 +1,9 @@
-import { Mongo } from 'meteor/mongo';
+import { Mongo, UnionOmit } from 'meteor/mongo';
+
+export type OptionalId<TSchema> = UnionOmit<TSchema, '_id'> & { _id?: any };
 
 export interface MiddlewareInsertPayload<T> {
-    doc: T;
+    doc: OptionalId<T>;
     callback?: Function;
 }
 

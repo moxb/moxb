@@ -1,3 +1,3 @@
-describe('nothing', function() {
-    it('should', function() {});
+describe('nothing', function () {
+    it('should', function () {});
 });

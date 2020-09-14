@@ -125,7 +125,7 @@ export class TextSearchAnt extends React.Component<BindSearchStringAntProps> {
                     onChange={(e: any) => operation.setValue(e.target.value)}
                     enterButton={enterButton || t('TableSearchAnt.btnTitle', 'Search')}
                     onSearch={() => searchAction.fire()}
-                    onKeyDown={e => this.handleKeyDown(e, operation)}
+                    onKeyDown={(e) => this.handleKeyDown(e, operation)}
                     {...(props as any)}
                 />
                 {operation.value && operation.value.length > 0 && (

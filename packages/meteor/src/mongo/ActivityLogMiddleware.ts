@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import * as uuid from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import { getIn, setIn } from '../utils';
 import {
     MiddlewareInsertPayload,
@@ -8,6 +8,7 @@ import {
     MiddlewareUpsertPayload,
     MiddlewareUpsertResult,
     MongoCollectionMiddleware,
+    OptionalId,
 } from './MongoCollectionMiddleware';
 
 export type ActivityLogOperation = 'activityOpCreate' | 'activityOpUpdate' | 'activityOpDelete';
@@ -59,7 +60,7 @@ function getActivityLogs(
 ): InternalLog[] {
     const result: InternalLog[] = [];
     documentsAfter.forEach(({ _id }, i) => {
-        trackedFields.forEach(fieldName => {
+        trackedFields.forEach((fieldName) => {
             const value = getIn(documentsAfter[i], fieldName);
             const valueBefore = getIn(documentsBefore[i], fieldName);
             const fieldOperation = getFieldOperation(valueBefore, value);
@@ -120,7 +121,7 @@ function getTrackedFields(keys: NestedKeyOf<any>, prefix = '', result: string[] 
  * This means the tracked fields, and their outer fields.
  */
 function getRelevantFields(keys: NestedKeyOf<any>, prefix = '', result: StringMap<true> = {}): StringMap<true> {
-    Object.keys(keys).forEach(key => {
+    Object.keys(keys).forEach((key) => {
         const fieldPath = getFieldPath(prefix, key);
         const value = keys[key];
         result[fieldPath] = true;
@@ -140,7 +141,7 @@ function getInsertedValue(valueOrModifier: any): any {
             delete result[key];
             switch (key) {
                 case '$set':
-                    Object.keys(valueOrModifier[key]).forEach(path => {
+                    Object.keys(valueOrModifier[key]).forEach((path) => {
                         setIn(result, path, valueOrModifier[key][path]);
                     });
                     break;
@@ -216,7 +217,7 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
         this.trackedFieldsMap = getRelevantFields(options.tracked);
 
         this.fieldsToFetch = {};
-        this.trackedFields.forEach(field => (this.fieldsToFetch[field] = 1));
+        this.trackedFields.forEach((field) => (this.fieldsToFetch[field] = 1));
     }
 
     onBeforeApplyToCollection(collection: Mongo.Collection<T>) {
@@ -240,7 +241,7 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
             };
         }
 
-        this.operationId = uuid();
+        this.operationId = uuidv4();
         this.timestamp = new Date();
         const result = next(payload);
 
@@ -317,7 +318,7 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
     private readonly _logUpsert = (payload: LogUpsertPayload<T>, result: MiddlewareUpsertResult) => {
         if (result.insertedId) {
             const insertPayload: MiddlewareInsertPayload<T> = {
-                doc: payload.modifier as T,
+                doc: payload.modifier as OptionalId<T>,
             };
             this._logInsert(insertPayload, result.insertedId);
         }

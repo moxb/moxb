@@ -12,7 +12,7 @@ export interface BindTablePaginationUiProps {
 export class TablePaginationUi extends React.Component<BindTablePaginationUiProps> {
     render() {
         const { pagination, noAlignment, ...paginationProps } = this.props;
-        const options = pagination.pageSizes.map(value => ({ key: value, text: '' + value, value }));
+        const options = pagination.pageSizes.map((value) => ({ key: value, text: '' + value, value }));
         if (!pagination.visible) {
             return null;
         }

@@ -29,7 +29,7 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
                 placeholder={operation.placeholder || 'Interval'}
                 formatter={formatter}
                 parser={parser}
-                onChange={value => {
+                onChange={(value) => {
                     operation.setValue(parseInt(value ? value + '' : '0'));
                     operation.onExitField();
                 }}

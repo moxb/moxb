@@ -37,10 +37,10 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
         return flatten(
             // Since we will get an array of arrays, we will have to flatten it.
             subStates // take all the sub-states
-                .map(s => this.stateHooks[s.menuKey]) // replace them with the defined hook map
-                .filter(map => !!map) // drop those when there are no hooks
-                .map(map => map.getAll()) // keep only the values of the map
-        ).filter(hook => !!hook); // drop any empty values
+                .map((s) => this.stateHooks[s.menuKey]) // replace them with the defined hook map
+                .filter((map) => !!map) // drop those when there are no hooks
+                .map((map) => map.getAll()) // keep only the values of the map
+        ).filter((hook) => !!hook); // drop any empty values
     }
 
     /**
@@ -58,7 +58,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
         );
 
         // Find out which states would be disabled by the change
-        const disablingStates = oldSubStates.filter(s => newSubStates.indexOf(s) === -1);
+        const disablingStates = oldSubStates.filter((s) => newSubStates.indexOf(s) === -1);
 
         return this._getHooksForStates(disablingStates);
     }
@@ -68,10 +68,10 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
      */
     anyQuestionsFor(newLocation: TestLocation): string[] {
         return this._getLeaveHooksTo(newLocation) // Analyse the changes
-            .map(h => h.getLeaveQuestion) // get the leave question generators
-            .filter(gen => !!gen) // filter the cases when no question generator is given
-            .map(test => test!()) // get the questions
-            .filter(q => !!q) as string[]; // filter out empty ones
+            .map((h) => h.getLeaveQuestion) // get the leave question generators
+            .filter((gen) => !!gen) // filter the cases when no question generator is given
+            .map((test) => test!()) // get the questions
+            .filter((q) => !!q) as string[]; // filter out empty ones
     }
 
     public constructor(props: LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
@@ -188,7 +188,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
      * @param leavesOnly Should we skip groups?
      */
     public getActiveSubStateMenuKeys(leavesOnly: boolean): string[] {
-        return this.getActiveSubStates(leavesOnly).map(state => state.menuKey);
+        return this.getActiveSubStates(leavesOnly).map((state) => state.menuKey);
     }
 
     /**

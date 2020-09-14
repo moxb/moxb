@@ -38,7 +38,7 @@ export class NumericUi extends React.Component<FormInputProps & BindNumericUiPro
                     min={operation.min}
                     max={operation.max}
                     step={operation.step}
-                    onChange={e => operation.setValue(parseInt((e.target as any).value))}
+                    onChange={(e) => operation.setValue(parseInt((e.target as any).value))}
                     onFocus={operation.onEnterField}
                     onBlur={operation.onExitField}
                     {...(props as any)}

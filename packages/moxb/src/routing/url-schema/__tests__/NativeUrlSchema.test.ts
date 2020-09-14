@@ -1,4 +1,4 @@
-import { Location as MyLocation } from 'history';
+import { Path as MyLocation } from 'history';
 import { NativeUrlSchema } from '../NativeUrlSchema';
 
 describe('Native URL schema', () => {
@@ -6,14 +6,12 @@ describe('Native URL schema', () => {
         pathname: '/foo/bar/',
         search: '?key1=value1&key2=value2',
         hash: '#tag1',
-        state: undefined,
     };
 
     const testLocation2: MyLocation = {
         pathname: 'foo/bar',
         search: '?key1=value1&key2=value2',
         hash: '#tag1',
-        state: undefined,
     };
 
     const schema = new NativeUrlSchema();

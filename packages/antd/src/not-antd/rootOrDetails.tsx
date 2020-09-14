@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid/v4');
+import { v4 as uuidv4 } from 'uuid';
 import {
     getNextPathToken,
     isTokenEmpty,
@@ -69,8 +69,8 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
                             // We would hide the detail, so check with it.
                             return detailHooks
                                 .getAll()
-                                .map(h => (h.getLeaveQuestion ? h.getLeaveQuestion() : undefined))
-                                .filter(q => !!q) as string[];
+                                .map((h) => (h.getLeaveQuestion ? h.getLeaveQuestion() : undefined))
+                                .filter((q) => !!q) as string[];
                         }
                     } else {
                         if (oldRoot) {
@@ -78,8 +78,8 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
                             // We would hide the root, so check with it.
                             return rootHooks
                                 .getAll()
-                                .map(h => (h.getLeaveQuestion ? h.getLeaveQuestion() : undefined))
-                                .filter(q => !!q) as string[];
+                                .map((h) => (h.getLeaveQuestion ? h.getLeaveQuestion() : undefined))
+                                .filter((q) => !!q) as string[];
                         } else {
                             // Staying ad detail, nothing to do
                         }

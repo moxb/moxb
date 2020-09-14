@@ -100,7 +100,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
                 title={renderUIFragment(label || key || '***')}
                 style={linkStyle}
             >
-                {subStates!.map(s => this.renderSubStateElement(states, s))}
+                {subStates!.map((s) => this.renderSubStateElement(states, s))}
             </Menu.SubMenu>
         );
     }
@@ -134,7 +134,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
                         onlyVisible: true,
                         onlySatisfying: true,
                     })
-                    .map(state => this.renderSubStateElement(states, state))}
+                    .map((state) => this.renderSubStateElement(states, state))}
                 {...extras || []}
             </Menu>
         );

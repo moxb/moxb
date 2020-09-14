@@ -10,7 +10,7 @@ function forceSync(f: Function, self?: any, args?: any[]) {
     const origPromise = global.Promise;
     try {
         // patch to immediately execute async function in the 'mongo-mock' library
-        global.setTimeout = (func: Function) => func();
+        (global as any).setTimeout = (func: Function) => func();
         // terrible hack to call then immediately
         // May need some more functions to be mocked later...
         global.Promise = {

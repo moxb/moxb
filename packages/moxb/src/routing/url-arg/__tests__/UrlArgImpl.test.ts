@@ -22,7 +22,7 @@ describe('UrlArgImpl', () => {
     });
 
     it('should be able to test for the existence of the arg', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.pathTokens.length);
         expect(pocket.defined).toBeFalsy();
         fakeHistory.push('whatever/?pocket=key');
@@ -31,17 +31,17 @@ describe('UrlArgImpl', () => {
     });
 
     it('should be able to read the default value, when the arg is not specified in URL', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.pathTokens.length);
-        fakeHistory.push('/whatever');
+        fakeHistory.push('/whatever/?');
         await when(() => !!locationManager.pathTokens.length);
         expect(pocket.value).toEqual(['dust']);
     });
 
     it('should be able to extract data from the location manager', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.pathTokens.length);
-        fakeHistory.push('/whatever');
+        fakeHistory.push('/whatever?');
         await when(() => !!locationManager.pathTokens.length);
         expect(pocket.value).toEqual(['dust']); // this is the default data
         fakeHistory.push('/?pocket=key,money');
@@ -51,22 +51,23 @@ describe('UrlArgImpl', () => {
     });
 
     it('should be able to feed data into the location manager', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => pocket.value[0] === 'dust');
         pocket.doSet(['phone', 'wallet']);
         expect(locationManager.query.pocket).toBe('phone,wallet');
     });
 
     it('should hide the default value', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.pocket);
         pocket.doSet(['dust']);
         expect(locationManager.query.pocket).toBeUndefined();
         expect(fakeHistory.location.pathname).toBe('/');
+        expect(fakeHistory.location.search).toBe('');
     });
 
     it('should be able to calculate the modified URL in case of change', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/place?foo=bar&pocket=papers&weather=nice');
         await when(() => !!locationManager.pathTokens.length);
@@ -74,7 +75,7 @@ describe('UrlArgImpl', () => {
     });
 
     it('should be able to reset value to defaults', async () => {
-        fakeHistory.push('/');
+        fakeHistory.push('/?');
         await when(() => !locationManager.query.pocket);
         fakeHistory.push('/?pocket=key,money');
         await when(() => !!locationManager.query.pocket);

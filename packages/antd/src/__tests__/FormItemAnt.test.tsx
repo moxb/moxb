@@ -4,7 +4,7 @@ import * as React from 'react';
 import { FormItemAnt } from '../FormItemAnt';
 import { shallowMoxbToJson } from './enzymeHelper';
 
-describe('FormItemAnt', function() {
+describe('FormItemAnt', function () {
     const formUserText = new TextImpl({
         id: 'ApplicationImpl.formUserText',
         label: 'Username',
@@ -16,7 +16,7 @@ describe('FormItemAnt', function() {
         onSave: () => jest.fn(),
     });
 
-    it('should render a form item by default', function() {
+    it('should render a form item by default', function () {
         const onSubmitMock = jest.fn();
         const operation = new FormImpl({
             id: 'id.testForm',
@@ -26,7 +26,7 @@ describe('FormItemAnt', function() {
         expect(shallowMoxbToJson(shallow(<FormItemAnt operation={operation} />))).toMatchSnapshot();
     });
 
-    it('should return null if invisible', function() {
+    it('should return null if invisible', function () {
         const onSubmitMock = jest.fn();
         const operation = new FormImpl({
             id: 'id.testForm',

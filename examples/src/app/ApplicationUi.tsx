@@ -19,7 +19,7 @@ import { NavigationUi } from '../common/NavigationUi';
 import { Application } from './Application';
 
 // helper function to print recursive mobx trees
-(window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {
+(window as any).js = function (value: any, ignore = /\b(store|storage)\b/) {
     return toJSON(value, ignore);
 };
 
