@@ -38,9 +38,10 @@ export class ToolTipAnt extends React.Component<BindToolTipAntProps> {
         if (operation.disabled) {
             return <>{childrenWithProps}</>;
         } else {
+            // Any cast was made because of wrong childrentype inside antd
             return (
                 <Tooltip placement={placement || 'top'} title={<BindMarkdownDiv text={toolTipText(operation)} />}>
-                    {childrenWithProps}
+                    {childrenWithProps as any}
                 </Tooltip>
             );
         }

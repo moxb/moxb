@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import * as uuid from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import { getIn, setIn } from '../utils';
 import {
     MiddlewareInsertPayload,
@@ -8,6 +8,7 @@ import {
     MiddlewareUpsertPayload,
     MiddlewareUpsertResult,
     MongoCollectionMiddleware,
+    OptionalId,
 } from './MongoCollectionMiddleware';
 
 export type ActivityLogOperation = 'activityOpCreate' | 'activityOpUpdate' | 'activityOpDelete';
@@ -240,7 +241,7 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
             };
         }
 
-        this.operationId = uuid();
+        this.operationId = uuidv4();
         this.timestamp = new Date();
         const result = next(payload);
 
@@ -317,7 +318,7 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
     private readonly _logUpsert = (payload: LogUpsertPayload<T>, result: MiddlewareUpsertResult) => {
         if (result.insertedId) {
             const insertPayload: MiddlewareInsertPayload<T> = {
-                doc: payload.modifier as T,
+                doc: payload.modifier as OptionalId<T>,
             };
             this._logInsert(insertPayload, result.insertedId);
         }
