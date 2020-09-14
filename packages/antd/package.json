@@ -1,6 +1,6 @@
 {
   "name": "@moxb/antd",
-  "version": "0.2.0-beta.40",
+  "version": "0.2.0-beta.41",
   "description": "moxb ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@ant-design/icons": "4.2.2",
-    "@moxb/moxb": "^0.2.0-beta.40",
+    "@moxb/moxb": "^0.2.0-beta.41",
     "@types/enzyme": "3.10.5",
     "@types/jest": "26.0.13",
     "@types/react": "16.9.49",
