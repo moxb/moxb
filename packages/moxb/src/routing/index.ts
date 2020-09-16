@@ -30,6 +30,7 @@ export {
     defineNavRef,
     parseNavRef,
     LinkGenerator,
+    UsesLinkGenerator,
     LinkGeneratorImpl,
 } from './navigation-references';
 

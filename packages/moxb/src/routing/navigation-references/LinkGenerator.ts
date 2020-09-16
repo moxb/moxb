@@ -65,3 +65,10 @@ export interface LinkGenerator {
      */
     doGoTo(navRefCall: NavRefCall<any>, updateMethod?: UpdateMethod): void;
 }
+
+/**
+ * The interface we use when injecting the Link Generator
+ */
+export interface UsesLinkGenerator {
+    linkGenerator?: LinkGenerator;
+}
