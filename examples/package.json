@@ -28,8 +28,7 @@
     "parcel": "1.12.4",
     "parcel-plugin-less-js-enabled": "1.0.2",
     "prettier": "2.1.1",
-    "react-code-prettify": "0.0.1",
     "tslint": "6.1.3",
-    "typescript": "4.0.2"
+    "typescript": "3.8.3"
   }
 }
