@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import { getNextPathToken, LinkGenerator, Navigable, parseNavRef, UpdateMethod, UsesLocation } from '@moxb/moxb';
+import { getNextPathToken, UsesLinkGenerator, Navigable, parseNavRef, UpdateMethod, UsesLocation } from '@moxb/moxb';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 
@@ -19,9 +19,7 @@ import * as React from 'react';
  */
 @inject('locationManager', 'linkGenerator')
 @observer
-export class NavRefRedirect extends React.Component<
-    UsesLocation & Navigable<any, any> & { linkGenerator: LinkGenerator }
-> {
+export class NavRefRedirect extends React.Component<UsesLocation & Navigable<any, any> & UsesLinkGenerator> {
     @observable
     private _failed = false;
 
@@ -35,7 +33,7 @@ export class NavRefRedirect extends React.Component<
             const { navRef, tokens } = parseNavRef(stringForm);
 
             // Go to this NavRef
-            this.props.linkGenerator.doGoTo(navRef.call(tokens), UpdateMethod.REPLACE);
+            this.props.linkGenerator!.doGoTo(navRef.call(tokens), UpdateMethod.REPLACE);
         } catch (e) {
             this._failed = true;
             console.log(e);

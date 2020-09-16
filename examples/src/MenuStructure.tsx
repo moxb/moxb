@@ -1,4 +1,4 @@
-import { UIFragment, UIFragmentSpec } from '@moxb/antd';
+import { UIFragment, UIFragmentSpec, NavRefRedirect } from '@moxb/antd';
 import { StateSpace, defineNavRef } from '@moxb/moxb';
 import * as React from 'react';
 // @ts-ignore
@@ -8,7 +8,6 @@ import { ApplicationAnt } from './app/ApplicationAnt';
 import { LoginFormAnt } from './form/LoginFormAnt';
 import { MemTableAnt } from './memtable/MemTableAnt';
 import { MoreMenusAnt } from './menus/MoreMenusAnt';
-import { NavRefRedirect } from '../../packages/antd/src/not-antd';
 
 /**
  * We create this constant to be used as a reference for reaching a given point in the navigation tree

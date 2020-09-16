@@ -20,8 +20,12 @@ export const renderUIFragment = (fragment: UIFragment | undefined, props: Object
     if (fragment === undefined) {
         return null;
     }
-
-    if (typeof fragment === 'function' || isForwardRef(fragment)) {
+    // console.log('Rendering fragment', typeof fragment, fragment, fragment.type, typeof fragment.type);
+    if (
+        typeof fragment === 'function' ||
+        isForwardRef(fragment) ||
+        (typeof fragment === 'object' && typeof (fragment as any).type === 'function')
+    ) {
         return React.createElement(fragment as any, props);
     }
     return fragment as JSX.Element;

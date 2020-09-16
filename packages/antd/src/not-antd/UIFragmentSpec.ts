@@ -25,7 +25,7 @@ export type UIFragmentSpec = UIFragment | UIFragmentMap;
 /**
  * Determine whether an UIFragmentSpec value is actually a map
  */
-const isUIFragmentMap = (spec: any): spec is UIFragmentMap => {
+const isUIFragmentMap = (spec: any): boolean => {
     if (!spec || typeof spec !== 'object') {
         return false;
     }
@@ -36,6 +36,9 @@ const isUIFragmentMap = (spec: any): spec is UIFragmentMap => {
     if (isForwardRef(spec)) {
         return false;
     }
+    if (spec.$$typeof) {
+        return false;
+    }
     return !spec.props;
 };
 
@@ -44,9 +47,10 @@ const isUIFragmentMap = (spec: any): spec is UIFragmentMap => {
  */
 const getUIFragmentMap = (spec: UIFragmentSpec): UIFragmentMap => {
     if (isUIFragmentMap(spec)) {
-        return spec;
+        // Do we already have a map?
+        return spec as UIFragmentMap;
     } else {
-        return { main: spec };
+        return { main: spec as UIFragment };
     }
 };
 
