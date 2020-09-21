@@ -7,6 +7,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Fixed:
  - Teach the UI Fragment rendering code to recognize some already rendered React components.
+ - In NavMenuBarAnt, accept UI Fragments instead of only JSX Elements.
+   (This is backward compatible, and fixed some problems with recent React and antd.)
 
 # [v0.2.0-beta.42](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.42) (2020-09-21)
 

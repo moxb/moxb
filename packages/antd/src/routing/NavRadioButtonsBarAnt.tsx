@@ -15,7 +15,7 @@ export interface NavRadioButtonBarProps<DataType>
     /**
      * Any extra menu items to add
      */
-    extra?: JSX.Element;
+    extra?: UIFragment;
 
     /**
      * Any direct styles to apply
@@ -64,7 +64,7 @@ export class NavRadioButtonBarAnt<DataType> extends React.Component<NavRadioButt
         return (
             <div data-testid={id} id={id} style={style}>
                 <OneOfButtonAnt operation={operation} />
-                {extra}
+                {renderUIFragment(extra)}
             </div>
         );
     }

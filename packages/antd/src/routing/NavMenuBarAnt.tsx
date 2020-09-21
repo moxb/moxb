@@ -16,7 +16,7 @@ export interface NavMenuProps<DataType>
     /**
      * Any extra menu items to add
      */
-    extras?: JSX.Element[];
+    extras?: UIFragment[];
 
     /**
      * Any direct styles to apply
@@ -126,7 +126,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         // AndD's Menu is smart enough to automatically indicate active state
         // on all groups, so we only ask for the leaves.
         const selectedMenuKeys = states.getActiveSubStateMenuKeys(true);
-        const { extras, style, mode } = this.props;
+        const { extras = [], style, mode } = this.props;
         return (
             <Menu selectedKeys={selectedMenuKeys} mode={mode || 'horizontal'} style={style}>
                 {states
@@ -135,7 +135,7 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
                         onlySatisfying: true,
                     })
                     .map((state) => this.renderSubStateElement(states, state))}
-                {...extras || []}
+                {extras.map((f) => renderUIFragment(f))}
             </Menu>
         );
     }

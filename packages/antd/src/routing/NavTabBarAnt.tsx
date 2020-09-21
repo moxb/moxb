@@ -8,7 +8,7 @@ import {
 import { Tabs } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { UIFragment, UIFragmentSpec } from '../not-antd';
+import { renderUIFragment, UIFragment, UIFragmentSpec } from '../not-antd';
 import * as Anchor from '../not-antd/Anchor';
 import { renderSubStateCore } from '../not-antd/rendering';
 
@@ -19,7 +19,7 @@ export interface NavTabProps<DataType>
     /**
      * Any extra menu items to add
      */
-    extras?: JSX.Element[];
+    extras?: UIFragment[];
 
     /**
      * Any direct styles to apply
@@ -100,7 +100,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
 
     public render() {
         const states = this.getLocationDependantStateSpaceHandler();
-        const { extras, style, mode, id } = this.props;
+        const { extras = [], style, mode, id } = this.props;
         return (
             <Tabs
                 data-testid={id}
@@ -124,7 +124,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
                         onlySatisfying: true,
                     })
                     .map((state) => this.renderStateTabPane(id, states, state))}
-                {...extras || []}
+                {extras.map((f) => renderUIFragment(f))}
             </Tabs>
         );
     }
