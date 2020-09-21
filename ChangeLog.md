@@ -5,6 +5,14 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.42](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.42) (2020-09-21)
+
+### Fixed:
+ - More NPM dependency cleanup
+     - Downgrade TS from 4.0.2 to 3.8.3 (the latest version used by Meteor)
+     - Remove the unused read-code-prettify dep
+     - removed the unwanted and obsolete mobx-react dev dependency.
+
 # [v0.2.0-beta.41](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.41) (2020-09-14)
 
 ### Changed
