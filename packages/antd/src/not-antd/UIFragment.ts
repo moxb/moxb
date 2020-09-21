@@ -20,13 +20,18 @@ export const renderUIFragment = (fragment: UIFragment | undefined, props: Object
     if (fragment === undefined) {
         return null;
     }
-    // console.log('Rendering fragment', typeof fragment, fragment, fragment.type, typeof fragment.type);
+    // console.log('Rendering fragment', typeof fragment, fragment, (fragment as any).type, typeof (fragment as any).type);
     if (
         typeof fragment === 'function' ||
         isForwardRef(fragment) ||
-        (typeof fragment === 'object' && typeof (fragment as any).type === 'function')
+        (typeof fragment === 'object' &&
+            typeof (fragment as any).type === 'function' &&
+            (fragment as any).$$typeof !== Symbol.for('react.element'))
     ) {
+        // console.log('using createElement');
         return React.createElement(fragment as any, props);
+    } else {
+        // console.log('Rendering this directly');
+        return fragment as JSX.Element;
     }
-    return fragment as JSX.Element;
 };

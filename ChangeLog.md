@@ -5,6 +5,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Fixed:
+ - Teach the UI Fragment rendering code to recognize some already rendered React components.
+
 # [v0.2.0-beta.42](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.42) (2020-09-21)
 
 ### Fixed:
