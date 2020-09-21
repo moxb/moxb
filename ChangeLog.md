@@ -5,6 +5,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.43](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.43) (2020-09-21)
+
 ### Fixed:
  - Teach the UI Fragment rendering code to recognize some already rendered React components.
  - In NavMenuBarAnt, accept UI Fragments instead of only JSX Elements.
