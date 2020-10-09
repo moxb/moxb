@@ -6,6 +6,7 @@ import { BindManyOfChoice, ManyOf } from './ManyOf';
 
 export interface ManyOfOptions<T> extends ValueOptions<ManyOfImpl, T[]> {
     choices?: ValueOrFunction<BindOneOfChoice<T>[]>;
+    verticalDisplay?: ValueOrFunction<boolean>;
 }
 
 export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl, T[], ManyOfOptions<T>> implements ManyOf<T> {
@@ -19,6 +20,15 @@ export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl, T[], ManyOfOpt
             return this.impl.choices() || [];
         } else {
             return this.impl.choices || [];
+        }
+    }
+
+    @computed
+    get verticalDisplay(): boolean {
+        if (typeof this.impl.verticalDisplay === 'function') {
+            return this.impl.verticalDisplay() || false;
+        } else {
+            return this.impl.verticalDisplay || false;
         }
     }
 }

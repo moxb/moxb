@@ -54,6 +54,25 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
         }
         // make sure the value is not a mobx object...
         const value = toJS(operation.value);
+
+        const choices = this.props.operation.verticalDisplay
+            ? operation.choices.map((opt: any) => (
+                  <Row key={opt.value} style={{ width: '100%' }}>
+                      <Col span={24}>
+                          <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
+                              {opt.label}
+                          </Checkbox>
+                      </Col>
+                  </Row>
+              ))
+            : operation.choices.map((opt: any) => (
+                  <Col key={opt.value}>
+                      <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
+                          {opt.label}
+                      </Checkbox>
+                  </Col>
+              ));
+
         return (
             <Checkbox.Group
                 data-testid={operation.id}
@@ -63,13 +82,7 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
                 {...props}
             >
                 <Row>
-                    {operation.choices.map((opt: any) => (
-                        <Col key={opt.value}>
-                            <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
-                                {opt.label}
-                            </Checkbox>
-                        </Col>
-                    ))}
+                    {choices}
                     {children}
                 </Row>
             </Checkbox.Group>
