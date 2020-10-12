@@ -10,4 +10,5 @@ export interface BindManyOfChoice<T = string> {
 
 export interface ManyOf<T = string> extends Value<T[]> {
     readonly choices: BindManyOfChoice<T>[];
+    readonly verticalDisplay?: boolean;
 }

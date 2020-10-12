@@ -5,6 +5,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Added:
+
+ - Support for arranging the choices in ManyOfAnt vertically
+
 # [v0.2.0-beta.43](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.43) (2020-09-21)
 
 ### Fixed:
