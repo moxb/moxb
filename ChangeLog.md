@@ -5,6 +5,20 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.45](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.45) (2020-10-15)
+
+### Added
+
+ - More convenient methods for defining URL args 
+ - Type for integer URL args
+ - Added BoundLink, BoundLinkImpl and BoundLinkAnt: a link widget to be controlled
+   by a component in the store, in a Bind-like way
+
+### Changed
+
+ - Refactored some internal interfaces.
+ - Moved some code around
+
 # [v0.2.0-beta.44](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.44) (2020-10-12)
 
 ### Added:
