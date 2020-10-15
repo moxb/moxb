@@ -10,6 +10,15 @@ export const URLARG_TYPE_STRING: UrlArgTypeDef<string> = {
 };
 
 /**
+ * Optional string URL arguments
+ */
+export const URLARG_TYPE_OPTIONAL_STRING: UrlArgTypeDef<string | undefined> = {
+    getParser: () => (v) => v,
+    isEqual: (v1, v2) => v1 === v2,
+    format: (v) => v || '',
+};
+
+/**
  * Boolean URL arguments
  */
 export const URLARG_TYPE_BOOLEAN: UrlArgTypeDef<boolean> = {
@@ -21,12 +30,27 @@ export const URLARG_TYPE_BOOLEAN: UrlArgTypeDef<boolean> = {
 /**
  * Numeric URL arguments
  */
-export const URLARG_TYPE_INTEGER: UrlArgTypeDef<number | null> = {
+export const URLARG_TYPE_INTEGER: UrlArgTypeDef<number> = {
     getParser: () => (v) => {
         try {
             return Number.parseInt(v);
         } catch (err) {
-            return null;
+            return 0;
+        }
+    },
+    isEqual: (v1, v2) => v1 === v2,
+    format: (v) => String(v),
+};
+
+/**
+ * Optional numeric URL arguments
+ */
+export const URLARG_TYPE_OPTIONAL_INTEGER: UrlArgTypeDef<number | undefined> = {
+    getParser: () => (v) => {
+        try {
+            return Number.parseInt(v);
+        } catch (err) {
+            return undefined;
         }
     },
     isEqual: (v1, v2) => v1 === v2,

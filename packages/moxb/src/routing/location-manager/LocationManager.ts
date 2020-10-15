@@ -367,8 +367,17 @@ export interface LocationManager {
 
     /**
      * Define a string URL arg using this location manager
+     *
+     * When not defined, it will return at least an empty string.
      */
     defineStringArg<T = string>(key: string, defaultValue?: T, permanent?: boolean): UrlArg<T>;
+
+    /**
+     * Define an optional string URL arg using this location manager
+     *
+     * When not defined, it will return undefined.
+     */
+    defineOptionalStringArg<T = string>(key: string, permanent?: boolean): UrlArg<T | undefined>;
 
     /**
      * Define a boolean URL arg using this location manager
@@ -377,8 +386,17 @@ export interface LocationManager {
 
     /**
      * Define an integer URL arg using this location manager
+     *
+     * When not define, will return et least a zero.
      */
-    defineIntegerArg(key: string, defaultValue?: number | null, permanent?: boolean): UrlArg<number | null>;
+    defineIntegerArg(key: string, defaultValue?: number, permanent?: boolean): UrlArg<number>;
+
+    /**
+     * Define an integer URL arg using this location manager
+     *
+     * When not defined, it will return undefined.
+     */
+    defineOptionalIntegerArg(key: string, permanent?: boolean): UrlArg<number | undefined>;
 
     /**
      * Define an unordered string array URL arg using this location manager

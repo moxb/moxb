@@ -5,7 +5,7 @@ import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerI
 import { TokenManager, TokenMappings } from './TokenManager';
 import { isTokenEmpty } from './tokens';
 import { Query } from './url-schema/UrlSchema';
-import { UrlArg, URLARG_TYPE_STRING, UrlTokenImpl } from './url-arg';
+import { UrlArg, URLARG_TYPE_OPTIONAL_STRING, URLARG_TYPE_STRING, UrlTokenImpl } from './url-arg';
 
 interface LiveTokenMappings<DataType> extends TokenMappings<DataType> {
     states: LocationDependentStateSpaceHandler<any, any, DataType>;
@@ -26,6 +26,15 @@ export class TokenManagerImpl implements TokenManager {
             // @ts-ignore
             valueType: URLARG_TYPE_STRING,
             defaultValue,
+        });
+    }
+
+    defineOptionalStringArg<T = string>(key: string): UrlArg<T | undefined> {
+        return new UrlTokenImpl<T | undefined>(this, {
+            key,
+            // @ts-ignore
+            valueType: URLARG_TYPE_OPTIONAL_STRING,
+            defaultValue: undefined,
         });
     }
 

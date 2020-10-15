@@ -13,8 +13,8 @@ export type ClickHandler = (data: any) => void;
 export interface MemTable {
     readonly rows: moxb.Numeric;
     readonly table: moxb.Table<MemTableData>;
-    groupId: string;
-    objectId: string;
+    groupId: string | undefined;
+    objectId: string | undefined;
     getHandler(object: string): ClickHandler;
     readonly hasSelection: boolean;
     readonly item: moxb.OneOf;
