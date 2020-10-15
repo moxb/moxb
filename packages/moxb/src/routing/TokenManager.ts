@@ -68,9 +68,18 @@ export interface TokenManager {
     getLocationForTokenChange(startLocation: MyLocation, key: string, value: any): MyLocation;
 
     /**
-     * Define a string URL arg based on a token
+     * Define a string URL arg based on a token.
+     *
+     * When not given, it will return the specified default value. (At least and empty string.)
      */
     defineStringArg<T = string>(key: string, defaultValue?: T): UrlArg<T>;
+
+    /**
+     * Define an optional string URL arg based on a token
+     *
+     * When not given, it will return undefined.
+     */
+    defineOptionalStringArg<T = string>(key: string): UrlArg<T | undefined>;
 }
 
 /**

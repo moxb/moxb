@@ -14,6 +14,8 @@ import {
     URLARG_TYPE_ORDERED_STRING_ARRAY,
     URLARG_TYPE_STRING,
     URLARG_TYPE_UNORDERED_STRING_ARRAY,
+    URLARG_TYPE_OPTIONAL_INTEGER,
+    URLARG_TYPE_OPTIONAL_STRING,
     UrlArgImpl,
 } from '../url-arg';
 import { NativeUrlSchema } from '../url-schema';
@@ -618,6 +620,16 @@ export class BasicLocationManagerImpl implements LocationManager {
         });
     }
 
+    defineOptionalStringArg<T = string>(key: string, permanent = false): UrlArg<T | undefined> {
+        return new UrlArgImpl<T | undefined>(this, {
+            key,
+            // @ts-ignore
+            valueType: URLARG_TYPE_OPTIONAL_STRING,
+            defaultValue: undefined,
+            permanent,
+        });
+    }
+
     defineBooleanArg(key: string, defaultValue = false, permanent = false): UrlArg<boolean> {
         return new UrlArgImpl<boolean>(this, {
             key,
@@ -627,11 +639,20 @@ export class BasicLocationManagerImpl implements LocationManager {
         });
     }
 
-    defineIntegerArg(key: string, defaultValue: number | null = null, permanent = false): UrlArg<number | null> {
-        return new UrlArgImpl<number | null>(this, {
+    defineIntegerArg(key: string, defaultValue = 0, permanent = false): UrlArg<number> {
+        return new UrlArgImpl<number>(this, {
             key,
             valueType: URLARG_TYPE_INTEGER,
             defaultValue,
+            permanent,
+        });
+    }
+
+    defineOptionalIntegerArg(key: string, permanent = false): UrlArg<number | undefined> {
+        return new UrlArgImpl<number | undefined>(this, {
+            key,
+            valueType: URLARG_TYPE_OPTIONAL_INTEGER,
+            defaultValue: undefined,
             permanent,
         });
     }

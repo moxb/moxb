@@ -5,9 +5,9 @@ export interface UrlStore {
     readonly search: UrlArg<string>;
     readonly number: UrlArg<string>;
     readonly bindSearch: Text;
-    readonly groupId: UrlArg<string>;
-    readonly objectId: UrlArg<string>;
-    readonly something: UrlArg<string>;
+    readonly groupId: UrlArg<string | undefined>;
+    readonly objectId: UrlArg<string | undefined>;
+    readonly something: UrlArg<string | undefined>;
 }
 
 export interface UsesURL {

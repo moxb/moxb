@@ -5,9 +5,9 @@ export class UrlStoreImpl implements UrlStore {
     readonly color: UrlArg<string>;
     readonly search: UrlArg<string>;
     readonly number: UrlArg<string>;
-    readonly groupId: UrlArg<string>;
-    readonly objectId: UrlArg<string>;
-    readonly something: UrlArg<string>;
+    readonly groupId: UrlArg<string | undefined>;
+    readonly objectId: UrlArg<string | undefined>;
+    readonly something: UrlArg<string | undefined>;
 
     readonly bindSearch = new TextImpl({
         id: 'sampleSearch',
@@ -21,8 +21,8 @@ export class UrlStoreImpl implements UrlStore {
         this.search = location.defineStringArg('search', '', true);
         this.number = location.defineStringArg('numbers', '', true);
 
-        this.groupId = tokens.defineStringArg('groupId');
-        this.objectId = tokens.defineStringArg('objectId');
-        this.something = tokens.defineStringArg('something');
+        this.groupId = tokens.defineOptionalStringArg('groupId');
+        this.objectId = tokens.defineOptionalStringArg('objectId');
+        this.something = tokens.defineOptionalStringArg('something');
     }
 }

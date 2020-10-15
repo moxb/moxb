@@ -99,7 +99,7 @@ export class MemTableImpl implements MemTable {
         return this.url.groupId.value;
     }
 
-    set groupId(value: string) {
+    set groupId(value: string | undefined) {
         this.url.groupId.doSet(value);
     }
 
@@ -107,7 +107,7 @@ export class MemTableImpl implements MemTable {
         return this.url.objectId.value;
     }
 
-    set objectId(value: string) {
+    set objectId(value: string | undefined) {
         this.url.objectId.doSet(value);
     }
 
