@@ -7,6 +7,9 @@ import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 import { existsInQuery, getFromQuery } from './UrlArgImpl';
 import { TestLocation } from '../location-manager/LocationManager';
 
+/**
+ * Implement an Url Arg on top of URL tokens
+ */
 export class UrlTokenImpl<T> implements UrlArg<T> {
     private readonly _def: UrlArgDefinition<T>;
     private readonly _parser: ParserFunc<T>;

@@ -1,7 +1,5 @@
 import { when } from 'mobx';
 import { createMemoryHistory } from 'history';
-import { UrlArgImpl } from '../../url-arg/UrlArgImpl';
-import { URLARG_TYPE_STRING } from '../../url-arg/UrlArgTypes';
 import { NativeUrlSchema } from '../../url-schema/NativeUrlSchema';
 import { BasicLocationManagerImpl } from '../BasicLocationManagerImpl';
 import { LocationManager, UpdateMethod } from '../LocationManager';
@@ -19,18 +17,9 @@ describe('The Basic Location Manager implementation', () => {
     blm.watchHistory();
     const locationManager: LocationManager = blm;
 
-    const foo = new UrlArgImpl(locationManager, {
-        key: 'foo',
-        valueType: URLARG_TYPE_STRING,
-        defaultValue: 'foo-default',
-    });
+    const foo = locationManager.defineStringArg('foo', 'foo-default');
 
-    const sticky = new UrlArgImpl(locationManager, {
-        key: 'sticky',
-        valueType: URLARG_TYPE_STRING,
-        permanent: true,
-        defaultValue: '',
-    });
+    const sticky = locationManager.defineStringArg('sticky', '', true);
 
     it('Should provide path tokens', async () => {
         fakeHistory.push('/');

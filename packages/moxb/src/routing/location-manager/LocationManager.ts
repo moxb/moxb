@@ -2,6 +2,7 @@ import { Path as MyLocation, To as LocationDescriptorObject } from 'history';
 import { UrlArg } from '../url-arg';
 
 import { Query, UrlSchema } from '../url-schema/UrlSchema';
+import { CoreLinkProps } from '../linking/CoreLinkProps';
 
 export type SuccessCallback = (value: boolean) => void;
 
@@ -323,6 +324,11 @@ export interface LocationManager {
     ) => MyLocation;
 
     /**
+     * Calculate what would be the new location, if a given link were to be used
+     */
+    getNewLocationForLinkProps: (link: CoreLinkProps) => MyLocation;
+
+    /**
      * Determine the URL that we would get if we changed the path and also some URL arguments
      *
      * @param changes The changes to calculate
@@ -358,6 +364,36 @@ export interface LocationManager {
      * Set a redirect
      */
     setRedirect: (redirect: Redirect) => void;
+
+    /**
+     * Define a string URL arg using this location manager
+     */
+    defineStringArg<T = string>(key: string, defaultValue?: T, permanent?: boolean): UrlArg<T>;
+
+    /**
+     * Define a boolean URL arg using this location manager
+     */
+    defineBooleanArg(key: string, defaultValue?: boolean, permanent?: boolean): UrlArg<boolean>;
+
+    /**
+     * Define an integer URL arg using this location manager
+     */
+    defineIntegerArg(key: string, defaultValue?: number | null, permanent?: boolean): UrlArg<number | null>;
+
+    /**
+     * Define an unordered string array URL arg using this location manager
+     */
+    defineUnorderedStringArrayArg(key: string, defaultValue?: string[], permanent?: boolean): UrlArg<string[]>;
+
+    /**
+     * Define an ordered string array URL arg using this location manager
+     */
+    defineOrderedStringArrayArg(key: string, defaultValue?: string[], permanent?: boolean): UrlArg<string[]>;
+
+    /**
+     * Define an URL arg for a serialized object using this location manager
+     */
+    defineObjectArg<T>(key: string, defaultValue?: T | null, permanent?: boolean): UrlArg<T | null>;
 }
 
 /**

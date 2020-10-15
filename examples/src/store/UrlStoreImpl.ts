@@ -1,12 +1,4 @@
-import {
-    LocationManager,
-    TextImpl,
-    TokenManager,
-    UrlArg,
-    URLARG_TYPE_STRING,
-    UrlArgImpl,
-    UrlTokenImpl,
-} from '@moxb/moxb';
+import { LocationManager, TextImpl, TokenManager, UrlArg } from '@moxb/moxb';
 import { UrlStore } from './UrlStore';
 
 export class UrlStoreImpl implements UrlStore {
@@ -25,42 +17,12 @@ export class UrlStoreImpl implements UrlStore {
     });
 
     public constructor(location: LocationManager, tokens: TokenManager) {
-        this.color = new UrlArgImpl(location, {
-            key: 'color',
-            valueType: URLARG_TYPE_STRING,
-            defaultValue: 'red',
-        });
+        this.color = location.defineStringArg('color', 'red');
+        this.search = location.defineStringArg('search', '', true);
+        this.number = location.defineStringArg('numbers', '', true);
 
-        this.search = new UrlArgImpl(location, {
-            key: 'search',
-            valueType: URLARG_TYPE_STRING,
-            defaultValue: '',
-            permanent: true,
-        });
-
-        this.number = new UrlArgImpl(location, {
-            key: 'numbers',
-            valueType: URLARG_TYPE_STRING,
-            defaultValue: '',
-            permanent: true,
-        });
-
-        this.groupId = new UrlTokenImpl(tokens, {
-            key: 'groupId',
-            valueType: URLARG_TYPE_STRING,
-            defaultValue: '',
-        });
-
-        this.objectId = new UrlTokenImpl(tokens, {
-            key: 'objectId',
-            valueType: URLARG_TYPE_STRING,
-            defaultValue: '',
-        });
-
-        this.something = new UrlTokenImpl(tokens, {
-            key: 'something',
-            valueType: URLARG_TYPE_STRING,
-            defaultValue: '',
-        });
+        this.groupId = tokens.defineStringArg('groupId');
+        this.objectId = tokens.defineStringArg('objectId');
+        this.something = tokens.defineStringArg('something');
     }
 }

@@ -1,6 +1,6 @@
 import { Path as MyLocation } from 'history';
 import { StateSpace } from '../location-state-space/state-space/StateSpace';
-import { CoreLinkProps } from '../linking';
+import { CoreLinkProps } from '../linking/CoreLinkProps';
 import { UrlSchema } from '../url-schema';
 import { ValueOrFunction } from '../../bind/BindImpl';
 import { NavRefCall } from './NavRef';
