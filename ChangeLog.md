@@ -5,6 +5,13 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.47](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.45) (2020-10-15)
+
+### Changed
+
+ - Stronger differentiation between UrlArgs that can be undefined,
+   and those that can't be.
+
 # [v0.2.0-beta.45](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.45) (2020-10-15)
 
 ### Added
