@@ -1,6 +1,6 @@
 import { LinkGenerator, LinkGeneratorProps, LinkResult } from './LinkGenerator';
 import { NativeUrlSchema, UrlSchema } from '../url-schema';
-import { CoreLinkProps } from '../linking';
+import { CoreLinkProps } from '../linking/CoreLinkProps';
 import { locationToUrl, SuccessCallback, UpdateMethod } from '../location-manager';
 import { LocationToUrlProps, noLocation } from '../location-manager/BasicLocationManagerImpl';
 import { StateSpaceHandlerImpl } from '../location-state-space/state-space/StateSpaceHandlerImpl';

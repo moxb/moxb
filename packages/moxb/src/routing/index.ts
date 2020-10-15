@@ -10,7 +10,7 @@ export {
     pathAndQueryToUrl,
 } from './location-manager';
 
-export { CoreLinkProps } from './linking';
+export { CoreLinkProps, BoundLink, BoundLinkOptions, BoundLinkImpl } from './linking';
 
 export { UrlSchema, NativeUrlSchema, QueryBasedUrlSchema, HashBasedUrlSchema } from './url-schema';
 

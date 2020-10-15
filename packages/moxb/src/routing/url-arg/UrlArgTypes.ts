@@ -19,6 +19,21 @@ export const URLARG_TYPE_BOOLEAN: UrlArgTypeDef<boolean> = {
 };
 
 /**
+ * Numeric URL arguments
+ */
+export const URLARG_TYPE_INTEGER: UrlArgTypeDef<number | null> = {
+    getParser: () => (v) => {
+        try {
+            return Number.parseInt(v);
+        } catch (err) {
+            return null;
+        }
+    },
+    isEqual: (v1, v2) => v1 === v2,
+    format: (v) => String(v),
+};
+
+/**
  * Ordered string list URL arguments
  */
 export const URLARG_TYPE_ORDERED_STRING_ARRAY: UrlArgTypeDef<string[]> = {

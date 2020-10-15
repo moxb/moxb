@@ -2,6 +2,7 @@ import { Path as MyLocation } from 'history';
 import { SuccessCallback, UpdateMethod } from './location-manager';
 import { StateCondition, StateSpace } from './location-state-space/state-space/StateSpace';
 import { Query } from './url-schema/UrlSchema';
+import { UrlArg } from './url-arg';
 
 /**
  * A TokenMapping is a bunch of information that the Token Manager needs to be aware of, so that
@@ -65,6 +66,11 @@ export interface TokenManager {
      * Calculate how would the location change, if a given token was to change.
      */
     getLocationForTokenChange(startLocation: MyLocation, key: string, value: any): MyLocation;
+
+    /**
+     * Define a string URL arg based on a token
+     */
+    defineStringArg<T = string>(key: string, defaultValue?: T): UrlArg<T>;
 }
 
 /**

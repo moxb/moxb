@@ -5,6 +5,7 @@ import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerI
 import { TokenManager, TokenMappings } from './TokenManager';
 import { isTokenEmpty } from './tokens';
 import { Query } from './url-schema/UrlSchema';
+import { UrlArg, URLARG_TYPE_STRING, UrlTokenImpl } from './url-arg';
 
 interface LiveTokenMappings<DataType> extends TokenMappings<DataType> {
     states: LocationDependentStateSpaceHandler<any, any, DataType>;
@@ -14,6 +15,19 @@ export class TokenManagerImpl implements TokenManager {
     private readonly _mappings = observable.map<string, LiveTokenMappings<any>>();
 
     constructor(private readonly _locationManager: LocationManager) {}
+
+    defineStringArg<T = string>(
+        key: string,
+        // @ts-ignore
+        defaultValue: T = ''
+    ): UrlArg<T> {
+        return new UrlTokenImpl<T>(this, {
+            key,
+            // @ts-ignore
+            valueType: URLARG_TYPE_STRING,
+            defaultValue,
+        });
+    }
 
     @action
     addMappings<DataType>(mappings: TokenMappings<DataType>) {

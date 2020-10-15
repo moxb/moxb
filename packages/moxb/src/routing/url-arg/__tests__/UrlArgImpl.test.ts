@@ -3,8 +3,6 @@ import { createMemoryHistory } from 'history';
 import { BasicLocationManagerImpl, LocationManager } from '../../location-manager';
 import { cleanLocalhost } from '../../location-manager/__tests__/BasicLocationManagerImpl.test';
 import { NativeUrlSchema } from '../../url-schema';
-import { UrlArgImpl } from '../UrlArgImpl';
-import { URLARG_TYPE_UNORDERED_STRING_ARRAY } from '../UrlArgTypes';
 
 describe('UrlArgImpl', () => {
     const fakeHistory = createMemoryHistory();
@@ -15,11 +13,7 @@ describe('UrlArgImpl', () => {
     blm.watchHistory();
     const locationManager: LocationManager = blm;
 
-    const pocket = new UrlArgImpl(locationManager, {
-        key: 'pocket',
-        valueType: URLARG_TYPE_UNORDERED_STRING_ARRAY,
-        defaultValue: ['dust'],
-    });
+    const pocket = locationManager.defineUnorderedStringArrayArg('pocket', ['dust']);
 
     it('should be able to test for the existence of the arg', async () => {
         fakeHistory.push('/?');
@@ -71,7 +65,8 @@ describe('UrlArgImpl', () => {
         await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/place?foo=bar&pocket=papers&weather=nice');
         await when(() => !!locationManager.pathTokens.length);
-        expect(cleanLocalhost(pocket.getModifiedUrl(['money']))).toBe('/some/place?foo=bar&pocket=money&weather=nice'); // Pocket is replaced
+        const newUrl = pocket.getModifiedUrl(['money'])!;
+        expect(cleanLocalhost(newUrl)).toBe('/some/place?foo=bar&pocket=money&weather=nice'); // Pocket is replaced
     });
 
     it('should be able to reset value to defaults', async () => {

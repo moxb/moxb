@@ -6,7 +6,16 @@ import {
 } from 'history';
 import { action, observable } from 'mobx';
 import { doTokenStringsMatch, updateTokenString } from '../tokens';
-import { UrlArg } from '../url-arg';
+import {
+    UrlArg,
+    URLARG_TYPE_BOOLEAN,
+    URLARG_TYPE_INTEGER,
+    URLARG_TYPE_OBJECT,
+    URLARG_TYPE_ORDERED_STRING_ARRAY,
+    URLARG_TYPE_STRING,
+    URLARG_TYPE_UNORDERED_STRING_ARRAY,
+    UrlArgImpl,
+} from '../url-arg';
 import { NativeUrlSchema } from '../url-schema';
 import { Query, UrlSchema } from '../url-schema/UrlSchema';
 import { BasicLocationCommunicator } from './BasicLocationCommunicator';
@@ -21,6 +30,8 @@ import {
     TestLocation,
     UpdateMethod,
 } from './LocationManager';
+import { CoreLinkProps } from '../linking/CoreLinkProps';
+import { NavRef, NavRefCall } from '../navigation-references';
 
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
@@ -561,5 +572,94 @@ export class BasicLocationManagerImpl implements LocationManager {
     ) {
         const location = this.getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
         this.trySetLocation(location, method, callback);
+    }
+
+    public getNewLocationForLinkProps(link: CoreLinkProps): MyLocation {
+        const { to, position, appendTokens, removeTokenCount, argChanges, toRef } = link;
+        if (toRef) {
+            // We have a NavRef. We are going to use that.
+            if ((toRef as any).call) {
+                // This is a NavRef object, not a call. We are supposed to execute it now.
+                const navRef = toRef as NavRef<any>;
+                const { location } = navRef.createDirectLink();
+                return location;
+            } else {
+                // This ia a NavRefCall.
+                const { navRef, tokens } = toRef as NavRefCall<any>;
+                const { location } = navRef.createDirectLink(tokens);
+                return location;
+            }
+        } else {
+            // No navRef, so we will use the token-based parameters.
+            const startLocation = appendTokens
+                ? this.getNewLocationForAppendedPathTokens(appendTokens)
+                : removeTokenCount
+                ? this.getNewLocationForRemovedPathTokens(removeTokenCount)
+                : this.getNewLocationForPathAndQueryChanges(undefined, position, to, undefined);
+            return (argChanges || []).reduce(
+                (prevLocation: MyLocation, change) => change.arg.getModifiedLocation(prevLocation, change.value),
+                startLocation
+            );
+        }
+    }
+
+    defineStringArg<T = string>(
+        key: string,
+        // @ts-ignore
+        defaultValue: T = '',
+        permanent = false
+    ): UrlArg<T> {
+        return new UrlArgImpl<T>(this, {
+            key,
+            // @ts-ignore
+            valueType: URLARG_TYPE_STRING,
+            defaultValue,
+            permanent,
+        });
+    }
+
+    defineBooleanArg(key: string, defaultValue = false, permanent = false): UrlArg<boolean> {
+        return new UrlArgImpl<boolean>(this, {
+            key,
+            valueType: URLARG_TYPE_BOOLEAN,
+            defaultValue,
+            permanent,
+        });
+    }
+
+    defineIntegerArg(key: string, defaultValue: number | null = null, permanent = false): UrlArg<number | null> {
+        return new UrlArgImpl<number | null>(this, {
+            key,
+            valueType: URLARG_TYPE_INTEGER,
+            defaultValue,
+            permanent,
+        });
+    }
+
+    defineUnorderedStringArrayArg(key: string, defaultValue: string[] = [], permanent?: boolean): UrlArg<string[]> {
+        return new UrlArgImpl<string[]>(this, {
+            key,
+            valueType: URLARG_TYPE_UNORDERED_STRING_ARRAY,
+            defaultValue,
+            permanent,
+        });
+    }
+
+    defineOrderedStringArrayArg(key: string, defaultValue: string[] = [], permanent?: boolean): UrlArg<string[]> {
+        return new UrlArgImpl<string[]>(this, {
+            key,
+            valueType: URLARG_TYPE_ORDERED_STRING_ARRAY,
+            defaultValue,
+            permanent,
+        });
+    }
+
+    defineObjectArg<T>(key: string, defaultValue: T | null = null, permanent?: boolean): UrlArg<T | null> {
+        return new UrlArgImpl<T | null>(this, {
+            key,
+            valueType: URLARG_TYPE_OBJECT<T>(),
+            defaultValue,
+            permanent,
+        });
     }
 }
