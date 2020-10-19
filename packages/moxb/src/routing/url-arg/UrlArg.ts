@@ -98,6 +98,20 @@ export interface UrlArg<T> {
      */
     getModifiedUrl(value: T): string | undefined;
 
+    /**
+     * Get the Location that would result if we reseted this arg
+     *
+     * Returns the same value if this arg doesn't care about the URL.
+     */
+    getResetLocation(start: MyLocation): MyLocation;
+
+    /**
+     * Get the URL string that would result if we reseted the value
+     *
+     * Returns undefined if this arg doesn't care about the URL.
+     */
+    getResetUrl(): string | undefined;
+
     // ======= Anything below this level is quite technical,
     // you probably won't need to use it directly.
 
@@ -124,5 +138,11 @@ export interface UrlArg<T> {
  */
 export interface ArgChange<T> {
     arg: UrlArg<T>;
-    value: T;
+    value?: T;
+    reset?: boolean;
 }
+
+export const resetArg = (arg: UrlArg<any>): ArgChange<any> => ({
+    arg,
+    reset: true,
+});

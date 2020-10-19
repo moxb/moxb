@@ -599,7 +599,10 @@ export class BasicLocationManagerImpl implements LocationManager {
                 ? this.getNewLocationForRemovedPathTokens(removeTokenCount)
                 : this.getNewLocationForPathAndQueryChanges(undefined, position, to, undefined);
             return (argChanges || []).reduce(
-                (prevLocation: MyLocation, change) => change.arg.getModifiedLocation(prevLocation, change.value),
+                (prevLocation: MyLocation, change) =>
+                    change.reset
+                        ? change.arg.getResetLocation(prevLocation)
+                        : change.arg.getModifiedLocation(prevLocation, change.value),
                 startLocation
             );
         }

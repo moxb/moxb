@@ -1,4 +1,4 @@
-export { UrlArgDefinition, UrlArgTypeDef, UrlArg, ArgChange } from './UrlArg';
+export { UrlArgDefinition, UrlArgTypeDef, UrlArg, ArgChange, resetArg } from './UrlArg';
 
 export {
     URLARG_TYPE_STRING,

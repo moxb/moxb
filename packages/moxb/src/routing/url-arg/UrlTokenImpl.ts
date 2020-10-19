@@ -61,8 +61,16 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
         return this._tokenManager.getLocationForTokenChange(startLocation, this.key, rawValue);
     }
 
+    public getResetLocation(startLocation: MyLocation) {
+        return this.getModifiedLocation(startLocation, this._def.defaultValue);
+    }
+
     public getModifiedUrl(value: T) {
         return locationToUrl(this.getModifiedLocation(this._tokenManager.getCurrentLocation(), value));
+    }
+
+    public getResetUrl() {
+        return this.getModifiedUrl(this._def.defaultValue);
     }
 
     public doSet(value: T, method?: UpdateMethod) {

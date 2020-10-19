@@ -68,6 +68,14 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
         return getter(this.getRawValue(value));
     }
 
+    public getResetLocation(start: MyLocation) {
+        return this.getModifiedLocation(start, this._def.defaultValue);
+    }
+
+    public getResetUrl() {
+        return this.getModifiedUrl(this._def.defaultValue);
+    }
+
     public doSet(value: T) {
         this.backend.doSet(this.getRawValue(value));
     }
