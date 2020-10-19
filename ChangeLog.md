@@ -5,6 +5,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Changed
+
+ - Removed a mistaken Meteor reference from @moxb/moxb
+
 # [v0.2.0-beta.49](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.49) (2020-10-19)
 
 ### Fixed
@@ -28,7 +32,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Added
 
- - More convenient methods for defining URL args 
+ - More convenient methods for defining URL args
  - Type for integer URL args
  - Added BoundLink, BoundLinkImpl and BoundLinkAnt: a link widget to be controlled
    by a component in the store, in a Bind-like way
