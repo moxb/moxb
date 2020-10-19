@@ -41,6 +41,7 @@ export {
     UrlArgImpl,
     UrlTokenImpl,
     ArgChange,
+    resetArg,
     createInMemoryArg,
     AnyUrlArgImpl,
     URLARG_TYPE_STRING,
