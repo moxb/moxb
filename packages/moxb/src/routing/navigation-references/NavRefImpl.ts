@@ -36,9 +36,11 @@ export interface NavRefProps {
     linkGenerator?: LinkGenerator;
 
     /**
-     * A prefix to use when generating indirect (redirected) links.
+     * The base URL to use when generating indirect (redirected) links.
+     *
+     * This should be the full URL of the app + some prefix.
      */
-    redirectPrefix?: string;
+    redirectUrlBase?: string;
 }
 
 /**
@@ -64,13 +66,13 @@ class NavRefImpl<InputTokens> implements NavRef<InputTokens> {
     }
 
     createIndirectLink(tokens?: InputTokens) {
-        const { redirectPrefix } = this.props;
-        if (!redirectPrefix) {
+        const { redirectUrlBase } = this.props;
+        if (!redirectUrlBase) {
             throw new Error(
-                "This NavRef has been initialized without a redirect prefix, so we can't generate indirect links."
+                "This NavRef has been initialized without a redirect URL base, so we can't generate indirect links."
             );
         }
-        return Meteor.absoluteUrl() + redirectPrefix + '/' + this.call(tokens).toString();
+        return redirectUrlBase + '/' + this.call(tokens).toString();
     }
 
     createDirectLink(tokens?: InputTokens) {
