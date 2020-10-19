@@ -1,6 +1,6 @@
 {
   "name": "@moxb/semui",
-  "version": "0.2.0-beta.48",
+  "version": "0.2.0-beta.49",
   "description": "moxb semantic-ui bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -60,7 +60,7 @@
     "tslib": "^2.0.1"
   },
   "devDependencies": {
-    "@moxb/moxb": "^0.2.0-beta.48",
+    "@moxb/moxb": "^0.2.0-beta.49",
     "@types/enzyme": "3.10.5",
     "@types/jest": "26.0.13",
     "@types/marked": "1.1.0",
