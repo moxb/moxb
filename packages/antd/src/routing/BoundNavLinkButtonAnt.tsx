@@ -1,15 +1,14 @@
 import { BoundLink } from '@moxb/moxb';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { LinkAnt, LinkAntProps, LinkAntStyleProps } from './LinkAnt';
-import { AnchorParams } from '../not-antd/Anchor';
+import { NavLinkButtonAnt, NavLinkButtonAntParams, NavLinkButtonAntProps } from './NavLinkButtonAnt';
 
-export interface BoundLinkAntProps extends AnchorParams, LinkAntStyleProps {
+export interface BoundNavLinkButtonAntProps extends NavLinkButtonAntParams {
     operation: BoundLink;
 }
 
 @observer
-export class BoundLinkAnt extends React.Component<BoundLinkAntProps> {
+export class BoundNavLinkButtonAnt extends React.Component<BoundNavLinkButtonAntProps> {
     render() {
         const { operation, children, ...rest } = this.props;
 
@@ -17,7 +16,7 @@ export class BoundLinkAnt extends React.Component<BoundLinkAntProps> {
             return null;
         }
 
-        const linkProps: LinkAntProps = {
+        const linkProps: NavLinkButtonAntProps = {
             to: operation.to,
             argChanges: operation.argChanges,
             position: operation.position,
@@ -27,6 +26,6 @@ export class BoundLinkAnt extends React.Component<BoundLinkAntProps> {
             ...rest,
         };
 
-        return <LinkAnt {...linkProps}>{children}</LinkAnt>;
+        return <NavLinkButtonAnt {...linkProps}>{children}</NavLinkButtonAnt>;
     }
 }

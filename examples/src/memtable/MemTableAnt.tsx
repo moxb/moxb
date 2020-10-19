@@ -1,4 +1,4 @@
-import { Anchor, ColumnAntProps, LinkAnt, NumericFormAnt, TableAnt, TextSearchAnt } from '@moxb/antd';
+import { Anchor, ColumnAntProps, NavLink, NumericFormAnt, TableAnt, TextSearchAnt } from '@moxb/antd';
 import { Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
@@ -23,29 +23,29 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable } & UsesU
                 </span>
                 <br />
                 Goto Group{' '}
-                <LinkAnt argChanges={[{ arg: url.groupId, value: 'foo' }]}>
+                <NavLink argChanges={[{ arg: url.groupId, value: 'foo' }]}>
                     <code>'foo'</code>{' '}
-                </LinkAnt>
+                </NavLink>
                 or{' '}
-                <LinkAnt argChanges={[{ arg: url.groupId, value: 'bar' }]}>
+                <NavLink argChanges={[{ arg: url.groupId, value: 'bar' }]}>
                     <code>'bar'</code>{' '}
-                </LinkAnt>
+                </NavLink>
                 or{' '}
-                <LinkAnt argChanges={[{ arg: url.groupId, value: '' }]}>
+                <NavLink argChanges={[{ arg: url.groupId, value: '' }]}>
                     <code>''</code>
-                </LinkAnt>
+                </NavLink>
                 <br /> Goto Object{' '}
-                <LinkAnt argChanges={[{ arg: url.objectId, value: 'ObjA' }]}>
+                <NavLink argChanges={[{ arg: url.objectId, value: 'ObjA' }]}>
                     <code>'ObjA'</code>{' '}
-                </LinkAnt>
+                </NavLink>
                 or{' '}
-                <LinkAnt argChanges={[{ arg: url.objectId, value: 'ObjB' }]}>
+                <NavLink argChanges={[{ arg: url.objectId, value: 'ObjB' }]}>
                     <code>'ObjB'</code>{' '}
-                </LinkAnt>
+                </NavLink>
                 or{' '}
-                <LinkAnt argChanges={[{ arg: url.objectId, value: '' }]}>
+                <NavLink argChanges={[{ arg: url.objectId, value: '' }]}>
                     <code>''</code>
-                </LinkAnt>{' '}
+                </NavLink>{' '}
                 {!memTable.groupId && <i>(disallowed -- would normally be disabled, because no Group is specified)</i>}
                 <NumericFormAnt required operation={memTable.rows} />
                 <TextSearchAnt
