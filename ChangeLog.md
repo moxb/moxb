@@ -5,6 +5,12 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.49](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.49) (2020-10-19)
+
+### Fixed
+
+ - Added a mixing export
+
 # [v0.2.0-beta.48](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.48) (2020-10-19)
 
 ### Added
