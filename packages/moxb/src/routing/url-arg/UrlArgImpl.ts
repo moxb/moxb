@@ -69,6 +69,14 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this._locationManager.getNewLocationForQueryChanges(start, [{ key: this.key, value: rawValue }]);
     }
 
+    public getResetUrl() {
+        return this.getModifiedUrl(this._def.defaultValue);
+    }
+
+    public getResetLocation(start: MyLocation): MyLocation {
+        return this.getModifiedLocation(start, this._def.defaultValue);
+    }
+
     public doSet(value: T, method?: UpdateMethod) {
         const rawValue = this.getRawValue(value);
         this._locationManager.doSetQuery(this.key, rawValue, method);
