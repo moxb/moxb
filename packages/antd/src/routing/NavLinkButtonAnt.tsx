@@ -4,7 +4,7 @@ import { ButtonProps } from 'antd/lib/button';
 import { Path as MyLocation } from 'history';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { AnchorParams } from '../not-antd/Anchor';
+import { AnchorParams } from '@moxb/html/dist/Anchor';
 
 /**
  * Everything except the actual target specification

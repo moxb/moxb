@@ -2,8 +2,10 @@
 
 Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
-
 # v.Next (Current)
+
+### Changed
+ - Moved everything from @moxb/antd / not-antd into @moxb/html
 
 # [v0.2.0-beta.50](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.50) (2020-10-20)
 

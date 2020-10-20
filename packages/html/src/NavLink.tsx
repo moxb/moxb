@@ -2,7 +2,7 @@ import { CoreLinkProps, locationToUrl, UsesLocation } from '@moxb/moxb';
 import { Path as MyLocation } from 'history';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import * as Anchor from '../not-antd/Anchor';
+import * as Anchor from './Anchor';
 
 /**
  * Everything _except_ the target specification

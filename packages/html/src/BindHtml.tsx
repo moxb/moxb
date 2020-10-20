@@ -1,6 +1,6 @@
 import { Bind } from '@moxb/moxb';
 
-export interface BindAntProps<T extends Bind> {
+export interface BindHtmlProps<T extends Bind> {
     operation: T;
     invisible?: boolean;
 }
@@ -9,7 +9,7 @@ export interface BindAntProps<T extends Bind> {
  * This function essentially merges the BindAntProps with the data that comes form the operation.
  * The direct props override properties of the operation!
  */
-export function parseProps<T, O>(bindProps: T, _op: O): T & O {
+export function parseHtmlProps<T, O>(bindProps: T, _op: O): T & O {
     let { id, operation, invisible, label, disabled, readOnly, children, ...props } = bindProps as any;
     id = typeof id !== 'undefined' ? id : operation.domId;
     label = typeof label !== 'undefined' ? label : operation.label;

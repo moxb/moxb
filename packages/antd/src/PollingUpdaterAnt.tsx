@@ -3,7 +3,7 @@ import { Popover, Spin, Alert } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { t } from '@moxb/moxb';
-import { renderUIFragment, UIFragment } from './not-antd';
+import { renderUIFragment, UIFragment } from '@moxb/html';
 
 /**
  * A callback type that will be passed to the update function

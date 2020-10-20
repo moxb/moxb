@@ -1,12 +1,15 @@
 import { Action } from '@moxb/moxb';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { BindAntProps, parseProps } from './BindHtml';
+import { BindHtmlProps, parseHtmlProps } from './BindHtml';
 
 @observer
-export class ActionButtonHtml extends React.Component<BindAntProps<Action> & HTMLButtonElement> {
+export class ActionButtonHtml extends React.Component<BindHtmlProps<Action> & HTMLButtonElement> {
     render() {
-        const { operation, invisible, children, label, id, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, children, label, id, ...props } = parseHtmlProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible || operation.invisible) {
             return null;
         }
@@ -19,9 +22,12 @@ export class ActionButtonHtml extends React.Component<BindAntProps<Action> & HTM
 }
 
 @observer
-export class ActionAnchorHtml extends React.Component<BindAntProps<Action> & HTMLAnchorElement> {
+export class ActionAnchorHtml extends React.Component<BindHtmlProps<Action> & HTMLAnchorElement> {
     render() {
-        const { operation, invisible, children, label, id, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, children, label, id, ...props } = parseHtmlProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible || operation.invisible) {
             return null;
         }

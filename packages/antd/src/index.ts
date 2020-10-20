@@ -1,3 +1,4 @@
+export * from '@moxb/html';
 export * from './ActionAnt';
 export * from './BindAnt';
 export * from './BoolAnt';
@@ -16,6 +17,5 @@ export * from './FormItemAnt';
 export * from './TagAnt';
 export * from './ToolTipAnt';
 export * from './TreeAnt';
-export * from './not-antd';
 export * from './routing';
 export * from './PollingUpdaterAnt';
