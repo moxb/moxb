@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.51](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.51) (2020-10-20)
+
 ### Changed
  - Moved everything from @moxb/antd / not-antd into @moxb/html
 
