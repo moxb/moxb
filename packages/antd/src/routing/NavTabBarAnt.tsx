@@ -8,9 +8,9 @@ import {
 import { Tabs } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { renderUIFragment, UIFragment, UIFragmentSpec } from '../not-antd';
-import * as Anchor from '../not-antd/Anchor';
-import { renderSubStateCore } from '../not-antd/rendering';
+import { renderUIFragment, UIFragment, UIFragmentSpec } from '@moxb/html';
+import * as Anchor from '@moxb/html/dist/Anchor';
+import { renderSubStateCore } from '@moxb/html/dist/rendering';
 
 const TabPane = Tabs.TabPane;
 

@@ -7,7 +7,7 @@ import {
 } from '@moxb/moxb';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { renderUIFragment, UIFragment, UIFragmentSpec } from '../not-antd';
+import { renderUIFragment, UIFragment, UIFragmentSpec } from '@moxb/html';
 import { OneOfButtonAnt } from '../OneOfAnt';
 
 export interface NavRadioButtonBarProps<DataType>

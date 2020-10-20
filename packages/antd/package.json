@@ -65,6 +65,7 @@
   "devDependencies": {
     "@ant-design/icons": "4.2.2",
     "@moxb/moxb": "^0.2.0-beta.50",
+    "@moxb/html": "^0.2.0-beta.50",
     "@types/enzyme": "3.10.5",
     "@types/jest": "26.0.13",
     "@types/react": "16.9.49",
