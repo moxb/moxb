@@ -31,6 +31,7 @@ import DownOutlined from '@ant-design/icons/DownOutlined';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Application } from './Application';
+import { CountingClock } from '../../../packages/html/src';
 
 // helper function to print recursive mobx trees
 (window as any).js = function (value: any, ignore = /\b(store|storage)\b/) {
@@ -40,6 +41,13 @@ import { Application } from './Application';
 @inject('app')
 @observer
 export class ApplicationAnt extends React.Component<{ app?: Application }> {
+    private readonly creation: number;
+
+    constructor(props: any) {
+        super(props);
+        this.creation = Date.now();
+    }
+
     render() {
         const application = this.props.app!;
         return (
@@ -189,6 +197,20 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                                     },
                                 }}
                             />
+                            <br />
+                            <br />
+                            <h3>Counting Clock widget</h3>
+                            <ul>
+                                <li>
+                                    For a fixed amount of time: <CountingClock fixedAmount={95} />
+                                </li>
+                                <li>
+                                    Counting forward: <CountingClock measureSince={this.creation} />
+                                </li>
+                                <li>
+                                    Countdown: <CountingClock countdownTo={this.creation + 300000} />
+                                </li>
+                            </ul>
                             <br />
                             <br />
                             <div id="spacer" style={{ paddingBottom: '100px' }} />
