@@ -22,6 +22,7 @@ export class BoundNavLinkButtonAnt extends React.Component<BoundNavLinkButtonAnt
             position: operation.position,
             appendTokens: operation.appendTokens,
             removeTokenCount: operation.removeTokenCount,
+            toRef: operation.toRef,
             label: operation.label,
             ...rest,
         };

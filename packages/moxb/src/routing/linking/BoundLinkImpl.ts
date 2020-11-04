@@ -3,6 +3,7 @@ import { BoundLink } from './BoundLink';
 import { ArgChange } from '../url-arg';
 import { StringOrFunction } from '../../bind/BindImpl';
 import { t } from '../../i18n/i18n';
+import { NavRef, NavRefCall } from '../navigation-references';
 
 export interface BoundLinkOptions {
     id: string;
@@ -18,6 +19,7 @@ export interface BoundLinkOptions {
     position?(): number | undefined;
     removeTokenCount?(): number | undefined;
     appendTokens?(): string[] | undefined;
+    toRef?(): NavRef<void | {}> | NavRefCall<any>;
 }
 
 /**
@@ -72,6 +74,14 @@ export class BoundLinkImpl implements BoundLink {
     get removeTokenCount() {
         if (this.impl.removeTokenCount) {
             return this.impl.removeTokenCount();
+        }
+        return undefined;
+    }
+
+    @computed
+    get toRef() {
+        if (this.impl.toRef) {
+            return this.impl.toRef();
         }
         return undefined;
     }

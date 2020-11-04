@@ -26,6 +26,7 @@ export class BoundNavLink extends React.Component<BoundNavLinkProps> {
             appendTokens: operation.appendTokens,
             removeTokenCount: operation.removeTokenCount,
             label: operation.label,
+            toRef: operation.toRef,
             ...rest,
         };
 
