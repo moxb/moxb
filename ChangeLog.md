@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.52](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.52) (2020-11-05)
+
 ### Added
  - Support indicating the pending state on ToolTipAnt
  - Add CountingClock widget to @moxb/html
