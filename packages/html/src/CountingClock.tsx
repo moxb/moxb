@@ -93,13 +93,32 @@ export class CountingClock extends React.Component<CountingClockProps, ClockStat
 
     private timerId: any; // Can't find the Timeout type
 
-    componentDidMount() {
+    private get shouldRun() {
         const { measureSince, countdownTo } = this.props;
-        if (!!measureSince || !!countdownTo) {
+        return !!measureSince || !!countdownTo;
+    }
+
+    private get isRunning() {
+        return !!this.timerId;
+    }
+
+    private startOrStopAndUpdate() {
+        const { shouldRun, isRunning } = this;
+        if (shouldRun && !isRunning) {
             this.timerId = setInterval(() => this.update(), 1000);
-        } else {
+        } else if (!shouldRun && isRunning) {
+            clearInterval(this.timerId);
             this.update();
+            delete this.timerId;
         }
+    }
+
+    componentDidMount() {
+        this.startOrStopAndUpdate();
+    }
+
+    componentDidUpdate() {
+        this.startOrStopAndUpdate();
     }
 
     componentWillUnmount() {
