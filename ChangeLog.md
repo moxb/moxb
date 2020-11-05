@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.53](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.53) (2020-11-05)
+
 ### Added
  - The ability to assign a postFormatter to CountingClock
  - Export Logger interface
