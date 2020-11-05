@@ -31,6 +31,11 @@ export interface CountingClockProps {
     style?: React.CSSProperties;
 
     /**
+     * Do we want to do some extra post-processing on the formatted string?
+     */
+    postFormatter?: (s: string) => string;
+
+    /**
      * Help text to display while hoovering.
      */
     help?: string;
@@ -75,7 +80,7 @@ export class CountingClock extends React.Component<CountingClockProps, ClockStat
 
     private update() {
         let formatted: string;
-        const { measureSince, countdownTo, fixedAmount } = this.props;
+        const { measureSince, countdownTo, fixedAmount, postFormatter } = this.props;
         if (measureSince) {
             formatted = formatSecs((Date.now() - measureSince) / 1000);
         } else if (countdownTo) {
@@ -86,9 +91,14 @@ export class CountingClock extends React.Component<CountingClockProps, ClockStat
         } else {
             formatted = '';
         }
-        this.setState({
-            display: formatted,
-        });
+        if (postFormatter && !!formatted) {
+            formatted = postFormatter(formatted);
+        }
+        if (this.state.display !== formatted) {
+            this.setState({
+                display: formatted,
+            });
+        }
     }
 
     private timerId: any; // Can't find the Timeout type
@@ -110,6 +120,8 @@ export class CountingClock extends React.Component<CountingClockProps, ClockStat
             clearInterval(this.timerId);
             this.update();
             delete this.timerId;
+        } else {
+            this.update();
         }
     }
 

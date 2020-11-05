@@ -4,6 +4,12 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Added
+ - The ability to assign a postFormatter to CountingClock
+
+### Fixed
+ - A reactivity issue in CountingClock
+
 # [v0.2.0-beta.52](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.52) (2020-11-05)
 
 ### Added
