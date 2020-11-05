@@ -1,4 +1,4 @@
-interface Logger {
+export interface Logger {
     log(...stuff: any[]): void;
     debug(...stuff: any[]): void;
     info(...stuff: any[]): void;

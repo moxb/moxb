@@ -6,6 +6,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Added
  - The ability to assign a postFormatter to CountingClock
+ - Export Logger interface
 
 ### Fixed
  - A reactivity issue in CountingClock
