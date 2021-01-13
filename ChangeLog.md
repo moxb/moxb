@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.54](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.54) (2021-01-13)
+
 ### Added
  - The ability to override the `help` field on form items
 
