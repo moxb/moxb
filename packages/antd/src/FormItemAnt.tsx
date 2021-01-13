@@ -27,6 +27,7 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
             id,
             children,
             label,
+            help,
             formStyle,
             labelCol,
             wrapperCol,
@@ -43,7 +44,7 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
             <Form.Item
                 htmlFor={fullId}
                 data-testid={fullId}
-                label={labelWithHelp(label, operation.help, fullId)}
+                label={labelWithHelp(label, help, fullId)}
                 style={formStyle || undefined}
                 extra={extraLabel}
                 labelCol={labelCol}

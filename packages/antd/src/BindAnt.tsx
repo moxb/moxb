@@ -16,9 +16,10 @@ export interface BindAntProps<T extends Bind> {
  * The direct props override properties of the operation!
  */
 export function parseProps<T, O>(bindProps: T, _op: O): T & O {
-    let { id, operation, invisible, label, disabled, reason, readOnly, children, ...props } = bindProps as any;
+    let { id, operation, invisible, label, help, disabled, reason, readOnly, children, ...props } = bindProps as any;
     id = typeof id !== 'undefined' ? id : operation.domId;
     label = typeof label !== 'undefined' ? label : operation.label;
+    help = typeof help !== 'undefined' ? help : operation.help;
     disabled = typeof disabled !== 'undefined' ? disabled : operation.disabled;
     reason = typeof reason !== 'undefined' ? reason : operation.reason;
     readOnly = typeof readOnly !== 'undefined' ? readOnly : operation.readOnly;
@@ -27,6 +28,7 @@ export function parseProps<T, O>(bindProps: T, _op: O): T & O {
         id,
         operation,
         label,
+        help,
         disabled,
         reason,
         readOnly,
