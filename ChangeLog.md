@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+ - Fixed a missing dependency and a few invalid imports in the example app
+
 # [v0.2.0-beta.54](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.54) (2021-01-13)
 
 ### Added

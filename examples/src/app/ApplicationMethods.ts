@@ -1,4 +1,4 @@
-import { MeteorCallback } from '../../../packages/meteor/src';
+import { MeteorCallback } from '@moxb/meteor';
 import { ApplicationAPI } from './Application';
 
 export class ApplicationMethods implements ApplicationAPI {

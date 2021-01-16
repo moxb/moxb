@@ -9,7 +9,8 @@
   "dependencies": {
     "@ant-design/icons": "4.2.2",
     "@moxb/antd": "0.2.0-beta.51",
-    "@moxb/html": "0.2.0-beta.51",
+    "@moxb/html": "0.2.0-beta.53",
+    "@moxb/meteor": "0.2.0-beta.53",
     "@moxb/moxb": "0.2.0-beta.51",
     "@moxb/semui": "0.2.0-beta.51",
     "antd": "4.6.3",
