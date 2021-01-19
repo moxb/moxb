@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { isForwardRef } from './isForwardRef';
+import { observer } from 'mobx-react';
 
 type Component<T> = (props: T) => JSX.Element | null;
 
@@ -28,8 +29,8 @@ export const renderUIFragment = (fragment: UIFragment | undefined, props: Object
             typeof (fragment as any).type === 'function' &&
             (fragment as any).$$typeof !== Symbol.for('react.element'))
     ) {
-        // console.log('using createElement');
-        return React.createElement(fragment as any, props);
+        // console.log('using createElement with observer');
+        return React.createElement(observer(fragment as any), props);
     } else {
         // console.log('Rendering this directly');
         return fragment as JSX.Element;

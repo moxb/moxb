@@ -5,6 +5,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 # v.Next (Current)
 
  - Fixed a missing dependency and a few invalid imports in the example app
+ - Fixed a mobx reactivity issues when we were passing in functions / methods instead
+   of classes. In this case, the @observer wrapping the object might not suffice,
+   since we are calling individial functions of the objects directly.
+   Wrapping `observer()` around the components inside the menu does the trick.
 
 # [v0.2.0-beta.54](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.54) (2021-01-13)
 
