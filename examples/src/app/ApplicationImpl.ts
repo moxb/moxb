@@ -144,6 +144,18 @@ export class ApplicationImpl implements Application {
         },
     });
 
+    readonly testSliderNumeric: Numeric = new NumericImpl({
+        id: 'ApplicationImpl.sliderNumber',
+        onlyInteger: false,
+        initialValue: 1,
+        label: 'Number set by slider',
+        min: 0.05,
+        max: 2,
+        step: 0.05,
+        required: true,
+        unit: 'm',
+    });
+
     readonly testOfOne = new OneOfImpl({
         id: 'ApplicationImpl.testRadioOfOne',
         label: 'Select one of',

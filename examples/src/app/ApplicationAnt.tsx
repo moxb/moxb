@@ -23,6 +23,7 @@ import {
     ActionToggleButtonAnt,
     ToolTipButton,
     PollingUpdaterAnt,
+    SliderFormAnt,
 } from '@moxb/antd';
 import { toJSON } from '@moxb/moxb';
 import { Col, Dropdown, Form, Menu, Row } from 'antd';
@@ -141,6 +142,8 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <h3>NumericAnt Component</h3>
                             <NumericFormAnt operation={application.testNumeric} />
                             <br />
+                            <h3>SliderAnt Component</h3>
+                            <SliderFormAnt operation={application.testSliderNumeric} showNumber={true} />
                             <br />
                             <h3>TagAnt Component</h3>
                             <TagAnt operation={application.testTags} tagColor="#87d068" newItemLabel={'tstst'} />
