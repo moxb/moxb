@@ -33,6 +33,7 @@ export interface Application {
     readonly testTextfield: Text;
     readonly testTextarea: Text;
     readonly testNumeric: Numeric;
+    readonly testSliderNumeric: Numeric;
     readonly formUserText: Text;
     readonly formPasswordText: Text;
     readonly formSubmitButton: Action;
