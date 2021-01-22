@@ -4,8 +4,8 @@ import { SortOrder } from 'antd/lib/table/interface';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { ColumnProps, TableProps } from 'antd/lib/table';
-import {TablePaginationConfig} from 'antd/es/table';
-import {SorterResult} from 'antd/es/table/interface';
+import { TablePaginationConfig } from 'antd/es/table';
+import { SorterResult } from 'antd/es/table/interface';
 
 export interface ColumnAntProps<T> extends ColumnProps<T> {
     dataIndex: string;
@@ -37,7 +37,6 @@ function toSortOrder(sortColumn: any): SortOrder | undefined {
 
 @observer
 export class TableAnt<T> extends React.Component<TableAntProps<T>> {
-
     constructor(props: TableAntProps<T>) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -69,7 +68,6 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
             }
         }
     }
-
 
     render() {
         const { table, ...tableProps } = this.props;
