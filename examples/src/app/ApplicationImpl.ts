@@ -73,7 +73,8 @@ export class ApplicationImpl implements Application {
 
     readonly testBool: Bool = new BoolImpl({
         id: 'ApplicationImpl.testBool',
-        label: 'Click the checkbox to toggle a boolean state',
+        label: 'Click on this widget to toggle a boolean state',
+        help: 'If you do so, a secret will be revealed!',
         getValue: () => this.showCheckbox,
         setValue: this.setShowCheckbox,
     });

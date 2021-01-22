@@ -3,6 +3,7 @@ import {
     ActionFormButtonAnt,
     ActionSpanAnt,
     BoolAnt,
+    BoolSwitchAnt,
     ConfirmAnt,
     DatePickerAnt,
     LabelAnt,
@@ -108,6 +109,8 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <h3>BoolUI Component</h3>
                             <BoolAnt operation={application.testBool} />
+                            <br />
+                            <BoolSwitchAnt operation={application.testBool} />
                             {application.showCheckbox && (
                                 <p>
                                     <br />

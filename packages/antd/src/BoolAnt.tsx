@@ -1,6 +1,7 @@
 import { Bool } from '@moxb/moxb';
-import { Checkbox } from 'antd';
+import { Checkbox, Switch } from 'antd';
 import { CheckboxProps } from 'antd/lib/checkbox';
+import { SwitchProps } from 'antd/lib/switch';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -32,6 +33,36 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
 }
 
 @observer
+export class BoolSwitchAnt extends React.Component<BindAntProps<Bool> & SwitchProps> {
+    render() {
+        const { operation, invisible, children, label, checkedChildren, unCheckedChildren, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
+        if (invisible) {
+            return null;
+        }
+
+        return (
+            <span>
+                <Switch
+                    data-testid={operation.id}
+                    checked={operation.value}
+                    onChange={() => operation.toggle()}
+                    checkedChildren={checkedChildren}
+                    unCheckedChildren={unCheckedChildren}
+                    {...props}
+                />
+                &nbsp;
+                <span onClick={() => operation.toggle()} style={{ cursor: 'pointer' }}>
+                    {labelWithHelp(label, operation.help, operation.id)}
+                </span>
+            </span>
+        );
+    }
+}
+
+@observer
 export class BoolFormAnt extends React.Component<BindAntProps<Bool> & Partial<FormItemProps> & CheckboxProps> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
@@ -41,6 +72,21 @@ export class BoolFormAnt extends React.Component<BindAntProps<Bool> & Partial<Fo
         return (
             <FormItemAnt operation={operation} {...(this.props as any)}>
                 <BoolAnt operation={operation} {...props} />
+            </FormItemAnt>
+        );
+    }
+}
+
+@observer
+export class BoolSwitchFormAnt extends React.Component<BindAntProps<Bool> & Partial<FormItemProps> & SwitchProps> {
+    render() {
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
+        return (
+            <FormItemAnt operation={operation} {...(this.props as any)}>
+                <BoolSwitchAnt operation={operation} {...props} />
             </FormItemAnt>
         );
     }
