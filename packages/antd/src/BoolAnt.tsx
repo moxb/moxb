@@ -44,14 +44,20 @@ export class BoolSwitchAnt extends React.Component<BindAntProps<Bool> & SwitchPr
         }
 
         return (
-            <Switch
-                data-testid={operation.id}
-                checked={operation.value}
-                onChange={() => operation.toggle()}
-                checkedChildren={checkedChildren}
-                unCheckedChildren={unCheckedChildren}
-                {...props}
-            />
+            <span>
+                <Switch
+                    data-testid={operation.id}
+                    checked={operation.value}
+                    onChange={() => operation.toggle()}
+                    checkedChildren={checkedChildren}
+                    unCheckedChildren={unCheckedChildren}
+                    {...props}
+                />
+                &nbsp;
+                <span onClick={() => operation.toggle()} style={{ cursor: 'pointer' }}>
+                    {labelWithHelp(label, operation.help, operation.id)}
+                </span>
+            </span>
         );
     }
 }
