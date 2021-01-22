@@ -1,16 +1,12 @@
 import { CachedEvaluator, CachedEvaluatorProps } from './CachedEvaluator';
 import { getDebugLogger } from '../util/debugLog';
 
-interface ObjectMap<T> {
-    [index: string]: T;
-}
-
 const getTime = (): number => new Date().getTime() / 1000;
 
 export class CachedEvaluatorImpl<Input, Output> implements CachedEvaluator<Input, Output> {
-    private readonly _failed: ObjectMap<any> = {};
-    private readonly _value: ObjectMap<Output> = {};
-    private readonly _lastTested: ObjectMap<number> = {};
+    private readonly _failed: Record<string, any> = {};
+    private readonly _value: Record<string, Output> = {};
+    private readonly _lastTested: Record<string, number> = {};
 
     constructor(private readonly props: CachedEvaluatorProps<Input, Output>) {}
 
@@ -34,6 +30,7 @@ export class CachedEvaluatorImpl<Input, Output> implements CachedEvaluator<Input
         this._lastTested[key] = getTime();
         try {
             this._value[key] = getValue(input);
+            // tslint:disable-next-line
             delete this._failed[key];
             return this._value[key];
         } catch (newError) {

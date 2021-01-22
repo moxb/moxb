@@ -49,7 +49,7 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
                 data-testid={id}
                 onClick={this.handleClick}
                 {...props}
-                size={size as ButtonSize}
+                size={size}
                 shape={shape as ButtonShape}
                 type={type as ButtonType}
                 title={reason}
