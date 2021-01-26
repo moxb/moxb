@@ -39,10 +39,10 @@ export class SliderAnt extends React.Component<SliderAntProps> {
         const formatter = (value?: number | string) => (operation.unit ? `${value}${operation.unit}` : `${value}`);
         return showNumber ? (
             <Row>
-                <Col span={1}>
+                <Col span={2}>
                     <span style={{ marginRight: '1em' }}>{formatter(operation.value)}</span>
                 </Col>
-                <Col span={15}>{this.renderSlider()}</Col>
+                <Col span={22}>{this.renderSlider()}</Col>
             </Row>
         ) : (
             this.renderSlider()
