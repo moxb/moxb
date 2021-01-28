@@ -1,6 +1,6 @@
 import { Action, Bool } from '@moxb/moxb';
 import { Button, Spin } from 'antd';
-import { ButtonShape, ButtonSize, ButtonType } from 'antd/lib/button';
+import { ButtonShape, ButtonType } from 'antd/lib/button';
 import { NativeButtonProps } from 'antd/lib/button/button';
 import { observer } from 'mobx-react';
 import * as React from 'react';
