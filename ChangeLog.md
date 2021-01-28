@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Added
+- Extended TokenManager for simple menu-less applications
+
 # [v0.2.0-beta.57](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.57) (2021-01-26)
 
 ### Fixed

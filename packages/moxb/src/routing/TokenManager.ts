@@ -11,9 +11,23 @@ import { UrlArg } from './url-arg';
  * and it's location in the navigation tree (ie. parsedTokens)
  */
 export interface TokenMappings<DataType> {
+    /**
+     * A name used only for debugging
+     */
     id: string;
+
+    /**
+     * SubStates for the navigation system
+     *
+     * This should be the same information that is powering the menu system.
+     */
     subStates: StateSpace<any, any, DataType>;
-    parsedTokens: number;
+
+    /**
+     * The number of path tokens to ignore
+     */
+    parsedTokens?: number;
+
     filterCondition?: StateCondition<DataType>;
 }
 
@@ -33,6 +47,13 @@ export interface TokenManager {
      * Navigational components (that want to use token mappings) should call this to register their mappings
      */
     addMappings<DataType>(mappings: TokenMappings<DataType>): string;
+
+    /**
+     * Register some permanent token mappings.
+     *
+     * Use this when there is no navigation system, only these mappings.
+     */
+    addPermanentMappings(tokenMapping: string[]): void;
 
     /**
      * De-register mappings
