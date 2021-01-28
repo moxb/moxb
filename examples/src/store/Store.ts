@@ -32,6 +32,7 @@ export class StoreImpl implements Store {
     constructor() {
         this.locationManager = new LocationStoreImpl();
         this.tokenManager = new TokenManagerImpl(this.locationManager);
+        this.tokenManager.addPermanentMappings(['first', 'second']);
         this.url = new UrlStoreImpl(this.locationManager, this.tokenManager);
         this.app = new ApplicationImpl();
         this.memTable = new MemTableImpl(this.url, this.tokenManager);
