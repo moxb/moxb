@@ -3,9 +3,7 @@ import { Path as MyLocation, To as LocationDescriptorObject } from 'history';
 /**
  * A simple Map/Dict type used to represent the URL arguments.
  */
-export interface Query {
-    [key: string]: string;
-}
+export type Query = Record<string, string>;
 
 /***
  * A method for storing path tokens and URL arguments in the URL.
