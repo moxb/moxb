@@ -7,9 +7,7 @@ import { SuccessCallback, UpdateMethod } from '../location-manager';
 /**
  * Internal: a type to store nav references
  */
-interface NavRefMap {
-    [key: string]: NavRef<any>;
-}
+type NavRefMap = Record<string, NavRef<any>>;
 
 /**
  * Internal: a map to store nav references
