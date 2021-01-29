@@ -4,7 +4,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
-# [v0.2.0-beta.59](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.59) (2021-01-29)
+# [v0.2.0-beta.60](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.60) (2021-01-29)
 
 - Extended NativeUrlSchema so that it's also usable when the app doesn't live
   at the root of the website
