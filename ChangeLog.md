@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+- Extended NativeUrlSchema so that it's also usable when the app doesn't live
+  at the root of the website
+
 # [v0.2.0-beta.58](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.58) (2021-01-28)
 
 ### Added
