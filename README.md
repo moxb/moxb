@@ -15,6 +15,7 @@ see [ChangeLog](./ChangeLog.md)
 - push all changes (don't create the git tag, lerna will do it automatically)
 - `. ./admin/activate`
 - `lerna publish`
+  - choose `custom prerelease` to get update to the next minor version
 - make sure that all 5 moxb packages will be published
 
 If `lerna publish` doesn't want to release use the `--force-publish` option.
