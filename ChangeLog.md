@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+- Define interfaces that implement various sub-sets of the feature set of UrlArgs,
+  and allow using these in situations that don't require all features.
+
 # [v0.2.0-beta.60](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.60) (2021-01-29)
 
 - Extended NativeUrlSchema so that it's also usable when the app doesn't live

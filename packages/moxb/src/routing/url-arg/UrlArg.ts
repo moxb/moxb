@@ -32,21 +32,58 @@ export interface UrlArgDefinition<T> extends ArgDefinition<T> {
 }
 
 /**
- * Handler for an URL argument
+ * Handler for an URL argument that can only be read
  */
-export interface UrlArg<T> {
+export interface ReadOnlyArg<T> {
     /**
      * Is this argument specified in the current query?
      */
     readonly defined: boolean;
 
     /**
-     * The current value.
-     *
-     * Can be read or written
+     * The current value of the arg
      */
     readonly value: T;
+}
 
+/**
+ * Define an URL argument that can be read, and reset, but not written to directly
+ */
+export interface ResettableArg<T> extends ReadOnlyArg<T> {
+    /**
+     * Get the Location that would result if we reset this arg
+     *
+     * Returns the same value if this arg doesn't care about the URL.
+     */
+    getResetLocation(start: MyLocation): MyLocation;
+
+    /**
+     * Get the URL string that would result if we reset the value
+     *
+     * Returns undefined if this arg doesn't care about the URL.
+     */
+    getResetUrl(): string | undefined;
+
+    /**
+     * Reset the value to default
+     *
+     * @param method The method for updating the URL (push or replace)
+     */
+    doReset(method?: UpdateMethod): void;
+
+    /**
+     * Reset the value to default
+     *
+     * @param method The method for updating the URL (push or replace)
+     * @param callback Callback to call with the result status
+     */
+    tryReset(method?: UpdateMethod, callback?: SuccessCallback): void;
+}
+
+/**
+ * Handler for an URL argument
+ */
+export interface UrlArg<T> extends ResettableArg<T> {
     /**
      * Get the value as it would be if we were at the given test location
      */
@@ -70,21 +107,6 @@ export interface UrlArg<T> {
     trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback): void;
 
     /**
-     * Reset the value to default
-     *
-     * @param method The method for updating the URL (push or replace)
-     */
-    doReset(method?: UpdateMethod): void;
-
-    /**
-     * Reset the value to default
-     *
-     * @param method The method for updating the URL (push or replace)
-     * @param callback Callback to call with the result status
-     */
-    tryReset(method?: UpdateMethod, callback?: SuccessCallback): void;
-
-    /**
      * Get the Location that would result if we modified the value
      *
      * Returns the same value if this arg doesn't care about the URL.
@@ -97,20 +119,6 @@ export interface UrlArg<T> {
      * Returns undefined if this arg doesn't care about the URL.
      */
     getModifiedUrl(value: T): string | undefined;
-
-    /**
-     * Get the Location that would result if we reseted this arg
-     *
-     * Returns the same value if this arg doesn't care about the URL.
-     */
-    getResetLocation(start: MyLocation): MyLocation;
-
-    /**
-     * Get the URL string that would result if we reseted the value
-     *
-     * Returns undefined if this arg doesn't care about the URL.
-     */
-    getResetUrl(): string | undefined;
 
     // ======= Anything below this level is quite technical,
     // you probably won't need to use it directly.
@@ -136,13 +144,71 @@ export interface UrlArg<T> {
  *
  * Using the definition of the url argument
  */
-export interface ArgChange<T> {
+export interface ArgSet<T> {
+    reset?: false;
     arg: UrlArg<T>;
-    value?: T;
-    reset?: boolean;
+    value: T;
 }
 
-export const resetArg = (arg: UrlArg<any>): ArgChange<any> => ({
-    arg,
+export function setArg<T>(arg: UrlArg<T>, value: T): ArgSet<T> {
+    return {
+        reset: false,
+        arg,
+        value,
+    };
+}
+
+/**
+ * Information about a planned reset in a URL argument
+ *
+ * Using the definition of the url argument
+ */
+export interface ArgReset {
+    reset: true;
+    arg: ResettableArg<any>;
+}
+
+export const resetArg = (arg: ResettableArg<any>): ArgReset => ({
     reset: true,
+    arg,
 });
+
+/**
+ * Information about a planned change in a URL argument
+ *
+ * Using the definition of the url argument
+ */
+export type ArgChange<T> = ArgSet<T> | ArgReset;
+
+/**
+ * Define a (partially functional) UrlArg based on the value of another UrlArg.
+ *
+ * When read, the value of the newly defined arg will be based on value the underlying arg,
+ * applying the provided conversion function.
+ *
+ * When reset, the underlying arg will be reset.
+ *
+ * Thw new arg can't be written to directly.
+ */
+export function defineDerivedArg<I, O>(source: UrlArg<I>, conversion: (value: I) => O): ResettableArg<O> {
+    return {
+        get defined() {
+            return source.defined;
+        },
+        get value() {
+            return conversion(source.value);
+        },
+        getResetLocation(start) {
+            return source.getResetLocation(start);
+        },
+        getResetUrl() {
+            return source.getResetUrl();
+        },
+        doReset(method?) {
+            source.doReset(method);
+        },
+        tryReset(method?, callback?) {
+            source.tryReset(method, callback);
+        },
+    };
+}
