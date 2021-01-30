@@ -1,5 +1,5 @@
 import { NavLink, NavLinkButtonAnt, MenuAndContentAnt, TextFormAnt, UIFragmentSpec, NavTabBarAnt } from '@moxb/antd';
-import { NavigableContent } from '@moxb/moxb';
+import { NavigableContent, setArg } from '@moxb/moxb';
 
 import { Col, Row } from 'antd';
 import { inject } from 'mobx-react';
@@ -11,6 +11,7 @@ import { subMenu1, subMenu2 } from './SubMenu';
 export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & NavigableContent<any, UIFragmentSpec>> {
     render() {
         const { url, navControl } = this.props;
+        const { color, search } = url!;
         return (
             <div>
                 <span>Here come some more menus.</span>
@@ -35,24 +36,15 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         <hr />
                         <NavLinkButtonAnt
                             to={['moreMenus', 'two']}
-                            argChanges={[{ arg: url!.color, value: 'green' }]}
+                            argChanges={[setArg(color, 'green')]}
                             label="Select 'two' on the left tab menu, and green color on the right one!"
                             buttonProps={{ type: 'primary' }}
                         />
                         <hr />
-                        <NavLink argChanges={[{ arg: url!.color!, value: 'blue' }]} label="Set the color to blue!" />
+                        <NavLink argChanges={[setArg(color!, 'blue')]} label="Set the color to blue!" />
                         <hr />
                         <NavLink
-                            argChanges={[
-                                {
-                                    arg: url!.color,
-                                    value: 'green',
-                                },
-                                {
-                                    arg: url!.search,
-                                    value: 'treasure',
-                                },
-                            ]}
+                            argChanges={[setArg(color, 'green'), setArg(search, 'treasure')]}
                             label="Set color to green, and search for treasure!"
                         />
                         <hr />
@@ -61,7 +53,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                         </div>
                         <NavTabBarAnt
                             id="right-menu"
-                            arg={url!.color}
+                            arg={color}
                             mode="left"
                             subStates={subMenu2}
                             navControl={navControl}
