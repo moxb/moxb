@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { UsesURL } from '../store/UrlStore';
 import { MemTable, MemTableData } from './MemTable';
-import { Navigable } from '@moxb/moxb';
+import { Navigable, setArg, resetArg } from '@moxb/moxb';
 import { UserInfoAnt } from './UserInfoAnt';
 
 @inject('memTable', 'url')
@@ -13,6 +13,7 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable } & UsesU
     render() {
         const memTable = this.props.memTable!;
         const { url, parsedTokens } = this.props;
+        const { groupId, objectId } = url;
         return (
             <Row>
                 <span>
@@ -23,27 +24,27 @@ export class MemTableAnt extends React.Component<{ memTable?: MemTable } & UsesU
                 </span>
                 <br />
                 Goto Group{' '}
-                <NavLink argChanges={[{ arg: url.groupId, value: 'foo' }]}>
+                <NavLink argChanges={[setArg(groupId, 'foo')]}>
                     <code>'foo'</code>{' '}
                 </NavLink>
                 or{' '}
-                <NavLink argChanges={[{ arg: url.groupId, value: 'bar' }]}>
+                <NavLink argChanges={[setArg(groupId, 'bar')]}>
                     <code>'bar'</code>{' '}
                 </NavLink>
                 or{' '}
-                <NavLink argChanges={[{ arg: url.groupId, value: '' }]}>
+                <NavLink argChanges={[resetArg(groupId)]}>
                     <code>''</code>
                 </NavLink>
                 <br /> Goto Object{' '}
-                <NavLink argChanges={[{ arg: url.objectId, value: 'ObjA' }]}>
+                <NavLink argChanges={[setArg(objectId, 'ObjA')]}>
                     <code>'ObjA'</code>{' '}
                 </NavLink>
                 or{' '}
-                <NavLink argChanges={[{ arg: url.objectId, value: 'ObjB' }]}>
+                <NavLink argChanges={[setArg(objectId, 'ObjB')]}>
                     <code>'ObjB'</code>{' '}
                 </NavLink>
                 or{' '}
-                <NavLink argChanges={[{ arg: url.objectId, value: '' }]}>
+                <NavLink argChanges={[resetArg(objectId)]}>
                     <code>''</code>
                 </NavLink>{' '}
                 {!memTable.groupId && <i>(disallowed -- would normally be disabled, because no Group is specified)</i>}
