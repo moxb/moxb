@@ -165,7 +165,11 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <br />
                             <h3>OneOf - RadioButton Component</h3>
+                            <h4>Default layout:</h4>
                             <OneOfAnt operation={application.testOfOne} />
+                            <br />
+                            <h4>Vertical layout:</h4>
+                            <OneOfAnt operation={application.testOfOne} vertical={true} />
                             <br />
                             <br />
                             <h3>OneOf - RadioButton solid Component</h3>

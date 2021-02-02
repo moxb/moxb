@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+- OneOfAnt: add support for vertical layout of choices
+- OneOfAnt: add support for displaying explanation besides the choices
+
 # [v0.2.0-beta.61](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.61) (2021-01-30)
 
 - Define interfaces that implement various sub-sets of the feature set of UrlArgs,
