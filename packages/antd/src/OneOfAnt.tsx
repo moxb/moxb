@@ -12,14 +12,23 @@ import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { SelectProps } from 'antd/lib/select';
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export interface OneOfAntProps {
+    /**
+     * Should we align the items vertically, instead of horizontally?
+     */
+    vertical?: boolean;
+}
 
 @observer
-export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps> {
+export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps & OneOfAntProps> {
     render() {
-        const { operation, invisible, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, vertical, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
+        }
+        const radioStyle: React.CSSProperties = {};
+        if (vertical) {
+            radioStyle.display = 'block';
         }
         return (
             <Radio.Group
@@ -29,7 +38,12 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
                 value={operation.value}
             >
                 {operation.choices.map((opt) => (
-                    <Radio data-testid={idToDomId(operation.id + '.' + opt.value)} key={opt.value} value={opt.value}>
+                    <Radio
+                        data-testid={idToDomId(operation.id + '.' + opt.value)}
+                        key={opt.value}
+                        value={opt.value}
+                        style={radioStyle}
+                    >
                         {opt.widget ? opt.widget : opt.label}
                     </Radio>
                 ))}
