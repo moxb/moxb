@@ -9,6 +9,11 @@ export interface BindOneOfChoice<T = string> {
     label?: string;
 
     /**
+     * If we would like to display some explanation for this choice, put it here.
+     */
+    help?: string;
+
+    /**
      * If we want to use a specific widget for the label, instead of a simple string, specify it there.
      */
     widget?: any;

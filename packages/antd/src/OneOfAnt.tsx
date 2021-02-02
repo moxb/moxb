@@ -8,7 +8,7 @@ import DownOutlined from '@ant-design/icons/DownOutlined';
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { BindAntProps, parseProps } from './BindAnt';
+import { BindAntProps, labelWithHelp, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { SelectProps } from 'antd/lib/select';
 
@@ -44,7 +44,7 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
                         value={opt.value}
                         style={radioStyle}
                     >
-                        {opt.widget ? opt.widget : opt.label}
+                        {opt.widget ? opt.widget : labelWithHelp(opt.label, opt.help)}
                     </Radio>
                 ))}
             </Radio.Group>

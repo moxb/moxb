@@ -2,6 +2,7 @@ import {
     Action,
     ActionImpl,
     BindImpl,
+    BindOneOfChoice,
     Bool,
     BoolImpl,
     Confirm,
@@ -47,7 +48,7 @@ export class ApplicationImpl implements Application {
     manyChoices: any[];
     @observable
     data: { _id: string; email: string; fullName: string; createdAt: string }[];
-    readonly allChoices: { label: string; value: string }[];
+    readonly allChoices: BindOneOfChoice[];
     readonly treeChoices: TreeNode[];
     readonly defaultTreeChoices: string[];
 
@@ -287,8 +288,8 @@ export class ApplicationImpl implements Application {
         this.manyChoices = [];
 
         this.allChoices = [
-            { label: 'Banana', value: 'b' },
-            { label: 'Apples', value: 'a' },
+            { label: 'Banana', value: 'b', help: 'You know, the yellow thing that monkeys like' },
+            { label: 'Apples', value: 'a', help: "Warning: you can't compare apples to peaches!" },
             { label: 'Peaches', value: 'p' },
         ];
 
