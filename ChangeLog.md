@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.63](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.63) (2021-02-05)
+
 ### Added
 - Introduce OneOfSearchAbleSelectAnt
 - Extend OneOf with searchData and filteredChoices
