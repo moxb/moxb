@@ -163,6 +163,7 @@ export class ApplicationImpl implements Application {
         label: 'Select one of',
         placeholder: '...',
         choices: () => this.allChoices,
+        searchData: (value) => this.allChoices.filter(c => c.label && c.label.toLowerCase().indexOf(value.toLowerCase()) > -1),
     });
 
     readonly testModal: Modal<any> = new ModalImpl<any>({

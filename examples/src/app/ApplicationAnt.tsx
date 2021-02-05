@@ -25,6 +25,7 @@ import {
     ToolTipButton,
     PollingUpdaterAnt,
     SliderFormAnt,
+    OneOfSearchableSelectAnt,
 } from '@moxb/antd';
 import { toJSON } from '@moxb/moxb';
 import { Col, Dropdown, Form, Menu, Row } from 'antd';
@@ -177,6 +178,9 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <br /> <h3>OneOf - Select Component</h3>
                             <OneOfSelectAnt operation={application.testOfOne} />
+                            <br />
+                            <br /> <h3>OneOf - Select searchable Component</h3>
+                            <OneOfSearchableSelectAnt operation={application.testOfOne} style={{ width: '100%' }} />
                             <br />
                             <br />
                             <br /> <h3>Tree Component</h3>
