@@ -302,3 +302,18 @@ export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & Bi
         );
     }
 }
+
+@observer
+export class OneOfSearchableSelectFormAnt extends React.Component<BindAntProps<OneOf> & BindFormItemAntProps & SelectProps<any>> {
+    render() {
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
+        return (
+            <FormItemAnt operation={operation} {...(this.props as any)}>
+                <OneOfSearchableSelectAnt operation={operation} {...props} />
+            </FormItemAnt>
+        );
+    }
+}
