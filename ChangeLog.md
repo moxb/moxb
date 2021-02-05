@@ -4,6 +4,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Added
+- Introduce OneOfSearchAbleSelectAnt
+- Extend OneOf with searchData and filteredChoices
+
 # [v0.2.0-beta.62](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.62) (2021-02-02)
 
 - OneOfAnt: add support for vertical layout of choices
