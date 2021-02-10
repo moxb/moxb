@@ -53,7 +53,9 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
 }
 
 @observer
-export class OneOfFormAnt extends React.Component<BindAntProps<OneOf> & RadioProps & Partial<FormItemProps>> {
+export class OneOfFormAnt extends React.Component<
+    BindAntProps<OneOf> & RadioProps & Partial<FormItemProps> & OneOfAntProps
+> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
@@ -304,7 +306,9 @@ export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & Bi
 }
 
 @observer
-export class OneOfSearchableSelectFormAnt extends React.Component<BindAntProps<OneOf> & BindFormItemAntProps & SelectProps<any>> {
+export class OneOfSearchableSelectFormAnt extends React.Component<
+    BindAntProps<OneOf> & BindFormItemAntProps & SelectProps<any>
+> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {

@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+- OneOfFormAnt: add support for vertical layout of choices (like OneOfAnt)
+
 # [v0.2.0-beta.64](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.63) (2021-02-05)
 
 ### Added
