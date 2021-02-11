@@ -46,8 +46,13 @@ export class NavLink extends React.Component<NavLinkProps & UsesLocation> {
 
     public render() {
         const { children, ...remnants } = this.props;
+        const { target } = this.props;
         return (
-            <Anchor.Anchor href={locationToUrl(this.getWantedLocation())} onClick={this.handleClick} {...remnants}>
+            <Anchor.Anchor
+                href={locationToUrl(this.getWantedLocation())}
+                onClick={target ? undefined : this.handleClick}
+                {...remnants}
+            >
                 {children}
             </Anchor.Anchor>
         );
