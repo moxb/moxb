@@ -80,13 +80,19 @@ export class Anchor extends React.PureComponent<UIProps> {
     }
 
     private handleClick(event: React.SyntheticEvent<HTMLAnchorElement>) {
-        const { onClick, data } = this.props;
+        const { onClick, data, disabled } = this.props;
+        if (disabled) {
+            // console.log('This anchor is currently disabled; ignoring click.');
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
         if (!onClick) {
-            console.log('No link handler, we will return');
+            // console.log('No link handler, we will return');
             return;
         }
         if ((event as any).button) {
-            console.log('Ignoring middle or right button');
+            // console.log('Ignoring click with middle or right button');
             return;
         }
         event.preventDefault();
@@ -109,8 +115,11 @@ export class Anchor extends React.PureComponent<UIProps> {
         if (target) {
             anchorProps.target = target;
         }
-        if (style) {
-            anchorProps.style = style;
+        if (style || disabled) {
+            anchorProps.style = {
+                ...style,
+                ...(disabled ? { cursor: 'not-allowed' } : {}),
+            };
         }
         return (
             <a {...anchorProps}>
