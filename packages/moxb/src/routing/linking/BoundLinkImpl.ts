@@ -4,11 +4,32 @@ import { ArgChange } from '../url-arg';
 import { StringOrFunction } from '../../bind/BindImpl';
 import { t } from '../../i18n/i18n';
 import { NavRef, NavRefCall } from '../navigation-references';
+import { AnyDecision, Decision, readDecision, readReason } from '../../decision';
 
 export interface BoundLinkOptions {
     id: string;
     label?: StringOrFunction;
-    invisible?(): boolean;
+
+    help?: StringOrFunction;
+
+    /**
+     * When should this be hidden?
+     */
+    invisible?: () => AnyDecision;
+
+    /**
+     * When should this be disabled?
+     *
+     * Don't use this together with enabled.
+     */
+    disabled?: () => AnyDecision;
+
+    /**
+     * When should this be enabled?
+     *
+     * Don't use this together with disabled.
+     */
+    enabled?: () => AnyDecision;
 
     /**
      * Functions to get the target of the link.
@@ -89,8 +110,44 @@ export class BoundLinkImpl implements BoundLink {
     @computed
     get invisible() {
         if (this.impl.invisible) {
-            return this.impl.invisible();
+            return readDecision(this.impl.invisible());
         }
         return false;
+    }
+
+    @computed
+    get disabled() {
+        if (this.impl.disabled) {
+            return this.impl.disabled();
+        } else if (this.impl.enabled) {
+            const enabled = this.impl.enabled();
+            if (typeof enabled === 'boolean') {
+                // We have a simple bool value; just return it negated
+                return !enabled;
+            } else {
+                // We have a decision here. We will need invert it properly;
+                const { allowed, reason } = enabled as Decision;
+                return {
+                    allowed: !allowed,
+                    reason,
+                };
+            }
+        }
+        return false;
+    }
+
+    @computed
+    get help() {
+        const disabled = this.disabled;
+        if (readDecision(disabled)) {
+            const reason = readReason(disabled);
+            if (reason) {
+                return reason;
+            }
+        }
+        if (this.impl.help) {
+            return typeof this.impl.help === 'function' ? this.impl.help() : t(this.id + '.help', this.impl.help!);
+        }
+        return undefined;
     }
 }

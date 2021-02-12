@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Added
+ - BoundLink: added help, enabled and disabled options.
+
 ### Fixed
  - Fixed support for the `target` HTML arg on `NavLink` and it's derivatives.
  - Fixed handling of requests for non-existent tabs on NavTabBarAnt.
