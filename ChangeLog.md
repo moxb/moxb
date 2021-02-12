@@ -6,6 +6,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Fixed
  - Fixed support for the `target` HTML arg on `NavLink` and it's derivatives.
+ - Fixed handling of requests for non-existent tabs on NavTabBarAnt.
 
 # [v0.2.0-beta.65](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.65) (2021-02-10)
 

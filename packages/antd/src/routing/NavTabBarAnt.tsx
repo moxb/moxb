@@ -30,6 +30,11 @@ export interface NavTabProps<DataType>
      * Tab bar alignment mode
      */
     mode?: 'top' | 'right' | 'bottom' | 'left';
+
+    /**
+     * Show this when an undefined tab is requested
+     */
+    fallback?: UIFragment;
 }
 
 @inject('locationManager')
@@ -100,12 +105,13 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
 
     public render() {
         const states = this.getLocationDependantStateSpaceHandler();
-        const { extras = [], style, mode, id } = this.props;
+        const { extras = [], style, mode, id, fallback } = this.props;
+        const activeKey = states.getActiveSubStateMenuKeys(true)[0];
         return (
             <Tabs
                 data-testid={id}
                 tabPosition={mode || 'top'}
-                activeKey={states.getActiveSubStateMenuKeys(true)[0]}
+                activeKey={activeKey || '_not_found'}
                 onTabClick={(menuKey: string) => {
                     /**
                      * Normally we shouldn't get here, since the click is going to be captured
@@ -125,6 +131,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
                     })
                     .map((state) => this.renderStateTabPane(id, states, state))}
                 {extras.map((f) => renderUIFragment(f))}
+                {!activeKey && <div> {renderUIFragment(fallback)} </div>}
             </Tabs>
         );
     }
