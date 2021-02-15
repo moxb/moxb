@@ -12,17 +12,35 @@ import { BindAntProps, labelWithHelp, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { SelectProps } from 'antd/lib/select';
 
+/**
+ * Flatten a double-decked array
+ */
+function flatten<T>(complex: T[][]): T[] {
+    const result: T[] = [];
+    complex.forEach((single) => result.push(...single));
+    return result;
+}
+
 export interface OneOfAntProps {
     /**
      * Should we align the items vertically, instead of horizontally?
      */
     vertical?: boolean;
+
+    /**
+     * We should insert a line break after every this many buttons
+     *
+     * Ie. specify "2" to add a line break after every second button.
+     *
+     * Don't use this together with vertical.
+     */
+    breakAfter?: number;
 }
 
 @observer
 export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps & OneOfAntProps> {
     render() {
-        const { operation, invisible, vertical, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, vertical, breakAfter, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
@@ -37,16 +55,21 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
                 {...props}
                 value={operation.value}
             >
-                {operation.choices.map((opt) => (
-                    <Radio
-                        data-testid={idToDomId(operation.id + '.' + opt.value)}
-                        key={opt.value}
-                        value={opt.value}
-                        style={radioStyle}
-                    >
-                        {opt.widget ? opt.widget : labelWithHelp(opt.label, opt.help)}
-                    </Radio>
-                ))}
+                {flatten(
+                    operation.choices.map((opt, index) =>
+                        [
+                            <Radio
+                                data-testid={idToDomId(operation.id + '.' + opt.value)}
+                                key={opt.value}
+                                value={opt.value}
+                                style={radioStyle}
+                            >
+                                {opt.widget ? opt.widget : labelWithHelp(opt.label, opt.help)}
+                            </Radio>,
+                            !!breakAfter && !((index + 1) % breakAfter) ? <br key={'after-' + index} /> : undefined,
+                        ].filter((p) => !!p)
+                    )
+                )}
             </Radio.Group>
         );
     }
@@ -69,10 +92,21 @@ export class OneOfFormAnt extends React.Component<
     }
 }
 
+type OneOfButtonAntBaseProps = BindAntProps<OneOf> & RadioProps & RadioGroupProps;
+
+export interface OneOfButtonAntProps extends OneOfButtonAntBaseProps {
+    /**
+     * We should insert a line break after every this many buttons
+     *
+     * Ie. specify "2" to add a line break after every second button.
+     */
+    breakAfter?: number;
+}
+
 @observer
-export class OneOfButtonAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps> {
+export class OneOfButtonAnt extends React.Component<OneOfButtonAntProps> {
     render() {
-        const { operation, invisible, readOnly, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, readOnly, breakAfter, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
@@ -86,15 +120,20 @@ export class OneOfButtonAnt extends React.Component<BindAntProps<OneOf> & RadioP
                 {...props}
                 value={operation.value}
             >
-                {operation.choices.map((opt) => (
-                    <Radio.Button
-                        data-testid={idToDomId(operation.id + '.' + opt.value)}
-                        key={opt.value}
-                        value={opt.value}
-                    >
-                        {opt.widget ? opt.widget : opt.label}
-                    </Radio.Button>
-                ))}
+                {flatten(
+                    operation.choices.map((opt, index) =>
+                        [
+                            <Radio.Button
+                                data-testid={idToDomId(operation.id + '.' + opt.value)}
+                                key={opt.value}
+                                value={opt.value}
+                            >
+                                {opt.widget ? opt.widget : opt.label}
+                            </Radio.Button>,
+                            !!breakAfter && !((index + 1) % breakAfter) ? <br key={'after-' + index} /> : undefined,
+                        ].filter((p) => !!p)
+                    )
+                )}
             </Radio.Group>
         );
     }
