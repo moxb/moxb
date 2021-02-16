@@ -92,9 +92,7 @@ export class OneOfFormAnt extends React.Component<
     }
 }
 
-type OneOfButtonAntBaseProps = BindAntProps<OneOf> & RadioProps & RadioGroupProps;
-
-export interface OneOfButtonAntProps extends OneOfButtonAntBaseProps {
+export interface OneOfButtonAntProps {
     /**
      * We should insert a line break after every this many buttons
      *
@@ -104,7 +102,9 @@ export interface OneOfButtonAntProps extends OneOfButtonAntBaseProps {
 }
 
 @observer
-export class OneOfButtonAnt extends React.Component<OneOfButtonAntProps> {
+export class OneOfButtonAnt extends React.Component<
+    BindAntProps<OneOf> & RadioProps & RadioGroupProps & OneOfButtonAntProps
+> {
     render() {
         const { operation, invisible, readOnly, breakAfter, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
@@ -141,7 +141,7 @@ export class OneOfButtonAnt extends React.Component<OneOfButtonAntProps> {
 
 @observer
 export class OneOfButtonFormAnt extends React.Component<
-    BindAntProps<OneOf> & RadioProps & RadioGroupProps & Partial<FormItemProps>
+    BindAntProps<OneOf> & RadioProps & RadioGroupProps & Partial<FormItemProps> & OneOfButtonAntProps
 > {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
