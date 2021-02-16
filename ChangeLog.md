@@ -6,6 +6,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Added
  - BoundLink: added help, enabled and disabled options.
+ - OneOfAnt and OneOfButtonAnt: add support for adding a line break after every nth option.
 
 ### Fixed
  - Fixed support for the `target` HTML arg on `NavLink` and it's derivatives.
