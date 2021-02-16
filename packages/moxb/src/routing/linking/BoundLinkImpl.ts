@@ -4,7 +4,7 @@ import { ArgChange } from '../url-arg';
 import { StringOrFunction } from '../../bind/BindImpl';
 import { t } from '../../i18n/i18n';
 import { NavRef, NavRefCall } from '../navigation-references';
-import { AnyDecision, Decision, readDecision, readReason } from '../../decision';
+import { AnyDecision, notDecision, readDecision, readReason } from '../../decision';
 
 export interface BoundLinkOptions {
     id: string;
@@ -120,18 +120,7 @@ export class BoundLinkImpl implements BoundLink {
         if (this.impl.disabled) {
             return this.impl.disabled();
         } else if (this.impl.enabled) {
-            const enabled = this.impl.enabled();
-            if (typeof enabled === 'boolean') {
-                // We have a simple bool value; just return it negated
-                return !enabled;
-            } else {
-                // We have a decision here. We will need invert it properly;
-                const { allowed, reason } = enabled as Decision;
-                return {
-                    allowed: !allowed,
-                    reason,
-                };
-            }
+            return notDecision(this.impl.enabled());
         }
         return false;
     }
