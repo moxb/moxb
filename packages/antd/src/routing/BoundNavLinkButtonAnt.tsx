@@ -1,4 +1,4 @@
-import { BoundLink } from '@moxb/moxb';
+import { BoundLink, readDecision } from '@moxb/moxb';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { NavLinkButtonAnt, NavLinkButtonAntParams, NavLinkButtonAntProps } from './NavLinkButtonAnt';
@@ -24,6 +24,8 @@ export class BoundNavLinkButtonAnt extends React.Component<BoundNavLinkButtonAnt
             removeTokenCount: operation.removeTokenCount,
             toRef: operation.toRef,
             label: operation.label,
+            title: operation.help,
+            disabled: readDecision(operation.disabled),
             ...rest,
         };
 
