@@ -104,3 +104,20 @@ export class ManyOfFormAnt extends React.Component<SelectProps<ManyOf> & BindAnt
         );
     }
 }
+
+@observer
+export class ManyOfCheckboxFormAnt extends React.Component<
+    CheckboxGroupProps & BindAntProps<ManyOf> & BindFormItemAntProps
+> {
+    render() {
+        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+        if (invisible) {
+            return null;
+        }
+        return (
+            <FormItemAnt operation={operation} {...(this.props as any)}>
+                <ManyOfCheckboxAnt operation={operation} {...props} />
+            </FormItemAnt>
+        );
+    }
+}
