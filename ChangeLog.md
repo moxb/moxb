@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Added
+ - Add missing ManyOfCheckboxFormAnt component
+
 # [v0.2.0-beta.66](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.66) (2021-02-16)
 
 ### Added
