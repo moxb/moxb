@@ -31,4 +31,18 @@ export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl, T[], ManyOfOpt
             return this.impl.verticalDisplay || false;
         }
     }
+
+    isSelected(choice: T): boolean {
+        return !!this.value && this.value.indexOf(choice) !== -1;
+    }
+
+    toggle(choice: T) {
+        if (this.isSelected(choice)) {
+            // Un-select this
+            this.setValue(this.value!.filter((c) => c !== choice));
+        } else {
+            // Select this
+            this.setValue([...(this.value || []), choice]);
+        }
+    }
 }
