@@ -70,7 +70,7 @@ export class NavLinkButtonAnt extends React.Component<NavLinkButtonAntProps & Us
             // When the link target is set, we don't want to use a button for the navigation.
             // Instead, we will use a real HTML link on the button, and let the browser
             // handle the actual navigation step. (Which will open a new tab anyway.)
-            const { to, position, appendTokens, removeTokenCount, argChanges, toRef, disabled } = this.props;
+            const { to, position, appendTokens, removeTokenCount, argChanges, toRef } = this.props;
             return (
                 <Button data-testid={url} {...(extraButtonProps as any)} {...buttonProps}>
                     <NavLink
