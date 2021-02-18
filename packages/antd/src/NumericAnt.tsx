@@ -10,7 +10,7 @@ import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 @observer
 export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNumberProps> {
     render() {
-        const { operation, id, invisible, size, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, id, invisible, size, reason, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
@@ -19,6 +19,7 @@ export class NumericAnt extends React.Component<BindAntProps<Numeric> & InputNum
             operation.unit ? parseInt(value!.replace(`${operation.unit}`, '') || '0') : parseInt(value || '0');
         return (
             <InputNumber
+                title={reason}
                 id={id}
                 data-testid={operation.id}
                 step={operation.step}

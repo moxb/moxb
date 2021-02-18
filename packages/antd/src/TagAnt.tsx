@@ -62,8 +62,9 @@ export class TagAnt extends React.Component<TagAntProps, TagAntState> {
 
     render() {
         const { inputVisible, inputValue } = this.state;
+
         return (
-            <div data-testid={this.props.operation.id}>
+            <div data-testid={this.props.operation.id} title={this.props.operation.reason}>
                 {this.props.operation.value!.map((tag) => (
                     <Tag
                         data-testid={tag}

@@ -19,18 +19,20 @@ export type BindDatePickerAntProps = BindDatePickerAntBasicProps & DatePickerPro
 @observer
 export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
     render() {
-        const { operation, invisible, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, reason, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         return (
-            <DatePicker
-                data-testid={operation.id}
-                placeholder={operation.placeholder}
-                value={operation.value}
-                onChange={(date: moment.Moment, _dateString: string) => operation.setValue(date)}
-                {...(props as any)}
-            />
+            <span title={reason}>
+                <DatePicker
+                    data-testid={operation.id}
+                    placeholder={operation.placeholder}
+                    value={operation.value}
+                    onChange={(date: moment.Moment, _dateString: string) => operation.setValue(date)}
+                    {...(props as any)}
+                />
+            </span>
         );
     }
 }

@@ -11,23 +11,28 @@ import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 @observer
 export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps> {
     render() {
-        const { operation, invisible, children, label, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, children, label, reason, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         // a null value renders the checkbox in intermediate state!
         const indeterminate = operation.value == null;
         return (
-            <Checkbox
-                data-testid={operation.id}
-                checked={operation.value}
-                onChange={() => operation.toggle()}
-                indeterminate={indeterminate}
-                {...props}
-            >
-                {children}
-                {labelWithHelp(label, operation.help, operation.id)}
-            </Checkbox>
+            <span title={reason}>
+                <Checkbox
+                    data-testid={operation.id}
+                    checked={operation.value}
+                    onChange={() => operation.toggle()}
+                    indeterminate={indeterminate}
+                    {...props}
+                >
+                    {children}
+                    {labelWithHelp(label, operation.help, operation.id)}
+                </Checkbox>
+            </span>
         );
     }
 }

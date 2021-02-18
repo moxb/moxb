@@ -11,7 +11,7 @@ import { SelectProps } from 'antd/lib/select';
 @observer
 export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps<any>> {
     render() {
-        const { operation, invisible, mode, children, defaultValue, ...props } = parseProps(
+        const { operation, invisible, mode, children, defaultValue, reason, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -21,26 +21,28 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
         // make sure the value is not a mobx object...
         const value = toJS(operation.value);
         return (
-            <Select
-                data-testid={operation.id}
-                onChange={(selectionValue: any) => operation.setValue(selectionValue)}
-                value={value || undefined}
-                placeholder={operation.placeholder}
-                defaultValue={defaultValue}
-                mode={mode}
-                {...props}
-            >
-                {operation.choices.map((opt: any) => (
-                    <Select.Option
-                        data-testid={idToDomId(operation.id + '.' + opt.value)}
-                        key={opt.value}
-                        value={opt.value}
-                    >
-                        {opt.label}
-                    </Select.Option>
-                ))}
-                {children}
-            </Select>
+            <span title={reason}>
+                <Select
+                    data-testid={operation.id}
+                    onChange={(selectionValue: any) => operation.setValue(selectionValue)}
+                    value={value || undefined}
+                    placeholder={operation.placeholder}
+                    defaultValue={defaultValue}
+                    mode={mode}
+                    {...props}
+                >
+                    {operation.choices.map((opt: any) => (
+                        <Select.Option
+                            data-testid={idToDomId(operation.id + '.' + opt.value)}
+                            key={opt.value}
+                            value={opt.value}
+                        >
+                            {opt.label}
+                        </Select.Option>
+                    ))}
+                    {children}
+                </Select>
+            </span>
         );
     }
 }
@@ -48,7 +50,10 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
 @observer
 export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & CheckboxGroupProps> {
     render() {
-        const { operation, invisible, children, defaultValue, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, children, defaultValue, reason, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible || operation.invisible) {
             return null;
         }
@@ -57,7 +62,7 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
 
         const choices = this.props.operation.verticalDisplay
             ? operation.choices.map((opt: any) => (
-                  <Row key={opt.value} style={{ width: '100%' }}>
+                  <Row title={reason} key={opt.value} style={{ width: '100%' }}>
                       <Col span={24}>
                           <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
                               {opt.label}
@@ -66,7 +71,7 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
                   </Row>
               ))
             : operation.choices.map((opt: any) => (
-                  <Col key={opt.value}>
+                  <Col title={reason} key={opt.value}>
                       <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
                           {opt.label}
                       </Checkbox>
