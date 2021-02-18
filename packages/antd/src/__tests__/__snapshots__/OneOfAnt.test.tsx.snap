@@ -10,33 +10,45 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
     onChange={[Function]}
     readOnly={false}
   >
-    <Radio
-      data-testid="id-test_radio_of_one-b"
+    <span
       key="b"
-      style={Object {}}
-      type="radio"
-      value="b"
     >
-      Banana
-    </Radio>
-    <Radio
-      data-testid="id-test_radio_of_one-a"
+      <Radio
+        data-testid="id-test_radio_of_one-b"
+        key="b"
+        style={Object {}}
+        type="radio"
+        value="b"
+      >
+        Banana
+      </Radio>
+    </span>
+    <span
       key="a"
-      style={Object {}}
-      type="radio"
-      value="a"
     >
-      Apples
-    </Radio>
-    <Radio
-      data-testid="id-test_radio_of_one-p"
+      <Radio
+        data-testid="id-test_radio_of_one-a"
+        key="a"
+        style={Object {}}
+        type="radio"
+        value="a"
+      >
+        Apples
+      </Radio>
+    </span>
+    <span
       key="p"
-      style={Object {}}
-      type="radio"
-      value="p"
     >
-      Peaches
-    </Radio>
+      <Radio
+        data-testid="id-test_radio_of_one-p"
+        key="p"
+        style={Object {}}
+        type="radio"
+        value="p"
+      >
+        Peaches
+      </Radio>
+    </span>
   </Memo(RadioGroup)>
 </span>
 `;

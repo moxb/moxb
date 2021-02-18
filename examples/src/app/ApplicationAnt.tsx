@@ -158,7 +158,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <ManyOfAnt style={{ width: '200px' }} operation={application.testManyOf} />
                             <br />
                             <br />
-                            <h3>ManyOfAnt Component - chose from available</h3>
+                            <h3>ManyOfAnt Component - choose from available</h3>
                             <ManyOfAnt style={{ width: '200px' }} mode="multiple" operation={application.testManyOf} />
                             <br />
                             <br />
@@ -186,7 +186,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <OneOfButtonFormAnt buttonStyle="solid" operation={application.testOfOne} />
                             <br />
                             <br /> <h3>OneOf - Select Component</h3>
-                            <OneOfSelectAnt operation={application.testOfOne} />
+                            <OneOfSelectAnt operation={application.testOfOne} style={{ width: '200px' }} />
                             <br />
                             <br /> <h3>OneOf - Select searchable Component</h3>
                             <OneOfSearchableSelectAnt operation={application.testOfOne} style={{ width: '100%' }} />

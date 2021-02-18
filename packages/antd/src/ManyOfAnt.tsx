@@ -38,6 +38,8 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
                             data-testid={idToDomId(operation.id + '.' + opt.value)}
                             key={opt.value}
                             value={opt.value}
+                            disabled={opt.disabled}
+                            title={opt.reason}
                         >
                             {opt.label}
                         </Select.Option>
@@ -73,17 +75,25 @@ export class ManyOfCheckboxAnt extends React.Component<
 
         const choices = vertical
             ? operation.choices.map((opt: any) => (
-                  <Row title={reason} key={opt.value} style={{ width: '100%' }}>
+                  <Row title={reason || opt.reason} key={opt.value} style={{ width: '100%' }}>
                       <Col span={24}>
-                          <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
+                          <Checkbox
+                              data-testid={idToDomId(operation.id + '.' + opt.value)}
+                              value={opt.value}
+                              disabled={opt.disabled}
+                          >
                               {labelWithHelp(opt.label, opt.help)}
                           </Checkbox>
                       </Col>
                   </Row>
               ))
             : operation.choices.map((opt: any) => (
-                  <Col title={reason} key={opt.value}>
-                      <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
+                  <Col title={reason || opt.reason} key={opt.value}>
+                      <Checkbox
+                          data-testid={idToDomId(operation.id + '.' + opt.value)}
+                          value={opt.value}
+                          disabled={opt.disabled}
+                      >
                           {labelWithHelp(opt.label, opt.help)}
                       </Checkbox>
                   </Col>
@@ -187,26 +197,27 @@ export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & Allo
         if (invisible || operation.invisible) {
             return null;
         }
-        const switchClassName = disabled ? 'ant-checkbox-disabled' : '';
-        const labelClassName = disabled ? '' : 'ant-checkbox-wrapper';
 
         const choices = vertical
             ? operation.choices.map((opt: any) => (
                   <Row key={opt.value} style={{ width: '100%' }}>
                       <Col span={24}>
-                          <span title={reason}>
-                              <span className={switchClassName}>
+                          <span title={reason || opt.reason}>
+                              <span className={disabled || opt.disabled ? 'ant-checkbox-disabled' : ''}>
                                   <Switch
                                       data-testid={idToDomId(operation.id + '.' + opt.value)}
                                       checked={operation.isSelected(opt.value)}
                                       onChange={this._getSwitchHandler(opt.value)}
-                                      disabled={disabled}
+                                      disabled={disabled || opt.disabled}
                                       size={'small'}
                                       {...props}
                                   />
                               </span>
                               &nbsp; &nbsp;
-                              <span onClick={this._getClickHandler(opt.value)} className={labelClassName}>
+                              <span
+                                  onClick={this._getClickHandler(opt.value)}
+                                  className={disabled || opt.disabled ? '' : 'ant-checkbox-wrapper'}
+                              >
                                   {labelWithHelp(opt.label, opt.help)}
                               </span>
                           </span>
@@ -215,19 +226,22 @@ export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & Allo
               ))
             : operation.choices.map((opt: any) => (
                   <Col key={opt.value}>
-                      <span title={reason}>
-                          <span className={switchClassName}>
+                      <span title={reason || opt.reason}>
+                          <span className={disabled || opt.disabled ? 'ant-checkbox-disabled' : ''}>
                               <Switch
                                   data-testid={idToDomId(operation.id + '.' + opt.value)}
                                   checked={operation.isSelected(opt.value)}
                                   onChange={this._getSwitchHandler(opt.value)}
-                                  disabled={disabled}
+                                  disabled={disabled || opt.disabled}
                                   size={'small'}
                                   {...props}
                               />
                           </span>
                           &nbsp; &nbsp;
-                          <span onClick={this._getClickHandler(opt.value)} className={labelClassName}>
+                          <span
+                              onClick={this._getClickHandler(opt.value)}
+                              className={disabled || opt.disabled ? '' : 'ant-checkbox-wrapper'}
+                          >
                               {labelWithHelp(opt.label, opt.help)}
                           </span>
                           &nbsp; &nbsp; &nbsp; &nbsp;

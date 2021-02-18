@@ -293,6 +293,7 @@ export class ApplicationImpl implements Application {
             { label: 'Banana', value: 'b', help: 'You know, the yellow thing that monkeys like' },
             { label: 'Apples', value: 'a', help: "Warning: you can't compare apples to peaches!" },
             { label: 'Peaches', value: 'p' },
+            { label: 'Magic Mushroom', value: 'm', disabled: true, reason: "It doesn't exist" },
         ];
 
         this.data = [

@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Added
+ - Added support for disabling individual choices in OneOf... and ManyOf... components.
+
 # [v0.2.0-beta.68](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.68) (2021-02-18)
 
 ### Changed
