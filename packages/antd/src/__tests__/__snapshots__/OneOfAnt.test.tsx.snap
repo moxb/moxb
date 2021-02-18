@@ -1,42 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OneOfAnt should render a radio button group by default 1`] = `
-<Memo(RadioGroup)
-  data-testid="id-test_radio_of_one"
-  disabled={false}
-  id="id-test_radio_of_one"
-  label="Select one of"
-  onChange={[Function]}
-  readOnly={false}
->
-  <Radio
-    data-testid="id-test_radio_of_one-b"
-    key="b"
-    style={Object {}}
-    type="radio"
-    value="b"
+<span>
+  <Memo(RadioGroup)
+    data-testid="id-test_radio_of_one"
+    disabled={false}
+    id="id-test_radio_of_one"
+    label="Select one of"
+    onChange={[Function]}
+    readOnly={false}
   >
-    Banana
-  </Radio>
-  <Radio
-    data-testid="id-test_radio_of_one-a"
-    key="a"
-    style={Object {}}
-    type="radio"
-    value="a"
-  >
-    Apples
-  </Radio>
-  <Radio
-    data-testid="id-test_radio_of_one-p"
-    key="p"
-    style={Object {}}
-    type="radio"
-    value="p"
-  >
-    Peaches
-  </Radio>
-</Memo(RadioGroup)>
+    <Radio
+      data-testid="id-test_radio_of_one-b"
+      key="b"
+      style={Object {}}
+      type="radio"
+      value="b"
+    >
+      Banana
+    </Radio>
+    <Radio
+      data-testid="id-test_radio_of_one-a"
+      key="a"
+      style={Object {}}
+      type="radio"
+      value="a"
+    >
+      Apples
+    </Radio>
+    <Radio
+      data-testid="id-test_radio_of_one-p"
+      key="p"
+      style={Object {}}
+      type="radio"
+      value="p"
+    >
+      Peaches
+    </Radio>
+  </Memo(RadioGroup)>
+</span>
 `;
 
 exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
@@ -131,39 +133,41 @@ exports[`OneOfFormAnt should render a radio button group with form by default 1`
 `;
 
 exports[`OneOfSelectAnt should render a select control 1`] = `
-<Select
-  bordered={true}
-  choiceTransitionName="zoom"
-  data-testid="id.testSelectOfOne"
-  disabled={false}
-  id="id-test_select_of_one"
-  label="Select one of"
-  onChange={[Function]}
-  placeholder="..."
-  transitionName="slide-up"
->
-  <Option
-    data-testid="id-test_select_of_one-b"
-    key="b"
-    value="b"
+<span>
+  <Select
+    bordered={true}
+    choiceTransitionName="zoom"
+    data-testid="id.testSelectOfOne"
+    disabled={false}
+    id="id-test_select_of_one"
+    label="Select one of"
+    onChange={[Function]}
+    placeholder="..."
+    transitionName="slide-up"
   >
-    Banana
-  </Option>
-  <Option
-    data-testid="id-test_select_of_one-a"
-    key="a"
-    value="a"
-  >
-    Apples
-  </Option>
-  <Option
-    data-testid="id-test_select_of_one-p"
-    key="p"
-    value="p"
-  >
-    Peaches
-  </Option>
-</Select>
+    <Option
+      data-testid="id-test_select_of_one-b"
+      key="b"
+      value="b"
+    >
+      Banana
+    </Option>
+    <Option
+      data-testid="id-test_select_of_one-a"
+      key="a"
+      value="a"
+    >
+      Apples
+    </Option>
+    <Option
+      data-testid="id-test_select_of_one-p"
+      key="p"
+      value="p"
+    >
+      Peaches
+    </Option>
+  </Select>
+</span>
 `;
 
 exports[`OneOfSelectFormAnt should render a select control with form 1`] = `
