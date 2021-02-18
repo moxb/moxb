@@ -171,7 +171,7 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <br />
                             <h3>ManyOfSwitchboxAnt Component - multiple selection with switches - vertical</h3>
-                            <ManyOfSwitchAnt operation={application.testManyOf} verticalDisplay={true} />
+                            <ManyOfSwitchAnt operation={application.testManyOf} vertical={true} />
                             <br />
                             <br />
                             <h3>OneOf - RadioButton Component</h3>

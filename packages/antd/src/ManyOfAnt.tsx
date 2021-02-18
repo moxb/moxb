@@ -49,10 +49,19 @@ export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProp
     }
 }
 
+export interface ManyOfCheckboxAntProps {
+    /**
+     * Should we align the items vertically, instead of horizontally?
+     */
+    vertical?: boolean;
+}
+
 @observer
-export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & CheckboxGroupProps> {
+export class ManyOfCheckboxAnt extends React.Component<
+    BindAntProps<ManyOf> & CheckboxGroupProps & ManyOfCheckboxAntProps
+> {
     render() {
-        const { operation, invisible, children, defaultValue, reason, ...props } = parseProps(
+        const { operation, invisible, children, defaultValue, reason, vertical, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -62,7 +71,7 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
         // make sure the value is not a mobx object...
         const value = toJS(operation.value);
 
-        const choices = this.props.operation.verticalDisplay
+        const choices = vertical
             ? operation.choices.map((opt: any) => (
                   <Row title={reason} key={opt.value} style={{ width: '100%' }}>
                       <Col span={24}>
@@ -114,7 +123,7 @@ export class ManyOfFormAnt extends React.Component<SelectProps<ManyOf> & BindAnt
 
 @observer
 export class ManyOfCheckboxFormAnt extends React.Component<
-    CheckboxGroupProps & BindAntProps<ManyOf> & BindFormItemAntProps
+    CheckboxGroupProps & BindAntProps<ManyOf> & BindFormItemAntProps & ManyOfCheckboxAnt
 > {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
@@ -129,8 +138,15 @@ export class ManyOfCheckboxFormAnt extends React.Component<
     }
 }
 
+export interface ManyOfSwitchAntProps {
+    /**
+     * Should we align the choices vertically, instead of horizontelly?
+     */
+    vertical?: boolean;
+}
+
 @observer
-export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & AllowedSwitchProps> {
+export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & AllowedSwitchProps & ManyOfSwitchAntProps> {
     private _toggle(value: string) {
         const { operation, readOnly, disabled } = parseProps(this.props, this.props.operation);
         if (readOnly || disabled) {
@@ -164,7 +180,7 @@ export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & Allo
     }
 
     render() {
-        const { operation, invisible, disabled, children, verticalDisplay, reason, ...props } = parseProps(
+        const { operation, invisible, disabled, children, vertical, reason, ...props } = parseProps(
             this.props,
             this.props.operation
         );
@@ -174,7 +190,7 @@ export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & Allo
         const switchClassName = disabled ? 'ant-checkbox-disabled' : '';
         const labelClassName = disabled ? '' : 'ant-checkbox-wrapper';
 
-        const choices = verticalDisplay
+        const choices = vertical
             ? operation.choices.map((opt: any) => (
                   <Row key={opt.value} style={{ width: '100%' }}>
                       <Col span={24}>
@@ -228,7 +244,7 @@ export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & Allo
 
 @observer
 export class ManyOfSwitchFormAnt extends React.Component<
-    AllowedSwitchProps & BindAntProps<ManyOf> & BindFormItemAntProps
+    AllowedSwitchProps & BindAntProps<ManyOf> & BindFormItemAntProps & ManyOfSwitchAntProps
 > {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
