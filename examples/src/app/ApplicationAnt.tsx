@@ -10,6 +10,7 @@ import {
     LabelMarkdownAnt,
     ManyOfAnt,
     ManyOfCheckboxAnt,
+    ManyOfSwitchAnt,
     ModalAnt,
     NumericFormAnt,
     OneOfAnt,
@@ -157,12 +158,20 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <ManyOfAnt style={{ width: '200px' }} operation={application.testManyOf} />
                             <br />
                             <br />
-                            <h3>ManyOfAnt Component - multiple selection</h3>
+                            <h3>ManyOfAnt Component - chose from available</h3>
                             <ManyOfAnt style={{ width: '200px' }} mode="multiple" operation={application.testManyOf} />
                             <br />
                             <br />
                             <h3>ManyOfCheckboxAnt Component - multiple selection with checkboxes</h3>
                             <ManyOfCheckboxAnt style={{ width: '200px' }} operation={application.testManyOf} />
+                            <br />
+                            <br />
+                            <h3>ManyOfSwitchboxAnt Component - multiple selection with switches</h3>
+                            <ManyOfSwitchAnt operation={application.testManyOf} />
+                            <br />
+                            <br />
+                            <h3>ManyOfSwitchboxAnt Component - multiple selection with switches - vertical</h3>
+                            <ManyOfSwitchAnt operation={application.testManyOf} verticalDisplay={true} />
                             <br />
                             <br />
                             <h3>OneOf - RadioButton Component</h3>
