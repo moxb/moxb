@@ -1,14 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatePickerAnt should render a date picker by default 1`] = `
-<Picker
-  data-testid="TheId"
-  disabled={false}
-  id="the_id"
-  label="oh"
-  onChange={[Function]}
-  readOnly={false}
-/>
+<span>
+  <Picker
+    data-testid="TheId"
+    disabled={false}
+    id="the_id"
+    label="oh"
+    onChange={[Function]}
+    readOnly={false}
+  />
+</span>
 `;
 
 exports[`DatePickerFormAnt should render form item with a date picker by default 1`] = `

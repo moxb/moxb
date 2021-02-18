@@ -32,13 +32,13 @@ export class SliderAnt extends React.Component<SliderAntProps> {
     }
 
     render() {
-        const { operation, invisible, showNumber = false } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, showNumber = false, reason } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
         const formatter = (value?: number | string) => (operation.unit ? `${value}${operation.unit}` : `${value}`);
         return showNumber ? (
-            <Row>
+            <Row title={reason}>
                 <Col span={2}>
                     <span style={{ marginRight: '1em' }}>{formatter(operation.value)}</span>
                 </Col>

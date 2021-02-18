@@ -1,16 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BoolAnt should render a checkbox by default 1`] = `
-<Checkbox
-  data-testid="TheId"
-  disabled={false}
-  id="the_id"
-  indeterminate={true}
-  onChange={[Function]}
-  readOnly={false}
->
-  oh
-</Checkbox>
+<span>
+  <Checkbox
+    data-testid="TheId"
+    disabled={false}
+    id="the_id"
+    indeterminate={true}
+    onChange={[Function]}
+    readOnly={false}
+  >
+    oh
+  </Checkbox>
+</span>
 `;
 
 exports[`BoolFormAnt should render a checkbox by default 1`] = `

@@ -10,7 +10,7 @@ import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormIte
 @observer
 export class TreeAnt extends React.Component<BindAntProps<Tree> & TreeProps> {
     render() {
-        const { operation, invisible, children, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, children, reason, ...props } = parseProps(this.props, this.props.operation);
 
         if (invisible) {
             return null;
@@ -18,20 +18,22 @@ export class TreeAnt extends React.Component<BindAntProps<Tree> & TreeProps> {
 
         const value = toJS(operation.value);
         return (
-            <TreeComponent
-                checkable={true}
-                checkStrictly={operation.strictSelect || false}
-                data-testid={operation.id}
-                treeData={operation.nodes}
-                defaultExpandedKeys={operation.expandValues ? value || [] : []}
-                checkedKeys={value || []}
-                onCheck={(checkedKeys) => {
-                    operation.setValue(checkedKeys as string[]);
-                }}
-                {...props}
-            >
-                {children}
-            </TreeComponent>
+            <span title={reason}>
+                <TreeComponent
+                    checkable={true}
+                    checkStrictly={operation.strictSelect || false}
+                    data-testid={operation.id}
+                    treeData={operation.nodes}
+                    defaultExpandedKeys={operation.expandValues ? value || [] : []}
+                    checkedKeys={value || []}
+                    onCheck={(checkedKeys) => {
+                        operation.setValue(checkedKeys as string[]);
+                    }}
+                    {...props}
+                >
+                    {children}
+                </TreeComponent>
+            </span>
         );
     }
 }

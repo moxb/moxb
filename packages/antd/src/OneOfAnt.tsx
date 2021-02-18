@@ -31,7 +31,10 @@ export interface OneOfAntProps {
 @observer
 export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps & OneOfAntProps> {
     render() {
-        const { operation, invisible, vertical, breakAfter, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, vertical, breakAfter, reason, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
@@ -56,14 +59,16 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
             }
         });
         return (
-            <Radio.Group
-                data-testid={idToDomId(operation.id)}
-                onChange={(e) => operation.setValue(e.target.value)}
-                {...props}
-                value={operation.value}
-            >
-                {elements}
-            </Radio.Group>
+            <span title={reason}>
+                <Radio.Group
+                    data-testid={idToDomId(operation.id)}
+                    onChange={(e) => operation.setValue(e.target.value)}
+                    {...props}
+                    value={operation.value}
+                >
+                    {elements}
+                </Radio.Group>
+            </span>
         );
     }
 }
@@ -99,7 +104,10 @@ export class OneOfButtonAnt extends React.Component<
     BindAntProps<OneOf> & RadioProps & RadioGroupProps & OneOfButtonAntProps
 > {
     render() {
-        const { operation, invisible, readOnly, breakAfter, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, readOnly, breakAfter, reason, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
@@ -119,14 +127,16 @@ export class OneOfButtonAnt extends React.Component<
         });
 
         return (
-            <Radio.Group
-                data-testid={operation.id}
-                onChange={(e) => operation.setValue(e.target.value)}
-                {...props}
-                value={operation.value}
-            >
-                {elements}
-            </Radio.Group>
+            <span title={reason}>
+                <Radio.Group
+                    data-testid={operation.id}
+                    onChange={(e) => operation.setValue(e.target.value)}
+                    {...props}
+                    value={operation.value}
+                >
+                    {elements}
+                </Radio.Group>
+            </span>
         );
     }
 }
@@ -239,7 +249,7 @@ export class OneOfDropDownFormAnt extends React.Component<
 @observer
 export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & SelectProps<any>> {
     render() {
-        const { operation, invisible, readOnly, mode, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, readOnly, mode, reason, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
@@ -248,24 +258,26 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
         }
 
         return (
-            <Select
-                data-testid={operation.id}
-                onChange={(selectionValue: any) => operation.setValue(selectionValue)}
-                value={operation.value || undefined}
-                placeholder={operation.placeholder}
-                mode={mode}
-                {...props}
-            >
-                {operation.choices.map((opt) => (
-                    <Select.Option
-                        data-testid={idToDomId(operation.id + '.' + opt.value)}
-                        key={opt.value}
-                        value={opt.value}
-                    >
-                        {opt.widget ? opt.widget : opt.label}
-                    </Select.Option>
-                ))}
-            </Select>
+            <span title={reason}>
+                <Select
+                    data-testid={operation.id}
+                    onChange={(selectionValue: any) => operation.setValue(selectionValue)}
+                    value={operation.value || undefined}
+                    placeholder={operation.placeholder}
+                    mode={mode}
+                    {...props}
+                >
+                    {operation.choices.map((opt) => (
+                        <Select.Option
+                            data-testid={idToDomId(operation.id + '.' + opt.value)}
+                            key={opt.value}
+                            value={opt.value}
+                        >
+                            {opt.widget ? opt.widget : opt.label}
+                        </Select.Option>
+                    ))}
+                </Select>
+            </span>
         );
     }
 }
@@ -281,7 +293,7 @@ export class OneOfSearchableSelectAnt extends React.Component<
     OneOfSearchableSelectAntState<any>
 > {
     render() {
-        const { operation, invisible, readOnly, mode, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, invisible, readOnly, mode, reason, ...props } = parseProps(this.props, this.props.operation);
 
         if (invisible) {
             return null;
@@ -290,33 +302,35 @@ export class OneOfSearchableSelectAnt extends React.Component<
             return <span data-testid={operation.id}>{operation.choice}</span>;
         }
         return (
-            <Select
-                showSearch
-                defaultActiveFirstOption={false}
-                showArrow={false}
-                data-testid={operation.id}
-                onChange={(selectionValue: any) => {
-                    operation.setValue(selectionValue);
-                    operation.searchData('');
-                }}
-                onSearch={operation.searchData}
-                notFoundContent={null}
-                filterOption={false}
-                // mode={mode}
-                value={operation.value || undefined}
-                placeholder={operation.placeholder}
-                {...props}
-            >
-                {operation.filteredChoices.map((opt: BindOneOfChoice<any>) => (
-                    <Select.Option
-                        data-testid={idToDomId(operation.id + '.' + opt.value)}
-                        key={opt.value}
-                        value={opt.value}
-                    >
-                        {opt.widget ? opt.widget : opt.label}
-                    </Select.Option>
-                ))}
-            </Select>
+            <span title={reason}>
+                <Select
+                    showSearch
+                    defaultActiveFirstOption={false}
+                    showArrow={false}
+                    data-testid={operation.id}
+                    onChange={(selectionValue: any) => {
+                        operation.setValue(selectionValue);
+                        operation.searchData('');
+                    }}
+                    onSearch={operation.searchData}
+                    notFoundContent={null}
+                    filterOption={false}
+                    // mode={mode}
+                    value={operation.value || undefined}
+                    placeholder={operation.placeholder}
+                    {...props}
+                >
+                    {operation.filteredChoices.map((opt: BindOneOfChoice<any>) => (
+                        <Select.Option
+                            data-testid={idToDomId(operation.id + '.' + opt.value)}
+                            key={opt.value}
+                            value={opt.value}
+                        >
+                            {opt.widget ? opt.widget : opt.label}
+                        </Select.Option>
+                    ))}
+                </Select>
+            </span>
         );
     }
 }

@@ -28,13 +28,17 @@ export interface BindSearchStringAntProps extends SearchProps {
 export class TextAnt extends React.Component<BindStringAntProps> {
     // tslint:disable-next-line:cyclomatic-complexity
     render() {
-        const { operation, id, inputType, value, invisible, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, id, inputType, value, invisible, reason, ...props } = parseProps(
+            this.props,
+            this.props.operation
+        );
         if (invisible) {
             return null;
         }
         if ((inputType || operation.control) === 'textarea') {
             return (
                 <Input.TextArea
+                    title={reason}
                     id={id}
                     data-testid={id}
                     placeholder={operation.placeholder}
@@ -48,6 +52,7 @@ export class TextAnt extends React.Component<BindStringAntProps> {
         } else {
             return (
                 <Input
+                    title={reason}
                     id={id}
                     data-testid={id}
                     placeholder={operation.placeholder}

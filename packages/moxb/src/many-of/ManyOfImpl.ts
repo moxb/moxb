@@ -6,7 +6,6 @@ import { BindManyOfChoice, ManyOf } from './ManyOf';
 
 export interface ManyOfOptions<T> extends ValueOptions<ManyOfImpl, T[]> {
     choices?: ValueOrFunction<BindOneOfChoice<T>[]>;
-    verticalDisplay?: ValueOrFunction<boolean>;
 }
 
 export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl, T[], ManyOfOptions<T>> implements ManyOf<T> {
@@ -23,12 +22,17 @@ export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl, T[], ManyOfOpt
         }
     }
 
-    @computed
-    get verticalDisplay(): boolean {
-        if (typeof this.impl.verticalDisplay === 'function') {
-            return this.impl.verticalDisplay() || false;
+    isSelected(choice: T): boolean {
+        return !!this.value && this.value.indexOf(choice) !== -1;
+    }
+
+    toggle(choice: T) {
+        if (this.isSelected(choice)) {
+            // Un-select this
+            this.setValue(this.value!.filter((c) => c !== choice));
         } else {
-            return this.impl.verticalDisplay || false;
+            // Select this
+            this.setValue([...(this.value || []), choice]);
         }
     }
 }

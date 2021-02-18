@@ -1,41 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ManyOfAnt should render a select control by default 1`] = `
-<Select
-  bordered={true}
-  choiceTransitionName="zoom"
-  data-testid="Id.manyOf"
-  disabled={false}
-  id="id-many_of"
-  label="Choose your snack"
-  onChange={[Function]}
-  placeholder="Please select"
-  readOnly={false}
-  transitionName="slide-up"
-  value={Array []}
->
-  <Option
-    data-testid="id-many_of-b"
-    key="b"
-    value="b"
+<span>
+  <Select
+    bordered={true}
+    choiceTransitionName="zoom"
+    data-testid="Id.manyOf"
+    disabled={false}
+    id="id-many_of"
+    label="Choose your snack"
+    onChange={[Function]}
+    placeholder="Please select"
+    readOnly={false}
+    transitionName="slide-up"
+    value={Array []}
   >
-    Banana
-  </Option>
-  <Option
-    data-testid="id-many_of-a"
-    key="a"
-    value="a"
-  >
-    Apples
-  </Option>
-  <Option
-    data-testid="id-many_of-p"
-    key="p"
-    value="p"
-  >
-    Peaches
-  </Option>
-</Select>
+    <Option
+      data-testid="id-many_of-b"
+      key="b"
+      value="b"
+    >
+      Banana
+    </Option>
+    <Option
+      data-testid="id-many_of-a"
+      key="a"
+      value="a"
+    >
+      Apples
+    </Option>
+    <Option
+      data-testid="id-many_of-p"
+      key="p"
+      value="p"
+    >
+      Peaches
+    </Option>
+  </Select>
+</span>
 `;
 
 exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
