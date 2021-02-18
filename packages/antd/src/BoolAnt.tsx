@@ -1,7 +1,7 @@
 import { Bool } from '@moxb/moxb';
 import { Checkbox, Switch } from 'antd';
 import { CheckboxProps } from 'antd/lib/checkbox';
-import { SwitchProps } from 'antd/lib/switch';
+import { SwitchSize } from 'antd/lib/switch';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -32,29 +32,41 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
     }
 }
 
+export interface AllowedSwitchProps {
+    prefixCls?: string;
+    size?: SwitchSize;
+    className?: string;
+    checkedChildren?: React.ReactNode;
+    unCheckedChildren?: React.ReactNode;
+    autoFocus?: boolean;
+    style?: React.CSSProperties;
+}
+
 @observer
-export class BoolSwitchAnt extends React.Component<BindAntProps<Bool> & SwitchProps> {
+export class BoolSwitchAnt extends React.Component<BindAntProps<Bool> & AllowedSwitchProps> {
     render() {
-        const { operation, invisible, children, label, checkedChildren, unCheckedChildren, ...props } = parseProps(
+        const { operation, invisible, children, label, reason, disabled, ...props } = parseProps(
             this.props,
             this.props.operation
         );
         if (invisible) {
             return null;
         }
-
+        const switchClassName = disabled ? 'ant-checkbox-disabled' : '';
+        const labelClassName = disabled ? '' : 'ant-checkbox-wrapper';
         return (
-            <span>
-                <Switch
-                    data-testid={operation.id}
-                    checked={operation.value}
-                    onChange={() => operation.toggle()}
-                    checkedChildren={checkedChildren}
-                    unCheckedChildren={unCheckedChildren}
-                    {...props}
-                />
-                &nbsp;
-                <span onClick={() => operation.toggle()} style={{ cursor: 'pointer' }}>
+            <span title={reason}>
+                <span className={switchClassName}>
+                    <Switch
+                        disabled={disabled}
+                        data-testid={operation.id}
+                        checked={operation.value}
+                        onChange={() => operation.toggle()}
+                        {...props}
+                    />
+                </span>
+                &nbsp; &nbsp;
+                <span onClick={() => operation.toggle()} className={labelClassName}>
                     {labelWithHelp(label, operation.help, operation.id)}
                 </span>
             </span>
@@ -78,7 +90,9 @@ export class BoolFormAnt extends React.Component<BindAntProps<Bool> & Partial<Fo
 }
 
 @observer
-export class BoolSwitchFormAnt extends React.Component<BindAntProps<Bool> & Partial<FormItemProps> & SwitchProps> {
+export class BoolSwitchFormAnt extends React.Component<
+    BindAntProps<Bool> & Partial<FormItemProps> & AllowedSwitchProps
+> {
     render() {
         const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
         if (invisible) {
