@@ -201,6 +201,7 @@ export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & Allo
                                       checked={operation.isSelected(opt.value)}
                                       onChange={this._getSwitchHandler(opt.value)}
                                       disabled={disabled}
+                                      size={'small'}
                                       {...props}
                                   />
                               </span>
@@ -221,6 +222,7 @@ export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & Allo
                                   checked={operation.isSelected(opt.value)}
                                   onChange={this._getSwitchHandler(opt.value)}
                                   disabled={disabled}
+                                  size={'small'}
                                   {...props}
                               />
                           </span>
