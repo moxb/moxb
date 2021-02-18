@@ -4,7 +4,7 @@ import { CheckboxGroupProps } from 'antd/lib/checkbox';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { BindAntProps, parseProps } from './BindAnt';
+import { BindAntProps, labelWithHelp, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { SelectProps } from 'antd/lib/select';
 
@@ -65,7 +65,7 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
                   <Row title={reason} key={opt.value} style={{ width: '100%' }}>
                       <Col span={24}>
                           <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
-                              {opt.label}
+                              {labelWithHelp(opt.label, opt.help)}
                           </Checkbox>
                       </Col>
                   </Row>
@@ -73,7 +73,7 @@ export class ManyOfCheckboxAnt extends React.Component<BindAntProps<ManyOf> & Ch
             : operation.choices.map((opt: any) => (
                   <Col title={reason} key={opt.value}>
                       <Checkbox data-testid={idToDomId(operation.id + '.' + opt.value)} value={opt.value}>
-                          {opt.label}
+                          {labelWithHelp(opt.label, opt.help)}
                       </Checkbox>
                   </Col>
               ));
