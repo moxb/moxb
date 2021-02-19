@@ -17,6 +17,16 @@ export interface BindOneOfChoice<T = string> {
      * If we want to use a specific widget for the label, instead of a simple string, specify it there.
      */
     widget?: any;
+
+    /**
+     * Signal that this element should not be available for choice
+     */
+    disabled?: boolean;
+
+    /**
+     * Explanation why this can't be chosen
+     */
+    reason?: string;
 }
 
 export interface OneOf<T = string> extends Value<T> {

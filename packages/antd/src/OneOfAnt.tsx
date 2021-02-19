@@ -45,14 +45,17 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
         const elements: JSX.Element[] = [];
         operation.choices.forEach((opt, index) => {
             elements.push(
-                <Radio
-                    data-testid={idToDomId(operation.id + '.' + opt.value)}
-                    key={opt.value}
-                    value={opt.value}
-                    style={radioStyle}
-                >
-                    {opt.widget ? opt.widget : labelWithHelp(opt.label, opt.help)}
-                </Radio>
+                <span key={opt.value} title={opt.reason}>
+                    <Radio
+                        data-testid={idToDomId(operation.id + '.' + opt.value)}
+                        key={opt.value}
+                        value={opt.value}
+                        style={radioStyle}
+                        disabled={opt.disabled}
+                    >
+                        {opt.widget ? opt.widget : labelWithHelp(opt.label, opt.help)}
+                    </Radio>
+                </span>
             );
             if (!!breakAfter && !((index + 1) % breakAfter)) {
                 elements.push(<br key={'after-' + index} />);
@@ -117,9 +120,16 @@ export class OneOfButtonAnt extends React.Component<
         const elements: JSX.Element[] = [];
         operation.choices.forEach((opt, index) => {
             elements.push(
-                <Radio.Button data-testid={idToDomId(operation.id + '.' + opt.value)} key={opt.value} value={opt.value}>
-                    {opt.widget ? opt.widget : opt.label}
-                </Radio.Button>
+                <span key={opt.value} title={opt.reason}>
+                    <Radio.Button
+                        data-testid={idToDomId(operation.id + '.' + opt.value)}
+                        key={opt.value}
+                        value={opt.value}
+                        disabled={opt.disabled}
+                    >
+                        {opt.widget ? opt.widget : opt.label}
+                    </Radio.Button>
+                </span>
             );
             if (!!breakAfter && !((index + 1) % breakAfter)) {
                 elements.push(<br key={'after-' + index} />);
@@ -272,6 +282,8 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
                             data-testid={idToDomId(operation.id + '.' + opt.value)}
                             key={opt.value}
                             value={opt.value}
+                            disabled={opt.disabled}
+                            title={opt.reason}
                         >
                             {opt.widget ? opt.widget : opt.label}
                         </Select.Option>
@@ -325,6 +337,8 @@ export class OneOfSearchableSelectAnt extends React.Component<
                             data-testid={idToDomId(operation.id + '.' + opt.value)}
                             key={opt.value}
                             value={opt.value}
+                            disabled={opt.disabled}
+                            title={opt.reason}
                         >
                             {opt.widget ? opt.widget : opt.label}
                         </Select.Option>
