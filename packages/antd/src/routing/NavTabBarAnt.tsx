@@ -14,6 +14,8 @@ import { renderSubStateCore } from '@moxb/html/dist/rendering';
 
 const TabPane = Tabs.TabPane;
 
+const NOT_FOUND = '_not_found_404';
+
 export interface NavTabProps<DataType>
     extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
     /**
@@ -103,6 +105,15 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         );
     }
 
+    protected renderErrorPanel(parentId: string, content: UIFragment = 'Content not found') {
+        const id = idToDomId(`${parentId}.${NOT_FOUND}`);
+        return (
+            <TabPane data-testid={id} key={NOT_FOUND} tab={'???'}>
+                {renderUIFragment(content)}
+            </TabPane>
+        );
+    }
+
     public render() {
         const states = this.getLocationDependantStateSpaceHandler();
         const { extras = [], style, mode, id, fallback } = this.props;
@@ -111,7 +122,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
             <Tabs
                 data-testid={id}
                 tabPosition={mode || 'top'}
-                activeKey={activeKey || '_not_found'}
+                activeKey={activeKey || NOT_FOUND}
                 onTabClick={(menuKey: string) => {
                     /**
                      * Normally we shouldn't get here, since the click is going to be captured
@@ -131,7 +142,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
                     })
                     .map((state) => this.renderStateTabPane(id, states, state))}
                 {extras.map((f) => renderUIFragment(f))}
-                {!activeKey && <div> {renderUIFragment(fallback)} </div>}
+                {!activeKey && this.renderErrorPanel(id, fallback)}
             </Tabs>
         );
     }
