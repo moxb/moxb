@@ -7,6 +7,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 ### Added
  - Added support for disabling individual choices in OneOf... and ManyOf... components.
 
+### Fixed
+ - Fixed errors on the console when trying to access an undefined tab on a NavTabBarAnt.
+
 # [v0.2.0-beta.68](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.68) (2021-02-18)
 
 ### Changed
