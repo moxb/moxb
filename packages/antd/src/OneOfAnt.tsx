@@ -8,7 +8,7 @@ import DownOutlined from '@ant-design/icons/DownOutlined';
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { BindAntProps, labelWithHelp, parseProps } from './BindAnt';
+import { BindAntProps, labelWithHelpIndicator, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { SelectProps } from 'antd/lib/select';
 
@@ -45,7 +45,7 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
         const elements: JSX.Element[] = [];
         operation.choices.forEach((opt, index) => {
             elements.push(
-                <span key={opt.value} title={opt.reason}>
+                <span key={opt.value} title={opt.reason || opt.help}>
                     <Radio
                         data-testid={idToDomId(operation.id + '.' + opt.value)}
                         key={opt.value}
@@ -53,7 +53,7 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
                         style={radioStyle}
                         disabled={opt.disabled}
                     >
-                        {opt.widget ? opt.widget : labelWithHelp(opt.label, opt.help)}
+                        {opt.widget ? opt.widget : labelWithHelpIndicator(opt.label, opt.help)}
                     </Radio>
                 </span>
             );
@@ -120,14 +120,14 @@ export class OneOfButtonAnt extends React.Component<
         const elements: JSX.Element[] = [];
         operation.choices.forEach((opt, index) => {
             elements.push(
-                <span key={opt.value} title={opt.reason}>
+                <span key={opt.value} title={opt.reason || opt.help}>
                     <Radio.Button
                         data-testid={idToDomId(operation.id + '.' + opt.value)}
                         key={opt.value}
                         value={opt.value}
                         disabled={opt.disabled}
                     >
-                        {opt.widget ? opt.widget : opt.label}
+                        {opt.widget ? opt.widget : labelWithHelpIndicator(opt.label, opt.help)}
                     </Radio.Button>
                 </span>
             );
@@ -283,9 +283,9 @@ export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & Select
                             key={opt.value}
                             value={opt.value}
                             disabled={opt.disabled}
-                            title={opt.reason}
+                            title={opt.reason || opt.help}
                         >
-                            {opt.widget ? opt.widget : opt.label}
+                            {opt.widget ? opt.widget : labelWithHelpIndicator(opt.label, opt.help)}
                         </Select.Option>
                     ))}
                 </Select>
@@ -338,9 +338,9 @@ export class OneOfSearchableSelectAnt extends React.Component<
                             key={opt.value}
                             value={opt.value}
                             disabled={opt.disabled}
-                            title={opt.reason}
+                            title={opt.reason || opt.help}
                         >
-                            {opt.widget ? opt.widget : opt.label}
+                            {opt.widget ? opt.widget : labelWithHelpIndicator(opt.label, opt.help)}
                         </Select.Option>
                     ))}
                 </Select>
