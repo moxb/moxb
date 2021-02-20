@@ -162,11 +162,11 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <ManyOfAnt style={{ width: '200px' }} mode="multiple" operation={application.testManyOf} />
                             <br />
                             <br />
-                            <h3>ManyOfCheckboxAnt Component - multiple selection with checkboxes</h3>
+                            <h3>ManyOfCheckAnt Component - multiple selection with checkboxes</h3>
                             <ManyOfCheckboxAnt style={{ width: '200px' }} operation={application.testManyOf} />
                             <br />
                             <br />
-                            <h3>ManyOfSwitchboxAnt Component - multiple selection with switches</h3>
+                            <h3>ManyOfSwitchAnt Component - multiple selection with switches</h3>
                             <ManyOfSwitchAnt operation={application.testManyOf} />
                             <br />
                             <br />
