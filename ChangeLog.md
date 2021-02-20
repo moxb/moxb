@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.70](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.70) (2021-02-20)
+
 ### Added
  - Implement displaying the per-option help messages on all OneOf and ManyOf components where it was missing
 
