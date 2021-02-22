@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+### Changed
+ - Revert to the browser's native title feature, instead of the ant tooltip
+
 # [v0.2.0-beta.70](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.70) (2021-02-20)
 
 ### Added

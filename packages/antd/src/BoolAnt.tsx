@@ -5,7 +5,7 @@ import { SwitchSize } from 'antd/lib/switch';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { BindAntProps, labelWithHelp, parseProps } from './BindAnt';
+import { BindAntProps, labelWithHelpIndicator, parseProps } from './BindAnt';
 import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
 @observer
@@ -21,7 +21,7 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
         // a null value renders the checkbox in intermediate state!
         const indeterminate = operation.value == null;
         return (
-            <span title={reason}>
+            <span title={reason || operation.help}>
                 <Checkbox
                     data-testid={operation.id}
                     checked={operation.value}
@@ -30,7 +30,7 @@ export class BoolAnt extends React.Component<BindAntProps<Bool> & CheckboxProps>
                     {...props}
                 >
                     {children}
-                    {labelWithHelp(label, operation.help, operation.id)}
+                    {labelWithHelpIndicator(label, operation.help)}
                 </Checkbox>
             </span>
         );
@@ -60,7 +60,7 @@ export class BoolSwitchAnt extends React.Component<BindAntProps<Bool> & AllowedS
         const switchClassName = disabled ? 'ant-checkbox-disabled' : '';
         const labelClassName = disabled ? '' : 'ant-checkbox-wrapper';
         return (
-            <span title={reason}>
+            <span title={reason || operation.help}>
                 <span className={switchClassName}>
                     <Switch
                         disabled={disabled}
@@ -72,7 +72,7 @@ export class BoolSwitchAnt extends React.Component<BindAntProps<Bool> & AllowedS
                 </span>
                 &nbsp; &nbsp;
                 <span onClick={() => operation.toggle()} className={labelClassName}>
-                    {labelWithHelp(label, operation.help, operation.id)}
+                    {labelWithHelpIndicator(label, operation.help)}
                 </span>
             </span>
         );

@@ -5,7 +5,7 @@ import { ColProps } from 'antd/lib/grid';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { CSSProperties } from 'react';
-import { getErrorMessages, labelWithHelp, parseProps } from './BindAnt';
+import { getErrorMessages, labelWithHelpSpan, parseProps } from './BindAnt';
 import { BindMarkdownDiv } from './LabelAnt';
 
 // Due to the recent antd changes the children property in the FormItemProps component
@@ -44,7 +44,7 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
             <Form.Item
                 htmlFor={fullId}
                 data-testid={fullId}
-                label={labelWithHelp(label, help, fullId)}
+                label={labelWithHelpSpan(label, help)}
                 style={formStyle || undefined}
                 extra={extraLabel}
                 labelCol={labelCol}

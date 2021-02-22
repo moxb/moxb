@@ -39,8 +39,9 @@ export function parseProps<T, O>(bindProps: T, _op: O): T & O {
 }
 
 /**
- * Create a HTML SPAN that can be used as a label, with an optional popup help, and a ? for indicator.
+ * Create a HTML SPAN that can be used as a label, with an optional tooltip, and a ? for indicator.
  */
+/** @deprecated since version v0.2.0-beta.70 */
 export function labelWithHelp(label: any, help?: string, id?: string) {
     if (help && typeof label === 'string') {
         return (
@@ -65,6 +66,21 @@ export function labelWithHelpIndicator(label: any, help?: string) {
     if (help && typeof label === 'string') {
         return (
             <span>
+                {label} <QuestionCircleOutlined />
+            </span>
+        );
+    } else {
+        return label;
+    }
+}
+
+/**
+ * Create a HTML SPAN that can be used as a label, with an optional title, and a ? for indicator.
+ */
+export function labelWithHelpSpan(label: any, help?: string, id?: string) {
+    if (help && typeof label === 'string') {
+        return (
+            <span data-testid={id + '-help-label'} title={help}>
                 {label} <QuestionCircleOutlined />
             </span>
         );
