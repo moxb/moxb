@@ -1,4 +1,5 @@
 import { NavRef, NavRefCall } from '../../navigation-references';
+import { PathTokenMappingList } from '../../TokenManager';
 
 export interface SubStateCoreInfo<WidgetType, DataType> {
     /**
@@ -14,7 +15,7 @@ export interface SubStateCoreInfo<WidgetType, DataType> {
     /**
      * Names for any remaining tokens, if required
      */
-    tokenMapping?: string[];
+    tokenMapping?: PathTokenMappingList;
 }
 
 export interface SubStateRelations<LabelType, WidgetType, DataType> {

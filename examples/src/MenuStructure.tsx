@@ -42,7 +42,10 @@ export const mainMenu: StateSpace<UIFragment, UIFragmentSpec, {}> = [
         fragment: {
             main: MemTableAnt,
         },
-        tokenMapping: ['groupId', 'objectId'],
+        tokenMapping: [
+            { key: 'groupId', vanishing: true, defaultValue: 'foo', allowedValues: ['foo', 'bar'] },
+            'objectId',
+        ],
         // This is where we attach this scheme to this part of the menu tree, meaning that we will
         // be able to address these states without knowing the path to here.
         navRef: memTableRef,

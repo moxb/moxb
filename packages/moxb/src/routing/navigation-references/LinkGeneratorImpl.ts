@@ -7,6 +7,7 @@ import { StateSpaceHandlerImpl } from '../location-state-space/state-space/State
 import { getValueOrFunction } from '../../bind/BindImpl';
 import { StateSpaceHandler } from '../location-state-space/state-space/StateSpaceHandler';
 import { NavRefCall } from './NavRef';
+import { expandPathTokenMapping } from '../TokenManagerImpl';
 
 export class LinkGeneratorImpl implements LinkGenerator {
     protected readonly _schema: UrlSchema;
@@ -47,12 +48,19 @@ export class LinkGeneratorImpl implements LinkGenerator {
         if (tokenMapping && tokenMapping.length && tokens) {
             let hasMissing = false;
             // Add all the tokens
-            tokenMapping.forEach((tokenName) => {
-                const tokenValue = (tokens as any)[tokenName];
-                const missing = tokenValue === undefined;
-                hasMissing = hasMissing || missing;
-                if (!hasMissing) {
-                    pathTokens.push(tokenValue!);
+            tokenMapping.forEach((def) => {
+                const token = expandPathTokenMapping(def);
+                const tokenValue = (tokens as any)[token.key];
+                if (token.vanishing) {
+                    if (tokenValue !== token.defaultValue) {
+                        pathTokens.push(tokenValue!);
+                    }
+                } else {
+                    const missing = tokenValue === undefined;
+                    hasMissing = hasMissing || missing;
+                    if (!hasMissing) {
+                        pathTokens.push(tokenValue!);
+                    }
                 }
             });
         }
