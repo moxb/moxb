@@ -4,6 +4,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # v.Next (Current)
 
+# [v0.2.0-beta.72](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.72) (2021-02-26)
+
 ### Added
  - TokenManager: add support for vanishing tokens
 
