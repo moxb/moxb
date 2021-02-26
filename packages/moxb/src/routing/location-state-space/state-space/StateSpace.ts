@@ -1,5 +1,5 @@
 import { NavRef, NavRefCall } from '../../navigation-references';
-import { PathTokenMappingList } from '../../TokenManager';
+import { PathTokenMappingList } from '../../TokenManagerImpl';
 
 export interface SubStateCoreInfo<WidgetType, DataType> {
     /**

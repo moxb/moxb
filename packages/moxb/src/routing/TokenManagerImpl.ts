@@ -2,16 +2,60 @@ import { Path as MyLocation } from 'history';
 import { action, computed, observable } from 'mobx';
 import { LocationManager, SuccessCallback, UpdateMethod } from './location-manager';
 import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerImpl } from './location-state-space';
-import {
-    AnyPathTokenMapping,
-    ComplexPathTokenMapping,
-    PathTokenMappingList,
-    TokenManager,
-    TokenMappings,
-} from './TokenManager';
+import { TokenManager, TokenMappings } from './TokenManager';
 import { isTokenEmpty } from './tokens';
 import { Query } from './url-schema/UrlSchema';
 import { UrlArg, URLARG_TYPE_OPTIONAL_STRING, URLARG_TYPE_STRING, UrlTokenImpl } from './url-arg';
+
+interface ComplexPathTokenMappingBase {
+    /**
+     * The key we need to identify this mapping when trying to access the value
+     */
+    key: string;
+
+    /**
+     * Should this vanish when it is on the default value?
+     */
+    vanishing: boolean;
+}
+
+/**
+ * Description if a "vanishing token", it a path token that disappears from the path when on the default value
+ */
+interface VanishingPathTokenMapping extends ComplexPathTokenMappingBase {
+    /**
+     * The flag for vanishing
+     */
+    vanishing: true;
+
+    /**
+     * The value that should vanish
+     */
+    defaultValue: string;
+
+    /**
+     * What are the possible values for this token?
+     *
+     * This is required so that we can recognize that the value we find
+     * at the expected offset is in fact not a value of this mapping,
+     * but the next one, since this has vanished
+     */
+    allowedValues: string[];
+}
+
+/**
+ * Just a wrapper around the usual, non-vanishing path token mapping
+ */
+interface NonVanishingPathTokenMapping extends ComplexPathTokenMappingBase {
+    // key: string;
+    vanishing: false;
+}
+
+// Some small utility types
+type SimplePathTokenMapping = string;
+type ComplexPathTokenMapping = VanishingPathTokenMapping | NonVanishingPathTokenMapping;
+type AnyPathTokenMapping = SimplePathTokenMapping | ComplexPathTokenMapping;
+export type PathTokenMappingList = AnyPathTokenMapping[];
 
 /**
  * A path token mapping scheme that doesn't depend on the app's state space

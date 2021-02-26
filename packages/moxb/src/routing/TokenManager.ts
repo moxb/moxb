@@ -3,56 +3,7 @@ import { SuccessCallback, UpdateMethod } from './location-manager';
 import { StateCondition, StateSpace } from './location-state-space/state-space/StateSpace';
 import { Query } from './url-schema/UrlSchema';
 import { UrlArg } from './url-arg';
-
-interface ComplexPathTokenMappingBase {
-    /**
-     * The key we need to identify this mapping when trying to access the value
-     */
-    key: string;
-
-    /**
-     * Should this vanish when it is on the default value?
-     */
-    vanishing: boolean;
-}
-
-/**
- * Description if a "vanishing token", it a path token that disappears from the path when on the default value
- */
-export interface VanishingPathTokenMapping extends ComplexPathTokenMappingBase {
-    /**
-     * The flag for vanishing
-     */
-    vanishing: true;
-
-    /**
-     * The value that should vanish
-     */
-    defaultValue: string;
-
-    /**
-     * What are the possible values for this token?
-     *
-     * This is required so that we can recognize that the value we find
-     * at the expected offset is in fact not a value of this mapping,
-     * but the next one, since this has vanished
-     */
-    allowedValues: string[];
-}
-
-/**
- * Just a wrapper around the usual, non-vanishing path token mapping
- */
-export interface NonVanishingPathTokenMapping extends ComplexPathTokenMappingBase {
-    // key: string;
-    vanishing: false;
-}
-
-// Some small utility types
-export type SimplePathTokenMapping = string;
-export type ComplexPathTokenMapping = VanishingPathTokenMapping | NonVanishingPathTokenMapping;
-export type AnyPathTokenMapping = SimplePathTokenMapping | ComplexPathTokenMapping;
-export type PathTokenMappingList = AnyPathTokenMapping[];
+import { PathTokenMappingList } from './TokenManagerImpl';
 
 /**
  * A TokenMapping is a bunch of information that the Token Manager needs to be aware of, so that
