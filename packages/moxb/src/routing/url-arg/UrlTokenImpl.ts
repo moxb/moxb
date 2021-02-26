@@ -50,10 +50,9 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
 
     public getRawValue(value: T) {
         const {
-            valueType: { isEqual, format },
-            defaultValue,
+            valueType: { format },
         } = this._def;
-        return isEqual(value, defaultValue) ? undefined : format(value);
+        return format(value);
     }
 
     public getModifiedLocation(startLocation: MyLocation, value: T) {
