@@ -2,6 +2,9 @@
 
 Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
+
+# [v0.2.0-beta.73](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.73) (2021-02-26)
+
 ### Fixed
  - Export some missing interfaces
 
