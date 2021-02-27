@@ -45,7 +45,7 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
         const elements: JSX.Element[] = [];
         operation.choices.forEach((opt, index) => {
             elements.push(
-                <span key={opt.value} title={opt.reason || opt.help}>
+                <span key={opt.value} title={reason || opt.reason || opt.help}>
                     <Radio
                         data-testid={idToDomId(operation.id + '.' + opt.value)}
                         key={opt.value}
@@ -62,16 +62,14 @@ export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps &
             }
         });
         return (
-            <span title={reason}>
-                <Radio.Group
-                    data-testid={idToDomId(operation.id)}
-                    onChange={(e) => operation.setValue(e.target.value)}
-                    {...props}
-                    value={operation.value}
-                >
-                    {elements}
-                </Radio.Group>
-            </span>
+            <Radio.Group
+                data-testid={idToDomId(operation.id)}
+                onChange={(e) => operation.setValue(e.target.value)}
+                {...props}
+                value={operation.value}
+            >
+                {elements}
+            </Radio.Group>
         );
     }
 }
@@ -120,7 +118,7 @@ export class OneOfButtonAnt extends React.Component<
         const elements: JSX.Element[] = [];
         operation.choices.forEach((opt, index) => {
             elements.push(
-                <span key={opt.value} title={opt.reason || opt.help}>
+                <span key={opt.value} title={reason || opt.reason || opt.help}>
                     <Radio.Button
                         data-testid={idToDomId(operation.id + '.' + opt.value)}
                         key={opt.value}
@@ -137,16 +135,14 @@ export class OneOfButtonAnt extends React.Component<
         });
 
         return (
-            <span title={reason}>
-                <Radio.Group
-                    data-testid={operation.id}
-                    onChange={(e) => operation.setValue(e.target.value)}
-                    {...props}
-                    value={operation.value}
-                >
-                    {elements}
-                </Radio.Group>
-            </span>
+            <Radio.Group
+                data-testid={operation.id}
+                onChange={(e) => operation.setValue(e.target.value)}
+                {...props}
+                value={operation.value}
+            >
+                {elements}
+            </Radio.Group>
         );
     }
 }

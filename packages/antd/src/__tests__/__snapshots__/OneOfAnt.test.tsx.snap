@@ -1,56 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OneOfAnt should render a radio button group by default 1`] = `
-<span>
-  <Memo(RadioGroup)
-    data-testid="id-test_radio_of_one"
-    disabled={false}
-    id="id-test_radio_of_one"
-    label="Select one of"
-    onChange={[Function]}
-    readOnly={false}
+<Memo(RadioGroup)
+  data-testid="id-test_radio_of_one"
+  disabled={false}
+  id="id-test_radio_of_one"
+  label="Select one of"
+  onChange={[Function]}
+  readOnly={false}
+>
+  <span
+    key="b"
   >
-    <span
+    <Radio
+      data-testid="id-test_radio_of_one-b"
       key="b"
+      style={Object {}}
+      type="radio"
+      value="b"
     >
-      <Radio
-        data-testid="id-test_radio_of_one-b"
-        key="b"
-        style={Object {}}
-        type="radio"
-        value="b"
-      >
-        Banana
-      </Radio>
-    </span>
-    <span
+      Banana
+    </Radio>
+  </span>
+  <span
+    key="a"
+  >
+    <Radio
+      data-testid="id-test_radio_of_one-a"
       key="a"
+      style={Object {}}
+      type="radio"
+      value="a"
     >
-      <Radio
-        data-testid="id-test_radio_of_one-a"
-        key="a"
-        style={Object {}}
-        type="radio"
-        value="a"
-      >
-        Apples
-      </Radio>
-    </span>
-    <span
+      Apples
+    </Radio>
+  </span>
+  <span
+    key="p"
+  >
+    <Radio
+      data-testid="id-test_radio_of_one-p"
       key="p"
+      style={Object {}}
+      type="radio"
+      value="p"
     >
-      <Radio
-        data-testid="id-test_radio_of_one-p"
-        key="p"
-        style={Object {}}
-        type="radio"
-        value="p"
-      >
-        Peaches
-      </Radio>
-    </span>
-  </Memo(RadioGroup)>
-</span>
+      Peaches
+    </Radio>
+  </span>
+</Memo(RadioGroup)>
 `;
 
 exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
