@@ -2,6 +2,10 @@
 
 Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
+# Next version
+
+### Fixed
+ - Adjusted message priorities on OneOfAnt and OneOfButtonAnt
 
 # [v0.2.0-beta.73](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.73) (2021-02-26)
 
