@@ -20,6 +20,8 @@ import {
     Numeric,
     NumericImpl,
     OneOfImpl,
+    Rate,
+    RateImpl,
     t,
     Table,
     TableColumnImpl,
@@ -144,6 +146,15 @@ export class ApplicationImpl implements Application {
                 bind.setError(t('ApplicationImpl.numeric.error', 'The number must be greater than 900!'));
             }
         },
+    });
+
+    readonly testRate: Rate = new RateImpl({
+        id: 'ApplicationImpl.rate',
+        count: 4,
+        allowClear: true,
+        tooltips: ['rookie', 'sergeant', 'captain', 'colonel'],
+        showValueLabel: true,
+        initialValue: 2,
     });
 
     readonly testSliderNumeric: Numeric = new NumericImpl({

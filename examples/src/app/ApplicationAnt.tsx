@@ -16,6 +16,7 @@ import {
     OneOfAnt,
     OneOfButtonFormAnt,
     OneOfSelectAnt,
+    RateFormAnt,
     TableAnt,
     TagAnt,
     TextAnt,
@@ -146,6 +147,11 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <h3>NumericAnt Component</h3>
                             <NumericFormAnt operation={application.testNumeric} />
+                            <br />
+                            <h3>RateAnt Component</h3>
+                            <div style={{ backgroundColor: 'white' }}>
+                                <RateFormAnt operation={application.testRate} />
+                            </div>
                             <br />
                             <h3>SliderAnt Component</h3>
                             <SliderFormAnt operation={application.testSliderNumeric} showNumber={true} />
