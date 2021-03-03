@@ -9,6 +9,7 @@ import {
     Modal,
     Numeric,
     OneOf,
+    Rate,
     Table,
     Text,
     Time,
@@ -38,6 +39,7 @@ export interface Application {
     readonly formPasswordText: Text;
     readonly formSubmitButton: Action;
     readonly testOfOne: OneOf;
+    readonly testRate: Rate;
     readonly testTable: Table<any>;
     readonly testForm: Form;
     readonly testTags: Value<any>;

@@ -4,6 +4,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # Next version
 
+### Added
+- Introduce Rate and RateAnt components.
+
 ### Fixed
  - Adjusted message priorities on OneOfAnt and OneOfButtonAnt
 
