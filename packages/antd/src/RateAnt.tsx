@@ -28,7 +28,7 @@ export class RateAnt extends React.Component<BindAntProps<Rate>> {
                     value={operation.value}
                     {...props}
                 />
-                {operation.showValueLabel ? (
+                {operation.showValueLabel && !!operation.value ? (
                     <span className="ant-rate-text">{operation.tooltips[operation.value - 1]}</span>
                 ) : (
                     ''
