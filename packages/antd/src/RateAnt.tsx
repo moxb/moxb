@@ -9,13 +9,13 @@ import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 @observer
 export class RateAnt extends React.Component<BindAntProps<Rate>> {
     render() {
-        const { operation, id, invisible, reason, ...props } = parseProps(this.props, this.props.operation);
+        const { operation, id, invisible, help, reason, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
             return null;
         }
 
         return (
-            <>
+            <span title={reason || help}>
                 <RateComponent
                     data-testid={operation.id}
                     allowClear={operation.allowClear}
@@ -33,7 +33,7 @@ export class RateAnt extends React.Component<BindAntProps<Rate>> {
                 ) : (
                     ''
                 )}
-            </>
+            </span>
         );
     }
 }
