@@ -4,11 +4,9 @@ exports[`NumericAnt should render a numeric input by default 1`] = `
 <ForwardRef
   data-testid="TheId"
   disabled={false}
-  formatter={[Function]}
   id="the_id"
   label="oh"
   onChange={[Function]}
-  parser={[Function]}
   placeholder="Interval"
   readOnly={false}
   step={1}
