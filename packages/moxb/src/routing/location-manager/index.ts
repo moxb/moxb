@@ -9,6 +9,7 @@ export {
 export {
     BasicLocationManagerImpl,
     locationToUrl,
+    urlToLocation,
     pathAndQueryToLocation,
     pathAndQueryToUrl,
 } from './BasicLocationManagerImpl';

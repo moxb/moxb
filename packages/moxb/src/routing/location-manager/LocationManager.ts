@@ -73,7 +73,7 @@ export interface TestLocation {
      * @param level The level where the token should be found
      * @param exactOnly Is it a match only if there are no further tokens?
      */
-    doPathTokensMatch: (token: string[], level: number, exactOnly: boolean, debugMode?: boolean) => boolean;
+    doPathTokensMatch?: (token: string[], level: number, exactOnly: boolean, debugMode?: boolean) => boolean;
 
     /**
      * the search queries for the current location
@@ -146,6 +146,11 @@ export interface LocationManager {
      * path tokens for the current location
      */
     readonly pathTokens: string[];
+
+    /**
+     * Get the path tokens for a given location
+     */
+    getPathTokensForLocation(location: MyLocation): string[];
 
     /**
      * Determine whether a given token at a given level matches
@@ -222,6 +227,11 @@ export interface LocationManager {
      * the search queries for the current location
      */
     readonly query: Query;
+
+    /**
+     * the search queries for a given location
+     */
+    getQueryForLocation(location: MyLocation): Query;
 
     /**
      * Determine the URL that we would get if we changed some URL arguments
@@ -320,13 +330,17 @@ export interface LocationManager {
         baseLocation: MyLocation | undefined,
         position: number | undefined,
         tokens: string[] | undefined,
-        queryChanges: QueryChange[] | undefined
+        queryChanges: QueryChange[] | undefined,
+        dropPermanent?: boolean
     ) => MyLocation;
 
     /**
      * Calculate what would be the new location, if a given link were to be used
+     *
+     * dropPermanent means that calculating such a way that we drop even the normally
+     * retained permanent url arguments, too
      */
-    getNewLocationForLinkProps: (link: CoreLinkProps) => MyLocation;
+    getNewLocationForLinkProps: (link: CoreLinkProps, dropPermanent?: boolean) => MyLocation;
 
     /**
      * Determine the URL that we would get if we changed the path and also some URL arguments
