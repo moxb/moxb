@@ -73,6 +73,16 @@ export const locationToUrl = (location: MyLocation = noLocation, props?: Locatio
     return newUri.toString();
 };
 
+export const urlToLocation = (url: string): MyLocation => {
+    const uri = new MyURI(url);
+    const result: MyLocation = {
+        pathname: uri.path(),
+        search: uri.search(),
+        hash: uri.hash(),
+    };
+    return result;
+};
+
 export const pathAndQueryToUrl = (
     pathTokens: string[],
     query: Query,
@@ -103,6 +113,13 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._schema = props.urlSchema || new NativeUrlSchema();
         this._history = props.history || createBrowserHistory();
         this._communicator = props.communicator || new BasicLocationCommunicator();
+    }
+
+    private _getTestLocation(location: MyLocation): TestLocation {
+        return {
+            pathTokens: this.getPathTokensForLocation(location),
+            query: this.getQueryForLocation(location),
+        };
     }
 
     /**
@@ -152,7 +169,11 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     // get the path tokens
     public get pathTokens() {
-        return this._schema.getPathTokens(this._location);
+        return this.getPathTokensForLocation(this._location);
+    }
+
+    public getPathTokensForLocation(location: MyLocation) {
+        return this._schema.getPathTokens(location);
     }
 
     public doPathTokensMatch(
@@ -166,7 +187,11 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     // get the search arguments
     public get query() {
-        return this._schema.getQuery(this._location);
+        return this.getQueryForLocation(this._location);
+    }
+
+    public getQueryForLocation(location: MyLocation) {
+        return this._schema.getQuery(location);
     }
 
     @action
@@ -405,11 +430,17 @@ export class BasicLocationManagerImpl implements LocationManager {
         baseLocation: MyLocation | undefined,
         position = 0,
         tokens: string[] | undefined,
-        queryChanges: QueryChange[] | undefined
+        queryChanges: QueryChange[] | undefined,
+        dropPermanent = false
     ) {
         let location = baseLocation || this._location;
         if (tokens) {
-            location = this.getLocationForPathTokens(position, tokens);
+            location = this.getNewLocationForPathTokens(
+                baseLocation || this._location,
+                position,
+                tokens,
+                dropPermanent
+            );
         }
         if (queryChanges) {
             location = this.getNewLocationForQueryChanges(location, queryChanges);
@@ -486,47 +517,55 @@ export class BasicLocationManagerImpl implements LocationManager {
         );
     }
 
-    public getLocationForPathTokens(position: number, tokens: string[]): MyLocation {
+    public getNewLocationForPathTokens(
+        baseLocation: MyLocation,
+        position: number,
+        tokens: string[],
+        dropPermanent?: boolean
+    ): MyLocation {
         // First we back up the values of our permanent URL args
-        const backup = this._permanentArgs.map((arg) => arg.value);
+        const backup = this._permanentArgs.map((arg) => arg.valueOn(this._getTestLocation(baseLocation)));
 
         // Calculate the new string of path tokens
-        const newTokens = updateTokenString(this.pathTokens, position, tokens);
+        const oldTokens = this.getPathTokensForLocation(baseLocation);
+        const newTokens = updateTokenString(oldTokens, position, tokens);
 
         // Calculate the new location by overwriting the path tokens and dropping the queries
-        const newLocation = this._schema.getLocation(this._location, newTokens, {});
+        const newLocation = this._schema.getLocation(baseLocation, newTokens, {});
 
         // Re-apply the values of the permanent Url arguments from the backup
-        const result = this._permanentArgs.reduce(
-            (prevLocation, arg, index) => arg.getModifiedLocation(prevLocation, backup[index]),
-            newLocation
-        );
+        const result = dropPermanent
+            ? newLocation
+            : this._permanentArgs.reduce(
+                  (prevLocation, arg, index) => arg.getModifiedLocation(prevLocation, backup[index]),
+                  newLocation
+              );
 
         // Return the created result
         return result;
     }
 
     public getURLForPathTokens(position: number, tokens: string[]) {
-        const location = this.getLocationForPathTokens(position, tokens);
+        const location = this.getNewLocationForPathTokens(this._location, position, tokens);
         return locationToUrl(location);
     }
     @action
     public doSetPathTokens(position: number, tokens: string[], method?: UpdateMethod) {
-        const location = this.getLocationForPathTokens(position, tokens);
+        const location = this.getNewLocationForPathTokens(this._location, position, tokens);
         this.doSetLocation(location, method);
     }
 
     public trySetPathTokens(position: number, tokens: string[], method?: UpdateMethod, callback?: SuccessCallback) {
-        const location = this.getLocationForPathTokens(position, tokens);
+        const location = this.getNewLocationForPathTokens(this._location, position, tokens);
         this.trySetLocation(location, method, callback);
     }
 
     public getNewLocationForAppendedPathTokens(tokens: string[]) {
-        return this.getLocationForPathTokens(this.pathTokens.length, tokens);
+        return this.getNewLocationForPathTokens(this._location, this.pathTokens.length, tokens);
     }
 
     public getNewLocationForRemovedPathTokens(count: number) {
-        return this.getLocationForPathTokens(this.pathTokens.length - count, []);
+        return this.getNewLocationForPathTokens(this._location, this.pathTokens.length - count, []);
     }
 
     public doAppendPathTokens(tokens: string[], method?: UpdateMethod) {
@@ -576,7 +615,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         this.trySetLocation(location, method, callback);
     }
 
-    public getNewLocationForLinkProps(link: CoreLinkProps): MyLocation {
+    public getNewLocationForLinkProps(link: CoreLinkProps, dropPermanent = false): MyLocation {
         const { to, position, appendTokens, removeTokenCount, argChanges, toRef } = link;
         if (toRef) {
             // We have a NavRef. We are going to use that.
@@ -597,7 +636,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                 ? this.getNewLocationForAppendedPathTokens(appendTokens)
                 : removeTokenCount
                 ? this.getNewLocationForRemovedPathTokens(removeTokenCount)
-                : this.getNewLocationForPathAndQueryChanges(undefined, position, to, undefined);
+                : this.getNewLocationForPathAndQueryChanges(undefined, position, to, undefined, dropPermanent);
             return (argChanges || []).reduce(
                 (prevLocation: MyLocation, change) =>
                     change.reset

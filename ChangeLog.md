@@ -1,8 +1,12 @@
+
 # Change Log
 
 Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # Next version
+
+### Added
+- Added (and changed) some more methods on LocationManager
 
 # [v0.2.0-beta.75](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.75) (2021-03-26)
 

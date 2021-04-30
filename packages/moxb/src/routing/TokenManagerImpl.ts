@@ -563,7 +563,7 @@ export class TokenManagerImpl implements TokenManager {
         }
 
         // These are the tokens on the current path that we can work with
-        const localTokens = this._locationManager.pathTokens.slice(parsedTokens);
+        const localTokens = this._locationManager.getPathTokensForLocation(prevLocation).slice(parsedTokens);
 
         // Let's see if we can reach the wanted mapping
         let tokenIndex = 0; // let's count which element of the current path we are looking at

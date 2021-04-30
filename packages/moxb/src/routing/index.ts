@@ -6,6 +6,7 @@ export {
     QueryChange,
     BasicLocationManagerImpl,
     locationToUrl,
+    urlToLocation,
     pathAndQueryToLocation,
     pathAndQueryToUrl,
 } from './location-manager';
