@@ -5,6 +5,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # Next version
 
+### Added
+- Added dependantArgs, which is a pseudo UrlArg like derivedArg, just two-way
+
 # [v0.2.0-beta.76](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.76) (2021-04-30)
 
 ### Added

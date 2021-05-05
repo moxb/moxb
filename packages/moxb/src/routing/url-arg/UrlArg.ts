@@ -44,6 +44,16 @@ export interface ReadOnlyArg<T> {
      * The current value of the arg
      */
     readonly value: T;
+
+    /**
+     * Get the value as it would be if we were at the given test location
+     */
+    valueOn(location: TestLocation): T;
+
+    /**
+     * Get the default value
+     */
+    readonly defaultValue: T;
 }
 
 /**
@@ -85,11 +95,6 @@ export interface ResettableArg<T> extends ReadOnlyArg<T> {
  */
 export interface UrlArg<T> extends ResettableArg<T> {
     /**
-     * Get the value as it would be if we were at the given test location
-     */
-    valueOn(location: TestLocation): T;
-
-    /**
      * Explicitly set the current value.
      *
      * @param value The new value
@@ -119,24 +124,6 @@ export interface UrlArg<T> extends ResettableArg<T> {
      * Returns undefined if this arg doesn't care about the URL.
      */
     getModifiedUrl(value: T): string | undefined;
-
-    // ======= Anything below this level is quite technical,
-    // you probably won't need to use it directly.
-
-    /**
-     * Get the raw (string) value corresponding to a given value
-     */
-    getRawValue(value: T): string | undefined;
-
-    /**
-     * Get the raw form of the value
-     */
-    readonly rawValue: string | undefined;
-
-    /**
-     * Get the default value
-     */
-    readonly defaultValue: T;
 }
 
 /**
@@ -181,34 +168,125 @@ export const resetArg = (arg: ResettableArg<any>): ArgReset => ({
 export type ArgChange<T> = ArgSet<T> | ArgReset;
 
 /**
- * Define a (partially functional) UrlArg based on the value of another UrlArg.
+ * A DerivedArg is a (partially functional) UrlArg based on the value of another UrlArg.
  *
- * When read, the value of the newly defined arg will be based on value the underlying arg,
+ * When read, the value of the newly defined arg (the "target") will be based
+ * on value the underlying arg (the "source"),
  * applying the provided conversion function.
  *
- * When reset, the underlying arg will be reset.
+ * When reset, the source arg will be reset.
  *
- * Thw new arg can't be written to directly.
+ * The target can't be written to directly.
  */
-export function defineDerivedArg<I, O>(source: UrlArg<I>, conversion: (value: I) => O): ResettableArg<O> {
-    return {
-        get defined() {
-            return source.defined;
-        },
-        get value() {
-            return conversion(source.value);
-        },
-        getResetLocation(start) {
-            return source.getResetLocation(start);
-        },
-        getResetUrl() {
-            return source.getResetUrl();
-        },
-        doReset(method?) {
-            source.doReset(method);
-        },
-        tryReset(method?, callback?) {
-            source.tryReset(method, callback);
-        },
-    };
+class DerivedArg<I, O> implements ResettableArg<O> {
+    constructor(protected readonly source: UrlArg<I>, protected readonly sourceToTarget: (value: I) => O) {}
+
+    get defined() {
+        return this.source.defined;
+    }
+
+    get value() {
+        return this.sourceToTarget(this.source.value);
+    }
+
+    valueOn(location: TestLocation) {
+        return this.sourceToTarget(this.source.valueOn(location));
+    }
+
+    get defaultValue() {
+        return this.sourceToTarget(this.source.defaultValue);
+    }
+
+    getResetLocation(start: MyLocation) {
+        return this.source.getResetLocation(start);
+    }
+
+    getResetUrl() {
+        return this.source.getResetUrl();
+    }
+
+    doReset(method?: UpdateMethod) {
+        this.source.doReset(method);
+    }
+
+    tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
+        this.source.tryReset(method, callback);
+    }
+}
+
+/**
+ * Define a (partially functional) UrlArg based on the value of another UrlArg.
+ *
+ * When read, the value of the newly defined arg (the "target") will be based
+ * on value the underlying arg (the "source"),
+ * applying the provided conversion function.
+ *
+ * When reset, the source arg will be reset.
+ *
+ * The target can't be written to directly.
+ */
+export function defineDerivedArg<I, O>(source: UrlArg<I>, sourceToTarget: (value: I) => O): ResettableArg<O> {
+    return new DerivedArg(source, sourceToTarget);
+}
+
+/**
+ * A DependantArg is an UrlArg that is dependant on the value of another UrlArg.
+ *
+ * This is like a DerivedArg, but writeable.
+ *
+ * When read, the value of the newly defined arg (the "target") will be based
+ * on value the underlying arg (the "source"),
+ * applying the provided conversion function.
+ *
+ * When reset, the source arg will be reset.
+ *
+ * When writing the target art, the provided inverse conversion function will be used,
+ * and the source will be written.
+ */
+class DependantArg<I, O> extends DerivedArg<I, O> implements UrlArg<O> {
+    constructor(source: UrlArg<I>, sourceToTarget: (value: I) => O, private readonly targetToSource: (value: O) => I) {
+        super(source, sourceToTarget);
+    }
+
+    trySet(value: O, method: UpdateMethod, callback: SuccessCallback) {
+        const sourceValue = this.targetToSource(value);
+        this.source.trySet(sourceValue, method, callback);
+    }
+
+    doSet(value: O, method?: UpdateMethod) {
+        const sourceValue = this.targetToSource(value);
+        this.source.doSet(sourceValue, method);
+    }
+
+    getModifiedLocation(start: MyLocation, value: O) {
+        const sourceValue = this.targetToSource(value);
+        return this.source.getModifiedLocation(start, sourceValue);
+    }
+
+    getModifiedUrl(value: O) {
+        const sourceValue = this.targetToSource(value);
+        return this.source.getModifiedUrl(sourceValue);
+    }
+}
+
+/**
+ * Define a UrlArg dependant on the value of another UrlArg.
+ *
+ * This is like a derived arg, but writeable.
+ *
+ * When read, the value of the newly defined arg (the "target") will be based
+ * on value the underlying arg (the "source"),
+ * applying the provided conversion function.
+ *
+ * When reset, the source arg will be reset.
+ *
+ * When writing the target art, the provided inverse conversion function will be used,
+ * and the source will be written.
+ */
+export function defineDependantArg<I, O>(
+    source: UrlArg<I>,
+    sourceToTarget: (value: I) => O,
+    targetToSource: (value: O) => I
+): UrlArg<O> {
+    return new DependantArg(source, sourceToTarget, targetToSource);
 }

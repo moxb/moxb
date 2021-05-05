@@ -51,7 +51,7 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this.getOnQuery(location.query);
     }
 
-    public getRawValue(value: T) {
+    private _getRawValue(value: T) {
         const {
             valueType: { isEqual, format },
             defaultValue,
@@ -60,12 +60,12 @@ export class UrlArgImpl<T> implements UrlArg<T> {
     }
 
     public getModifiedUrl(value: T) {
-        const rawValue = this.getRawValue(value);
+        const rawValue = this._getRawValue(value);
         return this._locationManager.getURLForQueryChange(this.key, rawValue);
     }
 
     public getModifiedLocation(start: MyLocation, value: T) {
-        const rawValue = this.getRawValue(value);
+        const rawValue = this._getRawValue(value);
         return this._locationManager.getNewLocationForQueryChanges(start, [{ key: this.key, value: rawValue }]);
     }
 
@@ -78,12 +78,12 @@ export class UrlArgImpl<T> implements UrlArg<T> {
     }
 
     public doSet(value: T, method?: UpdateMethod) {
-        const rawValue = this.getRawValue(value);
+        const rawValue = this._getRawValue(value);
         this._locationManager.doSetQuery(this.key, rawValue, method);
     }
 
     public trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback) {
-        const rawValue = this.getRawValue(value);
+        const rawValue = this._getRawValue(value);
         this._locationManager.trySetQuery(this.key, rawValue, method, callback);
     }
 
@@ -93,10 +93,5 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     public tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
         this.trySet(this._def.defaultValue, method, callback);
-    }
-
-    @computed
-    public get rawValue() {
-        return this._locationManager.query[this.key];
     }
 }
