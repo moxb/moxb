@@ -8,6 +8,7 @@ export {
     ReadOnlyArg,
     ResettableArg,
     defineDerivedArg,
+    defineDependantArg,
 } from './UrlArg';
 
 export {

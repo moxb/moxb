@@ -48,6 +48,7 @@ export {
     resetArg,
     createInMemoryArg,
     defineDerivedArg,
+    defineDependantArg,
     AnyUrlArgImpl,
     URLARG_TYPE_STRING,
     URLARG_TYPE_ORDERED_STRING_ARRAY,
