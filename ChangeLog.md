@@ -5,6 +5,8 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # Next version
 
+# [v0.2.0-beta.77](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.77) (2021-05-05)
+
 ### Added
 - Added dependantArgs, which is a pseudo UrlArg like derivedArg, just two-way
 
@@ -12,6 +14,25 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Added
 - Added (and changed) some more methods on LocationManager
+
+### Interface changes:
+
+- Export new function: `urlToLocation()``
+- New methods on `LocationManager`:
+   - `getPathTokensForLocation()`
+   - `getQueryForLocation`
+- New parameters on existing methods on `LocationManager`
+   - `getNewLocationForPathAndQueryChange()` now accepts `dropPermanent`
+   - `getNewLocationForLinkProps()` now accepts `dropPermanent`
+
+### Internal changes:
+
+- Relax the `TestLocation` interface
+   - `doPathTokensMatch` is now optional
+- In `BasicLocationManagerImpl`
+   - The `getNewLocationForPathTokens()` method now expects a base location parameter
+- In `TokenManagerImpl`:
+   - BUGFIX: in `_getLocationForTokenChangeOnMapping()`, really observer the `prevLocation` parameter
 
 # [v0.2.0-beta.75](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.75) (2021-03-26)
 
