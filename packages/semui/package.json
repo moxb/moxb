@@ -78,6 +78,6 @@
     "tslib": "1.10.0"
   },
   "dependencies": {
-    "marked": "1.1.1"
+    "marked": "2.0.0"
   }
 }
