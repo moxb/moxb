@@ -53,23 +53,23 @@
     ]
   },
   "peerDependencies": {
-    "@moxb/moxb": ">0.2.0-beta.40",
-    "mobx": "5.15.6",
-    "mobx-react": "6.3.0",
-    "tslib": "2.0.1"
+    "@moxb/moxb": ">0.2.0-beta.78",
+    "mobx": "5.15.7",
+    "mobx-react": "6.3.1",
+    "tslib": "2.2.0"
   },
   "devDependencies": {
     "@moxb/moxb": "^0.2.0-beta.78",
-    "@types/enzyme": "3.10.5",
-    "@types/jest": "26.0.13",
-    "@types/react-test-renderer": "16.9.3",
+    "@types/enzyme": "3.10.8",
+    "@types/jest": "26.0.23",
+    "@types/react-test-renderer": "17.0.1",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.4",
-    "enzyme-to-json": "3.5.0",
-    "mobx": "5.13.1",
+    "enzyme-adapter-react-16": "1.15.6",
+    "enzyme-to-json": "3.6.2",
+    "mobx": "5.15.7",
     "pretty": "2.0.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "tslib": "1.10.0"
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "tslib": "2.2.0"
   }
 }
