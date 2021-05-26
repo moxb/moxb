@@ -4,13 +4,11 @@ exports[`ModalAnt should render a modal dialog by default 1`] = `
 <Modal
   cancelText="Action"
   confirmLoading={false}
-  maskTransitionName="fade"
   okText="Cancel"
   okType="primary"
   onCancel={[Function]}
   onOk={[Function]}
   title=""
-  transitionName="zoom"
   visible={false}
   width="900px"
 />
@@ -24,11 +22,9 @@ exports[`ModalAnt should support a custom footer 1`] = `
       Hello World
     </div>
   }
-  maskTransitionName="fade"
   okType="primary"
   onCancel={[Function]}
   title=""
-  transitionName="zoom"
   visible={false}
   width="900px"
 />
