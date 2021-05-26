@@ -4,7 +4,6 @@ exports[`ConfirmAnt should render a confirm dialog by default 1`] = `
 <Modal
   cancelText="Cancel"
   confirmLoading={false}
-  maskTransitionName="fade"
   okText="Do the action"
   okType="primary"
   onCancel={[Function]}
@@ -14,7 +13,6 @@ exports[`ConfirmAnt should render a confirm dialog by default 1`] = `
       text=""
     />
   }
-  transitionName="zoom"
   visible={false}
   width={520}
 >

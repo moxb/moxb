@@ -16,7 +16,7 @@ exports[`TextAnt should render a text input by default 1`] = `
 `;
 
 exports[`TextAnt should render a textarea with the control option set 1`] = `
-<TextArea
+<ForwardRef
   data-testid="the_id"
   disabled={false}
   id="the_id"

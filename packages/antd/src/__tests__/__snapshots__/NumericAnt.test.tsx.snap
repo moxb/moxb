@@ -9,7 +9,6 @@ exports[`NumericAnt should render a numeric input by default 1`] = `
   onChange={[Function]}
   placeholder="Interval"
   readOnly={false}
-  step={1}
 />
 `;
 
