@@ -10,6 +10,7 @@ import { Menu } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import * as Anchor from '@moxb/html/dist/Anchor';
+import { MenuMode } from 'rc-menu/lib/interface';
 
 export interface NavMenuProps<DataType>
     extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
@@ -26,7 +27,7 @@ export interface NavMenuProps<DataType>
     /**
      * Menu alignment mode. (Default is 'horizontal')
      */
-    mode?: 'vertical' | 'vertical-left' | 'vertical-right' | 'horizontal' | 'inline';
+    mode?: MenuMode;
 }
 
 @inject('locationManager')

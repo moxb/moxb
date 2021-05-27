@@ -17,8 +17,7 @@ export class SliderAnt extends React.Component<SliderAntProps> {
             <Slider
                 min={operation.min}
                 max={operation.max}
-                onChange={(rawValue) => {
-                    const value = rawValue as number; // TS definition is wrong here
+                onChange={(value: number) => {
                     if (isNaN(value)) {
                         return;
                     }
