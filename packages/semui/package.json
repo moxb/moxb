@@ -53,31 +53,31 @@
     ]
   },
   "peerDependencies": {
-    "@moxb/moxb": ">0.2.0-beta.40",
-    "mobx": "^5.15.6",
-    "mobx-react": "^6.3.0",
+    "@moxb/moxb": ">0.2.0-beta.78",
+    "mobx": "^5.15.7",
+    "mobx-react": "^6.3.1",
     "semantic-ui-react": "^1.2.1",
-    "tslib": "^2.0.1"
+    "tslib": "2.2.0"
   },
   "devDependencies": {
     "@moxb/moxb": "^0.2.0-beta.79",
-    "@types/enzyme": "3.10.5",
-    "@types/jest": "26.0.13",
-    "@types/marked": "1.1.0",
-    "@types/meteor": "1.4.49",
-    "@types/react": "16.9.49",
+    "@types/enzyme": "3.10.8",
+    "@types/jest": "26.0.23",
+    "@types/marked": "2.0.3",
+    "@types/meteor": "1.4.70",
+    "@types/react": "16.14.8",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.4",
     "enzyme-to-json": "3.5.0",
     "jsdom": "16.4.0",
-    "mobx": "5.13.1",
+    "mobx": "5.15.7",
     "pretty": "2.0.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "semantic-ui-react": "0.88.1",
-    "tslib": "1.10.0"
+    "tslib": "2.2.0"
   },
   "dependencies": {
-    "marked": "1.1.1"
+    "marked": "2.0.6"
   }
 }
