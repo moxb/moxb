@@ -2,7 +2,6 @@ import { BindOneOfChoice, idToDomId, OneOf } from '@moxb/moxb';
 import { Button, Dropdown, Menu, Radio, Select } from 'antd';
 import { DropDownProps } from 'antd/lib/dropdown';
 import { FormItemProps } from 'antd/lib/form/FormItem';
-import { ClickParam } from 'antd/lib/menu';
 import { RadioGroupProps, RadioProps } from 'antd/lib/radio';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import { action } from 'mobx';
@@ -11,6 +10,7 @@ import * as React from 'react';
 import { BindAntProps, labelWithHelpIndicator, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { SelectProps } from 'antd/lib/select';
+import { MenuInfo } from 'rc-menu/lib/interface';
 
 export interface OneOfAntProps {
     /**
@@ -169,7 +169,7 @@ export class OneOfDropDownAnt extends React.Component<
     BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'> & { style?: React.CSSProperties }
 > {
     @action.bound
-    onSelect(params: ClickParam) {
+    onSelect(params: MenuInfo) {
         const { operation } = this.props;
 
         const index = parseInt(params.key);

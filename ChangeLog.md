@@ -5,6 +5,12 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # Next version
 
+# [v0.2.0-beta.79](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.79) (2021-05-26)
+
+### Changed
+
+- Upgraded npm packages
+
 # [v0.2.0-beta.78](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.78) (2021-05-18)
 
 ### Added

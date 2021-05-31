@@ -2,9 +2,7 @@
 
 exports[`ManyOfAnt should render a select control by default 1`] = `
 <span>
-  <Select
-    bordered={true}
-    choiceTransitionName="zoom"
+  <ForwardRef(InternalSelect)
     data-testid="Id.manyOf"
     disabled={false}
     id="id-many_of"
@@ -12,7 +10,6 @@ exports[`ManyOfAnt should render a select control by default 1`] = `
     onChange={[Function]}
     placeholder="Please select"
     readOnly={false}
-    transitionName="slide-up"
     value={Array []}
   >
     <Option
@@ -36,30 +33,26 @@ exports[`ManyOfAnt should render a select control by default 1`] = `
     >
       Peaches
     </Option>
-  </Select>
+  </ForwardRef(InternalSelect)>
 </span>
 `;
 
 exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
-<CheckboxGroup
+<Memo(ForwardRef(InternalCheckboxGroup))
   data-testid="Id.manyOf"
   disabled={false}
   id="id-many_of"
   label="Choose your snack"
   onChange={[Function]}
-  options={Array []}
   readOnly={false}
   value={Array []}
 >
-  <Row
-    gutter={0}
-  >
+  <Row>
     <Col
       key="b"
     >
       <Checkbox
         data-testid="id-many_of-b"
-        indeterminate={false}
         value="b"
       >
         Banana
@@ -70,7 +63,6 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
     >
       <Checkbox
         data-testid="id-many_of-a"
-        indeterminate={false}
         value="a"
       >
         Apples
@@ -81,14 +73,13 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
     >
       <Checkbox
         data-testid="id-many_of-p"
-        indeterminate={false}
         value="p"
       >
         Peaches
       </Checkbox>
     </Col>
   </Row>
-</CheckboxGroup>
+</Memo(ForwardRef(InternalCheckboxGroup))>
 `;
 
 exports[`ManyOfFormAnt should render a checkboxes by default 1`] = `
