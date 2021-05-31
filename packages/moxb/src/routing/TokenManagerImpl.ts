@@ -1,6 +1,5 @@
-import { Path as MyLocation } from 'history';
 import { action, computed, observable } from 'mobx';
-import { LocationManager, SuccessCallback, UpdateMethod } from './location-manager';
+import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from './location-manager';
 import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerImpl } from './location-state-space';
 import { TokenManager, TokenMappings } from './TokenManager';
 import { isTokenEmpty } from './tokens';

@@ -1,9 +1,5 @@
-import {
-    createBrowserHistory,
-    History as MyHistory,
-    Path as MyLocation,
-    To as LocationDescriptorObject,
-} from 'history';
+import { LocationDescriptorObject } from '../location-manager';
+import { createBrowserHistory, History as MyHistory } from 'history';
 import { action, observable } from 'mobx';
 import { doTokenStringsMatch, updateTokenString } from '../tokens';
 import {
@@ -24,6 +20,7 @@ import { BasicLocationCommunicator } from './BasicLocationCommunicator';
 import { LocationCommunicator } from './LocationCommunicator';
 
 import {
+    MyLocation,
     LocationChangeInterceptor,
     LocationManager,
     QueryChange,

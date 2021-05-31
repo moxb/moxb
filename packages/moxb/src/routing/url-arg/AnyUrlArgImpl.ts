@@ -1,8 +1,7 @@
 import { computed } from 'mobx';
 
-import { Path as MyLocation } from 'history';
 import { ArgDefinition, ParserFunc, UrlArg } from './UrlArg';
-import { SuccessCallback, TestLocation, UpdateMethod } from '../location-manager/LocationManager';
+import { MyLocation, SuccessCallback, TestLocation, UpdateMethod } from '../location-manager/LocationManager';
 
 export interface UrlArgBackend {
     readonly rawValue: string | undefined;

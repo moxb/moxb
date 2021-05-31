@@ -1,4 +1,4 @@
-import { Path as MyLocation, To as LocationDescriptorObject } from 'history';
+import { MyLocation, LocationDescriptorObject } from '../location-manager';
 
 /**
  * A simple Map/Dict type used to represent the URL arguments.

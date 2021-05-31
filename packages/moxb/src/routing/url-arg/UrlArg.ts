@@ -1,6 +1,5 @@
-import { SuccessCallback, UpdateMethod } from '../location-manager';
+import { MyLocation, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TestLocation } from '../location-manager/LocationManager';
-import { Path as MyLocation } from 'history';
 
 export interface ParserFunc<T> {
     (formatted: string): T;

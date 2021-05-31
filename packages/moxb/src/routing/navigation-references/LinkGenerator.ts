@@ -1,10 +1,9 @@
-import { Path as MyLocation } from 'history';
 import { StateSpace } from '../location-state-space/state-space/StateSpace';
 import { CoreLinkProps } from '../linking/CoreLinkProps';
 import { UrlSchema } from '../url-schema';
 import { ValueOrFunction } from '../../bind/BindImpl';
 import { NavRefCall } from './NavRef';
-import { LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
+import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
 
 /**
  * This is the data that we need to initialize a LinkGenerator

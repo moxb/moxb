@@ -1,4 +1,4 @@
-import { Path as MyLocation } from 'history';
+import { MyLocation } from '../../location-manager';
 import { NativeUrlSchema } from '../NativeUrlSchema';
 
 describe('Native URL schema', () => {

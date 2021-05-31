@@ -1,4 +1,6 @@
 export {
+    MyLocation,
+    LocationDescriptorObject,
     UpdateMethod,
     LocationManager,
     UsesLocation,
