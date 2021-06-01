@@ -7,6 +7,7 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Added
 - Added support for saving previous path upon executing redirects
+- Add support for opening links on new tabs using Ctrl-click and Meta-click
 
 
 # [v0.2.0-beta.80](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.80) (2021-05-31)
