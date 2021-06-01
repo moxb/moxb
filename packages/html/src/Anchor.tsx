@@ -70,9 +70,16 @@ export class Anchor extends React.PureComponent<UIProps> {
         this.cancelEvent = this.cancelEvent.bind(this);
     }
 
+    // Is a native click event pending, that we want to suffice?
+    private nativePending = false;
+
     private cancelEvent(event: React.SyntheticEvent<HTMLAnchorElement>) {
-        const { onClick } = this.props;
-        if (!onClick) {
+        if (this.nativePending) {
+            // We want this click event to succeed, so don't cancel it
+
+            // We only want to do this once per click, so clear the flag now
+            this.nativePending = false;
+            // cancel the cancellation
             return;
         }
         event.preventDefault();
@@ -87,14 +94,23 @@ export class Anchor extends React.PureComponent<UIProps> {
             event.stopPropagation();
             return;
         }
+        const { button, ctrlKey, metaKey } = event as any;
         if (!onClick) {
-            // console.log('No link handler, we will return');
+            // console.log('No link handler, we will return 2');
+            this.nativePending = true;
             return;
         }
-        if ((event as any).button) {
+        if (button) {
             // console.log('Ignoring click with middle or right button');
+            this.nativePending = true;
             return;
         }
+        if (ctrlKey || metaKey) {
+            // console.log('Ignoring click with ctrlKey / metaKey 2');
+            this.nativePending = true;
+            return;
+        }
+
         event.preventDefault();
         event.stopPropagation();
         onClick(data);
