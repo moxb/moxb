@@ -5,6 +5,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # Next version
 
+### Added
+- Added support for saving previous path upon executing redirects
+
+
 # [v0.2.0-beta.80](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.80) (2021-05-31)
 
 ### Changed

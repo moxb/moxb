@@ -1,5 +1,4 @@
-import { CoreLinkProps, locationToUrl, UsesLocation } from '@moxb/moxb';
-import { Path as MyLocation } from 'history';
+import { CoreLinkProps, locationToUrl, UsesLocation, MyLocation } from '@moxb/moxb';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import * as Anchor from './Anchor';

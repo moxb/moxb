@@ -1,4 +1,5 @@
 export {
+    MyLocation,
     UpdateMethod,
     LocationManager,
     UsesLocation,
