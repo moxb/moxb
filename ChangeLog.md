@@ -5,6 +5,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # Next version
 
+### Added
+
+- [`NavMenuBarAnt`](packages/antd/src/routing/NavMenuBarAnt.tsx) has new property `triggerSubMenuAction`
 
 # [v0.2.0-beta.81](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.81) (2021-06-01)
 
