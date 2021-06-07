@@ -10,7 +10,7 @@ import { Menu } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import * as Anchor from '@moxb/html/dist/Anchor';
-import { MenuMode } from 'rc-menu/lib/interface';
+import { MenuMode, TriggerSubMenuAction } from 'rc-menu/lib/interface';
 
 export interface NavMenuProps<DataType>
     extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
@@ -28,6 +28,7 @@ export interface NavMenuProps<DataType>
      * Menu alignment mode. (Default is 'horizontal')
      */
     mode?: MenuMode;
+    triggerSubMenuAction?: TriggerSubMenuAction;
 }
 
 @inject('locationManager')
@@ -127,9 +128,14 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         // AndD's Menu is smart enough to automatically indicate active state
         // on all groups, so we only ask for the leaves.
         const selectedMenuKeys = states.getActiveSubStateMenuKeys(true);
-        const { extras = [], style, mode } = this.props;
+        const { extras = [], style, mode, triggerSubMenuAction } = this.props;
         return (
-            <Menu selectedKeys={selectedMenuKeys} mode={mode || 'horizontal'} style={style}>
+            <Menu
+                triggerSubMenuAction={triggerSubMenuAction}
+                selectedKeys={selectedMenuKeys}
+                mode={mode || 'horizontal'}
+                style={style}
+            >
                 {states
                     .getFilteredSubStates({
                         onlyVisible: true,
