@@ -11,6 +11,7 @@ export * from './time/TimeImpl';
 export * from './numeric/NumericImpl';
 export * from './one-of/OneOfImpl';
 export * from './query/QueryFilterImpl';
+export * from './progress/ProgressImpl';
 export * from './rate/RateImpl';
 export * from './table/TableColumnImpl';
 export * from './table/TablePaginationImpl';

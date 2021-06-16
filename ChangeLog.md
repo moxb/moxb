@@ -7,6 +7,9 @@ Next version
 =======================================================================================
 
 ### Added
+- Added new component: [`ProgressAnt`](packages/antd/src/progress/ProgressAnt.tsx)
+  with new Bind type: [`Progress`](packages/moxb/src/progress/Progress.ts) and [`ProgressImpl`](packages/moxb/src/progress/ProgressImpl.ts)
+  Documentation: https://ant.design/components/progress/
 
 ### Fixed
 
@@ -56,7 +59,6 @@ Next version
 
 - FileUpload and FileUploadAnt: file upload controls that work like the other
   bound from input control values and widgets
-
 
 [v0.2.0-beta.84](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.84) (2021-08-04)
 =======================================================================================
