@@ -5,6 +5,11 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 # Next version
 
+### Added
+
+- Added new component: [`ProgressAnt`](packages/antd/src/progress/ProgressAnt.tsx)
+  with new Bind type: [`Progress`](packages/moxb/src/progress/Progress.ts) and [`ProgressImpl`](packages/moxb/src/progress/ProgressImpl.ts)
+  Documentation: https://ant.design/components/progress/
 
 # [v0.2.0-beta.83](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.83) (2021-06-01)
 
