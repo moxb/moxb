@@ -16,6 +16,7 @@ import {
     OneOfAnt,
     OneOfButtonFormAnt,
     OneOfSelectAnt,
+    ProgressFormAnt,
     RateFormAnt,
     TableAnt,
     TagAnt,
@@ -155,6 +156,11 @@ export class ApplicationAnt extends React.Component<{ app?: Application }> {
                             <br />
                             <h3>SliderAnt Component</h3>
                             <SliderFormAnt operation={application.testSliderNumeric} showNumber={true} />
+                            <br />
+                            <h3>ProgressAnt Component</h3>
+                            <ProgressFormAnt operation={application.testProgress} />
+                            <br />
+                            <ProgressFormAnt operation={application.testProgress2} />
                             <br />
                             <h3>TagAnt Component</h3>
                             <TagAnt operation={application.testTags} tagColor="#87d068" newItemLabel={'tstst'} />

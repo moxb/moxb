@@ -20,6 +20,8 @@ import {
     Numeric,
     NumericImpl,
     OneOfImpl,
+    Progress,
+    ProgressImpl,
     Rate,
     RateImpl,
     t,
@@ -167,6 +169,17 @@ export class ApplicationImpl implements Application {
         step: 0.05,
         required: true,
         unit: 'm',
+    });
+
+    readonly testProgress: Progress = new ProgressImpl({
+        id: 'ApplicationImpl.progress',
+        initialValue: 80,
+    });
+
+    readonly testProgress2: Progress = new ProgressImpl({
+        id: 'ApplicationImpl.progress',
+        initialValue: 75,
+        type: 'circle',
     });
 
     readonly testOfOne = new OneOfImpl({
