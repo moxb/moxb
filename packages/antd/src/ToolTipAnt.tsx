@@ -55,21 +55,23 @@ export class ToolTipButton extends React.Component<BindToolTipAntProps> {
         if (operation!.invisible) {
             return null;
         }
-        const { id, disabled, customData } = operation!;
+        const { id, disabled, customData, reason } = operation!;
         const { fire, pending } = operation as Action;
         const selectedType = customData ? 'dashed' : 'ghost';
         if (disabled) {
             return (
-                <Button
-                    data-testid={id}
-                    type={type || selectedType}
-                    onClick={fire}
-                    disabled={disabled}
-                    htmlType="button"
-                    icon={pending ? <Spin /> : icon}
-                >
-                    {text}
-                </Button>
+                <span title={reason}>
+                    <Button
+                        data-testid={id}
+                        type={type || selectedType}
+                        onClick={fire}
+                        disabled={disabled}
+                        htmlType="button"
+                        icon={pending ? <Spin /> : icon}
+                    >
+                        {text}
+                    </Button>
+                </span>
             );
         } else {
             return (
