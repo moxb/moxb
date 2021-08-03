@@ -7,6 +7,10 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 ### Added
 - ToolTipAnt: added support for displaying the reason why it is disabled
+- Added [`ShallowStructObservable`](packages/moxb/src/util/ShallowStructObservable.ts) a helper to do to
+  combine `observable.shallow` with `observable.struct`. Useful when `observable.struct` causes too many reactions
+  and `observable` would make all children observable. It is used when new versions of a object come form a rest call or
+  a meteor subscription and you are interested in changes at the top level.
 
 # [v0.2.0-beta.83](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.83) (2021-06-01)
 

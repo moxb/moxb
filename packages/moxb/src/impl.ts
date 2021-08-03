@@ -28,6 +28,7 @@ export * from './util/cycle';
 export * from './util/toId';
 export * from './util/toJSON';
 export * from './util/idToDomId';
+export * from './util/ShallowStructObservable';
 export * from './i18n/i18n';
 export * from './form/FormImpl';
 export * from './keyboard-shortcuts/KeyboardShortcutsManagerImpl';
