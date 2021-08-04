@@ -6,6 +6,9 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 Next version
 =======================================================================================
 
+[v0.2.0-beta.84](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.84) (2021-08-04)
+=======================================================================================
+
 ### Added
 
 - ToolTipAnt: added support for displaying the reason why it is disabled
