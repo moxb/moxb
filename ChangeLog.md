@@ -4,6 +4,12 @@ Change Log
 Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 Next version
+
+### Added
+
+- FileUpload and FileUploadAnt: file upload controls that work like the other
+  bound from input control values and widgets
+
 =======================================================================================
 
 [v0.2.0-beta.84](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.84) (2021-08-04)

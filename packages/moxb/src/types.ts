@@ -26,4 +26,5 @@ export * from './wizard/WizardStep';
 export * from './form/Form';
 export * from './form/FormItem';
 export * from './keyboard-shortcuts/KeyboardShortcutsManager';
+export * from './file-upload';
 // export * from './error/Error';

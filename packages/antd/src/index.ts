@@ -21,3 +21,4 @@ export * from './routing';
 export * from './PollingUpdaterAnt';
 export * from './SliderAnt';
 export * from './RateAnt';
+export * from './FileUploadAnt';
