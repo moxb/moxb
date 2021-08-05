@@ -37,7 +37,11 @@ export interface NavMenuProps<DataType>
  * This widget show an Ant menu bar, based on the state-space.
  */
 export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataType>> {
-    protected getLocationDependantStateSpaceHandler() {
+    protected getLocationDependantStateSpaceHandler(): LocationDependentStateSpaceHandler<
+        UIFragment,
+        UIFragmentSpec,
+        DataType
+    > {
         const { id, children: _children, extras, style, mode, ...stateProps } = this.props;
 
         return new LocationDependentStateSpaceHandlerImpl({

@@ -18,9 +18,6 @@ export class RateAnt extends React.Component<BindAntProps<Rate>> {
             <span title={reason || help}>
                 <RateComponent
                     data-testid={operation.id}
-                    allowClear={operation.allowClear}
-                    allowHalf={operation.allowHalf}
-                    count={operation.count}
                     onChange={(value) => {
                         operation.setValue(value);
                         operation.onExitField();
