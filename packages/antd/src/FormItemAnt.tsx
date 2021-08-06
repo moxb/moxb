@@ -11,7 +11,7 @@ import { BindMarkdownDiv } from './LabelAnt';
 // Due to the recent antd changes the children property in the FormItemProps component
 // became mandatory which is invalid
 export interface BindFormItemAntProps extends Partial<FormItemProps> {
-    operation: MoxFormItem;
+    operation: Pick<MoxFormItem, 'invisible' | 'required' | 'hasErrors' | 'errors' | 'help'>;
     formStyle?: CSSProperties;
     wrapperCol?: ColProps;
     labelCol?: ColProps;
