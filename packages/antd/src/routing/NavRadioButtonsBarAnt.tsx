@@ -29,7 +29,11 @@ export interface NavRadioButtonBarProps<DataType>
  * This widget show an Ant tab bar, based on the state-space.
  */
 export class NavRadioButtonBarAnt<DataType> extends React.Component<NavRadioButtonBarProps<DataType>> {
-    protected getLocationDependantStateSpaceHandler() {
+    protected getLocationDependantStateSpaceHandler(): LocationDependentStateSpaceHandler<
+        UIFragment,
+        UIFragmentSpec,
+        DataType
+    > {
         const { id, children: _children, extra, style, ...stateProps } = this.props;
 
         return new LocationDependentStateSpaceHandlerImpl({
