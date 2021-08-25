@@ -3,12 +3,12 @@ import { ValueOrFunction } from '../bind/BindImpl';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { BindOneOfChoice, OneOf } from './OneOf';
 
-export interface OneOfOptions<T> extends ValueOptions<OneOfImpl, T> {
+export interface OneOfOptions<T> extends ValueOptions<OneOfImpl<T>, T> {
     choices?: ValueOrFunction<BindOneOfChoice<T>[]>;
     searchData?: (value: string) => BindOneOfChoice<T>[];
 }
 
-export class OneOfImpl<T = string> extends ValueImpl<OneOfImpl, T, OneOfOptions<T>> implements OneOf<T> {
+export class OneOfImpl<T = string> extends ValueImpl<OneOfImpl<T>, T, OneOfOptions<T>> implements OneOf<T> {
     @observable
     _search?: string;
 

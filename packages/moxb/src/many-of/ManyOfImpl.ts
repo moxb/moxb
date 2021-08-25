@@ -4,11 +4,11 @@ import { BindOneOfChoice } from '../one-of/OneOf';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { BindManyOfChoice, ManyOf } from './ManyOf';
 
-export interface ManyOfOptions<T> extends ValueOptions<ManyOfImpl, T[]> {
+export interface ManyOfOptions<T> extends ValueOptions<ManyOfImpl<T>, T[]> {
     choices?: ValueOrFunction<BindOneOfChoice<T>[]>;
 }
 
-export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl, T[], ManyOfOptions<T>> implements ManyOf<T> {
+export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl<T>, T[], ManyOfOptions<T>> implements ManyOf<T> {
     constructor(impl: ManyOfOptions<T>) {
         super(impl);
     }

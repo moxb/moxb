@@ -6,6 +6,11 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 Next version
 =======================================================================================
 
+### Fixed
+
+- Fix type parameter passing in ManyOfImpl and OneOfImpl.
+  This is used when using ManyOf with a custom type, instead of a string.
+  We already had support for this, but it was incomplete.
 
 ### Added
 
