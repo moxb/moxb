@@ -10,7 +10,10 @@ export interface ManyOfOptions<T> extends ValueOptions<ManyOfImpl<T>, T[]> {
 
 export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl<T>, T[], ManyOfOptions<T>> implements ManyOf<T> {
     constructor(impl: ManyOfOptions<T>) {
-        super(impl);
+        super({
+            valueCompareFunction: (a, b) => a.sort().toString() === b.sort().toString(),
+            ...impl,
+        });
     }
 
     @computed
