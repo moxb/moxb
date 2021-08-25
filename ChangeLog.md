@@ -14,6 +14,9 @@ Next version
 
 ### Added
 
+- Added default comparator function for ManyOfImpl, so the dirty field detection
+  behaves more intuitively for this kind of fields
+
 [v0.2.0-beta.85](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.84) (2021-08-06)
 =======================================================================================
 
