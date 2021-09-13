@@ -8,6 +8,7 @@ import type { FileUpload } from '@moxb/moxb';
 import { LabelAnt } from './LabelAnt';
 import { ActionButtonAnt } from './ActionAnt';
 import { BindFormItemAntProps, FormItemAnt } from './FormItemAnt';
+import Dragger, { DraggerProps } from 'antd/es/upload/Dragger';
 
 export interface FileUploadProps {
     operation: FileUpload;
@@ -39,6 +40,7 @@ export class FileUploadAnt extends React.Component<FileUploadProps> {
             resetAction,
             pending,
             prompt,
+            promptTitle,
             visible,
         } = this.props.operation;
 
@@ -72,6 +74,9 @@ export class FileUploadAnt extends React.Component<FileUploadProps> {
                                             <p className="ant-upload-drag-icon">
                                                 <InboxOutlined />
                                             </p>
+                                            {promptTitle && promptTitle.length && (
+                                                <p className="ant-upload-text">{promptTitle}</p>
+                                            )}
                                             {prompt}
                                         </div>
                                     </div>
@@ -91,6 +96,96 @@ export class FileUploadFormAnt extends React.Component<BindFormItemAntProps & { 
         return (
             <FormItemAnt {...this.props}>
                 <FileUploadAnt operation={this.props.operation} />
+            </FormItemAnt>
+        );
+    }
+}
+
+@observer
+export class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
+    componentDidMount() {
+        this.props.operation.reset();
+    }
+
+    onDrop(files: FileList) {
+        if (files.length) {
+            this.props.operation.upload(files[0]);
+        }
+    }
+
+    uploadFile(file: File) {
+        this.props.operation.upload(file);
+    }
+
+    constructor(props: FileUploadProps) {
+        super(props);
+        this.onDrop = this.onDrop.bind(this);
+        this.uploadFile = this.uploadFile.bind(this);
+    }
+
+    render() {
+        const {
+            succeeded,
+            successLabel,
+            errorLabel,
+            progressLabel,
+            resetAction,
+            pending,
+            prompt,
+            promptTitle,
+            visible,
+        } = this.props.operation;
+
+        if (!visible) {
+            return null;
+        }
+
+        const draggerProps: DraggerProps = {
+            beforeUpload: (file) => {
+                this.uploadFile(file);
+                return false;
+            },
+            onDrop: (e) => this.onDrop(e.dataTransfer.files),
+        };
+
+        return (
+            <div>
+                <LabelAnt operation={progressLabel} />
+                {pending && <Spin />}
+                <LabelAnt
+                    operation={errorLabel}
+                    style={{
+                        color: 'red',
+                        fontWeight: 'bold',
+                    }}
+                />
+                <LabelAnt
+                    operation={successLabel}
+                    style={{
+                        color: 'green',
+                        fontWeight: 'bold',
+                    }}
+                />
+                {!(succeeded || pending) && (
+                    <Dragger {...draggerProps}>
+                        <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                        </p>
+                        {promptTitle && promptTitle.length && <p className="ant-upload-text">{promptTitle}</p>}
+                        <p className="ant-upload-hint">{prompt}</p>
+                    </Dragger>
+                )}
+                <ActionButtonAnt operation={resetAction} />
+            </div>
+        );
+    }
+}
+
+export class DragAndDropFileUploadFormAnt extends React.Component<BindFormItemAntProps & { operation: FileUpload }> {
+    render() {
+        return (
+            <FormItemAnt {...this.props}>
+                <DragAndDropFileUploadAnt operation={this.props.operation} />
             </FormItemAnt>
         );
     }

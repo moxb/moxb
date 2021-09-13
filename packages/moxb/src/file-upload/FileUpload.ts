@@ -16,6 +16,11 @@ export interface FileUpload {
     readonly help?: string;
 
     /**
+     * The message title that should be displayed
+     */
+    readonly promptTitle?: string;
+
+    /**
      * The message that should be displayed
      */
     readonly prompt: string;

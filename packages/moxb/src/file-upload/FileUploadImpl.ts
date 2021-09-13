@@ -28,6 +28,11 @@ interface FileUploadOptions {
     prompt?: ValueOrFunction<string>;
 
     /**
+     * What prompt title should we show to the user?
+     */
+    promptTitle?: ValueOrFunction<string>;
+
+    /**
      * Should this control be hidden?
      */
     invisible?: ValueOrFunction<boolean>;
@@ -66,6 +71,10 @@ export class FileUploadImpl implements FileUpload {
         return (
             getValueFromStringOrFunction(this._options.prompt) || "Drag 'n' drop a file here, or click to select file"
         );
+    }
+
+    get promptTitle() {
+        return getValueFromStringOrFunction(this._options.promptTitle) || '';
     }
 
     get label() {
