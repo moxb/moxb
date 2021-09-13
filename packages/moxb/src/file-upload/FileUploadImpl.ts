@@ -41,6 +41,17 @@ interface FileUploadOptions {
      * Should we call a function upon successful upload?
      */
     onUpload?: (fileName: string, data: ArrayBuffer) => void;
+
+    /**
+     * File extensions to allow, if not set everything is allowed
+     * Example: ['.mp3', '.png']
+     */
+    allowedFileExtensions?: ValueOrFunction<string[]>;
+
+    /**
+     * File types to allow, if not set everything is allowed
+     */
+    allowedFileTypes?: ValueOrFunction<string[]>;
 }
 
 export class FileUploadImpl implements FileUpload {
@@ -93,6 +104,14 @@ export class FileUploadImpl implements FileUpload {
         return !this.invisible;
     }
 
+    get allowedFileExtensions() {
+        return getValueOrFunction(this._options.allowedFileExtensions);
+    }
+
+    get allowedFileTypes() {
+        return getValueOrFunction(this._options.allowedFileTypes);
+    }
+
     @observable
     private _pending = false;
 
@@ -115,7 +134,7 @@ export class FileUploadImpl implements FileUpload {
     readonly errorLabel: Label = new LabelImpl({
         id: 'fileUpload.errorLabel',
         invisible: () => !this._failed,
-        text: () => `Failed to upload ${this.fileName}: ${this._errorMessage}`,
+        text: () => `Failed to upload ${this.fileName || 'file'}: ${this._errorMessage}`,
     });
 
     readonly successLabel: Label = new LabelImpl({
@@ -167,6 +186,8 @@ export class FileUploadImpl implements FileUpload {
         this._done = false;
         this._data = undefined;
         this._pending = false;
+        this._errorMessage = undefined;
+        this._failed = false;
     }
 
     readonly resetAction: Action = new ActionImpl({
@@ -203,5 +224,11 @@ export class FileUploadImpl implements FileUpload {
         this._pending = true;
         this._setProgress(0);
         this._reader.readAsArrayBuffer(file);
+    }
+
+    @action
+    setErrorCheckMessage(error: string) {
+        this._failed = true;
+        this._errorMessage = error;
     }
 }

@@ -1,3 +1,4 @@
+const path = require('path');
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import Dropzone from 'react-dropzone';
@@ -117,10 +118,15 @@ export class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
         this.props.operation.upload(file);
     }
 
+    setError(error: string) {
+        this.props.operation.setErrorCheckMessage(error);
+    }
+
     constructor(props: FileUploadProps) {
         super(props);
         this.onDrop = this.onDrop.bind(this);
         this.uploadFile = this.uploadFile.bind(this);
+        this.setError = this.setError.bind(this);
     }
 
     render() {
@@ -134,6 +140,8 @@ export class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
             prompt,
             promptTitle,
             visible,
+            allowedFileExtensions,
+            allowedFileTypes,
         } = this.props.operation;
 
         if (!visible) {
@@ -142,6 +150,22 @@ export class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
 
         const draggerProps: DraggerProps = {
             beforeUpload: (file) => {
+                if (allowedFileExtensions) {
+                    const smallExts = allowedFileExtensions.map((e: string) => e.toLowerCase());
+                    if (smallExts.indexOf(path.extname(file.name).toLowerCase()) === -1) {
+                        this.setError(`File extension ${path.extname(file.name)} is not allowed`);
+                        return false;
+                    }
+                }
+
+                if (allowedFileTypes) {
+                    const smallTypes = allowedFileTypes.map((e: string) => e.toLowerCase());
+                    if (smallTypes.indexOf(file.type.toLowerCase()) === -1) {
+                        this.setError(`File type ${file.type} is not allowed`);
+                        return false;
+                    }
+                }
+
                 this.uploadFile(file);
                 return false;
             },
