@@ -11,7 +11,8 @@ Next version
 ### Fixed
 
 ### Changed
-
+- Use antd tools for file upload instead of react-dropzone.
+- Add option from fileupload to define allowed file extensions and/or file types
 
 [v0.2.0-beta.86](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.86) (2021-08-25)
 =======================================================================================
