@@ -16,6 +16,11 @@ export interface FileUpload {
     readonly help?: string;
 
     /**
+     * The message title that should be displayed
+     */
+    readonly promptTitle?: string;
+
+    /**
      * The message that should be displayed
      */
     readonly prompt: string;
@@ -107,4 +112,20 @@ export interface FileUpload {
      * Upload a new file
      */
     upload(file: File): void;
+
+    /**
+     * File extensions to allow, if not set everything is allowed.
+     * Example: ['.mp3', '.png']
+     */
+    readonly allowedFileExtensions?: string[];
+
+    /**
+     * File types to allow, if not set everything is allowed
+     */
+    readonly allowedFileTypes?: string[];
+
+    /**
+     * Set an error message to display when file checking before upload fails
+     */
+    setErrorCheckMessage(error: string): void;
 }
