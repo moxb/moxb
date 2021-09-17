@@ -11,6 +11,11 @@ Next version
 ### Fixed
 
 ### Changed
+
+[v0.2.0-beta.87](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.87) (2021-09-17)
+=======================================================================================
+
+### Changed
 - Use antd tools for file upload instead of react-dropzone.
 - Add option from fileupload to define allowed file extensions and/or file types
 
