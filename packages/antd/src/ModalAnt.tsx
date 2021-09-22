@@ -51,6 +51,10 @@ export class ModalAnt<T, A extends ModalActions = ModalActions> extends React.Co
                 onCancel={operation.actions.cancel.fire}
                 cancelText={operation.actions.cancel.label}
                 okText={operation.actions.confirm && operation.actions.confirm.label}
+                okButtonProps={{
+                    disabled: !operation.actions.confirm?.enabled,
+                    title: operation.actions.confirm?.reason,
+                }}
                 onOk={operation.actions.confirm && operation.actions.confirm.fire}
                 title={operation.header}
                 width={size}
