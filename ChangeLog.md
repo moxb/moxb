@@ -9,6 +9,8 @@ Next version
 ### Added
 
 ### Fixed
+- When an action assigned to a modal dialog's confirm button is disabled,
+  properly indicate this on the button. (Also display the reason if available.)
 
 ### Changed
 
