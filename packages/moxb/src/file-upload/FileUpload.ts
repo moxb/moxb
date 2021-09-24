@@ -99,6 +99,11 @@ export interface FileUpload {
     readonly progressLabel: Label;
 
     /**
+     * Is multiple file upload allowed?
+     */
+    readonly multiple: boolean;
+
+    /**
      * Drop the previously uploaded file
      */
     reset(): void;
@@ -111,7 +116,7 @@ export interface FileUpload {
     /**
      * Upload a new file
      */
-    upload(file: File): void;
+    upload(file: File | File[]): void;
 
     /**
      * File extensions to allow, if not set everything is allowed.

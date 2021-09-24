@@ -47,6 +47,7 @@ export class ButtonFileUploadAnt extends React.Component<FileUploadProps> {
             visible,
             allowedFileExtensions,
             allowedFileTypes,
+            multiple,
         } = this.props.operation;
 
         if (!visible) {
@@ -74,6 +75,7 @@ export class ButtonFileUploadAnt extends React.Component<FileUploadProps> {
                 this.uploadFile(file);
                 return false;
             },
+            multiple,
         };
 
         return (
@@ -123,7 +125,11 @@ export class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
 
     onDrop(files: FileList) {
         if (files.length) {
-            this.props.operation.upload(files[0]);
+            if (this.props.operation.multiple) {
+                this.props.operation.upload(Array.from(files));
+            } else {
+                this.props.operation.upload(files[0]);
+            }
         }
     }
 
@@ -155,6 +161,7 @@ export class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
             visible,
             allowedFileExtensions,
             allowedFileTypes,
+            multiple,
         } = this.props.operation;
 
         if (!visible) {
@@ -183,6 +190,7 @@ export class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
                 return false;
             },
             onDrop: (e) => this.onDrop(e.dataTransfer.files),
+            multiple,
         };
 
         return (
@@ -236,7 +244,11 @@ export class AreaFileUploadAnt extends React.Component<FileUploadProps> {
 
     onDrop(files: FileList) {
         if (files.length) {
-            this.props.operation.upload(files[0]);
+            if (this.props.operation.multiple) {
+                this.props.operation.upload(Array.from(files));
+            } else {
+                this.props.operation.upload(files[0]);
+            }
         }
     }
 
@@ -267,6 +279,7 @@ export class AreaFileUploadAnt extends React.Component<FileUploadProps> {
             visible,
             allowedFileExtensions,
             allowedFileTypes,
+            multiple,
         } = this.props.operation;
 
         if (!visible) {
@@ -299,6 +312,7 @@ export class AreaFileUploadAnt extends React.Component<FileUploadProps> {
             onDrop: (e) => this.onDrop(e.dataTransfer.files),
             showUploadList: false,
             className: 'avatar-uploader',
+            multiple,
         };
 
         const content = (
