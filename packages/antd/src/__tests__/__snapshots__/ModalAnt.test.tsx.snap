@@ -4,6 +4,12 @@ exports[`ModalAnt should render a modal dialog by default 1`] = `
 <Modal
   cancelText="Action"
   confirmLoading={false}
+  okButtonProps={
+    Object {
+      "disabled": false,
+      "title": undefined,
+    }
+  }
   okText="Cancel"
   okType="primary"
   onCancel={[Function]}
