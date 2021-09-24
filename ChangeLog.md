@@ -9,11 +9,16 @@ Next version
 ### Added
 
 ### Fixed
+
+### Changed
+
+[v0.2.0-beta.88](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.88) (2021-09-24)
+=======================================================================================
+
+### Fixed
 - When an action assigned to a modal dialog's confirm button is disabled,
   properly indicate this on the button. (Also display the reason if available.)
 - Added `multiple` option to fileUpload
-
-### Changed
 
 [v0.2.0-beta.87](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.87) (2021-09-17)
 =======================================================================================
