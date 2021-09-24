@@ -33,6 +33,11 @@ interface FileUploadOptions {
     promptTitle?: ValueOrFunction<string>;
 
     /**
+     * Is multiple file upload allowed?
+     */
+    readonly multiple?: ValueOrFunction<boolean>;
+
+    /**
      * Should this control be hidden?
      */
     invisible?: ValueOrFunction<boolean>;
@@ -112,6 +117,10 @@ export class FileUploadImpl implements FileUpload {
         return getValueOrFunction(this._options.allowedFileTypes);
     }
 
+    get multiple() {
+        return getValueOrFunction(this._options.multiple) || false;
+    }
+
     @observable
     private _pending = false;
 
@@ -120,6 +129,16 @@ export class FileUploadImpl implements FileUpload {
         return this._pending;
     }
 
+    @observable
+    private _fileList: File[] | undefined;
+
+    @observable
+    private _fileListLength = 0;
+
+    @observable
+    private _currentFileIndex = -1;
+
+    // Current file being uploaded
     @observable
     private _file: File | undefined;
 
@@ -209,21 +228,39 @@ export class FileUploadImpl implements FileUpload {
     protected _finish(data: ArrayBuffer) {
         this._data = data;
         this._done = true;
-        this._pending = false;
-        this._setProgress(1);
         const { onUpload } = this._options;
         if (onUpload) {
             onUpload(this.fileName!, data);
         }
+
+        if (this._fileList?.length) {
+            this._setProgress(this._currentFileIndex / this._fileListLength);
+            this.uploadNextFile();
+        } else {
+            this._pending = false;
+            this._setProgress(1);
+        }
     }
 
     @action
-    upload(file: File) {
+    upload(file: File | File[]) {
         this.reset();
-        this._file = file;
+        this._fileList = Array.isArray(file) ? file : [file];
+        this._fileListLength = this._fileList.length;
         this._pending = true;
         this._setProgress(0);
-        this._reader.readAsArrayBuffer(file);
+        this.uploadNextFile();
+    }
+
+    protected uploadNextFile() {
+        if (this._fileList?.length) {
+            const file = this._fileList.pop();
+            if (file) {
+                this._file = file;
+                this._currentFileIndex++;
+                this._reader.readAsArrayBuffer(file);
+            }
+        }
     }
 
     @action
