@@ -3,6 +3,7 @@ export * from './ActionAnt';
 export * from './BindAnt';
 export * from './BoolAnt';
 export * from './ConfirmAnt';
+export * from './SelectableConfirmAnt';
 export * from './LabelAnt';
 export * from './ModalAnt';
 export * from './TextAnt';
