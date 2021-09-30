@@ -28,6 +28,13 @@ export interface MeteorMethodDefinition<Input, Output> {
     serverOnly?: boolean;
 
     /**
+     * Should this method run unblocked?
+     *
+     * Setting this flag allows subsequent method from this client to begin running in a new fiber.
+     */
+    unblock?: boolean;
+
+    /**
      * The code to execute (on the server side) when the method is executed.
      *
      * @param input The input data. Please provide all arguments within a single object. (Like props in React)
@@ -111,17 +118,21 @@ export function wrapException<A extends Function>(f: A): A {
 export function registerMeteorMethod<Input, Output>(
     method: MeteorMethodDefinition<Input, Output>
 ): MeteorMethodControl<Input, Output> {
-    const { name, debug, execute, serverOnly } = method;
+    const { name, debug, execute, serverOnly, unblock } = method;
     const logger = getDebugLogger('Method ' + name, debug);
     if (Meteor.isServer || !serverOnly) {
         logger.log('Publishing Meteor method', name);
         Meteor.methods({
-            [name]: (input: Input) => {
+            [name](input: Input) {
                 // console.log('***Gonna check out if', name, 'is running in a simulation', this);
                 // if (!this || this.isSimulation) {
                 //     return;
                 // }
                 logger.log('with data', input);
+
+                if (unblock) {
+                    this.unblock();
+                }
 
                 const result = wrapException(execute)(input);
                 logger.log('returns', result);
