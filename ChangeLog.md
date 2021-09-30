@@ -7,6 +7,7 @@ Next version
 =======================================================================================
 
 ### Added
+- Add support for unblocked methods via `registerMeteorMethod`
 
 ### Fixed
 
