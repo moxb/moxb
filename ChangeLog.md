@@ -7,6 +7,15 @@ Next version
 =======================================================================================
 
 ### Added
+
+### Fixed
+
+### Changed
+
+[v0.2.0-beta.91](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.91) (2021-10-22)
+=======================================================================================
+
+### Added
 - Added new component: [`DateRangePickerAnt`](packages/antd/src/DateRangePicker.tsx)
   with new Bind type: [`DateRange`](packages/moxb/src/date/DateRange.ts) and [`DateRangeImpl`](packages/moxb/src/date/DateRangeImpl.ts)
   Documentation: https://ant.design/components/date-picker/
