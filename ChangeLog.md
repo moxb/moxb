@@ -7,13 +7,18 @@ Next version
 =======================================================================================
 
 ### Added
-- Add support for unblocked methods via `registerMeteorMethod`
-- Introduce SelectableConfirm component (with Ant support) to render confirm dialogs
-  with multiple confirm buttons.
 
 ### Fixed
 
 ### Changed
+
+[v0.2.0-beta.89](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.89) (2021-10-01)
+=======================================================================================
+
+### Added
+- Add support for unblocked methods via `registerMeteorMethod`
+- Introduce SelectableConfirm component (with Ant support) to render confirm dialogs
+  with multiple confirm buttons.
 
 [v0.2.0-beta.88](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.88) (2021-09-24)
 =======================================================================================
