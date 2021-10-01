@@ -2,6 +2,7 @@ export * from './action/ActionImpl';
 export * from './bind/BindImpl';
 export * from './bool/BoolImpl';
 export * from './confirm/ConfirmImpl';
+export * from './confirm/SelectableConfirmImpl';
 export * from './many-of/ManyOfImpl';
 export * from './modal/ModalImpl';
 export * from './label/LabelImpl';

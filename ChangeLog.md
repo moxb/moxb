@@ -8,6 +8,8 @@ Next version
 
 ### Added
 - Add support for unblocked methods via `registerMeteorMethod`
+- Introduce SelectableConfirm component (with Ant support) to render confirm dialogs
+  with multiple confirm buttons.
 
 ### Fixed
 
