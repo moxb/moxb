@@ -23,3 +23,4 @@ export * from './PollingUpdaterAnt';
 export * from './SliderAnt';
 export * from './RateAnt';
 export * from './FileUploadAnt';
+export * from './ProgressAnt';

@@ -20,6 +20,8 @@ import {
     Numeric,
     NumericImpl,
     OneOfImpl,
+    Progress,
+    ProgressImpl,
     Rate,
     RateImpl,
     t,
@@ -167,6 +169,58 @@ export class ApplicationImpl implements Application {
         step: 0.05,
         required: true,
         unit: 'm',
+    });
+
+    readonly testProgress: Progress = new ProgressImpl({
+        id: 'ApplicationImpl.progress',
+        initialValue: 80,
+        status: () => {
+            if ((this.testProgress.value || 0) <= 30) {
+                return 'exception';
+            } else if ((this.testProgress.value || 0) >= 90) {
+                return 'success';
+            } else {
+                return 'active';
+            }
+        },
+    });
+
+    readonly decreaseLineProgress = new ActionImpl({
+        id: 'ApplicationImpl.progress.decrease',
+        label: '- 10%',
+        fire: () => {
+            this.testProgress.setValue(Math.max((this.testProgress.value || 0) - 10, 0));
+        },
+    });
+
+    readonly increaseLineProgress = new ActionImpl({
+        id: 'ApplicationImpl.progress.increase',
+        label: '+ 10%',
+        fire: () => {
+            this.testProgress.setValue(Math.min((this.testProgress.value || 0) + 10, 100));
+        },
+    });
+
+    readonly testProgress2: Progress = new ProgressImpl({
+        id: 'ApplicationImpl.progress2',
+        initialValue: 75,
+        type: 'circle',
+    });
+
+    readonly decreaseCircleProgress = new ActionImpl({
+        id: 'ApplicationImpl.progress2.decrease',
+        label: '-',
+        fire: () => {
+            this.testProgress2.setValue(Math.max((this.testProgress2.value || 0) - 5, 0));
+        },
+    });
+
+    readonly increaseCircleProgress = new ActionImpl({
+        id: 'ApplicationImpl.progress2.increase',
+        label: '+',
+        fire: () => {
+            this.testProgress2.setValue(Math.min((this.testProgress2.value || 0) + 5, 100));
+        },
     });
 
     readonly testOfOne = new OneOfImpl({

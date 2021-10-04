@@ -92,6 +92,19 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         }
     }
 
+    protected implValOrUndefined(key: string) {
+        if ((this.impl as any)[key]) {
+            const val = (this.impl as any)[key];
+            if (typeof val === 'function') {
+                return val();
+            } else {
+                return val;
+            }
+        } else {
+            return undefined;
+        }
+    }
+
     private getInitialValue(): T | undefined {
         return getValueOrFunction(this.impl.initialValue);
     }

@@ -9,6 +9,7 @@ import {
     Modal,
     Numeric,
     OneOf,
+    Progress,
     Rate,
     Table,
     Text,
@@ -35,6 +36,12 @@ export interface Application {
     readonly testTextarea: Text;
     readonly testNumeric: Numeric;
     readonly testSliderNumeric: Numeric;
+    readonly testProgress: Progress;
+    readonly decreaseLineProgress: Action;
+    readonly increaseLineProgress: Action;
+    readonly testProgress2: Progress;
+    readonly decreaseCircleProgress: Action;
+    readonly increaseCircleProgress: Action;
     readonly formUserText: Text;
     readonly formPasswordText: Text;
     readonly formSubmitButton: Action;
