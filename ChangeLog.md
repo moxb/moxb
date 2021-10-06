@@ -10,6 +10,8 @@ Next version
 - Added new component: [`ProgressAnt`](packages/antd/src/progress/ProgressAnt.tsx)
   with new Bind type: [`Progress`](packages/moxb/src/progress/Progress.ts) and [`ProgressImpl`](packages/moxb/src/progress/ProgressImpl.ts)
   Documentation: https://ant.design/components/progress/
+- Introduced [`getFineGrainedDebugLogger()`](packages/moxb/src/util/debugLog.ts)
+  for selectable log levels
 
 ### Fixed
 
