@@ -38,3 +38,30 @@ const fakeLogger: Logger = {
 
 export const getDebugLogger = (prefix: string, debugMode?: boolean): Logger =>
     !!debugMode ? getRealLogger(prefix) : fakeLogger;
+
+export interface FineGrainedLogConfiguration {
+    logLog?: boolean;
+    logDebug?: boolean;
+    logInfo?: boolean;
+    logWarn?: boolean;
+    logError?: boolean;
+}
+
+export const getFineGrainedDebugLogger = (
+    prefix: string,
+    config: FineGrainedLogConfiguration,
+    debugMode?: boolean
+): Logger => {
+    if (!debugMode) {
+        return fakeLogger;
+    }
+
+    const realLogger = getRealLogger(prefix);
+    return {
+        log: config.logLog ? realLogger.log : fakeLogger.log,
+        debug: config.logDebug ? realLogger.debug : fakeLogger.debug,
+        info: config.logInfo ? realLogger.info : fakeLogger.info,
+        warn: config.logWarn ? realLogger.warn : fakeLogger.warn,
+        error: config.logError ? realLogger.error : fakeLogger.error,
+    };
+};
