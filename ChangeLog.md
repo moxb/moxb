@@ -9,6 +9,7 @@ Next version
 ### Added
 
 ### Fixed
+- Fix multiple file upload, when the upload is called in multiple steps
 
 ### Changed
 
