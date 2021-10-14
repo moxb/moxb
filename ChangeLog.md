@@ -13,7 +13,7 @@ Next version
 
 ### Changed
 
-[v0.2.0-beta.89](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.89) (2021-10-01)
+[v0.2.0-beta.90](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.90) (2021-10-12)
 =======================================================================================
 
 ### Added
