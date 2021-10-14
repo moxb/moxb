@@ -244,12 +244,22 @@ export class FileUploadImpl implements FileUpload {
 
     @action
     upload(file: File | File[]) {
-        this.reset();
-        this._fileList = Array.isArray(file) ? file : [file];
-        this._fileListLength = this._fileList.length;
-        this._pending = true;
-        this._setProgress(0);
-        this.uploadNextFile();
+        if (this._pending) {
+            if (Array.isArray(file)) {
+                this._fileList?.push(...file);
+            } else {
+                this._fileList?.push(file);
+            }
+            this._fileListLength = this._fileList!.length;
+            this._setProgress(this._currentFileIndex / this._fileListLength);
+        } else {
+            this.reset();
+            this._fileList = Array.isArray(file) ? file : [file];
+            this._fileListLength = this._fileList.length;
+            this._setProgress(0);
+            this._pending = true;
+            this.uploadNextFile();
+        }
     }
 
     protected uploadNextFile() {
