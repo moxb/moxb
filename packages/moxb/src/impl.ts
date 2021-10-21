@@ -7,6 +7,7 @@ export * from './many-of/ManyOfImpl';
 export * from './modal/ModalImpl';
 export * from './label/LabelImpl';
 export * from './date/DateImpl';
+export * from './date/DateRangeImpl';
 export * from './time/TimeImpl';
 export * from './numeric/NumericImpl';
 export * from './one-of/OneOfImpl';

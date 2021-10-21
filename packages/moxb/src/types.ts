@@ -8,6 +8,7 @@ export * from './modal/Modal';
 export * from './label/Label';
 export * from './numeric/Numeric';
 export * from './date/Date';
+export * from './date/DateRange';
 export * from './time/Time';
 export * from './one-of/OneOf';
 export * from './progress/Progress';
