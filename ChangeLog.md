@@ -7,6 +7,9 @@ Next version
 =======================================================================================
 
 ### Added
+- Added new component: [`DateRangePickerAnt`](packages/antd/src/DateRangePicker.tsx)
+  with new Bind type: [`DateRange`](packages/moxb/src/date/DateRange.ts) and [`DateRangeImpl`](packages/moxb/src/date/DateRangeImpl.ts)
+  Documentation: https://ant.design/components/date-picker/
 
 ### Fixed
 - Fix multiple file upload, when the upload is called in multiple steps
