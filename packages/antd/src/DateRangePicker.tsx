@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DateRange } from '@moxb/moxb';
 import { CSSProperties } from 'react';
-import { DatePickerProps } from 'antd/lib/date-picker';
+import { RangePickerProps } from 'antd/lib/date-picker';
 import { observer } from 'mobx-react';
 import { parseProps } from './BindAnt';
 import { DatePicker } from 'antd';
@@ -14,7 +14,7 @@ interface BindDateRangePickerAntBasicProps {
     formStyle?: CSSProperties;
 }
 
-export type BindDateRangePickerAntProps = BindDateRangePickerAntBasicProps & DatePickerProps;
+export type BindDateRangePickerAntProps = BindDateRangePickerAntBasicProps & RangePickerProps;
 
 @observer
 export class DateRangePickerAnt extends React.Component<BindDateRangePickerAntProps> {
@@ -29,7 +29,8 @@ export class DateRangePickerAnt extends React.Component<BindDateRangePickerAntPr
                     data-testid={operation.id}
                     placeholder={operation.placeholder}
                     value={operation.value}
-                    onChange={(date: moment.Moment, _dateString: string) => operation.setValue(date)}
+                    onChange={(date: [moment.Moment, moment.Moment], _dateString: string) => operation.setValue(date)}
+                    ranges={operation.ranges}
                     {...(props as any)}
                 />
             </span>
