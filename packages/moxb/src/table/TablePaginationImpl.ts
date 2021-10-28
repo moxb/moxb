@@ -4,6 +4,8 @@ import { TablePagination } from './TablePagination';
 // ToDo: allow to specify pageSizes and default pageSize
 export interface TablePaginationOptions {
     totalAmount(): number;
+    pageSizes?: () => number[];
+    defaultPageSize?: number;
 }
 
 export class TablePaginationImpl implements TablePagination {
@@ -12,11 +14,24 @@ export class TablePaginationImpl implements TablePagination {
     private _activePage = 1;
     @observable
     pageSize = 10;
-    @observable
-    pageSizes = [10, 25, 50, 100];
+
+    _pageSizes = [10, 25, 50, 100];
 
     constructor(impl: TablePaginationOptions) {
         this.impl = impl;
+
+        if (impl.defaultPageSize) {
+            this.pageSize = impl.defaultPageSize;
+        }
+    }
+
+    @computed
+    get pageSizes() {
+        if (this.impl.pageSizes) {
+            return this.impl.pageSizes();
+        } else {
+            return this._pageSizes;
+        }
     }
 
     @action.bound
