@@ -164,6 +164,7 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
     pagination={
       Object {
         "current": 1,
+        "pageSize": 10,
         "pageSizeOptions": Array [
           "10",
           "25",
