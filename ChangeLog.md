@@ -7,6 +7,16 @@ Next version
 =======================================================================================
 
 ### Added
+
+### Fixed
+
+### Changed
+
+
+[v0.2.0-beta.92](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.92) (2021-10-28)
+=======================================================================================
+
+### Added
 - Added `ranges` property to [`DateRange`](packages/moxb/src/date/DateRange.ts) and [`DateRangeImpl`](packages/moxb/src/date/DateRangeImpl.ts)
   These are predetermined date range selectors allowing easy date-range selection. (i.e. current month)
 - Added `pageSizes` and `defaultPageSize` params to [`TablePaginationOptions`](packages/moxb/src/table/TablePaginationImpl.ts)
@@ -14,8 +24,6 @@ Next version
 ### Fixed
 - Fixed the antd properties of [`DateRangePickerAnt`](packages/antd/src/DateRangePicker.tsx)
 - Added the missing `pageSize` property to [`TableAnt`](packages/antd/src/TableAnt.tsx)
-
-### Changed
 
 [v0.2.0-beta.91](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.91) (2021-10-22)
 =======================================================================================
