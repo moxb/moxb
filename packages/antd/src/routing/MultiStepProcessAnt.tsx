@@ -53,11 +53,11 @@ export class MultiStepProcessAnt extends React.Component<MultiStepProcessProps<a
         };
         return (
             <div data-testid={id}>
-                <NavStepsAnt arg={currentStep} id={id + '-steps-indicator'} subStates={steps} stepProps={stepProps} />
+                <NavStepsAnt arg={currentStep} id={id + '-steps-indicator'} stateSpace={steps} stepProps={stepProps} />
                 {failed ? (
                     this.renderError()
                 ) : (
-                    <LocationDependentArea arg={currentStep} id={id + '-steps'} subStates={steps} />
+                    <LocationDependentArea arg={currentStep} id={id + '-steps'} stateSpace={steps} />
                 )}
             </div>
         );

@@ -9,6 +9,6 @@ import { mainMenu } from '../MenuStructure';
 @observer
 export class NavigationAnt extends React.Component<UsesLocation & UsesLinkGenerator> {
     render() {
-        return <NavMenuBarAnt id="main-menu" subStates={mainMenu} linkGenerator={this.props.linkGenerator} />;
+        return <NavMenuBarAnt id="main-menu" stateSpace={mainMenu} linkGenerator={this.props.linkGenerator} />;
     }
 }

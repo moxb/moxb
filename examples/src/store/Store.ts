@@ -39,7 +39,7 @@ export class StoreImpl implements Store {
         this.view = new ViewStoreImpl();
         this.linkGenerator = new LinkGeneratorImpl({
             locationManager: this.locationManager,
-            states: mainMenu,
+            stateSpace: mainMenu,
             rootUrl: 'https://localhost:3100',
         });
     }

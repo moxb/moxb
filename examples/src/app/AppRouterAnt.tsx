@@ -16,7 +16,7 @@ export class AppRouterAnt extends React.Component {
                     </Row>
                     <LocationDependentArea
                         id="main-area"
-                        subStates={mainMenu}
+                        stateSpace={mainMenu}
                         fallback={defaultContent}
                         part="main"
                         useTokenMappings={true}
@@ -24,7 +24,7 @@ export class AppRouterAnt extends React.Component {
                     <hr />
                     <LocationDependentArea
                         id="footer-area"
-                        subStates={mainMenu}
+                        stateSpace={mainMenu}
                         fallback={defaultContent}
                         part="bottom"
                     />

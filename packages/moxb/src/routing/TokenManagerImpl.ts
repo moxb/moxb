@@ -144,7 +144,7 @@ export class TokenManagerImpl implements TokenManager {
      */
     @action
     addMappings<DataType>(mappings: TokenMappings<DataType>) {
-        const { id, subStates, parsedTokens = 0, filterCondition } = mappings;
+        const { id, stateSpace, parsedTokens = 0, filterCondition } = mappings;
         const { debug } = this._config;
         let mappingsId = id;
         while (this._mappingRegistry.get(mappingsId)) {
@@ -153,13 +153,13 @@ export class TokenManagerImpl implements TokenManager {
         this._mappingRegistry.set(mappingsId, {
             type: 'complex',
             id,
-            subStates,
+            stateSpace,
             parsedTokens,
             filterCondition,
             states: new LocationDependentStateSpaceHandlerImpl({
                 id: 'token manager mappings ' + id,
                 locationManager: this._locationManager,
-                subStates,
+                stateSpace,
                 filterCondition,
                 parsedTokens,
                 debug,

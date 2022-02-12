@@ -22,7 +22,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by path
         TestData
     > = new LocationDependentStateSpaceHandlerImpl({
         locationManager,
-        subStates: testStateSpace,
+        stateSpace: testStateSpace,
         filterCondition: (data) => !(data && data.secret), // in menus, we will hide the "secret" items
         id: 'test loc dep state-space handler 1 (path based)',
         // no parsed tokens first
@@ -146,7 +146,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by url 
 
     const handler = new LocationDependentStateSpaceHandlerImpl({
         locationManager,
-        subStates: testStateSpace,
+        stateSpace: testStateSpace,
         filterCondition: (data) => !(data && data.secret), // in menus, we will hide the "secret" items
         id: 'test loc dep state-space handler 2 (arg based)',
         arg: where,
@@ -267,7 +267,7 @@ describe('Location-Dependent State-Space-Handler implementation, powered by path
 
     const handler = new LocationDependentStateSpaceHandlerImpl({
         locationManager,
-        subStates: testStateSpace,
+        stateSpace: testStateSpace,
         filterCondition: (data) => !(data && data.secret), // in menus, we will hide the "secret" items
         id: 'test loc dep state-space handler 3 (path based, with prefix)',
         parsedTokens: 1, // The first token on the path will be ignored

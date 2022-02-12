@@ -21,7 +21,7 @@ export interface TokenMappings<DataType> {
      *
      * This should be the same information that is powering the menu system.
      */
-    subStates: StateSpace<any, any, DataType>;
+    stateSpace: StateSpace<any, any, DataType>;
 
     /**
      * The number of path tokens to ignore

@@ -22,7 +22,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                             id="left-menu"
                             parsedTokens={this.props.parsedTokens}
                             // arg={url!.number}
-                            subStates={subMenu1}
+                            stateSpace={subMenu1}
                             navControl={navControl}
                             mode="horizontal"
                             useTokenMappings={true}
@@ -55,7 +55,7 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                             id="right-menu"
                             arg={color}
                             mode="left"
-                            subStates={subMenu2}
+                            stateSpace={subMenu2}
                             navControl={navControl}
                             fallback="Unknown color"
                             debug={false}

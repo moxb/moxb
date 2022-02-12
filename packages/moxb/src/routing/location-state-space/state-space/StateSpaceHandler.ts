@@ -123,7 +123,7 @@ export interface StateSpaceHandlerProps<LabelType, WidgetType, DataType> {
     /**
      * The list of sub-states to work with
      */
-    subStates: StateSpace<LabelType, WidgetType, DataType>;
+    stateSpace: StateSpace<LabelType, WidgetType, DataType>;
 
     /**
      * An optional condition to use for filtering when displaying in a menu

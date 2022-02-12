@@ -1,9 +1,14 @@
 export * from './ActionHtml';
 export * from './BindHtml';
 
-export { LocationDependentArea, LocationDependentAreaProps } from './LocationDependentArea';
+export {
+    UIStateSpace,
+    NavigableUIContent,
+    LocationDependentArea,
+    LocationDependentAreaProps,
+} from './LocationDependentArea';
 export { UIFragment, renderUIFragment } from './UIFragment';
-export { UIFragmentSpec, extractUIFragmentFromSpec } from './UIFragmentSpec';
+export { UIFragmentMap, UIFragmentSpec, extractUIFragmentFromSpec } from './UIFragmentSpec';
 export { Anchor } from './Anchor';
 export { rootOrDetails, DetailProps } from './rootOrDetails';
 export { renderFallback } from './rendering';

@@ -43,7 +43,7 @@ export interface LocationDependentStateSpaceHandler<LabelType, WidgetType, DataT
     extends StateSpaceHandler<LabelType, WidgetType, DataType>,
         LocationChangeInterceptor {
     /**
-     * Register the mappings belonging to this state sub-tree on the token manegr
+     * Register the mappings belonging to this state sub-tree on the token manager
      */
     registerTokenMappings(): void;
 

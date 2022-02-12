@@ -27,7 +27,7 @@ export class LinkGeneratorImpl implements LinkGenerator {
             this._preparing = true;
             this._states = new StateSpaceHandlerImpl({
                 id: 'link-generator-space',
-                subStates: getValueOrFunction(this.props.states)!,
+                stateSpace: getValueOrFunction(this.props.stateSpace)!,
             });
         }
         return this._states;
