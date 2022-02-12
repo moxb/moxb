@@ -2,7 +2,7 @@
 
 exports[`TableAnt should render a table with content by default 1`] = `
 <Fragment>
-  <Table
+  <ForwardRef(InternalTable)
     columns={
       Array [
         Object {
@@ -85,7 +85,7 @@ exports[`TableAnt should render a table with content by default 1`] = `
 
 exports[`TableAnt should render a table with search field and pagination 1`] = `
 <Fragment>
-  <Table
+  <ForwardRef(InternalTable)
     columns={
       Array [
         Object {
@@ -183,7 +183,7 @@ exports[`TableAnt should render a table with search field and pagination 1`] = `
 
 exports[`TableAnt should render a table with setupColumn set 1`] = `
 <Fragment>
-  <Table
+  <ForwardRef(InternalTable)
     columns={
       Array [
         Object {
