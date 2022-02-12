@@ -150,8 +150,20 @@ export interface SubState<LabelType, WidgetType, DataType>
  * The totality of all possible states for a given part of the app UI
  */
 export interface StateSpace<LabelType, WidgetType, DataType> {
+    /**
+     * Generic data related to this state space, if any
+     */
     metaData: string;
+
+    /**
+     * The list of possible sub-states within this state
+     */
     subStates: SubState<LabelType, WidgetType, DataType>[];
+
+    /**
+     * How do we define the sub-state in case we are at an undefined location?
+     */
+    fallback?: WidgetType;
 }
 
 /**

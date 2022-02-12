@@ -58,7 +58,7 @@ export interface NavControl {
  * This data structure will be made available to components
  * that are rendered as part of the navigation process
  */
-export interface Navigable<WidgetType, DataType> {
+export interface Navigable<DataType> {
     /**
      * The number of tokens that have already been parsed, is any.
      *
@@ -67,23 +67,22 @@ export interface Navigable<WidgetType, DataType> {
     parsedTokens?: number;
 
     filterCondition?: StateCondition<DataType>;
-    fallback?: WidgetType;
     part?: string;
 }
 
 /**
- * This data structure will be made available to components
+ * This data structure will be made available by their parents to components
  * that are rendered as part of the navigation process,
- * and have own content
+ * and have their own navigable content
  */
-export interface NavigableContent<WidgetType, DataType> extends Navigable<WidgetType, DataType> {
+export interface NavigableContent<DataType> extends Navigable<DataType> {
     navControl: NavControl;
 }
 
 /**
  * Extract the next path token from the location manager, based on the number of parsed tokens passed down
  */
-export function getNextPathToken<WidgetType, DataType>(props: Navigable<WidgetType, DataType> & UsesLocation): string {
+export function getNextPathToken<DataType>(props: Navigable<DataType> & UsesLocation): string {
     const { locationManager, parsedTokens } = props;
     return locationManager!.pathTokens[parsedTokens!];
 }
@@ -91,7 +90,7 @@ export function getNextPathToken<WidgetType, DataType>(props: Navigable<WidgetTy
 /**
  * Extract the already parsed path tokens from the location manager, based on the number of parsed tokens passed down
  */
-export function getParsedPathTokens<WidgetType, DataType>(props: Navigable<WidgetType, DataType> & UsesLocation) {
+export function getParsedPathTokens<DataType>(props: Navigable<DataType> & UsesLocation) {
     const { locationManager, parsedTokens } = props;
     return locationManager!.pathTokens.slice(0, parsedTokens!);
 }

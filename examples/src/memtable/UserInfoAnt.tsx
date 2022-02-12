@@ -7,7 +7,7 @@ import { MemTable } from './MemTable';
 
 @inject('memTable')
 @observer
-export class UserInfoAnt extends React.Component<Navigable<any, any> & { memTable?: MemTable }> {
+export class UserInfoAnt extends React.Component<Navigable<any> & { memTable?: MemTable }> {
     render() {
         const { parsedTokens, memTable } = this.props;
 

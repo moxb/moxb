@@ -13,7 +13,7 @@ import { UIFragment } from './UIFragment';
 import { UIFragmentSpec } from './UIFragmentSpec';
 
 export type UIStateSpace<DataType = {}> = StateSpace<UIFragment, UIFragmentSpec, DataType>;
-export type NavigableUIContent = NavigableContent<UIFragment, UIFragmentSpec>;
+export type NavigableUIContent = NavigableContent<UIFragmentSpec>;
 
 export interface LocationDependentAreaProps<DataType>
     extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
@@ -26,11 +26,6 @@ export interface LocationDependentAreaProps<DataType>
      * you can skip this/
      * */
     part?: string;
-
-    /**
-     * What to show when a given sub-state doesn't specify any content
-     */
-    fallback?: UIFragmentSpec;
 
     /**
      * Should we use the token mappings defined for the sub-states?
@@ -91,6 +86,7 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
     renderSubState(
         states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
         subState: SubStateInContext<UIFragment, UIFragmentSpec, DataType> | null,
+        fallback: UIFragmentSpec | undefined,
         invisible?: boolean
     ) {
         const { navControl, id } = this.props;
@@ -103,6 +99,7 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         const parentName = 'LocationDependentArea:' + id + ':' + (subState ? subState.menuKey : 'null');
         return renderSubStateCore({
             state: subState,
+            fallback,
             navigationContext: this.props,
             tokenIncrease: subState ? subState.totalPathTokens.length : 1,
             checkCondition: false, // We don't ever get to select this sub-state if the condition fails
@@ -126,7 +123,6 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         const {
             id,
             part,
-            fallback,
             mountAll,
             // useTokenMappings,
             ...remnantProps
@@ -153,7 +149,10 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
             mountAll,
             // useTokenMappings,
             // ...remnantProps
+            stateSpace,
         } = this.props;
+
+        const { fallback } = stateSpace;
 
         const states = this._getStates(this.props);
 
@@ -170,11 +169,11 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
                 })
                 .map((s, i) => (
                     <div key={`${i}`} style={s !== wantedChild ? { display: 'none' } : s.containerStyle}>
-                        {this.renderSubState(states, s, s !== wantedChild)}
+                        {this.renderSubState(states, s, fallback, s !== wantedChild)}
                     </div>
                 ));
         } else {
-            return this.renderSubState(states, wantedChild);
+            return this.renderSubState(states, wantedChild, fallback);
         }
     }
 }

@@ -2,12 +2,11 @@ import { Navigable, NavigableContent, SubStateCoreInfo, NavControl } from '@moxb
 import { renderUIFragment } from './UIFragment';
 import { extractUIFragmentFromSpec, UIFragmentSpec } from './UIFragmentSpec';
 
-export function renderFallback(props: Navigable<UIFragmentSpec, any>) {
-    const { filterCondition, fallback, part, parsedTokens } = props;
-    const navigableChildParams: Navigable<UIFragmentSpec, any> = {
+export function renderFallback(props: Navigable<any>, fallback: UIFragmentSpec | undefined) {
+    const { filterCondition, part, parsedTokens } = props;
+    const navigableChildParams: Navigable<any> = {
         parsedTokens,
         filterCondition,
-        fallback,
         part,
     };
     const fallbackFragment = extractUIFragmentFromSpec({}, fallback, part);
@@ -16,7 +15,8 @@ export function renderFallback(props: Navigable<UIFragmentSpec, any>) {
 
 interface RenderProps<DataType> {
     state: SubStateCoreInfo<UIFragmentSpec, DataType> | null;
-    navigationContext: Navigable<UIFragmentSpec, DataType>;
+    fallback?: UIFragmentSpec | undefined;
+    navigationContext: Navigable<DataType>;
     tokenIncrease?: number;
     extraProps?: any;
     checkCondition?: boolean;
@@ -24,16 +24,23 @@ interface RenderProps<DataType> {
 }
 
 export function renderSubStateCore<DataType>(props: RenderProps<DataType>) {
-    const { state, navigationContext, tokenIncrease = 0, extraProps = {}, checkCondition, navControl } = props;
-    const { filterCondition, parsedTokens, fallback, part } = navigationContext;
+    const {
+        state,
+        fallback,
+        navigationContext,
+        tokenIncrease = 0,
+        extraProps = {},
+        checkCondition,
+        navControl,
+    } = props;
+    const { filterCondition, parsedTokens, part } = navigationContext;
     if (checkCondition && state && state.data && filterCondition) {
         if (!filterCondition(state.data)) {
-            return renderFallback(navigationContext);
+            return renderFallback(navigationContext, fallback);
         }
     }
-    const navigableChildParams: NavigableContent<UIFragmentSpec, DataType> = {
+    const navigableChildParams: NavigableContent<DataType> = {
         parsedTokens: (parsedTokens || 0) + tokenIncrease,
-        fallback,
         filterCondition,
         part,
         navControl,

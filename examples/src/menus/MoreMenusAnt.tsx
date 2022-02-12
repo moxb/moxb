@@ -1,14 +1,15 @@
-import { NavLink, NavLinkButtonAnt, MenuAndContentAnt, TextFormAnt, UIFragmentSpec, NavTabBarAnt } from '@moxb/antd';
-import { NavigableContent, setArg } from '@moxb/moxb';
-
-import { Col, Row } from 'antd';
-import { inject } from 'mobx-react';
 import * as React from 'react';
+import { inject } from 'mobx-react';
+import { Col, Row } from 'antd';
+import { setArg } from '@moxb/moxb';
+import { NavigableUIContent } from '@moxb/html';
+import { NavLink, NavLinkButtonAnt, MenuAndContentAnt, TextFormAnt, NavTabBarAnt } from '@moxb/antd';
+
 import { UrlStore } from '../store/UrlStore';
 import { subMenu1, subMenu2 } from './SubMenu';
 
 @inject('url')
-export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & NavigableContent<any, UIFragmentSpec>> {
+export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & NavigableUIContent> {
     render() {
         const { url, navControl } = this.props;
         const { color, search } = url!;
@@ -26,7 +27,6 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                             navControl={navControl}
                             mode="horizontal"
                             useTokenMappings={true}
-                            fallback="Unknown number"
                             debug={false}
                         />
                     </Col>
@@ -57,7 +57,6 @@ export class MoreMenusAnt extends React.Component<{ url?: UrlStore } & Navigable
                             mode="left"
                             stateSpace={subMenu2}
                             navControl={navControl}
-                            fallback="Unknown color"
                             debug={false}
                         />
                     </Col>

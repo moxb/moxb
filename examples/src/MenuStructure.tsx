@@ -89,9 +89,8 @@ export const mainMenu: UIStateSpace = {
             fragment: NavRefRedirect,
         },
     ],
-};
-
-export const defaultContent = {
-    main: <span>No such content</span>,
-    bottom: 'Common footer text',
+    fallback: {
+        main: <span>No such content</span>,
+        bottom: 'Common footer text',
+    },
 };

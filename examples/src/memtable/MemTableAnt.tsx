@@ -9,7 +9,7 @@ import { UserInfoAnt } from './UserInfoAnt';
 
 @inject('memTable', 'url')
 @observer
-export class MemTableAnt extends React.Component<{ memTable?: MemTable } & UsesURL & Navigable<any, any>> {
+export class MemTableAnt extends React.Component<{ memTable?: MemTable } & UsesURL & Navigable<any>> {
     render() {
         const memTable = this.props.memTable!;
         const { url, parsedTokens } = this.props;

@@ -98,6 +98,7 @@ export const subMenu1: UIStateSpace = {
             ],
         },
     ],
+    fallback: 'Unknown number',
 };
 
 class GreenBlocks extends React.Component<NavigableUIContent> {
@@ -150,4 +151,5 @@ export const subMenu2: UIStateSpace = {
             fragment: GreenBlocks,
         },
     ],
+    fallback: 'Unknown color',
 };

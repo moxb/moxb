@@ -10,7 +10,7 @@ export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, 
     extends StateSpaceHandlerProps<LabelType, WidgetType, DataType>,
         UsesLocation,
         UsesTokenManager,
-        Navigable<WidgetType, DataType> {
+        Navigable<DataType> {
     /**
      * The URL argument (if any) driving this component.
      */

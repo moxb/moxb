@@ -19,7 +19,7 @@ import * as React from 'react';
  */
 @inject('locationManager', 'linkGenerator')
 @observer
-export class NavRefRedirect extends React.Component<UsesLocation & Navigable<any, any> & UsesLinkGenerator> {
+export class NavRefRedirect extends React.Component<UsesLocation & Navigable<any> & UsesLinkGenerator> {
     @observable
     private _failed = false;
 

@@ -5,7 +5,7 @@ import * as React from 'react';
 
 @inject('locationManager')
 @observer
-export class TokenDisplayer extends React.Component<Navigable<any, UIFragmentSpec> & UsesLocation> {
+export class TokenDisplayer extends React.Component<Navigable<UIFragmentSpec> & UsesLocation> {
     public render() {
         return (
             <div>

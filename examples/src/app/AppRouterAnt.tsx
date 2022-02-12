@@ -4,7 +4,7 @@ import { Layout, Row } from 'antd';
 import * as React from 'react';
 import { NavigationAnt } from '../common/NavigationAnt';
 
-import { defaultContent, mainMenu } from '../MenuStructure';
+import { mainMenu } from '../MenuStructure';
 
 export class AppRouterAnt extends React.Component {
     render() {
@@ -14,20 +14,9 @@ export class AppRouterAnt extends React.Component {
                     <Row>
                         <NavigationAnt />
                     </Row>
-                    <LocationDependentArea
-                        id="main-area"
-                        stateSpace={mainMenu}
-                        fallback={defaultContent}
-                        part="main"
-                        useTokenMappings={true}
-                    />
+                    <LocationDependentArea id="main-area" stateSpace={mainMenu} part="main" useTokenMappings={true} />
                     <hr />
-                    <LocationDependentArea
-                        id="footer-area"
-                        stateSpace={mainMenu}
-                        fallback={defaultContent}
-                        part="bottom"
-                    />
+                    <LocationDependentArea id="footer-area" stateSpace={mainMenu} part="bottom" />
                 </Layout.Content>
             </Layout>
         );
