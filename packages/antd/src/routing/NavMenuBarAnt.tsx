@@ -132,13 +132,17 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         // AndD's Menu is smart enough to automatically indicate active state
         // on all groups, so we only ask for the leaves.
         const selectedMenuKeys = states.getActiveSubStateMenuKeys(true);
-        const { extras = [], style, mode, triggerSubMenuAction } = this.props;
+        const { extras = [], style, mode = 'horizontal', triggerSubMenuAction } = this.props;
+        const actualStyle: React.CSSProperties = { ...style };
+        if (mode === 'horizontal') {
+            actualStyle.width = '100%';
+        }
         return (
             <Menu
                 triggerSubMenuAction={triggerSubMenuAction}
                 selectedKeys={selectedMenuKeys}
-                mode={mode || 'horizontal'}
-                style={style}
+                mode={mode}
+                style={actualStyle}
             >
                 {states
                     .getFilteredSubStates({
