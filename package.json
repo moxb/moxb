@@ -63,7 +63,7 @@
 		"react-dom": "16.14.0",
 		"semantic-ui-react": "0.88.1",
 		"tslib": "2.2.0",
-		"urijs": "1.19.6",
+		"urijs": "1.19.8",
 		"uuid": "8.3.2"
 	}
 }
