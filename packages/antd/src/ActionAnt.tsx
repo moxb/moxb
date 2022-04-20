@@ -97,7 +97,10 @@ export class ActionSpanAnt extends React.Component<BindActionAntProps> {
 
 @observer
 export class ActionToggleButtonAnt extends React.Component<
-    { backgroundColor: string; labelColor: string } & BindAntProps<Bool>
+    {
+        backgroundColor: string;
+        labelColor: string;
+    } & BindAntProps<Bool>
 > {
     render() {
         const { operation, invisible, children, label, id, reason, backgroundColor, labelColor, ...props } = parseProps(
