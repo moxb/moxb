@@ -1,38 +1,41 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { Bind } from '../bind/Bind';
 import { t } from '../i18n/i18n';
 import { Confirm, ConfirmBase } from './Confirm';
 
 export interface ConfirmBaseOptions<T> {
     cancelButton: Bind;
-    content?(data: T): string;
-    header?(data: T): string;
+    content?(data: T | undefined): string;
+    header?(data: T | undefined): string;
     cancel?(): void;
 }
 
 export interface ConfirmOptions<T> extends ConfirmBaseOptions<T> {
     confirmButton: Bind;
-    confirm?(data: T): void;
+    confirm?(data: T | undefined): void;
 }
 
 export class ConfirmBaseImpl<T, C extends ConfirmBaseOptions<T>> implements ConfirmBase<T> {
-    @observable
     open = false;
-    @observable
-    protected data!: T;
+    protected data: T | undefined = undefined;
 
     protected readonly impl: C;
     constructor(impl: C) {
+        makeObservable<ConfirmBaseImpl<any, any>, 'data'>(this, {
+            open: observable,
+            data: observable,
+            show: action.bound,
+            onCancel: action.bound,
+        });
+
         this.impl = impl;
     }
 
-    @action.bound
     show(data: T) {
         this.data = data;
         this.open = true;
     }
 
-    @action.bound
     onCancel() {
         this.open = false;
         if (this.impl.cancel) {
@@ -66,9 +69,12 @@ export class ConfirmBaseImpl<T, C extends ConfirmBaseOptions<T>> implements Conf
 export class ConfirmImpl<T> extends ConfirmBaseImpl<T, ConfirmOptions<T>> implements Confirm<T> {
     constructor(impl: ConfirmOptions<T>) {
         super(impl);
+
+        makeObservable(this, {
+            onConfirm: action.bound,
+        });
     }
 
-    @action.bound
     onConfirm() {
         this.open = false;
         if (this.impl.confirm) {

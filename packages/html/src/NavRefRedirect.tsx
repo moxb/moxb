@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, makeObservable } from 'mobx';
 import { getNextPathToken, UsesLinkGenerator, Navigable, parseNavRef, UpdateMethod, UsesLocation } from '@moxb/moxb';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
@@ -17,38 +17,54 @@ import * as React from 'react';
  *  },
  *
  */
-@inject('locationManager', 'linkGenerator')
-@observer
-export class NavRefRedirect extends React.Component<UsesLocation & Navigable<any> & UsesLinkGenerator> {
-    @observable
-    private _failed = false;
+export const NavRefRedirect = inject(
+    'locationManager',
+    'linkGenerator'
+)(
+    observer(
+        class NavRefRedirect extends React.Component<UsesLocation & Navigable<any> & UsesLinkGenerator> {
+            _failed = false;
 
-    private _tryRedirect() {
-        this._failed = false;
-        try {
-            // Get the data out of the next path token
-            const stringForm = getNextPathToken(this.props);
+            constructor(props: UsesLocation & Navigable<any> & UsesLinkGenerator) {
+                super(props);
 
-            // Parse the base64 data into a NavRefCall data structure
-            const { navRef, tokens } = parseNavRef(stringForm);
+                makeObservable<NavRefRedirect, '_failed'>(this, {
+                    _failed: observable,
+                });
+            }
 
-            // Go to this NavRef
-            this.props.linkGenerator!.doGoTo(navRef.call(tokens), UpdateMethod.REPLACE);
-        } catch (e) {
-            this._failed = true;
-            console.log(e);
+            _tryRedirect() {
+                this._failed = false;
+                try {
+                    // Get the data out of the next path token
+                    const stringForm = getNextPathToken(this.props);
+
+                    // Parse the base64 data into a NavRefCall data structure
+                    const { navRef, tokens } = parseNavRef(stringForm);
+
+                    // Go to this NavRef
+                    this.props.linkGenerator!.doGoTo(navRef.call(tokens), UpdateMethod.REPLACE);
+                } catch (e) {
+                    this._failed = true;
+                    console.log(e);
+                }
+            }
+
+            componentDidMount() {
+                this._tryRedirect();
+            }
+
+            componentDidUpdate() {
+                this._tryRedirect();
+            }
+
+            render() {
+                return this._failed ? (
+                    <div>Oops! This redirect doesn't seem to be working.</div>
+                ) : (
+                    <div>Redirecting...</div>
+                );
+            }
         }
-    }
-
-    componentDidMount() {
-        this._tryRedirect();
-    }
-
-    componentDidUpdate() {
-        this._tryRedirect();
-    }
-
-    render() {
-        return this._failed ? <div>Oops! This redirect doesn't seem to be working.</div> : <div>Redirecting...</div>;
-    }
-}
+    )
+);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Popover, Spin, Alert } from 'antd';
-import { observable } from 'mobx';
+import { observable, makeObservable } from 'mobx';
 import { observer } from 'mobx-react';
 import { t } from '@moxb/moxb';
 import { renderUIFragment, UIFragment } from '@moxb/html';
@@ -48,110 +48,124 @@ interface PollingUpdaterProps {
  * There is a pop-up, which explains how much time is left till the next update.
  * Immediate update is also possible, when clicking on the content.
  */
-@observer
-export class PollingUpdaterAnt extends React.Component<PollingUpdaterProps> {
-    @observable protected _pending = false;
-    @observable protected _content: UIFragment | undefined;
-    @observable protected _failed = false;
-    @observable protected _errorMessage: string | undefined;
-    @observable protected _lastUpdate: number | undefined;
-    @observable protected _updateText: string | undefined;
+export const PollingUpdaterAnt = observer(
+    class PollingUpdaterAnt extends React.Component<PollingUpdaterProps> {
+        _pending = false;
+        _content: UIFragment | undefined;
+        _failed = false;
+        _errorMessage: string | undefined;
+        _lastUpdate: number | undefined;
+        _updateText: string | undefined;
 
-    protected _alive = false;
-    protected _polling: any;
-    protected _counter: any;
+        _alive = false;
+        _polling: any;
+        _counter: any;
 
-    protected _update() {
-        this._pending = true;
-        this._lastUpdate = Date.now();
-        this.props.operation.update((errorMessage, content) => {
-            this._pending = false;
-            this._errorMessage = errorMessage;
-            this._failed = !!errorMessage;
-            this._content = content;
-        });
-    }
-
-    /**
-     * Start the polling and time counter
-     */
-    protected _awaken() {
-        if (this._alive) {
-            return;
+        _update() {
+            this._pending = true;
+            this._lastUpdate = Date.now();
+            this.props.operation.update((errorMessage, content) => {
+                this._pending = false;
+                this._errorMessage = errorMessage;
+                this._failed = !!errorMessage;
+                this._content = content;
+            });
         }
-        const { updateFrequency } = this.props.operation;
-        this._alive = true;
-        this._update();
-        this._polling = setInterval(() => this._update(), updateFrequency * 1000);
-        this._counter = setInterval(() => {
-            const age = this._lastUpdate ? Math.round((Date.now() - this._lastUpdate) / 1000) : undefined;
-            this._updateText =
-                age !== undefined
-                    ? t(
-                          'pollingUpdater.updateAge.text',
-                          'Updated {{age}} seconds ago. Next update in {{left}} seconds.',
-                          { age, left: updateFrequency - age }
-                      )
-                    : t('pollingUpdater.neverLoaded', 'Never loaded.');
-        }, 1000);
-    }
 
-    /**
-     * Stop the polling and time counter
-     * @private
-     */
-    protected _ignore() {
-        if (!this._alive) {
-            return false;
+        /**
+         * Start the polling and time counter
+         */
+        _awaken() {
+            if (this._alive) {
+                return;
+            }
+            const { updateFrequency } = this.props.operation;
+            this._alive = true;
+            this._update();
+            this._polling = setInterval(() => this._update(), updateFrequency * 1000);
+            this._counter = setInterval(() => {
+                const age = this._lastUpdate ? Math.round((Date.now() - this._lastUpdate) / 1000) : undefined;
+                this._updateText =
+                    age !== undefined
+                        ? t(
+                              'pollingUpdater.updateAge.text',
+                              'Updated {{age}} seconds ago. Next update in {{left}} seconds.',
+                              { age, left: updateFrequency - age }
+                          )
+                        : t('pollingUpdater.neverLoaded', 'Never loaded.');
+            }, 1000);
         }
-        this._alive = false;
-        clearInterval(this._polling);
-        clearInterval(this._counter);
-    }
 
-    constructor(props: PollingUpdaterProps) {
-        super(props);
-        this._update = this._update.bind(this);
-    }
+        /**
+         * Stop the polling and time counter
+         * @private
+         */
+        _ignore() {
+            if (!this._alive) {
+                return false;
+            }
+            this._alive = false;
+            clearInterval(this._polling);
+            clearInterval(this._counter);
+        }
 
-    render() {
-        const { operation } = this.props;
-        const { title, noPopup, noUpdateOnClick } = operation;
+        constructor(props: PollingUpdaterProps) {
+            super(props);
 
-        const coreContent = this._failed ? (
-            <Alert message={this._errorMessage} type={'warning'} />
-        ) : (
-            <span onClick={noUpdateOnClick ? undefined : this._update}>
-                {renderUIFragment(this._content)} {this._pending && <Spin />}
-            </span>
-        );
-        const clickText = noUpdateOnClick
-            ? undefined
-            : this._lastUpdate
-            ? t('pollingUpdater.clickToUpdate', 'Click to update now.')
-            : t('pollingUpdater.clickToLoad', 'Click to load.');
-        return noPopup ? (
-            coreContent
-        ) : (
-            <Popover
-                content={
-                    <span>
-                        {this._updateText} {clickText}
-                    </span>
-                }
-                title={title}
-                trigger="hover"
-            >
-                {coreContent}
-            </Popover>
-        );
-    }
+            makeObservable<
+                PollingUpdaterAnt,
+                '_pending' | '_content' | '_failed' | '_errorMessage' | '_lastUpdate' | '_updateText'
+            >(this, {
+                _pending: observable,
+                _content: observable,
+                _failed: observable,
+                _errorMessage: observable,
+                _lastUpdate: observable,
+                _updateText: observable,
+            });
 
-    componentDidMount() {
-        this._awaken();
-    }
+            this._update = this._update.bind(this);
+        }
 
-    componentWillUnmount() {
-        this._ignore();
+        render() {
+            const { operation } = this.props;
+            const { title, noPopup, noUpdateOnClick } = operation;
+
+            const coreContent = this._failed ? (
+                <Alert message={this._errorMessage} type={'warning'} />
+            ) : (
+                <span onClick={noUpdateOnClick ? undefined : this._update}>
+                    {renderUIFragment(this._content)} {this._pending && <Spin />}
+                </span>
+            );
+            const clickText = noUpdateOnClick
+                ? undefined
+                : this._lastUpdate
+                ? t('pollingUpdater.clickToUpdate', 'Click to update now.')
+                : t('pollingUpdater.clickToLoad', 'Click to load.');
+            return noPopup ? (
+                coreContent
+            ) : (
+                <Popover
+                    content={
+                        <span>
+                            {this._updateText} {clickText}
+                        </span>
+                    }
+                    title={title}
+                    trigger="hover"
+                >
+                    {coreContent}
+                </Popover>
+            );
+        }
+
+        componentDidMount() {
+            this._awaken();
+        }
+
+        componentWillUnmount() {
+            this._ignore();
+        }
     }
-}
+);

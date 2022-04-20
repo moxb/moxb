@@ -1,5 +1,5 @@
 import { ShallowStructObservable } from '../ShallowStructObservable';
-import { autorun, observable, runInAction, toJS } from 'mobx';
+import { autorun, observable, runInAction, toJS, makeObservable } from 'mobx';
 
 describe('ShallowStructObservable', function () {
     interface Data {
@@ -30,8 +30,14 @@ describe('ShallowStructObservable reactiveness', function () {
         child?: Data;
     }
     class Store {
-        @observable.shallow
         _data = new ShallowStructObservable<Data>();
+
+        constructor() {
+            makeObservable(this, {
+                _data: observable.shallow
+            });
+        }
+
         get data() {
             return this._data.get();
         }

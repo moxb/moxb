@@ -11,8 +11,7 @@ export interface BindConfirmAntProps extends ModalFuncProps {
     invisible?: boolean;
 }
 
-@observer
-export class ConfirmAnt extends React.Component<BindConfirmAntProps> {
+export const ConfirmAnt = observer(class ConfirmAnt extends React.Component<BindConfirmAntProps> {
     render() {
         const { operation, ...props } = parseProps(this.props, this.props.operation);
         return (
@@ -29,4 +28,4 @@ export class ConfirmAnt extends React.Component<BindConfirmAntProps> {
             </Modal>
         );
     }
-}
+});

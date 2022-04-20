@@ -15,8 +15,7 @@ export interface FileUploadProps {
     operation: FileUpload;
 }
 
-@observer
-export class ButtonFileUploadAnt extends React.Component<FileUploadProps> {
+export const ButtonFileUploadAnt = observer(class ButtonFileUploadAnt extends React.Component<FileUploadProps> {
     componentDidMount() {
         this.props.operation.reset();
     }
@@ -105,7 +104,7 @@ export class ButtonFileUploadAnt extends React.Component<FileUploadProps> {
             </div>
         );
     }
-}
+});
 
 export class ButtonFileUploadFormAnt extends React.Component<BindFormItemAntProps & { operation: FileUpload }> {
     render() {
@@ -117,8 +116,7 @@ export class ButtonFileUploadFormAnt extends React.Component<BindFormItemAntProp
     }
 }
 
-@observer
-export class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
+export const DragAndDropFileUploadAnt = observer(class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
     componentDidMount() {
         this.props.operation.reset();
     }
@@ -224,7 +222,7 @@ export class DragAndDropFileUploadAnt extends React.Component<FileUploadProps> {
             </div>
         );
     }
-}
+});
 
 export class DragAndDropFileUploadFormAnt extends React.Component<BindFormItemAntProps & { operation: FileUpload }> {
     render() {
@@ -236,8 +234,7 @@ export class DragAndDropFileUploadFormAnt extends React.Component<BindFormItemAn
     }
 }
 
-@observer
-export class AreaFileUploadAnt extends React.Component<FileUploadProps> {
+export const AreaFileUploadAnt = observer(class AreaFileUploadAnt extends React.Component<FileUploadProps> {
     componentDidMount() {
         this.props.operation.reset();
     }
@@ -345,7 +342,7 @@ export class AreaFileUploadAnt extends React.Component<FileUploadProps> {
             </div>
         );
     }
-}
+});
 
 export class AreaFileUploadFormAnt extends React.Component<BindFormItemAntProps & { operation: FileUpload }> {
     render() {

@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { TablePagination } from './TablePagination';
 
 // ToDo: allow to specify pageSizes and default pageSize
@@ -10,14 +10,25 @@ export interface TablePaginationOptions {
 
 export class TablePaginationImpl implements TablePagination {
     private readonly impl: TablePaginationOptions;
-    @observable
     private _activePage = 1;
-    @observable
     pageSize = 10;
 
     _pageSizes = [10, 25, 50, 100];
 
     constructor(impl: TablePaginationOptions) {
+        makeObservable<TablePaginationImpl, "_activePage" | "activeSkipItems">(this, {
+            _activePage: observable,
+            pageSize: observable,
+            pageSizes: computed,
+            setActivePage: action.bound,
+            setPageSize: action.bound,
+            totalPages: computed,
+            activePage: computed,
+            totalAmount: computed,
+            filterOptions: computed,
+            activeSkipItems: computed
+        });
+
         this.impl = impl;
 
         if (impl.defaultPageSize) {
@@ -25,7 +36,6 @@ export class TablePaginationImpl implements TablePagination {
         }
     }
 
-    @computed
     get pageSizes() {
         if (this.impl.pageSizes) {
             return this.impl.pageSizes();
@@ -34,17 +44,14 @@ export class TablePaginationImpl implements TablePagination {
         }
     }
 
-    @action.bound
     setActivePage(activePage: number) {
         this._activePage = activePage;
     }
 
-    @action.bound
     setPageSize(pageSize: number) {
         this.pageSize = pageSize;
     }
 
-    @computed
     get totalPages() {
         if (this.pageSize <= 0) {
             return 1;
@@ -65,7 +72,6 @@ export class TablePaginationImpl implements TablePagination {
         return this.activePage > 1;
     }
 
-    @computed
     get activePage() {
         if (this._activePage < 1) {
             return 1;
@@ -76,12 +82,10 @@ export class TablePaginationImpl implements TablePagination {
         return this._activePage;
     }
 
-    @computed
     get totalAmount() {
         return this.impl.totalAmount();
     }
 
-    @computed
     get filterOptions() {
         return { skip: this.activeSkipItems, limit: this.pageSize };
     }
@@ -94,7 +98,6 @@ export class TablePaginationImpl implements TablePagination {
         return this.totalAmount > this.pageSizes[0];
     }
 
-    @computed
     private get activeSkipItems() {
         if (this.activePage === 1) {
             return 0;

@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { MyLocation, locationToUrl, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TokenManager } from '../TokenManager';
 import { Query } from '../url-schema/UrlSchema';
@@ -16,18 +16,23 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     public readonly defaultValue: T;
 
     public constructor(private readonly _tokenManager: TokenManager, definition: UrlArgDefinition<T>) {
+        makeObservable<UrlTokenImpl<any>, '_currentQuery'>(this, {
+            _currentQuery: computed,
+            defined: computed,
+            value: computed,
+            rawValue: computed,
+        });
+
         const { parser, valueType, key } = (this._def = definition);
         this._parser = parser || valueType.getParser(key);
         this.key = this._def.key;
         this.defaultValue = this._def.defaultValue;
     }
 
-    @computed
     private get _currentQuery() {
         return this._tokenManager.tokens;
     }
 
-    @computed
     public get defined() {
         return existsInQuery(this._currentQuery, this.key);
     }
@@ -38,7 +43,6 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
         return getFromQuery(query, this.key, this._parser, defaultValue);
     }
 
-    @computed
     public get value() {
         return this.getOnQuery(this._currentQuery);
     }
@@ -89,7 +93,6 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
         this.trySet(this._def.defaultValue, method, callback);
     }
 
-    @computed
     public get rawValue() {
         return this._currentQuery[this.key];
     }

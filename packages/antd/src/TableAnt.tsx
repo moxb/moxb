@@ -35,8 +35,7 @@ function toSortOrder(sortColumn: any): SortOrder | undefined {
     return sortColumn.sortDirection === 'ascending' ? 'ascend' : 'descend';
 }
 
-@observer
-export class TableAnt<T> extends React.Component<TableAntProps<T>> {
+export const TableAnt = observer(class TableAnt<T> extends React.Component<TableAntProps<T>> {
     constructor(props: TableAntProps<T>) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -117,4 +116,4 @@ export class TableAnt<T> extends React.Component<TableAntProps<T>> {
             </>
         );
     }
-}
+});

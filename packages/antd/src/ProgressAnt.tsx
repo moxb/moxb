@@ -6,8 +6,7 @@ import { BindAntProps, parseProps } from './BindAnt';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
-@observer
-export class ProgressAnt extends React.Component<BindAntProps<Progress>> {
+export const ProgressAnt = observer(class ProgressAnt extends React.Component<BindAntProps<Progress>> {
     render() {
         const { operation, invisible, children, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
@@ -27,20 +26,21 @@ export class ProgressAnt extends React.Component<BindAntProps<Progress>> {
             </PAnt>
         );
     }
-}
+});
 
-@observer
-export class ProgressFormAnt extends React.Component<BindAntProps<Progress> & Partial<FormItemProps>> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+export const ProgressFormAnt = observer(
+    class ProgressFormAnt extends React.Component<BindAntProps<Progress> & Partial<FormItemProps>> {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <ProgressAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
         }
-
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <ProgressAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);

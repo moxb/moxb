@@ -1,13 +1,18 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { SortColumn, SortDirection, TableSort } from './TableSort';
 
 export class TableSortImpl implements TableSort {
-    @observable
     sort: SortColumn[];
     constructor(sort?: SortColumn[]) {
+        makeObservable(this, {
+            sort: observable,
+            toggleSort: action.bound,
+            setSort: action.bound,
+            clearSort: action.bound
+        });
+
         this.sort = sort || [];
     }
-    @action.bound
     toggleSort(column: string, preferredSortDirection: SortDirection) {
         if (!preferredSortDirection) {
             return;
@@ -19,13 +24,11 @@ export class TableSortImpl implements TableSort {
         this.setSort(column, sortDirection);
     }
 
-    @action.bound
     setSort(column: string, sortDirection: SortDirection) {
         const sort = { column, sortDirection };
         this.sort = [sort, ...this.sort.filter((c) => c.column !== sort.column)];
     }
 
-    @action.bound
     clearSort() {
         this.sort = [];
     }

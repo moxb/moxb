@@ -28,28 +28,28 @@ interface RedirectProps {
     location?: MyLocation;
 }
 
-@inject('locationManager')
-@observer
-export class Redirect extends React.Component<UsesLocation & RedirectProps> {
-    public componentDidMount() {
-        const { locationManager, position = 0, to, updateMethod, pathSaveArg, location } = this.props;
-        if (location) {
-            locationManager!.doSetLocation(location, UpdateMethod.REPLACE);
-            return;
+export const Redirect = inject('locationManager')(
+    observer(class Redirect extends React.Component<UsesLocation & RedirectProps> {
+        public componentDidMount() {
+            const { locationManager, position = 0, to, updateMethod, pathSaveArg, location } = this.props;
+            if (location) {
+                locationManager!.doSetLocation(location, UpdateMethod.REPLACE);
+                return;
+            }
+            if (pathSaveArg) {
+                pathSaveArg.doSet(locationManager!.location);
+            }
+            if (to !== undefined) {
+                // An empty list is a valid input here, so we can't simply test for falsy
+                locationManager!.doSetPathTokens(position, to, updateMethod);
+            }
         }
-        if (pathSaveArg) {
-            pathSaveArg.doSet(locationManager!.location);
-        }
-        if (to !== undefined) {
-            // An empty list is a valid input here, so we can't simply test for falsy
-            locationManager!.doSetPathTokens(position, to, updateMethod);
-        }
-    }
 
-    render() {
-        return <div>Redirecting ... </div>;
-    }
-}
+        render() {
+            return <div>Redirecting ... </div>;
+        }
+    })
+);
 
 export const redirect = (props: RedirectProps) => <Redirect {...props} />;
 

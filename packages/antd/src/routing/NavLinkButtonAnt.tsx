@@ -18,81 +18,83 @@ export interface NavLinkButtonAntParams extends AnchorParams {
 
 export type NavLinkButtonAntProps = NavLinkButtonAntParams & CoreLinkProps;
 
-@inject('locationManager')
-@observer
-/**
- * A simple path-changing link component
- */
-export class NavLinkButtonAnt extends React.Component<NavLinkButtonAntProps & UsesLocation> {
-    public constructor(props: NavLinkButtonAntProps) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
+export const NavLinkButtonAnt = inject('locationManager')(
+    observer(
+        class /**
+         * A simple path-changing link component
+         */
+        NavLinkButtonAnt extends React.Component<NavLinkButtonAntProps & UsesLocation> {
+            public constructor(props: NavLinkButtonAntProps) {
+                super(props);
+                this._handleClick = this._handleClick.bind(this);
+            }
 
-    /**
-     * Calculate the location where these links should take us
-     */
-    protected getWantedLocation(): MyLocation {
-        const { position, to, argChanges, appendTokens, removeTokenCount, toRef } = this.props;
-        return this.props.locationManager!.getNewLocationForLinkProps({
-            position,
-            to,
-            argChanges,
-            appendTokens,
-            removeTokenCount,
-            toRef,
-        });
-    }
+            /**
+             * Calculate the location where these links should take us
+             */
+            _getWantedLocation(): MyLocation {
+                const { position, to, argChanges, appendTokens, removeTokenCount, toRef } = this.props;
+                return this.props.locationManager!.getNewLocationForLinkProps({
+                    position,
+                    to,
+                    argChanges,
+                    appendTokens,
+                    removeTokenCount,
+                    toRef,
+                });
+            }
 
-    protected handleClick() {
-        const { locationManager, disabled } = this.props;
-        if (!disabled) {
-            locationManager!.trySetLocation(this.getWantedLocation());
-        }
-    }
+            _handleClick() {
+                const { locationManager, disabled } = this.props;
+                if (!disabled) {
+                    locationManager!.trySetLocation(this._getWantedLocation());
+                }
+            }
 
-    public render() {
-        const { buttonProps: extraButtonProps = {}, children, ...remnants } = this.props;
-        const url = locationToUrl(this.getWantedLocation());
+            render() {
+                const { buttonProps: extraButtonProps = {}, children, ...remnants } = this.props;
+                const url = locationToUrl(this._getWantedLocation());
 
-        const { target } = this.props;
+                const { target } = this.props;
 
-        const { label, className, disabled, style, title } = remnants;
-        const buttonProps: ButtonProps = {
-            onClick: target ? undefined : this.handleClick,
-            className,
-            disabled,
-            title,
-            style,
-        };
-        if (target) {
-            // When the link target is set, we don't want to use a button for the navigation.
-            // Instead, we will use a real HTML link on the button, and let the browser
-            // handle the actual navigation step. (Which will open a new tab anyway.)
-            const { to, position, appendTokens, removeTokenCount, argChanges, toRef } = this.props;
-            return (
-                <Button data-testid={url} {...(extraButtonProps as any)} {...buttonProps}>
-                    <NavLink
-                        target={target}
-                        label={label}
-                        to={to}
-                        position={position}
-                        appendTokens={appendTokens}
-                        removeTokenCount={removeTokenCount}
-                        argChanges={argChanges}
-                        toRef={toRef}
-                        disabled={disabled}
-                    >
+                const { label, className, disabled, style, title } = remnants;
+                const buttonProps: ButtonProps = {
+                    onClick: target ? undefined : this._handleClick,
+                    className,
+                    disabled,
+                    title,
+                    style,
+                };
+                if (target) {
+                    // When the link target is set, we don't want to use a button for the navigation.
+                    // Instead, we will use a real HTML link on the button, and let the browser
+                    // handle the actual navigation step. (Which will open a new tab anyway.)
+                    const { to, position, appendTokens, removeTokenCount, argChanges, toRef } = this.props;
+                    return (
+                        <Button data-testid={url} {...(extraButtonProps as any)} {...buttonProps}>
+                            <NavLink
+                                target={target}
+                                label={label}
+                                to={to}
+                                position={position}
+                                appendTokens={appendTokens}
+                                removeTokenCount={removeTokenCount}
+                                argChanges={argChanges}
+                                toRef={toRef}
+                                disabled={disabled}
+                            >
+                                {children}
+                            </NavLink>
+                        </Button>
+                    );
+                }
+                return (
+                    <Button data-testid={url} {...(extraButtonProps as any)} {...buttonProps}>
+                        {label}
                         {children}
-                    </NavLink>
-                </Button>
-            );
+                    </Button>
+                );
+            }
         }
-        return (
-            <Button data-testid={url} {...(extraButtonProps as any)} {...buttonProps}>
-                {label}
-                {children}
-            </Button>
-        );
-    }
-}
+    )
+);

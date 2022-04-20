@@ -19,48 +19,49 @@ const SIZES = {
     fullscreen: '95% !important',
 };
 
-@observer
-export class ModalAnt<T, A extends ModalActions = ModalActions> extends React.Component<BindModalAntProps<T, A>> {
-    /*
-     * Ant Design has no concept for multiple actions in a modal dialog, it will always be an 'okButton' and
-     * a 'cancelButton', so we will warn the user, that not more actions are available.
-     * */
-    render() {
-        const { operation, children, footer, width, ...props } = this.props;
-        const size = this.props.width || SIZES[operation.size || 'default'];
+export const ModalAnt = observer(
+    class ModalAnt<T, A extends ModalActions = ModalActions> extends React.Component<BindModalAntProps<T, A>> {
+        /*
+         * Ant Design has no concept for multiple actions in a modal dialog, it will always be an 'okButton' and
+         * a 'cancelButton', so we will warn the user, that not more actions are available.
+         * */
+        render() {
+            const { operation, children, footer, width, ...props } = this.props;
+            const size = this.props.width || SIZES[operation.size || 'default'];
 
-        if (footer && operation.actions) {
+            if (footer && operation.actions) {
+                return (
+                    <Modal
+                        {...(props as any)}
+                        visible={operation.open}
+                        title={operation.header}
+                        onCancel={operation.actions.cancel.fire}
+                        footer={footer(operation.actions)}
+                        width={size}
+                    >
+                        {children}
+                    </Modal>
+                );
+            }
+
             return (
                 <Modal
                     {...(props as any)}
                     visible={operation.open}
-                    title={operation.header}
                     onCancel={operation.actions.cancel.fire}
-                    footer={footer(operation.actions)}
+                    cancelText={operation.actions.cancel.label}
+                    okText={operation.actions.confirm && operation.actions.confirm.label}
+                    okButtonProps={{
+                        disabled: !operation.actions.confirm?.enabled,
+                        title: operation.actions.confirm?.reason,
+                    }}
+                    onOk={operation.actions.confirm && operation.actions.confirm.fire}
+                    title={operation.header}
                     width={size}
                 >
                     {children}
                 </Modal>
             );
         }
-
-        return (
-            <Modal
-                {...(props as any)}
-                visible={operation.open}
-                onCancel={operation.actions.cancel.fire}
-                cancelText={operation.actions.cancel.label}
-                okText={operation.actions.confirm && operation.actions.confirm.label}
-                okButtonProps={{
-                    disabled: !operation.actions.confirm?.enabled,
-                    title: operation.actions.confirm?.reason,
-                }}
-                onOk={operation.actions.confirm && operation.actions.confirm.fire}
-                title={operation.header}
-                width={size}
-            >
-                {children}
-            </Modal>
-        );
     }
-}
+);

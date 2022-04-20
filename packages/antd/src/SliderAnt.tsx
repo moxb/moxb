@@ -9,57 +9,59 @@ export interface SliderAntProps extends BindAntProps<Numeric> {
     showNumber?: boolean;
 }
 
-@observer
-export class SliderAnt extends React.Component<SliderAntProps> {
-    protected renderSlider() {
-        const { operation } = this.props;
-        return (
-            <Slider
-                min={operation.min}
-                max={operation.max}
-                onChange={(value: number) => {
-                    if (isNaN(value)) {
-                        return;
-                    }
-                    operation.setValue(value);
-                    operation.onExitField();
-                }}
-                value={operation.value}
-                step={operation.step}
-            />
-        );
-    }
-
-    render() {
-        const { operation, invisible, showNumber = false, reason } = parseProps(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+export const SliderAnt = observer(
+    class SliderAnt extends React.Component<SliderAntProps> {
+        _renderSlider() {
+            const { operation } = this.props;
+            return (
+                <Slider
+                    min={operation.min}
+                    max={operation.max}
+                    onChange={(value: number) => {
+                        if (isNaN(value)) {
+                            return;
+                        }
+                        operation.setValue(value);
+                        operation.onExitField();
+                    }}
+                    value={operation.value}
+                    step={operation.step}
+                />
+            );
         }
-        const formatter = (value?: number | string) => (operation.unit ? `${value}${operation.unit}` : `${value}`);
-        return showNumber ? (
-            <Row title={reason}>
-                <Col span={2}>
-                    <span style={{ marginRight: '1em' }}>{formatter(operation.value)}</span>
-                </Col>
-                <Col span={22}>{this.renderSlider()}</Col>
-            </Row>
-        ) : (
-            this.renderSlider()
-        );
-    }
-}
 
-@observer
-export class SliderFormAnt extends React.Component<SliderAntProps & BindFormItemAntProps> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+        render() {
+            const { operation, invisible, showNumber = false, reason } = parseProps(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            const formatter = (value?: number | string) => (operation.unit ? `${value}${operation.unit}` : `${value}`);
+            return showNumber ? (
+                <Row title={reason}>
+                    <Col span={2}>
+                        <span style={{ marginRight: '1em' }}>{formatter(operation.value)}</span>
+                    </Col>
+                    <Col span={22}>{this._renderSlider()}</Col>
+                </Row>
+            ) : (
+                this._renderSlider()
+            );
         }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <SliderAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);
+
+export const SliderFormAnt = observer(
+    class SliderFormAnt extends React.Component<SliderAntProps & BindFormItemAntProps> {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <SliderAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
+        }
+    }
+);

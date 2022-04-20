@@ -1,5 +1,5 @@
 import * as moxb from '@moxb/moxb';
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { UrlStore } from '../store/UrlStore';
 import { ClickHandler, MemTable, MemTableData } from './MemTable';
 import { OneOf, OneOfImpl, TokenManager } from '@moxb/moxb';
@@ -93,7 +93,12 @@ function createData(n: number): MemTableData[] {
 }
 
 export class MemTableImpl implements MemTable {
-    constructor(private readonly url: UrlStore, private readonly tokenManager: TokenManager) {}
+    constructor(private readonly url: UrlStore, private readonly tokenManager: TokenManager) {
+        makeObservable<MemTableImpl, "rawData">(this, {
+            data: computed,
+            rawData: computed
+        });
+    }
 
     get groupId() {
         return this.url.groupId.value;
@@ -161,7 +166,6 @@ export class MemTableImpl implements MemTable {
             totalAmount: () => this.filteredData.length,
         }),
     });
-    @computed
     get data() {
         const data: MemTableData[] = this.table.sort.sortData(this.filteredData);
         return this.getCurrentPage(data);
@@ -169,7 +173,6 @@ export class MemTableImpl implements MemTable {
     private get filteredData() {
         return this.filter(this.rawData);
     }
-    @computed
     private get rawData() {
         return createData(this.rows.value || 0);
     }

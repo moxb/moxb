@@ -13,7 +13,7 @@ export interface Modal<T, A extends ModalActions = ModalActions> {
     /**
      * The data that is associated with the dialog
      */
-    readonly data: T;
+    readonly data: T | undefined;
     /**
      * is the dialog currently shown?
      */

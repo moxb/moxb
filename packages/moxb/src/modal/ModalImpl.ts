@@ -1,26 +1,30 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { Modal, ModalActions } from './Modal';
 
 export interface ModalOptions<T, A> {
-    header?(data: T): string;
-    actions(data: T): A;
+    header?(data: T | undefined): string;
+    actions(data: T | undefined): A;
     onOpen?(): void;
     onClose?(): void;
     size?: 'mini' | 'tiny' | 'small' | 'large' | 'fullscreen';
 }
 
 export class ModalImpl<T, A extends ModalActions = ModalActions> implements Modal<T, A> {
-    @observable
     open = false;
-    @observable
-    data!: T;
+    data: T | undefined = undefined;
     private readonly impl: ModalOptions<T, A>;
 
     constructor(impl: ModalOptions<T, A>) {
+        makeObservable(this, {
+            open: observable,
+            data: observable,
+            show: action.bound,
+            onClose: action.bound,
+        });
+
         this.impl = impl;
     }
 
-    @action.bound
     show(data: T) {
         this.data = data;
 
@@ -33,7 +37,6 @@ export class ModalImpl<T, A extends ModalActions = ModalActions> implements Moda
     close() {
         this.onClose();
     }
-    @action.bound
     onClose() {
         this.open = false;
         if (this.impl.onClose) {

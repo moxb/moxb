@@ -7,8 +7,7 @@ export interface BindConfirmUiProps extends ConfirmProps {
     confirm: MoxbConfirm<any>;
 }
 
-@observer
-export class ConfirmUi extends React.Component<BindConfirmUiProps> {
+export const ConfirmUi = observer(class ConfirmUi extends React.Component<BindConfirmUiProps> {
     render() {
         const { confirm, ...confirmProps } = this.props;
         const { confirmButton, cancelButton, onConfirm, onCancel } = confirm;
@@ -25,4 +24,4 @@ export class ConfirmUi extends React.Component<BindConfirmUiProps> {
             />
         );
     }
-}
+});

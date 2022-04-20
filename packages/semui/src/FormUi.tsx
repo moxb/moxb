@@ -9,8 +9,7 @@ export interface BindFormUiProps extends React.HTMLProps<HTMLFormElement> {
     hideErrors?: boolean;
 }
 
-@observer
-export class FormUi extends React.Component<FormProps & BindFormUiProps> {
+export const FormUi = observer(class FormUi extends React.Component<FormProps & BindFormUiProps> {
     render() {
         const { operation, children, invisible, hideErrors, ...props } = parseProps(this.props);
         if (invisible) {
@@ -35,4 +34,4 @@ export class FormUi extends React.Component<FormProps & BindFormUiProps> {
             </Form>
         );
     }
-}
+});

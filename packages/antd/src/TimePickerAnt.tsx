@@ -14,8 +14,7 @@ export interface BindTimePickerAntProps extends TimePickerProps {
     formStyle?: CSSProperties;
 }
 
-@observer
-export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
+export const TimePickerAnt = observer(class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
     render() {
         const { operation, invisible, reason, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
@@ -33,19 +32,20 @@ export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
             </span>
         );
     }
-}
+});
 
-@observer
-export class TimePickerFormAnt extends React.Component<BindTimePickerAntProps & Partial<FormItemProps>> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+export const TimePickerFormAnt = observer(
+    class TimePickerFormAnt extends React.Component<BindTimePickerAntProps & Partial<FormItemProps>> {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <TimePickerAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
         }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <TimePickerAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);

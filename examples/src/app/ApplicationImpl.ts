@@ -39,18 +39,15 @@ import {
     TreeImpl,
     TreeNode,
 } from '@moxb/moxb';
-import { action, observable, computed } from 'mobx';
+import { action, observable, computed, makeObservable } from 'mobx';
 import { Application, ApplicationAPI } from './Application';
 import { ApplicationMethods } from './ApplicationMethods';
 
 const moment = require('moment');
 
 export class ApplicationImpl implements Application {
-    @observable
     showCheckbox: boolean;
-    @observable
     manyChoices: any[];
-    @observable
     data: { _id: string; email: string; fullName: string; createdAt: string }[];
     readonly allChoices: BindOneOfChoice[];
     readonly treeChoices: TreeNode[];
@@ -116,7 +113,6 @@ export class ApplicationImpl implements Application {
         initialValue: () => this.defaultTreeChoices,
     });
 
-    @computed
     get testTreeSelection(): string {
         const { value } = this.testTree;
         return value === undefined ? 'undefined' : value.map((v) => '"' + v + '"').join(', ');
@@ -335,7 +331,6 @@ export class ApplicationImpl implements Application {
         ],
     });
 
-    @action
     testDateChange() {
         this.testDate.setValue(moment('2014-12-31T23:00:00.000Z'));
     }
@@ -350,6 +345,15 @@ export class ApplicationImpl implements Application {
     });
 
     constructor(private readonly api: ApplicationAPI = new ApplicationMethods()) {
+        makeObservable(this, {
+            showCheckbox: observable,
+            manyChoices: observable,
+            data: observable,
+            testTreeSelection: computed,
+            testDateChange: action,
+            setShowCheckbox: action.bound
+        });
+
         this.showCheckbox = false;
 
         this.manyChoices = [];
@@ -424,7 +428,6 @@ export class ApplicationImpl implements Application {
         });
     }
 
-    @action.bound
     setShowCheckbox(show: boolean) {
         this.showCheckbox = show;
     }

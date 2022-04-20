@@ -1,4 +1,4 @@
-import { action as mobxAction, computed, observable } from 'mobx';
+import { action as mobxAction, computed, observable, makeObservable } from 'mobx';
 import { StringOrFunction } from '../bind/BindImpl';
 import { t } from '../i18n/i18n';
 
@@ -103,16 +103,22 @@ class ShortcutAction {
 }
 
 export class KeyboardShortcutsManagerImpl implements KeyboardShortcutsManager {
-    @observable.shallow
     private readonly _shortcuts: KeyboardShortcutGroup[] = [];
     private readonly keyboardMap = new Map<string, ShortcutAction[]>();
     /**
      *
      * @param binder
      */
-    constructor(private readonly binder: ShortcutBinder) {}
+    constructor(private readonly binder: ShortcutBinder) {
+        makeObservable<KeyboardShortcutsManagerImpl, "_shortcuts">(this, {
+            _shortcuts: observable.shallow,
+            registerKeyboardShortcuts: mobxAction.bound,
+            unregisterKeyboardShortcuts: mobxAction.bound,
+            shortcuts: computed,
+            actionMd: computed
+        });
+    }
 
-    @mobxAction.bound
     registerKeyboardShortcuts(shortcuts: KeyboardShortcutGroup) {
         // re-registering shortcuts should move it to the front
         this.unregisterKeyboardShortcuts(shortcuts);
@@ -135,7 +141,6 @@ export class KeyboardShortcutsManagerImpl implements KeyboardShortcutsManager {
         });
     }
 
-    @mobxAction.bound
     unregisterKeyboardShortcuts(shortcuts: KeyboardShortcutGroup) {
         const index = this._shortcuts.indexOf(shortcuts);
         if (index >= 0) {
@@ -157,11 +162,9 @@ export class KeyboardShortcutsManagerImpl implements KeyboardShortcutsManager {
             });
         }
     }
-    @computed
     get shortcuts() {
         return this._shortcuts.slice();
     }
-    @computed
     get actionMd() {
         return this.shortcuts
             .slice()

@@ -9,8 +9,7 @@ export type ActionUiProps = BindUiProps<Action> &
         type?: 'button' | 'submit' | 'reset';
     };
 
-@observer
-export class ActionFormButtonUi extends React.Component<ActionUiProps> {
+export const ActionFormButtonUi = observer(class ActionFormButtonUi extends React.Component<ActionUiProps> {
     render() {
         const { operation, id, label, invisible, children, color, size, width, ...props } = parseProps(this.props);
         if (invisible || operation.invisible) {
@@ -30,10 +29,9 @@ export class ActionFormButtonUi extends React.Component<ActionUiProps> {
             </Form.Button>
         );
     }
-}
+});
 
-@observer
-export class ActionButtonUi extends React.Component<ActionUiProps> {
+export const ActionButtonUi = observer(class ActionButtonUi extends React.Component<ActionUiProps> {
     render() {
         const { operation, id, label, invisible, children, color, size, width, ...props } = parseProps(this.props);
         if (invisible || operation.invisible) {
@@ -54,19 +52,20 @@ export class ActionButtonUi extends React.Component<ActionUiProps> {
             </Button>
         );
     }
-}
-@observer
-export class ActionDropdownItemUi extends React.Component<BindUiProps<Action> & DropdownProps> {
-    render() {
-        const { operation, id, label, invisible, children, ...props } = parseProps(this.props);
-        if (invisible || operation.invisible) {
-            return null;
+});
+export const ActionDropdownItemUi = observer(
+    class ActionDropdownItemUi extends React.Component<BindUiProps<Action> & DropdownProps> {
+        render() {
+            const { operation, id, label, invisible, children, ...props } = parseProps(this.props);
+            if (invisible || operation.invisible) {
+                return null;
+            }
+            // color, size and width cause problems when in ...props
+            return (
+                <Dropdown.Item id={id} onClick={operation.fire} {...(props as any)}>
+                    {children || label}
+                </Dropdown.Item>
+            );
         }
-        // color, size and width cause problems when in ...props
-        return (
-            <Dropdown.Item id={id} onClick={operation.fire} {...(props as any)}>
-                {children || label}
-            </Dropdown.Item>
-        );
     }
-}
+);

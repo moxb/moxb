@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { Action } from '../action/Action';
 import { ActionImpl } from '../action/ActionImpl';
 import { BindImpl } from '../bind/BindImpl';
@@ -14,7 +14,6 @@ const KEY_CURRENT_STEP = '.wizard.stepId';
 export abstract class WizardImpl implements Wizard {
     readonly wizardId: string;
     readonly steps: WizardStep[];
-    @observable
     currentStep: WizardStep;
     readonly actionBack: Action;
     readonly actionCancel: Action;
@@ -23,6 +22,15 @@ export abstract class WizardImpl implements Wizard {
     private initialized = false;
 
     constructor(id: string, protected storage: Storage) {
+        makeObservable<WizardImpl, "setCurrentStep" | "currentStepIndex" | "prevStep" | "nextStep" | "resetDialog">(this, {
+            currentStep: observable,
+            setCurrentStep: action,
+            currentStepIndex: computed,
+            prevStep: computed,
+            nextStep: computed,
+            resetDialog: action
+        });
+
         this.wizardId = id;
         this.steps = this.createSteps();
         this.actionBack = new ActionImpl({
@@ -69,7 +77,6 @@ export abstract class WizardImpl implements Wizard {
 
     protected abstract createSteps(): WizardStep[];
 
-    @action
     private setCurrentStep(step: WizardStep | undefined) {
         if (this.currentStep) {
             this.currentStep.afterNext();
@@ -94,12 +101,10 @@ export abstract class WizardImpl implements Wizard {
         this.storage.setItem(this.wizardId + KEY_CURRENT_STEP, step.id);
     }
 
-    @computed
     private get currentStepIndex() {
         return this.steps.indexOf(this.currentStep);
     }
 
-    @computed
     private get prevStep(): WizardStep | undefined {
         const prevIndex = this.currentStepIndex - 1;
         if (prevIndex < 0) {
@@ -108,7 +113,6 @@ export abstract class WizardImpl implements Wizard {
         return this.steps[prevIndex];
     }
 
-    @computed
     private get nextStep(): WizardStep | undefined {
         if (!this.initialized) {
             console.error('Wizard not initialzed!');
@@ -134,7 +138,6 @@ export abstract class WizardImpl implements Wizard {
         this.resetDialog();
     }
 
-    @action
     protected resetDialog() {
         this.storage.removeItem(this.wizardId + KEY_CURRENT_STEP);
         this.currentStep = this.steps[0];

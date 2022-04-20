@@ -10,8 +10,7 @@ export interface TableUiProps extends TableProps {
     hideHeader?: boolean;
 }
 
-@observer
-export class TableUi extends React.Component<TableUiProps> {
+export const TableUi = observer(class TableUi extends React.Component<TableUiProps> {
     render() {
         const { children, table, hideHeader, ...tableProps } = this.props;
         return (
@@ -37,4 +36,4 @@ export class TableUi extends React.Component<TableUiProps> {
             </Table>
         );
     }
-}
+});

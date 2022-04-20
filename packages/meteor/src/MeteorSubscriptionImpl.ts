@@ -1,23 +1,37 @@
 import { Tracker } from 'meteor/tracker';
-import { action, autorun, IReactionDisposer, observable, onBecomeObserved, onBecomeUnobserved } from 'mobx';
+import {
+    action,
+    autorun,
+    IReactionDisposer,
+    observable,
+    onBecomeObserved,
+    onBecomeUnobserved,
+    makeObservable,
+} from 'mobx';
 import { meteorAutorun } from './MeteorDependencies';
 import { MeteorSubscription } from './MeteorSubscription';
 import { extractErrorString } from '@moxb/moxb';
 
 export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
-    @observable
     private nSubscriptions = 0;
-    @observable
     private _isSubscriptionReady = false;
-    @observable
     private _hasFailed = false;
-    @observable
     private _errors: any[] = [];
 
     private subscriptionTracker?: Tracker.Computation;
     private mobxAutoRun?: IReactionDisposer;
     private timeoutHandle: any;
     constructor() {
+        makeObservable<MeteorSubscriptionImpl, "nSubscriptions" | "_isSubscriptionReady" | "_hasFailed" | "_errors" | "subscribe" | "unsubscribe" | "setSubscriptionReady">(this, {
+            nSubscriptions: observable,
+            _isSubscriptionReady: observable,
+            _hasFailed: observable,
+            _errors: observable,
+            subscribe: action.bound,
+            unsubscribe: action.bound,
+            setSubscriptionReady: action.bound
+        });
+
         onBecomeObserved(this, '_isSubscriptionReady', () => {
             // console.log('subscribe=', this.constructor.name);
             this.subscribe();
@@ -75,7 +89,6 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         return Meteor.subscribe(publicationName, ...args, { onStop: this._fail });
     }
 
-    @action.bound
     private subscribe() {
         this._errors = [];
         this._hasFailed = false;
@@ -103,7 +116,6 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         }
     }
 
-    @action.bound
     private unsubscribe() {
         this.nSubscriptions--;
         // console.log('unsubscribe=', JSON.stringify({nSubscriptions:this.nSubscriptions,clazz:this.constructor.name}, null, 2));
@@ -124,7 +136,6 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         }
     }
 
-    @action.bound
     private setSubscriptionReady(isReady: boolean) {
         this._isSubscriptionReady = isReady;
     }

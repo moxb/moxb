@@ -10,8 +10,7 @@ export interface BindFormAntProps extends React.HTMLProps<HTMLFormElement> {
     hideErrors?: boolean;
 }
 
-@observer
-export class FormAnt extends React.Component<FormProps & BindFormAntProps> {
+export const FormAnt = observer(class FormAnt extends React.Component<FormProps & BindFormAntProps> {
     render() {
         const { operation, children, invisible, hideErrors, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
@@ -33,4 +32,4 @@ export class FormAnt extends React.Component<FormProps & BindFormAntProps> {
             </Form>
         );
     }
-}
+});

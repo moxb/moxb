@@ -4,7 +4,7 @@ import { DropDownProps } from 'antd/lib/dropdown';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { RadioGroupProps, RadioProps } from 'antd/lib/radio';
 import DownOutlined from '@ant-design/icons/DownOutlined';
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { BindAntProps, labelWithHelpIndicator, parseProps } from './BindAnt';
@@ -28,54 +28,54 @@ export interface OneOfAntProps {
     breakAfter?: number;
 }
 
-@observer
-export class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps & OneOfAntProps> {
-    render() {
-        const { operation, invisible, vertical, breakAfter, reason, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
-        if (invisible) {
-            return null;
-        }
-        const radioStyle: React.CSSProperties = {};
-        if (vertical) {
-            radioStyle.display = 'block';
-        }
-        const elements: JSX.Element[] = [];
-        operation.choices.forEach((opt, index) => {
-            elements.push(
-                <span key={opt.value} title={reason || opt.reason || opt.help}>
-                    <Radio
-                        data-testid={idToDomId(operation.id + '.' + opt.value)}
-                        key={opt.value}
-                        value={opt.value}
-                        style={radioStyle}
-                        disabled={opt.disabled}
-                    >
-                        {opt.widget ? opt.widget : labelWithHelpIndicator(opt.label, opt.help)}
-                    </Radio>
-                </span>
+export const OneOfAnt = observer(
+    class OneOfAnt extends React.Component<BindAntProps<OneOf> & RadioProps & RadioGroupProps & OneOfAntProps> {
+        render() {
+            const { operation, invisible, vertical, breakAfter, reason, ...props } = parseProps(
+                this.props,
+                this.props.operation
             );
-            if (!!breakAfter && !((index + 1) % breakAfter)) {
-                elements.push(<br key={'after-' + index} />);
+            if (invisible) {
+                return null;
             }
-        });
-        return (
-            <Radio.Group
-                data-testid={idToDomId(operation.id)}
-                onChange={(e) => operation.setValue(e.target.value)}
-                {...props}
-                value={operation.value}
-            >
-                {elements}
-            </Radio.Group>
-        );
+            const radioStyle: React.CSSProperties = {};
+            if (vertical) {
+                radioStyle.display = 'block';
+            }
+            const elements: JSX.Element[] = [];
+            operation.choices.forEach((opt, index) => {
+                elements.push(
+                    <span key={opt.value} title={reason || opt.reason || opt.help}>
+                        <Radio
+                            data-testid={idToDomId(operation.id + '.' + opt.value)}
+                            key={opt.value}
+                            value={opt.value}
+                            style={radioStyle}
+                            disabled={opt.disabled}
+                        >
+                            {opt.widget ? opt.widget : labelWithHelpIndicator(opt.label, opt.help)}
+                        </Radio>
+                    </span>
+                );
+                if (!!breakAfter && !((index + 1) % breakAfter)) {
+                    elements.push(<br key={'after-' + index} />);
+                }
+            });
+            return (
+                <Radio.Group
+                    data-testid={idToDomId(operation.id)}
+                    onChange={(e) => operation.setValue(e.target.value)}
+                    {...props}
+                    value={operation.value}
+                >
+                    {elements}
+                </Radio.Group>
+            );
+        }
     }
-}
+);
 
-@observer
-export class OneOfFormAnt extends React.Component<
+export const OneOfFormAnt = observer(class OneOfFormAnt extends React.Component<
     BindAntProps<OneOf> & RadioProps & Partial<FormItemProps> & OneOfAntProps
 > {
     render() {
@@ -89,7 +89,7 @@ export class OneOfFormAnt extends React.Component<
             </FormItemAnt>
         );
     }
-}
+});
 
 export interface OneOfButtonAntProps {
     /**
@@ -100,8 +100,7 @@ export interface OneOfButtonAntProps {
     breakAfter?: number;
 }
 
-@observer
-export class OneOfButtonAnt extends React.Component<
+export const OneOfButtonAnt = observer(class OneOfButtonAnt extends React.Component<
     BindAntProps<OneOf> & RadioProps & RadioGroupProps & OneOfButtonAntProps
 > {
     render() {
@@ -145,10 +144,9 @@ export class OneOfButtonAnt extends React.Component<
             </Radio.Group>
         );
     }
-}
+});
 
-@observer
-export class OneOfButtonFormAnt extends React.Component<
+export const OneOfButtonFormAnt = observer(class OneOfButtonFormAnt extends React.Component<
     BindAntProps<OneOf> & RadioProps & RadioGroupProps & Partial<FormItemProps> & OneOfButtonAntProps
 > {
     render() {
@@ -162,13 +160,21 @@ export class OneOfButtonFormAnt extends React.Component<
             </FormItemAnt>
         );
     }
-}
+});
 
-@observer
-export class OneOfDropDownAnt extends React.Component<
+export const OneOfDropDownAnt = observer(class OneOfDropDownAnt extends React.Component<
     BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'> & { style?: React.CSSProperties }
 > {
-    @action.bound
+    constructor(
+        props: BindAntProps<OneOf> & Omit<DropDownProps, 'overlay'> & { style?: React.CSSProperties }
+    ) {
+        super(props);
+
+        makeObservable(this, {
+            onSelect: action.bound
+        });
+    }
+
     onSelect(params: MenuInfo) {
         const { operation } = this.props;
 
@@ -233,10 +239,9 @@ export class OneOfDropDownAnt extends React.Component<
             </Dropdown>
         );
     }
-}
+});
 
-@observer
-export class OneOfDropDownFormAnt extends React.Component<
+export const OneOfDropDownFormAnt = observer(class OneOfDropDownFormAnt extends React.Component<
     BindAntProps<OneOf> & BindFormItemAntProps & Omit<DropDownProps, 'overlay'>
 > {
     render() {
@@ -250,53 +255,53 @@ export class OneOfDropDownFormAnt extends React.Component<
             </FormItemAnt>
         );
     }
-}
+});
 
-@observer
-export class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & SelectProps<any>> {
-    render() {
-        const { operation, invisible, readOnly, mode, reason, ...props } = parseProps(this.props, this.props.operation);
-        if (invisible) {
-            return null;
-        }
-        if (readOnly) {
-            return <span data-testid={operation.id}>{operation.choice}</span>;
-        }
+export const OneOfSelectAnt = observer(
+    class OneOfSelectAnt extends React.Component<BindAntProps<OneOf> & SelectProps<any>> {
+        render() {
+            const { operation, invisible, readOnly, mode, reason, ...props } = parseProps(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            if (readOnly) {
+                return <span data-testid={operation.id}>{operation.choice}</span>;
+            }
 
-        return (
-            <span title={reason}>
-                <Select
-                    data-testid={operation.id}
-                    onChange={(selectionValue: any) => operation.setValue(selectionValue)}
-                    value={operation.value || undefined}
-                    placeholder={operation.placeholder}
-                    mode={mode}
-                    {...props}
-                >
-                    {operation.choices.map((opt) => (
-                        <Select.Option
-                            data-testid={idToDomId(operation.id + '.' + opt.value)}
-                            key={opt.value}
-                            value={opt.value}
-                            disabled={opt.disabled}
-                            title={opt.reason || opt.help}
-                        >
-                            {opt.widget ? opt.widget : labelWithHelpIndicator(opt.label, opt.help)}
-                        </Select.Option>
-                    ))}
-                </Select>
-            </span>
-        );
+            return (
+                <span title={reason}>
+                    <Select
+                        data-testid={operation.id}
+                        onChange={(selectionValue: any) => operation.setValue(selectionValue)}
+                        value={operation.value || undefined}
+                        placeholder={operation.placeholder}
+                        mode={mode}
+                        {...props}
+                    >
+                        {operation.choices.map((opt) => (
+                            <Select.Option
+                                data-testid={idToDomId(operation.id + '.' + opt.value)}
+                                key={opt.value}
+                                value={opt.value}
+                                disabled={opt.disabled}
+                                title={opt.reason || opt.help}
+                            >
+                                {opt.widget ? opt.widget : labelWithHelpIndicator(opt.label, opt.help)}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                </span>
+            );
+        }
     }
-}
+);
 
 interface OneOfSearchableSelectAntState<T = string> {
     value?: string;
     data: BindOneOfChoice<T>[];
 }
 
-@observer
-export class OneOfSearchableSelectAnt extends React.Component<
+export const OneOfSearchableSelectAnt = observer(class OneOfSearchableSelectAnt extends React.Component<
     BindAntProps<OneOf> & SelectProps<any>,
     OneOfSearchableSelectAntState<any>
 > {
@@ -343,25 +348,25 @@ export class OneOfSearchableSelectAnt extends React.Component<
             </span>
         );
     }
-}
+});
 
-@observer
-export class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & BindFormItemAntProps & SelectProps<any>> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+export const OneOfSelectFormAnt = observer(
+    class OneOfSelectFormAnt extends React.Component<BindAntProps<OneOf> & BindFormItemAntProps & SelectProps<any>> {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <OneOfSelectAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
         }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <OneOfSelectAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);
 
-@observer
-export class OneOfSearchableSelectFormAnt extends React.Component<
+export const OneOfSearchableSelectFormAnt = observer(class OneOfSearchableSelectFormAnt extends React.Component<
     BindAntProps<OneOf> & BindFormItemAntProps & SelectProps<any>
 > {
     render() {
@@ -375,4 +380,4 @@ export class OneOfSearchableSelectFormAnt extends React.Component<
             </FormItemAnt>
         );
     }
-}
+});

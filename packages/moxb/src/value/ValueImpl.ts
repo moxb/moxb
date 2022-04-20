@@ -1,4 +1,4 @@
-import { action, comparer, computed, observable } from 'mobx';
+import { action, comparer, computed, observable, makeObservable } from 'mobx';
 import { BindImpl, BindOptions, getValueOrFunction, StringOrFunction, ValueOrFunction } from '../bind/BindImpl';
 import { t } from '../i18n/i18n';
 import { extractErrorString } from '../validation/ErrorMessage';
@@ -80,13 +80,29 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
     /**
      * default value impl
      */
-    @observable
-    _value?: T | undefined;
-    @observable
+    _value: T | undefined;
     _isSaving = false;
 
     constructor(impl: Options) {
         super(impl);
+
+        makeObservable<ValueImpl<any, any, any>, 'saveDone'>(this, {
+            _value: observable,
+            _isSaving: observable,
+            inputType: computed,
+            value: computed,
+            placeholder: computed,
+            required: computed,
+            isGiven: computed,
+            setValue: action.bound,
+            isInitialValue: computed,
+            resetToInitialValue: action.bound,
+            save: action.bound,
+            saveDone: action.bound,
+            onEnterField: action.bound,
+            onExitField: action.bound,
+        });
+
         if (!!this.impl.setValue !== !!this.impl.getValue) {
             throw new Error('getValue and setValue must both be specified or none!');
         }
@@ -108,12 +124,10 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
     private getInitialValue(): T | undefined {
         return getValueOrFunction(this.impl.initialValue);
     }
-    @computed
     get inputType() {
         return this.impl.inputType;
     }
 
-    @computed
     get value(): T | undefined {
         return this.doGetValue();
     }
@@ -133,7 +147,6 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         return this.getInitialValue();
     }
 
-    @computed
     get placeholder() {
         return this.doPlaceholder();
     }
@@ -148,18 +161,15 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         return undefined;
     }
 
-    @computed
     get required() {
         return this.impl.required;
     }
 
-    @computed
     get isGiven() {
         const testFunction = this.impl.isGiven || defaultIsGivenFunction;
         return testFunction(this.value);
     }
 
-    @action.bound
     setValue(value: T) {
         if (this.impl.onSetValue) {
             value = this.impl.onSetValue(value, this as any);
@@ -186,7 +196,6 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         }
     }
 
-    @computed
     get isInitialValue() {
         if (this.impl.initialValue === undefined) {
             return undefined;
@@ -206,7 +215,6 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         }
         return comparer.structural(a, b);
     }
-    @action.bound
     resetToInitialValue() {
         if (this.impl.setValue) {
             if (!this.impl.resetToInitialValue) {
@@ -218,7 +226,6 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         this._value = undefined;
     }
 
-    @action.bound
     save() {
         if (this.impl.required && !this.isGiven) {
             this.setError(t('ValueImpl.error.required', 'This field is required and must be set'));
@@ -228,7 +235,6 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
             this.impl.onSave(this as any, this.saveDone);
         }
     }
-    @action.bound
     private saveDone(error: any) {
         if (error) {
             this.setError(extractErrorString(error));
@@ -240,14 +246,12 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
     get isSaving() {
         return this._isSaving;
     }
-    @action.bound
     onEnterField() {
         if (this.impl.onEnterField) {
             this.impl.onEnterField(this as any);
         }
     }
 
-    @action.bound
     onExitField() {
         if (this.impl.onExitField) {
             this.impl.onExitField(this as any);

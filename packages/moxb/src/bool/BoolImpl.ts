@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { StringOrFunction } from '../bind/BindImpl';
 import { t } from '../i18n/i18n';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
@@ -20,12 +20,15 @@ export interface BoolOptions extends ValueOptions<BoolImpl, boolean> {
 export class BoolImpl extends ValueImpl<BoolImpl, boolean, BoolOptions> implements Bool {
     constructor(impl: BoolOptions) {
         super(impl);
+
+        makeObservable(this, {
+            labelToggle: computed
+        });
     }
 
     toggle() {
         this.setValue(!this.value);
     }
-    @computed
     get labelToggle() {
         return this.getLabelToggle();
     }

@@ -1,11 +1,16 @@
-import { observable } from 'mobx';
+import { observable, makeObservable } from 'mobx';
 import { AnyUrlArgImpl, UrlArgBackend } from './AnyUrlArgImpl';
 import { UrlArg, UrlArgDefinition } from './UrlArg';
 import { SuccessCallback, TestLocation } from '../location-manager/LocationManager';
 
 class MiniStore implements UrlArgBackend {
-    @observable
     raw: string | undefined;
+
+    constructor() {
+        makeObservable(this, {
+            raw: observable
+        });
+    }
 
     get rawValue(): string | undefined {
         return this.raw;

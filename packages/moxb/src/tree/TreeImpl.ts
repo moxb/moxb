@@ -1,7 +1,7 @@
 import { Tree, TreeNode } from './Tree';
 import { ValueOrFunction } from '../bind/BindImpl';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 
 export interface TreeOptions extends ValueOptions<TreeImpl, string[]> {
     nodes?: ValueOrFunction<TreeNode[]>;
@@ -12,9 +12,14 @@ export interface TreeOptions extends ValueOptions<TreeImpl, string[]> {
 export class TreeImpl extends ValueImpl<TreeImpl, string[], TreeOptions> implements Tree {
     constructor(impl: TreeOptions) {
         super(impl);
+
+        makeObservable(this, {
+            nodes: computed,
+            expandValues: computed,
+            strictSelect: computed
+        });
     }
 
-    @computed
     get nodes(): TreeNode[] {
         if (typeof this.impl.nodes === 'function') {
             return this.impl.nodes() || [];
@@ -23,7 +28,6 @@ export class TreeImpl extends ValueImpl<TreeImpl, string[], TreeOptions> impleme
         }
     }
 
-    @computed
     get expandValues(): boolean {
         if (typeof this.impl.expandValues === 'function') {
             return this.impl.expandValues() || false;
@@ -32,7 +36,6 @@ export class TreeImpl extends ValueImpl<TreeImpl, string[], TreeOptions> impleme
         }
     }
 
-    @computed
     get strictSelect(): boolean {
         if (typeof this.impl.strictSelect === 'function') {
             return this.impl.strictSelect() || false;

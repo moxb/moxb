@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { ValueOrFunction } from '../bind/BindImpl';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { BindOneOfChoice, OneOf } from './OneOf';
@@ -9,14 +9,20 @@ export interface OneOfOptions<T> extends ValueOptions<OneOfImpl<T>, T> {
 }
 
 export class OneOfImpl<T = string> extends ValueImpl<OneOfImpl<T>, T, OneOfOptions<T>> implements OneOf<T> {
-    @observable
     _search?: string;
 
     constructor(impl: OneOfOptions<T>) {
         super(impl);
+
+        makeObservable(this, {
+            _search: observable,
+            choices: computed,
+            choice: computed,
+            searchData: action.bound,
+            filteredChoices: computed
+        });
     }
 
-    @computed
     get choices(): BindOneOfChoice<T>[] {
         if (typeof this.impl.choices === 'function') {
             return this.impl.choices() || [];
@@ -25,18 +31,15 @@ export class OneOfImpl<T = string> extends ValueImpl<OneOfImpl<T>, T, OneOfOptio
         }
     }
 
-    @computed
     get choice(): string | undefined {
         const choice = this.choices.find((c) => c.value === this.value);
         return choice ? choice.label : undefined;
     }
 
-    @action.bound
     searchData(value: string): void {
         this._search = value;
     }
 
-    @computed
     get filteredChoices(): BindOneOfChoice<T>[] {
         if (this._search && this.impl.searchData) {
             return this.impl.searchData(this._search);

@@ -1,4 +1,4 @@
-import { action, comparer, observable } from 'mobx';
+import { action, comparer, observable, makeObservable } from 'mobx';
 
 /**
  * This class provides an observable that tracks attributes at the top level. Similar to the meteor mini mongo:
@@ -47,8 +47,14 @@ import { action, comparer, observable } from 'mobx';
  */
 export class ShallowStructObservable<T extends { [index: string]: any }> {
     // we use shallow to trigger updates if an attribute changes
-    @observable.shallow
     private _value?: T;
+
+    constructor() {
+        makeObservable<ShallowStructObservable<any>, '_value'>(this, {
+            _value: observable.shallow,
+            set: action,
+        });
+    }
 
     /**
      * Assign a new version of the value.
@@ -57,7 +63,6 @@ export class ShallowStructObservable<T extends { [index: string]: any }> {
      *
      * @param value
      */
-    @action
     set(value: T | undefined) {
         if (this._value === undefined) {
             this._value = value;

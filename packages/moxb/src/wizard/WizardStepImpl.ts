@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { t } from '../i18n/i18n';
 import { Wizard } from './Wizard';
 import { WizardStep } from './WizardStep';
@@ -28,6 +28,13 @@ export class WizardStepImpl implements WizardStep {
     private readonly isComplete?: () => boolean;
 
     constructor(wizard: Wizard, id: string, private readonly settings: WizardStepOptions) {
+        makeObservable(this, {
+            active: computed,
+            completed: computed,
+            isStepComplete: computed,
+            disabled: computed
+        });
+
         this.wizard = wizard;
         this.id = id;
         this._title = settings.title;
@@ -59,17 +66,14 @@ export class WizardStepImpl implements WizardStep {
         return t(`${this.wizard.wizardId}.${this.id}.description`, this._description || '');
     }
 
-    @computed
     get active(): boolean {
         return this === this.wizard.currentStep;
     }
 
-    @computed
     get completed(): boolean {
         return this.wizard.steps.indexOf(this) < this.wizard.steps.indexOf(this.wizard.currentStep);
     }
 
-    @computed
     get isStepComplete() {
         if (this.isComplete) {
             return this.isComplete();
@@ -77,7 +81,6 @@ export class WizardStepImpl implements WizardStep {
         return true;
     }
 
-    @computed
     get disabled(): boolean {
         return !this.active && !this.completed;
     }

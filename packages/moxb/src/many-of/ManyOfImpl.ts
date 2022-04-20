@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { ValueOrFunction } from '../bind/BindImpl';
 import { BindOneOfChoice } from '../one-of/OneOf';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
@@ -14,9 +14,12 @@ export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl<T>, T[], ManyOf
             valueCompareFunction: (a, b) => a.sort().toString() === b.sort().toString(),
             ...impl,
         });
+
+        makeObservable(this, {
+            choices: computed
+        });
     }
 
-    @computed
     get choices(): BindManyOfChoice<T>[] {
         if (typeof this.impl.choices === 'function') {
             return this.impl.choices() || [];

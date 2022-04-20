@@ -16,39 +16,41 @@ interface BindDateRangePickerAntBasicProps {
 
 export type BindDateRangePickerAntProps = BindDateRangePickerAntBasicProps & RangePickerProps;
 
-@observer
-export class DateRangePickerAnt extends React.Component<BindDateRangePickerAntProps> {
-    render() {
-        const { operation, invisible, reason, ...props } = parseProps(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+export const DateRangePickerAnt = observer(
+    class DateRangePickerAnt extends React.Component<BindDateRangePickerAntProps> {
+        render() {
+            const { operation, invisible, reason, ...props } = parseProps(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            return (
+                <span title={reason}>
+                    <DatePicker.RangePicker
+                        data-testid={operation.id}
+                        placeholder={operation.placeholder}
+                        value={operation.value}
+                        onChange={(date: [moment.Moment, moment.Moment], _dateString: string) => operation.setValue(date)}
+                        ranges={operation.ranges}
+                        {...(props as any)}
+                    />
+                </span>
+            );
         }
-        return (
-            <span title={reason}>
-                <DatePicker.RangePicker
-                    data-testid={operation.id}
-                    placeholder={operation.placeholder}
-                    value={operation.value}
-                    onChange={(date: [moment.Moment, moment.Moment], _dateString: string) => operation.setValue(date)}
-                    ranges={operation.ranges}
-                    {...(props as any)}
-                />
-            </span>
-        );
     }
-}
+);
 
-@observer
-export class DateRangePickerFormAnt extends React.Component<BindDateRangePickerAntProps & Partial<FormItemProps>> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+export const DateRangePickerFormAnt = observer(
+    class DateRangePickerFormAnt extends React.Component<BindDateRangePickerAntProps & Partial<FormItemProps>> {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <DateRangePickerAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
         }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <DateRangePickerAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);

@@ -1,4 +1,4 @@
-import { action, computed } from 'mobx';
+import { action, computed, makeObservable } from 'mobx';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Action } from './Action';
 
@@ -11,6 +11,11 @@ export interface ActionOptions extends BindOptions {
 export class ActionImpl extends BindImpl<ActionOptions> implements Action {
     constructor(impl: ActionOptions) {
         super(impl);
+
+        makeObservable(this, {
+            keyboardShortcuts: computed,
+            firePromise: action.bound
+        });
     }
 
     protected getPending() {
@@ -21,7 +26,6 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
         return this.getPending();
     }
 
-    @computed
     get keyboardShortcuts() {
         if (!this.impl.keyboardShortcuts) {
             return [];
@@ -32,7 +36,6 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
         return this.impl.keyboardShortcuts;
     }
 
-    @action.bound
     firePromise() {
         return new Promise<void>((resolve, reject) => {
             if (this.enabled) {

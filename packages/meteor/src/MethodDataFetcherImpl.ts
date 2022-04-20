@@ -1,4 +1,13 @@
-import { action, autorun, computed, IReactionDisposer, observable, onBecomeObserved, onBecomeUnobserved } from 'mobx';
+import {
+    action,
+    autorun,
+    computed,
+    IReactionDisposer,
+    observable,
+    onBecomeObserved,
+    onBecomeUnobserved,
+    makeObservable,
+} from 'mobx';
 import { MeteorDataFetcher, MeteorDataFetcherDone, MeteorDataFetcherFunction } from './MeteorDataFetcher';
 
 /**
@@ -29,24 +38,29 @@ class CancelableDone<D> {
 export abstract class MethodDataFetcherImpl<Q, D extends Object> implements MeteorDataFetcher<Q, D> {
     private autorunDisposer!: IReactionDisposer;
     private dataFetcherFunction: MeteorDataFetcherFunction<D> | undefined;
-    @observable.struct
     private _data: D;
-    @observable
     private _error: any;
 
     // we start with not ready, because the data has to be loaded at least once.
-    @observable
     _dataReady = false;
     private currentRequestDone: CancelableDone<D> | undefined;
 
     constructor() {
+        makeObservable<MethodDataFetcherImpl<any, any>, '_data' | '_error' | 'clearAllData' | 'done'>(this, {
+            _data: observable.struct,
+            _error: observable,
+            _dataReady: observable,
+            data: computed,
+            clearAllData: action.bound,
+            done: action.bound,
+        });
+
         this._data = this.getInitialData();
     }
 
     get dataReady() {
         return this._dataReady;
     }
-    @computed
     get data() {
         return this.getData();
     }
@@ -59,7 +73,6 @@ export abstract class MethodDataFetcherImpl<Q, D extends Object> implements Mete
         return this._error;
     }
 
-    @action.bound
     private clearAllData() {
         this.cancelCurrentRequest();
         this._dataReady = false;
@@ -108,7 +121,6 @@ export abstract class MethodDataFetcherImpl<Q, D extends Object> implements Mete
      * @param err
      * @param data
      */
-    @action.bound
     private done(err: any, data: D | undefined) {
         // this is the callback
         this._error = err;

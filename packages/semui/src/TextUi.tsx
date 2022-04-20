@@ -12,8 +12,7 @@ export interface BindStringUiProps extends React.HTMLProps<HTMLFormElement> {
     showErrors?: boolean;
 }
 
-@observer
-export class TextUi extends React.Component<FormInputProps & BindStringUiProps> {
+export const TextUi = observer(class TextUi extends React.Component<FormInputProps & BindStringUiProps> {
     // tslint:disable-next-line:cyclomatic-complexity
     render() {
         const { operation, id, type, width, value, label, size, invisible, hideErrors, ...props } = parseProps(
@@ -74,4 +73,4 @@ export class TextUi extends React.Component<FormInputProps & BindStringUiProps> 
             </Form.Field>
         );
     }
-}
+});

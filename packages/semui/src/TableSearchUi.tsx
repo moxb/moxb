@@ -11,8 +11,7 @@ export interface BindTableSearchUiProps {
     noAlignment?: boolean;
 }
 
-@observer
-export class TableSearchUi extends React.Component<BindTableSearchUiProps> {
+export const TableSearchUi = observer(class TableSearchUi extends React.Component<BindTableSearchUiProps> {
     render() {
         const { search, noAlignment } = this.props;
         return (
@@ -27,4 +26,4 @@ export class TableSearchUi extends React.Component<BindTableSearchUiProps> {
             </Form>
         );
     }
-}
+});

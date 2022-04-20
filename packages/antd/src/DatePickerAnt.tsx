@@ -16,8 +16,7 @@ interface BindDatePickerAntBasicProps {
 
 export type BindDatePickerAntProps = BindDatePickerAntBasicProps & DatePickerProps;
 
-@observer
-export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
+export const DatePickerAnt = observer(class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
     render() {
         const { operation, invisible, reason, ...props } = parseProps(this.props, this.props.operation);
         if (invisible) {
@@ -35,19 +34,20 @@ export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
             </span>
         );
     }
-}
+});
 
-@observer
-export class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & Partial<FormItemProps>> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+export const DatePickerFormAnt = observer(
+    class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & Partial<FormItemProps>> {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <DatePickerAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
         }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <DatePickerAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);

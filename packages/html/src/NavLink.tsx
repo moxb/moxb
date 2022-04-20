@@ -13,47 +13,49 @@ export type NavLinkParams = Anchor.AnchorParams;
  */
 export type NavLinkProps = NavLinkParams & CoreLinkProps;
 
-@inject('locationManager')
-@observer
-/**
- * A simple path-changing link component
- */
-export class NavLink extends React.Component<NavLinkProps & UsesLocation> {
-    public constructor(props: NavLinkProps) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
+export const NavLink = inject('locationManager')(
+    observer(
+        class /**
+         * A simple path-changing link component
+         */
+        NavLink extends React.Component<NavLinkProps & UsesLocation> {
+            constructor(props: NavLinkProps) {
+                super(props);
+                this._handleClick = this._handleClick.bind(this);
+            }
 
-    /**
-     * Calculate the location where this links should take us
-     */
-    protected getWantedLocation(): MyLocation {
-        const { position, to, argChanges, appendTokens, removeTokenCount, toRef } = this.props;
-        return this.props.locationManager!.getNewLocationForLinkProps({
-            position,
-            to,
-            argChanges,
-            appendTokens,
-            removeTokenCount,
-            toRef,
-        });
-    }
+            /**
+             * Calculate the location where this links should take us
+             */
+            _getWantedLocation(): MyLocation {
+                const { position, to, argChanges, appendTokens, removeTokenCount, toRef } = this.props;
+                return this.props.locationManager!.getNewLocationForLinkProps({
+                    position,
+                    to,
+                    argChanges,
+                    appendTokens,
+                    removeTokenCount,
+                    toRef,
+                });
+            }
 
-    protected handleClick() {
-        this.props.locationManager!.trySetLocation(this.getWantedLocation());
-    }
+            _handleClick() {
+                this.props.locationManager!.trySetLocation(this._getWantedLocation());
+            }
 
-    public render() {
-        const { children, ...remnants } = this.props;
-        const { target } = this.props;
-        return (
-            <Anchor.Anchor
-                href={locationToUrl(this.getWantedLocation())}
-                onClick={target ? undefined : this.handleClick}
-                {...remnants}
-            >
-                {children}
-            </Anchor.Anchor>
-        );
-    }
-}
+            render() {
+                const { children, ...remnants } = this.props;
+                const { target } = this.props;
+                return (
+                    <Anchor.Anchor
+                        href={locationToUrl(this._getWantedLocation())}
+                        onClick={target ? undefined : this._handleClick}
+                        {...remnants}
+                    >
+                        {children}
+                    </Anchor.Anchor>
+                );
+            }
+        }
+    )
+);

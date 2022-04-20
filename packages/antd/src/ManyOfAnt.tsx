@@ -10,46 +10,47 @@ import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormIte
 import { SelectProps } from 'antd/lib/select';
 import { AllowedSwitchProps } from './BoolAnt';
 
-@observer
-export class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps<any>> {
-    render() {
-        const { operation, invisible, mode, children, defaultValue, reason, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
-        if (invisible) {
-            return null;
+export const ManyOfAnt = observer(
+    class ManyOfAnt extends React.Component<BindAntProps<ManyOf> & SelectProps<any>> {
+        render() {
+            const { operation, invisible, mode, children, defaultValue, reason, ...props } = parseProps(
+                this.props,
+                this.props.operation
+            );
+            if (invisible) {
+                return null;
+            }
+            // make sure the value is not a mobx object...
+            const value = toJS(operation.value);
+            return (
+                <span title={reason}>
+                    <Select
+                        data-testid={operation.id}
+                        onChange={(selectionValue: any) => operation.setValue(selectionValue)}
+                        value={value || undefined}
+                        placeholder={operation.placeholder}
+                        defaultValue={defaultValue}
+                        mode={mode}
+                        {...props}
+                    >
+                        {operation.choices.map((opt: any) => (
+                            <Select.Option
+                                data-testid={idToDomId(operation.id + '.' + opt.value)}
+                                key={opt.value}
+                                value={opt.value}
+                                disabled={opt.disabled}
+                                title={opt.reason || opt.help}
+                            >
+                                {labelWithHelpIndicator(opt.label, opt.help)}
+                            </Select.Option>
+                        ))}
+                        {children}
+                    </Select>
+                </span>
+            );
         }
-        // make sure the value is not a mobx object...
-        const value = toJS(operation.value);
-        return (
-            <span title={reason}>
-                <Select
-                    data-testid={operation.id}
-                    onChange={(selectionValue: any) => operation.setValue(selectionValue)}
-                    value={value || undefined}
-                    placeholder={operation.placeholder}
-                    defaultValue={defaultValue}
-                    mode={mode}
-                    {...props}
-                >
-                    {operation.choices.map((opt: any) => (
-                        <Select.Option
-                            data-testid={idToDomId(operation.id + '.' + opt.value)}
-                            key={opt.value}
-                            value={opt.value}
-                            disabled={opt.disabled}
-                            title={opt.reason || opt.help}
-                        >
-                            {labelWithHelpIndicator(opt.label, opt.help)}
-                        </Select.Option>
-                    ))}
-                    {children}
-                </Select>
-            </span>
-        );
     }
-}
+);
 
 export interface ManyOfCheckboxAntProps {
     /**
@@ -58,25 +59,37 @@ export interface ManyOfCheckboxAntProps {
     vertical?: boolean;
 }
 
-@observer
-export class ManyOfCheckboxAnt extends React.Component<
-    BindAntProps<ManyOf> & CheckboxGroupProps & ManyOfCheckboxAntProps
-> {
-    render() {
-        const { operation, invisible, children, defaultValue, reason, vertical, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
-        if (invisible || operation.invisible) {
-            return null;
-        }
-        // make sure the value is not a mobx object...
-        const value = toJS(operation.value);
+export const ManyOfCheckboxAnt = observer(
+    class ManyOfCheckboxAnt extends React.Component<
+        BindAntProps<ManyOf> & CheckboxGroupProps & ManyOfCheckboxAntProps
+    > {
+        render() {
+            const { operation, invisible, children, defaultValue, reason, vertical, ...props } = parseProps(
+                this.props,
+                this.props.operation
+            );
+            if (invisible || operation.invisible) {
+                return null;
+            }
+            // make sure the value is not a mobx object...
+            const value = toJS(operation.value);
 
-        const choices = vertical
-            ? operation.choices.map((opt: any) => (
-                  <Row title={reason || opt.reason || opt.help} key={opt.value} style={{ width: '100%' }}>
-                      <Col span={24}>
+            const choices = vertical
+                ? operation.choices.map((opt: any) => (
+                      <Row title={reason || opt.reason || opt.help} key={opt.value} style={{ width: '100%' }}>
+                          <Col span={24}>
+                              <Checkbox
+                                  data-testid={idToDomId(operation.id + '.' + opt.value)}
+                                  value={opt.value}
+                                  disabled={opt.disabled}
+                              >
+                                  {labelWithHelpIndicator(opt.label, opt.help)}
+                              </Checkbox>
+                          </Col>
+                      </Row>
+                  ))
+                : operation.choices.map((opt: any) => (
+                      <Col title={reason || opt.reason || opt.help} key={opt.value}>
                           <Checkbox
                               data-testid={idToDomId(operation.id + '.' + opt.value)}
                               value={opt.value}
@@ -85,68 +98,59 @@ export class ManyOfCheckboxAnt extends React.Component<
                               {labelWithHelpIndicator(opt.label, opt.help)}
                           </Checkbox>
                       </Col>
-                  </Row>
-              ))
-            : operation.choices.map((opt: any) => (
-                  <Col title={reason || opt.reason || opt.help} key={opt.value}>
-                      <Checkbox
-                          data-testid={idToDomId(operation.id + '.' + opt.value)}
-                          value={opt.value}
-                          disabled={opt.disabled}
-                      >
-                          {labelWithHelpIndicator(opt.label, opt.help)}
-                      </Checkbox>
-                  </Col>
-              ));
+                  ));
 
-        return (
-            <Checkbox.Group
-                data-testid={operation.id}
-                onChange={(selectionValue: any) => operation.setValue(selectionValue)}
-                value={value}
-                defaultValue={defaultValue}
-                {...props}
-            >
-                <Row>
-                    {choices}
-                    {children}
-                </Row>
-            </Checkbox.Group>
-        );
-    }
-}
-
-@observer
-export class ManyOfFormAnt extends React.Component<SelectProps<ManyOf> & BindAntProps<ManyOf> & BindFormItemAntProps> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+            return (
+                <Checkbox.Group
+                    data-testid={operation.id}
+                    onChange={(selectionValue: any) => operation.setValue(selectionValue)}
+                    value={value}
+                    defaultValue={defaultValue}
+                    {...props}
+                >
+                    <Row>
+                        {choices}
+                        {children}
+                    </Row>
+                </Checkbox.Group>
+            );
         }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <ManyOfAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);
 
-@observer
-export class ManyOfCheckboxFormAnt extends React.Component<
-    CheckboxGroupProps & BindAntProps<ManyOf> & BindFormItemAntProps & ManyOfCheckboxAnt
-> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+export const ManyOfFormAnt = observer(
+    class ManyOfFormAnt extends React.Component<SelectProps<ManyOf> & BindAntProps<ManyOf> & BindFormItemAntProps> {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <ManyOfAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
         }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <ManyOfCheckboxAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);
+
+export const ManyOfCheckboxFormAnt = observer(
+    class ManyOfCheckboxFormAnt extends React.Component<
+        CheckboxGroupProps & BindAntProps<ManyOf> & BindFormItemAntProps & ManyOfCheckboxAntProps
+    > {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <ManyOfCheckboxAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
+        }
+    }
+);
 
 export interface ManyOfSwitchAntProps {
     /**
@@ -155,53 +159,77 @@ export interface ManyOfSwitchAntProps {
     vertical?: boolean;
 }
 
-@observer
-export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & AllowedSwitchProps & ManyOfSwitchAntProps> {
-    private _toggle(value: string) {
-        const { operation, readOnly, disabled } = parseProps(this.props, this.props.operation);
-        if (readOnly || disabled) {
-        } else {
-            operation.toggle(value);
-        }
-    }
-
-    private readonly _switchHandlerCache: Record<string, SwitchChangeEventHandler> = {};
-
-    private _getSwitchHandler(value: string): SwitchChangeEventHandler {
-        let result = this._switchHandlerCache[value];
-        if (!result) {
-            result = this._switchHandlerCache[value] = () => {
-                this._toggle(value);
-            };
-        }
-        return result;
-    }
-
-    private readonly _clickHandlers: Record<string, React.MouseEventHandler> = {};
-
-    private _getClickHandler(value: string): React.MouseEventHandler {
-        let result = this._clickHandlers[value];
-        if (!result) {
-            result = this._clickHandlers[value] = () => {
-                this._toggle(value);
-            };
-        }
-        return result;
-    }
-
-    render() {
-        const { operation, invisible, disabled, children, vertical, reason, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
-        if (invisible || operation.invisible) {
-            return null;
+export const ManyOfSwitchAnt = observer(
+    class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & AllowedSwitchProps & ManyOfSwitchAntProps> {
+        _toggle(value: string) {
+            const { operation, readOnly, disabled } = parseProps(this.props, this.props.operation);
+            if (readOnly || disabled) {
+            } else {
+                operation.toggle(value);
+            }
         }
 
-        const choices = vertical
-            ? operation.choices.map((opt: any) => (
-                  <Row key={opt.value} style={{ width: '100%' }}>
-                      <Col span={24}>
+        readonly _switchHandlerCache: Record<string, SwitchChangeEventHandler> = {};
+
+        _getSwitchHandler(value: string): SwitchChangeEventHandler {
+            let result = this._switchHandlerCache[value];
+            if (!result) {
+                result = this._switchHandlerCache[value] = () => {
+                    this._toggle(value);
+                };
+            }
+            return result;
+        }
+
+        readonly _clickHandlers: Record<string, React.MouseEventHandler> = {};
+
+        _getClickHandler(value: string): React.MouseEventHandler {
+            let result = this._clickHandlers[value];
+            if (!result) {
+                result = this._clickHandlers[value] = () => {
+                    this._toggle(value);
+                };
+            }
+            return result;
+        }
+
+        render() {
+            const { operation, invisible, disabled, children, vertical, reason, ...props } = parseProps(
+                this.props,
+                this.props.operation
+            );
+            if (invisible || operation.invisible) {
+                return null;
+            }
+
+            const choices = vertical
+                ? operation.choices.map((opt: any) => (
+                      <Row key={opt.value} style={{ width: '100%' }}>
+                          <Col span={24}>
+                              <span title={reason || opt.reason || opt.help}>
+                                  <span className={disabled || opt.disabled ? 'ant-checkbox-disabled' : ''}>
+                                      <Switch
+                                          data-testid={idToDomId(operation.id + '.' + opt.value)}
+                                          checked={operation.isSelected(opt.value)}
+                                          onChange={this._getSwitchHandler(opt.value)}
+                                          disabled={disabled || opt.disabled}
+                                          size={'small'}
+                                          {...props}
+                                      />
+                                  </span>
+                                  &nbsp; &nbsp;
+                                  <span
+                                      onClick={this._getClickHandler(opt.value)}
+                                      className={disabled || opt.disabled ? '' : 'ant-checkbox-wrapper'}
+                                  >
+                                      {labelWithHelpIndicator(opt.label, opt.help)}
+                                  </span>
+                              </span>
+                          </Col>
+                      </Row>
+                  ))
+                : operation.choices.map((opt: any) => (
+                      <Col key={opt.value}>
                           <span title={reason || opt.reason || opt.help}>
                               <span className={disabled || opt.disabled ? 'ant-checkbox-disabled' : ''}>
                                   <Switch
@@ -220,57 +248,35 @@ export class ManyOfSwitchAnt extends React.Component<BindAntProps<ManyOf> & Allo
                               >
                                   {labelWithHelpIndicator(opt.label, opt.help)}
                               </span>
+                              &nbsp; &nbsp; &nbsp; &nbsp;
                           </span>
                       </Col>
-                  </Row>
-              ))
-            : operation.choices.map((opt: any) => (
-                  <Col key={opt.value}>
-                      <span title={reason || opt.reason || opt.help}>
-                          <span className={disabled || opt.disabled ? 'ant-checkbox-disabled' : ''}>
-                              <Switch
-                                  data-testid={idToDomId(operation.id + '.' + opt.value)}
-                                  checked={operation.isSelected(opt.value)}
-                                  onChange={this._getSwitchHandler(opt.value)}
-                                  disabled={disabled || opt.disabled}
-                                  size={'small'}
-                                  {...props}
-                              />
-                          </span>
-                          &nbsp; &nbsp;
-                          <span
-                              onClick={this._getClickHandler(opt.value)}
-                              className={disabled || opt.disabled ? '' : 'ant-checkbox-wrapper'}
-                          >
-                              {labelWithHelpIndicator(opt.label, opt.help)}
-                          </span>
-                          &nbsp; &nbsp; &nbsp; &nbsp;
-                      </span>
-                  </Col>
-              ));
+                  ));
 
-        return (
-            <Row>
-                {choices}
-                {children}
-            </Row>
-        );
-    }
-}
-
-@observer
-export class ManyOfSwitchFormAnt extends React.Component<
-    AllowedSwitchProps & BindAntProps<ManyOf> & BindFormItemAntProps & ManyOfSwitchAntProps
-> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+            return (
+                <Row>
+                    {choices}
+                    {children}
+                </Row>
+            );
         }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <ManyOfSwitchAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);
+
+export const ManyOfSwitchFormAnt = observer(
+    class ManyOfSwitchFormAnt extends React.Component<
+        AllowedSwitchProps & BindAntProps<ManyOf> & BindFormItemAntProps & ManyOfSwitchAntProps
+    > {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <ManyOfSwitchAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
+        }
+    }
+);

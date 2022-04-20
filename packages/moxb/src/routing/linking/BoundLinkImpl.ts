@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { BoundLink } from './BoundLink';
 import { ArgChange } from '../url-arg';
 import { StringOrFunction } from '../../bind/BindImpl';
@@ -51,15 +51,26 @@ export class BoundLinkImpl implements BoundLink {
     readonly id: string;
 
     constructor(protected readonly impl: BoundLinkOptions) {
+        makeObservable(this, {
+            label: computed,
+            to: computed,
+            appendTokens: computed,
+            argChanges: computed,
+            position: computed,
+            removeTokenCount: computed,
+            toRef: computed,
+            invisible: computed,
+            disabled: computed,
+            help: computed
+        });
+
         this.id = impl.id;
     }
 
-    @computed
     get label() {
         return typeof this.impl.label === 'function' ? this.impl.label()! : t(this.id + '.label', this.impl.label!);
     }
 
-    @computed
     get to() {
         if (this.impl.to) {
             return this.impl.to();
@@ -67,7 +78,6 @@ export class BoundLinkImpl implements BoundLink {
         return undefined;
     }
 
-    @computed
     get appendTokens() {
         if (this.impl.appendTokens) {
             return this.impl.appendTokens();
@@ -75,7 +85,6 @@ export class BoundLinkImpl implements BoundLink {
         return undefined;
     }
 
-    @computed
     get argChanges() {
         if (this.impl.argChanges) {
             return this.impl.argChanges();
@@ -83,7 +92,6 @@ export class BoundLinkImpl implements BoundLink {
         return [];
     }
 
-    @computed
     get position() {
         if (this.impl.position) {
             return this.impl.position();
@@ -91,7 +99,6 @@ export class BoundLinkImpl implements BoundLink {
         return undefined;
     }
 
-    @computed
     get removeTokenCount() {
         if (this.impl.removeTokenCount) {
             return this.impl.removeTokenCount();
@@ -99,7 +106,6 @@ export class BoundLinkImpl implements BoundLink {
         return undefined;
     }
 
-    @computed
     get toRef() {
         if (this.impl.toRef) {
             return this.impl.toRef();
@@ -107,7 +113,6 @@ export class BoundLinkImpl implements BoundLink {
         return undefined;
     }
 
-    @computed
     get invisible() {
         if (this.impl.invisible) {
             return readDecision(this.impl.invisible());
@@ -115,7 +120,6 @@ export class BoundLinkImpl implements BoundLink {
         return false;
     }
 
-    @computed
     get disabled() {
         if (this.impl.disabled) {
             return this.impl.disabled();
@@ -125,7 +129,6 @@ export class BoundLinkImpl implements BoundLink {
         return false;
     }
 
-    @computed
     get help() {
         const disabled = this.disabled;
         if (readDecision(disabled)) {

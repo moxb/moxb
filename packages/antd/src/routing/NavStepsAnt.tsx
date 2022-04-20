@@ -34,55 +34,56 @@ export interface NavStepsProps<DataType>
     staticStates?: boolean;
 }
 
-@observer
-export class NavStepsAnt<DataType> extends React.Component<NavStepsProps<DataType>> {
-    protected readonly _id: string;
-    protected readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType> | undefined;
+export const NavStepsAnt = observer(
+    class NavStepsAnt<DataType> extends React.Component<NavStepsProps<DataType>> {
+        readonly _id: string;
+        readonly _states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType> | undefined;
 
-    constructor(props: NavStepsProps<DataType>) {
-        super(props);
-        this._id = props.id || 'no-id';
+        constructor(props: NavStepsProps<DataType>) {
+            super(props);
+            this._id = props.id || 'no-id';
 
-        const { id, stepProps = {}, staticStates, children, ...stateProps } = this.props;
-        this._renderSubStateElement = this._renderSubStateElement.bind(this);
-        this._states = staticStates
-            ? new LocationDependentStateSpaceHandlerImpl({
-                  ...stateProps,
-                  id: 'steps for ' + id,
-              })
-            : undefined;
-    }
-
-    protected getStates(): LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType> {
-        if (this._states) {
-            return this._states;
+            const { id, stepProps = {}, staticStates, children, ...stateProps } = this.props;
+            this._renderSubStateElement = this._renderSubStateElement.bind(this);
+            this._states = staticStates
+                ? new LocationDependentStateSpaceHandlerImpl({
+                      ...stateProps,
+                      id: 'steps for ' + id,
+                  })
+                : undefined;
         }
-        const { id, stepProps = {}, staticStates, children, ...stateProps } = this.props;
-        return new LocationDependentStateSpaceHandlerImpl({
-            ...stateProps,
-            id: 'steps for ' + id,
-        });
-    }
 
-    protected _renderSubStateElement(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
-        const id = idToDomId(`${this.props.id}.step.${state.menuKey}`);
-        return <Step data-testid={id} key={state.menuKey} title={state.label} />;
-    }
+        _getStates(): LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType> {
+            if (this._states) {
+                return this._states;
+            }
+            const { id, stepProps = {}, staticStates, children, ...stateProps } = this.props;
+            return new LocationDependentStateSpaceHandlerImpl({
+                ...stateProps,
+                id: 'steps for ' + id,
+            });
+        }
 
-    render() {
-        const { stepProps = {}, id } = this.props;
-        const _states = this.getStates();
-        const visibleStates = _states.getFilteredSubStates({
-            onlyVisible: true,
-            onlySatisfying: true,
-        });
-        const visibleStateKeys = visibleStates.map((s) => s.menuKey);
-        const selectedMenuKeys = _states.getActiveSubStateMenuKeys(true);
-        const index = visibleStateKeys.indexOf(selectedMenuKeys[0]);
-        return (
-            <Steps data-testid={id} {...stepProps} current={index}>
-                {visibleStates.map(this._renderSubStateElement)}
-            </Steps>
-        );
+        _renderSubStateElement(state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>) {
+            const id = idToDomId(`${this.props.id}.step.${state.menuKey}`);
+            return <Step data-testid={id} key={state.menuKey} title={state.label} />;
+        }
+
+        render() {
+            const { stepProps = {}, id } = this.props;
+            const _states = this._getStates();
+            const visibleStates = _states.getFilteredSubStates({
+                onlyVisible: true,
+                onlySatisfying: true,
+            });
+            const visibleStateKeys = visibleStates.map((s) => s.menuKey);
+            const selectedMenuKeys = _states.getActiveSubStateMenuKeys(true);
+            const index = visibleStateKeys.indexOf(selectedMenuKeys[0]);
+            return (
+                <Steps data-testid={id} {...stepProps} current={index}>
+                    {visibleStates.map(this._renderSubStateElement)}
+                </Steps>
+            );
+        }
     }
-}
+);

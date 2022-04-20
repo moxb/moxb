@@ -10,8 +10,7 @@ export interface BoundNavLinkProps extends NavLinkParams {
     operation: BoundLink;
 }
 
-@observer
-export class BoundNavLink extends React.Component<BoundNavLinkProps> {
+export const BoundNavLink = observer(class BoundNavLink extends React.Component<BoundNavLinkProps> {
     render() {
         const { operation, children, ...rest } = this.props;
 
@@ -34,4 +33,4 @@ export class BoundNavLink extends React.Component<BoundNavLinkProps> {
 
         return <NavLink {...linkProps}>{children}</NavLink>;
     }
-}
+});

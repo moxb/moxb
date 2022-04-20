@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { Action } from '../action/Action';
 import { ActionImpl } from '../action/ActionImpl';
 import { Text } from '../text/Text';
@@ -8,7 +8,6 @@ import { QueryFilter } from '../query/QueryFilter';
 import { QueryFilterImpl } from '../query/QueryFilterImpl';
 
 export class TableSearchImpl implements TableSearch {
-    @observable
     query = '';
 
     readonly searchField: Text = new TextImpl({
@@ -34,7 +33,13 @@ export class TableSearchImpl implements TableSearch {
         enabled: () => this.searchField.value !== '',
     });
 
-    @action.bound
+    constructor() {
+        makeObservable(this, {
+            query: observable,
+            setQuery: action.bound
+        });
+    }
+
     setQuery(query: string) {
         this.query = query;
     }

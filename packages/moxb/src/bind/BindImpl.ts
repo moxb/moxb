@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { t } from '../i18n/i18n';
 import { bindAllTo } from '../util/bindAllTo';
 import { idToDomId } from '../util/idToDomId';
@@ -74,10 +74,26 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
     readonly id: string;
     readonly domId: string;
     protected readonly impl: Options;
-    @observable
-    _errors?: string[] | undefined | null;
+    _errors: string[] | undefined | null;
 
     constructor(impl: Options) {
+        makeObservable(this, {
+            _errors: observable.struct, // TODO: is this the right kind of observable here?
+            label: computed,
+            disabled: computed,
+            enabled: computed,
+            reason: computed,
+            invisible: computed,
+            readOnly: computed,
+            help: computed,
+            errors: computed,
+            error: computed,
+            hasErrors: computed,
+            clearErrors: action.bound,
+            clearError: action.bound,
+            validateField: action.bound,
+        });
+
         // tslint complains about Object.assign and typescript can not spread interfaces:
         //   TS2698: Spread types may only be created from object types.
         // tslint:disable-next-line prefer-object-spread
@@ -94,7 +110,6 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         //moxb all methods...
         bindAllTo(this, this);
     }
-    @computed
     get label() {
         return this.getLabel();
     }
@@ -107,7 +122,6 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         }
         return undefined;
     }
-    @computed
     get disabled() {
         return this.getDisabled();
     }
@@ -121,12 +135,10 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         return false;
     }
 
-    @computed
     get enabled() {
         return !this.disabled;
     }
 
-    @computed
     get reason() {
         return this.getReason();
     }
@@ -140,7 +152,6 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         return undefined;
     }
 
-    @computed
     get invisible() {
         return this.getInvisible();
     }
@@ -152,7 +163,6 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         return false;
     }
 
-    @computed
     get readOnly() {
         return this.getReadonly();
     }
@@ -164,7 +174,6 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         return false;
     }
 
-    @computed
     get help() {
         return this.getHelp();
     }
@@ -178,13 +187,11 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         return undefined;
     }
 
-    @computed
     get errors() {
         return this.getErrors();
     }
 
     /** @deprecated since version v0.2.0-beta.7 */
-    @computed
     get error() {
         if (this.hasErrors) {
             return this.getErrors().join(' ');
@@ -193,7 +200,6 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         }
     }
 
-    @computed
     get hasErrors() {
         return this.errors!.length > 0;
     }
@@ -211,13 +217,11 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         return Array.from(new Set([...errors, ...(this._errors || [])]));
     }
 
-    @action.bound
     clearErrors() {
         this.doClearErrors();
     }
 
     /** @deprecated since version v0.2.0-beta.7 */
-    @action.bound
     clearError() {
         this.doClearErrors();
     }
@@ -229,7 +233,6 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         this._errors = [];
     }
 
-    @action.bound
     validateField() {
         this.doOnValidate();
     }

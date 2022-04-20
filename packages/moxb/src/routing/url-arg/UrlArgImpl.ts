@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
 
 import { Query } from '../url-schema/UrlSchema';
@@ -21,6 +21,11 @@ export class UrlArgImpl<T> implements UrlArg<T> {
     public readonly defaultValue: T;
 
     public constructor(private readonly _locationManager: LocationManager, definition: UrlArgDefinition<T>) {
+        makeObservable(this, {
+            defined: computed,
+            value: computed
+        });
+
         const { parser, valueType, key } = (this._def = definition);
         this._parser = parser || valueType.getParser(key);
         if (this._def.permanent) {
@@ -30,7 +35,6 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         this.defaultValue = this._def.defaultValue;
     }
 
-    @computed
     public get defined() {
         return existsInQuery(this._locationManager.query, this.key);
     }
@@ -41,7 +45,6 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return getFromQuery(query, this.key, this._parser, defaultValue);
     }
 
-    @computed
     public get value() {
         return this.getOnQuery(this._locationManager.query);
     }

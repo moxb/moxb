@@ -7,8 +7,7 @@ import { TreeProps } from 'antd/lib/tree';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
-@observer
-export class TreeAnt extends React.Component<BindAntProps<Tree> & TreeProps> {
+export const TreeAnt = observer(class TreeAnt extends React.Component<BindAntProps<Tree> & TreeProps> {
     render() {
         const { operation, invisible, children, reason, ...props } = parseProps(this.props, this.props.operation);
 
@@ -36,20 +35,21 @@ export class TreeAnt extends React.Component<BindAntProps<Tree> & TreeProps> {
             </span>
         );
     }
-}
+});
 
-@observer
-export class TreeFormAnt extends React.Component<BindAntProps<Tree> & TreeProps & BindFormItemAntProps> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
+export const TreeFormAnt = observer(
+    class TreeFormAnt extends React.Component<BindAntProps<Tree> & TreeProps & BindFormItemAntProps> {
+        render() {
+            const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
+            if (invisible) {
+                return null;
+            }
+
+            return (
+                <FormItemAnt operation={operation} {...(this.props as any)}>
+                    <TreeAnt operation={operation} {...props} />
+                </FormItemAnt>
+            );
         }
-
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <TreeAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
     }
-}
+);

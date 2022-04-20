@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Table } from './Table';
 import { TableColumn } from './TableColumn';
@@ -22,10 +22,18 @@ export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> 
 
     constructor(impl: TableOptions<T>) {
         super(impl);
+
+        makeObservable(this, {
+            ready: computed,
+            columns: computed,
+            data: computed,
+            pagination: computed,
+            search: computed
+        });
+
         this.sort = new TableSortImpl(impl.initialSort);
     }
 
-    @computed
     get ready() {
         return this.getReady();
     }
@@ -34,7 +42,6 @@ export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> 
         return this.impl.ready ? this.impl.ready(this) : true;
     }
 
-    @computed
     get columns() {
         return this.getColumns();
     }
@@ -43,7 +50,6 @@ export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> 
         return this.impl.columns ? this.impl.columns(this) : [];
     }
 
-    @computed
     get data() {
         return this.getData();
     }
@@ -52,12 +58,10 @@ export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> 
         return this.impl.data ? this.impl.data(this) : [];
     }
 
-    @computed
     get pagination() {
         return this.impl.pagination;
     }
 
-    @computed
     get search() {
         return this.impl.search;
     }

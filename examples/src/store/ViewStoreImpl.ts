@@ -1,26 +1,31 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { ViewStore } from './ViewStore';
 
 export class ViewStoreImpl implements ViewStore {
-    @observable
     page = 'index';
 
-    @action
+    constructor() {
+        makeObservable(this, {
+            page: observable,
+            openIndexPage: action,
+            openLoginFormPage: action,
+            openMemTablePage: action,
+            currentUrl: computed
+        });
+    }
+
     openIndexPage() {
         this.page = 'index';
     }
 
-    @action
     openLoginFormPage() {
         this.page = 'loginForm';
     }
 
-    @action
     openMemTablePage() {
         this.page = 'memTable';
     }
 
-    @computed
     get currentUrl() {
         switch (this.page) {
             case 'index':

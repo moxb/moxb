@@ -1,6 +1,6 @@
 import { LocationDescriptorObject } from '../location-manager';
 import { createBrowserHistory, History as MyHistory } from 'history';
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { doTokenStringsMatch, updateTokenString } from '../tokens';
 import {
     UrlArg,
@@ -107,6 +107,18 @@ export class BasicLocationManagerImpl implements LocationManager {
     protected _setting = false;
 
     public constructor(props: Props) {
+        makeObservable<BasicLocationManagerImpl, "_final" | "_location">(this, {
+            _final: observable,
+            _location: observable,
+            doSetLocation: action,
+            watchHistory: action,
+            doSetQueries: action,
+            doSetQuery: action,
+            doSetPathTokens: action,
+            doSetPathTokensAndQueries: action,
+            trySetPathTokensAndQueries: action
+        });
+
         this._schema = props.urlSchema || new NativeUrlSchema();
         this._history = props.history || createBrowserHistory();
         this._communicator = props.communicator || new BasicLocationCommunicator();
@@ -141,7 +153,6 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     // Private field to store the final bit.
-    @observable
     private _final = true;
     // Getters and setters for the final bit
     public get final() {
@@ -158,7 +169,6 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     // Private field to store the last known location.
-    @observable
     protected _location: MyLocation = noLocation;
     public get location() {
         return this._location;
@@ -191,8 +201,10 @@ export class BasicLocationManagerImpl implements LocationManager {
         return this._schema.getQuery(location);
     }
 
-    @action
-    doSetLocation(location: LocationDescriptorObject, method: UpdateMethod = UpdateMethod.PUSH) {
+    doSetLocation(
+        location: LocationDescriptorObject,
+        method: UpdateMethod = UpdateMethod.PUSH
+    ) {
         /**
          * Since we are going to modify the URL, we make a note for ourselves, so that
          * when the URL is modified, and we are notified about the change, we should know
@@ -390,7 +402,6 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     // Activate the router
-    @action
     public watchHistory() {
         // Set the initial location
         const location = (this._history as any).location;
@@ -464,7 +475,6 @@ export class BasicLocationManagerImpl implements LocationManager {
         ]);
     }
 
-    @action
     public doSetQueries(changes: QueryChange[], method?: UpdateMethod) {
         if (!changes.length) {
             // There is nothing to change
@@ -483,7 +493,6 @@ export class BasicLocationManagerImpl implements LocationManager {
         this.trySetLocation(location, method, callback);
     }
 
-    @action
     public doSetQuery(key: string, value: string | undefined, method?: UpdateMethod) {
         this.doSetQueries(
             [
@@ -546,7 +555,6 @@ export class BasicLocationManagerImpl implements LocationManager {
         const location = this.getNewLocationForPathTokens(this._location, position, tokens);
         return locationToUrl(location);
     }
-    @action
     public doSetPathTokens(position: number, tokens: string[], method?: UpdateMethod) {
         const location = this.getNewLocationForPathTokens(this._location, position, tokens);
         this.doSetLocation(location, method);
@@ -589,7 +597,6 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._redirects.push(redirect);
     }
 
-    @action
     public doSetPathTokensAndQueries(
         position: number,
         tokens: string[] | undefined,
@@ -600,7 +607,6 @@ export class BasicLocationManagerImpl implements LocationManager {
         this.doSetLocation(location, method);
     }
 
-    @action
     public trySetPathTokensAndQueries(
         position: number,
         tokens: string[] | undefined,

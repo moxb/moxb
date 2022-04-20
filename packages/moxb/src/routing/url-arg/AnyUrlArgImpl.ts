@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 
 import { ArgDefinition, ParserFunc, UrlArg } from './UrlArg';
 import { MyLocation, SuccessCallback, TestLocation, UpdateMethod } from '../location-manager/LocationManager';
@@ -18,17 +18,21 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
     public readonly defaultValue: T;
 
     public constructor(definition: ArgDefinition<T>, protected readonly backend: UrlArgBackend) {
+        makeObservable(this, {
+            defined: computed,
+            value: computed,
+            rawValue: computed
+        });
+
         const { parser, valueType } = (this._def = definition);
         this._parser = parser || valueType.getParser(JSON.stringify(definition));
         this.defaultValue = this._def.defaultValue;
     }
 
-    @computed
     public get defined() {
         return this.backend.rawValue !== undefined;
     }
 
-    @computed
     public get value() {
         return this.defined ? this._parser(this.backend.rawValue!) : this.defaultValue;
     }
@@ -91,7 +95,6 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
         this.trySet(this._def.defaultValue, method, callback);
     }
 
-    @computed
     public get rawValue() {
         return this.backend.rawValue;
     }

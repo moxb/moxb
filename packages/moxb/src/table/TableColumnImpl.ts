@@ -1,4 +1,4 @@
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Table } from './Table';
 import { TableColumn } from './TableColumn';
@@ -19,11 +19,15 @@ export class TableColumnImpl extends BindImpl<TableColumnOptions> implements Tab
     readonly tableColumn: string;
     constructor(impl: TableColumnOptions, private readonly table: Table<any>) {
         super({ ...impl, id: table.id + '.' + impl.id });
+
+        makeObservable(this, {
+            toggleSort: action.bound
+        });
+
         this.column = impl.column || impl.id;
         this.tableColumn = impl.tableColumn || this.column;
     }
 
-    @action.bound
     toggleSort() {
         this.table.sort.toggleSort(this.tableColumn, this.preferredSortDirection);
     }

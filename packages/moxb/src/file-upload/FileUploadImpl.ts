@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, makeObservable } from 'mobx';
 import type { FileUpload } from './FileUpload';
 import { getValueFromStringOrFunction, getValueOrFunction, ValueOrFunction } from '../bind/BindImpl';
 import { Label } from '../label/Label';
@@ -62,18 +62,43 @@ interface FileUploadOptions {
 export class FileUploadImpl implements FileUpload {
     private readonly _reader: FileReader;
 
-    @observable _progress = 0;
+    _progress = 0;
 
     get progress() {
         return this._progress;
     }
 
-    @action
     private _setProgress(progress: number) {
         this._progress = progress;
     }
 
     constructor(private readonly _options: FileUploadOptions) {
+        makeObservable<FileUploadImpl, "_setProgress" | "_pending" | "_fileList" | "_fileListLength" | "_currentFileIndex" | "_file" | "_fail" | "_finish">(this, {
+            _progress: observable,
+            _setProgress: action,
+            _pending: observable,
+            pending: computed,
+            _fileList: observable,
+            _fileListLength: observable,
+            _currentFileIndex: observable,
+            _file: observable,
+            _done: observable,
+            _data: observable,
+            _failed: observable,
+            _errorMessage: observable,
+            succeeded: computed,
+            failed: computed,
+            fileName: computed,
+            dataAsBinary: computed,
+            dataAsString: computed,
+            errorMessage: computed,
+            reset: action,
+            _fail: action,
+            _finish: action,
+            upload: action,
+            setErrorCheckMessage: action
+        });
+
         this._reader = new FileReader();
         this._reader.onabort = () => this._fail('file reading was aborted');
         this._reader.onerror = () => this._fail(this._reader.error?.toString() || 'failed to upload');
@@ -121,34 +146,28 @@ export class FileUploadImpl implements FileUpload {
         return getValueOrFunction(this._options.multiple) || false;
     }
 
-    @observable
     private _pending = false;
 
-    @computed
     get pending() {
         return this._pending;
     }
 
-    @observable
     private _fileList: File[] | undefined;
 
-    @observable
     private _fileListLength = 0;
 
-    @observable
     private _currentFileIndex = -1;
 
     // Current file being uploaded
-    @observable
     private _file: File | undefined;
 
-    @observable _done = false;
+    _done = false;
 
-    @observable _data: ArrayBuffer | undefined;
+    _data: ArrayBuffer | undefined;
 
-    @observable _failed = false;
+    _failed = false;
 
-    @observable _errorMessage: string | undefined;
+    _errorMessage: string | undefined;
 
     readonly errorLabel: Label = new LabelImpl({
         id: 'fileUpload.errorLabel',
@@ -168,37 +187,30 @@ export class FileUploadImpl implements FileUpload {
         text: () => `Uploading ${this.fileName}: ${(100 * (this.progress || 0)).toFixed(1)}% ...`,
     });
 
-    @computed
     get succeeded() {
         return this._done;
     }
 
-    @computed
     get failed() {
         return this._failed;
     }
 
-    @computed
     get fileName() {
         return this._file?.name;
     }
 
-    @computed
     get dataAsBinary() {
         return this.succeeded ? this._data : undefined;
     }
 
-    @computed
     get dataAsString() {
         return this.succeeded ? Buffer.from(this._data!).toString() : undefined;
     }
 
-    @computed
     get errorMessage() {
         return this._failed ? this._errorMessage : undefined;
     }
 
-    @action
     reset() {
         this._reader.abort();
         this._file = undefined;
@@ -216,7 +228,6 @@ export class FileUploadImpl implements FileUpload {
         fire: () => this.reset(),
     });
 
-    @action
     protected _fail(errorMessage: string) {
         this._errorMessage = errorMessage;
         this._failed = true;
@@ -224,7 +235,6 @@ export class FileUploadImpl implements FileUpload {
         this._setProgress(0);
     }
 
-    @action
     protected _finish(data: ArrayBuffer) {
         this._data = data;
         this._done = true;
@@ -242,7 +252,6 @@ export class FileUploadImpl implements FileUpload {
         }
     }
 
-    @action
     upload(file: File | File[]) {
         if (this._pending) {
             if (Array.isArray(file)) {
@@ -273,7 +282,6 @@ export class FileUploadImpl implements FileUpload {
         }
     }
 
-    @action
     setErrorCheckMessage(error: string) {
         this._failed = true;
         this._errorMessage = error;

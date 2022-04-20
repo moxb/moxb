@@ -25,8 +25,7 @@ export interface BindToolTipAntProps extends AbstractTooltipProps {
     type?: ButtonType;
 }
 
-@observer
-export class ToolTipAnt extends React.Component<BindToolTipAntProps> {
+export const ToolTipAnt = observer(class ToolTipAnt extends React.Component<BindToolTipAntProps> {
     render() {
         const { operation, children, placement, ...props } = this.props;
         if (!operation) {
@@ -46,10 +45,9 @@ export class ToolTipAnt extends React.Component<BindToolTipAntProps> {
             );
         }
     }
-}
+});
 
-@observer
-export class ToolTipButton extends React.Component<BindToolTipAntProps> {
+export const ToolTipButton = observer(class ToolTipButton extends React.Component<BindToolTipAntProps> {
     render() {
         const { operation, icon, text, type } = this.props;
         if (operation!.invisible) {
@@ -90,4 +88,4 @@ export class ToolTipButton extends React.Component<BindToolTipAntProps> {
             );
         }
     }
-}
+});

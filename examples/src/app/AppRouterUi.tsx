@@ -5,14 +5,12 @@ import { MemTableUi } from '../memtable/MemTableUi';
 import { ViewStore } from '../store/ViewStore';
 import { ApplicationUi } from './ApplicationUi';
 
-@inject('view')
-@observer
-export class AppRouterUi extends React.Component<{ view?: ViewStore }> {
+export const AppRouterUi = inject('view')(observer(class AppRouterUi extends React.Component<{ view?: ViewStore }> {
     render() {
         const view = this.props.view!;
         return renderContents(view);
     }
-}
+}));
 
 function renderContents(view: ViewStore) {
     switch (view.page) {

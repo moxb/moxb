@@ -19,8 +19,7 @@ export interface BindFormItemAntProps extends Partial<FormItemProps> {
     extraMarkdown?: string;
 }
 
-@observer
-export class FormItemAnt extends React.Component<BindFormItemAntProps> {
+export const FormItemAnt = observer(class FormItemAnt extends React.Component<BindFormItemAntProps> {
     render() {
         const {
             operation,
@@ -58,7 +57,7 @@ export class FormItemAnt extends React.Component<BindFormItemAntProps> {
             </Form.Item>
         );
     }
-}
+});
 
 /**
  * This function filters out the props, which are not needed by a FormItem children.

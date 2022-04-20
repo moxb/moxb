@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from './location-manager';
 import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerImpl } from './location-state-space';
 import { TokenManager, TokenMappings } from './TokenManager';
@@ -96,7 +96,6 @@ export class TokenManagerImpl implements TokenManager {
     /**
      * Get all the registered token mappings.
      */
-    @computed
     private get _mappings(): (LiveTokenMappings<any> | PermanentMapping)[] {
         return Array.from(this._mappingRegistry.values());
     }
@@ -104,7 +103,15 @@ export class TokenManagerImpl implements TokenManager {
     constructor(
         private readonly _locationManager: LocationManager,
         private readonly _config: TokenManagerConfig = {}
-    ) {}
+    ) {
+        makeObservable<TokenManagerImpl, "_mappings">(this, {
+            _mappings: computed,
+            addMappings: action,
+            addPermanentMappings: action,
+            removeMappings: action,
+            tokens: computed
+        });
+    }
 
     /**
      * A convenience function for defining UrlArg-like objects on top of this token manager
@@ -142,7 +149,6 @@ export class TokenManagerImpl implements TokenManager {
      * Register some (state-space dependent) token mappings.
      * @param mappings
      */
-    @action
     addMappings<DataType>(mappings: TokenMappings<DataType>) {
         const { id, stateSpace, parsedTokens = 0, filterCondition } = mappings;
         const { debug } = this._config;
@@ -172,7 +178,6 @@ export class TokenManagerImpl implements TokenManager {
     /**
      * Register some permanent (ie. state-space independent) token mappings.
      */
-    @action
     addPermanentMappings(tokenMapping: PathTokenMappingList) {
         this._mappingRegistry.set('permanent', {
             type: 'permanent',
@@ -180,7 +185,6 @@ export class TokenManagerImpl implements TokenManager {
         });
     }
 
-    @action
     removeMappings(mappingsId: string) {
         // console.log('Removing mappings', mappingsId);
         this._mappingRegistry.delete(mappingsId);
@@ -189,7 +193,6 @@ export class TokenManagerImpl implements TokenManager {
     /**
      * Determine the current value of all the defined tokens, based on the available path tokens
      */
-    @computed
     get tokens() {
         const result: Query = {};
         const allTokens = this._locationManager.pathTokens;

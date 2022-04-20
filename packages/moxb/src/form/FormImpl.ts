@@ -1,4 +1,4 @@
-import { action, computed } from 'mobx';
+import { action, computed, makeObservable } from 'mobx';
 import { extractErrorString, t, Value, ValueOrFunction } from '..';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Form } from './Form';
@@ -35,13 +35,26 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         return [];
     }
 
-    @computed
     get values() {
         return this.getValues();
     }
 
     constructor(impl: FormOptions) {
         super(impl);
+
+        makeObservable(this, {
+            values: computed,
+            canSubmitForm: computed,
+            allErrors: computed,
+            hasErrors: computed,
+            hasChanges: computed,
+            hasMissingRequired: computed,
+            onSubmitForm: action.bound,
+            submitDone: action.bound,
+            resetValues: action.bound,
+            clearAllErrors: action.bound
+        });
+
         if (this.impl.values === undefined) {
             throw new Error('The form implementation must have defined children components or a function.');
         }
@@ -50,12 +63,10 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         }
     }
 
-    @computed
     get canSubmitForm() {
         return this.values.findIndex((v) => !!v.isInitialValue) < 0;
     }
 
-    @computed
     get allErrors(): string[] {
         const valuesWithErrors = this.values.filter((v) => !!v.errors);
         // Set keeps the items in insertion order
@@ -71,22 +82,18 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         return Array.from(allErrors);
     }
 
-    @computed
     get hasErrors() {
         return !!(this.values.find((v) => v.errors!.length > 0) || this.errors!.length > 0);
     }
 
-    @computed
     get hasChanges() {
         return !this.values.every((v) => (v.isInitialValue === undefined ? true : v.isInitialValue));
     }
 
-    @computed
     get hasMissingRequired() {
         return !this.values.filter((v) => v.required).every((v) => v.isGiven);
     }
 
-    @action.bound
     onSubmitForm() {
         this.values.forEach((v) => v.save());
         if (this.impl.onSubmit) {
@@ -94,7 +101,6 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         }
     }
 
-    @action.bound
     submitDone(error: any) {
         if (error) {
             this.setError(extractErrorString(error));
@@ -103,12 +109,10 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         }
     }
 
-    @action.bound
     resetValues() {
         this.values.forEach((v) => v.resetToInitialValue());
     }
 
-    @action.bound
     clearAllErrors() {
         if (this.values) {
             this.values.forEach((v) => v.clearErrors());
