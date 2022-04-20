@@ -10,7 +10,7 @@ import { isForwardRef } from './isForwardRef';
  * The use case is that sometimes we want to specify the UI in multiple parts, which can then be inserted
  * to the page at multiple locations. (Like in slots.)
  */
-interface UIFragmentMap {
+export interface UIFragmentMap {
     [id: string]: UIFragment | undefined;
 }
 

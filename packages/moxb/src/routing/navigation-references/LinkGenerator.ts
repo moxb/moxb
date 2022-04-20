@@ -25,7 +25,7 @@ export interface LinkGeneratorProps {
     /**
      * What is the state space that we are using to find out where each NavRefs should point it?
      */
-    states: ValueOrFunction<StateSpace<any, any, any>>;
+    stateSpace: ValueOrFunction<StateSpace<any, any, any>>;
 
     /**
      * What is the root URL that we put into the links?

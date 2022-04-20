@@ -8,7 +8,7 @@ import {
 import { Tabs } from 'antd';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { renderUIFragment, UIFragment, UIFragmentSpec } from '@moxb/html';
+import { extractUIFragmentFromSpec, renderUIFragment, UIFragment, UIFragmentSpec } from '@moxb/html';
 import * as Anchor from '@moxb/html/dist/Anchor';
 import { renderSubStateCore } from '@moxb/html/dist/rendering';
 
@@ -32,11 +32,6 @@ export interface NavTabProps<DataType>
      * Tab bar alignment mode
      */
     mode?: 'top' | 'right' | 'bottom' | 'left';
-
-    /**
-     * Show this when an undefined tab is requested
-     */
-    fallback?: UIFragment;
 }
 
 @inject('locationManager')
@@ -61,7 +56,8 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, DataType>
     ) {
-        const { navControl } = this.props;
+        const { navControl, stateSpace } = this.props;
+        const { fallback } = stateSpace;
         const { label, key, menuKey, itemClassName, newWindow, linkStyle, linkClassName, title } = state;
 
         const url = states.getUrlForSubState(state);
@@ -86,8 +82,9 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         return (
             <TabPane data-testid={id} key={menuKey} tab={tabLabel} {...itemProps}>
                 {states.isSubStateActive(state) &&
-                    renderSubStateCore({
-                        state: state,
+                    renderSubStateCore<DataType>({
+                        state,
+                        fallback,
                         navigationContext: this.props,
                         tokenIncrease: state ? state.totalPathTokens.length : 1,
                         checkCondition: false,
@@ -105,18 +102,22 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
         );
     }
 
-    protected renderErrorPanel(parentId: string, content: UIFragment = 'Content not found') {
+    protected renderErrorPanel(
+        parentId: string,
+        myFallback: UIFragmentSpec = 'Content not found',
+        part: string | undefined
+    ) {
         const id = idToDomId(`${parentId}.${NOT_FOUND}`);
         return (
             <TabPane data-testid={id} key={NOT_FOUND} tab={'???'}>
-                {renderUIFragment(content)}
+                {renderUIFragment(extractUIFragmentFromSpec(undefined, myFallback, part))}
             </TabPane>
         );
     }
 
     public render() {
         const states = this.getLocationDependantStateSpaceHandler();
-        const { extras = [], style, mode, id, fallback } = this.props;
+        const { extras = [], style, mode, id, stateSpace, part } = this.props;
         const activeKey = states.getActiveSubStateMenuKeys(true)[0];
         return (
             <Tabs
@@ -142,7 +143,7 @@ export class NavTabBarAnt<DataType> extends React.Component<NavTabProps<DataType
                     })
                     .map((state) => this.renderStateTabPane(id, states, state))}
                 {extras.map((f) => renderUIFragment(f))}
-                {!activeKey && this.renderErrorPanel(id, fallback)}
+                {!activeKey && this.renderErrorPanel(id, stateSpace.fallback, part)}
             </Tabs>
         );
     }

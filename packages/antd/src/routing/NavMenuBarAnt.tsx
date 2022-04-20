@@ -25,10 +25,24 @@ export interface NavMenuProps<DataType>
     style?: React.CSSProperties;
 
     /**
-     * Menu alignment mode. (Default is 'horizontal')
+     * Menu alignment mode.
+     *
+     * Valid values are "horizontal", "vertical", "inline".
+     * (Default is 'horizontal')
      */
     mode?: MenuMode;
+
+    /**
+     * What triggers sub-menus to open?
+     *
+     * Valid values are "hover" (the default) and "click".
+     */
     triggerSubMenuAction?: TriggerSubMenuAction;
+
+    /**
+     * In case of an inline menu, how do we decide about which groups are open and closed?
+     */
+    openGroups?: 'force-closed' | 'start-closed' | 'default' | 'start-open' | 'force-open';
 }
 
 @inject('locationManager')
@@ -132,15 +146,40 @@ export class NavMenuBarAnt<DataType> extends React.Component<NavMenuProps<DataTy
         // AndD's Menu is smart enough to automatically indicate active state
         // on all groups, so we only ask for the leaves.
         const selectedMenuKeys = states.getActiveSubStateMenuKeys(true);
-        const { extras = [], style, mode = 'horizontal', triggerSubMenuAction } = this.props;
+        const { extras = [], style, mode = 'horizontal', triggerSubMenuAction, openGroups = 'default' } = this.props;
         const actualStyle: React.CSSProperties = { ...style };
         if (mode === 'horizontal') {
             actualStyle.width = '100%';
         }
+        const openProps: {
+            openKeys?: string[];
+            defaultOpenKeys?: string[];
+        } = {};
+        if (mode === 'inline') {
+            const groupKeys = states._subStatesInContext.filter((s) => !!s.subStates).map((s) => s.menuKey);
+            switch (openGroups) {
+                case 'force-closed':
+                    openProps.openKeys = [];
+                    break;
+                case 'start-closed':
+                    openProps.defaultOpenKeys = [];
+                    break;
+                case 'default':
+                    break;
+                case 'start-open':
+                    openProps.defaultOpenKeys = groupKeys;
+                    break;
+                case 'force-open':
+                    openProps.openKeys = groupKeys;
+            }
+        }
+
         return (
             <Menu
                 triggerSubMenuAction={triggerSubMenuAction}
                 selectedKeys={selectedMenuKeys}
+                // defaultOpenKeys={defaultOpenKeys}
+                {...openProps}
                 mode={mode}
                 style={actualStyle}
             >

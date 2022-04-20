@@ -88,7 +88,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     protected readonly _keyGen: SubStateKeyGenerator;
     protected readonly _linkGenerator?: LinkGenerator;
     protected readonly _resolveNavRefs: boolean;
-    protected readonly _subStates: StateSpace<LabelType, WidgetType, DataType>;
+    protected readonly _stateSpace: StateSpace<LabelType, WidgetType, DataType>;
     public readonly _subStatesInContext: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _allSubStates: SubStateInContext<LabelType, WidgetType, DataType>[];
     protected readonly _filterCondition?: StateCondition<DataType>;
@@ -99,10 +99,12 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
      *
      * @param parentPathTokens the path tokens required to reach this the level where this sub-state is directly selectable
      * @param state The sub-state to work with
+     * @param metaData Meta-data about the state-space where this sub-state comes from
      */
     protected _addContext(
         parentPathTokens: string[],
-        state: SubState<LabelType, WidgetType, DataType>
+        state: SubState<LabelType, WidgetType, DataType>,
+        metaData: string
     ): SubStateInContext<LabelType, WidgetType, DataType> {
         const { root, key, subStates, flat, pathTokens, navRefCall } = state;
         const newTokens = !!subStates ? (flat ? [] : [key!]) : root ? [] : [key!];
@@ -125,8 +127,9 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
             parentPathTokens,
             totalPathTokens,
             isGroupOnly: !!subStates,
-            subStates: subStates ? subStates.map((s) => this._addContext(totalPathTokens, s)) : undefined,
+            subStates: subStates ? subStates.map((s) => this._addContext(totalPathTokens, s, metaData)) : undefined,
             menuKey: this._keyGen.getKey(parentPathTokens, state),
+            metaData,
         };
     }
 
@@ -140,7 +143,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
     }
 
     public constructor(props: StateSpaceHandlerProps<LabelType, WidgetType, DataType>) {
-        const { id, keyGen, subStates, filterCondition, linkGenerator, debug } = props;
+        const { id, keyGen, stateSpace, filterCondition, linkGenerator, debug } = props;
         this._id = id || 'no-id';
         this._linkGenerator = linkGenerator;
         this._resolveNavRefs = !!linkGenerator;
@@ -148,8 +151,8 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         this._keyGen = keyGen || new SubStateKeyGeneratorImpl();
         this._enumerateSubStates = this._enumerateSubStates.bind(this);
         this._addContext = this._addContext.bind(this);
-        this._subStates = subStates;
-        this._subStatesInContext = subStates.map((s) => this._addContext([], s));
+        this._stateSpace = stateSpace;
+        this._subStatesInContext = stateSpace.subStates.map((s) => this._addContext([], s, stateSpace.metaData));
         this._allSubStates = Array.prototype.concat(...this._subStatesInContext.map(this._enumerateSubStates));
         this._filterCondition = filterCondition;
     }
@@ -236,9 +239,8 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
             !isGroupOnly && doTokenStringsMatch(wantedTokens, totalPathTokens, parsedTokens, !!root, this._debug);
         if (this._debug) {
             console.log(
-                'State space handler',
-                this._id,
-                'Testing state',
+                `State space handler "${this._id}"`,
+                `testing state from space "${state.metaData}"`,
                 state,
                 'current tokens',
                 wantedTokens,

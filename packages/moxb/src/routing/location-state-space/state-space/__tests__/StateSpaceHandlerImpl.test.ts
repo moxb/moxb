@@ -3,7 +3,7 @@ import { testStateSpace } from './TestStateSpace';
 
 describe('State-Space Handler implementation', () => {
     const handler = new StateSpaceHandlerImpl({
-        subStates: testStateSpace,
+        stateSpace: testStateSpace,
         filterCondition: (data) => !(data && data.secret), // in menus, we will hide the "secret" items
         id: 'test state space',
         // debug: true,

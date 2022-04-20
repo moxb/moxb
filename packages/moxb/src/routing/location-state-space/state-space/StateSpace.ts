@@ -149,10 +149,25 @@ export interface SubState<LabelType, WidgetType, DataType>
 /**
  * The totality of all possible states for a given part of the app UI
  */
-export type StateSpace<LabelType, WidgetType, DataType> = SubState<LabelType, WidgetType, DataType>[];
+export interface StateSpace<LabelType, WidgetType, DataType> {
+    /**
+     * Generic data related to this state space, if any
+     */
+    metaData: string;
+
+    /**
+     * The list of possible sub-states within this state
+     */
+    subStates: SubState<LabelType, WidgetType, DataType>[];
+
+    /**
+     * How do we define the sub-state in case we are at an undefined location?
+     */
+    fallback?: WidgetType;
+}
 
 /**
- * This interface describes how the identify a sub-state within a state-space
+ * This interface describes how to identify a sub-state within a state-space
  */
 export interface SubStateInContext<LabelType, WidgetType, DataType> extends SubState<LabelType, WidgetType, DataType> {
     /**
@@ -175,6 +190,11 @@ export interface SubStateInContext<LabelType, WidgetType, DataType> extends SubS
      * The menu key generated for this sub-state
      */
     menuKey: string;
+
+    /**
+     * Mete-data about the original state-space where this sub-state comes from
+     */
+    metaData: any;
 
     /**
      * We are restricting the SubStates array so that we know that they all must have context, too

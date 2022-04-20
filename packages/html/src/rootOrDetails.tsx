@@ -20,7 +20,7 @@ interface OwnProps<DataType> {
     ifDetails: SubStateCoreInfo<UIFragmentSpec, DataType>;
 }
 
-type ComponentProps<DataType> = UsesLocation & NavigableContent<UIFragmentSpec, DataType>;
+type ComponentProps<DataType> = UsesLocation & NavigableContent<DataType>;
 
 export interface DetailProps {
     token: string;

@@ -1,4 +1,4 @@
-import { NavigableContent } from '@moxb/moxb';
+import { NavigableUIContent } from '@moxb/html';
 import { ActionButtonAnt, FormAnt, TextFormAnt } from '@moxb/antd';
 import { Row } from 'antd';
 import UserOutlined from '@ant-design/icons/UserOutlined';
@@ -9,7 +9,7 @@ import { Application } from '../app/Application';
 
 @inject('app')
 @observer
-export class LoginFormAnt extends React.Component<{ app?: Application } & NavigableContent<any, any>> {
+export class LoginFormAnt extends React.Component<{ app?: Application } & NavigableUIContent> {
     componentDidMount(): void {
         const { navControl } = this.props;
         navControl.registerStateHooks({
