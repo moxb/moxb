@@ -9,8 +9,13 @@ Next version
 ### Added
 
 ### Fixed
+- Fixed inconsistent package-lock formats
+- Fix a bug when he definition of the menu is changing on the fly (not only our position).
 
 ### Changed
+- Updated AntD
+- Updated the navigation interfaces: also pass in the fallback state via the state space definition
+  (Instead if passing it in separately to the various UI components.)
 
 
 [v0.2.0-beta.92](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.92) (2021-10-28)
