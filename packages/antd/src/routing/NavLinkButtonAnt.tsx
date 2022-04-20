@@ -30,7 +30,7 @@ export class NavLinkButtonAnt extends React.Component<NavLinkButtonAntProps & Us
     }
 
     /**
-     * Calculate the location where this links should take us
+     * Calculate the location where these links should take us
      */
     protected getWantedLocation(): MyLocation {
         const { position, to, argChanges, appendTokens, removeTokenCount, toRef } = this.props;
