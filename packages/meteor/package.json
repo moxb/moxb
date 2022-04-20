@@ -42,8 +42,8 @@
     ]
   },
   "peerDependencies": {
-    "@moxb/moxb": ">0.2.0-beta.78",
-    "mobx": "^5.15.7",
+    "@moxb/moxb": ">0.2.0-beta.93",
+    "mobx": "^6.5.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
@@ -51,8 +51,8 @@
     "@types/jest": "26.0.23",
     "@types/meteor": "1.4.70",
     "@types/uuid": "8.3.0",
-    "mobx": "5.15.7",
-    "mobx-react": "6.3.1",
+    "mobx": "6.5.0",
+    "mobx-react": "7.3.0",
     "mongo-mock": "4.0.0",
     "tslib": "2.3.1"
   },
