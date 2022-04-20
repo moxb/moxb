@@ -230,7 +230,7 @@ function parseQueryBasic<T>(
         return replaceRegexObject(combineWithAnd(searchFilters, filter, additionalFilter));
     } catch (e) {
         // we turn the error into a meteor error. This may happen if there is a syntax error in the regex
-        throw new Meteor.Error(e.message);
+        throw new Meteor.Error((e as any).message);
     }
 }
 

@@ -8,11 +8,11 @@
   "license": "MIT",
   "dependencies": {
     "@ant-design/icons": "4.7.0",
-    "@moxb/antd": "0.2.0-beta.86",
-    "@moxb/html": "0.2.0-beta.86",
-    "@moxb/meteor": "0.2.0-beta.86",
-    "@moxb/moxb": "0.2.0-beta.86",
-    "@moxb/semui": "0.2.0-beta.86",
+    "@moxb/antd": "^0.2.0-beta.86",
+    "@moxb/html": "^0.2.0-beta.86",
+    "@moxb/meteor": "^0.2.0-beta.86",
+    "@moxb/moxb": "^0.2.0-beta.86",
+    "@moxb/semui": "^0.2.0-beta.86",
     "antd": "4.18.6",
     "less": "4.1.1",
     "marked": "2.0.6",
@@ -22,7 +22,7 @@
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "semantic-ui-react": "1.2.1",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@types/react": "16.14.8",
@@ -31,6 +31,6 @@
     "parcel-plugin-less-js-enabled": "1.0.2",
     "prettier": "2.3.0",
     "tslint": "6.1.3",
-    "typescript": "3.8.3"
+    "typescript": "4.5.4"
   }
 }

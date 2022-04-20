@@ -9,8 +9,10 @@ Next version
 ### Added
 
 ### Fixed
+- Resolve a few TS problems
 
 ### Changed
+- Updated typescript and tslib dependencies everywhere
 
 [v0.2.0-beta.93](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.93) (2022-04-20)
 =======================================================================================

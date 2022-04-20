@@ -46,7 +46,7 @@
   },
   "peerDependencies": {
     "mobx": "^5.15.7",
-    "tslib": "^2.2.0"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/atob": "2.1.2",
@@ -54,7 +54,7 @@
     "@types/lodash.flatten": "4.4.6",
     "@types/urijs": "1.19.15",
     "mobx": "5.15.7",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "dependencies": {
     "atob": "2.1.2",

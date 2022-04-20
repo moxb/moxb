@@ -99,7 +99,7 @@ function convertError(e: Error): Meteor.Error {
 }
 
 /**
- * Create a wrapper around a function, that will convert anyhing that is thrown into Meteor.Errors
+ * Create a wrapper around a function, that will convert anything that is thrown into Meteor.Errors
  */
 // based on https://stackoverflow.com/a/28998603/2297345
 export function wrapException<A extends Function>(f: A): A {
@@ -107,7 +107,7 @@ export function wrapException<A extends Function>(f: A): A {
         try {
             return f.apply(undefined, args);
         } catch (e) {
-            throw convertError(e);
+            throw convertError(e as any);
         }
     }) as any;
 }

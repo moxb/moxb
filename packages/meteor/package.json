@@ -44,7 +44,7 @@
   "peerDependencies": {
     "@moxb/moxb": ">0.2.0-beta.78",
     "mobx": "^5.15.7",
-    "tslib": "^2.2.0"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@moxb/moxb": "^0.2.0-beta.93",
@@ -54,7 +54,7 @@
     "mobx": "5.15.7",
     "mobx-react": "6.3.1",
     "mongo-mock": "4.0.0",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "dependencies": {
     "uuid": "8.3.2"
