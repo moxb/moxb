@@ -4,7 +4,10 @@ import * as React from 'react';
 import { Button, Dropdown, DropdownProps, Form, FormButtonProps } from 'semantic-ui-react';
 import { BindUiProps, parseProps } from './BindUi';
 
-export type ActionUiProps = BindUiProps<Action> & FormButtonProps;
+export type ActionUiProps = BindUiProps<Action> &
+    FormButtonProps & {
+        type?: 'button' | 'submit' | 'reset';
+    };
 
 @observer
 export class ActionFormButtonUi extends React.Component<ActionUiProps> {
