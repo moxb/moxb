@@ -13,6 +13,8 @@ Next version
 
 ### Changed
 - Updated typescript and tslib dependencies everywhere
+- Updated to React 17.0.2 (since the antd bindings haven't yet been updated for React 18)
+- Updated mobx and mobx-react to latest versions
 
 [v0.2.0-beta.93](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.93) (2022-04-20)
 =======================================================================================
