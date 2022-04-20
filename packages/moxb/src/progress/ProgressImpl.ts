@@ -1,7 +1,7 @@
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { Progress, ProgressStatus, ProgressType } from './Progress';
 import { ValueOrFunction } from '../bind/BindImpl';
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 
 export interface ProgressOptions extends ValueOptions<ProgressImpl, number> {
     // The active status of the progress
@@ -15,6 +15,7 @@ export interface ProgressOptions extends ValueOptions<ProgressImpl, number> {
 export class ProgressImpl extends ValueImpl<ProgressImpl, number, ProgressOptions> implements Progress {
     constructor(impl: ProgressOptions) {
         super(impl);
+        makeObservable(this);
     }
 
     @computed

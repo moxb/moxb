@@ -1,21 +1,18 @@
 import { UIFragmentSpec } from '@moxb/antd';
-import { getNextPathToken, getParsedPathTokens, Navigable, UsesLocation } from '@moxb/moxb';
-import { inject, observer } from 'mobx-react';
+import { getNextPathToken, getParsedPathTokens, Navigable, useLocationManager } from '@moxb/moxb';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 
-@inject('locationManager')
-@observer
-export class TokenDisplayer extends React.Component<Navigable<UIFragmentSpec> & UsesLocation> {
-    public render() {
-        return (
+export const TokenDisplayer = observer((props: Navigable<UIFragmentSpec>) => {
+    const locationManager = useLocationManager('token displayer');
+    return (
+        <div>
             <div>
-                <div>
-                    We are at <b>{getParsedPathTokens(this.props).join(' / ')}</b>
-                </div>
-                <div>
-                    Next token this <b>{getNextPathToken(this.props)}</b>
-                </div>
+                We are at <b>{getParsedPathTokens({ ...props, locationManager }).join(' / ')}</b>
             </div>
-        );
-    }
-}
+            <div>
+                Next token this <b>{getNextPathToken({ ...props, locationManager })}</b>
+            </div>
+        </div>
+    );
+});

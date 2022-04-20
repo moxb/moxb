@@ -17,6 +17,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "allowUnreachableCode": false,
+        "useDefineForClassFields": true,
         "removeComments": false
     },
     "exclude": [

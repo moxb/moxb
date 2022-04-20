@@ -1,5 +1,5 @@
 import { BoundLink, readDecision } from '@moxb/moxb';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { NavLink, NavLinkParams, NavLinkProps } from './NavLink';
 
@@ -10,28 +10,25 @@ export interface BoundNavLinkProps extends NavLinkParams {
     operation: BoundLink;
 }
 
-@observer
-export class BoundNavLink extends React.Component<BoundNavLinkProps> {
-    render() {
-        const { operation, children, ...rest } = this.props;
+export const BoundNavLink = observer((props: BoundNavLinkProps) => {
+    const { operation, children, ...rest } = props;
 
-        if (operation.invisible) {
-            return null;
-        }
-
-        const linkProps: NavLinkProps = {
-            to: operation.to,
-            argChanges: operation.argChanges,
-            position: operation.position,
-            appendTokens: operation.appendTokens,
-            removeTokenCount: operation.removeTokenCount,
-            label: operation.label,
-            toRef: operation.toRef,
-            title: operation.help,
-            disabled: readDecision(operation.disabled),
-            ...rest,
-        };
-
-        return <NavLink {...linkProps}>{children}</NavLink>;
+    if (operation.invisible) {
+        return null;
     }
-}
+
+    const linkProps: NavLinkProps = {
+        to: operation.to,
+        argChanges: operation.argChanges,
+        position: operation.position,
+        appendTokens: operation.appendTokens,
+        removeTokenCount: operation.removeTokenCount,
+        label: operation.label,
+        toRef: operation.toRef,
+        title: operation.help,
+        disabled: readDecision(operation.disabled),
+        ...rest,
+    };
+
+    return <NavLink {...linkProps}>{children}</NavLink>;
+});

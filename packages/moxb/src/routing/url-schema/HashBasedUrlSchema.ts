@@ -2,8 +2,6 @@ const MyURI = require('urijs');
 import { MyLocation } from '../location-manager';
 import { Query, UrlSchema } from './UrlSchema';
 
-export interface Props {}
-
 /**
  * This is a URL schema that stores the path and the URL arguments in the hash part of the URL.
  *

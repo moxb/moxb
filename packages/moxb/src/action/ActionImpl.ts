@@ -1,9 +1,10 @@
-import { action, computed } from 'mobx';
+import { action, computed, makeObservable } from 'mobx';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Action } from './Action';
 
 export interface ActionOptions extends BindOptions {
     fire(): Promise<void> | void;
+
     pending?: () => boolean;
     readonly keyboardShortcuts?: string | string[];
 }
@@ -11,6 +12,7 @@ export interface ActionOptions extends BindOptions {
 export class ActionImpl extends BindImpl<ActionOptions> implements Action {
     constructor(impl: ActionOptions) {
         super(impl);
+        makeObservable(this);
     }
 
     protected getPending() {
@@ -56,10 +58,15 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
         });
     }
 
+    @action.bound
     fire() {
         this.firePromise().then(
-            () => {},
-            () => {}
+            () => {
+                // This is intentional
+            },
+            () => {
+                // this is intentional
+            }
         );
     }
 }

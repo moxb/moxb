@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 
 import { ArgDefinition, ParserFunc, UrlArg } from './UrlArg';
 import { MyLocation, SuccessCallback, TestLocation, UpdateMethod } from '../location-manager/LocationManager';
@@ -18,6 +18,7 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
     public readonly defaultValue: T;
 
     public constructor(definition: ArgDefinition<T>, protected readonly backend: UrlArgBackend) {
+        makeObservable(this);
         const { parser, valueType } = (this._def = definition);
         this._parser = parser || valueType.getParser(JSON.stringify(definition));
         this.defaultValue = this._def.defaultValue;

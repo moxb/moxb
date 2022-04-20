@@ -1,24 +1,19 @@
-import { Provider } from 'mobx-react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppRouterUi } from './app/AppRouterUi';
-import { StoreImpl } from './store/Store';
+import { createStore, StoreProvider } from './store/Store';
 
-const model = new StoreImpl();
-(window as any).model = model;
-(window as any).store = model;
-(window as any).view = model.view;
+const store = createStore();
+(window as any).model = store;
+(window as any).store = store;
+(window as any).view = store.view;
 
-class App extends React.Component {
-    render() {
-        return (
-            <>
-                <Provider {...model}>
-                    <AppRouterUi />
-                </Provider>
-            </>
-        );
-    }
-}
+const App = () => (
+    <>
+        <StoreProvider value={store}>
+            <AppRouterUi />
+        </StoreProvider>
+    </>
+);
 
 ReactDOM.render(<App />, document.getElementById('example-app'));

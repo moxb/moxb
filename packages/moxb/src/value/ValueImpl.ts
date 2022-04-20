@@ -1,4 +1,4 @@
-import { action, comparer, computed, observable } from 'mobx';
+import { action, comparer, computed, observable, makeObservable } from 'mobx';
 import { BindImpl, BindOptions, getValueOrFunction, StringOrFunction, ValueOrFunction } from '../bind/BindImpl';
 import { t } from '../i18n/i18n';
 import { extractErrorString } from '../validation/ErrorMessage';
@@ -49,7 +49,7 @@ export interface ValueOptions<B, T> extends BindOptions {
     placeholder?: StringOrFunction;
 
     /**
-     * Is called when Value.save is called and Value.isInitialValue is false.
+     * Is called when Value.save() is called and Value.isInitialValue is false.
      * `done` must be called else the binding stays in saving state.
      *
      * @param {Value<T>} bind
@@ -58,6 +58,7 @@ export interface ValueOptions<B, T> extends BindOptions {
     onSave?(bind: B, done: (error?: any) => void): void;
 
     onExitField?(bind: B): void;
+
     onEnterField?(bind: B): void;
 
     /**
@@ -87,6 +88,7 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
 
     constructor(impl: Options) {
         super(impl);
+        makeObservable(this);
         if (!!this.impl.setValue !== !!this.impl.getValue) {
             throw new Error('getValue and setValue must both be specified or none!');
         }
@@ -108,6 +110,7 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
     private getInitialValue(): T | undefined {
         return getValueOrFunction(this.impl.initialValue);
     }
+
     @computed
     get inputType() {
         return this.impl.inputType;
@@ -194,6 +197,7 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
             return this.compare(this.getInitialValue(), this.value);
         }
     }
+
     protected compare(a: T | undefined, b: T | undefined) {
         if (a === b) {
             return true;
@@ -206,6 +210,7 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         }
         return comparer.structural(a, b);
     }
+
     @action.bound
     resetToInitialValue() {
         if (this.impl.setValue) {
@@ -228,6 +233,7 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
             this.impl.onSave(this as any, this.saveDone);
         }
     }
+
     @action.bound
     private saveDone(error: any) {
         if (error) {
@@ -237,9 +243,11 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
         }
         this._isSaving = false;
     }
+
     get isSaving() {
         return this._isSaving;
     }
+
     @action.bound
     onEnterField() {
         if (this.impl.onEnterField) {

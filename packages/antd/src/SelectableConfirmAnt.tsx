@@ -1,5 +1,5 @@
 import { ModalFuncProps } from 'antd/lib/modal';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { parseProps } from './BindAnt';
 import { Modal, Button } from 'antd';
 import { BindMarkdownDiv } from './LabelAnt';
@@ -11,38 +11,35 @@ export interface BindSelectableConfirmAntProps extends ModalFuncProps {
     invisible?: boolean;
 }
 
-@observer
-export class SelectableConfirmAnt extends React.Component<BindSelectableConfirmAntProps> {
-    render() {
-        const { operation, ...props } = parseProps(this.props, this.props.operation);
+export const SelectableConfirmAnt = observer((props: BindSelectableConfirmAntProps) => {
+    const { operation, ...rest } = parseProps(props, props.operation);
 
-        if (!operation.confirmButtons.length) {
-            console.warn('SelectableConfirmAnt was called without any confirm button!');
-            return null;
-        }
-
-        return (
-            <Modal
-                {...(props as any)}
-                onOk={() => operation.onConfirm(0)}
-                visible={operation.open}
-                onCancel={operation.onCancel}
-                cancelText={operation.cancelButton.label}
-                okText={operation.confirmButtons[0].label}
-                title={<BindMarkdownDiv text={operation.header || ''} />}
-                footer={[
-                    ...operation.confirmButtons.map((b: Bind, i: number) => (
-                        <Button key={b.id} type="primary" onClick={() => operation.onConfirm(i)}>
-                            {b.label}
-                        </Button>
-                    )),
-                    <Button key="back" onClick={operation.onCancel}>
-                        {operation.cancelButton.label}
-                    </Button>,
-                ]}
-            >
-                <BindMarkdownDiv text={operation.content} />
-            </Modal>
-        );
+    if (!operation.confirmButtons.length) {
+        console.warn('SelectableConfirmAnt was called without any confirm button!');
+        return null;
     }
-}
+
+    return (
+        <Modal
+            {...(rest as any)}
+            onOk={() => operation.onConfirm(0)}
+            visible={operation.open}
+            onCancel={operation.onCancel}
+            cancelText={operation.cancelButton.label}
+            okText={operation.confirmButtons[0].label}
+            title={<BindMarkdownDiv text={operation.header || ''} />}
+            footer={[
+                ...operation.confirmButtons.map((b: Bind, i: number) => (
+                    <Button key={b.id} type="primary" onClick={() => operation.onConfirm(i)}>
+                        {b.label}
+                    </Button>
+                )),
+                <Button key="back" onClick={operation.onCancel}>
+                    {operation.cancelButton.label}
+                </Button>,
+            ]}
+        >
+            <BindMarkdownDiv text={operation.content} />
+        </Modal>
+    );
+});

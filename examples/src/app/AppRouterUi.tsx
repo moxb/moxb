@@ -1,20 +1,12 @@
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { LoginFormUi } from '../form/LoginFormUi';
 import { MemTableUi } from '../memtable/MemTableUi';
-import { ViewStore } from '../store/ViewStore';
 import { ApplicationUi } from './ApplicationUi';
+import { useStore } from '../store/Store';
 
-@inject('view')
-@observer
-export class AppRouterUi extends React.Component<{ view?: ViewStore }> {
-    render() {
-        const view = this.props.view!;
-        return renderContents(view);
-    }
-}
-
-function renderContents(view: ViewStore) {
+export const AppRouterUi = observer(() => {
+    const { view } = useStore();
     switch (view.page) {
         case 'index':
             return <ApplicationUi />;
@@ -22,5 +14,7 @@ function renderContents(view: ViewStore) {
             return <LoginFormUi />;
         case 'memTable':
             return <MemTableUi />;
+        default:
+            return null;
     }
-}
+});

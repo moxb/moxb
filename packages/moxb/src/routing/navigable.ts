@@ -4,8 +4,8 @@
  * When we render it, if it is an active component, it needs to know
  * where it stands in the tree.
  */
-import { UsesLocation } from './location-manager';
 import { StateCondition } from './location-state-space/state-space/StateSpace';
+import { LocationManager } from './location-manager';
 
 export type LeaveQuestionGenerator = () => string | null | undefined;
 
@@ -82,15 +82,15 @@ export interface NavigableContent<DataType> extends Navigable<DataType> {
 /**
  * Extract the next path token from the location manager, based on the number of parsed tokens passed down
  */
-export function getNextPathToken<DataType>(props: Navigable<DataType> & UsesLocation): string {
+export function getNextPathToken<DataType>(props: Navigable<DataType> & { locationManager: LocationManager }): string {
     const { locationManager, parsedTokens } = props;
-    return locationManager!.pathTokens[parsedTokens!];
+    return locationManager.pathTokens[parsedTokens!];
 }
 
 /**
  * Extract the already parsed path tokens from the location manager, based on the number of parsed tokens passed down
  */
-export function getParsedPathTokens<DataType>(props: Navigable<DataType> & UsesLocation) {
+export function getParsedPathTokens<DataType>(props: Navigable<DataType> & { locationManager: LocationManager }) {
     const { locationManager, parsedTokens } = props;
-    return locationManager!.pathTokens.slice(0, parsedTokens!);
+    return locationManager.pathTokens.slice(0, parsedTokens!);
 }

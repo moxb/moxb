@@ -9,7 +9,7 @@ export class CachedOptionalValueImpl<Output> implements CachedOptionalValue<Outp
 
     constructor(private readonly props: CachedOptionalValueProps<Output>) {}
 
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     get(forceRefresh = false): Output | undefined {
         const { name, debugMode, errorCacheSeconds = 60, normalCacheSeconds = 300, getValue } = this.props;
         const logger = getDebugLogger('CacheOptionalValue-' + name, debugMode);

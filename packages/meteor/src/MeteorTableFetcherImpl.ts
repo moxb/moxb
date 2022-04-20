@@ -1,4 +1,4 @@
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import { MeteorDataFetcherDone } from './MeteorDataFetcher';
 import { MeteorTableData, MeteorTableQuery } from './MeteorTableFetcher';
 import { MethodDataFetcherImpl } from './MethodDataFetcherImpl';
@@ -8,6 +8,7 @@ export class MeteorTableFetcherImpl<T> extends MethodDataFetcherImpl<MeteorTable
         private readonly _fetchData: (query: MeteorTableQuery, done: MeteorDataFetcherDone<MeteorTableData<T>>) => void
     ) {
         super();
+        makeObservable(this);
     }
     getInitialData() {
         return { totalCount: 0, data: [] };

@@ -1,4 +1,4 @@
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Table } from './Table';
 import { TableColumn } from './TableColumn';
@@ -17,15 +17,24 @@ export interface TableColumnOptions extends BindOptions {
 export class TableColumnImpl extends BindImpl<TableColumnOptions> implements TableColumn {
     readonly column: string;
     readonly tableColumn: string;
+
     constructor(impl: TableColumnOptions, private readonly table: Table<any>) {
         super({ ...impl, id: table.id + '.' + impl.id });
+        makeObservable(this);
         this.column = impl.column || impl.id;
         this.tableColumn = impl.tableColumn || this.column;
     }
 
+    // We need to separate the actual method triggering the search from the public API,
+    // so that we can use a jest spy on the public API.
+    // (The mobx-wrapped action can't be wrapped by the spy.)
     @action.bound
-    toggleSort() {
+    private _toggleSort() {
         this.table.sort.toggleSort(this.tableColumn, this.preferredSortDirection);
+    }
+
+    toggleSort() {
+        this._toggleSort();
     }
 
     get preferredSortDirection() {

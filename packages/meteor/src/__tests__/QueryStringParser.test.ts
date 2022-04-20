@@ -15,7 +15,7 @@ describe('parseQuery', function () {
     it('should return the additional query', function () {
         expect(parseQuery('', { whatever: 'xxx' }, ['foo', 'bar.baz'])).toEqual({ whatever: 'xxx' });
     });
-    it('should use reges on each field', function () {
+    it('should use regex on each field', function () {
         expect(parseQuery('', null, [])).toEqual({});
     });
     it('should return the parsed query', function () {
@@ -31,14 +31,18 @@ describe('parseQuery', function () {
     it('should return regex for each field', function () {
         expect(parseQuery('a -b c.*', undefined, ['foo', 'bar.baz'])).toEqual({
             $and: [
-                { $or: [{ foo: { $options: 'i', $regex: 'a' } }, { 'bar.baz': { $options: 'i', $regex: 'a' } }] },
+                {
+                    $or: [{ foo: { $options: 'i', $regex: 'a' } }, { 'bar.baz': { $options: 'i', $regex: 'a' } }],
+                },
                 {
                     $and: [
                         { foo: { $options: 'i', $regex: '^((?!b).)*$' } },
                         { 'bar.baz': { $options: 'i', $regex: '^((?!b).)*$' } },
                     ],
                 },
-                { $or: [{ foo: { $options: 'i', $regex: 'c.*' } }, { 'bar.baz': { $options: 'i', $regex: 'c.*' } }] },
+                {
+                    $or: [{ foo: { $options: 'i', $regex: 'c.*' } }, { 'bar.baz': { $options: 'i', $regex: 'c.*' } }],
+                },
             ],
         });
     });
@@ -46,21 +50,29 @@ describe('parseQuery', function () {
     it('should combine all three', function () {
         expect(parseQuery('a -b c.* foo>3 -date:>@2017', { whatever: 'xxx' }, ['foo', 'bar.baz'])).toEqual({
             $and: [
-                { $or: [{ foo: { $options: 'i', $regex: 'a' } }, { 'bar.baz': { $options: 'i', $regex: 'a' } }] },
+                {
+                    $or: [{ foo: { $options: 'i', $regex: 'a' } }, { 'bar.baz': { $options: 'i', $regex: 'a' } }],
+                },
                 {
                     $and: [
                         { foo: { $options: 'i', $regex: '^((?!b).)*$' } },
                         { 'bar.baz': { $options: 'i', $regex: '^((?!b).)*$' } },
                     ],
                 },
-                { $or: [{ foo: { $options: 'i', $regex: 'c.*' } }, { 'bar.baz': { $options: 'i', $regex: 'c.*' } }] },
+                {
+                    $or: [{ foo: { $options: 'i', $regex: 'c.*' } }, { 'bar.baz': { $options: 'i', $regex: 'c.*' } }],
+                },
                 {
                     $or: [
                         { foo: { $options: 'i', $regex: 'foo>3' } },
                         { 'bar.baz': { $options: 'i', $regex: 'foo>3' } },
                     ],
                 },
-                { date: { $not: { $gt: new Date('2017-01-01T00:00:00.000Z') } } },
+                {
+                    date: {
+                        $not: { $gt: new Date('2017-01-01T00:00:00.000Z') },
+                    },
+                },
                 { whatever: 'xxx' },
             ],
         });
@@ -68,7 +80,7 @@ describe('parseQuery', function () {
     it('should throw error on invalid regex', function () {
         // we patch/fake Meteor.Error
         (global as any).Meteor = {
-            Error: function (error: string, reason?: string, details?: string) {
+            Error: function (error: string, _reason?: string, _details?: string) {
                 return new Error(error);
             },
         };
@@ -209,16 +221,18 @@ describe('parseQueryString', function () {
         const result = parseQueryString('field1:/reg ex/ field2:/foo\\/bar/ -field3:/x "\t y/');
         expect(result).toEqual({
             filter: {
+                // eslint-disable-next-line no-control-regex
                 $and: [{ field1: /reg ex/i }, { field2: /foo\/bar/i }, { field3: { $not: /x "	 y/i } }],
             },
         });
     });
     it('should parse regex tab', function () {
         const result = parseQueryString('field1:/"\t/');
+        // eslint-disable-next-line no-control-regex
         expect(result).toEqual({ filter: { field1: /"	/i } });
     });
     it('should parse dates', function () {
-        // note zite zone parsing is a bit difficult, so we use Z to make the time neutral
+        // note time zone parsing is a bit difficult, so we use Z to make the time neutral
         const result = parseQueryString('created:>@2017 updated:<=@2017-03-28T21:26Z');
         expect(result).toEqual({
             filter: {
@@ -271,9 +285,9 @@ describe('getFieldValue', function () {
         expect(actual).toEqual(1);
     });
 
-    it('should get undefinded if not in string', function () {
+    it('should get undefined if not in string', function () {
         const actual = getFieldValue('x:"a b" foo:1 a.b:"a:b" foo:2', 'xxx');
-        // here we undefined and not null, because null is valid value
+        // here we use undefined and not null, because null is valid value
         expect(actual).toBeUndefined();
     });
 });

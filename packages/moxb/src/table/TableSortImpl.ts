@@ -1,10 +1,11 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { SortColumn, SortDirection, TableSort } from './TableSort';
 
 export class TableSortImpl implements TableSort {
     @observable
     sort: SortColumn[];
     constructor(sort?: SortColumn[]) {
+        makeObservable(this);
         this.sort = sort || [];
     }
     @action.bound

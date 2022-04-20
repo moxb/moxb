@@ -46,7 +46,7 @@ interface MeteorActionOptions<Input, Output> extends BindOptions {
      *                     The pending flag will normally be cleared right after this 'returned' callback
      *                     is executed, but if you need it sooner, you can do that by calling this.
      */
-    returned: (result: Output, clearPending: Function) => void;
+    returned: (result: Output, clearPending: () => void) => void;
 }
 
 /**
@@ -61,7 +61,7 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
 
     function getData(): Input {
         if (typeof input === 'function') {
-            return (input as Function)();
+            return (input as () => Input)();
         } else {
             return input!;
         }
@@ -71,7 +71,9 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
         ? (...stuff: any[]) => {
               console.log('Meteor method action', '"' + options.id + '"', ':', ...stuff);
           }
-        : () => {};
+        : () => {
+              // Not in debug mode, so no logging
+          };
 
     const actionOptions: ActionOptions = {
         ...rest,

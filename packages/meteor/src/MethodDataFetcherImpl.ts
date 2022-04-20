@@ -1,4 +1,13 @@
-import { action, autorun, computed, IReactionDisposer, observable, onBecomeObserved, onBecomeUnobserved } from 'mobx';
+import {
+    action,
+    autorun,
+    computed,
+    IReactionDisposer,
+    observable,
+    onBecomeObserved,
+    onBecomeUnobserved,
+    makeObservable,
+} from 'mobx';
 import { MeteorDataFetcher, MeteorDataFetcherDone, MeteorDataFetcherFunction } from './MeteorDataFetcher';
 
 /**
@@ -6,13 +15,16 @@ import { MeteorDataFetcher, MeteorDataFetcherDone, MeteorDataFetcherFunction } f
  */
 class CancelableDone<D> {
     private canceled = false;
+
     constructor(private readonly doneFunc: MeteorDataFetcherDone<D>) {}
+
     done = (err: any, data: D | undefined) => {
         if (!this.canceled) {
             // call the done function ONLY if the request is not cancelled!
             this.doneFunc(err, data);
         }
     };
+
     cancel() {
         this.canceled = true;
     }
@@ -26,7 +38,7 @@ class CancelableDone<D> {
  *
  * When a request is cancelled, the `done` method does nothing.
  */
-export abstract class MethodDataFetcherImpl<Q, D extends Object> implements MeteorDataFetcher<Q, D> {
+export abstract class MethodDataFetcherImpl<Q, D> implements MeteorDataFetcher<Q, D> {
     private autorunDisposer!: IReactionDisposer;
     private dataFetcherFunction: MeteorDataFetcherFunction<D> | undefined;
     @observable.struct
@@ -40,12 +52,14 @@ export abstract class MethodDataFetcherImpl<Q, D extends Object> implements Mete
     private currentRequestDone: CancelableDone<D> | undefined;
 
     constructor() {
+        makeObservable(this);
         this._data = this.getInitialData();
     }
 
     get dataReady() {
         return this._dataReady;
     }
+
     @computed
     get data() {
         return this.getData();

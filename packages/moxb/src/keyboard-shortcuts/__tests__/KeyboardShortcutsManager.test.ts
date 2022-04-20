@@ -132,11 +132,13 @@ describe('KeyboardShortcutGroupImpl', function () {
     });
 });
 describe('registerKeyboardShortcuts', function () {
-    // @ts-ignore
     let manager: KeyboardShortcutsManager;
 
     beforeEach(function () {
-        manager = new KeyboardShortcutsManagerImpl({ bind: jest.fn(), unbind: jest.fn() });
+        manager = new KeyboardShortcutsManagerImpl({
+            bind: jest.fn(),
+            unbind: jest.fn(),
+        });
     });
     it('should have empty actionMd if no actions defined', function () {
         manager.registerKeyboardShortcuts(
@@ -426,9 +428,8 @@ describe('registerKeyboardShortcuts unbind', function () {
     });
 });
 describe('calling actions', function () {
-    // @ts-ignore
     let manager: KeyboardShortcutsManager;
-    let boundShortcuts: { [sortcut: string]: Function } = {};
+    let boundShortcuts: { [sortCut: string]: (() => void) | undefined } = {};
     let binder: ShortcutBinder;
     let shortcutsGroup1: KeyboardShortcutGroup;
     let shortcutsGroup2: KeyboardShortcutGroup;
@@ -447,7 +448,6 @@ describe('calling actions', function () {
         binder = {
             bind: (s, f) => (boundShortcuts[s] = f),
             unbind: (s) => {
-                // @ts-ignore
                 boundShortcuts[s] = undefined;
             },
         };
@@ -565,7 +565,10 @@ describe('actionMd', function () {
     let shortcutsGroup1: KeyboardShortcutGroup;
     let shortcutsGroup2: KeyboardShortcutGroup;
     beforeEach(function () {
-        manager = new KeyboardShortcutsManagerImpl({ bind: jest.fn(), unbind: jest.fn() });
+        manager = new KeyboardShortcutsManagerImpl({
+            bind: jest.fn(),
+            unbind: jest.fn(),
+        });
         shortcutsGroup1 = new KeyboardShortcutGroupImpl({
             id: 'groupFile',
             label: 'File',

@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { ValueOrFunction } from '../bind/BindImpl';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { BindOneOfChoice, OneOf } from './OneOf';
@@ -14,6 +14,7 @@ export class OneOfImpl<T = string> extends ValueImpl<OneOfImpl<T>, T, OneOfOptio
 
     constructor(impl: OneOfOptions<T>) {
         super(impl);
+        makeObservable(this);
     }
 
     @computed

@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { MyLocation, locationToUrl, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TokenManager } from '../TokenManager';
 import { Query } from '../url-schema/UrlSchema';
@@ -16,6 +16,7 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     public readonly defaultValue: T;
 
     public constructor(private readonly _tokenManager: TokenManager, definition: UrlArgDefinition<T>) {
+        makeObservable(this);
         const { parser, valueType, key } = (this._def = definition);
         this._parser = parser || valueType.getParser(key);
         this.key = this._def.key;

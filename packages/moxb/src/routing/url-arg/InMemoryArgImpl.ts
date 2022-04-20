@@ -1,14 +1,22 @@
-import { observable } from 'mobx';
+import { observable, makeObservable } from 'mobx';
 import { AnyUrlArgImpl, UrlArgBackend } from './AnyUrlArgImpl';
 import { UrlArg, UrlArgDefinition } from './UrlArg';
-import { SuccessCallback, TestLocation } from '../location-manager/LocationManager';
+import { SuccessCallback } from '../location-manager/LocationManager';
 
 class MiniStore implements UrlArgBackend {
     @observable
     raw: string | undefined;
 
+    constructor() {
+        makeObservable(this);
+    }
+
     get rawValue(): string | undefined {
         return this.raw;
+    }
+
+    set rawValue(value: string | undefined) {
+        this.doSet(value);
     }
 
     doSet(value: string | undefined) {
@@ -22,11 +30,7 @@ class MiniStore implements UrlArgBackend {
         }
     }
 
-    set rawValue(value: string | undefined) {
-        this.doSet(value);
-    }
-
-    rawValueOn(_location: TestLocation): string | undefined {
+    rawValueOn(): string | undefined {
         return this.rawValue;
     }
 }

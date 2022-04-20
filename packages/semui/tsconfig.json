@@ -14,10 +14,11 @@
         "declaration": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
+        "useDefineForClassFields": true,
         "removeComments": false,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "allowUnreachableCode": false,        
+        "allowUnreachableCode": false,
         "baseUrl": "./src",
         "paths": {
             "*": [

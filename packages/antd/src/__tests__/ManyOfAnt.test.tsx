@@ -19,7 +19,9 @@ describe('ManyOfAnt', function () {
             choices: () => allChoices,
             initialValue: () => manyChoices,
             placeholder: () => 'Please select',
-            onSave: () => {},
+            onSave: () => {
+                // This is intentional
+            },
         });
         expect(shallowMoxbToJson(shallow(<ManyOfAnt operation={operation} />))).toMatchSnapshot();
     });
@@ -31,7 +33,9 @@ describe('ManyOfAnt', function () {
             choices: () => allChoices,
             initialValue: () => manyChoices,
             placeholder: () => 'Please select',
-            onSave: () => {},
+            onSave: () => {
+                // This is intentional
+            },
             invisible: () => true,
         });
         expect(shallow(<ManyOfAnt operation={operation} />).type()).toBeNull();
@@ -46,7 +50,9 @@ describe('ManyOfCheckboxAnt', function () {
             choices: () => allChoices,
             initialValue: () => manyChoices,
             placeholder: () => 'Please select',
-            onSave: () => {},
+            onSave: () => {
+                // This is intentional
+            },
         });
         expect(shallowMoxbToJson(shallow(<ManyOfCheckboxAnt operation={operation} />))).toMatchSnapshot();
     });
@@ -58,7 +64,9 @@ describe('ManyOfCheckboxAnt', function () {
             choices: () => allChoices,
             initialValue: () => manyChoices,
             placeholder: () => 'Please select',
-            onSave: () => {},
+            onSave: () => {
+                // This is intentional
+            },
             invisible: () => true,
         });
         expect(shallow(<ManyOfCheckboxAnt operation={operation} />).type()).toBeNull();
@@ -73,7 +81,9 @@ describe('ManyOfFormAnt', function () {
             choices: () => allChoices,
             initialValue: () => manyChoices,
             placeholder: () => 'Please select',
-            onSave: () => {},
+            onSave: () => {
+                // This is intentional
+            },
         });
         expect(shallowMoxbToJson(shallow(<ManyOfFormAnt operation={operation} />))).toMatchSnapshot();
     });
@@ -85,7 +95,9 @@ describe('ManyOfFormAnt', function () {
             choices: () => allChoices,
             initialValue: () => manyChoices,
             placeholder: () => 'Please select',
-            onSave: () => {},
+            onSave: () => {
+                // This is intentional
+            },
             invisible: () => true,
         });
         expect(shallow(<ManyOfFormAnt operation={operation} />).type()).toBeNull();

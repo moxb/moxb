@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { Numeric } from './Numeric';
 
@@ -21,6 +21,7 @@ export interface NumericOptions extends ValueOptions<NumericImpl, number> {
 export class NumericImpl extends ValueImpl<NumericImpl, number, NumericOptions> implements Numeric {
     constructor(impl: NumericOptions) {
         super(impl);
+        makeObservable(this);
     }
 
     @computed

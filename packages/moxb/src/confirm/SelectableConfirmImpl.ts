@@ -1,7 +1,7 @@
 import { Bind } from '../bind/Bind';
 import { ConfirmBaseOptions, ConfirmBaseImpl } from './ConfirmImpl';
 import { SelectableConfirm } from './SelectableConfirm';
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 
 export interface SelectableConfirmOptions<T> extends ConfirmBaseOptions<T> {
     confirmButtons: Bind[];
@@ -13,6 +13,7 @@ export class SelectableConfirmImpl<T>
     implements SelectableConfirm<T> {
     constructor(impl: SelectableConfirmOptions<T>) {
         super(impl);
+        makeObservable(this);
     }
 
     @action.bound

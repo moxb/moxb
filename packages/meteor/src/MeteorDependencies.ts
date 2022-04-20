@@ -3,11 +3,16 @@
 export type Autorun = (
     runFunc: (computation: Tracker.Computation) => void,
     options?: {
-        onError?: Function;
+        onError?: () => void;
     }
 ) => Tracker.Computation;
 
-export let meteorAutorun: Autorun = () => ({ stop() {} } as any);
+export let meteorAutorun: Autorun = () =>
+    ({
+        stop() {
+            // This is intentional
+        },
+    } as any);
 
 export function setMeteorAutorun(autorun: Autorun) {
     meteorAutorun = autorun;

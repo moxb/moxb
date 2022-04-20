@@ -1,7 +1,9 @@
 import { forwardRef } from 'react';
 
 // forward references
-const empty: any = (_props: any, _ref: any) => {};
+const empty: any = (_props: any, _ref: any) => {
+    // Don't do anything
+};
 export const ReactForwardRefSymbol = typeof forwardRef === 'function' && forwardRef(empty).$$typeof;
 
 // this should return component is ForwardRef, but React has no ForwardRef type...

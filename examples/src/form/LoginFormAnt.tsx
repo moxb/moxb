@@ -3,45 +3,43 @@ import { ActionButtonAnt, FormAnt, TextFormAnt } from '@moxb/antd';
 import { Row } from 'antd';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import LockOutlined from '@ant-design/icons/LockOutlined';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import { Application } from '../app/Application';
+import { useEffect } from 'react';
+import { useStore } from '../store/Store';
 
-@inject('app')
-@observer
-export class LoginFormAnt extends React.Component<{ app?: Application } & NavigableUIContent> {
-    componentDidMount(): void {
-        const { navControl } = this.props;
+export const LoginFormAnt = observer((props: NavigableUIContent) => {
+    const { app } = useStore();
+
+    useEffect(() => {
+        const { navControl } = props;
         navControl.registerStateHooks({
             getLeaveQuestion: () =>
-                this.props.app!.formPasswordText.value
+                app!.formPasswordText.value
                     ? 'Really leave the login form? You have already entered your super secure password!'
                     : null,
         });
-    }
+    }, []);
 
-    render() {
-        const application = this.props.app;
-        return (
-            <Row>
-                <FormAnt operation={application!.testForm}>
-                    <h3>Login Form</h3>
-                    <p>
-                        Test login is <strong>username:</strong> demo, <strong>password:</strong> demo <br />
-                        Other inputs test the error validation.
-                    </p>
-                    <TextFormAnt
-                        prefix={(<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />) as any}
-                        operation={application!.formUserText}
-                    />
-                    <TextFormAnt
-                        type="password"
-                        prefix={(<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />) as any}
-                        operation={application!.formPasswordText}
-                    />
-                    <ActionButtonAnt htmlType="submit" type="primary" operation={application!.formSubmitButton} />
-                </FormAnt>
-            </Row>
-        );
-    }
-}
+    return (
+        <Row>
+            <FormAnt operation={app!.testForm}>
+                <h3>Login Form</h3>
+                <p>
+                    Test login is <strong>username:</strong> demo, <strong>password:</strong> demo <br />
+                    Other inputs test the error validation.
+                </p>
+                <TextFormAnt
+                    prefix={(<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />) as any}
+                    operation={app!.formUserText}
+                />
+                <TextFormAnt
+                    type="password"
+                    prefix={(<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />) as any}
+                    operation={app!.formPasswordText}
+                />
+                <ActionButtonAnt htmlType="submit" type="primary" operation={app!.formSubmitButton} />
+            </FormAnt>
+        </Row>
+    );
+});

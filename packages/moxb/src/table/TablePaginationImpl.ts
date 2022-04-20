@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { TablePagination } from './TablePagination';
 
 // ToDo: allow to specify pageSizes and default pageSize
@@ -18,6 +18,7 @@ export class TablePaginationImpl implements TablePagination {
     _pageSizes = [10, 25, 50, 100];
 
     constructor(impl: TablePaginationOptions) {
+        makeObservable(this);
         this.impl = impl;
 
         if (impl.defaultPageSize) {

@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { Action } from '../action/Action';
 import { ActionImpl } from '../action/ActionImpl';
 import { BindImpl } from '../bind/BindImpl';
@@ -23,6 +23,7 @@ export abstract class WizardImpl implements Wizard {
     private initialized = false;
 
     constructor(id: string, protected storage: Storage) {
+        makeObservable(this);
         this.wizardId = id;
         this.steps = this.createSteps();
         this.actionBack = new ActionImpl({

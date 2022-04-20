@@ -107,7 +107,7 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         metaData: string
     ): SubStateInContext<LabelType, WidgetType, DataType> {
         const { root, key, subStates, flat, pathTokens, navRefCall } = state;
-        const newTokens = !!subStates ? (flat ? [] : [key!]) : root ? [] : [key!];
+        const newTokens = subStates ? (flat ? [] : [key!]) : root ? [] : [key!];
 
         let totalPathTokens: string[];
         if (navRefCall) {

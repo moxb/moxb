@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { Bind } from '../bind/Bind';
 import { t } from '../i18n/i18n';
 import { Confirm, ConfirmBase } from './Confirm';
@@ -23,6 +23,7 @@ export class ConfirmBaseImpl<T, C extends ConfirmBaseOptions<T>> implements Conf
 
     protected readonly impl: C;
     constructor(impl: C) {
+        makeObservable(this);
         this.impl = impl;
     }
 
@@ -66,6 +67,7 @@ export class ConfirmBaseImpl<T, C extends ConfirmBaseOptions<T>> implements Conf
 export class ConfirmImpl<T> extends ConfirmBaseImpl<T, ConfirmOptions<T>> implements Confirm<T> {
     constructor(impl: ConfirmOptions<T>) {
         super(impl);
+        makeObservable(this);
     }
 
     @action.bound

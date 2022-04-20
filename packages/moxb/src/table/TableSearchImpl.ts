@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { Action } from '../action/Action';
 import { ActionImpl } from '../action/ActionImpl';
 import { Text } from '../text/Text';
@@ -34,6 +34,10 @@ export class TableSearchImpl implements TableSearch {
         enabled: () => this.searchField.value !== '',
     });
 
+    constructor() {
+        makeObservable(this);
+    }
+
     @action.bound
     setQuery(query: string) {
         this.query = query;
@@ -41,7 +45,7 @@ export class TableSearchImpl implements TableSearch {
 
     readonly queryFilter: QueryFilter = new QueryFilterImpl({
         getQuery: () => this.query,
-        setQuery: this.setQuery,
+        setQuery: (value) => this.setQuery(value),
     });
 
     readonly searchFieldFilter: QueryFilter = new QueryFilterImpl({

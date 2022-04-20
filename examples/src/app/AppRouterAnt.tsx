@@ -1,24 +1,20 @@
-import { LocationDependentArea } from '@moxb/antd';
-
-import { Layout, Row } from 'antd';
 import * as React from 'react';
-import { NavigationAnt } from '../common/NavigationAnt';
+import { Layout, Row } from 'antd';
+
+import { LocationDependentArea } from '@moxb/html';
+import { NavMenuBarAnt } from '@moxb/antd';
 
 import { mainMenu } from '../MenuStructure';
 
-export class AppRouterAnt extends React.Component {
-    render() {
-        return (
-            <Layout>
-                <Layout.Content>
-                    <Row>
-                        <NavigationAnt />
-                    </Row>
-                    <LocationDependentArea id="main-area" stateSpace={mainMenu} part="main" useTokenMappings={true} />
-                    <hr />
-                    <LocationDependentArea id="footer-area" stateSpace={mainMenu} part="bottom" />
-                </Layout.Content>
-            </Layout>
-        );
-    }
-}
+export const AppRouterAnt = () => (
+    <Layout>
+        <Layout.Content>
+            <Row>
+                <NavMenuBarAnt id="main-menu" stateSpace={mainMenu} />
+            </Row>
+            <LocationDependentArea id="main-area" stateSpace={mainMenu} part="main" useTokenMappings={true} />
+            <hr />
+            <LocationDependentArea id="footer-area" stateSpace={mainMenu} part="bottom" />
+        </Layout.Content>
+    </Layout>
+);

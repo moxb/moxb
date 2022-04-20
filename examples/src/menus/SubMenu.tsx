@@ -1,5 +1,5 @@
 import { NavigableUIContent, UIStateSpace } from '@moxb/html';
-import { rootOrDetails } from '@moxb/antd';
+import { rootOrDetails } from '@moxb/html';
 import * as React from 'react';
 // @ts-ignore
 import blueUrl from '../../images/blue_blocks.png';
@@ -13,7 +13,8 @@ import redUrl from '../../images/red_blocks.gif';
 import threeUrl from '../../images/three_apples.jpg';
 // @ts-ignore
 import twoUrl from '../../images/two_apples.jpg';
-import { DetailDisplayer } from './DetailDisplayer';
+import { DetailDisplay } from './DetailDisplayer';
+import { useEffect } from 'react';
 
 export const subMenu1: UIStateSpace = {
     metaData: 'Example sub menu 1',
@@ -53,7 +54,7 @@ export const subMenu1: UIStateSpace = {
                     ),
                 },
                 ifDetails: {
-                    fragment: DetailDisplayer,
+                    fragment: DetailDisplay,
                 },
             }),
         },
@@ -101,25 +102,23 @@ export const subMenu1: UIStateSpace = {
     fallback: 'Unknown number',
 };
 
-class GreenBlocks extends React.Component<NavigableUIContent> {
-    componentDidMount(): void {
-        const { navControl } = this.props;
-        navControl.registerStateHooks({
-            getLeaveQuestion: () => 'Do you really want to leave these nice green blocks?',
-        });
-        (global as any).greenControl = navControl;
-    }
+const GreenBlocks = (props: NavigableUIContent) => {
+    useEffect(
+        () =>
+            props.navControl.registerStateHooks({
+                getLeaveQuestion: () => 'Do you really want to leave these nice green blocks?',
+            }),
+        []
+    );
 
-    render() {
-        return (
-            <div>
-                {'(Mostly) green-ish blocks: '}
-                <br />
-                <img src={greenUrl} />
-            </div>
-        );
-    }
-}
+    return (
+        <div>
+            {'(Mostly) green-ish blocks: '}
+            <br />
+            <img src={greenUrl} />
+        </div>
+    );
+};
 
 export const subMenu2: UIStateSpace = {
     metaData: 'Example sub-menu 2',

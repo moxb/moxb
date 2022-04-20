@@ -9,33 +9,46 @@ Next version
 ### Added
 
 ### Fixed
+
 - Resolve a few TS problems
 
 ### Changed
+
 - Updated typescript and tslib dependencies everywhere
+- Updated to React 17.0.2 (since the antd bindings haven't yet been updated for React 18)
+- Updated mobx to the latest versions
+- Migrate from mobx-react to mobx-react-lite
+- Rewrite most components as functional
+- Migrate from tslint to eslint
+- Fix tons of eslint warnings all over the place
 
 [v0.2.0-beta.93](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.93) (2022-04-20)
 =======================================================================================
 
 ### Fixed
+
 - Fixed inconsistent package-lock formats
 - Fix a bug when he definition of the menu is changing on the fly (not only our position).
 
 ### Changed
+
 - Updated AntD
 - Updated the navigation interfaces: also pass in the fallback state via the state space definition
   (Instead if passing it in separately to the various UI components.)
-
 
 [v0.2.0-beta.92](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.92) (2021-10-28)
 =======================================================================================
 
 ### Added
-- Added `ranges` property to [`DateRange`](packages/moxb/src/date/DateRange.ts) and [`DateRangeImpl`](packages/moxb/src/date/DateRangeImpl.ts)
+
+- Added `ranges` property to [`DateRange`](packages/moxb/src/date/DateRange.ts)
+  and [`DateRangeImpl`](packages/moxb/src/date/DateRangeImpl.ts)
   These are predetermined date range selectors allowing easy date-range selection. (i.e. current month)
-- Added `pageSizes` and `defaultPageSize` params to [`TablePaginationOptions`](packages/moxb/src/table/TablePaginationImpl.ts)
+- Added `pageSizes` and `defaultPageSize` params
+  to [`TablePaginationOptions`](packages/moxb/src/table/TablePaginationImpl.ts)
 
 ### Fixed
+
 - Fixed the antd properties of [`DateRangePickerAnt`](packages/antd/src/DateRangePicker.tsx)
 - Added the missing `pageSize` property to [`TableAnt`](packages/antd/src/TableAnt.tsx)
 
@@ -43,11 +56,14 @@ Next version
 =======================================================================================
 
 ### Added
+
 - Added new component: [`DateRangePickerAnt`](packages/antd/src/DateRangePicker.tsx)
-  with new Bind type: [`DateRange`](packages/moxb/src/date/DateRange.ts) and [`DateRangeImpl`](packages/moxb/src/date/DateRangeImpl.ts)
+  with new Bind type: [`DateRange`](packages/moxb/src/date/DateRange.ts)
+  and [`DateRangeImpl`](packages/moxb/src/date/DateRangeImpl.ts)
   Documentation: https://ant.design/components/date-picker/
 
 ### Fixed
+
 - Fix multiple file upload, when the upload is called in multiple steps
 
 ### Changed
@@ -56,8 +72,10 @@ Next version
 =======================================================================================
 
 ### Added
+
 - Added new component: [`ProgressAnt`](packages/antd/src/progress/ProgressAnt.tsx)
-  with new Bind type: [`Progress`](packages/moxb/src/progress/Progress.ts) and [`ProgressImpl`](packages/moxb/src/progress/ProgressImpl.ts)
+  with new Bind type: [`Progress`](packages/moxb/src/progress/Progress.ts)
+  and [`ProgressImpl`](packages/moxb/src/progress/ProgressImpl.ts)
   Documentation: https://ant.design/components/progress/
 - Introduced [`getFineGrainedDebugLogger()`](packages/moxb/src/util/debugLog.ts)
   for selectable log levels
@@ -70,6 +88,7 @@ Next version
 =======================================================================================
 
 ### Added
+
 - Add support for unblocked methods via `registerMeteorMethod`
 - Introduce SelectableConfirm component (with Ant support) to render confirm dialogs
   with multiple confirm buttons.
@@ -78,6 +97,7 @@ Next version
 =======================================================================================
 
 ### Fixed
+
 - When an action assigned to a modal dialog's confirm button is disabled,
   properly indicate this on the button. (Also display the reason if available.)
 - Added `multiple` option to fileUpload
@@ -86,6 +106,7 @@ Next version
 =======================================================================================
 
 ### Changed
+
 - Use antd tools for file upload instead of react-dropzone.
 - Add option from fileupload to define allowed file extensions and/or file types
 

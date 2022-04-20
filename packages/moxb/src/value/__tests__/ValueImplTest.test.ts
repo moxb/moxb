@@ -12,11 +12,13 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
     function bindStringValue(opts: ValueOptions<ValueImplForTest<string>, string>): Value<string> {
         return new ValueImplForTest(opts);
     }
+
     function bindStringValueOrNull(
         opts: ValueOptions<ValueImplForTest<string | null>, string | null>
     ): Value<string | null> {
         return new ValueImplForTest(opts);
     }
+
     describe('interface Value', function () {
         describe('placeholder', function () {
             beforeEach(function () {
@@ -258,7 +260,9 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
 
                 it('should console.warn if field is readOnly', function () {
                     const consoleWarn = jest.spyOn(console, 'warn');
-                    consoleWarn.mockImplementation(() => {});
+                    consoleWarn.mockImplementation(() => {
+                        // This is intentional
+                    });
                     const bind: Value<string> = bindStringValue({
                         id: 'test',
                         readOnly: () => true,
@@ -272,7 +276,9 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
 
                 it('should console.warn if field is disabled', function () {
                     const consoleWarn = jest.spyOn(console, 'warn');
-                    consoleWarn.mockImplementation(() => {});
+                    consoleWarn.mockImplementation(() => {
+                        // This is intentional
+                    });
                     const bind: Value<string> = bindStringValue({
                         id: 'test',
                         disabled: () => true,
@@ -317,7 +323,9 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                     const bind: Value<string> = bindStringValue({
                         id: 'test',
                         initialValue: 'initial value',
-                        setValue: () => {},
+                        setValue: () => {
+                            // This is intentional
+                        },
                         getValue: () => undefined,
                     });
                     expect(bind.value).toBe('initial value');
@@ -326,7 +334,9 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                 it('should console.warn if field is readOnly', function () {
                     let value: string | undefined = undefined;
                     const consoleWarn = jest.spyOn(console, 'warn');
-                    consoleWarn.mockImplementation(() => {});
+                    consoleWarn.mockImplementation(() => {
+                        // This is intentional
+                    });
                     const bind: Value<string> = bindStringValue({
                         id: 'test',
                         readOnly: () => true,
@@ -344,7 +354,9 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                 it('should console.warn if field is disabled', function () {
                     let value: string | undefined = undefined;
                     const consoleWarn = jest.spyOn(console, 'warn');
-                    consoleWarn.mockImplementation(() => {});
+                    consoleWarn.mockImplementation(() => {
+                        // This is intentional
+                    });
                     const bind: Value<string> = bindStringValue({
                         id: 'test',
                         disabled: () => true,
@@ -419,10 +431,14 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                             name: string;
                             data: number[];
                         }
+
                         it('should be true with the default compare', function () {
                             const bind: Value<Data> = new ValueImpl<any, Data, any>({
                                 id: 'theId',
-                                initialValue: () => ({ name: 'foo', data: [1, 2, 3] }),
+                                initialValue: () => ({
+                                    name: 'foo',
+                                    data: [1, 2, 3],
+                                }),
                             });
                             bind.setValue({ name: 'foo', data: [1, 2, 3] });
                             expect(bind.isInitialValue).toBe(true);
@@ -430,7 +446,10 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                         it('should be false if something is different in the deep structure', function () {
                             const bind: Value<Data> = new ValueImpl<any, Data, any>({
                                 id: 'theId',
-                                initialValue: () => ({ name: 'foo', data: [1, 2, 3] }),
+                                initialValue: () => ({
+                                    name: 'foo',
+                                    data: [1, 2, 3],
+                                }),
                             });
                             bind.setValue({ name: 'foo', data: [3, 2, 1] });
                             expect(bind.isInitialValue).toBe(false);
@@ -438,7 +457,10 @@ function valueImplTestTest<T>(newBindValue: (opts: ValueOptions<ValueImplForTest
                         it('should be false with === compare', function () {
                             const bind: Value<Data> = new ValueImpl<any, Data, ValueOptions<any, Data>>({
                                 id: 'theId',
-                                initialValue: () => ({ name: 'foo', data: [1, 2, 3] }),
+                                initialValue: () => ({
+                                    name: 'foo',
+                                    data: [1, 2, 3],
+                                }),
                                 valueCompareFunction: (a, b) => a === b,
                             });
                             bind.setValue({ name: 'foo', data: [1, 2, 3] });

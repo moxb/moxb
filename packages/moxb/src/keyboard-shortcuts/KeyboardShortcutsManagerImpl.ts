@@ -1,4 +1,4 @@
-import { action as mobxAction, computed, observable } from 'mobx';
+import { action as mobxAction, computed, observable, makeObservable } from 'mobx';
 import { StringOrFunction } from '../bind/BindImpl';
 import { t } from '../i18n/i18n';
 
@@ -110,7 +110,9 @@ export class KeyboardShortcutsManagerImpl implements KeyboardShortcutsManager {
      *
      * @param binder
      */
-    constructor(private readonly binder: ShortcutBinder) {}
+    constructor(private readonly binder: ShortcutBinder) {
+        makeObservable(this);
+    }
 
     @mobxAction.bound
     registerKeyboardShortcuts(shortcuts: KeyboardShortcutGroup) {

@@ -1,24 +1,19 @@
-import { Provider } from 'mobx-react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ApplicationHTML } from './app/ApplicationHTML';
 
-import { StoreImpl } from './store/Store';
+import { createStore, StoreProvider } from './store/Store';
 
-const model = new StoreImpl();
-(window as any).model = model;
-(window as any).store = model;
+const store = createStore();
+(window as any).model = store;
+(window as any).store = store;
 
-class App extends React.Component {
-    render() {
-        return (
-            <>
-                <Provider {...model}>
-                    <ApplicationHTML />
-                </Provider>
-            </>
-        );
-    }
-}
+const App = () => (
+    <>
+        <StoreProvider value={store}>
+            <ApplicationHTML />
+        </StoreProvider>
+    </>
+);
 
 ReactDOM.render(<App />, document.getElementById('example-app'));

@@ -86,7 +86,9 @@ describe('ActionFormButtonUi', () => {
     });
     it('should call enabled', function () {
         const consoleWarn = jest.spyOn(console, 'warn');
-        consoleWarn.mockImplementation(() => {});
+        consoleWarn.mockImplementation(() => {
+            // this is intentional
+        });
 
         const enabled = jest.fn().mockReturnValue(false);
         const fire = jest.fn().mockReturnValue(false);
@@ -106,7 +108,9 @@ describe('ActionFormButtonUi', () => {
     });
     it('should console.warn if called with enabled', function () {
         const consoleWarn = jest.spyOn(console, 'warn');
-        consoleWarn.mockImplementation(() => {});
+        consoleWarn.mockImplementation(() => {
+            // this is intentional
+        });
 
         const enabled = jest.fn().mockReturnValue(false);
         props = {

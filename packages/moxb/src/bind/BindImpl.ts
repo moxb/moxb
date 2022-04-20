@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { t } from '../i18n/i18n';
 import { bindAllTo } from '../util/bindAllTo';
 import { idToDomId } from '../util/idToDomId';
@@ -9,14 +9,14 @@ export type ValueOrFunction<T> = T | (() => T | undefined) | undefined;
 
 export function getValueOrFunction<T>(value: ValueOrFunction<T>): T | undefined {
     if (typeof value === 'function') {
-        // @ts-ignore -- it complains because T might be a function
-        return value();
+        return (value as any)();
     } else {
         return value;
     }
 }
 
 export type StringOrFunction = ValueOrFunction<string>;
+
 export function getValueFromStringOrFunction(value: StringOrFunction): string | undefined {
     return getValueOrFunction(value);
 }
@@ -35,7 +35,7 @@ export interface BindOptions<CustomData = undefined> {
     /**
      * Note: you can either specify a `disabled` or an `enabled` function!
      *
-     * @returns {boolean} `true` if the the element should be disabled
+     * @returns {boolean} `true` if the element should be disabled
      */
     disabled?(): AnyDecision;
 
@@ -64,9 +64,13 @@ export interface BindOptions<CustomData = undefined> {
     help?: StringOrFunction;
 
     getErrors?(): string[] | undefined;
+
     setError?(error: string | undefined | null): void;
+
     clearErrors?(): void;
+
     validateField?(): void;
+
     customData?: ValueOrFunction<CustomData>;
 }
 
@@ -78,10 +82,11 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
     _errors?: string[] | undefined | null;
 
     constructor(impl: Options) {
+        makeObservable(this);
         // tslint complains about Object.assign and typescript can not spread interfaces:
         //   TS2698: Spread types may only be created from object types.
         // tslint:disable-next-line prefer-object-spread
-        this.impl = bindAllTo(this, Object.assign({}, impl));
+        this.impl = bindAllTo(this, { ...impl });
         this.id = impl.id;
         this._errors = [];
         if (!this.id.match(/^\w[\w\d.]*$/)) {
@@ -94,10 +99,12 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         //moxb all methods...
         bindAllTo(this, this);
     }
+
     @computed
     get label() {
         return this.getLabel();
     }
+
     protected getLabel() {
         if (typeof this.impl.label === 'function') {
             return this.impl.label();
@@ -107,10 +114,12 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         }
         return undefined;
     }
+
     @computed
     get disabled() {
         return this.getDisabled();
     }
+
     protected getDisabled(): boolean {
         if (this.impl.disabled) {
             return readDecision(this.impl.disabled());
@@ -130,6 +139,7 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
     get reason() {
         return this.getReason();
     }
+
     protected getReason() {
         if (this.impl.disabled) {
             return readReason(this.impl.disabled());
@@ -168,6 +178,7 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
     get help() {
         return this.getHelp();
     }
+
     protected getHelp() {
         if (typeof this.impl.help === 'function') {
             return this.impl.help();
@@ -205,6 +216,7 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
             this._errors!.push(error!);
         }
     }
+
     protected getErrors(): string[] {
         const errors = (this.impl.getErrors && this.impl.getErrors()) || [];
         // Set keeps the items in insertion order
@@ -242,7 +254,7 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
 
     get customData() {
         if (typeof this.impl.customData === 'function') {
-            return (this.impl.customData as Function)();
+            return (this.impl.customData as () => CustomData)();
         }
         if (this.impl.customData) {
             this.impl.customData;

@@ -12,7 +12,10 @@ describe('expandT', function () {
     });
     it('should expand nested values', function () {
         expect(
-            expandT('{{foo.bar.baz}}={{foo.bar.hallo}}', { foo: { bar: { baz: 'answer', hallo: 42 } }, bar: undefined })
+            expandT('{{foo.bar.baz}}={{foo.bar.hallo}}', {
+                foo: { bar: { baz: 'answer', hallo: 42 } },
+                bar: undefined,
+            })
         ).toBe('answer=42');
     });
     it('should expand simple values', function () {
@@ -35,7 +38,9 @@ describe('setTFunction', function () {
     });
     it('should call registered function', function () {
         const consoleErr = jest.spyOn(console, 'error');
-        consoleErr.mockImplementation(() => {});
+        consoleErr.mockImplementation(() => {
+            // This is intentional
+        });
 
         const tFunction = jest.fn().mockImplementation(() => {
             throw Error('Somthing went wrong');

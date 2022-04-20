@@ -2,7 +2,7 @@ import { Time } from '@moxb/moxb';
 import { TimePicker } from 'antd';
 import { FormItemProps } from 'antd/lib/form';
 import { TimePickerProps } from 'antd/lib/time-picker';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as moment from 'moment';
 import * as React from 'react';
 import { CSSProperties } from 'react';
@@ -14,38 +14,32 @@ export interface BindTimePickerAntProps extends TimePickerProps {
     formStyle?: CSSProperties;
 }
 
-@observer
-export class TimePickerAnt extends React.Component<BindTimePickerAntProps> {
-    render() {
-        const { operation, invisible, reason, ...props } = parseProps(this.props, this.props.operation);
-        if (invisible) {
-            return null;
-        }
-        return (
-            <span title={reason}>
-                <TimePicker
-                    data-testid={operation.id}
-                    placeholder={operation.placeholder}
-                    value={operation.value}
-                    onChange={(time: moment.Moment, _timeString: string) => operation.setValue(time)}
-                    {...(props as any)}
-                />
-            </span>
-        );
+export const TimePickerAnt = observer((props: BindTimePickerAntProps) => {
+    const { operation, invisible, reason, ...rest } = parseProps(props, props.operation);
+    if (invisible) {
+        return null;
     }
-}
+    return (
+        <span title={reason}>
+            <TimePicker
+                data-testid={operation.id}
+                placeholder={operation.placeholder}
+                value={operation.value}
+                onChange={(time: moment.Moment, _timeString: string) => operation.setValue(time)}
+                {...(rest as any)}
+            />
+        </span>
+    );
+});
 
-@observer
-export class TimePickerFormAnt extends React.Component<BindTimePickerAntProps & Partial<FormItemProps>> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
-        }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <TimePickerAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
+export const TimePickerFormAnt = observer((props: BindTimePickerAntProps & Partial<FormItemProps>) => {
+    const { operation, invisible, ...rest } = parsePropsForChild(props, props.operation);
+    if (invisible) {
+        return null;
     }
-}
+    return (
+        <FormItemAnt operation={operation} {...(props as any)}>
+            <TimePickerAnt operation={operation} {...rest} />
+        </FormItemAnt>
+    );
+});

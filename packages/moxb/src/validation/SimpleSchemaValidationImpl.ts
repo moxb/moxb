@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { t } from '../i18n/i18n';
 import { ErrorMessage, extractErrorMessages } from './ErrorMessage';
 import { FieldErrorMessages, SimpleSchemaValidation } from './SimpleSchemaValidation';
@@ -15,7 +15,9 @@ export class SimpleSchemaValidationImpl implements SimpleSchemaValidation {
         private readonly id: string,
         private readonly getValidationErrors: () => Error | undefined,
         private readonly options?: { ignoreEmptyFields: string[] }
-    ) {}
+    ) {
+        makeObservable(this);
+    }
 
     @computed
     get errorsDetails(): FieldErrorMessages {

@@ -9,13 +9,9 @@ export type UIProps<DataType> = NavMenuProps<DataType> & LocationDependentAreaPr
  * This widget shows an Ant Nav Menu bar, and the corresponding content,
  * based on the state-space and the location.
  */
-export class MenuAndContentAnt<DataType> extends React.Component<UIProps<DataType>> {
-    public render() {
-        return (
-            <div style={{ width: '100%' }}>
-                <NavMenuBarAnt {...this.props} />
-                <LocationDependentArea {...this.props} />
-            </div>
-        );
-    }
-}
+export const MenuAndContentAnt = (props: UIProps<unknown>) => (
+    <div style={{ width: '100%' }}>
+        <NavMenuBarAnt {...props} />
+        <LocationDependentArea {...props} />
+    </div>
+);
