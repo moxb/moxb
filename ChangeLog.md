@@ -9,6 +9,13 @@ Next version
 ### Added
 
 ### Fixed
+
+### Changed
+
+[v0.2.0-beta.93](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.93) (2022-04-20)
+=======================================================================================
+
+### Fixed
 - Fixed inconsistent package-lock formats
 - Fix a bug when he definition of the menu is changing on the fly (not only our position).
 

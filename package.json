@@ -1,6 +1,6 @@
 {
 	"name": "moxb",
-	"version": "0.2.0-beta.92",
+	"version": "0.2.0-beta.93",
 	"description": "Typescript framework for architecting large scale web application.",
 	"private": true,
 	"repository": {
