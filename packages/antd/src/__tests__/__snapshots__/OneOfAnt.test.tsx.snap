@@ -16,7 +16,6 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
       data-testid="id-test_radio_of_one-b"
       key="b"
       style={Object {}}
-      type="radio"
       value="b"
     >
       Banana
@@ -29,7 +28,6 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
       data-testid="id-test_radio_of_one-a"
       key="a"
       style={Object {}}
-      type="radio"
       value="a"
     >
       Apples
@@ -42,7 +40,6 @@ exports[`OneOfAnt should render a radio button group by default 1`] = `
       data-testid="id-test_radio_of_one-p"
       key="p"
       style={Object {}}
-      type="radio"
       value="p"
     >
       Peaches
