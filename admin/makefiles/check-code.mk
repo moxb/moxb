@@ -12,6 +12,7 @@ PRETTIER_FORMAT= $(ACTIVATE) \
 		--tab-width 4
 
 TSLINT = $(ACTIVATE) && tslint --project tsconfig.json
+ESLINT = $(ACTIVATE) && eslint
 
 # all typescript files
 TS_FILES = $(shell find $(TS_DIRS) -type f \( -name '*.ts' -o -name '*.tsx' \))
@@ -86,3 +87,7 @@ tslint-for-webstorm:
 .PHONY: webstorm-before-commit
 webstorm-before-commit:
 	$(MAKE) format-code tslint-for-webstorm run-unit-tests ||  (osascript -e 'display dialog "make webstorm-before-commit FAILED"' && false)
+
+.PHONY: eslint
+eslint:
+	$(ESLINT) $(TS_FILES)

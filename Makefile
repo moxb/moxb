@@ -38,8 +38,8 @@ LIGHT_BLUE='\033[1;34m'
 # recursively makes all targets before the :
 
 .PHONY: \
-all format-code format-check format-force tslint tslint-fix tslint-all webstorm-before-commit clean-dist
-all format-code format-check format-force tslint tslint-fix tslint-all webstorm-before-commit clean-dist: all-dependencies
+all format-code format-check format-force eslint tslint tslint-fix tslint-all webstorm-before-commit clean-dist
+all format-code format-check format-force eslint tslint tslint-fix tslint-all webstorm-before-commit clean-dist: all-dependencies
 	for dir in $(SUB_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir $@ '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
@@ -196,6 +196,7 @@ admin/bin-tools:
 	ln -sf ../../node_modules/.bin/tsc admin/bin-tools/
 	ln -sf ../../node_modules/.bin/tslint admin/bin-tools/
 	ln -sf ../../node_modules/.bin/lerna admin/bin-tools/
+	ln -sf ../../node_modules/.bin/eslint admin/bin-tools/
 	@touch $@
 
 ###### watch-all ###################################
