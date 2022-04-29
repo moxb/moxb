@@ -54,6 +54,7 @@
     "@typescript-eslint/eslint-plugin": "5.21.0",
     "@typescript-eslint/parser": "5.21.0",
     "eslint": "8.14.0",
+    "eslint-plugin-import": "2.26.0",
     "eslint-plugin-react-hooks": "4.5.0",
     "mobx": "5.15.7",
     "mobx-react": "6.3.1",
