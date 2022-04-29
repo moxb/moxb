@@ -11,7 +11,6 @@ PRETTIER_FORMAT= $(ACTIVATE) \
 		--trailing-comma es5 \
 		--tab-width 4
 
-TSLINT = $(ACTIVATE) && tslint --project tsconfig.json
 ESLINT = $(ACTIVATE) && eslint
 
 # all typescript files
@@ -42,51 +41,10 @@ format-file: all-dependencies
 	$(PRETTIER_FORMAT) $(PRETTIER_OP) $?
 	@touch $@ # we can touch the file since there was no error....
 
-###### tslint ########################################################
-
-.PHONY: tslint
-tslint: all-dependencies .makehelper/tslint-cfg .makehelper/tslinted
-
-.makehelper/tslint-cfg: tslint.json tsconfig.json
-	rm -f .makehelper/tslinted .makehelper/tslint-fixed
-	@touch $@
-
-
-# in this rule $? refers only to the files that have changed since .makehelper/formatted has been touched
-.makehelper/tslinted: $(TS_FILES)
-	$(TSLINT) $?
-	@touch $@ # we can touch the file since there was no error....
-
-.PHONY: tslint-all
-tslint-all: .makehelper/tslinted-all
-
-# The second run of tslint with the `--format verbose` option is to show the rule in the output.
-# However, webstrom does not recognize this line and does not link to the location.
-# Therefore, we have the first run without the rule...
-.makehelper/tslinted-all: all-dependencies $(TS_FILES) tslint.json tsconfig.json
-	$(TSLINT) $(TS_FILES) \
-		|| $(TSLINT) --format verbose $(TS_FILES)
-	@touch $@
-
-.PHONY: tslint-fix
-tslint-fix: all-dependencies .makehelper/tslint-cfg .makehelper/tslint-fixed
-
-# in this rule $? refers only to the files that have changed since .makehelper/formatted has been touched
-.makehelper/tslint-fixed: $(TS_FILES)
-	$(TSLINT) --fix $?
-	@touch $@ # we can touch the file since there was no error....
-
-# this formats the output of tslint so that webstorm shows clickable links in the external tools window
-#  exit ${PIPESTATUS[0]} make sure the command exits when there are errors
-#  see https://stackoverflow.com/a/4968688/2297345
-.PHONY: tslint-for-webstorm
-tslint-for-webstorm:
-	bash -c '$(MAKE) tslint-all | sed -E "s/ERROR: ([^\[]+)\[([0-9]+), ([0-9]+)...(.*)/at \4 (\1:\2:\3)/"; exit $${PIPESTATUS[0]}'
-
 # show an alert on mac: https://developer.apple.com/library/content/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/DisplayDialogsandAlerts.html#//apple_ref/doc/uid/TP40016239-CH15-SW1
 .PHONY: webstorm-before-commit
 webstorm-before-commit:
-	$(MAKE) format-code tslint-for-webstorm run-unit-tests ||  (osascript -e 'display dialog "make webstorm-before-commit FAILED"' && false)
+	$(MAKE) format-code run-unit-tests ||  (osascript -e 'display dialog "make webstorm-before-commit FAILED"' && false)
 
 .PHONY: eslint
 eslint:
