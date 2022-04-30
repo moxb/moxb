@@ -83,14 +83,14 @@ exports[`ManyOfCheckboxAnt should render a checkboxes by default 1`] = `
 `;
 
 exports[`ManyOfFormAnt should render a checkboxes by default 1`] = `
-<FormItemAnt
+<Memo(observerComponent)
   operation="bound ManyOfImpl"
 >
-  <ManyOfAnt
+  <Memo(observerComponent)
     disabled={false}
     id="id-many_of"
     operation="bound ManyOfImpl"
     readOnly={false}
   />
-</FormItemAnt>
+</Memo(observerComponent)>
 `;

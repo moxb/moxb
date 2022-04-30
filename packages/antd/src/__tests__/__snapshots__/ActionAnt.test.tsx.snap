@@ -27,16 +27,16 @@ exports[`ActionButtonAnt should render a button with children instead of a label
 `;
 
 exports[`ActionFormButtonAnt should render a button by default 1`] = `
-<FormItemAnt
+<Memo(observerComponent)
   label={null}
   operation="bound ActionImpl"
 >
-  <ActionButtonAnt
+  <Memo(observerComponent)
     disabled={true}
     htmlType="submit"
     id="the_id"
     operation="bound ActionImpl"
     readOnly={false}
   />
-</FormItemAnt>
+</Memo(observerComponent)>
 `;

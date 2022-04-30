@@ -111,28 +111,28 @@ exports[`OneOfDropDownAnt should render a dropdown control 1`] = `
 `;
 
 exports[`OneOfDropDownFormAnt should render a dropdown control with form 1`] = `
-<FormItemAnt
+<Memo(observerComponent)
   operation="bound OneOfImpl"
 >
-  <OneOfDropDownAnt
+  <Memo(observerComponent)
     disabled={false}
     operation="bound OneOfImpl"
     readOnly={false}
   />
-</FormItemAnt>
+</Memo(observerComponent)>
 `;
 
 exports[`OneOfFormAnt should render a radio button group with form by default 1`] = `
-<FormItemAnt
+<Memo(observerComponent)
   operation="bound OneOfImpl"
 >
-  <OneOfAnt
+  <Memo(observerComponent)
     disabled={false}
     id="id-test_radio_of_one"
     operation="bound OneOfImpl"
     readOnly={false}
   />
-</FormItemAnt>
+</Memo(observerComponent)>
 `;
 
 exports[`OneOfSelectAnt should render a select control 1`] = `
@@ -171,14 +171,14 @@ exports[`OneOfSelectAnt should render a select control 1`] = `
 `;
 
 exports[`OneOfSelectFormAnt should render a select control with form 1`] = `
-<FormItemAnt
+<Memo(observerComponent)
   operation="bound OneOfImpl"
 >
-  <OneOfSelectAnt
+  <Memo(observerComponent)
     disabled={false}
     id="id-test_select_of_one"
     operation="bound OneOfImpl"
     readOnly={false}
   />
-</FormItemAnt>
+</Memo(observerComponent)>
 `;

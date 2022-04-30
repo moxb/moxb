@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextAnt should render a text input by default 1`] = `
-<Input
+<ForwardRef
   data-testid="the_id"
   disabled={false}
   id="the_id"
@@ -10,7 +10,6 @@ exports[`TextAnt should render a text input by default 1`] = `
   onChange={[Function]}
   onFocus={[Function]}
   readOnly={false}
-  type="text"
   value=""
 />
 `;
@@ -30,16 +29,16 @@ exports[`TextAnt should render a textarea with the control option set 1`] = `
 `;
 
 exports[`TextFormAnt should render form item with a text input by default 1`] = `
-<FormItemAnt
+<Memo(observerComponent)
   operation="bound TextImpl"
 >
-  <TextAnt
+  <Memo(observerComponent)
     disabled={false}
     id="the_id"
     operation="bound TextImpl"
     readOnly={false}
   />
-</FormItemAnt>
+</Memo(observerComponent)>
 `;
 
 exports[`TextSearchAnt should render search text input by default 1`] = `
