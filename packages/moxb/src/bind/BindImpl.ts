@@ -257,7 +257,7 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
             return (this.impl.customData as () => CustomData)();
         }
         if (this.impl.customData) {
-            this.impl.customData;
+            return this.impl.customData;
         }
         return undefined;
     }

@@ -8,7 +8,7 @@ import { action, comparer, observable, makeObservable } from 'mobx';
  * For example, if your value is
  *    `{ title: 'foo', numbers:[1,2,3]}`
  * and you assign a new value
- *     `{ title: 'foo', numbers:[1,2,3]}`
+ *     `{ title: 'bar', numbers:[1,2,3]}`
  * then only `title` will trigger a change.
  *
  * Why is this different from `@observable.shallow`? Observable shallow is used when we assign new values to the

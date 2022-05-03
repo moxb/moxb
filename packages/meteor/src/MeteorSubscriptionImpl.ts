@@ -39,7 +39,11 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         this._fail = this._fail.bind(this);
     }
 
-    /** @deprecated since version v0.2.0-beta.18 */
+    /**
+     *  @deprecated since version v0.2.0-beta.18
+     *
+     *  Use pending() instead.
+     */
     get isSubscriptionReady() {
         return this._isSubscriptionReady;
     }
