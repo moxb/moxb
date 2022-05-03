@@ -12,7 +12,7 @@ Next version
 
 ### Changed
 
-[v0.3](https://github.com/moxb/moxb/releases/tag/v0.3) (2022-05-03)
+[v0.3.0](https://github.com/moxb/moxb/releases/tag/v0.3) (2022-05-03)
 =======================================================================================
 
 ### Fixed
