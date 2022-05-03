@@ -1,5 +1,5 @@
 import { Label } from '@moxb/moxb';
-import * as marked from 'marked';
+import { marked } from 'marked';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { parseProps } from './BindAnt';

@@ -51,7 +51,7 @@ export const NavStepsAnt = observer((props: NavStepsProps<unknown>) => {
 
     function renderSubStateElement(state: SubStateInContext<UIFragment, UIFragmentSpec, unknown>) {
         const newId = idToDomId(`${props.id}.step.${state.menuKey}`);
-        return <Step data-testid={newId} key={state.menuKey} title={state.label} />;
+        return <Step data-testid={newId} key={state.menuKey} title={<>{state.label}</>} />;
     }
 
     const visibleStateKeys = visibleStates.map((s) => s.menuKey);
