@@ -10,6 +10,13 @@ Next version
 
 ### Fixed
 
+### Changed
+
+[v0.3](https://github.com/moxb/moxb/releases/tag/v0.3) (2022-05-03)
+=======================================================================================
+
+### Fixed
+
 - Resolve a few TS problems
 
 ### Changed
