@@ -12,6 +12,9 @@ Next version
 
 ### Changed
 
+- Downgrade to React 17.0.2 again (since AntD is definitely _not_ ready for React 18 yet,
+  whatever they claim in their ChangeLog. for 4.20
+
 [v0.3.3](https://github.com/moxb/moxb/releases/tag/v0.3.3) (2022-05-03)
 
 ### Fixed
