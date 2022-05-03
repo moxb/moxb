@@ -40,7 +40,6 @@
     "setupTestFrameworkScriptFile": "../../jest/jestAdapter.js",
     "testEnvironment": "jsdom",
     "snapshotSerializers": [
-      "enzyme-to-json/serializer"
     ],
     "transform": {
       "^.+\\.(css|less)$": "../../jest/jestMockStyle.js",
@@ -55,11 +54,11 @@
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@moxb/moxb": "^0.2.0-beta.93",
+    "@moxb/moxb": "^0.3.2",
     "antd": "^4.20.2",
     "mobx": "^6.5.0",
     "react": "^17.0.2",
-    "tslib": "^2.3.1",
+    "tslib": "^2.4.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

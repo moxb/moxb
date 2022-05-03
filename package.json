@@ -1,66 +1,66 @@
 {
-	"name": "moxb",
-	"version": "0.3.2",
-	"description": "Typescript framework for architecting large scale web application.",
-	"private": true,
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/moxb/moxb.git"
-	},
-	"author": "moxb (moxb.org)",
-	"license": "MIT",
-	"devDependencies": {
-		"@types/atob": "2.1.2",
-		"@types/jest": "27.5.0",
-		"@types/lodash.flatten": "4.4.7",
-		"@types/marked": "4.0.3",
-		"@types/meteor": "2.6.3",
-		"@types/react": "18.0.8",
-		"@types/react-test-renderer": "18.0.0",
-		"@types/urijs": "1.19.19",
-		"@types/uuid": "8.3.4",
-		"@typescript-eslint/eslint-plugin": "5.21.0",
-		"@typescript-eslint/parser": "5.21.0",
-		"eslint": "8.14.0",
-		"eslint-plugin-react-hooks": "4.5.0",
-		"jest": "26.4.2",
-		"lerna": "3.22.1",
-		"npm-check": "5.9.2",
-		"prettier": "2.1.1",
-		"ts-jest": "26.3.0",
-		"typescript": "4.5.4"
-	},
-	"bugs": {
-		"url": "https://github.com/moxb/moxb/issues"
-	},
-	"workspaces": [
-		"packages/*"
-	],
-	"homepage": "https://github.com/moxb/moxb#readme",
-	"keywords": [
-		"mobx",
-		"ant-design",
-		"react",
-		"UI"
-	],
-	"dependencies": {
-		"@ant-design/icons": "4.7.0",
-		"antd": "4.20.2",
-		"atob": "2.1.2",
-		"btoa-lite": "1.0.0",
-		"history": "5.0.0",
-		"jsdom": "16.4.0",
-		"lodash.flatten": "4.4.0",
-		"marked": "4.0.15",
-		"mobx": "6.5.0",
-		"mobx-react-lite": "3.3.0",
-		"moment": "2.29.1",
-		"mongo-mock": "4.0.0",
-		"pretty": "2.0.0",
-		"react": "18.1.0",
-		"react-dom": "18.1.0",
-		"tslib": "2.3.1",
-		"urijs": "1.19.6",
-		"uuid": "8.3.2"
-	}
+  "name": "moxb",
+  "version": "0.3.3",
+  "description": "Typescript framework for architecting large scale web application.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moxb/moxb.git"
+  },
+  "author": "moxb (moxb.org)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/atob": "2.1.2",
+    "@types/jest": "27.5.0",
+    "@types/lodash.flatten": "4.4.7",
+    "@types/marked": "4.0.3",
+    "@types/meteor": "2.6.3",
+    "@types/react": "18.0.8",
+    "@types/react-test-renderer": "18.0.0",
+    "@types/urijs": "1.19.19",
+    "@types/uuid": "8.3.4",
+    "@typescript-eslint/eslint-plugin": "5.21.0",
+    "@typescript-eslint/parser": "5.21.0",
+    "eslint": "8.14.0",
+    "eslint-plugin-react-hooks": "4.5.0",
+    "jest": "26.4.2",
+    "lerna": "3.22.1",
+    "npm-check": "5.9.2",
+    "prettier": "2.1.1",
+    "ts-jest": "26.3.0",
+    "typescript": "4.5.4"
+  },
+  "bugs": {
+    "url": "https://github.com/moxb/moxb/issues"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "homepage": "https://github.com/moxb/moxb#readme",
+  "keywords": [
+    "mobx",
+    "ant-design",
+    "react",
+    "UI"
+  ],
+  "dependencies": {
+    "@ant-design/icons": "4.7.0",
+    "antd": "4.20.2",
+    "atob": "2.1.2",
+    "btoa-lite": "1.0.0",
+    "history": "5.0.0",
+    "jsdom": "16.4.0",
+    "lodash.flatten": "4.4.0",
+    "marked": "4.0.15",
+    "mobx": "6.5.0",
+    "mobx-react-lite": "3.3.0",
+    "moment": "2.29.1",
+    "mongo-mock": "4.0.0",
+    "pretty": "2.0.0",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "tslib": "2.4.0",
+    "urijs": "1.19.6",
+    "uuid": "8.3.2"
+  }
 }
