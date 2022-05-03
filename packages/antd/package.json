@@ -1,6 +1,6 @@
 {
   "name": "@moxb/antd",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "moxb ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -39,8 +39,7 @@
     ],
     "setupTestFrameworkScriptFile": "../../jest/jestAdapter.js",
     "testEnvironment": "jsdom",
-    "snapshotSerializers": [
-    ],
+    "snapshotSerializers": [],
     "transform": {
       "^.+\\.(css|less)$": "../../jest/jestMockStyle.js",
       "^.+\\.(ts|tsx)$": "ts-jest"
@@ -62,8 +61,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@moxb/moxb": "^0.3.2",
-    "@moxb/react-html": "^0.3.2",
+    "@moxb/moxb": "^0.3.3",
+    "@moxb/react-html": "^0.3.3",
     "@types/jest": "27.5.0",
     "@types/react": "18.0.8",
     "@types/react-test-renderer": "18.0.0",
