@@ -3,11 +3,9 @@ import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import { AnchorParams } from '@moxb/html/dist/Anchor';
-import { NavLink } from '@moxb/html';
+import { NavLink, AnchorParams } from '@moxb/react-html';
 
-/**
- * Everything except the actual target specification
+/** * Everything except the actual target specification
  */
 export interface NavLinkButtonAntParams extends AnchorParams {
     /**

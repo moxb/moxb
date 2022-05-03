@@ -3,7 +3,7 @@ import { Alert, Col, Row } from 'antd';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { ActionButtonAnt } from '../ActionAnt';
-import { LocationDependentArea, UIFragmentSpec } from '@moxb/html';
+import { LocationDependentArea, UIFragmentSpec } from '@moxb/react-html';
 import { NavStepsAnt, StepsProps, StepStatus } from './NavStepsAnt';
 
 export interface MultiStepProcessProps<Step> {

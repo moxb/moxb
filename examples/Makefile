@@ -67,9 +67,8 @@ npm-link-dependencies:
 	rm -rf node_modules/@moxb/* \
     		&& cd node_modules/@moxb \
     		&& ln -s ../../../packages/moxb  \
-    		&& ln -s ../../../packages/semui  \
     		&& ln -s ../../../packages/antd  \
-    		&& ln -s ../../../packages/html  \
+    		&& ln -s ../../../packages/react-html  \
     		&& ln -s ../../../packages/meteor  \
 
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Layout, Row } from 'antd';
 
-import { LocationDependentArea } from '@moxb/html';
+import { LocationDependentArea } from '@moxb/react-html';
 import { NavMenuBarAnt } from '@moxb/antd';
 
 import { mainMenu } from '../MenuStructure';

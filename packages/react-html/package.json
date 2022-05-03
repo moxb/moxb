@@ -1,7 +1,7 @@
 {
-  "name": "@moxb/html",
+  "name": "@moxb/react-html",
   "version": "0.2.0-beta.93",
-  "description": "moxb html bindings",
+  "description": "moxb React bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LocationDependentArea, LocationDependentAreaProps } from '@moxb/html';
+import { LocationDependentArea, LocationDependentAreaProps } from '@moxb/react-html';
 
 import { NavMenuBarAnt, NavMenuProps } from './NavMenuBarAnt';
 

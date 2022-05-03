@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Navigable } from '@moxb/moxb';
-import { UIStateSpace } from '@moxb/html';
+import { UIStateSpace } from '@moxb/react-html';
 import { MenuAndContentAnt, OneOfButtonAnt } from '@moxb/antd';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store/Store';

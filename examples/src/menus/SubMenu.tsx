@@ -1,5 +1,4 @@
-import { NavigableUIContent, UIStateSpace } from '@moxb/html';
-import { rootOrDetails } from '@moxb/html';
+import { NavigableUIContent, UIStateSpace, rootOrDetails } from '@moxb/react-html';
 import * as React from 'react';
 // @ts-ignore
 import blueUrl from '../../images/blue_blocks.png';

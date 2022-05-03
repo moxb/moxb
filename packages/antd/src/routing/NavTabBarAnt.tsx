@@ -10,9 +10,15 @@ import {
 import { Tabs } from 'antd';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import { extractUIFragmentFromSpec, renderUIFragment, UIFragment, UIFragmentSpec } from '@moxb/html';
-import * as Anchor from '@moxb/html/dist/Anchor';
-import { renderSubStateCore } from '@moxb/html/dist/rendering';
+import {
+    extractUIFragmentFromSpec,
+    renderSubStateCore,
+    renderUIFragment,
+    Anchor,
+    AnchorProps,
+    UIFragment,
+    UIFragmentSpec,
+} from '@moxb/react-html';
 
 const TabPane = Tabs.TabPane;
 
@@ -72,7 +78,7 @@ export const NavTabBarAnt = observer((props: NavTabProps<unknown>) => {
         const { label, key, menuKey, itemClassName, newWindow, linkStyle, linkClassName, title } = state;
 
         const url = states.getUrlForSubState(state);
-        const anchorProps: Anchor.UIProps = {
+        const anchorProps: AnchorProps = {
             label: label || key,
             href: url,
             target: newWindow ? '_blank' : undefined,
@@ -87,7 +93,7 @@ export const NavTabBarAnt = observer((props: NavTabProps<unknown>) => {
         if (itemClassName) {
             itemProps.className = itemClassName;
         }
-        const tabLabel = <Anchor.Anchor {...anchorProps} />;
+        const tabLabel = <Anchor {...anchorProps} />;
         const newId = idToDomId(`${parentId}.${menuKey}`);
         const parentName = 'NavTabBarAnt:' + props.id + ':' + menuKey;
         return (

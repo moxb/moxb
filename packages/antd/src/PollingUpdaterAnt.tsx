@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Popover, Spin, Alert } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { t } from '@moxb/moxb';
-import { renderUIFragment, UIFragment } from '@moxb/html';
+import { renderUIFragment, UIFragment } from '@moxb/react-html';
 import { useEffect, useState } from 'react';
 
 /**

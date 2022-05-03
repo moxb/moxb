@@ -7,11 +7,10 @@ import {
     useLinkGenerator,
     useLocationManager,
 } from '@moxb/moxb';
-import { renderUIFragment, UIFragment, UIFragmentSpec } from '@moxb/html';
+import { renderUIFragment, UIFragment, UIFragmentSpec, Anchor, AnchorProps } from '@moxb/react-html';
 import { Menu } from 'antd';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import * as Anchor from '@moxb/html/dist/Anchor';
 import { MenuMode, TriggerSubMenuAction } from 'rc-menu/lib/interface';
 
 export interface NavMenuProps<DataType>
@@ -95,7 +94,7 @@ export const NavMenuBarAnt = observer((props: NavMenuProps<any>) => {
             );
         } else {
             const url = inStates.getUrlForSubState(state);
-            const anchorProps: Anchor.UIProps = {
+            const anchorProps: AnchorProps = {
                 label: label || key,
                 href: url,
                 target: newWindow ? '_blank' : undefined,
@@ -111,7 +110,7 @@ export const NavMenuBarAnt = observer((props: NavMenuProps<any>) => {
             }
             return (
                 <Menu.Item data-testid={itemId} id={itemId} key={menuKey} {...itemProps}>
-                    <Anchor.Anchor {...anchorProps} />
+                    <Anchor {...anchorProps} />
                 </Menu.Item>
             );
         }

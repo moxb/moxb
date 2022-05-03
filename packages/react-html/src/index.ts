@@ -9,9 +9,9 @@ export {
 } from './LocationDependentArea';
 export { UIFragment, renderUIFragment } from './UIFragment';
 export { UIFragmentMap, UIFragmentSpec, extractUIFragmentFromSpec } from './UIFragmentSpec';
-export { Anchor } from './Anchor';
+export { Anchor, AnchorParams, AnchorProps } from './Anchor';
 export { rootOrDetails, DetailProps } from './rootOrDetails';
-export { renderFallback } from './rendering';
+export { renderFallback, renderSubStateCore } from './rendering';
 export { Redirect, redirect, redirectTo, redirectToNavRef } from './Redirect';
 export { NavRefRedirect } from './NavRefRedirect';
 export { NavLink, NavLinkProps, NavLinkParams } from './NavLink';

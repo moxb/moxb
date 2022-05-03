@@ -37,7 +37,7 @@ import DownOutlined from '@ant-design/icons/DownOutlined';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { CountingClock } from '@moxb/html';
+import { CountingClock } from '@moxb/react-html';
 import { useStore } from '../store/Store';
 
 // helper function to print recursive mobx trees

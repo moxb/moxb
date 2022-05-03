@@ -1,4 +1,4 @@
-import { NavigableUIContent } from '@moxb/html';
+import { NavigableUIContent } from '@moxb/react-html';
 import { ActionButtonAnt, FormAnt, TextFormAnt } from '@moxb/antd';
 import { Row } from 'antd';
 import UserOutlined from '@ant-design/icons/UserOutlined';

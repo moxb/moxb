@@ -22,6 +22,7 @@ Next version
 - Migrate from tslint to eslint
 - Fix tons of eslint warnings all over the place
 - Removed the (obsolete and deprecated) Semantic UI bindings
+- Rename the `@moxb/html` package to `@moxb/react-html` (to better reflect the point)
 
 [v0.2.0-beta.93](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.93) (2022-04-20)
 =======================================================================================

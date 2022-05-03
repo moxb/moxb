@@ -16,7 +16,7 @@ JEST = jest
 
 PACKAGE_DIRS= \
    packages/moxb \
-   packages/html \
+   packages/react-html \
    packages/antd \
    packages/meteor
 

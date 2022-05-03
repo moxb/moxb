@@ -64,13 +64,13 @@ export interface Events {
     onClick?: (data: any) => void;
 }
 
-export type UIProps = AnchorParams & TargetParams & Events;
+export type AnchorProps = AnchorParams & TargetParams & Events;
 
 /**
  * A simple wrapper around the HTML anchor tag.
  */
 // eslint-disable-next-line complexity
-export const Anchor = (props: UIProps) => {
+export const Anchor = (props: AnchorProps) => {
     // Is a native click event pending, that we want to suffice?
     const [nativePending, setNativePending] = useState(false);
 
