@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { defineNavRef } from '@moxb/moxb';
-import { UIStateSpace } from '@moxb/html';
-import { NavRefRedirect } from '@moxb/antd';
+import { UIStateSpace, NavRefRedirect } from '@moxb/react-html';
 // @ts-ignore
 import lockImgUrl from '../images/lock.jpg';
 import { ApplicationAnt } from './app/ApplicationAnt';

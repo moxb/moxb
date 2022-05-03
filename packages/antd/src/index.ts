@@ -1,4 +1,4 @@
-export * from '@moxb/html';
+export * from '@moxb/react-html';
 export * from './ActionAnt';
 export * from './BindAnt';
 export * from './BoolAnt';

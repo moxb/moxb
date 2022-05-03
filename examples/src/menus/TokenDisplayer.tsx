@@ -1,4 +1,4 @@
-import { UIFragmentSpec } from '@moxb/antd';
+import { UIFragmentSpec } from '@moxb/react-html';
 import { getNextPathToken, getParsedPathTokens, Navigable, useLocationManager } from '@moxb/moxb';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';

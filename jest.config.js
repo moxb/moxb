@@ -9,14 +9,13 @@ module.exports = {
         "!**/build/**",
         "!**/node_modules/**",
     ],
-    testEnvironment: "jsdom", // some packages (semui and antd) need `window`
+    testEnvironment: "jsdom", // some packages (antd) need `window`
     // we have to list all roots here, else the heuristics which tests to run in watch mode does not work
     roots: [
         "packages/antd",
         "packages/moxb",
         "packages/meteor",
-        "packages/semui",
-        "packages/html",
+        "packages/react-html",
     ],
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
     globals: {
