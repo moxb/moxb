@@ -12,6 +12,10 @@ Next version
 
 ### Changed
 
+[v0.3.5](https://github.com/moxb/moxb/releases/tag/v0.3.5) (2022-05-04)
+
+- Re-try failed publication
+
 [v0.3.4](https://github.com/moxb/moxb/releases/tag/v0.3.4) (2022-05-04)
 
 ### Changed
