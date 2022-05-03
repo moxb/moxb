@@ -27,14 +27,14 @@ build:  all-dependencies npm-link-dependencies
 
 .PHONY: clean-build
 clean-dist:
-	$(RM) -rf .cache
+	$(RM) -rf .cache dist
 
 clean-js-files:
 	$(RM) -f  `find src -name '*.js'`
 
 #include $(ADMIN)/makefiles/clean.mk
 .PHONY: clean
-clean: clean-build clean-js-files
+clean: clean-build clean-js-files clean-dist
 	$(RM) -rf .makehelper
 	$(RM) -rf node_modules
 

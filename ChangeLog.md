@@ -9,6 +9,7 @@ Next version
 ### Added
 
 ### Fixed
+ - Improved cleaning the example project on `make clean`
 
 ### Changed
 
