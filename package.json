@@ -55,7 +55,7 @@
 		"history": "5.0.0",
 		"jsdom": "16.4.0",
 		"lodash.flatten": "4.4.0",
-		"marked": "2.0.6",
+		"marked": "4.0.10",
 		"mobx": "6.5.0",
 		"mobx-react-lite": "3.3.0",
 		"moment": "2.29.1",
