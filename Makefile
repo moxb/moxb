@@ -16,10 +16,10 @@ JEST = jest
 
 PACKAGE_DIRS= \
    packages/moxb \
-   packages/semui \
+   packages/html \
    packages/antd \
-   packages/meteor \
-   packages/html
+   packages/meteor
+
 
 EXAMPLE_DIRS= \
    examples
