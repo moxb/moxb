@@ -9,6 +9,7 @@ export interface BindAntProps<T extends Bind> {
     id?: string;
     invisible?: boolean;
     formStyle?: CSSProperties;
+    children?: React.ReactNode;
 }
 
 /**

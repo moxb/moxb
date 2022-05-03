@@ -5,18 +5,24 @@ import {
     NavigableContent,
     StateSpace,
     SubStateInContext,
+    useLocationManager,
+    useTokenManager,
 } from '@moxb/moxb';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { renderSubStateCore } from './rendering';
 import { UIFragment } from './UIFragment';
 import { UIFragmentSpec } from './UIFragmentSpec';
+import { useEffect } from 'react';
 
-export type UIStateSpace<DataType = {}> = StateSpace<UIFragment, UIFragmentSpec, DataType>;
+export type UIStateSpace<DataType = void> = StateSpace<UIFragment, UIFragmentSpec, DataType>;
 export type NavigableUIContent = NavigableContent<UIFragmentSpec>;
 
 export interface LocationDependentAreaProps<DataType>
-    extends LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType> {
+    extends Omit<
+        LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType>,
+        'locationManager' | 'tokenManager'
+    > {
     /**
      * When multiple parts of the layout needs to change
      * based on the same value, we can describe all of those
@@ -47,49 +53,45 @@ export interface LocationDependentAreaProps<DataType>
     debug?: boolean;
 }
 
-@inject('locationManager', 'tokenManager')
-@observer
-export class LocationDependentArea<DataType> extends React.Component<LocationDependentAreaProps<DataType>> {
-    public constructor(props: LocationDependentAreaProps<DataType>) {
-        super(props);
+export const LocationDependentArea = observer((props: LocationDependentAreaProps<any>): JSX.Element | null => {
+    const locationManager = useLocationManager('location dependent area for ' + props.id);
+    const tokenManager = useTokenManager();
+
+    const { id, part, useTokenMappings, ...rest } = props;
+    const { debug, navControl, mountAll, stateSpace } = rest;
+    const states: LocationDependentStateSpaceHandler<
+        UIFragment,
+        UIFragmentSpec,
+        any
+    > = new LocationDependentStateSpaceHandlerImpl({
+        ...rest,
+        id: 'changing content of ' + id,
+        locationManager,
+        tokenManager: useTokenMappings ? tokenManager : undefined,
+        intercept: true,
+    });
+
+    function debugLog(...messages: any[]) {
+        if (debug) {
+            (console as any).log(`LDA "${props.id}":`, ...messages);
+        }
     }
 
-    componentDidMount() {
-        if (this.props.useTokenMappings) {
-            const states = this._getStates(this.props);
+    useEffect(() => {
+        if (useTokenMappings) {
             states.registerTokenMappings();
         }
-    }
+        return () => {
+            if (useTokenMappings) {
+                states.unregisterTokenMappings();
+            }
+        };
+    });
 
-    componentWillUnmount() {
-        if (this.props.useTokenMappings) {
-            const states = this._getStates(this.props);
-            states.unregisterTokenMappings();
-        }
-    }
-
-    componentDidUpdate(prevProps: Readonly<LocationDependentAreaProps<DataType>>) {
-        if (this.props.useTokenMappings) {
-            const prevStates = this._getStates(prevProps);
-            prevStates.unregisterTokenMappings();
-            const newStates = this._getStates(this.props);
-            newStates.registerTokenMappings();
-        }
-    }
-
-    debugLog(...messages: any[]) {
-        if (this.props.debug) {
-            (console as any).log(`LDA "${this.props.id}":`, ...messages);
-        }
-    }
-
-    renderSubState(
-        states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, DataType>,
-        subState: SubStateInContext<UIFragment, UIFragmentSpec, DataType> | null,
-        fallback: UIFragmentSpec | undefined,
+    function renderSubState(
+        subState: SubStateInContext<UIFragment, UIFragmentSpec, any> | null,
         invisible?: boolean
-    ) {
-        const { navControl, id } = this.props;
+    ): JSX.Element | null {
         const extraProps: any = {
             key: subState ? subState.key : 'missing',
         };
@@ -100,7 +102,7 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         return renderSubStateCore({
             state: subState,
             fallback,
-            navigationContext: this.props,
+            navigationContext: props,
             tokenIncrease: subState ? subState.totalPathTokens.length : 1,
             checkCondition: false, // We don't ever get to select this sub-state if the condition fails
             extraProps,
@@ -119,61 +121,31 @@ export class LocationDependentArea<DataType> extends React.Component<LocationDep
         });
     }
 
-    private _getStates(props: LocationDependentAreaProps<DataType>) {
-        const {
-            id,
-            part,
-            mountAll,
-            // useTokenMappings,
-            ...remnantProps
-        } = props;
-        const states: LocationDependentStateSpaceHandler<
-            UIFragment,
-            UIFragmentSpec,
-            DataType
-        > = new LocationDependentStateSpaceHandlerImpl({
-            ...remnantProps,
-            id: 'changing content of ' + id,
-            intercept: true,
-        });
-        return states;
+    debugLog(` *** Rendering with state space "${props.stateSpace.metaData}"`);
+
+    const { fallback } = stateSpace;
+
+    const wantedChild = states.getActiveSubState();
+    debugLog('wantedChild is', wantedChild);
+    if (mountAll && wantedChild) {
+        debugLog('Rendering all children at once');
+        return (
+            <>
+                {states
+                    .getFilteredSubStates({
+                        onlyVisible: false,
+                        onlyLeaves: true,
+                        onlySatisfying: true,
+                        noDisplayOnly: true,
+                    })
+                    .map((s, i) => (
+                        <div key={`${i}`} style={s !== wantedChild ? { display: 'none' } : s.containerStyle}>
+                            {renderSubState(s, s !== wantedChild)}
+                        </div>
+                    ))}
+            </>
+        );
+    } else {
+        return renderSubState(wantedChild);
     }
-
-    render() {
-        this.debugLog(` *** Rendering with state space "${this.props.stateSpace.metaData}"`);
-
-        const {
-            // id,
-            // part,
-            // fallback,
-            mountAll,
-            // useTokenMappings,
-            // ...remnantProps
-            stateSpace,
-        } = this.props;
-
-        const { fallback } = stateSpace;
-
-        const states = this._getStates(this.props);
-
-        const wantedChild = states.getActiveSubState();
-        this.debugLog('wantedChild is', wantedChild);
-        if (mountAll && wantedChild) {
-            this.debugLog('Rendering all children at once');
-            return states
-                .getFilteredSubStates({
-                    onlyVisible: false,
-                    onlyLeaves: true,
-                    onlySatisfying: true,
-                    noDisplayOnly: true,
-                })
-                .map((s, i) => (
-                    <div key={`${i}`} style={s !== wantedChild ? { display: 'none' } : s.containerStyle}>
-                        {this.renderSubState(states, s, fallback, s !== wantedChild)}
-                    </div>
-                ));
-        } else {
-            return this.renderSubState(states, wantedChild, fallback);
-        }
-    }
-}
+});

@@ -16,14 +16,14 @@ exports[`BoolAnt should render a checkbox by default 1`] = `
 `;
 
 exports[`BoolFormAnt should render a checkbox by default 1`] = `
-<FormItemAnt
+<Memo(observerComponent)
   operation="bound BoolImpl"
 >
-  <BoolAnt
+  <Memo(observerComponent)
     disabled={false}
     id="the_id"
     operation="bound BoolImpl"
     readOnly={false}
   />
-</FormItemAnt>
+</Memo(observerComponent)>
 `;

@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { Modal, ModalActions } from './Modal';
 
 export interface ModalOptions<T, A> {
@@ -17,6 +17,7 @@ export class ModalImpl<T, A extends ModalActions = ModalActions> implements Moda
     private readonly impl: ModalOptions<T, A>;
 
     constructor(impl: ModalOptions<T, A>) {
+        makeObservable(this);
         this.impl = impl;
     }
 

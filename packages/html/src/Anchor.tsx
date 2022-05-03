@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { renderUIFragment, UIFragment } from './UIFragment';
+import { useState } from 'react';
 
 /**
  * Parameters for describing an anchor
@@ -39,6 +40,11 @@ export interface AnchorParams {
      * This goes straight to HTML
      */
     target?: string;
+
+    /**
+     * Any children to render
+     */
+    children?: React.ReactNode;
 }
 
 export interface TargetParams {
@@ -63,22 +69,19 @@ export type UIProps = AnchorParams & TargetParams & Events;
 /**
  * A simple wrapper around the HTML anchor tag.
  */
-export class Anchor extends React.PureComponent<UIProps> {
-    public constructor(props: UIProps) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-        this.cancelEvent = this.cancelEvent.bind(this);
-    }
-
+// eslint-disable-next-line complexity
+export const Anchor = (props: UIProps) => {
     // Is a native click event pending, that we want to suffice?
-    private nativePending = false;
+    const [nativePending, setNativePending] = useState(false);
 
-    private cancelEvent(event: React.SyntheticEvent<HTMLAnchorElement>) {
-        if (this.nativePending) {
+    const { label, title, children, className, style, href, target, disabled } = props;
+
+    function cancelEvent(event: React.SyntheticEvent<HTMLAnchorElement>) {
+        if (nativePending) {
             // We want this click event to succeed, so don't cancel it
 
             // We only want to do this once per click, so clear the flag now
-            this.nativePending = false;
+            setNativePending(false);
             // cancel the cancellation
             return;
         }
@@ -86,8 +89,8 @@ export class Anchor extends React.PureComponent<UIProps> {
         event.stopPropagation();
     }
 
-    private handleClick(event: React.SyntheticEvent<HTMLAnchorElement>) {
-        const { onClick, data, disabled } = this.props;
+    function handleClick(event: React.SyntheticEvent<HTMLAnchorElement>) {
+        const { onClick, data } = props;
         if (disabled) {
             // console.log('This anchor is currently disabled; ignoring click.');
             event.preventDefault();
@@ -97,17 +100,17 @@ export class Anchor extends React.PureComponent<UIProps> {
         const { button, ctrlKey, metaKey } = event as any;
         if (!onClick) {
             // console.log('No link handler, we will return 2');
-            this.nativePending = true;
+            setNativePending(true);
             return;
         }
         if (button) {
             // console.log('Ignoring click with middle or right button');
-            this.nativePending = true;
+            setNativePending(true);
             return;
         }
         if (ctrlKey || metaKey) {
             // console.log('Ignoring click with ctrlKey / metaKey 2');
-            this.nativePending = true;
+            setNativePending(true);
             return;
         }
 
@@ -116,32 +119,28 @@ export class Anchor extends React.PureComponent<UIProps> {
         onClick(data);
     }
 
-    // tslint:disable-next-line:cyclomatic-complexity
-    public render() {
-        const { label, title, children, className, style, href, target, disabled } = this.props;
-        const anchorProps: any = {
-            href: href || '#',
-            onMouseDown: this.handleClick,
-            onClick: this.cancelEvent,
-            title,
-        };
-        if (!!className || disabled) {
-            anchorProps.className = (className || '') + (disabled ? ' disabled' : '');
-        }
-        if (target) {
-            anchorProps.target = target;
-        }
-        if (style || disabled) {
-            anchorProps.style = {
-                ...style,
-                ...(disabled ? { cursor: 'not-allowed' } : {}),
-            };
-        }
-        return (
-            <a {...anchorProps}>
-                {renderUIFragment(label || '')}
-                {children}
-            </a>
-        );
+    const anchorProps: any = {
+        href: href || '#',
+        onMouseDown: handleClick,
+        onClick: cancelEvent,
+        title,
+    };
+    if (!!className || disabled) {
+        anchorProps.className = (className || '') + (disabled ? ' disabled' : '');
     }
-}
+    if (target) {
+        anchorProps.target = target;
+    }
+    if (style || disabled) {
+        anchorProps.style = {
+            ...style,
+            ...(disabled ? { cursor: 'not-allowed' } : {}),
+        };
+    }
+    return (
+        <a {...anchorProps}>
+            {renderUIFragment(label || '')}
+            {children}
+        </a>
+    );
+};

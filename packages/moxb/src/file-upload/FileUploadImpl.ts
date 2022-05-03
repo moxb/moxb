@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, makeObservable } from 'mobx';
 import type { FileUpload } from './FileUpload';
 import { getValueFromStringOrFunction, getValueOrFunction, ValueOrFunction } from '../bind/BindImpl';
 import { Label } from '../label/Label';
@@ -74,6 +74,7 @@ export class FileUploadImpl implements FileUpload {
     }
 
     constructor(private readonly _options: FileUploadOptions) {
+        makeObservable(this);
         this._reader = new FileReader();
         this._reader.onabort = () => this._fail('file reading was aborted');
         this._reader.onerror = () => this._fail(this._reader.error?.toString() || 'failed to upload');

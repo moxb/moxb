@@ -1,4 +1,3 @@
-/// <reference path="../src/globals.d.ts" />
 import { Mongo } from 'meteor/mongo';
 import { MeteorDataFetcher } from './MeteorDataFetcher';
 
@@ -14,4 +13,4 @@ export interface MeteorTableQuery {
     options: Mongo.FindOptions;
 }
 
-export interface MeteorTableFetcher<T> extends MeteorDataFetcher<MeteorTableQuery, MeteorTableData<T>> {}
+export type MeteorTableFetcher<T> = MeteorDataFetcher<MeteorTableQuery, MeteorTableData<T>>;

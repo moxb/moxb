@@ -5,7 +5,7 @@ import {
     LocationDependentStateSpaceHandlerProps,
     OneOfImpl,
 } from '@moxb/moxb';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { renderUIFragment, UIFragment, UIFragmentSpec } from '@moxb/html';
 import { OneOfButtonAnt } from '../OneOfAnt';
@@ -21,55 +21,53 @@ export interface NavRadioButtonBarProps<DataType>
      * Any direct styles to apply
      */
     style?: React.CSSProperties;
+
+    children?: React.ReactNode;
 }
 
-@inject('locationManager')
-@observer
-/**
- * This widget show an Ant tab bar, based on the state-space.
- */
-export class NavRadioButtonBarAnt<DataType> extends React.Component<NavRadioButtonBarProps<DataType>> {
-    protected getLocationDependantStateSpaceHandler(): LocationDependentStateSpaceHandler<
+export const NavRadioButtonBarAnt = observer((props: NavRadioButtonBarProps<unknown>) => {
+    const { id, extra, style } = props;
+
+    function getLocationDependantStateSpaceHandler(): LocationDependentStateSpaceHandler<
         UIFragment,
         UIFragmentSpec,
-        DataType
+        unknown
     > {
-        const { id, children: _children, extra, style, ...stateProps } = this.props;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id: _id, children: _children, extra: _extra, style: _style, ...stateProps } = props;
 
         return new LocationDependentStateSpaceHandlerImpl({
             ...stateProps,
-            id: 'tab bar of ' + (this.props.id || 'no-id'),
+            id: 'tab bar of ' + (id || 'no-id'),
             intercept: true,
         });
     }
 
-    public render() {
-        const states: LocationDependentStateSpaceHandler<
-            UIFragment,
-            UIFragmentSpec,
-            DataType
-        > = this.getLocationDependantStateSpaceHandler();
-        const { extra, style } = this.props;
-        const operation = new OneOfImpl({
-            id: 'oneOf.' + this.props.id,
-            getValue: () => states.getActiveSubStateMenuKeys(true)[0],
-            setValue: (value) => states.trySelectSubState(states.findStateForMenuKey(value)),
-            choices: states
-                .getFilteredSubStates({
-                    onlyVisible: true,
-                    onlySatisfying: true,
-                })
-                .map((state) => ({
-                    value: state.menuKey,
-                    widget: renderUIFragment(state.label),
-                })),
-        });
-        const id = idToDomId('radioButtonMenu.' + this.props.id);
-        return (
-            <div data-testid={id} id={id} style={style}>
-                <OneOfButtonAnt operation={operation} />
-                {renderUIFragment(extra)}
-            </div>
-        );
-    }
-}
+    const states: LocationDependentStateSpaceHandler<
+        UIFragment,
+        UIFragmentSpec,
+        unknown
+    > = getLocationDependantStateSpaceHandler();
+
+    const operation = new OneOfImpl({
+        id: 'oneOf.' + id,
+        getValue: () => states.getActiveSubStateMenuKeys(true)[0],
+        setValue: (value) => states.trySelectSubState(states.findStateForMenuKey(value)),
+        choices: states
+            .getFilteredSubStates({
+                onlyVisible: true,
+                onlySatisfying: true,
+            })
+            .map((state) => ({
+                value: state.menuKey,
+                widget: renderUIFragment(state.label),
+            })),
+    });
+    const newId = idToDomId('navRadioButtonsBar.' + id);
+    return (
+        <div data-testid={newId} id={newId} style={style}>
+            <OneOfButtonAnt operation={operation} />
+            {renderUIFragment(extra)}
+        </div>
+    );
+});

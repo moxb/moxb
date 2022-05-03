@@ -39,7 +39,7 @@ export interface MeteorMethodDefinition<Input, Output> {
      *
      * @param input The input data. Please provide all arguments within a single object. (Like props in React)
      *
-     * You can throw normal Errors in this code, they will be converted into Meteor.errors
+     * You can throw normal Errors in this code, they will be converted into Meteor.Error instances
      */
     execute: (input: Input) => Output;
 }
@@ -76,25 +76,16 @@ export interface MeteorMethodControl<Input, Output> {
     pending: boolean;
 }
 
-export interface Problem {
-    path: string;
-    problem: string;
-}
-
-export class DetailedError {
-    constructor(readonly error: string, readonly reason: string, readonly details: Problem[]) {}
-}
-
 /**
  * Create a Meteor.Error out of any normal Error.
  */
-function convertError(e: Error): Meteor.Error {
-    if ((e as any).errorType === 'Meteor.Error') {
-        return (e as any) as Meteor.Error;
+function convertError(e: any): Meteor.Error {
+    if (e.errorType === 'Meteor.Error') {
+        return e as Meteor.Error;
     }
-    const error = (e as any).error ? (e as any).error : e.toString();
+    const error = e.error ? e.error : e.toString();
     const message = e.message;
-    const details = (e as any).details || e.stack || '';
+    const details = e.details || e.stack || '';
     return new Meteor.Error(error, message, details);
 }
 
@@ -102,12 +93,13 @@ function convertError(e: Error): Meteor.Error {
  * Create a wrapper around a function, that will convert anything that is thrown into Meteor.Errors
  */
 // based on https://stackoverflow.com/a/28998603/2297345
-export function wrapException<A extends Function>(f: A): A {
+export function wrapException<A extends (...data: any[]) => unknown>(f: A): A {
     return ((...args: any[]) => {
         try {
+            // eslint-disable-next-line prefer-spread
             return f.apply(undefined, args);
         } catch (e) {
-            throw convertError(e as any);
+            throw convertError(e);
         }
     }) as any;
 }

@@ -1,6 +1,7 @@
-import { UpdateMethod, UsesLocation, NavRef, UrlArg, MyLocation } from '@moxb/moxb';
-import { inject, observer } from 'mobx-react';
+import { UpdateMethod, NavRef, UrlArg, MyLocation, useLocationManager } from '@moxb/moxb';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
+import { useEffect } from 'react';
 
 interface RedirectProps {
     position?: number;
@@ -28,11 +29,11 @@ interface RedirectProps {
     location?: MyLocation;
 }
 
-@inject('locationManager')
-@observer
-export class Redirect extends React.Component<UsesLocation & RedirectProps> {
-    public componentDidMount() {
-        const { locationManager, position = 0, to, updateMethod, pathSaveArg, location } = this.props;
+export const Redirect = observer((props: RedirectProps) => {
+    const locationManager = useLocationManager('redirect');
+
+    useEffect(() => {
+        const { position = 0, to, updateMethod, pathSaveArg, location } = props;
         if (location) {
             locationManager!.doSetLocation(location, UpdateMethod.REPLACE);
             return;
@@ -44,12 +45,10 @@ export class Redirect extends React.Component<UsesLocation & RedirectProps> {
             // An empty list is a valid input here, so we can't simply test for falsy
             locationManager!.doSetPathTokens(position, to, updateMethod);
         }
-    }
+    }, []);
 
-    render() {
-        return <div>Redirecting ... </div>;
-    }
-}
+    return <div>Redirecting ... </div>;
+});
 
 export const redirect = (props: RedirectProps) => <Redirect {...props} />;
 

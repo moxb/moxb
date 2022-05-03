@@ -16,7 +16,10 @@ export type UIFragment = string | JSX.Element | Component<any> | React.Component
  *
  * When rendering a component, it also accepts some props.
  */
-export const renderUIFragment = (fragment: UIFragment | undefined, props: Object = {}): JSX.Element | null => {
+export const renderUIFragment = (
+    fragment: UIFragment | undefined,
+    props: Record<string, any> = {}
+): JSX.Element | null => {
     if (fragment === undefined) {
         return null;
     }

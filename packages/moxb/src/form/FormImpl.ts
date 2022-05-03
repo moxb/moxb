@@ -1,4 +1,4 @@
-import { action, computed } from 'mobx';
+import { action, computed, makeObservable, override } from 'mobx';
 import { extractErrorString, t, Value, ValueOrFunction } from '..';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Form } from './Form';
@@ -42,6 +42,7 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
 
     constructor(impl: FormOptions) {
         super(impl);
+        makeObservable(this);
         if (this.impl.values === undefined) {
             throw new Error('The form implementation must have defined children components or a function.');
         }
@@ -71,7 +72,7 @@ export class FormImpl extends BindImpl<FormOptions> implements Form {
         return Array.from(allErrors);
     }
 
-    @computed
+    @override
     get hasErrors() {
         return !!(this.values.find((v) => v.errors!.length > 0) || this.errors!.length > 0);
     }

@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { t } from '../i18n/i18n';
 import { Wizard } from './Wizard';
 import { WizardStep } from './WizardStep';
@@ -28,6 +28,7 @@ export class WizardStepImpl implements WizardStep {
     private readonly isComplete?: () => boolean;
 
     constructor(wizard: Wizard, id: string, private readonly settings: WizardStepOptions) {
+        makeObservable(this);
         this.wizard = wizard;
         this.id = id;
         this._title = settings.title;

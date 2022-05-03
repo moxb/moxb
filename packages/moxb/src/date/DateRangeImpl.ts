@@ -1,7 +1,7 @@
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import * as moment from 'moment';
 import { DateRange } from './DateRange';
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 
 export interface DateRangeOptions extends ValueOptions<DateRangeImpl, [moment.Moment, moment.Moment]> {
     ranges?: Record<string, [moment.Moment, moment.Moment]>;
@@ -14,6 +14,7 @@ export class DateRangeImpl
 
     constructor(impl: DateRangeOptions) {
         super(impl);
+        makeObservable(this);
         this.impl = impl;
     }
 

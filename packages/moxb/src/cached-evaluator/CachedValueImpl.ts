@@ -10,7 +10,7 @@ export class CachedValueImpl<Output> implements CachedValue<Output> {
 
     constructor(private readonly props: CachedValueProps<Output>) {}
 
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     get(forceRefresh = false): Output {
         const { name, debugMode, errorCacheSeconds = 60, normalCacheSeconds = 300, getValue } = this.props;
         const logger = getDebugLogger('CachedValue-' + name, debugMode);

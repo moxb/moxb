@@ -1,8 +1,12 @@
 export interface Logger {
     log(...stuff: any[]): void;
+
     debug(...stuff: any[]): void;
+
     info(...stuff: any[]): void;
+
     warn(...stuff: any[]): void;
+
     error(...stuff: any[]): void;
 }
 
@@ -29,15 +33,25 @@ const getRealLogger = (prefix: string): Logger => ({
 });
 
 const fakeLogger: Logger = {
-    log() {},
-    debug() {},
-    info() {},
-    warn() {},
-    error() {},
+    log() {
+        // This is intentionally empty
+    },
+    debug() {
+        // This is intentionally empty
+    },
+    info() {
+        // This is intentionally empty
+    },
+    warn() {
+        // This is intentionally empty
+    },
+    error() {
+        // This is intentionally empty
+    },
 };
 
 export const getDebugLogger = (prefix: string, debugMode?: boolean): Logger =>
-    !!debugMode ? getRealLogger(prefix) : fakeLogger;
+    debugMode ? getRealLogger(prefix) : fakeLogger;
 
 export interface FineGrainedLogConfiguration {
     logLog?: boolean;

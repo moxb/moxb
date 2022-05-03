@@ -1,5 +1,5 @@
 import * as moxb from '@moxb/moxb';
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { UrlStore } from '../store/UrlStore';
 import { ClickHandler, MemTable, MemTableData } from './MemTable';
 import { OneOf, OneOfImpl, TokenManager } from '@moxb/moxb';
@@ -93,7 +93,9 @@ function createData(n: number): MemTableData[] {
 }
 
 export class MemTableImpl implements MemTable {
-    constructor(private readonly url: UrlStore, private readonly tokenManager: TokenManager) {}
+    constructor(private readonly url: UrlStore, private readonly tokenManager: TokenManager) {
+        makeObservable(this);
+    }
 
     get groupId() {
         return this.url.groupId.value;

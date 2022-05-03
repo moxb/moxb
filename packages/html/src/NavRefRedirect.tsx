@@ -1,7 +1,14 @@
-import { observable } from 'mobx';
-import { getNextPathToken, UsesLinkGenerator, Navigable, parseNavRef, UpdateMethod, UsesLocation } from '@moxb/moxb';
-import { inject, observer } from 'mobx-react';
+import {
+    getNextPathToken,
+    Navigable,
+    parseNavRef,
+    UpdateMethod,
+    useLinkGenerator,
+    useLocationManager,
+} from '@moxb/moxb';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * The NavRefRedirect component is responsible for executing redirects based on base64-encoded
@@ -17,38 +24,28 @@ import * as React from 'react';
  *  },
  *
  */
-@inject('locationManager', 'linkGenerator')
-@observer
-export class NavRefRedirect extends React.Component<UsesLocation & Navigable<any> & UsesLinkGenerator> {
-    @observable
-    private _failed = false;
+export const NavRefRedirect = observer((props: Navigable<any>) => {
+    const locationManager = useLocationManager('nav ref redirect');
+    const linkGenerator = useLinkGenerator();
 
-    private _tryRedirect() {
-        this._failed = false;
+    const [failed, setFailed] = useState(false);
+
+    useEffect(() => {
+        setFailed(false);
         try {
             // Get the data out of the next path token
-            const stringForm = getNextPathToken(this.props);
+            const stringForm = getNextPathToken({ ...props, locationManager });
 
             // Parse the base64 data into a NavRefCall data structure
             const { navRef, tokens } = parseNavRef(stringForm);
 
             // Go to this NavRef
-            this.props.linkGenerator!.doGoTo(navRef.call(tokens), UpdateMethod.REPLACE);
+            linkGenerator.doGoTo(navRef.call(tokens), UpdateMethod.REPLACE);
         } catch (e) {
-            this._failed = true;
+            setFailed(true);
             console.log(e);
         }
-    }
+    });
 
-    componentDidMount() {
-        this._tryRedirect();
-    }
-
-    componentDidUpdate() {
-        this._tryRedirect();
-    }
-
-    render() {
-        return this._failed ? <div>Oops! This redirect doesn't seem to be working.</div> : <div>Redirecting...</div>;
-    }
-}
+    return failed ? <div>Oops! This redirect doesn't seem to be working.</div> : <div>Redirecting...</div>;
+});

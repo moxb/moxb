@@ -65,7 +65,7 @@ const extractPartFromUIFragmentSpec = (
     const map = getUIFragmentMap(spec);
     const wanted = part || 'main';
     const result = (map as any)[wanted] || null;
-    if (!!debugMode) {
+    if (debugMode) {
         console.log('Map is', map);
         console.log('Wanted part is', part);
         console.log('Result is', result);
@@ -106,13 +106,12 @@ export const extractUIFragmentFromSpec = (
     //         typeof part
     //     );
     // }
-    let specWithFallback: UIFragmentSpec;
     // if (part) {
     if (debugMode) {
         console.log('Looking for a specific part, creating object for parts...');
     }
     // We create a map which merges the fallback values with those that have actually been given.
-    specWithFallback = {
+    const specWithFallback: UIFragmentSpec = {
         ...getUIFragmentMap(fallback ? fallback : {}),
         ...getUIFragmentMap(spec ? spec : {}),
     };

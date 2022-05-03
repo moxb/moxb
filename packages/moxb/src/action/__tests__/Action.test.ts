@@ -13,7 +13,9 @@ describe('interface BindAction', function () {
         });
         it('should not be called on fire if disabled', function () {
             const consoleWarn = jest.spyOn(console, 'warn');
-            consoleWarn.mockImplementation(() => {});
+            consoleWarn.mockImplementation(() => {
+                // This is intentional
+            });
             const fire = jest.fn();
             const bindAction = new ActionImpl({
                 id: 'bind.action',
@@ -26,7 +28,9 @@ describe('interface BindAction', function () {
         });
         it('should not be called on fire if disabled and console.warn should be called', function () {
             const consoleWarn = jest.spyOn(console, 'warn');
-            consoleWarn.mockImplementation(() => {});
+            consoleWarn.mockImplementation(() => {
+                // This is intentional
+            });
             const fire = jest.fn();
             const bindAction = new ActionImpl({
                 id: 'bind.action',
@@ -56,7 +60,9 @@ describe('interface BindAction', function () {
         it('should create an instance of ActionImpl', function () {
             const bindAction = new ActionImpl({
                 id: 'bind.action',
-                fire: () => {},
+                fire: () => {
+                    // This is intentional
+                },
             });
             expect(bindAction).toBeDefined();
         });
@@ -64,7 +70,9 @@ describe('interface BindAction', function () {
         it('should create an instance of ActionButtonImpl', function () {
             const bindAction = new ActionButtonImpl({
                 id: 'bind.action',
-                fire: () => {},
+                fire: () => {
+                    // This is intentional
+                },
             });
             expect(bindAction).toBeDefined();
         });
@@ -73,7 +81,9 @@ describe('interface BindAction', function () {
         it('should return empty array if not specified', function () {
             const bindAction = new ActionImpl({
                 id: 'bind.action',
-                fire: () => {},
+                fire: () => {
+                    // This is intentional
+                },
             });
             expect(bindAction.keyboardShortcuts).toEqual([]);
         });
@@ -82,7 +92,9 @@ describe('interface BindAction', function () {
             const bindAction = new ActionButtonImpl({
                 id: 'bind.action',
                 keyboardShortcuts: 'the shortcut',
-                fire: () => {},
+                fire: () => {
+                    // This is intentional
+                },
             });
             expect(bindAction.keyboardShortcuts).toEqual(['the shortcut']);
         });
@@ -90,7 +102,9 @@ describe('interface BindAction', function () {
             const bindAction = new ActionButtonImpl({
                 id: 'bind.action',
                 keyboardShortcuts: ['cmd 1', 'cmd 2', 'x'],
-                fire: () => {},
+                fire: () => {
+                    // This is intentional
+                },
             });
             expect(bindAction.keyboardShortcuts).toEqual(['cmd 1', 'cmd 2', 'x']);
         });

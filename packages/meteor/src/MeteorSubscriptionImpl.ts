@@ -1,5 +1,13 @@
 import { Tracker } from 'meteor/tracker';
-import { action, autorun, IReactionDisposer, observable, onBecomeObserved, onBecomeUnobserved } from 'mobx';
+import {
+    action,
+    autorun,
+    IReactionDisposer,
+    observable,
+    onBecomeObserved,
+    onBecomeUnobserved,
+    makeObservable,
+} from 'mobx';
 import { meteorAutorun } from './MeteorDependencies';
 import { MeteorSubscription } from './MeteorSubscription';
 import { extractErrorString } from '@moxb/moxb';
@@ -17,7 +25,9 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
     private subscriptionTracker?: Tracker.Computation;
     private mobxAutoRun?: IReactionDisposer;
     private timeoutHandle: any;
+
     constructor() {
+        makeObservable(this);
         onBecomeObserved(this, '_isSubscriptionReady', () => {
             // console.log('subscribe=', this.constructor.name);
             this.subscribe();
@@ -29,10 +39,15 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         this._fail = this._fail.bind(this);
     }
 
-    /** @deprecated since version v0.2.0-beta.18 */
+    /**
+     *  @deprecated since version v0.2.0-beta.18
+     *
+     *  Use pending() instead.
+     */
     get isSubscriptionReady() {
         return this._isSubscriptionReady;
     }
+
     /** @deprecated since version v0.2.0-beta.18 */
     set isSubscriptionReady(value: boolean) {
         this._isSubscriptionReady = value;
@@ -45,6 +60,7 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
     _setReady() {
         this._isSubscriptionReady = true;
     }
+
     get hasFailed() {
         return this._hasFailed;
     }
@@ -60,6 +76,7 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
     get pending() {
         return !this._isSubscriptionReady && !this._hasFailed;
     }
+
     protected _fail(error: any) {
         if (error) {
             // console.warn('Failing subscription', this._publicationName, ':', error);
@@ -72,7 +89,9 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
 
     protected meteorSubscribe(publicationName: string, ...args: any[]) {
         this._publicationName = publicationName;
-        return Meteor.subscribe(publicationName, ...args, { onStop: this._fail });
+        return Meteor.subscribe(publicationName, ...args, {
+            onStop: this._fail,
+        });
     }
 
     @action.bound
@@ -80,9 +99,9 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
         this._errors = [];
         this._hasFailed = false;
         this.nSubscriptions++;
-        if (this.nSubscriptions === 1 && this.mobxAutoRun == undefined) {
+        if (this.nSubscriptions === 1 && !this.mobxAutoRun) {
             // We have to call the Meteor.Tracker.autorun async!
-            // If we call it directly and it is called form within another Tracker.autorun, this autorun is unsubscribed
+            // If we call it directly, and it is called form within another Tracker.autorun, this autorun is unsubscribed
             // after the first call (took me hour to figure that out).
             // https://docs.meteor.com/api/tracker.html:
             //    "Nested computations are stopped automatically when their enclosing computation is rerun"
@@ -115,7 +134,7 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
             }
             if (this.mobxAutoRun) {
                 this.mobxAutoRun();
-                this.mobxAutoRun = undefined;
+                delete this.mobxAutoRun;
             }
             if (this.timeoutHandle) {
                 clearTimeout(this.timeoutHandle);

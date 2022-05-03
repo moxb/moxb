@@ -31,6 +31,7 @@ export function parseProps<T>(bindProps: T): T {
         ...props,
     };
 }
+
 //trigger={<Button basic icon="help" circular size="mini" />}
 // trigger={<sup><Icon name="help circle outline" /></sup>}
 // trigger={<sup><Button style={{fontSize:"0.5rem"}} basic icon="help" circular compact size="mini" color='grey' /></sup>}
@@ -53,6 +54,7 @@ export function labelWithHelp(label: any, help?: string) {
         return label;
     }
 }
+
 /**
  * Remove a `<p>...</p>` that surrounds the html.
  * @param html
@@ -61,10 +63,8 @@ export function stripSurroundingP(html: string) {
     return html.replace(/^\s*<p>/, '').replace(/<\/p>\s*$/, '');
 }
 
-export class BindMarkdownDiv extends React.Component<{ markdownText: string } & React.HTMLProps<HTMLDivElement>> {
-    render() {
-        const { markdownText, ...props } = this.props;
-        const html = stripSurroundingP(marked(markdownText));
-        return <div dangerouslySetInnerHTML={{ __html: html }} {...props} />;
-    }
-}
+export const BindMarkdownDiv = (props: { markdownText: string } & React.HTMLProps<HTMLDivElement>) => {
+    const { markdownText, ...rest } = props;
+    const html = stripSurroundingP(marked(markdownText));
+    return <div dangerouslySetInnerHTML={{ __html: html }} {...rest} />;
+};

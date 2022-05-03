@@ -19,7 +19,7 @@ import { NavRef, NavRefCall } from '../navigation-references';
  *
  * Method 3: 'to' + 'position' [ + argChanges]
  *
- *   The current path will be replace with the given list of tokens,
+ *   The current path will be replaced with the given list of tokens,
  *   starting from position. (If not given, everything will be replaced.)
  *   ArgChanges will also be executed.
  *
@@ -70,5 +70,5 @@ export interface CoreLinkProps {
      * Required when using method #4 to specify the link target.
      * When given, this will override to, appendTokens, etc..
      */
-    toRef?: NavRef<void | {}> | NavRefCall<any>;
+    toRef?: NavRef<void | Record<string, string>> | NavRefCall<any>;
 }

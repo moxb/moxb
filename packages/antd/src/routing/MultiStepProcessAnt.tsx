@@ -1,6 +1,6 @@
 import { MultiStepProcess, StateSpace } from '@moxb/moxb';
 import { Alert, Col, Row } from 'antd';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { ActionButtonAnt } from '../ActionAnt';
 import { LocationDependentArea, UIFragmentSpec } from '@moxb/html';
@@ -12,11 +12,11 @@ export interface MultiStepProcessProps<Step> {
     steps: StateSpace<any, UIFragmentSpec, any>;
 }
 
-@observer
-export class MultiStepProcessAnt extends React.Component<MultiStepProcessProps<any>> {
-    getStatus(): StepStatus {
-        const { operation } = this.props;
-        const { finished, failed } = operation;
+export const MultiStepProcessAnt = observer((props: MultiStepProcessProps<any>) => {
+    const { operation, steps, id } = props;
+    const { currentStep, finished, failed } = operation;
+
+    function getStatus(): StepStatus {
         if (finished) {
             return StepStatus.FINISH;
         }
@@ -26,8 +26,7 @@ export class MultiStepProcessAnt extends React.Component<MultiStepProcessProps<a
         return StepStatus.PROCESS;
     }
 
-    renderError() {
-        const { operation } = this.props;
+    function renderError() {
         const { errorMessage, finish } = operation;
         return (
             <div>
@@ -45,21 +44,14 @@ export class MultiStepProcessAnt extends React.Component<MultiStepProcessProps<a
         );
     }
 
-    render() {
-        const { operation, steps, id } = this.props;
-        const { currentStep, failed } = operation;
-        const stepProps: StepsProps = {
-            status: this.getStatus(),
-        };
-        return (
-            <div data-testid={id}>
-                <NavStepsAnt arg={currentStep} id={id + '-steps-indicator'} stateSpace={steps} stepProps={stepProps} />
-                {failed ? (
-                    this.renderError()
-                ) : (
-                    <LocationDependentArea arg={currentStep} id={id + '-steps'} stateSpace={steps} />
-                )}
-            </div>
-        );
-    }
-}
+    const stepProps: StepsProps = {
+        status: getStatus(),
+    };
+
+    return (
+        <div data-testid={id}>
+            <NavStepsAnt arg={currentStep} id={id + '-steps-indicator'} stateSpace={steps} stepProps={stepProps} />
+            {failed ? renderError() : <LocationDependentArea arg={currentStep} id={id + '-steps'} stateSpace={steps} />}
+        </div>
+    );
+});

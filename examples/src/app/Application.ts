@@ -20,8 +20,11 @@ import {
 
 export interface Application {
     readonly showCheckbox: boolean;
+
     newConfirmAction(): Action;
+
     newModalAction(): Action;
+
     readonly testAction: Action;
     readonly testLabel: Label;
     readonly testLabelMarkdown: Label;
@@ -32,7 +35,7 @@ export interface Application {
     readonly testDate: Date;
     readonly testTime: Time;
     readonly testManyOf: ManyOf;
-    readonly testTextfield: Text;
+    readonly testTextField: Text;
     readonly testTextarea: Text;
     readonly testNumeric: Numeric;
     readonly testSliderNumeric: Numeric;
@@ -56,6 +59,8 @@ export interface Application {
 
 export interface ApplicationAPI {
     saveName(name: string, done: Function): void;
+
     savePassword(password: string, done: Function): void;
+
     submitLogin(name: string, password: string, done: Function): void;
 }

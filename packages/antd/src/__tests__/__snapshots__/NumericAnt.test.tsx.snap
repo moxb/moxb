@@ -13,14 +13,14 @@ exports[`NumericAnt should render a numeric input by default 1`] = `
 `;
 
 exports[`NumericFormAnt should render form item with a text input by default 1`] = `
-<FormItemAnt
+<Memo(observerComponent)
   operation="bound NumericImpl"
 >
-  <NumericAnt
+  <Memo(observerComponent)
     disabled={false}
     id="the_id"
     operation="bound NumericImpl"
     readOnly={false}
   />
-</FormItemAnt>
+</Memo(observerComponent)>
 `;

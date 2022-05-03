@@ -2,7 +2,8 @@ export {
     MyLocation,
     UpdateMethod,
     LocationManager,
-    UsesLocation,
+    useLocationManager,
+    LocationManagerProvider,
     TestLocation,
     QueryChange,
     BasicLocationManagerImpl,
@@ -32,7 +33,8 @@ export {
     defineNavRef,
     parseNavRef,
     LinkGenerator,
-    UsesLinkGenerator,
+    LinkGeneratorProvider,
+    useLinkGenerator,
     LinkGeneratorImpl,
 } from './navigation-references';
 
@@ -80,7 +82,9 @@ export {
 
 export { isTokenEmpty } from './tokens';
 
-export { TokenManager } from './TokenManager';
+export { TokenManager, TokenManagerProvider, useTokenManager } from './TokenManager';
 export { TokenManagerImpl, PathTokenMappingList } from './TokenManagerImpl';
 
 export { MultiStepProcess } from './MultiStepProcess';
+
+export { RoutingProvider } from './RoutingProvider';

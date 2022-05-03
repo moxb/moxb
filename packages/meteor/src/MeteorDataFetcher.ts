@@ -11,7 +11,7 @@ export type MeteorDataFetcherFunction<D> = (done: MeteorDataFetcherDone<D>) => v
  * @param Q the data to query the method
  * @param D The data that is returned by meteor
  */
-export interface MeteorDataFetcher<Q, D extends object> {
+export interface MeteorDataFetcher<Q, D> {
     readonly data: D;
     /**
      * null or undefined if no error is present

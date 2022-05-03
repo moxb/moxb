@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { t } from '..';
 import { BindImpl, BindOptions, StringOrFunction } from '../bind/BindImpl';
 import { Label } from './Label';
@@ -18,6 +18,7 @@ export interface LabelOptions extends BindOptions {
 export class LabelImpl extends BindImpl<LabelOptions> implements Label {
     constructor(impl: LabelOptions) {
         super(impl);
+        makeObservable(this);
     }
 
     get showRawText() {

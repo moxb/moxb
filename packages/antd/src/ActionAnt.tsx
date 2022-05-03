@@ -2,7 +2,7 @@ import { Action, Bool } from '@moxb/moxb';
 import { Button, Spin } from 'antd';
 import { ButtonShape, ButtonType } from 'antd/lib/button';
 import { NativeButtonProps } from 'antd/lib/button/button';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { MouseEvent } from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
@@ -14,10 +14,14 @@ export interface ActionAntProps {
 
 export type BindActionAntProps = BindAntProps<Action> & ActionAntProps & NativeButtonProps;
 
-@observer
-export class ActionButtonAnt extends React.Component<BindActionAntProps> {
-    protected handleClick(event: MouseEvent<any>) {
-        const { operation, stopPropagation } = parseProps(this.props, this.props.operation);
+export const ActionButtonAnt = observer((props: BindActionAntProps) => {
+    const { operation, invisible, children, label, id, size, shape, htmlType, type, reason, ...rest } = parseProps(
+        props,
+        props.operation
+    );
+
+    function handleClick(event: MouseEvent<any>) {
+        const { stopPropagation } = parseProps(props, props.operation);
 
         if (stopPropagation) {
             event.stopPropagation();
@@ -30,43 +34,34 @@ export class ActionButtonAnt extends React.Component<BindActionAntProps> {
         }
     }
 
-    constructor(props: BindActionAntProps) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
+    if (invisible || operation.invisible) {
+        return null;
     }
+    return (
+        <Button
+            id={id}
+            data-testid={id}
+            onClick={handleClick}
+            {...rest}
+            size={size}
+            shape={shape as ButtonShape}
+            type={type as ButtonType}
+            title={reason}
+            htmlType={typeof htmlType === 'undefined' ? 'button' : htmlType}
+        >
+            {children != null ? children : label}
+            {operation.pending && <Spin />}
+        </Button>
+    );
+});
 
-    render() {
-        const { operation, invisible, children, label, id, size, shape, htmlType, type, reason, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
-        if (invisible || operation.invisible) {
-            return null;
-        }
-        return (
-            <Button
-                id={id}
-                data-testid={id}
-                onClick={this.handleClick}
-                {...props}
-                size={size}
-                shape={shape as ButtonShape}
-                type={type as ButtonType}
-                title={reason}
-                htmlType={typeof htmlType === 'undefined' ? 'button' : htmlType}
-            >
-                {children != null ? children : label}
-                {operation.pending && <Spin />}
-            </Button>
-        );
-    }
-}
+export const ActionSpanAnt = observer((props: BindActionAntProps) => {
+    const { operation, invisible, children, label, id, reason, stopPropagation, ...rest } = parseProps(
+        props,
+        props.operation
+    );
 
-@observer
-export class ActionSpanAnt extends React.Component<BindActionAntProps> {
-    protected handleClick(event: MouseEvent<any>) {
-        const { operation, stopPropagation } = parseProps(this.props, this.props.operation);
-
+    function handleClick(event: MouseEvent<any>) {
         if (stopPropagation) {
             event.stopPropagation();
         }
@@ -74,35 +69,27 @@ export class ActionSpanAnt extends React.Component<BindActionAntProps> {
         operation.fire();
     }
 
-    constructor(props: BindActionAntProps) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
+    if (invisible || operation.invisible) {
+        return null;
     }
+    return (
+        <span id={id} data-testid={id} onClick={handleClick} title={reason} {...(rest as any)}>
+            {children != null ? children : label}
+        </span>
+    );
+});
 
-    render() {
-        const { operation, invisible, children, label, id, reason, stopPropagation, ...props } = parseProps(
-            this.props,
-            this.props.operation
-        );
-        if (invisible || operation.invisible) {
-            return null;
-        }
-        return (
-            <span id={id} data-testid={id} onClick={this.handleClick} title={reason} {...(props as any)}>
-                {children != null ? children : label}
-            </span>
-        );
-    }
-}
-
-@observer
-export class ActionToggleButtonAnt extends React.Component<
-    { backgroundColor: string; labelColor: string } & BindAntProps<Bool>
-> {
-    render() {
-        const { operation, invisible, children, label, id, reason, backgroundColor, labelColor, ...props } = parseProps(
-            this.props,
-            this.props.operation
+export const ActionToggleButtonAnt = observer(
+    (
+        props: {
+            backgroundColor: string;
+            labelColor: string;
+            children?: React.ReactNode;
+        } & BindAntProps<Bool>
+    ) => {
+        const { operation, invisible, children, label, id, reason, backgroundColor, labelColor, ...rest } = parseProps(
+            props,
+            props.operation
         );
         if (invisible || operation.invisible) {
             return null;
@@ -119,25 +106,22 @@ export class ActionToggleButtonAnt extends React.Component<
                 onClick={() => operation.toggle()}
                 style={operation.disabled ? undefined : style}
                 title={reason}
-                {...(props as any)}
+                {...(rest as any)}
             >
                 {children != null ? children : label}
             </Button>
         );
     }
-}
+);
 
-@observer
-export class ActionFormButtonAnt extends React.Component<BindActionAntProps & BindFormItemAntProps> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
-        }
-        return (
-            <FormItemAnt operation={operation} label={null} {...(this.props as any)}>
-                <ActionButtonAnt htmlType="submit" operation={operation} {...props} />
-            </FormItemAnt>
-        );
+export const ActionFormButtonAnt = observer((props: BindActionAntProps & BindFormItemAntProps) => {
+    const { operation, invisible, ...rest } = parsePropsForChild(props, props.operation);
+    if (invisible) {
+        return null;
     }
-}
+    return (
+        <FormItemAnt operation={operation} label={null} {...(props as any)}>
+            <ActionButtonAnt htmlType="submit" operation={operation} {...rest} />
+        </FormItemAnt>
+    );
+});

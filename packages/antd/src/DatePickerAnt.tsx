@@ -1,6 +1,6 @@
 import { Date } from '@moxb/moxb';
 import { DatePicker } from 'antd';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as moment from 'moment';
 import * as React from 'react';
 import { CSSProperties } from 'react';
@@ -16,38 +16,32 @@ interface BindDatePickerAntBasicProps {
 
 export type BindDatePickerAntProps = BindDatePickerAntBasicProps & DatePickerProps;
 
-@observer
-export class DatePickerAnt extends React.Component<BindDatePickerAntProps> {
-    render() {
-        const { operation, invisible, reason, ...props } = parseProps(this.props, this.props.operation);
-        if (invisible) {
-            return null;
-        }
-        return (
-            <span title={reason}>
-                <DatePicker
-                    data-testid={operation.id}
-                    placeholder={operation.placeholder}
-                    value={operation.value}
-                    onChange={(date: moment.Moment, _dateString: string) => operation.setValue(date)}
-                    {...(props as any)}
-                />
-            </span>
-        );
+export const DatePickerAnt = observer((props: BindDatePickerAntProps) => {
+    const { operation, invisible, reason, ...rest } = parseProps(props, props.operation);
+    if (invisible) {
+        return null;
     }
-}
+    return (
+        <span title={reason}>
+            <DatePicker
+                data-testid={operation.id}
+                placeholder={operation.placeholder}
+                value={operation.value}
+                onChange={(date: moment.Moment, _dateString: string) => operation.setValue(date)}
+                {...(rest as any)}
+            />
+        </span>
+    );
+});
 
-@observer
-export class DatePickerFormAnt extends React.Component<BindDatePickerAntProps & Partial<FormItemProps>> {
-    render() {
-        const { operation, invisible, ...props } = parsePropsForChild(this.props, this.props.operation);
-        if (invisible) {
-            return null;
-        }
-        return (
-            <FormItemAnt operation={operation} {...(this.props as any)}>
-                <DatePickerAnt operation={operation} {...props} />
-            </FormItemAnt>
-        );
+export const DatePickerFormAnt = observer((props: BindDatePickerAntProps & Partial<FormItemProps>) => {
+    const { operation, invisible, ...rest } = parsePropsForChild(props, props.operation);
+    if (invisible) {
+        return null;
     }
-}
+    return (
+        <FormItemAnt operation={operation} {...(props as any)}>
+            <DatePickerAnt operation={operation} {...rest} />
+        </FormItemAnt>
+    );
+});

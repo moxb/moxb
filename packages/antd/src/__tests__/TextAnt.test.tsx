@@ -38,7 +38,7 @@ describe('TextAnt', function () {
             label: 'oh',
         });
         const wrapper = mount(<TextAnt operation={operation} />);
-        const input: any = wrapper.find('input').first();
+        const input = wrapper.find('input').first();
         input.simulate('change', { target: { value: 'Changed' } });
         expect(wrapper.find('input').first().prop('value')).toBe('Changed');
     });
@@ -50,7 +50,7 @@ describe('TextAnt', function () {
             control: 'textarea',
         });
         const wrapper = mount(<TextAnt operation={operation} />);
-        const textarea: any = wrapper.find('textarea').first();
+        const textarea = wrapper.find('textarea').first();
         textarea.simulate('change', { target: { value: 'Changed' } });
         expect(wrapper.find('textarea').first().prop('value')).toBe('Changed');
     });
@@ -79,7 +79,7 @@ describe('TextFormAnt', function () {
             label: 'oh',
         });
         const wrapper = mount(<TextAnt operation={operation} />);
-        const input: any = wrapper.find('input').first();
+        const input = wrapper.find('input').first();
         input.simulate('change', { target: { value: 'Changed' } });
         expect(wrapper.find('input').first().prop('value')).toBe('Changed');
     });
@@ -94,7 +94,9 @@ describe('TextSearchAnt', function () {
         });
         const searchAction = new ActionImpl({
             id: 'Action',
-            fire: () => {},
+            fire: () => {
+                // This is intentional
+            },
         });
         expect(
             shallowMoxbToJson(shallow(<TextSearchAnt operation={operation} searchAction={searchAction} />))
@@ -108,7 +110,9 @@ describe('TextSearchAnt', function () {
         });
         const searchAction = new ActionImpl({
             id: 'Action',
-            fire: () => {},
+            fire: () => {
+                // This is intentional
+            },
         });
         expect(shallow(<TextSearchAnt operation={operation} searchAction={searchAction} />).type()).toBeNull();
     });
@@ -119,10 +123,12 @@ describe('TextSearchAnt', function () {
         });
         const searchAction = new ActionImpl({
             id: 'Action',
-            fire: () => {},
+            fire: () => {
+                // This is intentional
+            },
         });
         const wrapper = mount(<TextSearchAnt operation={operation} searchAction={searchAction} />);
-        const input: any = wrapper.find('input').first();
+        const input = wrapper.find('input').first();
         input.simulate('change', { target: { value: 'Changed' } });
         expect(wrapper.find('input').first().prop('value')).toBe('Changed');
     });

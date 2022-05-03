@@ -1,6 +1,6 @@
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { Rate } from './Rate';
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 
 export interface RateOptions extends ValueOptions<RateImpl, number> {
     count?: number;
@@ -13,6 +13,7 @@ export interface RateOptions extends ValueOptions<RateImpl, number> {
 export class RateImpl extends ValueImpl<RateImpl, number, RateOptions> implements Rate {
     constructor(impl: RateOptions) {
         super(impl);
+        makeObservable(this);
     }
 
     @computed

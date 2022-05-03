@@ -1,7 +1,7 @@
 import { Tree, TreeNode } from './Tree';
 import { ValueOrFunction } from '../bind/BindImpl';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 
 export interface TreeOptions extends ValueOptions<TreeImpl, string[]> {
     nodes?: ValueOrFunction<TreeNode[]>;
@@ -12,6 +12,7 @@ export interface TreeOptions extends ValueOptions<TreeImpl, string[]> {
 export class TreeImpl extends ValueImpl<TreeImpl, string[], TreeOptions> implements Tree {
     constructor(impl: TreeOptions) {
         super(impl);
+        makeObservable(this);
     }
 
     @computed

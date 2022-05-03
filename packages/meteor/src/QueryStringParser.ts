@@ -15,7 +15,7 @@ function substituteQuotedCharacters(inner: string) {
 }
 
 function quoteStringIfNeeded(string: string) {
-    if (string.match(/[\s\"\\]/)) {
+    if (string.match(/[\s"\\]/)) {
         return '"' + string.replace(/(\n\t\r\\"\\)/g, '\\$1') + '"';
     }
     return string;
@@ -61,7 +61,9 @@ function toObject(value: string) {
             if (date) {
                 return date;
             }
-        } catch (e) {}
+        } catch (e) {
+            // We don't care about errors here
+        }
     } // const date = new Date(value);
     return value;
 }
@@ -77,7 +79,7 @@ const op: { [op: string]: string } = {
 };
 
 /**
- * maps comparision operations
+ * maps comparison operations
  * @param q
  * @returns {any}
  */
@@ -97,13 +99,14 @@ function mapOperations(q: string): any {
         };
     }
 }
+
 // Match key value pair
 const fieldRegExp = /^(-?[\w\d_.]+):(.*)/;
 const sortRegExp = /^sort:([\w\d_.]+)-(asc|desc)/;
 // this regex is a bit complicated
 // - the field
 // - the second part is either a quoted string, a quoted regex or anything not whitespace
-const termSplitRegex = /(-?[\w\d_.]+:(?:\/(?:[^\/\\]+|\\.)*\/|"(?:[^"\\]+|\\.)*"|[^\s]+))|\s+/;
+const termSplitRegex = /(-?[\w\d_.]+:(?:\/(?:[^/\\]+|\\.)*\/|"(?:[^"\\]+|\\.)*"|[^\s]+))|\s+/;
 
 function extractFilters(terms: string[]) {
     // the filter part are all fields that contain a ':'
@@ -114,7 +117,7 @@ function extractFilters(terms: string[]) {
 
         let field = match[1];
         const value = mapOperations(match[2]);
-        // is negation of the terrm
+        // is negation of the term
         if (field[0] === '-') {
             field = field.substr(1);
             let negate = '$not';
@@ -159,6 +162,7 @@ function extractSort(sortTerms: string[]): SortTerm | undefined {
 }
 
 type SortTerm = { [field: string]: number };
+
 interface ParsedQuery {
     // text search string to be used on some text fields
     search?: string;
@@ -174,7 +178,7 @@ function getTerms(query: string): string[] {
 }
 
 /**
- * This has been inspired by github query syntax https://help.github.com/articles/search-syntax/
+ * This has been inspired by GitHub query syntax https://help.github.com/articles/search-syntax/
  *
  * - strings are concatenated to one search string.
  * - all search field are combined with AND
@@ -194,7 +198,7 @@ function parseQueryString(query: string): ParsedQuery {
 
     // construct the result
     const result: any = {};
-    // only the non empty fields
+    // only the non-empty fields
     if (search) {
         result.search = search;
     }
@@ -266,7 +270,7 @@ function getSearchStringFilter(regexString: string | undefined, fields: string[]
 function combineWithAnd(...filters: any[]) {
     const andFilters: any[] = [];
     for (const filter of filters) {
-        // only non empty filters
+        // only non-empty filters
         if (filter) {
             // if already and filter, add all elements
             if (filter.$and) {
@@ -429,8 +433,7 @@ function flattenKeepSpecial(obj: any) {
             .filter((v) => !v.startsWith('$'))
             .join('.');
         if (key !== newKey) {
-            // @ts-ignore
-            Object.defineProperty(toReturn, newKey, Object.getOwnPropertyDescriptor(toReturn, key));
+            Object.defineProperty(toReturn, newKey, Object.getOwnPropertyDescriptor(toReturn, key) as any);
             // tslint:disable
             delete toReturn[key];
             // tslint:enable
@@ -444,9 +447,11 @@ function flattenKeepKeys(obj: any) {
     const toReturn: any = {};
 
     for (const key in obj) {
+        // eslint-disable-next-line no-prototype-builtins
         if (obj.hasOwnProperty(key) && typeof obj[key] === 'object') {
             const flatObject = flattenKeepKeys(obj[key]);
             for (const key2 in flatObject) {
+                // eslint-disable-next-line no-prototype-builtins
                 if (flatObject.hasOwnProperty(key2)) {
                     if (!Array.isArray(obj)) {
                         toReturn[key + '.' + key2] = flatObject[key2];
@@ -466,7 +471,7 @@ function flattenKeepKeys(obj: any) {
 }
 
 /**
- * Top level files that have to be included in he object for meteor mongo
+ * Top level files that have to be included in the object for meteor mongo
  * to properly make subscription on the query work.
  * @param query
  */
@@ -474,6 +479,7 @@ export function getFieldFilter(query: Mongo.Selector<any>) {
     const newObj = flattenKeepSpecial(query);
     return getTopLevelFields(newObj);
 }
+
 //----------------------------------------------------------
 
 /**
@@ -499,7 +505,11 @@ export function parseQuery(queryString: string, additionalFilter: object | undef
         for (const key in obj) {
             const value = obj[key];
             if (key === '$not' && value.$regex != null) {
-                toReturn = { ...toReturn, ...value, $regex: '^(?!.*' + value.$regex + ')' };
+                toReturn = {
+                    ...toReturn,
+                    ...value,
+                    $regex: '^(?!.*' + value.$regex + ')',
+                };
             } else {
                 toReturn[key] = negateRegex(value);
             }
@@ -540,6 +550,7 @@ export function parseQuery(queryString: string, additionalFilter: object | undef
     function simplifyAndOrArray(array: any[]): any[] {
         return array.map(simplifyAndOr);
     }
+
     // return parseQueryBasic(queryString, additionalFilter, fields);
     return simplifyAndOr(
         //

@@ -1,4 +1,5 @@
 import { Path, To } from 'history';
+
 export type MyLocation = Path;
 export type LocationDescriptorObject = To;
 
@@ -6,6 +7,8 @@ import { UrlArg } from '../url-arg';
 
 import { Query, UrlSchema } from '../url-schema/UrlSchema';
 import { CoreLinkProps } from '../linking/CoreLinkProps';
+import { useContext } from 'react';
+import { createGlobalContext } from '../../util/globalContext';
 
 export type SuccessCallback = (value: boolean) => void;
 
@@ -51,8 +54,8 @@ export interface Redirect {
 
 /**
  * This interface is internal to the navigation system.
- * Some components can recognize their interest for navigation changes,
- * in order to signal that it might be problematic (ie. the user might lose
+ * Some components can recognize their interest in navigation changes,
+ * in order to signal that it might be problematic (i.e. the user might lose
  * some unsaved data.)
  *
  * (See the `LocationUser` interface, and
@@ -105,7 +108,7 @@ export interface LocationChangeInterceptor {
 }
 
 /**
- * The Location Manager is responsible for tracking the location (ie. URL) of the application,
+ * The Location Manager is responsible for tracking the location (i.e. URL) of the application,
  * and abstract away the interface by providing separate path tokens and URL arguments.
  *
  * In many cases, the APIs come in pairs:
@@ -214,7 +217,7 @@ export interface LocationManager {
     getNewLocationForRemovedPathTokens: (count: number) => MyLocation;
 
     /**
-     * Tries to appends a set of tokens to the current path
+     * Tries to append a set of tokens to the current path
      *
      * @param tokens The tokens to append.
      * @param method The method to use for updating the URL.
@@ -277,7 +280,7 @@ export interface LocationManager {
     /**
      * Try to set the location to a new value.
      *
-     * This method may ask for confirmation, it necessary.
+     * This method may ask for confirmation, if necessary.
      *
      * @param location The new location to set
      * @param method   The method to use for updating the URL
@@ -314,7 +317,7 @@ export interface LocationManager {
     ) => void;
 
     /**
-     * Determine the URL that we would get if we changed an URL argument
+     * Determine the URL that we would get if we changed a URL argument
      *
      * @param key The key of the argument to change
      * @param rawValue The new value to set (already in string form)
@@ -426,14 +429,23 @@ export interface LocationManager {
     defineOrderedStringArrayArg(key: string, defaultValue?: string[], permanent?: boolean): UrlArg<string[]>;
 
     /**
-     * Define an URL arg for a serialized object using this location manager
+     * Define a URL arg for a serialized object using this location manager
      */
     defineObjectArg<T>(key: string, defaultValue?: T | null, permanent?: boolean): UrlArg<T | null>;
 }
 
-/**
- * The interface we use when injecting the Location Manager
- */
-export interface UsesLocation {
-    locationManager?: LocationManager;
-}
+const LocationManagerContext = createGlobalContext<LocationManager | undefined>('location manager', undefined);
+
+export const LocationManagerProvider = LocationManagerContext.Provider;
+
+export const useLocationManager = (reason: string): LocationManager => {
+    const manager = useContext(LocationManagerContext);
+    if (!manager) {
+        throw new Error(
+            "Can't find React context for LocationManager for " +
+                reason +
+                "! Don't forget to wrap your app in a <LocationManagerProvider> tag!"
+        );
+    }
+    return manager;
+};

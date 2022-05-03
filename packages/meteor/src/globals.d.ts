@@ -3,16 +3,20 @@ declare module 'meteor/mongo' {
     export namespace Mongo {
         export interface Collection<T> {
             attachSchema(schema: SimpleSchemaModule.SimpleSchema, options?: SimpleSchemaOptions): any;
+
             do: any;
+
             _ensureIndex(keys: { [key: string]: number }, options?: { [key: string]: any }): void;
         }
+
         export interface FindOneOptions {
             sort?: SortSpecifier;
             skip?: number;
             fields?: FieldSpecifier;
             reactive?: boolean;
-            transform?: Function;
+            transform?: (input: any) => any;
         }
+
         export interface FindOptions extends FindOneOptions {
             limit?: number;
         }

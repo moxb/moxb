@@ -1,5 +1,5 @@
-import { ShallowStructObservable } from '../ShallowStructObservable';
-import { autorun, observable, runInAction, toJS } from 'mobx';
+import { createShallowStructObservable } from '../ShallowStructObservable';
+import { autorun, observable, runInAction, toJS, makeObservable } from 'mobx';
 
 describe('ShallowStructObservable', function () {
     interface Data {
@@ -7,38 +7,47 @@ describe('ShallowStructObservable', function () {
         words?: string[];
         child?: Data;
     }
+
     it('should be undefined initially', function () {
-        const data = new ShallowStructObservable<Data>();
+        const data = createShallowStructObservable<Data>();
         expect(data.get()).toBeUndefined();
     });
     it('should be the same as the set value', function () {
-        const data = new ShallowStructObservable<Data>();
+        const data = createShallowStructObservable<Data>();
         data.set({ name: 'foo' });
         expect(toJS(data.get())).toEqual({ name: 'foo' });
     });
     it('should update the value', function () {
-        const data = new ShallowStructObservable<Data>();
+        const data = createShallowStructObservable<Data>();
         data.set({ name: 'foo' });
         data.set({ name: 'bar' });
         expect(toJS(data.get())).toEqual({ name: 'bar' });
     });
 });
-describe('ShallowStructObservable reactiveness', function () {
+describe('ShallowStructObservable reactivity', function () {
     interface Data {
         name: string;
         words?: string[];
         child?: Data;
     }
+
     class Store {
         @observable.shallow
-        _data = new ShallowStructObservable<Data>();
+        _data = createShallowStructObservable<Data>();
+
+        constructor() {
+            makeObservable(this);
+        }
+
         get data() {
             return this._data.get();
         }
+
         set data(data) {
             this._data.set(data);
         }
     }
+
     function installReactions(store: Store) {
         const changes = {
             name: 0,
@@ -51,6 +60,7 @@ describe('ShallowStructObservable reactiveness', function () {
         });
         autorun(() => {
             store.data?.words;
+
             changes.words += 1;
         });
         autorun(() => {
@@ -59,6 +69,7 @@ describe('ShallowStructObservable reactiveness', function () {
         });
         return changes;
     }
+
     it('should have no reactions initially', function () {
         const store = new Store();
         const changes = installReactions(store);
@@ -68,7 +79,7 @@ describe('ShallowStructObservable reactiveness', function () {
             child: 1,
         });
     });
-    it('should change all values when going form undefined to an object', function () {
+    it('should change all values when going from undefined to an object', function () {
         const store = new Store();
         const changes = installReactions(store);
         store.data = { name: 'foo' };
@@ -115,17 +126,25 @@ describe('ShallowStructObservable reactiveness', function () {
         const store = new Store();
         const changes = installReactions(store);
         store.data = { name: 'foo' };
-        store.data = { name: 'updated', words: ['foo', 'bar'], child: { name: 'child' } };
+        store.data = {
+            name: 'updated',
+            words: ['foo', 'bar'],
+            child: { name: 'child' },
+        };
         expect(changes).toEqual({
             name: 3,
             words: 3,
             child: 3,
         });
     });
-    it('should not fire when data inside subobjects change (DO NOT DO THIS)', function () {
+    it('should not fire when data inside sub-objects change (DO NOT DO THIS)', function () {
         const store = new Store();
         const changes = installReactions(store);
-        store.data = { name: 'updated', words: ['foo', 'bar'], child: { name: 'child' } };
+        store.data = {
+            name: 'updated',
+            words: ['foo', 'bar'],
+            child: { name: 'child' },
+        };
         store.data.words!.push('baz');
         store.data.child!.name = 'updated';
         expect(changes).toEqual({
@@ -133,12 +152,20 @@ describe('ShallowStructObservable reactiveness', function () {
             words: 2,
             child: 2,
         });
-        expect(store.data).toEqual({ name: 'updated', words: ['foo', 'bar', 'baz'], child: { name: 'updated' } });
+        expect(store.data).toEqual({
+            name: 'updated',
+            words: ['foo', 'bar', 'baz'],
+            child: { name: 'updated' },
+        });
     });
     it('should remove values if not set', function () {
         const store = new Store();
         const changes = installReactions(store);
-        store.data = { name: 'foo', words: ['foo', 'bar'], child: { name: 'child' } };
+        store.data = {
+            name: 'foo',
+            words: ['foo', 'bar'],
+            child: { name: 'child' },
+        };
         store.data = { name: 'foo' };
         expect(changes).toEqual({
             name: 2,
@@ -150,7 +177,11 @@ describe('ShallowStructObservable reactiveness', function () {
     it('should set values to undefined', function () {
         const store = new Store();
         const changes = installReactions(store);
-        store.data = { name: 'updated', words: ['foo', 'bar'], child: { name: 'child' } };
+        store.data = {
+            name: 'updated',
+            words: ['foo', 'bar'],
+            child: { name: 'child' },
+        };
         store.data = undefined;
         expect(changes).toEqual({
             name: 3,
@@ -162,19 +193,31 @@ describe('ShallowStructObservable reactiveness', function () {
     it('should update direct values correctly', function () {
         const store = new Store();
         const changes = installReactions(store);
-        store.data = { name: 'foo', words: ['foo', 'bar'], child: { name: 'child' } };
+        store.data = {
+            name: 'foo',
+            words: ['foo', 'bar'],
+            child: { name: 'child' },
+        };
         store.data.name = 'new name';
         expect(changes).toEqual({
             name: 3,
             words: 2,
             child: 2,
         });
-        expect(store.data).toEqual({ name: 'new name', words: ['foo', 'bar'], child: { name: 'child' } });
+        expect(store.data).toEqual({
+            name: 'new name',
+            words: ['foo', 'bar'],
+            child: { name: 'child' },
+        });
     });
     it('should update top level changes of nested values', function () {
         const store = new Store();
         const changes = installReactions(store);
-        store.data = { name: 'foo', words: ['foo', 'bar'], child: { name: 'child' } };
+        store.data = {
+            name: 'foo',
+            words: ['foo', 'bar'],
+            child: { name: 'child' },
+        };
         store.data!.name = 'new name';
         store.data!.words = [];
         store.data!.child = { name: 'child', words: ['a', 'b'] };
@@ -183,12 +226,20 @@ describe('ShallowStructObservable reactiveness', function () {
             words: 3,
             child: 3,
         });
-        expect(store.data).toEqual({ name: 'new name', words: [], child: { name: 'child', words: ['a', 'b'] } });
+        expect(store.data).toEqual({
+            name: 'new name',
+            words: [],
+            child: { name: 'child', words: ['a', 'b'] },
+        });
     });
     it('should run actions correctly', function () {
         const store = new Store();
         const changes = installReactions(store);
-        store.data = { name: 'foo', words: ['foo', 'bar'], child: { name: 'child' } };
+        store.data = {
+            name: 'foo',
+            words: ['foo', 'bar'],
+            child: { name: 'child' },
+        };
         runInAction(() => {
             store.data!.name = 'oops';
             store.data!.name = 'new name';
@@ -202,6 +253,10 @@ describe('ShallowStructObservable reactiveness', function () {
             words: 3,
             child: 3,
         });
-        expect(store.data).toEqual({ name: 'new name', words: [], child: { name: 'child', words: ['a', 'b'] } });
+        expect(store.data).toEqual({
+            name: 'new name',
+            words: [],
+            child: { name: 'child', words: ['a', 'b'] },
+        });
     });
 });

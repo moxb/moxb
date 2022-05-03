@@ -39,7 +39,7 @@ import {
     TreeImpl,
     TreeNode,
 } from '@moxb/moxb';
-import { action, observable, computed } from 'mobx';
+import { action, observable, computed, makeObservable } from 'mobx';
 import { Application, ApplicationAPI } from './Application';
 import { ApplicationMethods } from './ApplicationMethods';
 
@@ -81,7 +81,7 @@ export class ApplicationImpl implements Application {
         label: 'Click on this widget to toggle a boolean state',
         help: 'If you do so, a secret will be revealed!',
         getValue: () => this.showCheckbox,
-        setValue: this.setShowCheckbox,
+        setValue: (value) => this.setShowCheckbox(value),
     });
 
     readonly testConfirm: Confirm<any> = new ConfirmImpl<any>({
@@ -122,8 +122,8 @@ export class ApplicationImpl implements Application {
         return value === undefined ? 'undefined' : value.map((v) => '"' + v + '"').join(', ');
     }
 
-    readonly testTextfield: Text = new TextImpl({
-        id: 'ApplicationImpl.textfield',
+    readonly testTextField: Text = new TextImpl({
+        id: 'ApplicationImpl.textField',
         initialValue: () => '',
         label: 'Textinput',
         control: 'input',
@@ -233,7 +233,10 @@ export class ApplicationImpl implements Application {
     });
 
     readonly testModal: Modal<any> = new ModalImpl<any>({
-        actions: () => ({ confirm: this.action1Modal, cancel: this.actionCancelModal(this.testModal) }),
+        actions: () => ({
+            confirm: this.action1Modal,
+            cancel: this.actionCancelModal(this.testModal),
+        }),
         header: () => 'New Modal Header',
     });
 
@@ -350,22 +353,56 @@ export class ApplicationImpl implements Application {
     });
 
     constructor(private readonly api: ApplicationAPI = new ApplicationMethods()) {
+        makeObservable(this);
         this.showCheckbox = false;
 
         this.manyChoices = [];
 
         this.allChoices = [
-            { label: 'Banana', value: 'b', help: 'You know, the yellow thing that monkeys like' },
-            { label: 'Apples', value: 'a', help: "Warning: you can't compare apples to peaches!" },
+            {
+                label: 'Banana',
+                value: 'b',
+                help: 'You know, the yellow thing that monkeys like',
+            },
+            {
+                label: 'Apples',
+                value: 'a',
+                help: "Warning: you can't compare apples to peaches!",
+            },
             { label: 'Peaches', value: 'p' },
-            { label: 'Magic Mushroom', value: 'm', disabled: true, reason: "It doesn't exist" },
+            {
+                label: 'Magic Mushroom',
+                value: 'm',
+                disabled: true,
+                reason: "It doesn't exist",
+            },
         ];
 
         this.data = [
-            { _id: '1', email: 'john@doe.com', fullName: 'John Doe', createdAt: '2018-01-01' },
-            { _id: '2', email: 'johanna@yahoo.com', fullName: 'Johanna Doe', createdAt: '2018-05-01' },
-            { _id: '3', email: 'jake@gmail.com', fullName: 'Jake Doe', createdAt: '2018-10-01' },
-            { _id: '4', email: 'max@mustermann.com', fullName: 'Max Mustermann', createdAt: '2017-13-07' },
+            {
+                _id: '1',
+                email: 'john@doe.com',
+                fullName: 'John Doe',
+                createdAt: '2018-01-01',
+            },
+            {
+                _id: '2',
+                email: 'johanna@yahoo.com',
+                fullName: 'Johanna Doe',
+                createdAt: '2018-05-01',
+            },
+            {
+                _id: '3',
+                email: 'jake@gmail.com',
+                fullName: 'Jake Doe',
+                createdAt: '2018-10-01',
+            },
+            {
+                _id: '4',
+                email: 'max@mustermann.com',
+                fullName: 'Max Mustermann',
+                createdAt: '2017-13-07',
+            },
         ];
 
         this.treeChoices = [

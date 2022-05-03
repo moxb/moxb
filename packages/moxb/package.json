@@ -45,7 +45,7 @@
     ]
   },
   "peerDependencies": {
-    "mobx": "^5.15.7",
+    "mobx": "^6.5.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
@@ -57,9 +57,7 @@
     "@typescript-eslint/parser": "5.21.0",
     "eslint": "8.14.0",
     "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-react-hooks": "4.5.0",
-    "mobx": "5.15.7",
-    "tslib": "2.3.1"
+    "eslint-plugin-react-hooks": "4.5.0"
   },
   "dependencies": {
     "atob": "2.1.2",

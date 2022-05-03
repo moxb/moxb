@@ -34,7 +34,9 @@ export interface ActivityLog {
     operationId: string;
 }
 
-export type NestedKeyOf<T> = { [K in keyof Partial<T>]: NestedKeyOf<Partial<T[K]>> | true };
+export type NestedKeyOf<T> = {
+    [K in keyof Partial<T>]: NestedKeyOf<Partial<T[K]>> | true;
+};
 
 interface StringMap<T> {
     [key: string]: T;
@@ -156,6 +158,7 @@ function getInsertedValue(valueOrModifier: any): any {
 
 interface FetchedValue {
     _id: string;
+
     [key: string]: any;
 }
 
@@ -221,14 +224,14 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
     }
 
     onBeforeApplyToCollection(collection: Mongo.Collection<T>) {
-        if (this.options.logCollection === <any>collection) {
+        if (this.options.logCollection === (collection as any)) {
             throw new Error('options.logCollection and tracked collection are the same.');
         }
 
         this.collection = collection;
     }
 
-    private _callNextAndLogResult(payload: any, next: Function, doLog: Function) {
+    private _callNextAndLogResult(payload: any, next: (payload: any) => any, doLog: (...stuff: any) => void) {
         const hasCallback = typeof payload.callback === 'function';
 
         if (this.options.isServer && hasCallback) {
@@ -288,7 +291,9 @@ export class ActivityLogMiddleware<T, Log extends ActivityLog = ActivityLog> imp
     }
 
     private _fetchDocuments(payload: { selector: any }): FetchedValue[] {
-        return this.collection!.find(payload.selector, { fields: this.fieldsToFetch }).fetch() as any[];
+        return this.collection!.find(payload.selector, {
+            fields: this.fieldsToFetch,
+        }).fetch() as any[];
     }
 
     private readonly _logUpdate = (payload: LogUpdatePayload<T>, _result: number) => {

@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Table } from './Table';
 import { TableColumn } from './TableColumn';
@@ -22,6 +22,7 @@ export class TableImpl<T> extends BindImpl<TableOptions<T>> implements Table<T> 
 
     constructor(impl: TableOptions<T>) {
         super(impl);
+        makeObservable(this);
         this.sort = new TableSortImpl(impl.initialSort);
     }
 

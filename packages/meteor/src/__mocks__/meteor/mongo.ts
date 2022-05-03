@@ -1,4 +1,5 @@
-//@ts-ignore Implicit any
+/* eslint-disable */
+// @ts-ignore
 import mongodb = require('mongo-mock');
 
 mongodb.max_delay = 0; //you can choose to NOT pretend to be async (default is 400ms)
@@ -37,16 +38,20 @@ const fakeMongo = forceSync(MongoClient.connect, MongoClient, ['mongodb://localh
 
 class Collection {
     collection: any;
+
     constructor(name: string) {
         this.collection = fakeMongo.collection(name);
     }
+
     private _doInsert(args: any[]) {
         const result = forceSync(this.collection.insert, this.collection, args);
         return result.insertedIds[0];
     }
+
     insert(...args: any[]) {
         return this._doInsert(args);
     }
+
     upsert(...args: any[]) {
         // no upsert in mongo-mock... so to it ourselves
 
@@ -77,6 +82,7 @@ class Collection {
     update(...args: any[]) {
         return this._doUpdate(args);
     }
+
     remove(...args: any[]) {
         // meteor allows id as first arg...
         if (typeof args[0] === 'string') {
@@ -84,6 +90,7 @@ class Collection {
         }
         return forceSync(this.collection.remove, this.collection, args);
     }
+
     findOne(...args: any[]) {
         // meteor allows id as first arg...
         if (typeof args[0] === 'string') {
@@ -91,6 +98,7 @@ class Collection {
         }
         return forceSync(this.collection.findOne, this.collection, args);
     }
+
     find(...args: any[]) {
         // meteor allows id as first arg...
         if (typeof args[0] === 'string') {
@@ -121,7 +129,9 @@ class Collection {
             },
         };
     }
+
     attachSchema() {}
+
     _ensureIndex() {}
 }
 

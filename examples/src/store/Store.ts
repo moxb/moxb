@@ -9,6 +9,7 @@ import { UrlStoreImpl } from './UrlStoreImpl';
 import { ViewStore } from './ViewStore';
 import { ViewStoreImpl } from './ViewStoreImpl';
 import { mainMenu } from '../MenuStructure';
+import { createContext, useContext } from 'react';
 
 export interface Store {
     readonly app: Application;
@@ -20,7 +21,7 @@ export interface Store {
     readonly linkGenerator: LinkGenerator;
 }
 
-export class StoreImpl implements Store {
+class StoreImpl implements Store {
     readonly app: Application;
     readonly memTable: MemTable;
     readonly view: ViewStore;
@@ -44,3 +45,17 @@ export class StoreImpl implements Store {
         });
     }
 }
+
+export const createStore = (): Store => new StoreImpl();
+
+const StoreContext = createContext<Store | undefined>(undefined);
+
+export const useStore = (): Store => {
+    const store = useContext(StoreContext);
+    if (!store) {
+        throw new Error('Store context not found! Have you wrapped your app with <StoreProvider>?');
+    }
+    return store;
+};
+
+export const StoreProvider = StoreContext.Provider;

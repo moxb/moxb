@@ -1,6 +1,6 @@
-import { SuccessCallback, UpdateMethod, UsesLocation } from '../location-manager';
+import { LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
 import { NavControl, Navigable } from '../navigable';
-import { UsesTokenManager } from '../TokenManager';
+import { TokenManager } from '../TokenManager';
 import { UrlArg } from '../url-arg';
 import { SubStateInContext } from './state-space/StateSpace';
 import { StateSpaceHandler, StateSpaceHandlerProps } from './state-space/StateSpaceHandler';
@@ -8,9 +8,19 @@ import { LocationChangeInterceptor } from '../location-manager/LocationManager';
 
 export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>
     extends StateSpaceHandlerProps<LabelType, WidgetType, DataType>,
-        UsesLocation,
-        UsesTokenManager,
         Navigable<DataType> {
+    /**
+     * The Location Manager to use
+     */
+    locationManager: LocationManager;
+
+    /**
+     * The Token Manager to use.
+     *
+     * This is optional; if not provided, tokens won't be supported.
+     */
+    tokenManager?: TokenManager;
+
     /**
      * The URL argument (if any) driving this component.
      */

@@ -1,24 +1,20 @@
-import { Provider } from 'mobx-react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppRouterAnt } from './app/AppRouterAnt';
 
-import { StoreImpl } from './store/Store';
+import { StoreProvider, createStore } from './store/Store';
+import { RoutingProvider } from '@moxb/moxb';
 
-const model = new StoreImpl();
-(window as any).model = model;
-(window as any).store = model;
+const store = createStore();
+(window as any).model = store;
+(window as any).store = store;
 
-class App extends React.Component {
-    render() {
-        return (
-            <>
-                <Provider {...model}>
-                    <AppRouterAnt />
-                </Provider>
-            </>
-        );
-    }
-}
+const App = () => (
+    <StoreProvider value={store}>
+        <RoutingProvider store={store}>
+            <AppRouterAnt />
+        </RoutingProvider>
+    </StoreProvider>
+);
 
 ReactDOM.render(<App />, document.getElementById('example-app'));

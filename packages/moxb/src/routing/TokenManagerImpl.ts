@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from './location-manager';
 import { LocationDependentStateSpaceHandler, LocationDependentStateSpaceHandlerImpl } from './location-state-space';
 import { TokenManager, TokenMappings } from './TokenManager';
@@ -19,7 +19,7 @@ interface ComplexPathTokenMappingBase {
 }
 
 /**
- * Description if a "vanishing token", it a path token that disappears from the path when on the default value
+ * Description of a "vanishing token"; a path token that disappears from the path when on the default value
  */
 interface VanishingPathTokenMapping extends ComplexPathTokenMappingBase {
     /**
@@ -59,7 +59,7 @@ export type PathTokenMappingList = AnyPathTokenMapping[];
 /**
  * A path token mapping scheme that doesn't depend on the app's state space
  *
- * Ie. the same tokens are always mapped to the same path positions.
+ * I.e. the same tokens are always mapped to the same path positions.
  */
 interface PermanentMapping {
     type: 'permanent';
@@ -101,25 +101,19 @@ export class TokenManagerImpl implements TokenManager {
         return Array.from(this._mappingRegistry.values());
     }
 
-    constructor(
-        private readonly _locationManager: LocationManager,
-        private readonly _config: TokenManagerConfig = {}
-    ) {}
+    constructor(private readonly _locationManager: LocationManager, private readonly _config: TokenManagerConfig = {}) {
+        makeObservable(this);
+    }
 
     /**
      * A convenience function for defining UrlArg-like objects on top of this token manager
      *
      * When the underlying token is not there, it will report the provided default, or an empty space.
      */
-    defineStringArg<T = string>(
-        key: string,
-        // @ts-ignore
-        defaultValue: T = ''
-    ): UrlArg<T> {
+    defineStringArg<T = string>(key: string, defaultValue: T = '' as any): UrlArg<T> {
         return new UrlTokenImpl<T>(this, {
             key,
-            // @ts-ignore
-            valueType: URLARG_TYPE_STRING,
+            valueType: URLARG_TYPE_STRING as any,
             defaultValue,
         });
     }
@@ -127,13 +121,12 @@ export class TokenManagerImpl implements TokenManager {
     /**
      * A convenience function for defining UrlArg-like objects on top of this token manager.
      *
-     * The the underlying token is not there, it will return undefined.
+     * The underlying token is not there, it will return undefined.
      */
     defineOptionalStringArg<T = string>(key: string): UrlArg<T | undefined> {
         return new UrlTokenImpl<T | undefined>(this, {
             key,
-            // @ts-ignore
-            valueType: URLARG_TYPE_OPTIONAL_STRING,
+            valueType: URLARG_TYPE_OPTIONAL_STRING as any,
             defaultValue: undefined,
         });
     }
@@ -158,6 +151,7 @@ export class TokenManagerImpl implements TokenManager {
             filterCondition,
             states: new LocationDependentStateSpaceHandlerImpl({
                 id: 'token manager mappings ' + id,
+                tokenManager: this,
                 locationManager: this._locationManager,
                 stateSpace,
                 filterCondition,
@@ -227,7 +221,7 @@ export class TokenManagerImpl implements TokenManager {
                     // We have identified the definition sub-state of the app we need to look at
                     const { tokenMapping, totalPathTokens } = state;
                     if (!tokenMapping) {
-                        return; // no mappings for this sub-space, we can ignore this one
+                        return; // no mappings for this subspace, we can ignore this one
                     }
                     // We have eaten this many tokens. (We have already eaten some just by getting to this sub-state)
                     let totalParsedTokens = parsedTokens + totalPathTokens.length;
@@ -260,7 +254,7 @@ export class TokenManagerImpl implements TokenManager {
      *
      * This will be called with all valid mappings.
      */
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     private _doSetTokenOnMappings(
         tokenMapping: PathTokenMappingList,
         parsedTokens: number, // We have already eaten this many tokens
@@ -300,7 +294,7 @@ export class TokenManagerImpl implements TokenManager {
                     return;
                 } else {
                     // just a normal token, and it's there
-                    tokenIndex++; // ok let's eat eat, and continue to the next one
+                    tokenIndex++; // ok let's eat one, and continue to the next one
                 }
             }
         }
@@ -374,7 +368,7 @@ export class TokenManagerImpl implements TokenManager {
         });
     }
 
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     private _trySetTokenOnMappings(
         tokenMapping: PathTokenMappingList,
         parsedTokens: number, // We have already eaten this many tokens
@@ -421,7 +415,7 @@ export class TokenManagerImpl implements TokenManager {
                     return false;
                 } else {
                     // just a normal token, and it's there
-                    tokenIndex++; // ok let's eat eat, and continue to the next one
+                    tokenIndex++; // ok let's eat one, and continue to the next one
                 }
             }
         }
@@ -441,7 +435,7 @@ export class TokenManagerImpl implements TokenManager {
                     if (callback) {
                         callback(true);
                     }
-                    // We need to report success, since we have found the value and it has the wanted value now.
+                    // We need to report success, since we have found the value, and it has the wanted value now.
                     return true;
                 }
                 // No, currently it's there. So we get rid of it.
@@ -485,7 +479,7 @@ export class TokenManagerImpl implements TokenManager {
     /**
      * Set a given token
      */
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     public trySetToken(key: string, value: string, updateMethod?: UpdateMethod, callback?: SuccessCallback): void {
         // we will go through all registered mappings
         let found = false; // could we do it?
@@ -547,7 +541,7 @@ export class TokenManagerImpl implements TokenManager {
     /**
      * Let's try to imagine how would the location change if we changed this single token
      */
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     private _getLocationForTokenChangeOnMapping(
         tokenMapping: PathTokenMappingList,
         parsedTokens: number, // We have already eaten this many tokens
@@ -587,7 +581,7 @@ export class TokenManagerImpl implements TokenManager {
                     return prevLocation;
                 } else {
                     // just a normal token, and it's there
-                    tokenIndex++; // ok let's eat eat, and continue to the next one
+                    tokenIndex++; // ok let's eat one, and continue to the next one
                 }
             }
         }

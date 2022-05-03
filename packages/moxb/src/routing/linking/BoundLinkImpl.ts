@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 import { BoundLink } from './BoundLink';
 import { ArgChange } from '../url-arg';
 import { StringOrFunction } from '../../bind/BindImpl';
@@ -36,11 +36,16 @@ export interface BoundLinkOptions {
      * See CoreLinkProps for detailed explanation.
      */
     to?(): string[] | undefined;
+
     argChanges?(): ArgChange<any>[];
+
     position?(): number | undefined;
+
     removeTokenCount?(): number | undefined;
+
     appendTokens?(): string[] | undefined;
-    toRef?(): NavRef<void | {}> | NavRefCall<any>;
+
+    toRef?(): NavRef<void | Record<string, string>> | NavRefCall<any>;
 }
 
 /**
@@ -51,6 +56,7 @@ export class BoundLinkImpl implements BoundLink {
     readonly id: string;
 
     constructor(protected readonly impl: BoundLinkOptions) {
+        makeObservable(this);
         this.id = impl.id;
     }
 
