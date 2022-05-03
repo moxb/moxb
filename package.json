@@ -10,10 +10,10 @@
 	"author": "moxb (moxb.org)",
 	"license": "MIT",
 	"devDependencies": {
-    "@typescript-eslint/eslint-plugin": "5.21.0",
-    "@typescript-eslint/parser": "5.21.0",
-    "eslint": "8.14.0",
-    "eslint-plugin-react-hooks": "4.5.0",
+		"@typescript-eslint/eslint-plugin": "5.21.0",
+		"@typescript-eslint/parser": "5.21.0",
+		"eslint": "8.14.0",
+		"eslint-plugin-react-hooks": "4.5.0",
 		"jest": "26.4.2",
 		"lerna": "3.22.1",
 		"npm-check": "5.9.2",
@@ -30,7 +30,6 @@
 	"homepage": "https://github.com/moxb/moxb#readme",
 	"keywords": [
 		"mobx",
-		"semantic-ui-react",
 		"ant-design",
 		"react",
 		"UI"
@@ -64,7 +63,6 @@
 		"pretty": "2.0.0",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
-		"semantic-ui-react": "2.1.2",
 		"tslib": "2.3.1",
 		"urijs": "1.19.6",
 		"uuid": "8.3.2"

@@ -21,6 +21,7 @@ Next version
 - Rewrite most components as functional
 - Migrate from tslint to eslint
 - Fix tons of eslint warnings all over the place
+- Removed the (obsolete and deprecated) Semantic UI bindings
 
 [v0.2.0-beta.93](https://github.com/moxb/moxb/releases/tag/v0.2.0-beta.93) (2022-04-20)
 =======================================================================================

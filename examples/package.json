@@ -12,7 +12,6 @@
     "@moxb/html": "^0.2.0-beta.93",
     "@moxb/meteor": "^0.2.0-beta.93",
     "@moxb/moxb": "^0.2.0-beta.93",
-    "@moxb/semui": "0.2.0-beta.93",
     "antd": "4.19.5",
     "less": "4.1.1",
     "marked": "2.0.6",
@@ -21,7 +20,6 @@
     "moment": "2.29.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "semantic-ui-react": "2.1.2",
     "tslib": "2.3.1"
   },
   "devDependencies": {
