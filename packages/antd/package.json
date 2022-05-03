@@ -1,6 +1,6 @@
 {
   "name": "@moxb/antd",
-  "version": "0.2.0-beta.93",
+  "version": "0.3.0",
   "description": "moxb ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -63,8 +63,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@moxb/react-html": "^0.2.0-beta.93",
-    "@moxb/moxb": "^0.2.0-beta.93",
+    "@moxb/moxb": "^0.3.0",
+    "@moxb/react-html": "^0.3.0",
     "@types/enzyme": "3.10.12",
     "@types/jest": "26.0.23",
     "@types/react": "^17.0.2",
@@ -79,6 +79,5 @@
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-react-hooks": "4.5.0",
     "pretty": "2.0.0"
-  },
-  "dependencies": {}
+  }
 }
