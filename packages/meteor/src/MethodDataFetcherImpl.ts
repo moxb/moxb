@@ -112,7 +112,7 @@ export abstract class MethodDataFetcherImpl<Q, D> implements MeteorDataFetcher<Q
             throw new Error('setDataFetcher was not called!');
         }
         this.cancelCurrentRequest();
-        this._dataReady = false;
+        action(() => (this._dataReady = false));
         this.currentRequestDone = new CancelableDone<D>(this.done);
         this.dataFetcherFunction(this.currentRequestDone.done);
     }
