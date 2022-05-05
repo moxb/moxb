@@ -116,7 +116,7 @@ export interface SubStateDisplayInfo<LabelType> {
     /**
      * Extra styles to use when displaying the link
      */
-    linkStyle?: React.CSSProperties;
+    linkStyle?: any;
 
     /**
      * Don't render this element as a link in menus, since it's some kind
@@ -131,7 +131,7 @@ export interface SubStateDisplayInfo<LabelType> {
     /**
      * Style to be added to the main div.
      */
-    containerStyle?: React.CSSProperties;
+    containerStyle?: any;
 }
 
 /**
