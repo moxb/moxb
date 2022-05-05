@@ -13,10 +13,12 @@ Next version
 ### Changed
 
 [v0.3.5](https://github.com/moxb/moxb/releases/tag/v0.3.5) (2022-05-04)
+=======================================================================================
 
 - Re-try failed publication
 
 [v0.3.4](https://github.com/moxb/moxb/releases/tag/v0.3.4) (2022-05-04)
+=======================================================================================
 
 ### Changed
 
@@ -24,6 +26,7 @@ Next version
   whatever they claim in their ChangeLog. for 4.20
 
 [v0.3.3](https://github.com/moxb/moxb/releases/tag/v0.3.3) (2022-05-03)
+=======================================================================================
 
 ### Fixed
 
@@ -36,10 +39,12 @@ Next version
 - Updated for tslib 2.4
 
 [v0.3.2](https://github.com/moxb/moxb/releases/tag/v0.3.2) (2022-05-03)
+=======================================================================================
 
 - Re-try release after really creating the new (renamed) NPM package via NPM web UI
 
 [v0.3.1](https://github.com/moxb/moxb/releases/tag/v0.3.1) (2022-05-03)
+=======================================================================================
 
 - Re-try release after creating the new (renamed) NPM package via NPM web UI
 
