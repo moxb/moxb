@@ -5,8 +5,6 @@ import {
     NavigableContent,
     StateSpace,
     SubStateInContext,
-    useLocationManager,
-    useTokenManager,
 } from '@moxb/moxb';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
@@ -14,6 +12,7 @@ import { renderSubStateCore } from './rendering';
 import { UIFragment } from './UIFragment';
 import { UIFragmentSpec } from './UIFragmentSpec';
 import { useEffect } from 'react';
+import { useLocationManager, useTokenManager } from './routingProviders';
 
 export type UIStateSpace<DataType = void> = StateSpace<UIFragment, UIFragmentSpec, DataType>;
 export type NavigableUIContent = NavigableContent<UIFragmentSpec>;

@@ -3,8 +3,6 @@ export {
     LocationDescriptorObject,
     UpdateMethod,
     LocationManager,
-    useLocationManager,
-    LocationManagerProvider,
     QueryChange,
     TestLocation,
     SuccessCallback,

@@ -1,16 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
-import {
-    getNextPathToken,
-    isTokenEmpty,
-    NavigableContent,
-    SubStateCoreInfo,
-    TestLocation,
-    HookMap,
-    useLocationManager,
-} from '@moxb/moxb';
+import { getNextPathToken, isTokenEmpty, NavigableContent, SubStateCoreInfo, TestLocation, HookMap } from '@moxb/moxb';
 import { observer } from 'mobx-react-lite';
 import { renderSubStateCore } from './rendering';
 import { UIFragmentSpec } from './UIFragmentSpec';
+import { useLocationManager } from './routingProviders';
 
 /**
  * This is the full spec of the root-or-details component

@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { AppRouterAnt } from './app/AppRouterAnt';
 
 import { StoreProvider, createStore } from './store/Store';
-import { RoutingProvider } from '@moxb/moxb';
+import { RoutingProvider } from '@moxb/react-html';
 
 const store = createStore();
 (window as any).model = store;

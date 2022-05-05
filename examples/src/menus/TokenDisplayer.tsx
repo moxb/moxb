@@ -1,5 +1,5 @@
-import { UIFragmentSpec } from '@moxb/react-html';
-import { getNextPathToken, getParsedPathTokens, Navigable, useLocationManager } from '@moxb/moxb';
+import { UIFragmentSpec, useLocationManager } from '@moxb/react-html';
+import { getNextPathToken, getParsedPathTokens, Navigable } from '@moxb/moxb';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 

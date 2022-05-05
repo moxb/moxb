@@ -10,6 +10,7 @@ Next version
 
 ### Fixed
 - ManyOfImpl tried to modify some immutable mobx data
+- Eliminatet React dependencies accidentally introduced to @moxb/moxb
 
 ### Changed
 

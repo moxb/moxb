@@ -4,10 +4,16 @@ import {
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
     SubStateInContext,
+} from '@moxb/moxb';
+import {
+    renderUIFragment,
+    UIFragment,
+    UIFragmentSpec,
+    Anchor,
+    AnchorProps,
     useLinkGenerator,
     useLocationManager,
-} from '@moxb/moxb';
-import { renderUIFragment, UIFragment, UIFragmentSpec, Anchor, AnchorProps } from '@moxb/react-html';
+} from '@moxb/react-html';
 import { Menu } from 'antd';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';

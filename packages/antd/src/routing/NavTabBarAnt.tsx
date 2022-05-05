@@ -4,8 +4,6 @@ import {
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
     SubStateInContext,
-    useLocationManager,
-    useTokenManager,
 } from '@moxb/moxb';
 import { Tabs } from 'antd';
 import { observer } from 'mobx-react-lite';
@@ -18,6 +16,8 @@ import {
     AnchorProps,
     UIFragment,
     UIFragmentSpec,
+    useLocationManager,
+    useTokenManager,
 } from '@moxb/react-html';
 
 const TabPane = Tabs.TabPane;

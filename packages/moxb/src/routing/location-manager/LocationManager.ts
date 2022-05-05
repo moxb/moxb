@@ -7,8 +7,6 @@ import { UrlArg } from '../url-arg';
 
 import { Query, UrlSchema } from '../url-schema/UrlSchema';
 import { CoreLinkProps } from '../linking/CoreLinkProps';
-import { useContext } from 'react';
-import { createGlobalContext } from '../../util/globalContext';
 
 export type SuccessCallback = (value: boolean) => void;
 
@@ -433,19 +431,3 @@ export interface LocationManager {
      */
     defineObjectArg<T>(key: string, defaultValue?: T | null, permanent?: boolean): UrlArg<T | null>;
 }
-
-const LocationManagerContext = createGlobalContext<LocationManager | undefined>('location manager', undefined);
-
-export const LocationManagerProvider = LocationManagerContext.Provider;
-
-export const useLocationManager = (reason: string): LocationManager => {
-    const manager = useContext(LocationManagerContext);
-    if (!manager) {
-        throw new Error(
-            "Can't find React context for LocationManager for " +
-                reason +
-                "! Don't forget to wrap your app in a <LocationManagerProvider> tag!"
-        );
-    }
-    return manager;
-};

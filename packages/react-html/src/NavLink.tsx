@@ -1,7 +1,8 @@
-import { CoreLinkProps, locationToUrl, useLocationManager } from '@moxb/moxb';
+import { CoreLinkProps, locationToUrl } from '@moxb/moxb';
 import * as React from 'react';
 import * as Anchor from './Anchor';
 import { observer } from 'mobx-react-lite';
+import { useLocationManager } from './routingProviders';
 
 /**
  * Everything _except_ the target specification
