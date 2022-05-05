@@ -7,6 +7,7 @@ Next version
 =======================================================================================
 
 ### Added
+- [`moxb.iml`](moxb.iml): intellij module definition
 
 ### Fixed
 - ManyOfImpl tried to modify some immutable mobx data
