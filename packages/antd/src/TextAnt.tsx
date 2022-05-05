@@ -1,12 +1,10 @@
 import { Action, t, Text } from '@moxb/moxb';
-import { Button, Input } from 'antd';
-import CloseOutlined from '@ant-design/icons/CloseOutlined';
+import { Input } from 'antd';
 import { InputProps, SearchProps } from 'antd/lib/input';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
-import { useEffect, useState } from 'react';
 
 export interface BindStringAntProps extends BindAntProps<Text>, InputProps {
     operation: Text;
@@ -16,15 +14,6 @@ export interface BindStringAntProps extends BindAntProps<Text>, InputProps {
     onPressEnter?(): void;
 
     rows?: number;
-}
-
-export interface BindSearchStringAntProps extends SearchProps {
-    operation: Text;
-    searchAction: Action;
-    enterButton?: string;
-    clearbuttonstyle?: React.CSSProperties;
-    style?: React.CSSProperties;
-    btnText?: string;
 }
 
 export const TextAnt = observer((props: BindStringAntProps) => {
@@ -63,24 +52,18 @@ export const TextAnt = observer((props: BindStringAntProps) => {
     }
 });
 
+export interface BindSearchStringAntProps extends SearchProps {
+    operation: Text;
+    searchAction: Action;
+    enterButton?: string;
+    clearbuttonstyle?: React.CSSProperties;
+    style?: React.CSSProperties;
+    btnText?: string;
+}
 /**
  * Use `onSearch` for the search function! Then it will work with the "Enter" key, as well as with the search button!
  */
 export const TextSearchAnt = observer((props: BindSearchStringAntProps) => {
-    const [clearBtnOffset, setClearBtnOffset] = useState('85px');
-
-    useEffect(() => {
-        updateSearchBtnWidth();
-    }, []);
-
-    // TODO: we should also run this on window resize
-    function updateSearchBtnWidth() {
-        // The search button can change in size, so we adjust the clear btn position
-        const elements = document.getElementsByClassName('ant-input-search-button');
-        const requiredElement = elements[0] as HTMLElement;
-        setClearBtnOffset(requiredElement ? requiredElement.offsetWidth + 10 + 'px' : '85px');
-    }
-
     function handleKeyDown(e: React.KeyboardEvent<HTMLElement>, inputValue?: Text) {
         if (e.keyCode === 27 && inputValue) {
             inputValue.setValue('');
@@ -95,19 +78,6 @@ export const TextSearchAnt = observer((props: BindSearchStringAntProps) => {
     if (invisible) {
         return null;
     }
-    const clearButtonStyle: React.CSSProperties = rest.clearbuttonstyle || {
-        position: 'absolute',
-        display: 'block',
-        right: clearBtnOffset,
-        height: '24px',
-        width: '24px',
-        borderRadius: '20px',
-        padding: '0px',
-        top: '4px',
-        backgroundColor: 'lightgrey',
-        zIndex: 1,
-    };
-
     return (
         <div
             style={{
@@ -124,24 +94,14 @@ export const TextSearchAnt = observer((props: BindSearchStringAntProps) => {
                 style={{ marginBottom: '0' }}
                 onChange={(e: any) => operation.setValue(e.target.value)}
                 enterButton={enterButton || t('TableSearchAnt.btnTitle', 'Search')}
-                onSearch={() => searchAction.fire()}
+                onSearch={(query) => {
+                    operation.setValue(query);
+                    searchAction.fire();
+                }}
                 onKeyDown={(e) => handleKeyDown(e, operation)}
+                allowClear
                 {...(rest as any)}
             />
-            {operation.value && operation.value.length > 0 && (
-                <Button
-                    id={id + '-clearBtn'}
-                    style={clearButtonStyle}
-                    htmlType="button"
-                    onClick={() => {
-                        operation.setValue('');
-                        document.getElementById(id)!.focus();
-                        searchAction.fire();
-                    }}
-                >
-                    <CloseOutlined />
-                </Button>
-            )}
         </div>
     );
 });

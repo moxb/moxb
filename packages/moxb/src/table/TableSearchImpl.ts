@@ -21,17 +21,15 @@ export class TableSearchImpl implements TableSearch {
         id: 'TableSearch.searchAction',
         label: 'Search',
         fire: () => this.setQuery(this.searchField.value || ''),
-        enabled: () => !this.searchField.isInitialValue,
     });
 
     readonly clearSearch: Action = new ActionImpl({
         id: 'TableSearch.clearSearchAction',
         label: 'Clear',
         fire: () => {
-            this.searchField.setValue('');
             this.setQuery('');
+            this.searchField.resetToInitialValue();
         },
-        enabled: () => this.searchField.value !== '',
     });
 
     constructor() {
