@@ -9,6 +9,7 @@ Next version
 ### Added
 
 ### Fixed
+- ManyOfImpl tried to modify some immutable mobx data
 
 ### Changed
 
