@@ -17,7 +17,7 @@ import {
     UIFragment,
     UIFragmentSpec,
     useLocationManager,
-    useTokenManager,
+    useOptionalTokenManager,
 } from '@moxb/react-html';
 
 const TabPane = Tabs.TabPane;
@@ -52,7 +52,7 @@ export interface NavTabProps<DataType>
  */
 export const NavTabBarAnt = observer((props: NavTabProps<unknown>) => {
     const locationManager = useLocationManager('NavTabBarAnt for ' + props.id);
-    const tokenManager = useTokenManager();
+    const tokenManager = useOptionalTokenManager();
 
     function getLocationDependantStateSpaceHandler() {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

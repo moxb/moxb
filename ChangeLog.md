@@ -10,9 +10,10 @@ Next version
 
 ### Fixed
 - ManyOfImpl tried to modify some immutable mobx data
-- Eliminatet React dependencies accidentally introduced to @moxb/moxb
+- Eliminated React dependencies accidentally introduced to @moxb/moxb
 
 ### Changed
+- RoutingProvider: make TokenManager and LinkGenerator optional
 
 [v0.3.5](https://github.com/moxb/moxb/releases/tag/v0.3.5) (2022-05-04)
 =======================================================================================

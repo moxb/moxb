@@ -12,7 +12,7 @@ import { renderSubStateCore } from './rendering';
 import { UIFragment } from './UIFragment';
 import { UIFragmentSpec } from './UIFragmentSpec';
 import { useEffect } from 'react';
-import { useLocationManager, useTokenManager } from './routingProviders';
+import { useLocationManager, useOptionalTokenManager } from './routingProviders';
 
 export type UIStateSpace<DataType = void> = StateSpace<UIFragment, UIFragmentSpec, DataType>;
 export type NavigableUIContent = NavigableContent<UIFragmentSpec>;
@@ -54,7 +54,7 @@ export interface LocationDependentAreaProps<DataType>
 
 export const LocationDependentArea = observer((props: LocationDependentAreaProps<any>): JSX.Element | null => {
     const locationManager = useLocationManager('location dependent area for ' + props.id);
-    const tokenManager = useTokenManager();
+    const tokenManager = useOptionalTokenManager();
 
     const { id, part, useTokenMappings, ...rest } = props;
     const { debug, navControl, mountAll, stateSpace } = rest;

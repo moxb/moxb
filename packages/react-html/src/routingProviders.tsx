@@ -23,8 +23,10 @@ const TokenManagerContext = createGlobalContext<TokenManager | undefined>('token
 
 export const TokenManagerProvider = TokenManagerContext.Provider;
 
-export const useTokenManager = (): TokenManager => {
-    const manager = useContext(TokenManagerContext);
+export const useOptionalTokenManager = (): TokenManager | undefined => useContext(TokenManagerContext);
+
+export const useRequiredTokenManager = (): TokenManager => {
+    const manager = useOptionalTokenManager();
     if (!manager) {
         throw new Error(
             "Can't find React context for TokenManager! Don't forget to wrap your app in a <TokenManagerProvider> tag!"
@@ -37,8 +39,10 @@ const LinkGeneratorContext = createGlobalContext<LinkGenerator | undefined>('lin
 
 export const LinkGeneratorProvider = LinkGeneratorContext.Provider;
 
-export const useLinkGenerator = (): LinkGenerator => {
-    const generator = useContext(LinkGeneratorContext);
+export const useOptionalLinkGenerator = (): LinkGenerator | undefined => useContext(LinkGeneratorContext);
+
+export const useRequiredLinkGenerator = (): LinkGenerator => {
+    const generator = useOptionalLinkGenerator();
     if (!generator) {
         throw new Error(
             "Can't find React context for LinkGenerator Don't forget to wrap your app in a <LinkGeneratorProvider> tag!"
@@ -49,8 +53,8 @@ export const useLinkGenerator = (): LinkGenerator => {
 
 interface RoutingStore {
     readonly locationManager: LocationManager;
-    readonly tokenManager: TokenManager;
-    readonly linkGenerator: LinkGenerator;
+    readonly tokenManager?: TokenManager;
+    readonly linkGenerator?: LinkGenerator;
 }
 
 interface RoutingProviderProps {
