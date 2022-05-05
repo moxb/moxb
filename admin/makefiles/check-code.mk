@@ -4,12 +4,7 @@ TS_DIRS = src
 
 # see https://prettier.io/docs/en/options.html
 PRETTIER_FORMAT= $(ACTIVATE) \
-	&& prettier --parser typescript \
-		--single-quote true \
-		--print-width 120 \
-		--bracket-spacing true \
-		--trailing-comma es5 \
-		--tab-width 4
+	&& prettier
 
 ESLINT = $(ACTIVATE) && eslint
 

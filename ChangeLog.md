@@ -14,6 +14,7 @@ Next version
 
 ### Changed
 - RoutingProvider: make TokenManager and LinkGenerator optional
+- added a '.prettierrc': IDEs and makefile now use the same code formatting
 
 [v0.3.5](https://github.com/moxb/moxb/releases/tag/v0.3.5) (2022-05-04)
 =======================================================================================
