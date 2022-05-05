@@ -15,7 +15,7 @@ export type SuccessCallback = (value: boolean) => void;
  */
 export type QueryChange = {
     key: string;
-    value: string | undefined;
+    value?: string;
 };
 
 /**

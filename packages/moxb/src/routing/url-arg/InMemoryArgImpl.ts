@@ -5,7 +5,7 @@ import { SuccessCallback } from '../location-manager/LocationManager';
 
 class MiniStore implements UrlArgBackend {
     @observable
-    raw: string | undefined;
+    raw?: string;
 
     constructor() {
         makeObservable(this);

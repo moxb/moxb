@@ -15,7 +15,7 @@ export function renderFallback(props: Navigable<any>, fallback: UIFragmentSpec |
 
 interface RenderProps<DataType> {
     state: SubStateCoreInfo<UIFragmentSpec, DataType> | null;
-    fallback?: UIFragmentSpec | undefined;
+    fallback?: UIFragmentSpec;
     navigationContext: Navigable<DataType>;
     tokenIncrease?: number;
     extraProps?: any;

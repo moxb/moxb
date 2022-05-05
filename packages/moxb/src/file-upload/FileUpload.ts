@@ -50,21 +50,21 @@ export interface FileUpload {
      *
      * Will return undefined if no file has been uploaded.
      */
-    readonly fileName: string | undefined;
+    readonly fileName?: string;
 
     /**
      * The uploaded data in a string format
      *
      * Will return undefined if no file has been uploaded.
      */
-    readonly dataAsString: string | undefined;
+    readonly dataAsString?: string;
 
     /**
      * The uploaded data in binary format
      *
      * Will return undefined if no file has been uploaded.
      */
-    readonly dataAsBinary: ArrayBuffer | undefined;
+    readonly dataAsBinary?: ArrayBuffer;
 
     /**
      * Have we failed?
@@ -74,7 +74,7 @@ export interface FileUpload {
     /**
      * Any error message
      */
-    readonly errorMessage: string | undefined;
+    readonly errorMessage?: string;
 
     /**
      * A label for error message

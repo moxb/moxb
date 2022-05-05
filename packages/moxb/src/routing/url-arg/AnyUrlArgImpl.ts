@@ -4,7 +4,7 @@ import { ArgDefinition, ParserFunc, UrlArg } from './UrlArg';
 import { MyLocation, SuccessCallback, TestLocation, UpdateMethod } from '../location-manager/LocationManager';
 
 export interface UrlArgBackend {
-    readonly rawValue: string | undefined;
+    readonly rawValue?: string;
     rawValueOn(location: TestLocation | undefined): string | undefined;
     doSet: (value: string) => void;
     trySet: (value: string, callback?: SuccessCallback) => void;

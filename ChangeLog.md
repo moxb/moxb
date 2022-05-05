@@ -11,6 +11,7 @@ Next version
 ### Fixed
 - ManyOfImpl tried to modify some immutable mobx data
 - Eliminated React dependencies accidentally introduced to @moxb/moxb
+- small typescipt style improvements
 
 ### Changed
 - RoutingProvider: make TokenManager and LinkGenerator optional

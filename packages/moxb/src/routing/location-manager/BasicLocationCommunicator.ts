@@ -8,7 +8,7 @@
 import { LocationCommunicator } from './LocationCommunicator';
 
 export class BasicLocationCommunicator implements LocationCommunicator {
-    protected currentQuestion: string | undefined;
+    protected currentQuestion?: string;
     protected currentResolve: undefined | ((value: boolean) => void);
 
     confirmLeave(questions: string[]): Promise<boolean> {
