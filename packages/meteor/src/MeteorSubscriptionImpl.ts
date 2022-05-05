@@ -20,13 +20,13 @@ export abstract class MeteorSubscriptionImpl implements MeteorSubscription {
     @observable
     private _hasFailed = false;
     @observable
-    private _errors: any[] = [];
+    private _errors: object[] = [];
 
     private subscriptionTracker?: Tracker.Computation;
     private mobxAutoRun?: IReactionDisposer;
     private timeoutHandle: any;
 
-    constructor() {
+    protected constructor() {
         makeObservable(this);
         onBecomeObserved(this, '_isSubscriptionReady', () => {
             // console.log('subscribe=', this.constructor.name);
