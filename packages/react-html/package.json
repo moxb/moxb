@@ -1,6 +1,6 @@
 {
   "name": "@moxb/react-html",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "moxb React bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -59,7 +59,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@moxb/moxb": "^0.3.5",
+    "@moxb/moxb": "^0.3.6",
     "@types/jest": "27.5.0",
     "@types/react": "17.0.2",
     "@types/react-test-renderer": "17.0.2",
