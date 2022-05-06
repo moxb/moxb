@@ -7,6 +7,15 @@ Next version
 =======================================================================================
 
 ### Added
+
+### Fixed
+
+### Changed
+
+[v0.3.6](https://github.com/moxb/moxb/releases/tag/v0.3.6) (2022-05-06)
+=======================================================================================
+
+### Added
 - [`moxb.iml`](moxb.iml): intellij module definition
 
 ### Fixed
