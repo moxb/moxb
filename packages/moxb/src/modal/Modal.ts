@@ -6,10 +6,9 @@ export interface ModalActions {
 }
 
 /**
- * This is a representation of the Modal dialog:
- * https://react.semantic-ui.com/modules/modal
+ * This is a representation of a Modal dialog.
  */
-export interface Modal<T, A extends ModalActions = ModalActions> {
+export interface Modal<T, A extends ModalActions = ModalActions, HeaderType = string> {
     /**
      * The data that is associated with the dialog
      */
@@ -28,7 +27,7 @@ export interface Modal<T, A extends ModalActions = ModalActions> {
     /**
      * If not falsely shown as Header of the dialog
      */
-    readonly header?: string | React.ReactNode;
+    readonly header?: HeaderType;
 
     /**
      * Show the dialog with a given value. The implementation uses the value on confirm

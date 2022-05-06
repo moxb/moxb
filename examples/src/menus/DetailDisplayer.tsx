@@ -1,5 +1,5 @@
-import { getParsedPathTokens, useLocationManager } from '@moxb/moxb';
-import { NavigableUIContent } from '@moxb/react-html';
+import { getParsedPathTokens } from '@moxb/moxb';
+import { NavigableUIContent, useLocationManager } from '@moxb/react-html';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { useStore } from '../store/Store';

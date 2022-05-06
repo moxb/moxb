@@ -11,7 +11,7 @@ export interface ManyOfOptions<T> extends ValueOptions<ManyOfImpl<T>, T[]> {
 export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl<T>, T[], ManyOfOptions<T>> implements ManyOf<T> {
     constructor(impl: ManyOfOptions<T>) {
         super({
-            valueCompareFunction: (a, b) => a.sort().toString() === b.sort().toString(),
+            valueCompareFunction: (a, b) => a.slice().sort().toString() === b.slice().sort().toString(),
             ...impl,
         });
         makeObservable(this);
@@ -33,7 +33,7 @@ export class ManyOfImpl<T = string> extends ValueImpl<ManyOfImpl<T>, T[], ManyOf
     toggle(choice: T) {
         if (this.isSelected(choice)) {
             // Un-select this
-            this.setValue(this.value!.filter((c) => c !== choice));
+            this.setValue((this.value || []).filter((c) => c !== choice));
         } else {
             // Select this
             this.setValue([...(this.value || []), choice]);

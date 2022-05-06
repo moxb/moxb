@@ -7,7 +7,13 @@ import { MeteorTableOperations } from './MeteorTableOperations';
 
 function sortToMongo(sort: SortColumn[]): Mongo.SortSpecifier {
     // tslint:disable-next-line:no-inferred-empty-object-type
-    return sort.reduce((p, c) => ({ ...p, ...{ [c.column]: c.sortDirection === 'ascending' ? 1 : -1 } }), {});
+    return sort.reduce(
+        (p, c) => ({
+            ...p,
+            ...{ [c.column]: c.sortDirection === 'ascending' ? 1 : -1 },
+        }),
+        {}
+    );
 }
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

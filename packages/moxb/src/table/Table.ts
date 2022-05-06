@@ -1,6 +1,5 @@
 /**
- * This is a representation of the table with extended functionality:
- * https://react.semantic-ui.com/modules/tables
+ * This is a representation of a table with extended functionality.
  */
 import { Bind } from '../bind/Bind';
 import { TableColumn } from './TableColumn';

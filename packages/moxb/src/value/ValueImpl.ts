@@ -82,7 +82,7 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
      * default value impl
      */
     @observable
-    _value?: T | undefined;
+    _value?: T;
     @observable
     _isSaving = false;
 
@@ -122,9 +122,8 @@ export class ValueImpl<B, T, Options extends ValueOptions<B, T>> extends BindImp
     }
 
     private doGetValue(): T | undefined {
-        let value: T | undefined;
         if (this.impl.getValue) {
-            value = this.impl.getValue();
+            const value = this.impl.getValue();
             if (typeof value !== 'undefined') {
                 return value;
             }

@@ -7,6 +7,7 @@ import {
     onBecomeObserved,
     onBecomeUnobserved,
     makeObservable,
+    runInAction,
 } from 'mobx';
 import { MeteorDataFetcher, MeteorDataFetcherDone, MeteorDataFetcherFunction } from './MeteorDataFetcher';
 
@@ -18,7 +19,7 @@ class CancelableDone<D> {
 
     constructor(private readonly doneFunc: MeteorDataFetcherDone<D>) {}
 
-    done = (err: any, data: D | undefined) => {
+    done = (err?: object, data?: D) => {
         if (!this.canceled) {
             // call the done function ONLY if the request is not cancelled!
             this.doneFunc(err, data);
@@ -40,16 +41,16 @@ class CancelableDone<D> {
  */
 export abstract class MethodDataFetcherImpl<Q, D> implements MeteorDataFetcher<Q, D> {
     private autorunDisposer!: IReactionDisposer;
-    private dataFetcherFunction: MeteorDataFetcherFunction<D> | undefined;
+    private dataFetcherFunction?: MeteorDataFetcherFunction<D>;
     @observable.struct
     private _data: D;
     @observable
-    private _error: any;
+    private _error?: object;
 
     // we start with not ready, because the data has to be loaded at least once.
     @observable
     _dataReady = false;
-    private currentRequestDone: CancelableDone<D> | undefined;
+    private currentRequestDone?: CancelableDone<D>;
 
     constructor() {
         makeObservable(this);
@@ -112,7 +113,7 @@ export abstract class MethodDataFetcherImpl<Q, D> implements MeteorDataFetcher<Q
             throw new Error('setDataFetcher was not called!');
         }
         this.cancelCurrentRequest();
-        this._dataReady = false;
+        runInAction(() => (this._dataReady = false));
         this.currentRequestDone = new CancelableDone<D>(this.done);
         this.dataFetcherFunction(this.currentRequestDone.done);
     }

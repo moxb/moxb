@@ -141,15 +141,15 @@ export class FileUploadImpl implements FileUpload {
 
     // Current file being uploaded
     @observable
-    private _file: File | undefined;
+    private _file?: File;
 
     @observable _done = false;
 
-    @observable _data: ArrayBuffer | undefined;
+    @observable _data?: ArrayBuffer;
 
     @observable _failed = false;
 
-    @observable _errorMessage: string | undefined;
+    @observable _errorMessage?: string;
 
     readonly errorLabel: Label = new LabelImpl({
         id: 'fileUpload.errorLabel',

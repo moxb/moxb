@@ -1,7 +1,8 @@
-import { UpdateMethod, NavRef, UrlArg, MyLocation, useLocationManager } from '@moxb/moxb';
+import { UpdateMethod, NavRef, UrlArg, MyLocation } from '@moxb/moxb';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { useEffect } from 'react';
+import { useLocationManager } from './routingProviders';
 
 interface RedirectProps {
     position?: number;

@@ -1,9 +1,9 @@
-import { CoreLinkProps, locationToUrl, useLocationManager } from '@moxb/moxb';
+import { CoreLinkProps, locationToUrl } from '@moxb/moxb';
 import { Button } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import { NavLink, AnchorParams } from '@moxb/react-html';
+import { NavLink, AnchorParams, useLocationManager } from '@moxb/react-html';
 
 /** * Everything except the actual target specification
  */

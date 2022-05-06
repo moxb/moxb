@@ -3,14 +3,12 @@ import {
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
     SubStateInContext,
-    useLocationManager,
-    useTokenManager,
 } from '@moxb/moxb';
 import { Steps } from 'antd';
 import { StepsProps } from 'antd/lib/steps';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import { UIFragment, UIFragmentSpec } from '@moxb/react-html';
+import { UIFragment, UIFragmentSpec, useLocationManager, useOptionalTokenManager } from '@moxb/react-html';
 
 export { StepsProps } from 'antd/lib/steps';
 
@@ -35,7 +33,7 @@ export const NavStepsAnt = observer((props: NavStepsProps<unknown>) => {
     const { id, stepProps = {}, children: _children, ...stateProps } = props;
 
     const locationManager = useLocationManager('NavStepsAnt');
-    const tokenManager = useTokenManager();
+    const tokenManager = useOptionalTokenManager();
 
     const states = new LocationDependentStateSpaceHandlerImpl({
         ...stateProps,

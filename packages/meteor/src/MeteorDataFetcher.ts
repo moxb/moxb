@@ -16,7 +16,7 @@ export interface MeteorDataFetcher<Q, D> {
     /**
      * null or undefined if no error is present
      */
-    readonly error: any;
+    readonly error?: object;
     /**
      * while loading data or before any data is loaded, this is false
      */

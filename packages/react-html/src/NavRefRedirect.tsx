@@ -1,14 +1,8 @@
-import {
-    getNextPathToken,
-    Navigable,
-    parseNavRef,
-    UpdateMethod,
-    useLinkGenerator,
-    useLocationManager,
-} from '@moxb/moxb';
+import { getNextPathToken, Navigable, parseNavRef, UpdateMethod } from '@moxb/moxb';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { useLocationManager, useRequiredLinkGenerator } from './routingProviders';
 
 /**
  * The NavRefRedirect component is responsible for executing redirects based on base64-encoded
@@ -26,7 +20,7 @@ import { useEffect, useState } from 'react';
  */
 export const NavRefRedirect = observer((props: Navigable<any>) => {
     const locationManager = useLocationManager('nav ref redirect');
-    const linkGenerator = useLinkGenerator();
+    const linkGenerator = useRequiredLinkGenerator();
 
     const [failed, setFailed] = useState(false);
 

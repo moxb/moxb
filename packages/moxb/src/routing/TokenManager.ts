@@ -3,8 +3,6 @@ import { StateCondition, StateSpace } from './location-state-space/state-space/S
 import { Query } from './url-schema/UrlSchema';
 import { UrlArg } from './url-arg';
 import { PathTokenMappingList } from './TokenManagerImpl';
-import { useContext } from 'react';
-import { createGlobalContext } from '../util/globalContext';
 
 /**
  * A TokenMapping is a bunch of information that the Token Manager needs to be aware of, so that
@@ -104,17 +102,3 @@ export interface TokenManager {
      */
     defineOptionalStringArg<T = string>(key: string): UrlArg<T | undefined>;
 }
-
-const TokenManagerContext = createGlobalContext<TokenManager | undefined>('token manager', undefined);
-
-export const TokenManagerProvider = TokenManagerContext.Provider;
-
-export const useTokenManager = (): TokenManager => {
-    const manager = useContext(TokenManagerContext);
-    if (!manager) {
-        throw new Error(
-            "Can't find React context for TokenManager! Don't forget to wrap your app in a <TokenManagerProvider> tag!"
-        );
-    }
-    return manager;
-};

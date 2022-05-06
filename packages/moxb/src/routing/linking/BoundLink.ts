@@ -20,7 +20,7 @@ export interface BoundLink extends CoreLinkProps {
     /**
      * Help to be displayed (in a popup), if any
      */
-    readonly help: string | undefined;
+    readonly help?: string;
 
     /**
      * Should this be hidden?

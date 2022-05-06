@@ -1,10 +1,8 @@
 import { Bind } from '../bind/Bind';
 
 /**
- * This is a representation of the Confirm dialog:
- * https://react.semantic-ui.com/addons/confirm
+ * This is a representation of a Confirm dialog.
  */
-
 export interface ConfirmBase<T> {
     /**
      * is the dialog currently shown?

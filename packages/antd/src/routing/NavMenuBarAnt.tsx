@@ -4,10 +4,16 @@ import {
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
     SubStateInContext,
-    useLinkGenerator,
-    useLocationManager,
 } from '@moxb/moxb';
-import { renderUIFragment, UIFragment, UIFragmentSpec, Anchor, AnchorProps } from '@moxb/react-html';
+import {
+    renderUIFragment,
+    UIFragment,
+    UIFragmentSpec,
+    Anchor,
+    AnchorProps,
+    useLocationManager,
+    useOptionalLinkGenerator,
+} from '@moxb/react-html';
 import { Menu } from 'antd';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
@@ -58,7 +64,7 @@ export interface NavMenuProps<DataType>
  * This widget show an Ant menu bar, based on the state-space.
  */
 export const NavMenuBarAnt = observer((props: NavMenuProps<any>) => {
-    const linkGenerator = useLinkGenerator();
+    const linkGenerator = useOptionalLinkGenerator();
     const locationManager = useLocationManager('nav menu bar ' + props.id);
 
     function getLocationDependantStateSpaceHandler(): LocationDependentStateSpaceHandler<

@@ -4,8 +4,6 @@ import { UrlSchema } from '../url-schema';
 import { ValueOrFunction } from '../../bind/BindImpl';
 import { NavRefCall } from './NavRef';
 import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
-import { useContext } from 'react';
-import { createGlobalContext } from '../../util/globalContext';
 
 /**
  * This is the data that we need to initialize a LinkGenerator
@@ -66,17 +64,3 @@ export interface LinkGenerator {
      */
     doGoTo(navRefCall: NavRefCall<any>, updateMethod?: UpdateMethod): void;
 }
-
-const LinkGeneratorContext = createGlobalContext<LinkGenerator | undefined>('link generator', undefined);
-
-export const LinkGeneratorProvider = LinkGeneratorContext.Provider;
-
-export const useLinkGenerator = (): LinkGenerator => {
-    const generator = useContext(LinkGeneratorContext);
-    if (!generator) {
-        throw new Error(
-            "Can't find React context for LinkGenerator Don't forget to wrap your app in a <LinkGeneratorProvider> tag!"
-        );
-    }
-    return generator;
-};
