@@ -3,7 +3,8 @@
   "version": "0.3.6",
   "description": "moxb React bindings",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "make all"
   },
   "main": "dist",
   "typings": "dist/",
@@ -50,6 +51,9 @@
       "**/src/**/__tests__/*.(ts|tsx)"
     ]
   },
+  "dependencies": {
+    "@moxb/moxb": "*"
+  },
   "peerDependencies": {
     "@moxb/moxb": "^0.3.2",
     "mobx": "^6.5.0",
@@ -59,7 +63,6 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@moxb/moxb": "^0.3.6",
     "@types/jest": "27.5.0",
     "@types/react": "17.0.2",
     "@types/react-test-renderer": "17.0.2",

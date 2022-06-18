@@ -201,10 +201,7 @@ admin/bin-tools:
 ###### watch-all ###################################
 .PHONY: build-packages
 build-packages: all-dependencies
-	@for dir in $(PACKAGE_DIRS); do \
-		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
-		$(MAKE) -C $$dir -f Makefile all || exit 1; \
-	done
+	npx nx run-many --target=build --all
 
 # we first build all packages
 .PHONY: watch-all

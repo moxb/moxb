@@ -24,11 +24,13 @@
     "eslint": "8.14.0",
     "eslint-plugin-react-hooks": "4.5.0",
     "jest": "26.4.2",
-    "lerna": "3.22.1",
+    "lerna": "5.1.4",
     "npm-check": "5.9.2",
     "prettier": "2.1.1",
     "ts-jest": "26.3.0",
-    "typescript": "4.5.4"
+    "typescript": "4.5.4",
+    "nx": "14.3.6",
+    "@nrwl/workspace": "14.3.6"
   },
   "bugs": {
     "url": "https://github.com/moxb/moxb/issues"

@@ -3,7 +3,8 @@
   "version": "0.3.6",
   "description": "MobX meteor binding",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "make all"
   },
   "main": "dist",
   "typings": "dist/",
@@ -41,6 +42,9 @@
       "**/src/**/__tests__/*.(ts|tsx)"
     ]
   },
+  "dependencies": {
+    "@moxb/moxb": "*"
+  },
   "peerDependencies": {
     "@moxb/moxb": "^0.3.2",
     "mobx": "^6.5.0",
@@ -49,7 +53,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@moxb/moxb": "^0.3.6",
     "@types/jest": "27.5.0",
     "@types/meteor": "2.6.3",
     "@types/uuid": "8.3.4",
