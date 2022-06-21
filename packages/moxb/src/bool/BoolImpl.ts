@@ -62,4 +62,8 @@ export class BoolImpl extends ValueImpl<BoolImpl, boolean, BoolOptions> implemen
     get whyNot() {
         return true;
     }
+
+    get whyNot2() {
+        return false;
+    }
 }

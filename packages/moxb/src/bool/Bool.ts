@@ -8,4 +8,5 @@ export interface Bool extends Value<boolean> {
      */
     readonly labelToggle?: string;
     readonly whyNot: boolean;
+    readonly whyNot2: boolean;
 }
