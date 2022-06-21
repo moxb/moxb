@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { BindAntProps, labelWithHelpIndicator, parseProps } from './BindAnt';
 import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
-import {Bool} from '@moxb/moxb';
+import { Bool } from '@moxb/moxb';
 
 export const BoolAnt = observer((props: BindAntProps<Bool> & CheckboxProps) => {
     const { operation, invisible, children, label, reason, ...rest } = parseProps(props, props.operation);
