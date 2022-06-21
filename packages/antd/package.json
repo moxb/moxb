@@ -1,6 +1,6 @@
 {
   "name": "@moxb/antd",
-  "version": "0.3.6",
+  "version": "0.3.7-alpha.0",
   "description": "moxb ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -53,8 +53,8 @@
     ]
   },
   "dependencies": {
-    "@moxb/moxb": "*",
-    "@moxb/react-html": "*"
+    "@moxb/moxb": "^0.3.7-alpha.0",
+    "@moxb/react-html": "^0.3.7-alpha.0"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.7.0",
