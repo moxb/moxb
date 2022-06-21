@@ -7,4 +7,5 @@ export interface Bool extends Value<boolean> {
      * A label that can be used when the boolean is bound to a toggle menu action.
      */
     readonly labelToggle?: string;
+    readonly whyNot: boolean;
 }

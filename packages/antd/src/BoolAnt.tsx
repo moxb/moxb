@@ -1,4 +1,3 @@
-import { Bool } from '@moxb/moxb';
 import { Checkbox, Switch } from 'antd';
 import { CheckboxProps } from 'antd/lib/checkbox';
 import { SwitchSize } from 'antd/lib/switch';
@@ -7,12 +6,14 @@ import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { BindAntProps, labelWithHelpIndicator, parseProps } from './BindAnt';
 import { FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import {Bool} from '@moxb/moxb';
 
 export const BoolAnt = observer((props: BindAntProps<Bool> & CheckboxProps) => {
     const { operation, invisible, children, label, reason, ...rest } = parseProps(props, props.operation);
     if (invisible) {
         return null;
     }
+
     // a null value renders the checkbox in intermediate state!
     const indeterminate = operation.value == null;
     return (

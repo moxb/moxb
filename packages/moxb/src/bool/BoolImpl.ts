@@ -58,4 +58,8 @@ export class BoolImpl extends ValueImpl<BoolImpl, boolean, BoolOptions> implemen
         }
         return super.getLabel();
     }
+
+    get whyNot() {
+        return true;
+    }
 }
