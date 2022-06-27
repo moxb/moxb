@@ -108,7 +108,7 @@ $(TS_OUTPUT_JS_FILES:.js=%js): $(TS_CODE_FILES)
 	@echo 'changed files:' $?
 	$(ACTIVATE) \
     		&& cd src \
-    		&& (tsc || echo typescript ERRORS found but ignored)
+    		&& tsc
 
 .PHONY: watch
 watch:  all-dependencies _tsc-clean-generated-js-files-if-needed
