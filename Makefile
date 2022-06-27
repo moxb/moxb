@@ -132,7 +132,7 @@ LERNA_DEPENDENCIES = \
 
 # this is a bit tricky: if any of the $(LERNA_DEPENDENCIES) changes we have to call `lerna bootstrap`
 # BUT if we have called `npm install ...` in any of the packages dir, npm will install **all**
-# npm packages in the node_modules. This confuses the whole proces....
+# npm packages in the node_modules. This confuses the whole process....
 # Therefore we remove the node modules in the `package/**/` directory and run `lerna`.
 # This is quite fast, because lerna only create a few links in the node_modules
 .makehelper/lerna-bootstrap: $(LERNA_DEPENDENCIES)

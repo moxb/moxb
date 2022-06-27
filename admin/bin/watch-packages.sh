@@ -8,8 +8,8 @@ first="$1"
 
 shift
 
-# now we start all other targets in backgorund
-# we ignore the output of the backgorund watch processes
+# now we start all other targets in background
+# we ignore the output of the background watch processes
 for dir in "$@"
 do
     if [ "$MOXB_WATCH_ALL_VERBOSE" != "" ]; then

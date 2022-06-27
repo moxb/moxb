@@ -100,7 +100,7 @@ TS_OUTPUT_JS_FILES = $(shell find src -type f  \( -name '*.ts' -o -name '*.tsx' 
 	)
 
 # if any of the input `.ts` or `.tsx` files is newer that the `.js` files then run the typescript compiler `tsc`
-# typesctipt files that produce .js files (that means excluding `.d.ts` files)
+# typescript files that produce .js files (that means excluding `.d.ts` files)
 # this is a bit tricky: we use % on the left hand side to prevent the rule to be called on each changed file....
 # https://stackoverflow.com/a/3077254/2297345
 # https://www.gnu.org/software/make/manual/html_node/Substitution-Refs.html#Substitution-Refs
