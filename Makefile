@@ -16,10 +16,12 @@ JEST = jest
 
 PACKAGE_DIRS= \
    packages/moxb \
+   packages/stellar-router-core \
    packages/react-html \
+   packages/stellar-router-react \
    packages/antd \
-   packages/meteor
-
+   packages/stellar-router-antd \
+   packages/meteor \
 
 EXAMPLE_DIRS= \
    examples
