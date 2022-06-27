@@ -62,7 +62,7 @@ interface RoutingProviderProps {
     children: React.ReactNode;
 }
 
-export const RoutingProvider = (props: RoutingProviderProps) => {
+export const StellarRouterProvider = (props: RoutingProviderProps) => {
     const { store, children } = props;
     const { locationManager, tokenManager, linkGenerator } = store;
     return (

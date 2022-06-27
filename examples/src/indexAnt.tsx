@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { RoutingProvider } from '@moxb/stellar-router-react';
+import { StellarRouterProvider } from '@moxb/stellar-router-react';
 
 import { AppRouterAnt } from './app/AppRouterAnt';
 import { StoreProvider, createStore } from './store/Store';
@@ -12,9 +12,9 @@ const store = createStore();
 
 const App = () => (
     <StoreProvider value={store}>
-        <RoutingProvider store={store}>
+        <StellarRouterProvider store={store}>
             <AppRouterAnt />
-        </RoutingProvider>
+        </StellarRouterProvider>
     </StoreProvider>
 );
 
