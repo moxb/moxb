@@ -14,14 +14,9 @@ NPM = npm
 LERNA = lerna
 JEST = jest
 
-PACKAGE_DIRS= \
-   packages/moxb \
-   packages/stellar-router-core \
-   packages/react-html \
-   packages/stellar-router-react \
-   packages/antd \
-   packages/stellar-router-antd \
-   packages/meteor \
+
+PACKAGE_DIRS_ := $(shell ls packages)
+PACKAGE_DIRS := $(foreach dir, $(PACKAGE_DIRS_), $(strip packages/$(dir)))
 
 EXAMPLE_DIRS= \
    examples
@@ -50,7 +45,6 @@ format-code format-check format-force eslint webstorm-before-commit clean-dist: 
 		echo ${LIGHT_BLUE}'=======================================' $$dir $@ '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
 	done
-
 
 .PHONY: help
 help:
