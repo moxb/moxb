@@ -1,6 +1,6 @@
 {
   "name": "@moxb/antd",
-  "version": "0.3.8",
+  "version": "0.3.10",
   "description": "moxb ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
