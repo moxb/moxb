@@ -46,7 +46,6 @@
     "@moxb/moxb": "*"
   },
   "peerDependencies": {
-    "@moxb/moxb": "^0.3.2",
     "mobx": "^6.5.0",
     "mobx-react-lite": "^3.3.0",
     "tslib": "^2.4.0",
@@ -62,6 +61,5 @@
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-react-hooks": "4.5.0",
     "mongo-mock": "4.0.0"
-  },
-  "gitHead": "350ec1fe18b9368d544fb305cc5de43a86178ef9"
+  }
 }

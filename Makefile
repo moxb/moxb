@@ -41,11 +41,16 @@ LIGHT_BLUE='\033[1;34m'
 
 .PHONY: \
 all format-code format-check format-force eslint webstorm-before-commit clean-dist
-all format-code format-check format-force eslint webstorm-before-commit clean-dist: all-dependencies
+
+all: build-packages
+	$(MAKE) -C $(EXAMPLE_DIRS) -f Makefile all
+
+format-code format-check format-force eslint webstorm-before-commit clean-dist: all-dependencies
 	for dir in $(SUB_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir $@ '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
 	done
+
 
 .PHONY: help
 help:
