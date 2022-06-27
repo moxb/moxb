@@ -11,6 +11,14 @@ Next version
 ### Fixed
 
 ### Changed
+ - Nx integration
+   - Nx officially [took over](https://blog.nrwl.io/lerna-is-dead-long-live-lerna-61259f97dbd9) lerna
+   - Nx features are being integrated to lerna for faster builds (added this to lerna.json)
+   - Build is now cached (automatically by Nx), only the changed packages are built
+   - Fixed in repo package dependencies.
+     - Breaking changes inside a dependent packages are now available without publishing
+     - I.e. add a breaking change to @moxb/moxb. Rebuild the packages. And @moxb/meteor can use the breaking changes (with IDE support)
+   - New lerna can publish partially. (Don't have to publish all packages if only 1-2 has changed)
 
 [v0.3.6](https://github.com/moxb/moxb/releases/tag/v0.3.6) (2022-05-06)
 =======================================================================================

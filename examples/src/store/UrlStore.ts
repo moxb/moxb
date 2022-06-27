@@ -1,4 +1,5 @@
-import { Text, UrlArg } from '@moxb/moxb';
+import { Text } from '@moxb/moxb';
+import { UrlArg } from '@moxb/stellar-router-core';
 
 export interface UrlStore {
     readonly color: UrlArg<string>;

@@ -1,5 +1,5 @@
 // import { createMemoryHistory } from 'history';
-import { BasicLocationManagerImpl, QueryBasedUrlSchema } from '@moxb/moxb';
+import { BasicLocationManagerImpl, QueryBasedUrlSchema } from '@moxb/stellar-router-core';
 
 export class LocationStoreImpl extends BasicLocationManagerImpl {
     public constructor() {

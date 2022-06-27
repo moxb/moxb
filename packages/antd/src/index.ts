@@ -19,7 +19,6 @@ export * from './FormItemAnt';
 export * from './TagAnt';
 export * from './ToolTipAnt';
 export * from './TreeAnt';
-export * from './routing';
 export * from './PollingUpdaterAnt';
 export * from './SliderAnt';
 export * from './RateAnt';

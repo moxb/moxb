@@ -1,9 +1,11 @@
-import { getParsedPathTokens } from '@moxb/moxb';
-import { NavigableUIContent, useLocationManager } from '@moxb/react-html';
-import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import { useStore } from '../store/Store';
 import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+
+import { getParsedPathTokens } from '@moxb/stellar-router-core';
+import { NavigableUIContent, useLocationManager } from '@moxb/stellar-router-react';
+
+import { useStore } from '../store/Store';
 
 export const DetailDisplay = observer((props: NavigableUIContent) => {
     const locationManager = useLocationManager('detail display');

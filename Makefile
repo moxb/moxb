@@ -14,12 +14,9 @@ NPM = npm
 LERNA = lerna
 JEST = jest
 
-PACKAGE_DIRS= \
-   packages/moxb \
-   packages/react-html \
-   packages/antd \
-   packages/meteor
 
+PACKAGE_DIRS_ := $(shell ls packages)
+PACKAGE_DIRS := $(foreach dir, $(PACKAGE_DIRS_), $(strip packages/$(dir)))
 
 EXAMPLE_DIRS= \
    examples
@@ -39,7 +36,11 @@ LIGHT_BLUE='\033[1;34m'
 
 .PHONY: \
 all format-code format-check format-force eslint webstorm-before-commit clean-dist
-all format-code format-check format-force eslint webstorm-before-commit clean-dist: all-dependencies
+
+all: build-packages
+	$(MAKE) -C $(EXAMPLE_DIRS) -f Makefile all
+
+format-code format-check format-force eslint webstorm-before-commit clean-dist: all-dependencies
 	for dir in $(SUB_DIRS); do \
 		echo ${LIGHT_BLUE}'=======================================' $$dir $@ '======================================='${NC}; \
 		$(MAKE) -C $$dir -f Makefile $@ || exit 1; \
@@ -132,7 +133,7 @@ LERNA_DEPENDENCIES = \
 
 # this is a bit tricky: if any of the $(LERNA_DEPENDENCIES) changes we have to call `lerna bootstrap`
 # BUT if we have called `npm install ...` in any of the packages dir, npm will install **all**
-# npm packages in the node_modules. This confuses the whole proces....
+# npm packages in the node_modules. This confuses the whole process....
 # Therefore we remove the node modules in the `package/**/` directory and run `lerna`.
 # This is quite fast, because lerna only create a few links in the node_modules
 .makehelper/lerna-bootstrap: $(LERNA_DEPENDENCIES)
@@ -201,10 +202,7 @@ admin/bin-tools:
 ###### watch-all ###################################
 .PHONY: build-packages
 build-packages: all-dependencies
-	@for dir in $(PACKAGE_DIRS); do \
-		echo ${LIGHT_BLUE}'=======================================' $$dir '======================================='${NC}; \
-		$(MAKE) -C $$dir -f Makefile all || exit 1; \
-	done
+	npx nx run-many --target=build --all
 
 # we first build all packages
 .PHONY: watch-all

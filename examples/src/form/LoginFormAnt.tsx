@@ -1,11 +1,15 @@
-import { NavigableUIContent } from '@moxb/react-html';
-import { ActionButtonAnt, FormAnt, TextFormAnt } from '@moxb/antd';
+import * as React from 'react';
+import { useEffect } from 'react';
+
+import { observer } from 'mobx-react-lite';
 import { Row } from 'antd';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import LockOutlined from '@ant-design/icons/LockOutlined';
-import { observer } from 'mobx-react-lite';
-import * as React from 'react';
-import { useEffect } from 'react';
+
+import { ActionButtonAnt, FormAnt, TextFormAnt } from '@moxb/antd';
+
+import { NavigableUIContent } from '@moxb/stellar-router-react';
+
 import { useStore } from '../store/Store';
 
 export const LoginFormAnt = observer((props: NavigableUIContent) => {

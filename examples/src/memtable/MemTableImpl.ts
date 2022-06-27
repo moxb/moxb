@@ -1,8 +1,12 @@
-import * as moxb from '@moxb/moxb';
 import { computed, makeObservable } from 'mobx';
+
+import * as moxb from '@moxb/moxb';
+import { OneOf, OneOfImpl } from '@moxb/moxb';
+
+import { TokenManager } from '@moxb/stellar-router-core';
+
 import { UrlStore } from '../store/UrlStore';
 import { ClickHandler, MemTable, MemTableData } from './MemTable';
-import { OneOf, OneOfImpl, TokenManager } from '@moxb/moxb';
 
 const firstNames = [
     'James',
@@ -163,18 +167,22 @@ export class MemTableImpl implements MemTable {
             totalAmount: () => this.filteredData.length,
         }),
     });
+
     @computed
     get data() {
         const data: MemTableData[] = this.table.sort.sortData(this.filteredData);
         return this.getCurrentPage(data);
     }
+
     private get filteredData() {
         return this.filter(this.rawData);
     }
+
     @computed
     private get rawData() {
         return createData(this.rows.value || 0);
     }
+
     private filter(data: MemTableData[]): MemTableData[] {
         if (this.table.search && this.table.search.query) {
             //simple algorithm: seach for each query independently

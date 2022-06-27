@@ -1,0 +1,68 @@
+{
+  "name": "@moxb/stellar-router-core",
+  "version": "0.0.1",
+  "description": "Stellar router: core data structures and utilities",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "make all"
+  },
+  "main": "dist",
+  "typings": "dist/",
+  "files": [
+    "dist/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moxb/moxb.git"
+  },
+  "author": "moxb (moxb.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moxb/moxb/issues"
+  },
+  "homepage": "https://github.com/moxb/moxb#readme",
+  "keywords": [
+    "mobx",
+    "UI"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/src/**/__tests__/*.(ts|tsx)"
+    ],
+    "modulePaths": [
+      "<rootDir>/peer-dependencies/node_modules"
+    ]
+  },
+  "peerDependencies": {
+    "mobx": "^6.5.0",
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/atob": "2.1.2",
+    "@types/jest": "27.5.0",
+    "@types/lodash.flatten": "4.4.7",
+    "@types/urijs": "1.19.19",
+    "@typescript-eslint/eslint-plugin": "5.21.0",
+    "@typescript-eslint/parser": "5.21.0",
+    "eslint": "8.14.0",
+    "eslint-plugin-import": "2.26.0"
+  },
+  "dependencies": {
+    "@moxb/moxb": "*",
+    "atob": "2.1.2",
+    "btoa-lite": "1.0.0",
+    "history": "5.0.0",
+    "lodash.flatten": "4.4.0",
+    "urijs": "1.19.6"
+  }
+}

@@ -67,10 +67,12 @@ npm-link-dependencies:
 	rm -rf node_modules/@moxb/* \
     		&& cd node_modules/@moxb \
     		&& ln -s ../../../packages/moxb  \
-    		&& ln -s ../../../packages/antd  \
     		&& ln -s ../../../packages/react-html  \
-    		&& ln -s ../../../packages/meteor  \
-
+    		&& ln -s ../../../packages/antd  \
+    		&& ln -s ../../../packages/stellar-router-core  \
+    		&& ln -s ../../../packages/stellar-router-react  \
+    		&& ln -s ../../../packages/stellar-router-antd  \
+    		&& ln -s ../../../packages/meteor
 
 ########################################################################################################################
 ##### Begin tsc ###################################################################################################
