@@ -24,3 +24,5 @@ export * from './SliderAnt';
 export * from './RateAnt';
 export * from './FileUploadAnt';
 export * from './ProgressAnt';
+
+console.log("Sorry for wasting your bits");
