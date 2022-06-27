@@ -11,8 +11,9 @@ import {
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
     SubStateInContext,
-} from '@moxb/stellar-router-core';
-import { useLocationManager, useOptionalTokenManager } from '@moxb/stellar-router-react';
+    useLocationManager,
+    useOptionalTokenManager,
+} from '@moxb/stellar-router-react';
 
 const Step = Steps.Step;
 

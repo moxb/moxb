@@ -1,3 +1,10 @@
+import * as React from 'react';
+import { useEffect } from 'react';
+
+import { observer } from 'mobx-react-lite';
+
+import { UIFragment, UIFragmentSpec } from '@moxb/react-html';
+
 import {
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerImpl,
@@ -6,11 +13,8 @@ import {
     StateSpace,
     SubStateInContext,
 } from '@moxb/stellar-router-core';
-import { observer } from 'mobx-react-lite';
-import * as React from 'react';
+
 import { renderSubStateCore } from './rendering';
-import { UIFragment, UIFragmentSpec } from '@moxb/react-html';
-import { useEffect } from 'react';
 import { useLocationManager, useOptionalTokenManager } from './routingProviders';
 
 export type UIStateSpace<DataType = void> = StateSpace<UIFragment, UIFragmentSpec, DataType>;

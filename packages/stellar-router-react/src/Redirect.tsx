@@ -1,7 +1,8 @@
-import { UpdateMethod, NavRef, UrlArg, MyLocation } from '@moxb/stellar-router-core';
-import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+
+import { UpdateMethod, NavRef, UrlArg, MyLocation } from '@moxb/stellar-router-core';
 import { useLocationManager } from './routingProviders';
 
 interface RedirectProps {

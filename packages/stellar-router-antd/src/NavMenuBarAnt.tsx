@@ -1,12 +1,13 @@
 import { idToDomId } from '@moxb/moxb';
+import { renderUIFragment, UIFragment, UIFragmentSpec, Anchor, AnchorProps } from '@moxb/react-html';
 import {
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerImpl,
     LocationDependentStateSpaceHandlerProps,
     SubStateInContext,
-} from '@moxb/stellar-router-core';
-import { renderUIFragment, UIFragment, UIFragmentSpec, Anchor, AnchorProps } from '@moxb/react-html';
-import { useLocationManager, useOptionalLinkGenerator } from '@moxb/stellar-router-react';
+    useLocationManager,
+    useOptionalLinkGenerator,
+} from '@moxb/stellar-router-react';
 import { Menu } from 'antd';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';

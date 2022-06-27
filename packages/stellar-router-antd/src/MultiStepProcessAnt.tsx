@@ -5,11 +5,10 @@ import { Alert, Col, Row } from 'antd';
 import { StepsProps } from 'antd/lib/steps';
 
 import { UIFragmentSpec } from '@moxb/react-html';
-import { MultiStepProcess, StateSpace } from '@moxb/stellar-router-core';
-
 import { ActionButtonAnt } from '@moxb/antd';
 
-import { LocationDependentArea } from '@moxb/stellar-router-react';
+import { MultiStepProcess, StateSpace, LocationDependentArea } from '@moxb/stellar-router-react';
+
 import { NavStepsAnt, StepStatus } from './NavStepsAnt';
 
 export interface MultiStepProcessProps<Step> {

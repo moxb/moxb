@@ -1,13 +1,8 @@
-import { idToDomId } from '@moxb/moxb';
-import {
-    LocationDependentStateSpaceHandler,
-    LocationDependentStateSpaceHandlerImpl,
-    LocationDependentStateSpaceHandlerProps,
-    SubStateInContext,
-} from '@moxb/stellar-router-core';
-import { Tabs } from 'antd';
-import { observer } from 'mobx-react-lite';
 import * as React from 'react';
+import { observer } from 'mobx-react-lite';
+import { Tabs } from 'antd';
+
+import { idToDomId } from '@moxb/moxb';
 import {
     extractUIFragmentFromSpec,
     renderUIFragment,
@@ -16,7 +11,15 @@ import {
     UIFragment,
     UIFragmentSpec,
 } from '@moxb/react-html';
-import { renderSubStateCore, useLocationManager, useOptionalTokenManager } from '@moxb/stellar-router-react';
+import {
+    LocationDependentStateSpaceHandler,
+    LocationDependentStateSpaceHandlerImpl,
+    LocationDependentStateSpaceHandlerProps,
+    SubStateInContext,
+    renderSubStateCore,
+    useLocationManager,
+    useOptionalTokenManager,
+} from '@moxb/stellar-router-react';
 
 const TabPane = Tabs.TabPane;
 

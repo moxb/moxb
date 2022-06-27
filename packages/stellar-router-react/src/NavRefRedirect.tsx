@@ -1,7 +1,9 @@
-import { getNextPathToken, Navigable, parseNavRef, UpdateMethod } from '@moxb/stellar-router-core';
-import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+
+import { getNextPathToken, Navigable, parseNavRef, UpdateMethod } from '@moxb/stellar-router-core';
+
 import { useLocationManager, useRequiredLinkGenerator } from './routingProviders';
 
 /**

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { LocationManager, TokenManager, LinkGenerator } from '@moxb/stellar-router-core';
 import { createGlobalContext } from '@moxb/react-html';
+import { LocationManager, TokenManager, LinkGenerator } from '@moxb/stellar-router-core';
 
 const LocationManagerContext = createGlobalContext<LocationManager | undefined>('location manager', undefined);
 

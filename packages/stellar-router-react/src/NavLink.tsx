@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { observer } from 'mobx-react-lite';
+import * as Anchor from '@moxb/react-html';
+
 import { CoreLinkProps, locationToUrl } from '@moxb/stellar-router-core';
 
-import * as Anchor from '@moxb/react-html';
-import { observer } from 'mobx-react-lite';
 import { useLocationManager } from './routingProviders';
 
 /**

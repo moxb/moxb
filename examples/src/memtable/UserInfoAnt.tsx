@@ -3,8 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { OneOfButtonAnt } from '@moxb/antd';
 
-import { Navigable } from '@moxb/stellar-router-core';
-import { UIStateSpace } from '@moxb/stellar-router-react';
+import { Navigable, UIStateSpace } from '@moxb/stellar-router-react';
 import { MenuAndContentAnt } from '@moxb/stellar-router-antd';
 
 import { useStore } from '../store/Store';

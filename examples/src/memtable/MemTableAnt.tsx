@@ -5,9 +5,7 @@ import { Row } from 'antd';
 
 import { Anchor, ColumnAntProps, NumericFormAnt, TableAnt, TextSearchAnt } from '@moxb/antd';
 
-import { Navigable, setArg, resetArg } from '@moxb/stellar-router-core';
-
-import { NavLink } from '@moxb/stellar-router-react';
+import { Navigable, setArg, resetArg, NavLink } from '@moxb/stellar-router-react';
 import { NavLinkButtonAnt } from '@moxb/stellar-router-antd';
 
 import { MemTableData } from './MemTable';

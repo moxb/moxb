@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { getParsedPathTokens } from '@moxb/stellar-router-core';
-import { NavigableUIContent, useLocationManager } from '@moxb/stellar-router-react';
+import { getParsedPathTokens, NavigableUIContent, useLocationManager } from '@moxb/stellar-router-react';
 
 import { useStore } from '../store/Store';
 

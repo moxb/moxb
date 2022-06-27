@@ -1,5 +1,8 @@
+import { observer } from 'mobx-react-lite';
 import { v4 as uuidv4 } from 'uuid';
+
 import { UIFragmentSpec } from '@moxb/react-html';
+
 import {
     getNextPathToken,
     isTokenEmpty,
@@ -8,7 +11,7 @@ import {
     TestLocation,
     HookMap,
 } from '@moxb/stellar-router-core';
-import { observer } from 'mobx-react-lite';
+
 import { renderSubStateCore } from './rendering';
 import { useLocationManager } from './routingProviders';
 

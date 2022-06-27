@@ -3,8 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { UIFragmentSpec } from '@moxb/react-html';
 
-import { getNextPathToken, getParsedPathTokens, Navigable } from '@moxb/stellar-router-core';
-import { useLocationManager } from '@moxb/stellar-router-react';
+import { getNextPathToken, getParsedPathTokens, Navigable, useLocationManager } from '@moxb/stellar-router-react';
 
 export const TokenDisplayer = observer((props: Navigable<UIFragmentSpec>) => {
     const locationManager = useLocationManager('token displayer');

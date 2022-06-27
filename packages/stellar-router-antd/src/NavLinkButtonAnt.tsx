@@ -6,8 +6,7 @@ import { ButtonProps } from 'antd/lib/button';
 
 import { AnchorParams } from '@moxb/react-html';
 
-import { CoreLinkProps, locationToUrl } from '@moxb/stellar-router-core';
-import { useLocationManager, NavLink } from '@moxb/stellar-router-react';
+import { CoreLinkProps, locationToUrl, useLocationManager, NavLink } from '@moxb/stellar-router-react';
 
 /** * Everything except the actual target specification
  */

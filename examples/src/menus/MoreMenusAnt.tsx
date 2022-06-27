@@ -2,8 +2,7 @@ import * as React from 'react';
 import { Col, Row } from 'antd';
 import { TextFormAnt } from '@moxb/antd';
 
-import { setArg } from '@moxb/stellar-router-core';
-import { NavLink, NavigableUIContent } from '@moxb/stellar-router-react';
+import { NavLink, NavigableUIContent, setArg } from '@moxb/stellar-router-react';
 import { NavLinkButtonAnt, MenuAndContentAnt, NavTabBarAnt } from '@moxb/stellar-router-antd';
 
 import { subMenu1, subMenu2 } from './SubMenu';
