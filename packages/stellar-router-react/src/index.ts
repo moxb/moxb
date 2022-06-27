@@ -11,3 +11,4 @@ export { NavRefRedirect } from './NavRefRedirect';
 export { NavLink, NavLinkProps, NavLinkParams } from './NavLink';
 export { BoundNavLink } from './BoundNavLink';
 export * from './routingProviders';
+export * from '@moxb/stellar-router-core';

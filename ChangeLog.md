@@ -11,6 +11,32 @@ Next version
 ### Fixed
 
 ### Changed
+
+[v0.3.11](https://github.com/moxb/moxb/releases/tag/v0.3.11) (2022-06-28)
+====================================================================================
+
+### Added
+  - `@moxb/stellar-router-react` now also exports all symbols from `stellar-router-core`,
+    so that the application doesn't have to import stuff from two packages.
+    (The antd widgets are still separate, though.)
+
+### Fixed
+
+### Changed
+
+[v0.3.8](https://github.com/moxb/moxb/releases/tag/v0.3.11) (2022-06-28)
+====================================================================================
+
+### Changed
+ - Separated routing-related functionality into new packages:
+     - `@moxb/stellar-router-core` contains what used to be in `@moxb/moxb`
+     - `@moxb/stellar-router-react` contains what used to be in `@moxb/react-html`
+     - `@moxb/stellar-router-antd` contains what used to be in `@moxb/antd`
+
+[v0.3.6](https://github.com/moxb/moxb/releases/tag/v0.3.6) (2022-05-06)
+====================================================================================
+
+### Changed
  - Nx integration
    - Nx officially [took over](https://blog.nrwl.io/lerna-is-dead-long-live-lerna-61259f97dbd9) lerna
    - Nx features are being integrated to lerna for faster builds (added this to lerna.json)
