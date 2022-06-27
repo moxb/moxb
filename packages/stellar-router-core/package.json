@@ -1,7 +1,7 @@
 {
-  "name": "@moxb/moxb",
-  "version": "0.3.6",
-  "description": "MobX data binding",
+  "name": "@moxb/stellar-router-core",
+  "version": "0.0.1",
+  "description": "Stellar router: core data structures and utilities",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "make all"
@@ -28,9 +28,7 @@
   "jest": {
     "moduleFileExtensions": [
       "ts",
-      "tsx",
       "js",
-      "jsx",
       "json",
       "node"
     ],
@@ -60,12 +58,12 @@
     "eslint-plugin-import": "2.26.0"
   },
   "dependencies": {
+    "@moxb/moxb": "*",
     "atob": "2.1.2",
     "btoa-lite": "1.0.0",
     "history": "5.0.0",
     "lodash.flatten": "4.4.0",
     "moment": "2.29.1",
     "urijs": "1.19.6"
-  },
-  "gitHead": "350ec1fe18b9368d544fb305cc5de43a86178ef9"
+  }
 }

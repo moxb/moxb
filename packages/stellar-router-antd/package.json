@@ -1,7 +1,7 @@
 {
-  "name": "@moxb/react-html",
-  "version": "0.3.6",
-  "description": "moxb React bindings",
+  "name": "@moxb/stellar-router-antd",
+  "version": "0.0.1",
+  "description": "stellar-router: ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "make all"
@@ -24,7 +24,8 @@
   "homepage": "https://github.com/moxb/moxb#readme",
   "keywords": [
     "mobx",
-    "html",
+    "antd",
+    "ant-design",
     "react",
     "UI"
   ],
@@ -48,29 +49,34 @@
       "<rootDir>/node_modules"
     ],
     "testMatch": [
-      "**/src/**/__tests__/*.(ts|tsx)"
+      "**/src/**/__tests__/*.test.(ts|tsx)"
     ]
   },
   "dependencies": {
-    "@moxb/moxb": "*"
+    "@moxb/moxb": "*",
+    "@moxb/react-html": "*",
+    "@moxb/antd": "*",
+    "@moxb/stellar-router-core": "*",
+    "@moxb/stellar-router-react": "*"
   },
   "peerDependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "antd": "^4.20.2",
     "mobx": "^6.5.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "tslib": "^2.4.0",
-    "uuid": "8.3.2"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/jest": "27.5.0",
     "@types/react": "17.0.2",
     "@types/react-test-renderer": "17.0.2",
+    "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.21.0",
     "@typescript-eslint/parser": "5.21.0",
     "eslint": "8.14.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-react-hooks": "4.5.0",
     "pretty": "2.0.0"
-  },
-  "gitHead": "350ec1fe18b9368d544fb305cc5de43a86178ef9"
+  }
 }
