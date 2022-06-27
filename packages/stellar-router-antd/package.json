@@ -64,8 +64,7 @@
     "antd": "^4.20.2",
     "mobx": "^6.5.0",
     "react": "^17.0.2",
-    "tslib": "^2.4.0",
-    "uuid": "^8.3.2"
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/jest": "27.5.0",
