@@ -1,8 +1,12 @@
 import * as React from 'react';
-import { Navigable } from '@moxb/moxb';
-import { UIStateSpace } from '@moxb/react-html';
-import { MenuAndContentAnt, OneOfButtonAnt } from '@moxb/antd';
 import { observer } from 'mobx-react-lite';
+
+import { OneOfButtonAnt } from '@moxb/antd';
+
+import { Navigable } from '@moxb/stellar-router-core';
+import { UIStateSpace } from '@moxb/stellar-router-react';
+import { MenuAndContentAnt } from '@moxb/stellar-router-antd';
+
 import { useStore } from '../store/Store';
 
 export const UserInfoAnt = observer((props: Navigable<any>) => {

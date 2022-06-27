@@ -1,4 +1,5 @@
-import { LocationManager, TextImpl, TokenManager, UrlArg } from '@moxb/moxb';
+import { TextImpl } from '@moxb/moxb';
+import { LocationManager, TokenManager, UrlArg } from '@moxb/stellar-router-core';
 import { UrlStore } from './UrlStore';
 
 export class UrlStoreImpl implements UrlStore {

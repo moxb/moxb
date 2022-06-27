@@ -1,4 +1,4 @@
-import { NavigableUIContent, UIStateSpace, rootOrDetails } from '@moxb/react-html';
+import { NavigableUIContent, UIStateSpace, rootOrDetails } from '@moxb/stellar-router-react';
 import * as React from 'react';
 // @ts-ignore
 import blueUrl from '../../images/blue_blocks.png';

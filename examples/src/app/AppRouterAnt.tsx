@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Layout, Row } from 'antd';
 
-import { LocationDependentArea } from '@moxb/react-html';
-import { NavMenuBarAnt } from '@moxb/antd';
+import { LocationDependentArea } from '@moxb/stellar-router-react';
+import { NavMenuBarAnt } from '@moxb/stellar-router-antd';
 
 import { mainMenu } from '../MenuStructure';
 

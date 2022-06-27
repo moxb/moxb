@@ -1,4 +1,10 @@
-import { LocationManager, TokenManager, TokenManagerImpl, LinkGenerator, LinkGeneratorImpl } from '@moxb/moxb';
+import {
+    LocationManager,
+    TokenManager,
+    TokenManagerImpl,
+    LinkGenerator,
+    LinkGeneratorImpl,
+} from '@moxb/stellar-router-core';
 import { Application } from '../app/Application';
 import { ApplicationImpl } from '../app/ApplicationImpl';
 import { MemTable } from '../memtable/MemTable';

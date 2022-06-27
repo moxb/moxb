@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { defineNavRef } from '@moxb/moxb';
-import { UIStateSpace, NavRefRedirect } from '@moxb/react-html';
+import { defineNavRef } from '@moxb/stellar-router-core';
+import { UIStateSpace, NavRefRedirect } from '@moxb/stellar-router-react';
 // @ts-ignore
 import lockImgUrl from '../images/lock.jpg';
 import { ApplicationAnt } from './app/ApplicationAnt';
