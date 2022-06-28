@@ -1,5 +1,5 @@
 {
-  "name": "@moxb/shards-meteor-process-manager-antdr",
+  "name": "@moxb/shards-meteor-process-manager-antd",
   "version": "0.3.22",
   "description": "Shards: Meteor process manager - antd UI",
   "scripts": {
