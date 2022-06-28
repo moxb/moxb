@@ -1,5 +1,5 @@
 import { extractErrorString, SortColumn, t, TableImpl, TableOptions, TablePaginationImpl, toId } from '@moxb/moxb';
-import { Mongo } from 'meteor/mongo';
+import type { Mongo } from 'meteor/mongo';
 import { MeteorDataFetcherDone } from './MeteorDataFetcher';
 import { MeteorTableData, MeteorTableFetcher, MeteorTableQuery } from './MeteorTableFetcher';
 import { MeteorTableFetcherImpl } from './MeteorTableFetcherImpl';

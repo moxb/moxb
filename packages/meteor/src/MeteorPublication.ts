@@ -1,5 +1,5 @@
 import { getDebugLogger } from '@moxb/moxb';
-import { Mongo } from 'meteor/mongo';
+import type { Mongo } from 'meteor/mongo';
 
 export interface MeteorPublicationHandle<Input, Output> {
     /**
@@ -117,18 +117,8 @@ export interface RegisterMeteorPublicationProps<Input, Output> {
 export function registerMeteorPublication<Input, Output>(
     params: RegisterMeteorPublicationProps<Input, Output>
 ): MeteorPublicationHandle<Input, Output> {
-    const {
-        name,
-        collection,
-        prePublish,
-        selector,
-        clientSelector,
-        skipIf,
-        auth,
-        options,
-        clientOptions,
-        debugMode,
-    } = params;
+    const { name, collection, prePublish, selector, clientSelector, skipIf, auth, options, clientOptions, debugMode } =
+        params;
     const logger = getDebugLogger(`publication ${name}`, debugMode);
 
     const getServerCursor = (args: Input, sub: Subscription) => {

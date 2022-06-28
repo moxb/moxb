@@ -1,4 +1,4 @@
-import { Mongo } from 'meteor/mongo';
+import type { Mongo } from 'meteor/mongo';
 import { MeteorDataFetcher } from './MeteorDataFetcher';
 
 export interface MeteorTableData<T> {
