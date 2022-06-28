@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { highlightSearchResult } from './highlighter';
 
-import './highlighter.css';
+import '../highlighter.css';
 const DEFAULT_CLASS = 'highlighter-text-match';
 
 export const highlightedText = (text: string, pattern: string, className = DEFAULT_CLASS) => (
