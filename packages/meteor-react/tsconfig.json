@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES5",
+        "jsx": "react",
+        "lib": ["dom","es6","es2015","es2017", "dom.iterable","scripthost"],
+        "inlineSourceMap": true,
+        "importHelpers":true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strict": true,
+        "outDir": "./dist",
+        "declaration": true,
+        "skipLibCheck": true,
+        "strictNullChecks": true,
+        "useDefineForClassFields": true,
+        "removeComments": false,
+        "baseUrl": "./src",
+        "paths": {
+            "*": [
+                "*",
+                "../../../node_modules/*"
+            ]
+        }
+    },
+    "exclude": [
+        "./node_modules",
+        "./dist"
+    ]
+}

@@ -1,6 +1,6 @@
 // import { Meteor } from 'meteor/meteor';
 
-export type MeteorCallback<T> = (error?: any, result?: T) => void;
+export type MeteorCallback<T> = (error: Error | Meteor.Error | undefined, result?: T) => void;
 
 /**
  * If no callback given, it throws an error if the client simulation fails.

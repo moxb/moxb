@@ -8,6 +8,9 @@ Next version
 
 ### Added
 - Added the `@moxb/shards-accounts-ui-antd` package
+- `@moxb/meteor`: add `auth` config flag support when defining methods
+   ... for automated permission checks
+- `@moxb/meteor-react` package for Meteor <--> React hooks integrations
 
 ### Fixed
 

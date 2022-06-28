@@ -2,6 +2,8 @@ import { observable } from 'mobx';
 import { meteorCall, MeteorCallback } from './MeteorCall';
 import { getDebugLogger } from '@moxb/moxb';
 
+import MethodThisType = Meteor.MethodThisType;
+
 /**
  * Here, we provide a type-safe way to define and call a Meteor method.
  */
@@ -35,13 +37,18 @@ export interface MeteorMethodDefinition<Input, Output> {
     unblock?: boolean;
 
     /**
+     * Do we need to check authorization before executing the call?
+     */
+    auth?: (input: Input, userId: string | null) => void;
+
+    /**
      * The code to execute (on the server side) when the method is executed.
      *
      * @param input The input data. Please provide all arguments within a single object. (Like props in React)
      *
-     * You can throw normal Errors in this code, they will be converted into Meteor.Error instances
+     * You can throw normal Errors in this code, they will be converted into Meteor.Errors
      */
-    execute: (input: Input) => Output;
+    execute: (input: Input, userId: string | null, context: MethodThisType) => Output;
 }
 
 /**
@@ -79,13 +86,13 @@ export interface MeteorMethodControl<Input, Output> {
 /**
  * Create a Meteor.Error out of any normal Error.
  */
-function convertError(e: any): Meteor.Error {
-    if (e.errorType === 'Meteor.Error') {
-        return e as Meteor.Error;
+function convertError(e: Error): Meteor.Error {
+    if ((e as any).errorType === 'Meteor.Error') {
+        return e as any as Meteor.Error;
     }
-    const error = e.error ? e.error : e.toString();
+    const error = (e as any).error ? (e as any).error : e.toString();
     const message = e.message;
-    const details = e.details || e.stack || '';
+    const details = (e as any).details || e.stack || '';
     return new Meteor.Error(error, message, details);
 }
 
@@ -99,7 +106,7 @@ export function wrapException<A extends (...data: any[]) => unknown>(f: A): A {
             // eslint-disable-next-line prefer-spread
             return f.apply(undefined, args);
         } catch (e) {
-            throw convertError(e);
+            throw convertError(e as Error);
         }
     }) as any;
 }
@@ -110,23 +117,28 @@ export function wrapException<A extends (...data: any[]) => unknown>(f: A): A {
 export function registerMeteorMethod<Input, Output>(
     method: MeteorMethodDefinition<Input, Output>
 ): MeteorMethodControl<Input, Output> {
-    const { name, debug, execute, serverOnly, unblock } = method;
+    const { name, debug, execute, serverOnly, unblock, auth } = method;
     const logger = getDebugLogger('Method ' + name, debug);
     if (Meteor.isServer || !serverOnly) {
         logger.log('Publishing Meteor method', name);
         Meteor.methods({
-            [name](input: Input) {
+            [name]: function (this, input: Input) {
                 // console.log('***Gonna check out if', name, 'is running in a simulation', this);
                 // if (!this || this.isSimulation) {
                 //     return;
                 // }
+
+                if (auth) {
+                    auth(input, this.userId);
+                }
+
                 logger.log('with data', input);
 
                 if (unblock) {
                     this.unblock();
                 }
 
-                const result = wrapException(execute)(input);
+                const result = wrapException(execute)(input, this.userId, this);
                 logger.log('returns', result);
 
                 return result;

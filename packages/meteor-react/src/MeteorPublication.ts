@@ -1,0 +1,221 @@
+import { useState } from 'react';
+import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
+import { getDebugLogger } from '@moxb/moxb';
+
+export interface PublicationHandle<Input, Output> {
+    /**
+     * Subscribe to this publication, with a given set of args
+     */
+    subscribe(args: Input): Meteor.SubscriptionHandle;
+
+    /**
+     * Try to read the data from this publication.
+     *
+     * Please note that in order to access to data, first you need to be subscribed.
+     */
+    find(args: Input): Output[];
+
+    /**
+     * Use this as a React hook to read data from this publication
+     */
+    useAsHook(args: Input, useCase: string): [() => boolean, Output[], string | undefined];
+}
+
+export interface RegisterPublicationProps<Input, Output> {
+    /**
+     * What should be the name of this publication?
+     */
+    name: string;
+
+    /**
+     * The collection to search
+     */
+    collection: Mongo.Collection<Output>;
+
+    /***
+     * Code to run inside the Meteor publication method.
+     *
+     * (Optional)
+     */
+    prePublish?: (input: Input, userId: string | null, sub: Subscription) => void;
+
+    /**
+     * How to derive the search query for Collection.find() from the input args?
+     */
+    selector: (input: Input, userId?: string | null, sub?: Subscription) => Mongo.Selector<Output>;
+
+    /**
+     * Selector for Collection.find() when running on the client side.
+     *
+     * If not given, the same selector will be used as on the server side.
+     */
+    clientSelector?: (input: Input) => Mongo.Selector<Output>;
+
+    /**
+     * Should we perhaps stop the subscription on some condition of the output?
+     *
+     * This will be evaluated on the client side.
+     */
+    skipIf?: (input: Input) => boolean;
+
+    /**
+     * Does this public require authorization?
+     *
+     * If so, please check permissions here.
+     * Throw an exception is access should be denies.
+     */
+    auth?: (input: Input, userId: string | null, sub: Subscription) => void;
+
+    /**
+     * Options for Collection.find()
+     */
+    options?: (input: Input, userId?: string | null, sub?: Subscription) => Mongo.Options<Output>;
+
+    /**
+     * Options for Collection.find() when running on the client side.
+     *
+     * If not given, the same options will be used as on the server side.
+     */
+    clientOptions?: (input: Input) => Mongo.Options<Output>;
+
+    /**
+     * Should we output debug information about using this publication?
+     */
+    debugMode?: boolean;
+}
+
+/**
+ * A comfy way to define a Meteor publication
+ *
+ * This is a wrapper around Meteor.publish(), Meteor.subscribe() and Collection.find().
+ * The idea is that you register your publication with this function (in common code),
+ * and this makes it easier to use it on the client side.
+ *
+ * There are 4 main advantages compared to upstream tools:
+ *  - You don't have to remember (and can't mistype) the name of the publication,
+ *    since it's imported as an object
+ *  - The input parameters are type-safe. If you forgot to specify a value, you get an error.
+ *  - The same filtering is automatically applied on both the server and the client side.
+ *    This can be useful when you have multiple subscriptions on the client side,
+ *    and the resulting data sets are automatically merged, but you still want to separate them.
+ *    In those situations, you have to set up the filtering again on the client side.
+ *    This wrapper takes care of that.
+ *  - We also provide a React hook which handles both the subscription and fetching the data.
+ */
+export function registerMeteorPublication<Input, Output>(
+    params: RegisterPublicationProps<Input, Output>
+): PublicationHandle<Input, Output> {
+    const { name, collection, prePublish, selector, clientSelector, skipIf, auth, options, clientOptions, debugMode } =
+        params;
+    const logger = getDebugLogger(`publication ${name}`, debugMode);
+
+    const getServerCursor = (args: Input, sub: Subscription) => {
+        const currentSelector = selector(args, sub.userId, sub);
+        const currentOptions = options ? options(args, sub.userId, sub) : undefined;
+        logger.log('Finding with selector', JSON.stringify(currentSelector), 'options', JSON.stringify(currentOptions));
+        return collection.find(currentSelector, currentOptions);
+    };
+    const getClientCursor = (args: Input) => {
+        const selectors = clientSelector ? clientSelector(args) : selector(args);
+        const cursor = collection.find(
+            selectors,
+            clientOptions ? clientOptions(args) : options ? options(args) : undefined
+        );
+        logger.log(
+            'filtering with',
+            JSON.stringify(selectors),
+            'results:',
+            cursor.count(),
+            'out of',
+            collection.find({}).count()
+        );
+        return cursor;
+    };
+
+    if (Meteor.isServer) {
+        Meteor.publish(name, function (this, args: Input) {
+            try {
+                if (auth) {
+                    logger.log('Checking auth');
+                    auth(args, this.userId, this);
+                }
+                if (prePublish) {
+                    logger.log('Doing pre-publish');
+                    prePublish(args, this.userId, this);
+                }
+                logger.log('Accessing with args:', JSON.stringify(args));
+                const cursor = getServerCursor(args, this);
+                logger.log('Number of results:', cursor.count());
+                return cursor;
+            } catch (error: any) {
+                logger.log('Exception while subscribing', error.toString());
+                this.error(error);
+            }
+        });
+    }
+
+    const shouldSkip = (args: Input) => !!skipIf && skipIf(args);
+
+    const callbacks = {
+        onReady: () => logger.log('Subscription is ready now'),
+        onStop: (error: any) => {
+            if (error) {
+                console.log(`Meteor subscription "${name}" has been stopped: ${error.toString()}`);
+            }
+        },
+    };
+
+    return {
+        subscribe: (args): Meteor.SubscriptionHandle => {
+            const skip = shouldSkip(args);
+            if (skip) {
+                logger.log('Skipping subscription');
+                return {
+                    ready: () => true,
+                    stop: () => {
+                        // Nothing to stop here
+                    },
+                };
+            } else {
+                const subscribeParams: [string, Input, Record<string, any>] = [name, args, callbacks];
+                logger.log('Calling Meteor.subscribe', subscribeParams);
+                return Meteor.subscribe(...subscribeParams);
+            }
+        },
+        find: (args) => {
+            logger.log('Returning data');
+            return getClientCursor(args).fetch();
+        },
+        useAsHook: (args, _useCase) => {
+            // logger.log('Creating state hooks for using publication', name, 'useCase', useCase);
+            const [error, setError] = useState<string | undefined>();
+            const skip = shouldSkip(args);
+            const isReady = () =>
+                useSubscribe(skip ? undefined : name, args, {
+                    onReady: () => logger.log('Subscription is ready now'),
+                    onStop: (stopError: any) => {
+                        if (stopError) {
+                            const errorString = stopError.messsage || stopError.toString();
+                            console.log(`Meteor subscription "${name}" has been stopped: ${errorString}`);
+                            setError(errorString);
+                        }
+                    },
+                })() && !error;
+            return [
+                () => {
+                    const loading = isReady();
+                    logger.log('Checking if loading?', skip ? 'We are skipping this.' : '', loading);
+                    return loading;
+                },
+                useTracker(() => getClientCursor(args).fetch()),
+                // useFind(() => {
+                //     logger.log('Asking for cursor for data');
+                //     const cursor = getClientCursor(args);
+                //     logger.log('Returning cursor for data', cursor.count(), 'records');
+                //     return cursor;
+                // }),
+                error,
+            ];
+        },
+    };
+}
