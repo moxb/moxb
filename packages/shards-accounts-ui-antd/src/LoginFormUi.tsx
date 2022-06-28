@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Alert, Button, Form, Input, Spin } from 'antd';
 import { renderUIFragment, UIFragment } from '@moxb/react-html';
 
-import './login-form.css';
+import './account-forms.css';
 
 export interface LoginFormUIProps {
     /**
