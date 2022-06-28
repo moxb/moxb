@@ -27,6 +27,7 @@
     "antd",
     "ant-design",
     "react",
+    "meteor",
     "UI"
   ],
   "jest": {

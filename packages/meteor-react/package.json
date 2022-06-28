@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/moxb/moxb#readme",
   "keywords": [
-    "mobx",
+    "react",
     "meteor"
   ],
   "jest": {

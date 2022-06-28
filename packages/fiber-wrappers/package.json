@@ -22,8 +22,7 @@
   },
   "homepage": "https://github.com/moxb/moxb#readme",
   "keywords": [
-    "mobx",
-    "UI"
+    "fibers"
   ],
   "jest": {
     "moduleFileExtensions": [

@@ -26,7 +26,7 @@
     "mobx",
     "antd",
     "ant-design",
-    "react",
+    "router",
     "UI"
   ],
   "jest": {
