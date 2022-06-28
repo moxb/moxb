@@ -10,6 +10,11 @@ Next version
 ### Fixed
 
 ### Changed
+
+[v0.3.15](https://github.com/moxb/moxb/releases/tag/v0.3.15) (2022-06-29)
+=======================================================================================
+
+### Changed
 - Moved some stuff from `@moxb/meteor-react` to `@moxb/meteor`
 
 [v0.3.14](https://github.com/moxb/moxb/releases/tag/v0.3.14) (2022-06-29)
