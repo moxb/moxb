@@ -8,9 +8,14 @@ Next version
 ### Added
 
 ### Fixed
-- `@moxb/meteor`: Tightened type inference for `registerMeteorPublication()`
 
 ### Changed
+
+[v0.3.16](https://github.com/moxb/moxb/releases/tag/v0.3.15) (2022-06-29)
+=======================================================================================
+
+### Fixed
+- `@moxb/meteor`: Tightened type inference for `registerMeteorPublication()`
 
 [v0.3.15](https://github.com/moxb/moxb/releases/tag/v0.3.15) (2022-06-29)
 =======================================================================================
