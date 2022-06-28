@@ -8,8 +8,10 @@ Next version
 
 ### Added
 - Added the `@mobx/fiber-wrappers` package
+- Add `@moxb/shards-meteor-process-manager-{core,server,antd}` packages
 
 ### Fixed
+- Tune dependency versions to avoid parallel react versions
 
 ### Changed
 
