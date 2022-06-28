@@ -1,6 +1,6 @@
 {
   "name": "@moxb/fiber-wrappers",
-  "version": "0.3.21",
+  "version": "0.3.22",
   "description": "Wrap async functions with sync functions using (fiber) Futures",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
