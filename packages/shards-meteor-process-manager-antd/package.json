@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-meteor-process-manager-antd",
-  "version": "0.3.22",
+  "version": "0.3.23",
   "description": "Shards: Meteor process manager - antd UI",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
