@@ -7,6 +7,7 @@ Next version
 =======================================================================================
 
 ### Added
+- Added the `@mobx/fiber-wrappers` package
 
 ### Fixed
 
