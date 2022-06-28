@@ -7,11 +7,16 @@ Next version
 =======================================================================================
 
 ### Added
-- `@moxb/react-html`: Added `HighlightedText` widget
 
 ### Fixed
 
 ### Changed
+
+[v0.3.18](https://github.com/moxb/moxb/releases/tag/v0.3.18) (2022-06-29)
+=======================================================================================
+
+### Added
+- `@moxb/react-html`: Added `HighlightedText` widget
 
 [v0.3.17](https://github.com/moxb/moxb/releases/tag/v0.3.17) (2022-06-29)
 =======================================================================================
