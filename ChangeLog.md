@@ -5,14 +5,20 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 Next version
 =======================================================================================
+
 ### Added
+
+### Fixed
+
+### Changed
+
+[v0.3.17](https://github.com/moxb/moxb/releases/tag/v0.3.17) (2022-06-29)
+=======================================================================================
 
 ### Fixed
 - Fix package build scripts so that CSS files are bundled, too
 
-### Changed
-
-[v0.3.16](https://github.com/moxb/moxb/releases/tag/v0.3.15) (2022-06-29)
+[v0.3.16](https://github.com/moxb/moxb/releases/tag/v0.3.16) (2022-06-29)
 =======================================================================================
 
 ### Fixed
