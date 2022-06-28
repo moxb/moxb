@@ -7,6 +7,7 @@ Next version
 =======================================================================================
 
 ### Added
+- `@moxb/react-html`: Added `HighlightedText` widget
 
 ### Fixed
 
