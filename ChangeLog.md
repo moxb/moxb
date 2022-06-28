@@ -12,6 +12,12 @@ Next version
 
 ### Changed
 
+[v0.3.24](https://github.com/moxb/moxb/releases/tag/v0.3.24) (2022-06-28)
+=======================================================================================
+### Changed
+- Removed `@moxb/shards-meteor-process-manager-{core,server,antd}` packages
+  (They will need to be re-published as Meteor packages)
+
 [v0.3.22](https://github.com/moxb/moxb/releases/tag/v0.3.22) (2022-06-28)
 =======================================================================================
 
