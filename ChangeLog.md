@@ -8,6 +8,7 @@ Next version
 ### Added
 
 ### Fixed
+ - Separate client and server side of `@moxb/shards-meteor-account-antd`
 
 ### Changed
 
@@ -19,7 +20,7 @@ Next version
 - `@moxb/meteor`: add `auth` config flag support when defining methods
    ... for automated permission checks
 - `@moxb/meteor-react` package for Meteor <--> React hooks integrations
-- `@moxb/shards-meteor-accounts-antd` package for automated user account
+- `@moxb/shards-meteor-account-antd` package for automated user account
    handling for Meteor applications.
 
 [v0.3.11](https://github.com/moxb/moxb/releases/tag/v0.3.11) (2022-06-28)
