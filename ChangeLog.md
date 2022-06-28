@@ -7,45 +7,52 @@ Next version
 =======================================================================================
 
 ### Added
+
+### Fixed
+
+### Changed
+
+[v0.3.22](https://github.com/moxb/moxb/releases/tag/v0.3.22) (2022-06-28)
+=======================================================================================
+
+### Added
 - Added the `@mobx/fiber-wrappers` package
 - Add `@moxb/shards-meteor-process-manager-{core,server,antd}` packages
 
 ### Fixed
 - Tune dependency versions to avoid parallel react versions
 
-### Changed
-
-[v0.3.18](https://github.com/moxb/moxb/releases/tag/v0.3.18) (2022-06-29)
+[v0.3.18](https://github.com/moxb/moxb/releases/tag/v0.3.18) (2022-06-28)
 =======================================================================================
 
 ### Added
 - `@moxb/react-html`: Added `HighlightedText` widget
 
-[v0.3.17](https://github.com/moxb/moxb/releases/tag/v0.3.17) (2022-06-29)
+[v0.3.17](https://github.com/moxb/moxb/releases/tag/v0.3.17) (2022-06-28)
 =======================================================================================
 
 ### Fixed
 - Fix package build scripts so that CSS files are bundled, too
 
-[v0.3.16](https://github.com/moxb/moxb/releases/tag/v0.3.16) (2022-06-29)
+[v0.3.16](https://github.com/moxb/moxb/releases/tag/v0.3.16) (2022-06-28)
 =======================================================================================
 
 ### Fixed
 - `@moxb/meteor`: Tightened type inference for `registerMeteorPublication()`
 
-[v0.3.15](https://github.com/moxb/moxb/releases/tag/v0.3.15) (2022-06-29)
+[v0.3.15](https://github.com/moxb/moxb/releases/tag/v0.3.15) (2022-06-28)
 =======================================================================================
 
 ### Changed
 - Moved some stuff from `@moxb/meteor-react` to `@moxb/meteor`
 
-[v0.3.14](https://github.com/moxb/moxb/releases/tag/v0.3.14) (2022-06-29)
+[v0.3.14](https://github.com/moxb/moxb/releases/tag/v0.3.14) (2022-06-28)
 =======================================================================================
 
 ### Fixed
 - Separate client and server side of `@moxb/shards-meteor-account-antd`
 
-[v0.3.13](https://github.com/moxb/moxb/releases/tag/v0.3.13) (2022-06-29)
+[v0.3.13](https://github.com/moxb/moxb/releases/tag/v0.3.13) (2022-06-28)
 =======================================================================================
 
 ### Added
@@ -56,7 +63,7 @@ Next version
 - `@moxb/shards-meteor-account-antd` package for automated user account
    handling for Meteor applications.
 
-[v0.3.11](https://github.com/moxb/moxb/releases/tag/v0.3.11) (2022-06-28)
+[v0.3.11](https://github.com/moxb/moxb/releases/tag/v0.3.11) (2022-06-27)
 ====================================================================================
 
 ### Added
@@ -64,7 +71,7 @@ Next version
     so that the application doesn't have to import stuff from two packages.
     (The antd widgets are still separate, though.)
 
-[v0.3.8](https://github.com/moxb/moxb/releases/tag/v0.3.11) (2022-06-28)
+[v0.3.8](https://github.com/moxb/moxb/releases/tag/v0.3.11) (2022-06-27)
 ====================================================================================
 
 ### Changed
