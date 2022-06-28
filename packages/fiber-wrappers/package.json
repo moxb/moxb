@@ -56,5 +56,6 @@
     "eslint-plugin-import": "2.26.0"
   },
   "dependencies": {
+    "fibers": "5.0.1"
   }
 }
