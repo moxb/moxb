@@ -1,8 +1,12 @@
-import { useState } from 'react';
-import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 import { getDebugLogger } from '@moxb/moxb';
+import { Mongo } from 'meteor/mongo';
 
-export interface PublicationHandle<Input, Output> {
+export interface MeteorPublicationHandle<Input, Output> {
+    /**
+     * A user-readable identifier (for debugging)
+     */
+    name: string;
+
     /**
      * Subscribe to this publication, with a given set of args
      */
@@ -16,12 +20,20 @@ export interface PublicationHandle<Input, Output> {
     find(args: Input): Output[];
 
     /**
-     * Use this as a React hook to read data from this publication
+     * Find out if this publication will skip returning any results for a given set if input args
      */
-    useAsHook(args: Input, useCase: string): [() => boolean, Output[], string | undefined];
+    willSkip(args: Input): boolean;
+
+    /**
+     * Get a client cursor for the output of this publication
+     *
+     * (This is a very technical internal feature, you probably don't it, unless
+     * you want to build a low-lever library integrating with this code.)
+     */
+    getClientCursor(args: Input): Mongo.Cursor<Output, any>;
 }
 
-export interface RegisterPublicationProps<Input, Output> {
+export interface RegisterMeteorPublicationProps<Input, Output> {
     /**
      * What should be the name of this publication?
      */
@@ -103,20 +115,10 @@ export interface RegisterPublicationProps<Input, Output> {
  *  - We also provide a React hook which handles both the subscription and fetching the data.
  */
 export function registerMeteorPublication<Input, Output>(
-    params: RegisterPublicationProps<Input, Output>
-): PublicationHandle<Input, Output> {
-    const {
-        name,
-        collection,
-        prePublish,
-        selector,
-        clientSelector,
-        skipIf,
-        auth,
-        options,
-        clientOptions,
-        debugMode,
-    } = params;
+    params: RegisterMeteorPublicationProps<Input, Output>
+): MeteorPublicationHandle<Input, Output> {
+    const { name, collection, prePublish, selector, clientSelector, skipIf, auth, options, clientOptions, debugMode } =
+        params;
     const logger = getDebugLogger(`publication ${name}`, debugMode);
 
     const getServerCursor = (args: Input, sub: Subscription) => {
@@ -176,6 +178,7 @@ export function registerMeteorPublication<Input, Output>(
     };
 
     return {
+        name,
         subscribe: (args): Meteor.SubscriptionHandle => {
             const skip = shouldSkip(args);
             if (skip) {
@@ -192,40 +195,11 @@ export function registerMeteorPublication<Input, Output>(
                 return Meteor.subscribe(...subscribeParams);
             }
         },
+        getClientCursor,
         find: (args) => {
             logger.log('Returning data');
             return getClientCursor(args).fetch();
         },
-        useAsHook: (args, _useCase) => {
-            // logger.log('Creating state hooks for using publication', name, 'useCase', useCase);
-            const [error, setError] = useState<string | undefined>();
-            const skip = shouldSkip(args);
-            const isReady = () =>
-                useSubscribe(skip ? undefined : name, args, {
-                    onReady: () => logger.log('Subscription is ready now'),
-                    onStop: (stopError: any) => {
-                        if (stopError) {
-                            const errorString = stopError.messsage || stopError.toString();
-                            console.log(`Meteor subscription "${name}" has been stopped: ${errorString}`);
-                            setError(errorString);
-                        }
-                    },
-                })() && !error;
-            return [
-                () => {
-                    const loading = isReady();
-                    logger.log('Checking if loading?', skip ? 'We are skipping this.' : '', loading);
-                    return loading;
-                },
-                useTracker(() => getClientCursor(args).fetch()),
-                // useFind(() => {
-                //     logger.log('Asking for cursor for data');
-                //     const cursor = getClientCursor(args);
-                //     logger.log('Returning cursor for data', cursor.count(), 'records');
-                //     return cursor;
-                // }),
-                error,
-            ];
-        },
+        willSkip: shouldSkip,
     };
 }
