@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-meteor-account-antd",
-  "version": "0.3.16",
+  "version": "0.3.17",
   "description": "Shards: basic meteor user account handling with ant design",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -56,7 +56,7 @@
     "@moxb/meteor": "^0.3.16",
     "@moxb/meteor-react": "^0.3.16",
     "@moxb/react-html": "^0.3.13",
-    "@moxb/shards-account-ui-antd": "^0.3.13",
+    "@moxb/shards-account-ui-antd": "^0.3.17",
     "@moxb/stellar-router-react": "^0.3.13"
   },
   "peerDependencies": {
