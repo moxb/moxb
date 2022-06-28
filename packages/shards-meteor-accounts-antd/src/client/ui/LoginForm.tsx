@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useMeteorLoggingIn } from '/imports/lib/stack/meteor-magic';
-import type { LoginFormUIProps } from '/packages/shards-accounts-ui-antd/src/LoginFormUi';
-import { LoginFormUI } from '/packages/shards-accounts-ui-antd/src/LoginFormUi';
-import { forgotPasswordLink, registerLink } from '/imports/lib/meteor-accounts-ui-antd/client/ui/links';
+import { useMeteorLoggingIn } from '@moxb/meteor-react';
+import { LoginFormUI, LoginFormUIProps } from '@moxb/shards-account-ui-antd';
+import { forgotPasswordLink, registerLink } from './links';
 
-interface LoginFormProps extends Pick<LoginFormUIProps, 'splash'> {}
+type LoginFormProps = Pick<LoginFormUIProps, 'splash'>;
 
 export function LoginForm(props: LoginFormProps) {
     const [error, setError] = useState<string | undefined>();
@@ -18,8 +17,8 @@ export function LoginForm(props: LoginFormProps) {
             onLogin={({ username, password }) => {
                 // console.log('Attempting to log in as', username);
                 setError(undefined);
-                Meteor.loginWithPassword(username, password, (error: any) => {
-                    setError(error?.reason);
+                Meteor.loginWithPassword(username, password, (loginError: any) => {
+                    setError(loginError?.reason);
                 });
             }}
             registerLink={registerLink}

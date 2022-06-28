@@ -1,8 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 
 import type { UIFragment } from '@moxb/react-html';
 import { MyLocation, StateSpace, UrlArg, LocationDependentArea, redirect } from '@moxb/stellar-router-react';
-import { useMeteorUser } from '/imports/lib/stack/meteor-magic';
+import { useMeteorUser } from '@moxb/meteor-react';
+
 import { LoginForm } from '../ui/LoginForm';
 import { RegistrationForm } from '../ui/RegistrationForm';
 import { ForgotPasswordForm } from '../ui/ForgotPasswordForm';

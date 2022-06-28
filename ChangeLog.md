@@ -11,6 +11,8 @@ Next version
 - `@moxb/meteor`: add `auth` config flag support when defining methods
    ... for automated permission checks
 - `@moxb/meteor-react` package for Meteor <--> React hooks integrations
+- `@moxb/shards-meteor-accounts-antd` package for automated user account
+   handling for Meteor applications.
 
 ### Fixed
 

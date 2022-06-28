@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { loginLink } from '/imports/lib/meteor-accounts-ui-antd/client/ui/links';
-import {
-    PasswordResetFormUI,
-    PasswordResetFormUIProps,
-} from '/packages/shards-accounts-ui-antd/src/PasswordResetFormUi';
+import * as React from 'react';
+import { useState } from 'react';
+
 import { observer } from 'mobx-react-lite';
+
 import { useLocationManager } from '@moxb/stellar-router-react';
+
+import { PasswordResetFormUI, PasswordResetFormUIProps } from '@moxb/shards-account-ui-antd';
+import { loginLink } from './links';
 
 type PasswordResetFormProps = Pick<PasswordResetFormUIProps, 'splash'>;
 

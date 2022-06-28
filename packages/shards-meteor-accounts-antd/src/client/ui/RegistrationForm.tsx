@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import type { RegistrationFormUIProps } from '/packages/shards-accounts-ui-antd/src/RegistrationFormUi';
-import { RegistrationFormUI } from '/packages/shards-accounts-ui-antd/src/RegistrationFormUi';
-import { forgotPasswordLink, loginLink } from '/imports/lib/meteor-accounts-ui-antd/client/ui/links';
+import * as React from 'react';
+import { useState } from 'react';
+import { RegistrationFormUI, RegistrationFormUIProps } from '@moxb/shards-account-ui-antd';
 
-interface RegistrationFormProps extends Pick<RegistrationFormUIProps, 'splash'> {}
+import { forgotPasswordLink, loginLink } from './links';
+
+type RegistrationFormProps = Pick<RegistrationFormUIProps, 'splash'>;
 
 export function RegistrationForm(props: RegistrationFormProps) {
     const { splash } = props;
@@ -28,9 +29,9 @@ export function RegistrationForm(props: RegistrationFormProps) {
                         email,
                         password: password1,
                     },
-                    (error: any) => {
+                    (createError: any) => {
                         setPending(false);
-                        setError(error?.reason);
+                        setError(createError?.reason);
                     }
                 );
             }}
