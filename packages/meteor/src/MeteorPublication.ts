@@ -42,7 +42,7 @@ export interface RegisterMeteorPublicationProps<Input, Output> {
     /**
      * The collection to search
      */
-    collection: Mongo.Collection<Output>;
+    collection: Mongo.Collection<Output, Output>;
 
     /***
      * Code to run inside the Meteor publication method.

@@ -8,6 +8,7 @@ Next version
 ### Added
 
 ### Fixed
+- `@moxb/meteor`: Tightened type inference for `registerMeteorPublication()`
 
 ### Changed
 
