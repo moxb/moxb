@@ -7,3 +7,4 @@ export { Anchor, AnchorParams, AnchorProps } from './Anchor';
 
 export { CountingClock, CountingClockProps } from './CountingClock';
 export { createGlobalContext } from './globalContext';
+export { highlightedText, HighlightedText } from './highlighter/HighlightedText';
