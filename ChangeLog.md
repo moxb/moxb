@@ -5,6 +5,14 @@ Follow the principles in [keepachangelog.com](https://keepachangelog.com)!
 
 Next version
 =======================================================================================
+### Added
+
+### Fixed
+
+### Changed
+
+[v0.3.13](https://github.com/moxb/moxb/releases/tag/v0.3.13) (2022-06-29)
+=======================================================================================
 
 ### Added
 - Added the `@moxb/shards-accounts-ui-antd` package
@@ -14,10 +22,6 @@ Next version
 - `@moxb/shards-meteor-accounts-antd` package for automated user account
    handling for Meteor applications.
 
-### Fixed
-
-### Changed
-
 [v0.3.11](https://github.com/moxb/moxb/releases/tag/v0.3.11) (2022-06-28)
 ====================================================================================
 
@@ -25,10 +29,6 @@ Next version
   - `@moxb/stellar-router-react` now also exports all symbols from `stellar-router-core`,
     so that the application doesn't have to import stuff from two packages.
     (The antd widgets are still separate, though.)
-
-### Fixed
-
-### Changed
 
 [v0.3.8](https://github.com/moxb/moxb/releases/tag/v0.3.11) (2022-06-28)
 ====================================================================================

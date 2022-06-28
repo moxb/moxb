@@ -105,8 +105,18 @@ export interface RegisterPublicationProps<Input, Output> {
 export function registerMeteorPublication<Input, Output>(
     params: RegisterPublicationProps<Input, Output>
 ): PublicationHandle<Input, Output> {
-    const { name, collection, prePublish, selector, clientSelector, skipIf, auth, options, clientOptions, debugMode } =
-        params;
+    const {
+        name,
+        collection,
+        prePublish,
+        selector,
+        clientSelector,
+        skipIf,
+        auth,
+        options,
+        clientOptions,
+        debugMode,
+    } = params;
     const logger = getDebugLogger(`publication ${name}`, debugMode);
 
     const getServerCursor = (args: Input, sub: Subscription) => {

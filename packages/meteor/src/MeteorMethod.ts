@@ -88,7 +88,7 @@ export interface MeteorMethodControl<Input, Output> {
  */
 function convertError(e: Error): Meteor.Error {
     if ((e as any).errorType === 'Meteor.Error') {
-        return e as any as Meteor.Error;
+        return (e as any) as Meteor.Error;
     }
     const error = (e as any).error ? (e as any).error : e.toString();
     const message = e.message;
