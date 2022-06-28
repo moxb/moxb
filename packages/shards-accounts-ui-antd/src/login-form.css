@@ -1,0 +1,40 @@
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form > div {
+    margin: 8px;
+}
+
+.login-form > div > label {
+    font-weight: bold;
+}
+
+.login-form > div  > input {
+    flex-grow: 1;
+    box-sizing: border-box;
+    padding: 10px 6px;
+    background: transparent;
+    border: 1px solid #aaa;
+    width: 100%;
+    font-size: 1em;
+    margin-right: 16px;
+    margin-top: 4px;
+}
+
+.login-form > div > input:focus {
+    outline: 0;
+}
+
+.login-form .error-display {
+    background-color: lightpink;
+    color: red;
+    border-radius: 5px;
+    padding: 1em;
+}

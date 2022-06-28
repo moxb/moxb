@@ -1,0 +1,78 @@
+{
+  "name": "@moxb/shards-account-ui-antd",
+  "version": "0.0.1",
+  "description": "Shards: basic user account handling UI with ant design",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "make all"
+  },
+  "main": "dist",
+  "typings": "dist/",
+  "files": [
+    "dist/**/*",
+    "src/**/*.less"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moxb/moxb.git"
+  },
+  "author": "moxb (moxb.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moxb/moxb/issues"
+  },
+  "homepage": "https://github.com/moxb/moxb#readme",
+  "keywords": [
+    "mobx",
+    "antd",
+    "ant-design",
+    "react",
+    "UI"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "setupTestFrameworkScriptFile": "../../jest/jestAdapter.js",
+    "testEnvironment": "jsdom",
+    "snapshotSerializers": [],
+    "transform": {
+      "^.+\\.(css|less)$": "../../jest/jestMockStyle.js",
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "modulePaths": [
+      "<rootDir>/node_modules"
+    ],
+    "testMatch": [
+      "**/src/**/__tests__/*.test.(ts|tsx)"
+    ]
+  },
+  "dependencies": {
+    "@moxb/moxb": "*",
+    "@moxb/react-html": "*"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "antd": "^4.20.2",
+    "mobx": "^6.5.0",
+    "react": "^17.0.2",
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.0",
+    "@types/react": "17.0.2",
+    "@types/react-test-renderer": "17.0.2",
+    "@types/uuid": "8.3.4",
+    "@typescript-eslint/eslint-plugin": "5.21.0",
+    "@typescript-eslint/parser": "5.21.0",
+    "eslint": "8.14.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-react-hooks": "4.5.0",
+    "pretty": "2.0.0"
+  }
+}

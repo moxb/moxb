@@ -7,6 +7,7 @@ Next version
 =======================================================================================
 
 ### Added
+- Added the `@moxb/shards-accounts-ui-antd` package
 
 ### Fixed
 
