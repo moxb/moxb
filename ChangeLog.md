@@ -8,6 +8,7 @@ Next version
 ### Added
 
 ### Fixed
+- Fix package build scripts so that CSS files are bundled, too
 
 ### Changed
 

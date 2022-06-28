@@ -118,6 +118,7 @@ watch:  all-dependencies _tsc-clean-generated-js-files-if-needed
 
 .PHONY: build-all
 build-all: all-dependencies _tsc-clean-generated-js-files-if-needed $(TS_OUTPUT_JS_FILES)
+	@cp src/*.css dist/ || echo No CSS files
 
 
 # - End typescript compilation -----------------------------------------------------------------------------------------
