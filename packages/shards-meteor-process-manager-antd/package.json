@@ -1,0 +1,66 @@
+{
+  "name": "@moxb/shards-meteor-process-manager-antd",
+  "version": "0.3.23",
+  "description": "Shards: Meteor process manager - antd UI",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "make all"
+  },
+  "main": "dist",
+  "typings": "dist/",
+  "files": [
+    "dist/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moxb/moxb.git"
+  },
+  "author": "moxb (moxb.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moxb/moxb/issues"
+  },
+  "homepage": "https://github.com/moxb/moxb#readme",
+  "keywords": [
+    "meteor",
+    "background"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/src/**/__tests__/*.(ts|tsx)"
+    ],
+    "modulePaths": [
+      "<rootDir>/peer-dependencies/node_modules"
+    ]
+  },
+  "peerDependencies": {
+    "antd": "^4.20.2",
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.0",
+    "@types/meteor": "2.7.1",
+    "@typescript-eslint/eslint-plugin": "5.21.0",
+    "@typescript-eslint/parser": "5.21.0",
+    "eslint": "8.14.0",
+    "eslint-plugin-import": "2.26.0"
+  },
+  "dependencies": {
+    "@moxb/meteor": "^0.3.22",
+    "@moxb/meteor-react": "^0.3.22",
+    "@moxb/react-html": "^0.3.22",
+    "@moxb/shards-meteor-process-manager-core": "^0.3.22"
+  }
+}
