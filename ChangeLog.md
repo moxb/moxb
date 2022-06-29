@@ -7,6 +7,9 @@ Next version
 =======================================================================================
 
 ### Added
+- Added a new `meteor/packages` directory, for Meteor packages
+- Prepared two Meteor packages for publication: `moxb:meteor` and `moxb:shards-process-manager`.
+  (Publishing the Meteor packages is not yet integrated into the scripts.)
 
 ### Fixed
 
