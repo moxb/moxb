@@ -1,12 +1,12 @@
 import { randomUUID } from 'crypto';
 
 import type { ProcessContext, ProcessDefinition, ProcessEndState, ProcessRecord, ProgressReporter } from '../api/types';
-import type { OptionalId } from '@moxb/meteor';
+import type { OptionalId } from 'meteor/moxb:meteor';
 
 import type { ProcessRequest } from './types';
 import { RequestCollection } from './collections';
 import { ProcessCollection } from '../api/collections';
-import { DefineProcessesParams } from '../api/controller';
+import type { DefineProcessesParams } from '../api/controller';
 
 interface ProcessTracker<ExtraContext> extends ProcessDefinition<ExtraContext> {
     shouldRun: boolean;

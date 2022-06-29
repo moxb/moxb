@@ -1,0 +1,3 @@
+# to make PyCharm/WebStorm happy
+**/*.js
+tests/**/*.*

@@ -1,5 +1,5 @@
 import type { Mongo } from 'meteor/mongo';
-import { MeteorDataFetcher } from './MeteorDataFetcher';
+import type { MeteorDataFetcher } from './MeteorDataFetcher';
 
 export interface MeteorTableData<T> {
     readonly totalCount: number;

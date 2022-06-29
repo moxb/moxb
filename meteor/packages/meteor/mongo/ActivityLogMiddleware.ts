@@ -1,7 +1,7 @@
 import type { Mongo } from 'meteor/mongo';
 import { v4 as uuidv4 } from 'uuid';
 import { getIn, setIn } from '../utils';
-import {
+import type {
     MiddlewareInsertPayload,
     MiddlewareRemovePayload,
     MiddlewareUpdatePayload,

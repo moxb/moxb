@@ -9,7 +9,7 @@ import {
     makeObservable,
     runInAction,
 } from 'mobx';
-import { MeteorDataFetcher, MeteorDataFetcherDone, MeteorDataFetcherFunction } from './MeteorDataFetcher';
+import type { MeteorDataFetcher, MeteorDataFetcherDone, MeteorDataFetcherFunction } from './MeteorDataFetcher';
 
 /**
  * If canceled the done function is not called (the result of the request is ignored)

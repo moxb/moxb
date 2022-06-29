@@ -1,9 +1,9 @@
 import { extractErrorString, SortColumn, t, TableImpl, TableOptions, TablePaginationImpl, toId } from '@moxb/moxb';
 import type { Mongo } from 'meteor/mongo';
-import { MeteorDataFetcherDone } from './MeteorDataFetcher';
-import { MeteorTableData, MeteorTableFetcher, MeteorTableQuery } from './MeteorTableFetcher';
+import type { MeteorDataFetcherDone } from './MeteorDataFetcher';
+import type { MeteorTableData, MeteorTableFetcher, MeteorTableQuery } from './MeteorTableFetcher';
 import { MeteorTableFetcherImpl } from './MeteorTableFetcherImpl';
-import { MeteorTableOperations } from './MeteorTableOperations';
+import type { MeteorTableOperations } from './MeteorTableOperations';
 
 function sortToMongo(sort: SortColumn[]): Mongo.SortSpecifier {
     // tslint:disable-next-line:no-inferred-empty-object-type

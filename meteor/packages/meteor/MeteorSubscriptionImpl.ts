@@ -1,4 +1,4 @@
-import { Tracker } from 'meteor/tracker';
+import type { Tracker } from 'meteor/tracker';
 import {
     action,
     autorun,
@@ -9,7 +9,7 @@ import {
     makeObservable,
 } from 'mobx';
 import { meteorAutorun } from './MeteorDependencies';
-import { MeteorSubscription } from './MeteorSubscription';
+import type { MeteorSubscription } from './MeteorSubscription';
 import { extractErrorString } from '@moxb/moxb';
 
 export abstract class MeteorSubscriptionImpl implements MeteorSubscription {

@@ -1,6 +1,6 @@
 import { action, makeObservable } from 'mobx';
-import { MeteorDataFetcherDone } from './MeteorDataFetcher';
-import { MeteorTableData, MeteorTableQuery } from './MeteorTableFetcher';
+import type { MeteorDataFetcherDone } from './MeteorDataFetcher';
+import type { MeteorTableData, MeteorTableQuery } from './MeteorTableFetcher';
 import { MethodDataFetcherImpl } from './MethodDataFetcherImpl';
 
 export class MeteorTableFetcherImpl<T> extends MethodDataFetcherImpl<MeteorTableQuery, MeteorTableData<T>> {

@@ -1,6 +1,6 @@
 import { Action, ActionImpl, ActionOptions, BindOptions, ValueOrFunction } from '@moxb/moxb';
 import { observable } from 'mobx';
-import { MeteorMethodControl } from './MeteorMethod';
+import type { MeteorMethodControl } from './MeteorMethod';
 
 /**
  * The main idea here is that it should be trivial to define a (moxb) Action that is backed by a Meteor method,

@@ -26,6 +26,7 @@ interface ProcessTableUIProps {
 
 type ProgressBarStatus = 'success' | 'normal' | 'active' | 'exception';
 
+// eslint-disable-next-line complexity
 const getProgressBarState = (status?: ProcessStatus): ProgressBarStatus => {
     if (!status?.state) {
         return 'normal';
@@ -75,6 +76,7 @@ const formatDuration = (secs: number | undefined) =>
         ? padNumber(secs / 3600) + ':' + padNumber((secs % 3600) / 60) + ':' + padNumber(secs % 60)
         : padNumber(secs / 60) + ':' + padNumber(secs % 60);
 
+// eslint-disable-next-line complexity
 const getProgressBarMessage = (status: ProcessStatus | undefined, progress: ProgressStatus) => {
     if (!status?.state) {
         return '';
@@ -131,9 +133,9 @@ function ProcessTableRawUI(props: ProcessTableUIProps) {
                         const { state } = status;
                         const { processId, warning, special } = process;
                         const run = () =>
-                            launchProcessMethod.call({ scopeId, processId }, (error, _result) => {
-                                if (error) {
-                                    console.log('Error:', (error as any).error || error.message);
+                            launchProcessMethod.call({ scopeId, processId }, (launchError, _result) => {
+                                if (launchError) {
+                                    console.log('Error:', (launchError as any).error || launchError.message);
                                 }
                             });
 

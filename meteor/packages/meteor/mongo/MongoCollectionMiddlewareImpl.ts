@@ -1,5 +1,5 @@
 import type { Mongo } from 'meteor/mongo';
-import { MongoCollectionMiddleware } from './MongoCollectionMiddleware';
+import type { MongoCollectionMiddleware } from './MongoCollectionMiddleware';
 
 /**
  * Applies a single middleware to a MongoDB collection instance.
