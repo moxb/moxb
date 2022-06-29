@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-meteor-process-manager-core",
-  "version": "0.3.28",
+  "version": "0.3.29",
   "description": "Shards: Meteor process manager core",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

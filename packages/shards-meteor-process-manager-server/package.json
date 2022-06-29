@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-meteor-process-manager-server",
-  "version": "0.3.28",
+  "version": "0.3.29",
   "description": "Shards: Meteor process manager - server component",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@moxb/meteor": "^0.3.28",
-    "@moxb/shards-meteor-process-manager-core": "^0.3.28"
+    "@moxb/shards-meteor-process-manager-core": "^0.3.29"
   },
   "gitHead": "c0ed29fe8703cdd8bd26b1be4dd8c2f42390fea4"
 }
