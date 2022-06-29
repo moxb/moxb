@@ -1,4 +1,4 @@
-import { Tracker } from 'meteor/tracker';
+import type { Tracker } from 'meteor/tracker';
 import {
     action,
     autorun,

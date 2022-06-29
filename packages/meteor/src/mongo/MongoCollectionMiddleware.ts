@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { Mongo, UnionOmit } from 'meteor/mongo';
+import type { Mongo, UnionOmit } from 'meteor/mongo';
 
 export type OptionalId<TSchema> = UnionOmit<TSchema, '_id'> & { _id?: any };
 

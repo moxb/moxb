@@ -1,4 +1,4 @@
-//import { Tracker } from 'meteor/tracker';
+import type { Tracker } from 'meteor/tracker';
 
 export type Autorun = (
     runFunc: (computation: Tracker.Computation) => void,
