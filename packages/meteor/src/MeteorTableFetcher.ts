@@ -10,7 +10,7 @@ export interface MeteorTableData<T> {
 export interface MeteorTableQuery {
     queryString: string; // this string will be parsed by the server!
     selector?: Mongo.Selector<any>;
-    options: Mongo.FindOptions;
+    options: Mongo.Options<any>;
 }
 
 export type MeteorTableFetcher<T> = MeteorDataFetcher<MeteorTableQuery, MeteorTableData<T>>;
