@@ -7,6 +7,18 @@ Next version
 =======================================================================================
 
 ### Added
+
+### Fixed
+
+### Changed
+- Ditched Meteor packages, and re-package everything as NPM packages.
+  It turns out that if we only type-import Meteor or Mongo, then we are actually fine
+  with NPM packages.
+
+[v0.3.26](https://github.com/moxb/moxb/releases/tag/v0.3.26) (2022-06-29)
+=======================================================================================
+
+### Added
 - Added a new `meteor/packages` directory, for Meteor packages
 - Prepared two Meteor packages for publication: `moxb:meteor` and `moxb:shards-process-manager`.
   (Publishing the Meteor packages is not yet integrated into the scripts.)
@@ -17,6 +29,7 @@ Next version
 
 [v0.3.24](https://github.com/moxb/moxb/releases/tag/v0.3.24) (2022-06-28)
 =======================================================================================
+
 ### Changed
 - Removed `@moxb/shards-meteor-process-manager-{core,server,antd}` packages
   (They will need to be re-published as Meteor packages)
