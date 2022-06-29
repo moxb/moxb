@@ -11,6 +11,11 @@ Next version
 ### Fixed
 
 ### Changed
+
+[v0.3.30](https://github.com/moxb/moxb/releases/tag/v0.3.30) (2022-06-29)
+=======================================================================================
+
+### Changed
 - Ditched Meteor packages, and re-package everything as NPM packages.
   It turns out that if we only type-import Meteor or Mongo, then we are actually fine
   with NPM packages.
