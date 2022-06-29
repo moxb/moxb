@@ -78,5 +78,6 @@
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-react-hooks": "4.5.0",
     "pretty": "2.0.0"
-  }
+  },
+  "gitHead": "c0ed29fe8703cdd8bd26b1be4dd8c2f42390fea4"
 }

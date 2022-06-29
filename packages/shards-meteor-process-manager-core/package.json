@@ -58,5 +58,6 @@
   },
   "dependencies": {
     "@moxb/meteor": "^0.3.26"
-  }
+  },
+  "gitHead": "c0ed29fe8703cdd8bd26b1be4dd8c2f42390fea4"
 }

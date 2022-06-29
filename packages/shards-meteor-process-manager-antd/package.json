@@ -62,5 +62,6 @@
     "@moxb/meteor-react": "^0.3.26",
     "@moxb/react-html": "^0.3.22",
     "@moxb/shards-meteor-process-manager-core": "^0.3.26"
-  }
+  },
+  "gitHead": "c0ed29fe8703cdd8bd26b1be4dd8c2f42390fea4"
 }
