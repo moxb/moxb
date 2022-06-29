@@ -7,6 +7,7 @@ Next version
 =======================================================================================
 
 ### Added
+- `@moxb/meteor`, `registerMeteorMethod()`: make it possible to supply a Meteor instance
 
 ### Fixed
 

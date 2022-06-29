@@ -115,13 +115,34 @@ export function wrapException<A extends (...data: any[]) => unknown>(f: A): A {
  * This function registers a Meteor method, based on the provided definition, and provides a control object for it.
  */
 export function registerMeteorMethod<Input, Output>(
-    method: MeteorMethodDefinition<Input, Output>
+    /**
+     * The definition of the method
+     */
+    method: MeteorMethodDefinition<Input, Output>,
+    /**
+     * Optionally, provide an instance of Meteor to use.
+     *
+     * This can be necessary in situations when the global singleton Meteor object is not available in the global
+     * namespace, because it has been hidden my some collision avoidance mechanism.
+     *
+     * Specifically, this is the case when this NPM module is imported from within a Meteor package.
+     */
+    meteorInstance?: typeof Meteor
 ): MeteorMethodControl<Input, Output> {
     const { name, debug, execute, serverOnly, unblock, auth } = method;
+
+    // Try to use the supplied Meteor instance,
+    // without even looking at the global Meteor object first,
+    // in order to avoid the "Meteor is undefined" JS error.
+    let myMeteor = meteorInstance;
+    if (!myMeteor) {
+        // Only use the global Meteor object if no instance was provided
+        myMeteor = Meteor;
+    }
     const logger = getDebugLogger('Method ' + name, debug);
-    if (Meteor.isServer || !serverOnly) {
+    if (myMeteor.isServer || !serverOnly) {
         logger.log('Publishing Meteor method', name);
-        Meteor.methods({
+        myMeteor.methods({
             [name]: function (this, input: Input) {
                 // console.log('***Gonna check out if', name, 'is running in a simulation', this);
                 // if (!this || this.isSimulation) {
