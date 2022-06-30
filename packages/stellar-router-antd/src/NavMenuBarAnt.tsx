@@ -6,7 +6,7 @@ import {
     LocationDependentStateSpaceHandlerProps,
     SubStateInContext,
     useLocationManager,
-    useOptionalLinkGenerator,
+    useLinkGenerator,
 } from '@moxb/stellar-router-react';
 import { Menu } from 'antd';
 import { observer } from 'mobx-react-lite';
@@ -58,7 +58,7 @@ export interface NavMenuProps<DataType>
  * This widget show an Ant menu bar, based on the state-space.
  */
 export const NavMenuBarAnt = observer((props: NavMenuProps<any>) => {
-    const linkGenerator = useOptionalLinkGenerator();
+    const linkGenerator = useLinkGenerator();
     const locationManager = useLocationManager('nav menu bar ' + props.id);
 
     function getLocationDependantStateSpaceHandler(): LocationDependentStateSpaceHandler<

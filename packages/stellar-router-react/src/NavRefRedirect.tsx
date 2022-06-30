@@ -4,14 +4,14 @@ import { observer } from 'mobx-react-lite';
 
 import { getNextPathToken, Navigable, parseNavRef, UpdateMethod } from '@moxb/stellar-router-core';
 
-import { useLocationManager, useRequiredLinkGenerator } from './routingProviders';
+import { useLocationManager, useLinkGenerator } from './routingProviders';
 
 /**
  * The NavRefRedirect component is responsible for executing redirects based on base64-encoded
  * NavRef links.
  *
  * Just put it into a menu (under the preferred url prefix used for the redirects),
- * and it will handle the rest. Ie.
+ * and it will handle the rest. I.e.
  *
  *  {
  *     key: 'redirects',
@@ -22,7 +22,13 @@ import { useLocationManager, useRequiredLinkGenerator } from './routingProviders
  */
 export const NavRefRedirect = observer((props: Navigable<any>) => {
     const locationManager = useLocationManager('nav ref redirect');
-    const linkGenerator = useRequiredLinkGenerator();
+    const linkGenerator = useLinkGenerator();
+
+    if (!linkGenerator) {
+        throw new Error(
+            'Link generator is missing! Have you passed in the state space when creating the routing store?'
+        );
+    }
 
     const [failed, setFailed] = useState(false);
 

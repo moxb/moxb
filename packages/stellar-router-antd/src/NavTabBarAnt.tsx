@@ -18,7 +18,7 @@ import {
     SubStateInContext,
     renderSubStateCore,
     useLocationManager,
-    useOptionalTokenManager,
+    useTokenManager,
 } from '@moxb/stellar-router-react';
 
 const TabPane = Tabs.TabPane;
@@ -53,7 +53,7 @@ export interface NavTabProps<DataType>
  */
 export const NavTabBarAnt = observer((props: NavTabProps<unknown>) => {
     const locationManager = useLocationManager('NavTabBarAnt for ' + props.id);
-    const tokenManager = useOptionalTokenManager();
+    const tokenManager = useTokenManager();
 
     function getLocationDependantStateSpaceHandler() {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

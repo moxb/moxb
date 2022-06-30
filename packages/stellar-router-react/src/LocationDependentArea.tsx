@@ -8,56 +8,21 @@ import { UIFragment, UIFragmentSpec } from '@moxb/react-html';
 import {
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerImpl,
-    LocationDependentStateSpaceHandlerProps,
     NavigableContent,
     StateSpace,
     SubStateInContext,
 } from '@moxb/stellar-router-core';
 
 import { renderSubStateCore } from './rendering';
-import { useLocationManager, useOptionalTokenManager } from './routingProviders';
+import { useLocationManager, useTokenManager } from './routingProviders';
+import { LocationDependentAreaProps } from './LocationDependentAreaProps';
 
 export type UIStateSpace<DataType = void> = StateSpace<UIFragment, UIFragmentSpec, DataType>;
 export type NavigableUIContent = NavigableContent<UIFragmentSpec>;
 
-export interface LocationDependentAreaProps<DataType>
-    extends Omit<
-        LocationDependentStateSpaceHandlerProps<UIFragment, UIFragmentSpec, DataType>,
-        'locationManager' | 'tokenManager'
-    > {
-    /**
-     * When multiple parts of the layout needs to change
-     * based on the same value, we can describe all of those
-     * in a shared state space, as a map.
-     * Here you can specify which part to pick.
-     * If there is only one element of the layout that changes,
-     * you can skip this/
-     * */
-    part?: string;
-
-    /**
-     * Should we use the token mappings defined for the sub-states?
-     */
-    useTokenMappings?: boolean;
-
-    /**
-     * Should we mount (but hide) the content of all possible selections of the state space?
-     *
-     * This will pass an invisible = true parameter to all children. The children react to that.
-     *
-     * Defaults to false.
-     */
-    mountAll?: boolean;
-
-    /**
-     * Enable debug output
-     */
-    debug?: boolean;
-}
-
 export const LocationDependentArea = observer((props: LocationDependentAreaProps<any>): JSX.Element | null => {
     const locationManager = useLocationManager('location dependent area for ' + props.id);
-    const tokenManager = useOptionalTokenManager();
+    const tokenManager = useTokenManager();
 
     const { id, part, useTokenMappings, ...rest } = props;
     const { debug, navControl, mountAll, stateSpace } = rest;

@@ -37,9 +37,24 @@ export const noLocation: MyLocation = {
     hash: '',
 };
 
-export interface Props {
+export interface BasicLocationManagerProps {
+    /**
+     * This URL schema is to be used?
+     */
     urlSchema?: UrlSchema;
+
+    /**
+     * Optional: which history object to use?
+     *
+     * Of nothing is specified, the browser history is used
+     */
     history?: MyHistory;
+
+    /**
+     * Optional: which location communication to use, when asking the user about navigation events?
+     *
+     * If nothing is specified, window.confirm will be used.
+     */
     communicator?: LocationCommunicator;
 }
 
@@ -100,7 +115,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     // Have we just modified the URL ourselves?
     protected _setting = false;
 
-    constructor(props: Props) {
+    constructor(props: BasicLocationManagerProps) {
         makeObservable(this);
         this._schema = props.urlSchema || new NativeUrlSchema();
         this._history = props.history || createBrowserHistory();

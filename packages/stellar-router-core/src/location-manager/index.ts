@@ -8,6 +8,7 @@ export {
 } from './LocationManager';
 export { TestLocation } from './TestLocation';
 export {
+    BasicLocationManagerProps,
     BasicLocationManagerImpl,
     locationToUrl,
     urlToLocation,

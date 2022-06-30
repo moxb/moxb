@@ -61,7 +61,7 @@ The following links should work if you are reading this
 
 ### Initialization
 
-You should be using something like `@moxb/stellar-router-react` for integrating this to your app.
+You should be using something like [@moxb/stellar-router-react](../stellar-router-react) package for integrating this to your app.
 
 ### Using different URL schemes
 
@@ -224,7 +224,7 @@ Basic example:
 ```
 
 ## See also
- * `@moxb/stellar-router-react` provides integration with React,
-    and some React components that can use the router.
- * `@moxb/stellar-router-antd` provides further navigational widgets (menus etc.)
-    built using the Ant Design library.
+* [@moxb/stellar-router-react](../stellar-router-react) provides integration with React,
+  and some React components that can use the router.
+* [@moxb/stellar-router-antd](../stellar-router-antd) provides further navigational widgets
+  (menus etc.) built using the Ant Design library.

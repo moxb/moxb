@@ -1,12 +1,12 @@
+import { LocationCommunicator } from './LocationCommunicator';
+
 /**
  * This is a naive implementation of the LocationCommunicator interface,
  * based on window.confirm.
  *
  * Since window.confirm doesn't support canceling messages,
- * all we can do is
+ * all we can do is keep the popup displayed even if we no longer care.
  */
-import { LocationCommunicator } from './LocationCommunicator';
-
 export class BasicLocationCommunicator implements LocationCommunicator {
     protected currentQuestion?: string;
     protected currentResolve: undefined | ((value: boolean) => void);

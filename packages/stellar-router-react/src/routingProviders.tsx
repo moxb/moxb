@@ -1,7 +1,16 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { createGlobalContext } from '@moxb/react-html';
-import { LocationManager, TokenManager, LinkGenerator } from '@moxb/stellar-router-core';
+import {
+    LocationManager,
+    TokenManager,
+    LinkGenerator,
+    BasicLocationManagerImpl,
+    TokenManagerImpl,
+    LinkGeneratorImpl,
+} from '@moxb/stellar-router-core';
+import { BasicLocationManagerProps } from '@moxb/stellar-router-core/dist/location-manager/BasicLocationManagerImpl';
+import { UIStateSpace } from './LocationDependentArea';
 
 const LocationManagerContext = createGlobalContext<LocationManager | undefined>('location manager', undefined);
 
@@ -23,38 +32,75 @@ const TokenManagerContext = createGlobalContext<TokenManager | undefined>('token
 
 export const TokenManagerProvider = TokenManagerContext.Provider;
 
-export const useOptionalTokenManager = (): TokenManager | undefined => useContext(TokenManagerContext);
-
-export const useRequiredTokenManager = (): TokenManager => {
-    const manager = useOptionalTokenManager();
-    if (!manager) {
-        throw new Error(
-            "Can't find React context for TokenManager! Don't forget to wrap your app in a <TokenManagerProvider> tag!"
-        );
-    }
-    return manager;
-};
+export const useTokenManager = (): TokenManager | undefined => useContext(TokenManagerContext);
 
 const LinkGeneratorContext = createGlobalContext<LinkGenerator | undefined>('link generator', undefined);
 
 export const LinkGeneratorProvider = LinkGeneratorContext.Provider;
 
-export const useOptionalLinkGenerator = (): LinkGenerator | undefined => useContext(LinkGeneratorContext);
+export const useLinkGenerator = (): LinkGenerator | undefined => useContext(LinkGeneratorContext);
 
-export const useRequiredLinkGenerator = (): LinkGenerator => {
-    const generator = useOptionalLinkGenerator();
-    if (!generator) {
-        throw new Error(
-            "Can't find React context for LinkGenerator Don't forget to wrap your app in a <LinkGeneratorProvider> tag!"
-        );
-    }
-    return generator;
-};
-
-interface RoutingStore {
+/**
+ * The permanent data structures required for routing.
+ *
+ * This will be maintained as a global store, i.e. a singleton object, which will be made accessible
+ * to everyone using the routing provider.
+ */
+export interface RoutingStore {
     readonly locationManager: LocationManager;
     readonly tokenManager?: TokenManager;
     readonly linkGenerator?: LinkGenerator;
+}
+
+/**
+ * Parameters for specifying behavior when creating a routing store
+ */
+export interface CreateRoutingStoreProps extends BasicLocationManagerProps {
+    /**
+     * Should we "wake up" the location manager?
+     *
+     * Normally the LocationManager will start to watch the history right away.
+     * In some special cases this is not desired, and so we want to "let it sleep".
+     * If so, set this optional flag to false.
+     * (The default is true.)
+     */
+    activate?: boolean;
+
+    /**
+     * Optional description of the state space.
+     * (This is only required if we want to be able to generate links based on NavRefs.)
+     */
+    stateSpace?: UIStateSpace<any>;
+}
+
+/**
+ * Create a store that will be used for routing.
+ */
+export function createRoutingStore(props: CreateRoutingStoreProps): RoutingStore {
+    const { urlSchema, history, communicator, activate = true, stateSpace } = props;
+
+    // Create the location manager
+    const locationManager = new BasicLocationManagerImpl({ urlSchema, history, communicator });
+    if (activate) {
+        locationManager.watchHistory();
+    }
+
+    // Create the token manager
+    const tokenManager = new TokenManagerImpl(locationManager);
+
+    // Create the link generator
+    const linkGenerator = !stateSpace
+        ? undefined
+        : new LinkGeneratorImpl({
+              locationManager,
+              stateSpace,
+          });
+
+    return {
+        locationManager,
+        tokenManager,
+        linkGenerator,
+    };
 }
 
 interface RoutingProviderProps {

@@ -12,7 +12,7 @@ import {
     LocationDependentStateSpaceHandlerProps,
     SubStateInContext,
     useLocationManager,
-    useOptionalTokenManager,
+    useTokenManager,
 } from '@moxb/stellar-router-react';
 
 const Step = Steps.Step;
@@ -36,7 +36,7 @@ export const NavStepsAnt = observer((props: NavStepsProps<unknown>) => {
     const { id, stepProps = {}, children: _children, ...stateProps } = props;
 
     const locationManager = useLocationManager('NavStepsAnt');
-    const tokenManager = useOptionalTokenManager();
+    const tokenManager = useTokenManager();
 
     const states = new LocationDependentStateSpaceHandlerImpl({
         ...stateProps,

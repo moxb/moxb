@@ -1,6 +1,11 @@
 import { Navigable, NavigableContent, SubStateCoreInfo, NavControl } from '@moxb/stellar-router-core';
 import { renderUIFragment, UIFragmentSpec, extractUIFragmentFromSpec } from '@moxb/react-html';
 
+/**
+ * Render the fallback widget.
+ *
+ * This is an implementation detail, not to be used by application code.
+ */
 export function renderFallback(props: Navigable<any>, fallback: UIFragmentSpec | undefined) {
     const { filterCondition, part, parsedTokens } = props;
     const navigableChildParams: Navigable<any> = {
@@ -22,6 +27,11 @@ interface RenderProps<DataType> {
     navControl: NavControl;
 }
 
+/**
+ * Render content for a given sub-state.
+ *
+ * This is an implementation detail, not to be used by application code.
+ */
 export function renderSubStateCore<DataType>(props: RenderProps<DataType>) {
     const {
         state,

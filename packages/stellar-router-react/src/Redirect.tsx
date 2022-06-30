@@ -9,7 +9,7 @@ interface RedirectProps {
     position?: number;
 
     /**
-     * Where should be go? (List of path tokens.)
+     * Where should we go? (List of path tokens.)
      *
      * Either this or location should be given.
      */
