@@ -1,6 +1,6 @@
 {
   "name": "@moxb/react-html",
-  "version": "0.3.33",
+  "version": "0.3.34",
   "description": "moxb React bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
