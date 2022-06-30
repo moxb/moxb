@@ -51,9 +51,9 @@ Stellar Router is yet another router for web applications.
 ## Some interfaces of interest
 
 The following links should work if you are reading this
-[on GitHub](https://github.com/moxb/moxb/blob/master/packages/stellar-router-core/README.md).
+[on GitHub](https://github.com/moxb/moxb/blob/master/packages/stellar-router-core/).
 
- * Defining the state space: [StateSpace.ts](../src/location-state-space/state-space/StateSpace.ts)
+ * Defining the state space: [StateSpace.ts](src/location-state-space/state-space/StateSpace.ts)
 
 ## See also
  * `@moxb/stellar-router-react` provides integration with React,
