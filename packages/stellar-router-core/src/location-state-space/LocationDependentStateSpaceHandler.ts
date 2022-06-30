@@ -4,7 +4,7 @@ import { TokenManager } from '../TokenManager';
 import { UrlArg } from '../url-arg';
 import { SubStateInContext } from './state-space/SubStateInContext';
 import { StateSpaceHandler, StateSpaceHandlerProps } from './state-space/StateSpaceHandler';
-import { LocationChangeInterceptor } from '../location-manager/LocationManager';
+import { LocationChangeInterceptor } from '../location-manager/LocationChangeInterceptor';
 
 export interface LocationDependentStateSpaceHandlerProps<LabelType, WidgetType, DataType>
     extends StateSpaceHandlerProps<LabelType, WidgetType, DataType>,

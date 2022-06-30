@@ -19,7 +19,7 @@ export type NavLinkProps = NavLinkParams & CoreLinkProps;
 export const NavLink = observer((props: NavLinkProps) => {
     const locationManager = useLocationManager('nav link');
     const { position, to, argChanges, appendTokens, removeTokenCount, toRef } = props;
-    const wantedLocation = locationManager.getNewLocationForLinkProps({
+    const wantedLocation = locationManager._getNewLocationForLinkProps({
         position,
         to,
         argChanges,
@@ -29,7 +29,7 @@ export const NavLink = observer((props: NavLinkProps) => {
     });
 
     function handleClick() {
-        locationManager.trySetLocation(wantedLocation);
+        locationManager._trySetLocation(wantedLocation);
     }
 
     const { children, ...rest } = props;

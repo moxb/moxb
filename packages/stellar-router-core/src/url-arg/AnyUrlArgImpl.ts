@@ -1,7 +1,8 @@
 import { computed, makeObservable } from 'mobx';
 
 import { ArgDefinition, ParserFunc, UrlArg } from './UrlArg';
-import { MyLocation, SuccessCallback, TestLocation, UpdateMethod } from '../location-manager/LocationManager';
+import { MyLocation, SuccessCallback, UpdateMethod } from '../location-manager/LocationManager';
+import { TestLocation } from '../location-manager/TestLocation';
 
 export interface UrlArgBackend {
     readonly rawValue?: string;

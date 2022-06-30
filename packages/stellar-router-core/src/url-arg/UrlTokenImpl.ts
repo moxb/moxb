@@ -4,7 +4,7 @@ import { TokenManager } from '../TokenManager';
 import { Query } from '../url-schema/UrlSchema';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 import { existsInQuery, getFromQuery } from './UrlArgImpl';
-import { TestLocation } from '../location-manager/LocationManager';
+import { TestLocation } from '../location-manager/TestLocation';
 
 /**
  * Implement an Url Arg on top of URL tokens

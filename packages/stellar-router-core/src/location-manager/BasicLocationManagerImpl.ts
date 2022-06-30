@@ -15,22 +15,16 @@ import {
     UrlArgImpl,
 } from '../url-arg';
 import { NativeUrlSchema } from '../url-schema';
-import { Query, UrlSchema } from '../url-schema/UrlSchema';
+import { Query, QueryChange, UrlSchema } from '../url-schema/UrlSchema';
 import { BasicLocationCommunicator } from './BasicLocationCommunicator';
 import { LocationCommunicator } from './LocationCommunicator';
 
-import {
-    MyLocation,
-    LocationChangeInterceptor,
-    LocationManager,
-    QueryChange,
-    Redirect,
-    SuccessCallback,
-    TestLocation,
-    UpdateMethod,
-} from './LocationManager';
+import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from './LocationManager';
 import { CoreLinkProps } from '../linking/CoreLinkProps';
 import { NavRef, NavRefCall } from '../navigation-references';
+import { RedirectDefinition } from './RedirectDefinition';
+import { TestLocation } from './TestLocation';
+import { LocationChangeInterceptor } from './LocationChangeInterceptor';
 
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
@@ -94,13 +88,13 @@ export const pathAndQueryToUrl = (
 export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _schema: UrlSchema;
 
-    get urlSchema() {
+    get _urlSchema() {
         return this._schema;
     }
 
     protected readonly _permanentArgs: UrlArg<any>[] = [];
     protected readonly _history: MyHistory;
-    protected readonly _redirects: Redirect[] = [];
+    protected readonly _redirects: RedirectDefinition[] = [];
     protected readonly _communicator: LocationCommunicator;
 
     // Have we just modified the URL ourselves?
@@ -115,8 +109,8 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     private _getTestLocation(location: MyLocation): TestLocation {
         return {
-            pathTokens: this.getPathTokensForLocation(location),
-            query: this.getQueryForLocation(location),
+            pathTokens: this._getPathTokensForLocation(location),
+            query: this._getQueryForLocation(location),
         };
     }
 
@@ -128,7 +122,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     /**
      * Register a new interceptor that we have to talk to before executing a navigation change.
      */
-    registerChangeInterceptor(interceptor: LocationChangeInterceptor) {
+    _registerChangeInterceptor(interceptor: LocationChangeInterceptor) {
         const newId = interceptor.getId();
         const index = this._interceptors.findIndex((i) => i.getId() === newId);
         if (index === -1) {
@@ -141,58 +135,37 @@ export class BasicLocationManagerImpl implements LocationManager {
         }
     }
 
-    // Private field to store the final bit.
-    @observable
-    private _final = true;
-
-    // Getters and setters for the final bit
-    get final() {
-        return this._final;
-    }
-
-    set final(value: boolean) {
-        this._final = value;
-    }
-
-    get temporary() {
-        return !this._final;
-    }
-
-    set temporary(value: boolean) {
-        this._final = !value;
-    }
-
     // Private field to store the last known location.
     @observable
-    protected _location: MyLocation = noLocation;
-    get location() {
-        return this._location;
+    protected __location: MyLocation = noLocation;
+    get _location() {
+        return this.__location;
     }
 
     // get the path tokens
     get pathTokens() {
-        return this.getPathTokensForLocation(this._location);
+        return this._getPathTokensForLocation(this.__location);
     }
 
-    getPathTokensForLocation(location: MyLocation) {
+    _getPathTokensForLocation(location: MyLocation) {
         return this._schema.getPathTokens(location);
     }
 
-    doPathTokensMatch(wantedTokens: string[], parsedTokens: number, exactOnly: boolean, debugMode?: boolean): boolean {
+    _doPathTokensMatch(wantedTokens: string[], parsedTokens: number, exactOnly: boolean, debugMode?: boolean): boolean {
         return doTokenStringsMatch(this.pathTokens, wantedTokens, parsedTokens, exactOnly, debugMode);
     }
 
     // get the search arguments
-    get query() {
-        return this.getQueryForLocation(this._location);
+    get _query() {
+        return this._getQueryForLocation(this.__location);
     }
 
-    getQueryForLocation(location: MyLocation) {
+    _getQueryForLocation(location: MyLocation) {
         return this._schema.getQuery(location);
     }
 
     @action
-    doSetLocation(location: LocationDescriptorObject, method: UpdateMethod = UpdateMethod.PUSH) {
+    _doSetLocation(location: LocationDescriptorObject, method: UpdateMethod = UpdateMethod.PUSH) {
         /**
          * Since we are going to modify the URL, we make a note for ourselves, so that
          * when the URL is modified, and we are notified about the change, we should know
@@ -238,7 +211,7 @@ export class BasicLocationManagerImpl implements LocationManager {
      * @param method   The method to use for updating the URL
      * @param callback Callback to call with the result status
      */
-    trySetLocation(location: LocationDescriptorObject | undefined, method?: UpdateMethod, callback?: SuccessCallback) {
+    _trySetLocation(location: LocationDescriptorObject | undefined, method?: UpdateMethod, callback?: SuccessCallback) {
         if (!location) {
             if (callback) {
                 callback(true);
@@ -284,7 +257,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                     if (decision) {
                         // According to the user's decision, we are OK,
                         // so we can execute the change.
-                        this.doSetLocation(location, method);
+                        this._doSetLocation(location, method);
                         if (callback) {
                             callback(true);
                         }
@@ -299,7 +272,7 @@ export class BasicLocationManagerImpl implements LocationManager {
                 .catch((reason) => console.error(reason));
         } else {
             // No questions asked, so we can simply execute the change.
-            this.doSetLocation(location, method);
+            this._doSetLocation(location, method);
             if (callback) {
                 callback(true);
             }
@@ -313,7 +286,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     protected _restoreStoredLocation() {
         if (!this._communicator.isActive()) {
             // If another change is under progress, we shouldn't touch the URL
-            this.doSetLocation(this._location, UpdateMethod.REPLACE);
+            this._doSetLocation(this.__location, UpdateMethod.REPLACE);
         }
     }
 
@@ -375,13 +348,13 @@ export class BasicLocationManagerImpl implements LocationManager {
             this._setting = false; // Reset the flag, not that we have used it.
             // We are doing the change, no reason to verify it again.
             // We can just update the stored location, and everything is OK.
-            this._location = newLocation;
+            this.__location = newLocation;
         } else {
             // This change is coming from the browser, thus we need to verify
-            this.trySetLocation(newLocation, UpdateMethod.NONE, (result) => {
+            this._trySetLocation(newLocation, UpdateMethod.NONE, (result) => {
                 if (result) {
                     // Actually update the stored location
-                    this._location = newLocation;
+                    this.__location = newLocation;
                 } else {
                     this._restoreStoredLocation();
                 }
@@ -400,8 +373,8 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._history.listen((update) => this._onLocationChanged(update.location));
     }
 
-    getNewLocationForQueryChanges(baseLocation: MyLocation | undefined, changes: QueryChange[]): MyLocation {
-        const base = baseLocation || this.location;
+    _getNewLocationForQueryChanges(baseLocation: MyLocation | undefined, changes: QueryChange[]): MyLocation {
+        const base = baseLocation || this._location;
         const pathTokens = this._schema.getPathTokens(base);
         const query = this._schema.getQuery(base);
         changes.forEach((change) => {
@@ -418,41 +391,41 @@ export class BasicLocationManagerImpl implements LocationManager {
         return location;
     }
 
-    getURLForQueryChanges(changes: QueryChange[]): string {
-        const location = this.getNewLocationForQueryChanges(undefined, changes);
+    _getURLForQueryChanges(changes: QueryChange[]): string {
+        const location = this._getNewLocationForQueryChanges(undefined, changes);
         return locationToUrl(location);
     }
 
-    getNewLocationForPathAndQueryChanges(
+    _getNewLocationForPathAndQueryChanges(
         baseLocation: MyLocation | undefined,
         position = 0,
         tokens: string[] | undefined,
         queryChanges: QueryChange[] | undefined,
         dropPermanent = false
     ) {
-        let location = baseLocation || this._location;
+        let location = baseLocation || this.__location;
         if (tokens) {
             location = this.getNewLocationForPathTokens(
-                baseLocation || this._location,
+                baseLocation || this.__location,
                 position,
                 tokens,
                 dropPermanent
             );
         }
         if (queryChanges) {
-            location = this.getNewLocationForQueryChanges(location, queryChanges);
+            location = this._getNewLocationForQueryChanges(location, queryChanges);
         }
         return location;
     }
 
-    getURLForPathAndQueryChanges(position = 0, tokens: string[] | undefined, queryChanges: QueryChange[] | undefined) {
-        const location = this.getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
+    _getURLForPathAndQueryChanges(position = 0, tokens: string[] | undefined, queryChanges: QueryChange[] | undefined) {
+        const location = this._getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
         const url = locationToUrl(location);
         return url;
     }
 
-    getURLForQueryChange(key: string, value: string | undefined): string {
-        return this.getURLForQueryChanges([
+    _getURLForQueryChange(key: string, value: string | undefined): string {
+        return this._getURLForQueryChanges([
             {
                 key,
                 value,
@@ -461,27 +434,27 @@ export class BasicLocationManagerImpl implements LocationManager {
     }
 
     @action
-    doSetQueries(changes: QueryChange[], method?: UpdateMethod) {
+    _doSetQueries(changes: QueryChange[], method?: UpdateMethod) {
         if (!changes.length) {
             // There is nothing to change
             return;
         }
-        const location = this.getNewLocationForQueryChanges(undefined, changes);
-        this.doSetLocation(location, method);
+        const location = this._getNewLocationForQueryChanges(undefined, changes);
+        this._doSetLocation(location, method);
     }
 
-    trySetQueries(changes: QueryChange[], method?: UpdateMethod, callback?: SuccessCallback) {
+    _trySetQueries(changes: QueryChange[], method?: UpdateMethod, callback?: SuccessCallback) {
         if (!changes.length) {
             // There is nothing to change
             return;
         }
-        const location = this.getNewLocationForQueryChanges(undefined, changes);
-        this.trySetLocation(location, method, callback);
+        const location = this._getNewLocationForQueryChanges(undefined, changes);
+        this._trySetLocation(location, method, callback);
     }
 
     @action
-    doSetQuery(key: string, value: string | undefined, method?: UpdateMethod) {
-        this.doSetQueries(
+    _doSetQuery(key: string, value: string | undefined, method?: UpdateMethod) {
+        this._doSetQueries(
             [
                 {
                     key,
@@ -492,8 +465,8 @@ export class BasicLocationManagerImpl implements LocationManager {
         );
     }
 
-    trySetQuery(key: string, value: string | undefined, method?: UpdateMethod, callback?: SuccessCallback): void {
-        this.trySetQueries(
+    _trySetQuery(key: string, value: string | undefined, method?: UpdateMethod, callback?: SuccessCallback): void {
+        this._trySetQueries(
             [
                 {
                     key,
@@ -515,7 +488,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         const backup = this._permanentArgs.map((arg) => arg.valueOn(this._getTestLocation(baseLocation)));
 
         // Calculate the new string of path tokens
-        const oldTokens = this.getPathTokensForLocation(baseLocation);
+        const oldTokens = this._getPathTokensForLocation(baseLocation);
         const newTokens = updateTokenString(oldTokens, position, tokens);
 
         // Calculate the new location by overwriting the path tokens and dropping the queries
@@ -533,28 +506,28 @@ export class BasicLocationManagerImpl implements LocationManager {
         return result;
     }
 
-    getURLForPathTokens(position: number, tokens: string[]) {
-        const location = this.getNewLocationForPathTokens(this._location, position, tokens);
+    _getURLForPathTokens(position: number, tokens: string[]) {
+        const location = this.getNewLocationForPathTokens(this.__location, position, tokens);
         return locationToUrl(location);
     }
 
     @action
     doSetPathTokens(position: number, tokens: string[], method?: UpdateMethod) {
-        const location = this.getNewLocationForPathTokens(this._location, position, tokens);
-        this.doSetLocation(location, method);
+        const location = this.getNewLocationForPathTokens(this.__location, position, tokens);
+        this._doSetLocation(location, method);
     }
 
     trySetPathTokens(position: number, tokens: string[], method?: UpdateMethod, callback?: SuccessCallback) {
-        const location = this.getNewLocationForPathTokens(this._location, position, tokens);
-        this.trySetLocation(location, method, callback);
+        const location = this.getNewLocationForPathTokens(this.__location, position, tokens);
+        this._trySetLocation(location, method, callback);
     }
 
-    getNewLocationForAppendedPathTokens(tokens: string[]) {
-        return this.getNewLocationForPathTokens(this._location, this.pathTokens.length, tokens);
+    _getNewLocationForAppendedPathTokens(tokens: string[]) {
+        return this.getNewLocationForPathTokens(this.__location, this.pathTokens.length, tokens);
     }
 
-    getNewLocationForRemovedPathTokens(count: number) {
-        return this.getNewLocationForPathTokens(this._location, this.pathTokens.length - count, []);
+    _getNewLocationForRemovedPathTokens(count: number) {
+        return this.getNewLocationForPathTokens(this.__location, this.pathTokens.length - count, []);
     }
 
     doAppendPathTokens(tokens: string[], method?: UpdateMethod) {
@@ -573,38 +546,38 @@ export class BasicLocationManagerImpl implements LocationManager {
         this.trySetPathTokens(this.pathTokens.length - count, [], method, callback);
     }
 
-    registerUrlArg(arg: UrlArg<any>) {
+    _registerUrlArg(arg: UrlArg<any>) {
         this._permanentArgs.push(arg);
     }
 
-    setRedirect(redirect: Redirect) {
+    setRedirect(redirect: RedirectDefinition) {
         this._redirects.push(redirect);
     }
 
     @action
-    doSetPathTokensAndQueries(
+    _doSetPathTokensAndQueries(
         position: number,
         tokens: string[] | undefined,
         queryChanges: QueryChange[] | undefined,
         method?: UpdateMethod
     ) {
-        const location = this.getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
-        this.doSetLocation(location, method);
+        const location = this._getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
+        this._doSetLocation(location, method);
     }
 
     @action
-    trySetPathTokensAndQueries(
+    _trySetPathTokensAndQueries(
         position: number,
         tokens: string[] | undefined,
         queryChanges: QueryChange[] | undefined,
         method?: UpdateMethod,
         callback?: SuccessCallback
     ) {
-        const location = this.getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
-        this.trySetLocation(location, method, callback);
+        const location = this._getNewLocationForPathAndQueryChanges(undefined, position, tokens, queryChanges);
+        this._trySetLocation(location, method, callback);
     }
 
-    getNewLocationForLinkProps(link: CoreLinkProps, dropPermanent = false): MyLocation {
+    _getNewLocationForLinkProps(link: CoreLinkProps, dropPermanent = false): MyLocation {
         const { to, position, appendTokens, removeTokenCount, argChanges, toRef } = link;
         if (toRef) {
             // We have a NavRef. We are going to use that.
@@ -622,10 +595,10 @@ export class BasicLocationManagerImpl implements LocationManager {
         } else {
             // No navRef, so we will use the token-based parameters.
             const startLocation = appendTokens
-                ? this.getNewLocationForAppendedPathTokens(appendTokens)
+                ? this._getNewLocationForAppendedPathTokens(appendTokens)
                 : removeTokenCount
-                ? this.getNewLocationForRemovedPathTokens(removeTokenCount)
-                : this.getNewLocationForPathAndQueryChanges(undefined, position, to, undefined, dropPermanent);
+                ? this._getNewLocationForRemovedPathTokens(removeTokenCount)
+                : this._getNewLocationForPathAndQueryChanges(undefined, position, to, undefined, dropPermanent);
             return (argChanges || []).reduce(
                 (prevLocation: MyLocation, change) =>
                     change.reset

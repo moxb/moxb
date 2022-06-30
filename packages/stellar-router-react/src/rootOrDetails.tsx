@@ -48,7 +48,7 @@ export function rootOrDetails<DataType>(ownProps: OwnProps<DataType>) {
          * in advance, so that we can suggest some questions to ask
          * from the user.
          */
-        locationManager.registerChangeInterceptor({
+        locationManager._registerChangeInterceptor({
             getId() {
                 return nodeId;
             },

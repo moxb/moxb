@@ -1,5 +1,5 @@
 import { LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
-import { TestLocation } from '../location-manager/LocationManager';
+import { TestLocation } from '../location-manager/TestLocation';
 import { NavStateHooks } from '../navigable';
 import { TokenManager } from '../TokenManager';
 import { updateTokenString } from '../tokens';
@@ -90,7 +90,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
              * in advance, so that we can suggest some questions to ask
              * from the user.
              */
-            this._locationManager.registerChangeInterceptor(this);
+            this._locationManager._registerChangeInterceptor(this);
         }
         this._tokenManager = tokenManager!;
         // Here, we are trying to wrap another URL argument around the passed-in one,
@@ -219,7 +219,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
                 return url;
             }
         } else {
-            return this._locationManager.getURLForPathTokens(this._parsedTokens, state.totalPathTokens);
+            return this._locationManager._getURLForPathTokens(this._parsedTokens, state.totalPathTokens);
         }
     }
 

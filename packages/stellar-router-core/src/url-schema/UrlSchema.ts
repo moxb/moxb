@@ -5,6 +5,14 @@ import { MyLocation, LocationDescriptorObject } from '../location-manager';
  */
 export type Query = Record<string, string>;
 
+/**
+ * Information about a planned change in the URl arguments
+ */
+export type QueryChange = {
+    key: string;
+    value?: string;
+};
+
 /***
  * A method for storing path tokens and URL arguments in the URL.
  */

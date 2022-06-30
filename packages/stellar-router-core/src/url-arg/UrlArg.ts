@@ -1,5 +1,5 @@
 import { MyLocation, SuccessCallback, UpdateMethod } from '../location-manager';
-import { TestLocation } from '../location-manager/LocationManager';
+import { TestLocation } from '../location-manager/TestLocation';
 
 export interface ParserFunc<T> {
     (formatted: string): T;

@@ -40,12 +40,12 @@ describe('The Basic Location Manager implementation', () => {
         expect(fakeHistory.location.pathname).toBe('/new1/new2');
 
         // Normal args will be dropped
-        expect(locationManager.query.foo).toBeUndefined();
+        expect(locationManager._query.foo).toBeUndefined();
         expect(foo.defined).toBeFalsy(); // It is not defined
         expect(foo.value).toBe('foo-default'); // Lacking a value, it returns the default
 
         // Sticky args will stick around
-        expect(locationManager.query.sticky).toBe('glue');
+        expect(locationManager._query.sticky).toBe('glue');
         expect(sticky.defined).toBeTruthy();
         expect(sticky.value).toBe('glue');
     });
@@ -67,7 +67,7 @@ describe('The Basic Location Manager implementation', () => {
         await when(() => !!locationManager.pathTokens.length);
         expect(
             cleanLocalhost(
-                locationManager.getURLForPathTokens(
+                locationManager._getURLForPathTokens(
                     1, // First token will be preserved
                     ['place', 'else']
                 )
@@ -80,7 +80,7 @@ describe('The Basic Location Manager implementation', () => {
         await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('whatever?key1=value1&key2=value2');
         await when(() => !!locationManager.pathTokens.length);
-        expect(locationManager.query).toEqual({
+        expect(locationManager._query).toEqual({
             key1: 'value1',
             key2: 'value2',
         });
@@ -93,7 +93,7 @@ describe('The Basic Location Manager implementation', () => {
         await when(() => !!locationManager.pathTokens.length);
         expect(
             cleanLocalhost(
-                locationManager.getURLForQueryChanges([
+                locationManager._getURLForQueryChanges([
                     {
                         key: 'sticky',
                         value: 'honey',
@@ -112,7 +112,7 @@ describe('The Basic Location Manager implementation', () => {
         await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/where?foo=bar&sticky=glue');
         await when(() => !!locationManager.pathTokens.length);
-        expect(cleanLocalhost(locationManager.getURLForQueryChange('sticky', 'honey'))).toBe(
+        expect(cleanLocalhost(locationManager._getURLForQueryChange('sticky', 'honey'))).toBe(
             '/some/where?foo=bar&sticky=honey'
         ); // Path is changed, single arg is changed
     });
@@ -122,7 +122,7 @@ describe('The Basic Location Manager implementation', () => {
         await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/path?a=a&b=b&c=c');
         await when(() => !!locationManager.pathTokens.length);
-        locationManager.doSetQueries([
+        locationManager._doSetQueries([
             {
                 key: 'b',
                 value: 'new-b',
@@ -137,7 +137,7 @@ describe('The Basic Location Manager implementation', () => {
             'some',
             'path',
         ]);
-        expect(locationManager.query).toEqual({
+        expect(locationManager._query).toEqual({
             // Some of the args change
             a: 'a',
             b: 'new-b',
@@ -150,13 +150,13 @@ describe('The Basic Location Manager implementation', () => {
         await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/path?a=a&b=b&c=c');
         await when(() => !!locationManager.pathTokens.length);
-        locationManager.doSetQuery('b', 'new-b');
+        locationManager._doSetQuery('b', 'new-b');
         expect(locationManager.pathTokens).toEqual([
             // Path doesn't change
             'some',
             'path',
         ]);
-        expect(locationManager.query).toEqual({
+        expect(locationManager._query).toEqual({
             a: 'a',
             b: 'new-b', // This one changed
             c: 'c',
@@ -168,7 +168,7 @@ describe('The Basic Location Manager implementation', () => {
         await when(() => !locationManager.pathTokens.length);
         const startLength = fakeHistory.index;
         locationManager.doSetPathTokens(0, ['go', 'here']);
-        locationManager.doSetQuery('foo', 'bar');
+        locationManager._doSetQuery('foo', 'bar');
         const endLength = fakeHistory.index;
         expect(endLength).toEqual(startLength + 2);
     });
@@ -178,7 +178,7 @@ describe('The Basic Location Manager implementation', () => {
         await when(() => !locationManager.pathTokens.length);
         const startLength = fakeHistory.index;
         locationManager.doSetPathTokens(0, ['go', 'here'], UpdateMethod.REPLACE);
-        locationManager.doSetQuery('foo', 'bar', UpdateMethod.REPLACE);
+        locationManager._doSetQuery('foo', 'bar', UpdateMethod.REPLACE);
         const endLength = fakeHistory.index;
         expect(endLength).toEqual(startLength);
     });

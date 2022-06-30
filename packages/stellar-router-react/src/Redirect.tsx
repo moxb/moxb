@@ -37,11 +37,11 @@ export const Redirect = observer((props: RedirectProps) => {
     useEffect(() => {
         const { position = 0, to, updateMethod, pathSaveArg, location } = props;
         if (location) {
-            locationManager!.doSetLocation(location, UpdateMethod.REPLACE);
+            locationManager!._doSetLocation(location, UpdateMethod.REPLACE);
             return;
         }
         if (pathSaveArg) {
-            pathSaveArg.doSet(locationManager!.location);
+            pathSaveArg.doSet(locationManager!._location);
         }
         if (to !== undefined) {
             // An empty list is a valid input here, so we can't simply test for falsy

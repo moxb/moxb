@@ -16,7 +16,7 @@ export class LinkGeneratorImpl implements LinkGenerator {
 
     constructor(private readonly props: LinkGeneratorProps) {
         const { locationManager, urlSchema } = props;
-        this._schema = locationManager ? locationManager.urlSchema : urlSchema || new NativeUrlSchema();
+        this._schema = locationManager ? locationManager._urlSchema : urlSchema || new NativeUrlSchema();
     }
 
     protected _getStates(): StateSpaceHandler<any, any, any> {
@@ -97,7 +97,7 @@ export class LinkGeneratorImpl implements LinkGenerator {
             );
         }
         const link = this.createLink(navRefCall);
-        locationManager.trySetLocation(link.location, updateMethod, callback);
+        locationManager._trySetLocation(link.location, updateMethod, callback);
     }
 
     doGoTo(navRefCall: NavRefCall<any>, updateMethod: UpdateMethod) {
@@ -108,6 +108,6 @@ export class LinkGeneratorImpl implements LinkGenerator {
             );
         }
         const link = this.createLink(navRefCall);
-        locationManager.doSetLocation(link.location, updateMethod);
+        locationManager._doSetLocation(link.location, updateMethod);
     }
 }

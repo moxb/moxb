@@ -1,10 +1,11 @@
 # Stellar Router - core
 
-Stellar Router is yet another router for web applications.
+Stellar Router is a router for web applications.
 
 ## Design goals
 
  - It should be implemented in TypeScript, with strong type safety
+ - It should integrate with mobx reactivity.
  - The app developer should be able to describe the structure of the application
    in a single location of the code.
  - The application structure is described as a state-space,
@@ -48,12 +49,13 @@ Stellar Router is yet another router for web applications.
  * The code and interfaces for the interactive processing of the path tokens
    on multiple levels, and the interaction between the levels
 
-## Some interfaces of interest
+## Some user-facing interfaces and components
 
 The following links should work if you are reading this
 [on GitHub](https://github.com/moxb/moxb/blob/master/packages/stellar-router-core/).
 
  * Defining the state space: [StateSpace.ts](src/location-state-space/state-space/StateSpace.ts)
+ * Navigating the state space, along with the browser history: [LocationManager.ts](src/location-manager/LocationManager.ts)
 
 ## See also
  * `@moxb/stellar-router-react` provides integration with React,

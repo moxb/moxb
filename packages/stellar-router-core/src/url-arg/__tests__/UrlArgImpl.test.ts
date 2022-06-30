@@ -48,14 +48,14 @@ describe('UrlArgImpl', () => {
         fakeHistory.push('/?');
         await when(() => pocket.value[0] === 'dust');
         pocket.doSet(['phone', 'wallet']);
-        expect(locationManager.query.pocket).toBe('phone,wallet');
+        expect(locationManager._query.pocket).toBe('phone,wallet');
     });
 
     it('should hide the default value', async () => {
         fakeHistory.push('/?');
-        await when(() => !locationManager.query.pocket);
+        await when(() => !locationManager._query.pocket);
         pocket.doSet(['dust']);
-        expect(locationManager.query.pocket).toBeUndefined();
+        expect(locationManager._query.pocket).toBeUndefined();
         expect(fakeHistory.location.pathname).toBe('/');
         expect(fakeHistory.location.search).toBe('');
     });
@@ -71,14 +71,14 @@ describe('UrlArgImpl', () => {
 
     it('should be able to reset value to defaults', async () => {
         fakeHistory.push('/?');
-        await when(() => !locationManager.query.pocket);
+        await when(() => !locationManager._query.pocket);
         fakeHistory.push('/?pocket=key,money');
-        await when(() => !!locationManager.query.pocket);
+        await when(() => !!locationManager._query.pocket);
         expect(pocket.defined).toBeTruthy();
-        expect(locationManager.query.pocket).toBe('key,money');
+        expect(locationManager._query.pocket).toBe('key,money');
         pocket.doReset(); // restore the default;
         expect(pocket.defined).toBeFalsy();
-        expect(locationManager.query.pocket).toBeUndefined();
+        expect(locationManager._query.pocket).toBeUndefined();
         expect(pocket.value).toEqual(['dust']);
     });
 });

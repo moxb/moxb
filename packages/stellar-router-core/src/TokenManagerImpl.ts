@@ -521,7 +521,7 @@ export class TokenManagerImpl implements TokenManager {
     }
 
     public getCurrentLocation(): MyLocation {
-        return this._locationManager.location;
+        return this._locationManager._location;
     }
 
     /**
@@ -556,7 +556,7 @@ export class TokenManagerImpl implements TokenManager {
         }
 
         // These are the tokens on the current path that we can work with
-        const localTokens = this._locationManager.getPathTokensForLocation(prevLocation).slice(parsedTokens);
+        const localTokens = this._locationManager._getPathTokensForLocation(prevLocation).slice(parsedTokens);
 
         // Let's see if we can reach the wanted mapping
         let tokenIndex = 0; // let's count which element of the current path we are looking at
@@ -626,7 +626,7 @@ export class TokenManagerImpl implements TokenManager {
             localTokens.splice(tokenIndex + 1);
         }
         // Now we know how the path should be, let's find out the now location
-        return this._locationManager.getNewLocationForPathAndQueryChanges(
+        return this._locationManager._getNewLocationForPathAndQueryChanges(
             prevLocation,
             parsedTokens,
             localTokens,

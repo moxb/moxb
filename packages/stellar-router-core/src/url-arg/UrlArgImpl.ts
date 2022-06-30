@@ -3,7 +3,7 @@ import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from '../l
 
 import { Query } from '../url-schema/UrlSchema';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
-import { TestLocation } from '../location-manager/LocationManager';
+import { TestLocation } from '../location-manager/TestLocation';
 
 export function existsInQuery(query: Query, key: string) {
     return query[key] !== undefined;
@@ -25,7 +25,7 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         const { parser, valueType, key } = (this._def = definition);
         this._parser = parser || valueType.getParser(key);
         if (this._def.permanent) {
-            this._locationManager.registerUrlArg(this);
+            this._locationManager._registerUrlArg(this);
         }
         this.key = this._def.key;
         this.defaultValue = this._def.defaultValue;
@@ -33,7 +33,7 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     @computed
     public get defined() {
-        return existsInQuery(this._locationManager.query, this.key);
+        return existsInQuery(this._locationManager._query, this.key);
     }
 
     // Extract the value from a given query
@@ -44,7 +44,7 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     @computed
     public get value() {
-        return this.getOnQuery(this._locationManager.query);
+        return this.getOnQuery(this._locationManager._query);
     }
 
     public valueOn(location: TestLocation) {
@@ -61,12 +61,12 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     public getModifiedUrl(value: T) {
         const rawValue = this._getRawValue(value);
-        return this._locationManager.getURLForQueryChange(this.key, rawValue);
+        return this._locationManager._getURLForQueryChange(this.key, rawValue);
     }
 
     public getModifiedLocation(start: MyLocation, value: T) {
         const rawValue = this._getRawValue(value);
-        return this._locationManager.getNewLocationForQueryChanges(start, [{ key: this.key, value: rawValue }]);
+        return this._locationManager._getNewLocationForQueryChanges(start, [{ key: this.key, value: rawValue }]);
     }
 
     public getResetUrl() {
@@ -79,12 +79,12 @@ export class UrlArgImpl<T> implements UrlArg<T> {
 
     public doSet(value: T, method?: UpdateMethod) {
         const rawValue = this._getRawValue(value);
-        this._locationManager.doSetQuery(this.key, rawValue, method);
+        this._locationManager._doSetQuery(this.key, rawValue, method);
     }
 
     public trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback) {
         const rawValue = this._getRawValue(value);
-        this._locationManager.trySetQuery(this.key, rawValue, method, callback);
+        this._locationManager._trySetQuery(this.key, rawValue, method, callback);
     }
 
     public doReset(method?: UpdateMethod) {

@@ -1,12 +1,12 @@
+export { QueryChange } from '../url-schema/UrlSchema';
 export {
     MyLocation,
     LocationDescriptorObject,
     UpdateMethod,
     LocationManager,
-    QueryChange,
-    TestLocation,
     SuccessCallback,
 } from './LocationManager';
+export { TestLocation } from './TestLocation';
 export {
     BasicLocationManagerImpl,
     locationToUrl,
