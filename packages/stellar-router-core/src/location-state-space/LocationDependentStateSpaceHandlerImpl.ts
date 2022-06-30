@@ -8,7 +8,7 @@ import {
     LocationDependentStateSpaceHandler,
     LocationDependentStateSpaceHandlerProps,
 } from './LocationDependentStateSpaceHandler';
-import { SubStateInContext } from './state-space/StateSpace';
+import { SubStateInContext } from './state-space/SubStateInContext';
 import { StateSpaceHandlerImpl } from './state-space/StateSpaceHandlerImpl';
 import flatten = require('lodash.flatten');
 

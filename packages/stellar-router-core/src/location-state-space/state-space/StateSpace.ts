@@ -1,26 +1,34 @@
 import { NavRef, NavRefCall } from '../../navigation-references';
 import { PathTokenMappingList } from '../../TokenManagerImpl';
 
+/**
+ * Core data about sub-states
+ */
 export interface SubStateCoreInfo<WidgetType, DataType> {
     /**
-     * What content so show in this sub-state?
+     * What content to show in this sub-state?
      */
     fragment?: WidgetType;
 
     /**
-     * Custom data
+     * Custom data which can be used for permission checks, etc
      */
     data?: DataType;
 
     /**
-     * Names for any remaining tokens, if required
+     * Optional token mapping for this sub-state
+     *
+     * When provided, the router will automatically assign names to any remaining tokens.
      */
     tokenMapping?: PathTokenMappingList;
 }
 
+/**
+ * Information about how this sub-states fits into it's environment
+ */
 export interface SubStateRelations<LabelType, WidgetType, DataType> {
     /**
-     * The key to identify this sub-state. (Can be undefined if this is the root state)
+     * The key to identify this sub-state. (Can be undefined if this is the root state.)
      */
     key?: string;
 
@@ -42,12 +50,15 @@ export interface SubStateRelations<LabelType, WidgetType, DataType> {
 
     /**
      * Display-only sub-states are only considered when drawing menus, but not considered
-     * when doing the actual routing. The main use-case is to add arbitrary menu items
+     * when doing the actual routing.
+     *
+     * The main use-case is to add arbitrary menu items which will do random stuff, instead
+     * of simply navigating to a sub-state
      */
     displayOnly?: boolean;
 
     /**
-     * Specify an arbitrary list of path tokens to use for this sub-state
+     * Specify an arbitrary list of path tokens to use for this sub-state.
      */
     pathTokens?: string[];
 
@@ -57,7 +68,7 @@ export interface SubStateRelations<LabelType, WidgetType, DataType> {
      * If given, pathTokens are ignored.
      *
      * Note that this can only be used if the given NavRev scheme has been
-     * attached to a state somewhere else in the menu.
+     * attached to a state somewhere else in the menu system.
      */
     navRefCall?: NavRefCall<any>;
 
@@ -70,6 +81,9 @@ export interface SubStateRelations<LabelType, WidgetType, DataType> {
     navRef?: NavRef<any>;
 }
 
+/**
+ * Information about displaying this sub-statein menus
+ */
 export interface SubStateDisplayInfo<LabelType> {
     /**
      * Should this option be offered in menus and such?
@@ -77,7 +91,9 @@ export interface SubStateDisplayInfo<LabelType> {
     hidden?: boolean;
 
     /**
-     * Is this option currently disabled? If yes, this will option will be displayed, but won't be selectable.
+     * Is this option currently disabled?
+     *
+     * If yes, this will option will be displayed, but won't be selectable.
      */
     disabled?: boolean;
 
@@ -128,6 +144,7 @@ export interface SubStateDisplayInfo<LabelType> {
      * Is this a separator? If yes, nothing else needs to be specified.
      */
     separator?: boolean;
+
     /**
      * Style to be added to the main div.
      */
@@ -135,23 +152,26 @@ export interface SubStateDisplayInfo<LabelType> {
 }
 
 /**
- * This interface describes a possible state for a part of the app UI
+ * This interface describes a possible state for a part of the app UI.
+ *
+ * It includes all parameters related to both rendering menus and the routing.
  *
  * Since this data structure is UI-Framework agnostic,
- * you will have to provide your own UI-related (label and content) types
+ * you will have to provide your own UI-related types (label and content)
  * as type parameters.
  */
-export interface SubState<LabelType, WidgetType, DataType>
-    extends SubStateCoreInfo<WidgetType, DataType>,
-        SubStateRelations<LabelType, WidgetType, DataType>,
-        SubStateDisplayInfo<LabelType> {}
+export type SubState<LabelType, WidgetType, DataType> = SubStateCoreInfo<WidgetType, DataType> &
+    SubStateRelations<LabelType, WidgetType, DataType> &
+    SubStateDisplayInfo<LabelType>;
 
 /**
  * The totality of all possible states for a given part of the app UI
  */
 export interface StateSpace<LabelType, WidgetType, DataType> {
     /**
-     * Generic data related to this state space, if any
+     * Generic data related to this state space.
+     *
+     * Currently, this is only used for debugging purposes and can be safely omitted.
      */
     metaData: string;
 
@@ -167,42 +187,6 @@ export interface StateSpace<LabelType, WidgetType, DataType> {
 }
 
 /**
- * This interface describes how to identify a sub-state within a state-space
- */
-export interface SubStateInContext<LabelType, WidgetType, DataType> extends SubState<LabelType, WidgetType, DataType> {
-    /**
-     * What are the parent path tokens to choose to reach the level
-     * where the current sub-state is directly accessible?
-     */
-    parentPathTokens: string[];
-
-    /**
-     * What are the parent path tokens to choose to reach this sub-state?
-     */
-    totalPathTokens: string[];
-
-    /**
-     * Is this only a group item, created for menus?
-     */
-    isGroupOnly: boolean;
-
-    /**
-     * The menu key generated for this sub-state
-     */
-    menuKey: string;
-
-    /**
-     * Mete-data about the original state-space where this sub-state comes from
-     */
-    metaData: any;
-
-    /**
-     * We are restricting the SubStates array so that we know that they all must have context, too
-     */
-    subStates?: SubStateInContext<LabelType, WidgetType, DataType>[];
-}
-
-/**
- * A condition used to decide whether or not to offer a given SubState
+ * A condition used to decide whether a given SubState should be available
  */
 export type StateCondition<DataType> = (data?: DataType) => boolean;

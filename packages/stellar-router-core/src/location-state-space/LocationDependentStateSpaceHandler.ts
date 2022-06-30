@@ -2,7 +2,7 @@ import { LocationManager, SuccessCallback, UpdateMethod } from '../location-mana
 import { NavControl, Navigable } from '../navigable';
 import { TokenManager } from '../TokenManager';
 import { UrlArg } from '../url-arg';
-import { SubStateInContext } from './state-space/StateSpace';
+import { SubStateInContext } from './state-space/SubStateInContext';
 import { StateSpaceHandler, StateSpaceHandlerProps } from './state-space/StateSpaceHandler';
 import { LocationChangeInterceptor } from '../location-manager/LocationManager';
 

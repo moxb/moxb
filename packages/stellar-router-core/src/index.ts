@@ -20,9 +20,10 @@ export {
     SubStateCoreInfo,
     SubStateDisplayInfo,
     StateCondition,
-    SubStateInContext,
     StateSpace,
 } from './location-state-space/state-space/StateSpace';
+
+export { SubStateInContext } from './location-state-space/state-space/SubStateInContext';
 
 export {
     NavRefProps,

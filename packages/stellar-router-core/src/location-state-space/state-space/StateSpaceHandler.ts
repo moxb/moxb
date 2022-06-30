@@ -1,7 +1,8 @@
-import { StateCondition, StateSpace, SubState, SubStateInContext } from './StateSpace';
+import { StateCondition, StateSpace, SubState } from './StateSpace';
 import { SubStateKeyGenerator } from './SubStateKeyGenerator';
 import { NavStateHooks } from '../../navigable';
 import { LinkGenerator, NavRef } from '../../navigation-references';
+import { SubStateInContext } from './SubStateInContext';
 
 export interface FilterParams {
     recursive?: boolean;
