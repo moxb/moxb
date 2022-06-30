@@ -1,0 +1,56 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",  // Suggestion is "esNext"
+        "esModuleInterop": true, // This one is new, comes from from meteor defaults,
+        "target": "esnext",  // Suggestion is "es2018"
+        "jsx": "react",      // Suggestion is "preserve"
+        "lib": ["dom", "es6", "es2015", "es2017", "dom.iterable", "scripthost"], // Suggestion is ["esnext", "dom"]
+        "inlineSourceMap": true,  // Not part of suggested setup
+        "inlineSources": true,  // not part of suggested setup
+        "importHelpers": true, // not part of suggested setup
+        "experimentalDecorators": true, // not part of suggested setup
+        "noImplicitAny": true,
+        "noImplicitThis": true, // not part of suggested setup
+        "strict": true,
+        "skipLibCheck": true, // not part of suggested setup
+        "strictNullChecks": true,
+        "removeComments": false, // not part of suggested setup
+        "downlevelIteration": true, // not part of suggested setup
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "allowUnreachableCode": false, // not part of suggested setup
+        "resolveJsonModule": true, // We use this explicitly
+        "importsNotUsedAsValues": "error",
+        "useDefineForClassFields": true
+
+        /*
+        Further suggested options:
+
+        "allowJs": true,
+        "checkJs": false,
+        "incremental": true,
+        "noEmit": true,
+        "noImplicitReturns": false,
+        "noFallthroughCasesInSwitch": false,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "types": ["node", "mocha"],
+
+        "preserveSymlinks": true
+
+        "baseUrl": ".",
+        "paths": {
+            "/*": ["*"]
+            },
+       */
+
+    },
+    "exclude": [
+        "./node_modules",
+        "./.meteor",
+        "./public",
+        "./private",
+        "./__mocks__",
+        "./tests/cypress"
+    ]
+}

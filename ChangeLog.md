@@ -8,6 +8,9 @@ Next version
 
 ### Added
 - `@moxb/meteor`, `registerMeteorMethod()`: make it possible to supply a Meteor instance
+- Add a directory for Meteor packages, and publish
+  - `moxb:file-mirror-service` and
+  - `moxb:file-mirror-service-ui`
 
 ### Fixed
 
