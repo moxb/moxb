@@ -4,23 +4,17 @@ Stellar Router is a router for web applications. This package provides the React
 For more info about the design goals and features of this routing system,
 see the [@moxb/stellar-router-core](https://www.npmjs.com/package/@moxb/stellar-router-core) package.
 
-Stellar Router itself is UI-agnostic.
-This package defines a specialized version of the generic `StateSpace` interface which assumes that
-the every menu labels is a `UIFragment` and app content is specified by `UIFragmentSpec`.
-
 ## Usage
 
 ### Initialization
 
- * Set up your routing data store at application boot time:
+On application boot, you should set up your `routingStore` instance.
+Then you should rap your application with the `<StellarRouterProvider>` component,
+and pass in the created routing store:
 
 ```typescript jsx
 const routingStore = createRoutingStore();
-```
 
- * Wrap your application with `<StellarRouterProvider>`, and pass in the created routing store:
-
-```typescript jsx
 const App = () => (
     <StellarRouterProvider store={routingStore} >
         <MainAppLayout />
@@ -33,6 +27,35 @@ your app, and they will automatically connect to the routing store.
 To manually access the individual store components from your code, you can use
 the provided `useLocationManager()`, `useTokenManager()` and `useLinkGenerator()`
 React hooks.
+
+### Defining the state space for UI.
+
+When defining the state space, instead of the generic `StateSpace` interface, we will use the `StateSpaceUI` interface,
+which defines that the every menu labels is a `UIFragment` and app content is specified by `UIFragmentSpec`.
+
+```typescript jsx
+export const mainMenu: UIStateSpace = {
+    subStates: [
+        {
+            root: true,
+            fragment: <div>Welcome!</div>,
+        },
+        {
+            key: 'one',
+            fragment: <div>Part One</div>,
+        },
+        {
+            key: 'two',
+            fragment: <div>Part Two</div>,
+        },
+        {
+            key: 'three',
+            label: <b>Three</b>,
+            fragment: <div>Part One</div>,
+        }
+    ],
+};
+```
 
 ### Showing content based on state
 
