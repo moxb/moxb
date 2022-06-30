@@ -51,7 +51,7 @@ export const mainMenu: UIStateSpace = {
         {
             key: 'three',
             label: <b>Three</b>,
-            fragment: <div>Part One</div>,
+            fragment: <div>Part Three</div>,
         }
     ],
 };
