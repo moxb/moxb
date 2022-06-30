@@ -66,7 +66,19 @@ export interface Navigable<DataType> {
      */
     parsedTokens?: number;
 
+    /**
+     * An optional condition to use for filtering which sub-states are available
+     */
     filterCondition?: StateCondition<DataType>;
+
+    /**
+     * When multiple parts of the layout needs to change
+     * based on the same value, we can describe all of those
+     * in a shared state space, as a map.
+     * Here you can specify which part to pick.
+     * If there is only one element of the layout that changes,
+     * you can skip this.
+     */
     part?: string;
 }
 

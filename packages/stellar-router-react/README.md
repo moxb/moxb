@@ -18,7 +18,7 @@ the every menu labels is a `UIFragment` and app content is specified by `UIFragm
 const routingStore = createRoutingStore();
 ```
 
- * Wrap your application with `<StellarRouterProvider>`
+ * Wrap your application with `<StellarRouterProvider>`, and pass in the created routing store:
 
 ```typescript jsx
 const App = () => (
@@ -49,10 +49,10 @@ Basic example:
 ```typescript jsx
 import { mainMenu } from "./menu-structure.tsx";
 
-const MainContent = () => (
+const MainAppLayout = () => (
     <div>
         <h1>My cool app</h1>
-        <LocationDependentArea stateSpace={mainMenu} />
+        <LocationDependentArea id="main-app-layout" stateSpace={mainMenu} />
     </div>
 );
 ```

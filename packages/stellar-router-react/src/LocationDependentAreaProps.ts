@@ -16,6 +16,11 @@ export interface LocationDependentAreaProps<DataType> {
     stateSpace: StateSpace<UIFragment, UIFragmentSpec, DataType>;
 
     /**
+     * The number of tokens on the paths already consumed to get here
+     */
+    tokensParsed?: number;
+
+    /**
      * An optional condition to use for filtering which sub-states are available
      */
     filterCondition?: StateCondition<DataType>;
@@ -48,7 +53,7 @@ export interface LocationDependentAreaProps<DataType> {
      * Here you can specify which part to pick.
      * If there is only one element of the layout that changes,
      * you can skip this/
-     * */
+     */
     part?: string;
 
     /**
