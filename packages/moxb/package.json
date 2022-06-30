@@ -47,7 +47,8 @@
   },
   "peerDependencies": {
     "mobx": "^6.5.0",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/jest": "27.5.0",
