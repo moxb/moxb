@@ -10,10 +10,11 @@ This package provides _very basic_ UI elements for common user account workflows
 
 ## Quick start
 
-This package only provides the UI elements; most likely you want a full-stack solution.
-Currently, the only full-stack solution using this is
-[@moxb/shards-meteor-accounts-ui-antd](https://www.npmjs.com/package/@moxb/shards-meteor-account-antd)
-which bundles these UI elements with Meteor functionality and Stellar Router.
+This package only provides the UI elements, but doesn't provide any real functionality.
+Most likely you will want a full-stack solution.
+Currently, the only full-stack solution using these UI elements is
+[@moxb/shards-meteor-accounts-ui-antd](https://www.npmjs.com/package/@moxb/shards-meteor-account-antd),
+which bundles these UI elements with Meteor Accounts functionality and Stellar Router.
 
 So you are _probably_ better off looking at that package.
 
