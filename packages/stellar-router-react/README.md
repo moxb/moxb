@@ -52,7 +52,10 @@ import { mainMenu } from "./menu-structure.tsx";
 const MainAppLayout = () => (
     <div>
         <h1>My cool app</h1>
-        <LocationDependentArea id="main-app-layout" stateSpace={mainMenu} />
+        <LocationDependentArea
+            id="main-app-layout"
+            stateSpace={mainMenu}
+        />
     </div>
 );
 ```
@@ -78,10 +81,18 @@ const lang = locationManager.defineStringArg("lang", "en");
 
 const links = () => (
     <div>
-        <NavLink to={["foo", "bar"]}>Go to /foo/bar</NavLink>
-        <NavLink appendTokens={["fav"]}>Append /fav to the current path</NavLink>
-        <NavLink removeTokenCount={1}>Go up one level</NavLink>
-        <NavLink argChanges={[setArg(lang, "de")]}>Switch to German</NavLink>
+        <NavLink to={["foo", "bar"]}>
+            Go to /foo/bar
+        </NavLink>
+        <NavLink appendTokens={["fav"]}>
+            Append /fav to the current path
+        </NavLink>
+        <NavLink removeTokenCount={1}>
+            Go up one level
+        </NavLink>
+        <NavLink argChanges={[setArg(lang, "de")]}>
+            Switch to German
+        </NavLink>
     </div>
 );
 ```
@@ -98,7 +109,7 @@ navigate the application to `/foo/bar`.
 
  * The `NavRefRedirect` component is responsible for executing redirects based on base64-encoded `NavRef` links.
 Just put it into a menu (under the preferred url prefix used for the redirects),
-and it will handle the rest. I.e.
+and it will handle the rest. I.e. add this to the root state space:
 
 ```typescript
 {
