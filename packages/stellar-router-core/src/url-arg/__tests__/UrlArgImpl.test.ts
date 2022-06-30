@@ -18,10 +18,10 @@ describe('UrlArgImpl', () => {
     it('should be able to test for the existence of the arg', async () => {
         fakeHistory.push('/?');
         await when(() => !locationManager.pathTokens.length);
-        expect(pocket.defined).toBeFalsy();
+        expect(pocket._defined).toBeFalsy();
         fakeHistory.push('whatever/?pocket=key');
         await when(() => !!locationManager.pathTokens.length);
-        expect(pocket.defined).toBeTruthy();
+        expect(pocket._defined).toBeTruthy();
     });
 
     it('should be able to read the default value, when the arg is not specified in URL', async () => {
@@ -65,7 +65,7 @@ describe('UrlArgImpl', () => {
         await when(() => !locationManager.pathTokens.length);
         fakeHistory.push('/some/place?foo=bar&pocket=papers&weather=nice');
         await when(() => !!locationManager.pathTokens.length);
-        const newUrl = pocket.getModifiedUrl(['money'])!;
+        const newUrl = pocket._getModifiedUrl(['money'])!;
         expect(cleanLocalhost(newUrl)).toBe('/some/place?foo=bar&pocket=money&weather=nice'); // Pocket is replaced
     });
 
@@ -74,10 +74,10 @@ describe('UrlArgImpl', () => {
         await when(() => !locationManager._query.pocket);
         fakeHistory.push('/?pocket=key,money');
         await when(() => !!locationManager._query.pocket);
-        expect(pocket.defined).toBeTruthy();
+        expect(pocket._defined).toBeTruthy();
         expect(locationManager._query.pocket).toBe('key,money');
         pocket.doReset(); // restore the default;
-        expect(pocket.defined).toBeFalsy();
+        expect(pocket._defined).toBeFalsy();
         expect(locationManager._query.pocket).toBeUndefined();
         expect(pocket.value).toEqual(['dust']);
     });

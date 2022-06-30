@@ -12,15 +12,15 @@ import { TestLocation } from '../location-manager/TestLocation';
 export class UrlTokenImpl<T> implements UrlArg<T> {
     private readonly _def: UrlArgDefinition<T>;
     private readonly _parser: ParserFunc<T>;
-    public readonly key: string;
-    public readonly defaultValue: T;
+    readonly key: string;
+    readonly _defaultValue: T;
 
-    public constructor(private readonly _tokenManager: TokenManager, definition: UrlArgDefinition<T>) {
+    constructor(private readonly _tokenManager: TokenManager, definition: UrlArgDefinition<T>) {
         makeObservable(this);
         const { parser, valueType, key } = (this._def = definition);
         this._parser = parser || valueType.getParser(key);
         this.key = this._def.key;
-        this.defaultValue = this._def.defaultValue;
+        this._defaultValue = this._def.defaultValue;
     }
 
     @computed
@@ -29,7 +29,7 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     }
 
     @computed
-    public get defined() {
+    get _defined() {
         return existsInQuery(this._currentQuery, this.key);
     }
 
@@ -40,58 +40,58 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     }
 
     @computed
-    public get value() {
+    get value() {
         return this.getOnQuery(this._currentQuery);
     }
 
-    valueOn(location: TestLocation) {
+    _valueOn(location: TestLocation) {
         return this.getOnQuery(location.query);
     }
 
-    public getRawValue(value: T) {
+    getRawValue(value: T) {
         const {
             valueType: { format },
         } = this._def;
         return format(value);
     }
 
-    public getModifiedLocation(startLocation: MyLocation, value: T) {
+    _getModifiedLocation(startLocation: MyLocation, value: T) {
         const rawValue = this.getRawValue(value);
         return this._tokenManager.getLocationForTokenChange(startLocation, this.key, rawValue);
     }
 
-    public getResetLocation(startLocation: MyLocation) {
-        return this.getModifiedLocation(startLocation, this._def.defaultValue);
+    _getResetLocation(startLocation: MyLocation) {
+        return this._getModifiedLocation(startLocation, this._def.defaultValue);
     }
 
-    public getModifiedUrl(value: T) {
-        return locationToUrl(this.getModifiedLocation(this._tokenManager.getCurrentLocation(), value));
+    _getModifiedUrl(value: T) {
+        return locationToUrl(this._getModifiedLocation(this._tokenManager.getCurrentLocation(), value));
     }
 
-    public getResetUrl() {
-        return this.getModifiedUrl(this._def.defaultValue);
+    _getResetUrl() {
+        return this._getModifiedUrl(this._def.defaultValue);
     }
 
-    public doSet(value: T, method?: UpdateMethod) {
+    doSet(value: T, method?: UpdateMethod) {
         const rawValue = this.getRawValue(value);
         this._tokenManager.doSetToken(this.key, rawValue, method);
     }
 
-    public doReset(method?: UpdateMethod) {
+    doReset(method?: UpdateMethod) {
         this.doSet(this._def.defaultValue, method);
     }
 
-    public trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback) {
+    trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback) {
         const rawValue = this.getRawValue(value);
         this._tokenManager.trySetToken(this.key, rawValue, method, callback);
     }
 
-    public tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
+    tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
         this.trySet(this._def.defaultValue, method, callback);
     }
 
     @computed
-    public get rawValue() {
+    get rawValue() {
         return this._currentQuery[this.key];
     }
 }

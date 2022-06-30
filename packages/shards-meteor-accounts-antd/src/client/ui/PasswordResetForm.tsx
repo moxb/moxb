@@ -13,7 +13,7 @@ type PasswordResetFormProps = Pick<PasswordResetFormUIProps, 'splash'>;
 export const PasswordResetForm = observer((props: PasswordResetFormProps) => {
     const { splash } = props;
     const locationManager = useLocationManager('password reset form');
-    const token = locationManager?.query.token;
+    const token = locationManager?._query.token;
     const [error, setError] = useState<string | undefined>();
     const [pending, setPending] = useState(false);
     return (
@@ -32,9 +32,9 @@ export const PasswordResetForm = observer((props: PasswordResetFormProps) => {
                 }
                 setError(undefined);
                 setPending(true);
-                Accounts.resetPassword(token, password1, (error: any) => {
+                Accounts.resetPassword(token, password1, (resetError: any) => {
                     setPending(false);
-                    setError(error?.reason);
+                    setError(resetError?.reason);
                 });
             }}
             loginLink={loginLink}

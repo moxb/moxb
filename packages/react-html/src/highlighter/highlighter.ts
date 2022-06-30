@@ -1,9 +1,28 @@
+import * as React from 'react';
+import { styleToString } from '../util';
+
 /**
  * Store info about where did we found the pattern inside the corpus
  */
 interface MatchInfo {
     searchText: string;
     startPos: number;
+}
+
+export interface HighlightOptions {
+    /**
+     * Which class to use for highlighting?
+     *
+     * Please don't supply both class and style together.
+     */
+    className?: string;
+
+    /**
+     * Which styles to use for highlighting?
+     *
+     * Please don't supply both class and style together.
+     */
+    style?: React.CSSProperties;
 }
 
 /**
@@ -29,12 +48,19 @@ const findMatch = (inValue: string | null | undefined, search: (string | undefin
 };
 
 /**
- * Highlight search results within a string
+ * Highlight search results within a string using HTML spans
  */
-export const highlightSearchResult = (value: string, searchText: string | undefined, className: string): string => {
+export const highlightSearchResult = (
+    value: string,
+    searchText: string | undefined,
+    options: HighlightOptions
+): string => {
     const match = findMatch(value, [searchText]);
+    const { className, style } = options;
+    const begin = className ? `<span class="${className}" >` : `<span style="${styleToString(style!)}">`;
+    const end = '</span>';
     if (match) {
-        return value.replace(RegExp(match.searchText, 'i'), (text) => `<span class="${className}">` + text + '</span>');
+        return value.replace(RegExp(match.searchText, 'i'), (text) => `${begin}${text}${end}`);
     } else {
         return value;
     }

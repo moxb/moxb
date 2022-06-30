@@ -41,12 +41,12 @@ describe('The Basic Location Manager implementation', () => {
 
         // Normal args will be dropped
         expect(locationManager._query.foo).toBeUndefined();
-        expect(foo.defined).toBeFalsy(); // It is not defined
+        expect(foo._defined).toBeFalsy(); // It is not defined
         expect(foo.value).toBe('foo-default'); // Lacking a value, it returns the default
 
         // Sticky args will stick around
         expect(locationManager._query.sticky).toBe('glue');
-        expect(sticky.defined).toBeTruthy();
+        expect(sticky._defined).toBeTruthy();
         expect(sticky.value).toBe('glue');
     });
 

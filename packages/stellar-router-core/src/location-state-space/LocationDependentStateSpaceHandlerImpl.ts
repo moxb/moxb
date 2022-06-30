@@ -101,16 +101,16 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
                   {
                       valueType: URLARG_TYPE_ORDERED_STRING_ARRAY,
                       defaultValue:
-                          typeof arg.defaultValue === 'object'
-                              ? arg.defaultValue
-                              : URLARG_TYPE_ORDERED_STRING_ARRAY.getParser('arg-for-' + id)(arg.defaultValue) || [],
+                          typeof arg._defaultValue === 'object'
+                              ? arg._defaultValue
+                              : URLARG_TYPE_ORDERED_STRING_ARRAY.getParser('arg-for-' + id)(arg._defaultValue) || [],
                   },
                   {
                       get rawValue() {
                           return arg!.value;
                       },
                       rawValueOn(location: TestLocation) {
-                          return arg.valueOn(location);
+                          return arg._valueOn(location);
                       },
                       doSet(value) {
                           arg!.doSet(value);
@@ -118,8 +118,8 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
                       trySet(value, callback?: SuccessCallback) {
                           arg!.trySet(value, undefined, callback);
                       },
-                      getModifiedUrl(value: string) {
-                          return arg.getModifiedUrl(value);
+                      _getModifiedUrl(value: string) {
+                          return arg._getModifiedUrl(value);
                       },
                   }
               )
@@ -155,7 +155,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
      * Get the current tokens
      */
     protected _getTestTokens(location: TestLocation): string[] {
-        return this._urlArg ? this._urlArg.valueOn(location) : location.pathTokens;
+        return this._urlArg ? this._urlArg._valueOn(location) : location.pathTokens;
     }
 
     /**
@@ -212,7 +212,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
     getUrlForSubState(state: SubStateInContext<LabelType, WidgetType, DataType>): string {
         if (this._urlArg) {
             const value = this._getArgValueForSubState(state);
-            const url = this._urlArg.getModifiedUrl(value);
+            const url = this._urlArg._getModifiedUrl(value);
             if (url === undefined) {
                 throw new Error(this._id + ": can't generate a link based on a non-URL arg!");
             } else {

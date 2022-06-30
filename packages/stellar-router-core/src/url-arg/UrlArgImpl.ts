@@ -17,10 +17,10 @@ export function getFromQuery<T>(query: Query, key: string, parse: ParserFunc<T>,
 export class UrlArgImpl<T> implements UrlArg<T> {
     private readonly _def: UrlArgDefinition<T>;
     private readonly _parser: ParserFunc<T>;
-    public readonly key: string;
-    public readonly defaultValue: T;
+    readonly key: string;
+    readonly _defaultValue: T;
 
-    public constructor(private readonly _locationManager: LocationManager, definition: UrlArgDefinition<T>) {
+    constructor(private readonly _locationManager: LocationManager, definition: UrlArgDefinition<T>) {
         makeObservable(this);
         const { parser, valueType, key } = (this._def = definition);
         this._parser = parser || valueType.getParser(key);
@@ -28,26 +28,26 @@ export class UrlArgImpl<T> implements UrlArg<T> {
             this._locationManager._registerUrlArg(this);
         }
         this.key = this._def.key;
-        this.defaultValue = this._def.defaultValue;
+        this._defaultValue = this._def.defaultValue;
     }
 
     @computed
-    public get defined() {
+    get _defined() {
         return existsInQuery(this._locationManager._query, this.key);
     }
 
     // Extract the value from a given query
-    public getOnQuery(query: Query) {
+    getOnQuery(query: Query) {
         const { defaultValue } = this._def;
         return getFromQuery(query, this.key, this._parser, defaultValue);
     }
 
     @computed
-    public get value() {
+    get value() {
         return this.getOnQuery(this._locationManager._query);
     }
 
-    public valueOn(location: TestLocation) {
+    _valueOn(location: TestLocation) {
         return this.getOnQuery(location.query);
     }
 
@@ -59,39 +59,39 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return isEqual(value, defaultValue) ? undefined : format(value);
     }
 
-    public getModifiedUrl(value: T) {
+    _getModifiedUrl(value: T) {
         const rawValue = this._getRawValue(value);
         return this._locationManager._getURLForQueryChange(this.key, rawValue);
     }
 
-    public getModifiedLocation(start: MyLocation, value: T) {
+    _getModifiedLocation(start: MyLocation, value: T) {
         const rawValue = this._getRawValue(value);
         return this._locationManager._getNewLocationForQueryChanges(start, [{ key: this.key, value: rawValue }]);
     }
 
-    public getResetUrl() {
-        return this.getModifiedUrl(this._def.defaultValue);
+    _getResetUrl() {
+        return this._getModifiedUrl(this._def.defaultValue);
     }
 
-    public getResetLocation(start: MyLocation): MyLocation {
-        return this.getModifiedLocation(start, this._def.defaultValue);
+    _getResetLocation(start: MyLocation): MyLocation {
+        return this._getModifiedLocation(start, this._def.defaultValue);
     }
 
-    public doSet(value: T, method?: UpdateMethod) {
+    doSet(value: T, method?: UpdateMethod) {
         const rawValue = this._getRawValue(value);
         this._locationManager._doSetQuery(this.key, rawValue, method);
     }
 
-    public trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback) {
+    trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback) {
         const rawValue = this._getRawValue(value);
         this._locationManager._trySetQuery(this.key, rawValue, method, callback);
     }
 
-    public doReset(method?: UpdateMethod) {
+    doReset(method?: UpdateMethod) {
         this.doSet(this._def.defaultValue, method);
     }
 
-    public tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
+    tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
         this.trySet(this._def.defaultValue, method, callback);
     }
 }

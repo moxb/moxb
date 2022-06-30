@@ -485,7 +485,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         dropPermanent?: boolean
     ): MyLocation {
         // First we back up the values of our permanent URL args
-        const backup = this._permanentArgs.map((arg) => arg.valueOn(this._getTestLocation(baseLocation)));
+        const backup = this._permanentArgs.map((arg) => arg._valueOn(this._getTestLocation(baseLocation)));
 
         // Calculate the new string of path tokens
         const oldTokens = this._getPathTokensForLocation(baseLocation);
@@ -498,7 +498,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         const result = dropPermanent
             ? newLocation
             : this._permanentArgs.reduce(
-                  (prevLocation, arg, index) => arg.getModifiedLocation(prevLocation, backup[index]),
+                  (prevLocation, arg, index) => arg._getModifiedLocation(prevLocation, backup[index]),
                   newLocation
               );
 
@@ -602,8 +602,8 @@ export class BasicLocationManagerImpl implements LocationManager {
             return (argChanges || []).reduce(
                 (prevLocation: MyLocation, change) =>
                     change.reset
-                        ? change.arg.getResetLocation(prevLocation)
-                        : change.arg.getModifiedLocation(prevLocation, change.value),
+                        ? change.arg._getResetLocation(prevLocation)
+                        : change.arg._getModifiedLocation(prevLocation, change.value),
                 startLocation
             );
         }

@@ -30,7 +30,7 @@ export const NavLinkButtonAnt = observer((props: NavLinkButtonAntProps) => {
      */
     const { position, to, argChanges, appendTokens, removeTokenCount, toRef } = props;
 
-    const wantedLocation = locationManager.getNewLocationForLinkProps({
+    const wantedLocation = locationManager._getNewLocationForLinkProps({
         position,
         to,
         argChanges,
@@ -47,7 +47,7 @@ export const NavLinkButtonAnt = observer((props: NavLinkButtonAntProps) => {
 
     function handleClick() {
         if (!disabled) {
-            locationManager.trySetLocation(wantedLocation);
+            locationManager._trySetLocation(wantedLocation);
         }
     }
 

@@ -153,7 +153,9 @@ export class StateSpaceHandlerImpl<LabelType, WidgetType, DataType>
         this._enumerateSubStates = this._enumerateSubStates.bind(this);
         this._addContext = this._addContext.bind(this);
         this._stateSpace = stateSpace;
-        this._subStatesInContext = stateSpace.subStates.map((s) => this._addContext([], s, stateSpace.metaData));
+        this._subStatesInContext = stateSpace.subStates.map((s) =>
+            this._addContext([], s, stateSpace.metaData || 'unnamed')
+        );
         this._allSubStates = Array.prototype.concat(...this._subStatesInContext.map(this._enumerateSubStates));
         this._filterCondition = filterCondition;
     }

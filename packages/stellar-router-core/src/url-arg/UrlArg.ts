@@ -1,44 +1,69 @@
 import { MyLocation, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TestLocation } from '../location-manager/TestLocation';
 
-export interface ParserFunc<T> {
-    (formatted: string): T;
-}
+// UrlArgs are typed, which means all UrlArg will have a type definition.
+// The type definition determines how do we represent the value in a string, fitting for the URL.
+// For this, we need parser and formatter functions.
 
-interface EqualityTester<T> {
-    (v1: T, v2: T): boolean;
-}
-
+/**
+ * Express the original data in a string form
+ */
 interface FormatterFunc<T> {
     (value: T): string;
 }
 
+/**
+ * Recover the original data from a string form
+ */
+export interface ParserFunc<T> {
+    (formatted: string): T;
+}
+
+/**
+ * Test the equivalence of two values
+ */
+interface EqualityTester<T> {
+    (v1: T, v2: T): boolean;
+}
+
+/**
+ * Interface for UrlArg type definitions
+ */
 export interface UrlArgTypeDef<T> {
     getParser: (key: string) => ParserFunc<T>;
     isEqual: EqualityTester<T>;
     format: FormatterFunc<T>;
 }
 
-export interface ArgDefinition<T> {
+/**
+ * The core of the definition of an argument.
+ * Don't use this directly.
+ */
+export interface ArgDefinitionCore<T> {
     valueType: UrlArgTypeDef<T>;
     parser?: ParserFunc<T>;
     defaultValue: T;
 }
 
-export interface UrlArgDefinition<T> extends ArgDefinition<T> {
+/**
+ * The definition of an UrlArg
+ */
+export interface UrlArgDefinition<T> extends ArgDefinitionCore<T> {
+    /**
+     * What's the name of the parameter we use for storing this?
+     */
     key: string;
+
+    /**
+     * Should this be retained when we change the path?
+     */
     permanent?: boolean;
 }
 
 /**
- * Handler for an URL argument that can only be read
+ * Handler for a URL argument that can only be read
  */
 export interface ReadOnlyArg<T> {
-    /**
-     * Is this argument specified in the current query?
-     */
-    readonly defined: boolean;
-
     /**
      * The current value of the arg
      */
@@ -46,33 +71,30 @@ export interface ReadOnlyArg<T> {
 
     /**
      * Get the value as it would be if we were at the given test location
+     *
+     * (This is a technical detail, only relevant for the navigation system itself.)
      */
-    valueOn(location: TestLocation): T;
+    _valueOn(location: TestLocation): T;
 
     /**
      * Get the default value
+     *
+     * (This is a technical detail, only relevant for the navigation system itself.)
      */
-    readonly defaultValue: T;
+    readonly _defaultValue: T;
+
+    /**
+     * Is this argument specified in the current query?
+     *
+     * (This is a technical detail, only relevant for the navigation system itself.)
+     */
+    readonly _defined: boolean;
 }
 
 /**
- * Define an URL argument that can be read, and reset, but not written to directly
+ * Handler for a URL argument that can be read and reset, but not written to directly
  */
 export interface ResettableArg<T> extends ReadOnlyArg<T> {
-    /**
-     * Get the Location that would result if we reset this arg
-     *
-     * Returns the same value if this arg doesn't care about the URL.
-     */
-    getResetLocation(start: MyLocation): MyLocation;
-
-    /**
-     * Get the URL string that would result if we reset the value
-     *
-     * Returns undefined if this arg doesn't care about the URL.
-     */
-    getResetUrl(): string | undefined;
-
     /**
      * Reset the value to default
      *
@@ -87,6 +109,24 @@ export interface ResettableArg<T> extends ReadOnlyArg<T> {
      * @param callback Callback to call with the result status
      */
     tryReset(method?: UpdateMethod, callback?: SuccessCallback): void;
+
+    /**
+     * Get the Location that would result if we reset this arg
+     *
+     * Returns the same value if this arg doesn't care about the URL.
+     *
+     * (This is a technical detail, only useful for the navigation system.)
+     */
+    _getResetLocation(start: MyLocation): MyLocation;
+
+    /**
+     * Get the URL string that would result if we reset the value
+     *
+     * Returns undefined if this arg doesn't care about the URL.
+     *
+     * (This is a technical detail, only useful for the navigation system.)
+     */
+    _getResetUrl(): string | undefined;
 }
 
 /**
@@ -114,15 +154,19 @@ export interface UrlArg<T> extends ResettableArg<T> {
      * Get the Location that would result if we modified the value
      *
      * Returns the same value if this arg doesn't care about the URL.
+     *
+     * (This is a technical detail, only useful for the navigation system.)
      */
-    getModifiedLocation(start: MyLocation, value: T): MyLocation;
+    _getModifiedLocation(start: MyLocation, value: T): MyLocation;
 
     /**
      * Get the URL string that would result if we modified the value
      *
      * Returns undefined if this arg doesn't care about the URL.
+     *
+     * (This is a technical detail, only useful for the navigation system.)
      */
-    getModifiedUrl(value: T): string | undefined;
+    _getModifiedUrl(value: T): string | undefined;
 }
 
 /**
@@ -136,6 +180,9 @@ export interface ArgSet<T> {
     value: T;
 }
 
+/**
+ * Prepare information about a proposed change of an UrlArg
+ */
 export function setArg<T>(arg: UrlArg<T>, value: T): ArgSet<T> {
     return {
         reset: false,
@@ -154,6 +201,9 @@ export interface ArgReset {
     arg: ResettableArg<any>;
 }
 
+/**
+ * Prepare information about a proposed reset of an UrlArg
+ */
 export const resetArg = (arg: ResettableArg<any>): ArgReset => ({
     reset: true,
     arg,
@@ -175,33 +225,13 @@ export type ArgChange<T> = ArgSet<T> | ArgReset;
  *
  * When reset, the source arg will be reset.
  *
- * The target can't be written to directly.
+ * The target can't be written directly.
  */
 class DerivedArg<I, O> implements ResettableArg<O> {
     constructor(protected readonly source: UrlArg<I>, protected readonly sourceToTarget: (value: I) => O) {}
 
-    get defined() {
-        return this.source.defined;
-    }
-
     get value() {
         return this.sourceToTarget(this.source.value);
-    }
-
-    valueOn(location: TestLocation) {
-        return this.sourceToTarget(this.source.valueOn(location));
-    }
-
-    get defaultValue() {
-        return this.sourceToTarget(this.source.defaultValue);
-    }
-
-    getResetLocation(start: MyLocation) {
-        return this.source.getResetLocation(start);
-    }
-
-    getResetUrl() {
-        return this.source.getResetUrl();
     }
 
     doReset(method?: UpdateMethod) {
@@ -210,6 +240,26 @@ class DerivedArg<I, O> implements ResettableArg<O> {
 
     tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
         this.source.tryReset(method, callback);
+    }
+
+    get _defined() {
+        return this.source._defined;
+    }
+
+    _valueOn(location: TestLocation) {
+        return this.sourceToTarget(this.source._valueOn(location));
+    }
+
+    get _defaultValue() {
+        return this.sourceToTarget(this.source._defaultValue);
+    }
+
+    _getResetLocation(start: MyLocation) {
+        return this.source._getResetLocation(start);
+    }
+
+    _getResetUrl() {
+        return this.source._getResetUrl();
     }
 }
 
@@ -229,7 +279,7 @@ export function defineDerivedArg<I, O>(source: UrlArg<I>, sourceToTarget: (value
 }
 
 /**
- * A DependantArg is an UrlArg that is dependant on the value of another UrlArg.
+ * A DependantArg is an UrlArg that is dependent on the value of another UrlArg.
  *
  * This is like a DerivedArg, but writeable.
  *
@@ -247,29 +297,29 @@ class DependantArg<I, O> extends DerivedArg<I, O> implements UrlArg<O> {
         super(source, sourceToTarget);
     }
 
-    trySet(value: O, method: UpdateMethod, callback: SuccessCallback) {
-        const sourceValue = this.targetToSource(value);
-        this.source.trySet(sourceValue, method, callback);
-    }
-
     doSet(value: O, method?: UpdateMethod) {
         const sourceValue = this.targetToSource(value);
         this.source.doSet(sourceValue, method);
     }
 
-    getModifiedLocation(start: MyLocation, value: O) {
+    trySet(value: O, method: UpdateMethod, callback: SuccessCallback) {
         const sourceValue = this.targetToSource(value);
-        return this.source.getModifiedLocation(start, sourceValue);
+        this.source.trySet(sourceValue, method, callback);
     }
 
-    getModifiedUrl(value: O) {
+    _getModifiedLocation(start: MyLocation, value: O) {
         const sourceValue = this.targetToSource(value);
-        return this.source.getModifiedUrl(sourceValue);
+        return this.source._getModifiedLocation(start, sourceValue);
+    }
+
+    _getModifiedUrl(value: O) {
+        const sourceValue = this.targetToSource(value);
+        return this.source._getModifiedUrl(sourceValue);
     }
 }
 
 /**
- * Define a UrlArg dependant on the value of another UrlArg.
+ * Define a UrlArg dependent on the value of another UrlArg.
  *
  * This is like a derived arg, but writeable.
  *

@@ -1,13 +1,20 @@
 import * as React from 'react';
-import { highlightSearchResult } from './highlighter';
+import { HighlightOptions, highlightSearchResult } from './highlighter';
 
-import '../highlighter.css';
-const DEFAULT_CLASS = 'highlighter-text-match';
+const defaultHighlight: HighlightOptions = {
+    style: {
+        color: 'red',
+        fontWeight: 'bold',
+    },
+};
 
-export const highlightedText = (text: string, pattern: string, className = DEFAULT_CLASS) => (
+/**
+ * Display a text, with potential pattern matches highlighted with html SPANs
+ */
+export const highlightedText = (text: string, pattern: string, options: HighlightOptions = defaultHighlight) => (
     <span
         dangerouslySetInnerHTML={{
-            __html: highlightSearchResult(text, pattern, className),
+            __html: highlightSearchResult(text, pattern, options),
         }}
     />
 );
@@ -26,11 +33,11 @@ interface HighlightedTextProps {
     /**
      * Optional: what class name to put on the highlighter SPAN?
      */
-    className?: string;
+    options?: HighlightOptions;
 }
 
 /**
- * Display a text, with potential pattern matches highlighted
+ * Display a text, with potential pattern matches highlighted with html SPANs
  */
 export const HighlightedText = (props: HighlightedTextProps) =>
-    highlightedText(props.text, props.pattern, props.className || DEFAULT_CLASS);
+    highlightedText(props.text, props.pattern, props.options || defaultHighlight);

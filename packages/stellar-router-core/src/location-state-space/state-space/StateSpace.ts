@@ -100,7 +100,8 @@ export interface SubStateDisplayInfo<LabelType> {
     /**
      * The label to identify this sub-state,
      *
-     * when offered up for selection in a menu or similar
+     * when offered up for selection in a menu or similar.
+     * When not specified, the key will be used.
      */
     label?: LabelType;
 
@@ -173,7 +174,7 @@ export interface StateSpace<LabelType, WidgetType, DataType> {
      *
      * Currently, this is only used for debugging purposes and can be safely omitted.
      */
-    metaData: string;
+    metaData?: string;
 
     /**
      * The list of possible sub-states within this state

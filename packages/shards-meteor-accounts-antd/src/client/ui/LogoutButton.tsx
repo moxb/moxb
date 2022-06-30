@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button } from 'antd';
 
-function logOut() {
+export function userLogout() {
     Meteor.logout();
 }
 
 export const LogoutButton = () => {
-    return <Button onClick={() => logOut()}>Log out</Button>;
+    return <Button onClick={userLogout}>Log out</Button>;
 };
