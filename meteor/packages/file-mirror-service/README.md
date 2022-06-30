@@ -63,3 +63,7 @@ According to my tests, when we have a file collection with hundreds of thousands
 simply publishing that collection to the client causes a _huge_ slow-down.
 
 Keeping the data on the server, and introducing a method for client access saves the day.
+
+## TypeScript support
+
+You can copy the module declaration [from here](https://github.com/moxb/moxb/blob/master/meteor/global.d.ts#L281).

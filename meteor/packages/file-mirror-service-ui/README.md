@@ -9,3 +9,7 @@ The actual work is done by the `moxb:file-mirror-service` package. This package 
  * `<MirroredResourceDownloadLink>` can create a download link to a mirrored file.
 
 Both components use Meteor methods for loading the information about the mirrored files from the server side.
+
+## TypeScript support
+
+You can copy the module declaration [from here](https://github.com/moxb/moxb/blob/master/meteor/global.d.ts#L359).

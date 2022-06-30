@@ -1,6 +1,6 @@
 Package.describe({
   name: 'moxb:file-mirror-service',
-  version: '0.0.8',
+  version: '0.0.9',
   summary: 'Service to maintain and access a mirrored cache of remote files',
     git: 'https://github.com/moxb/moxb/tree/master/meteor/packages/file-mirror-service',
   documentation: 'README.md'

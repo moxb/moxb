@@ -1,6 +1,6 @@
 Package.describe({
   name: 'moxb:file-mirror-service-ui',
-  version: '0.0.2',
+  version: '0.0.3',
   summary: 'Client-side widgets for your file mirror service',
   git: 'https://github.com/moxb/moxb/tree/master/meteor/packages/file-mirror-service-ui',
   documentation: 'README.md'

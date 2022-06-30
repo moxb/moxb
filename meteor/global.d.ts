@@ -355,3 +355,61 @@ declare module 'meteor/moxb:file-mirror-service' {
 
     const methodGetMirroredFileInfo: MeteorMethodControl<string, MirroredFileInfo>;
 }
+
+declare module 'meteor/moxb:file-mirror-service-ui' {
+    import type { UIFragment } from '@moxb/react-html';
+
+    interface MirroredImageLinkProps {
+        /**
+         * Where is the original image?
+         *
+         * (We will use this URL to identify our mirrored copy)
+         */
+        originalUrl: string;
+
+        // ========= Standard image attributes ======
+        width?: number | string;
+        height?: number | string;
+        alt?: string;
+        title?: string;
+        className?: string;
+        style?: React.CSSProperties;
+
+        /**
+         * Why do we need this image?
+         *
+         * (This is only used for debugging.)
+         */
+        reason: string;
+
+        /**
+         * Optional: what spinner to use while waiting for info about the image?
+         *
+         * If not specified, we will simply use a ...
+         */
+        spinner?: JSX.Element;
+    }
+
+    function MirroredImage(props: MirroredImageLinkProps): JSX.Element;
+
+    interface MirroredResourceDownloadLinkProps {
+        /**
+         * What file should we download?
+         *
+         * (We need this to identify our mirrored copy)
+         */
+        originalUrl: string;
+
+        /**
+         * What to display as part of the link?
+         */
+        child: UIFragment;
+
+        /**
+         * Optional spinner to display while waiting for into
+         */
+        spinner?: JSX.Element;
+    }
+
+    function MirroredResourceDownloadLink(props: MirroredResourceDownloadLinkProps): JSX.Element;
+}
