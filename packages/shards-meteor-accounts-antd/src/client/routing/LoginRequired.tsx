@@ -1,7 +1,13 @@
 import * as React from 'react';
 
 import type { UIFragment } from '@moxb/react-html';
-import { MyLocation, StateSpace, UrlArg, LocationDependentArea, redirect } from '@moxb/stellar-router-react';
+import {
+    MyLocation,
+    StateSpace,
+    LocationDependentArea,
+    redirect,
+    useLocationManager,
+} from '@moxb/stellar-router-react';
 import { useMeteorUser } from '@moxb/meteor-react';
 
 import { LoginForm } from '../ui/LoginForm';
@@ -13,11 +19,13 @@ import { PATH } from '../../api/paths';
 interface LoginRequiredProps {
     children: JSX.Element;
     splash?: UIFragment;
-    redirectArg: UrlArg<MyLocation | null>;
 }
 
 export function LoginRequired(props: LoginRequiredProps) {
-    const { splash, redirectArg, children } = props;
+    const { splash, children } = props;
+
+    const locationManager = useLocationManager('login required');
+    const redirectArg = locationManager.defineObjectArg<MyLocation>('redirectTo', null, true);
 
     const user = useMeteorUser();
     if (user === undefined) {
