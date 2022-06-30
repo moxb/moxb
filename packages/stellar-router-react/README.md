@@ -2,7 +2,7 @@
 
 Stellar Router is a router for web applications. This package provides the React integration.
 For more info about the design goals and features of this routing system,
-see the [@moxb/stellar-router-core](../stellar-router-core) package.
+see the [@moxb/stellar-router-core](https://www.npmjs.com/package/@moxb/stellar-router-core) package.
 
 Stellar Router itself is UI-agnostic.
 This package defines a specialized version of the generic `StateSpace` interface which assumes that
@@ -57,7 +57,7 @@ const MainAppLayout = () => (
 );
 ```
 
-See [LocationDependentAreaProps](src/LocationDependentAreaProps.ts) for configuration options.
+See [LocationDependentAreaProps](https://github.com/moxb/moxb/blob/master/packages/stellar-router-react/src/LocationDependentAreaProps.ts) for configuration options.
 
 Another important widget is `rootOrDetails`.
 
@@ -85,8 +85,8 @@ const links = () => (
     </div>
 );
 ```
-See [CoreLinkProps](../stellar-router-core/src/linking/CoreLinkProps.ts)
-and [AnchorParams](../react-html/src/Anchor.tsx) about supported parameters.
+See [CoreLinkProps](https://github.com/moxb/moxb/blob/master/packages/stellar-router-core/src/linking/CoreLinkProps.ts)
+and [AnchorParams](https://github.com/moxb/moxb/blob/master/packages/react-html/src/Anchor.tsx) about supported parameters.
 
  * Besides `NavLink`, there is also `BoundNavLink`, which is similar to `NavLink`,
    except that it takes the information about where to go from a `BoundLink`,
@@ -109,6 +109,6 @@ and it will handle the rest. I.e.
 ```
 
 ## See also
-* [@moxb/stellar-router-core](../stellar-router-core) for the core router package
-* [@moxb/stellar-router-antd](../stellar-router-antd) provides further navigational widgets
+* [@moxb/stellar-router-core](https://www.npmjs.com/package/@moxb/stellar-router-core) for the core router package
+* [@moxb/stellar-router-antd](https://www.npmjs.com/package/@moxb/stellar-router-antd) provides further navigational widgets
   (menus etc.) built using the Ant Design library.

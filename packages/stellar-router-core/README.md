@@ -56,12 +56,11 @@ Stellar Router is a router for web applications.
 
 ## Usage
 
-The following links should work if you are reading this
-[on GitHub](https://github.com/moxb/moxb/blob/master/packages/stellar-router-core/).
-
 ### Initialization
 
-You should be using something like [@moxb/stellar-router-react](../stellar-router-react) package for integrating this to your app.
+You should be using something like
+[@moxb/stellar-router-react](https://www.npmjs.com/package/@moxb/stellar-router-react) package
+for integrating this to your app.
 
 ### Using different URL schemes
 
@@ -118,7 +117,7 @@ const menu: StateSpace<string, string, void> = {
 };
 ```
 
-See [StateSpace.ts](src/location-state-space/state-space/StateSpace.ts) for more.
+See [StateSpace.ts](https://github.com/moxb/moxb/blob/master/packages/stellar-router-core/src/location-state-space/state-space/StateSpace.ts) for more.
 
 ### Navigating the state space from code
 
@@ -130,7 +129,7 @@ locationManager.tryAppendPathTokens("blue");              // will go to /colors/
 locationManager.trySetPathTokens(1, ["red"]);             // will go to /colors/red
 ```
 
-See [LocationManager.ts](src/location-manager/LocationManager.ts) for more.
+See [LocationManager.ts](https://github.com/moxb/moxb/blob/master/packages/stellar-router-core/src/location-manager/LocationManager.ts) for more.
 
 ### Interacting with query string parameters using UrlArgs
 
@@ -165,7 +164,7 @@ Normally, when we change the path (see above), we drop all query string paramete
 However, some UrlArgs can be marked permanent when defining them.
 Permanent UrlArgs are retained even when the path changes.
 
-See [UrlArg.ts](src/url-arg/UrlArg.ts) for more.
+See [UrlArg.ts](https://github.com/moxb/moxb/blob/master/packages/stellar-router-core/src/url-arg/UrlArg.ts) for more.
 
 ### Interacting with path tokens using TokenManager and UrlArgs
 
@@ -224,7 +223,7 @@ Basic example:
 ```
 
 ## See also
-* [@moxb/stellar-router-react](../stellar-router-react) provides integration with React,
-  and some React components that can use the router.
-* [@moxb/stellar-router-antd](../stellar-router-antd) provides further navigational widgets
-  (menus etc.) built using the Ant Design library.
+* [@moxb/stellar-router-react](https://www.npmjs.com/package/@moxb/stellar-router-react)
+  provides integration with React, and some React components that can use the router.
+* [@moxb/stellar-router-antd](https://www.npmjs.com/package/@moxb/stellar-router-antd)
+  provides further navigational widgets (menus etc.) built using the Ant Design library.
