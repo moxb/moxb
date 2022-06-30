@@ -1,6 +1,6 @@
 {
   "name": "@moxb/stellar-router-antd",
-  "version": "0.3.37",
+  "version": "0.3.38",
   "description": "stellar-router: ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
