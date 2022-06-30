@@ -1,6 +1,6 @@
 Package.describe({
   name: 'moxb:file-mirror-service',
-  version: '0.0.5',
+  version: '0.0.6',
   summary: 'Service to maintain and access a mirrored cache of remote files',
   git: '',
   documentation: 'README.md'
