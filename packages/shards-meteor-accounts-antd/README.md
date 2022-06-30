@@ -4,9 +4,10 @@ This package provides a _very basic_ solution for common user account workflows 
 
 **This is considered to be W.I.P.**
 
-## Assumptions:
+### Assumptions:
  - You are building a Meteor application, with a React UI
  - Client-side routing is provided by Stellar Router
+ - You want to use Ant Design for the UI
 
 ## Features
 
@@ -53,4 +54,5 @@ so that it matches with the client-side routing.
 
 ## See also
 
-The whole UI for this package comes from `@moxb/shards-accounts-ui-antd`.
+The UI used by this package is shipped in
+[@moxb/shards-accounts-ui-antd](https://www.npmjs.com/package/@moxb/shards-account-ui-antd).
