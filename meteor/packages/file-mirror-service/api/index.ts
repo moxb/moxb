@@ -59,7 +59,7 @@ export interface MirrorService<ExtraMeta = {}> {
     /**
      * Get some stats
      */
-    getStats: (selector: Mongo.Selector<MirroredFileCore & ExtraMeta>) => void;
+    getStats: (selector: Mongo.Selector<MirroredFileCore & ExtraMeta>) => Record<string, any>;
 }
 
 // ============== Singleton access
