@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-meteor-process-manager-antd",
-  "version": "0.3.32",
+  "version": "0.3.33",
   "description": "Shards: Meteor process manager - antd UI",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -58,10 +58,10 @@
     "eslint-plugin-import": "2.26.0"
   },
   "dependencies": {
-    "@moxb/meteor": "^0.3.32",
-    "@moxb/meteor-react": "^0.3.32",
-    "@moxb/react-html": "^0.3.28",
-    "@moxb/shards-meteor-process-manager-core": "^0.3.32"
+    "@moxb/meteor": "^0.3.33",
+    "@moxb/meteor-react": "^0.3.33",
+    "@moxb/react-html": "^0.3.33",
+    "@moxb/shards-meteor-process-manager-core": "^0.3.33"
   },
   "gitHead": "c0ed29fe8703cdd8bd26b1be4dd8c2f42390fea4"
 }
