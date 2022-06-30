@@ -7,14 +7,19 @@ Next version
 =======================================================================================
 
 ### Added
-- `@moxb/meteor`, `registerMeteorMethod()`: make it possible to supply a Meteor instance
-- Add a directory for Meteor packages, and publish
-  - `moxb:file-mirror-service` and
-  - `moxb:file-mirror-service-ui`
 
 ### Fixed
 
 ### Changed
+
+[v0.3.33](https://github.com/moxb/moxb/releases/tag/v0.3.33) (2022-06-30)
+=======================================================================================
+
+### Added
+- `@moxb/meteor`, `registerMeteorMethod()`: make it possible to supply a Meteor instance
+- Add a directory for Meteor packages, and publish
+  - `moxb:file-mirror-service` and
+  - `moxb:file-mirror-service-ui`
 
 [v0.3.30](https://github.com/moxb/moxb/releases/tag/v0.3.30) (2022-06-29)
 =======================================================================================
