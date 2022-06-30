@@ -114,5 +114,3 @@ export const methodGetMirroredFileInfo = registerMeteorMethod(
     },
     Meteor
 );
-
-console.log(methodGetMirroredFileInfo);
