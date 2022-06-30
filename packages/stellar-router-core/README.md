@@ -95,9 +95,11 @@ const menu: StateSpace<string, string, void> = {
         },
         {
             key: "colors",
-            label: "Color selector", // We will use this when rendering a menu
+            // We will use this when rendering a menu
+            label: "Color selector",
             fragment: "Please pick a color!",
-            subStates: [ // this sub-state also has it's own sub-states
+            // this sub-state also has it's own sub-states
+            subStates: [
                 {
                     key: "green",
                     fragment: "Green color",
@@ -113,7 +115,8 @@ const menu: StateSpace<string, string, void> = {
             ],
         },
     ],
-    fallback: "Unknown content", // we will display this when at an unknown url
+    // we will display this when at an unknown url
+    fallback: "Unknown content",
 };
 ```
 
@@ -123,10 +126,14 @@ See [StateSpace.ts](https://github.com/moxb/moxb/blob/master/packages/stellar-ro
 
 You can use the LocationManager to move around within the app. Basic examples:
 ```typescript
-locationManager.trySetPathTokens(0, ["colors", "green"]); // will go to /colors/green
-locationManager.tryRemovePathTokens(1);                   // will go to /colors
-locationManager.tryAppendPathTokens("blue");              // will go to /colors/blue
-locationManager.trySetPathTokens(1, ["red"]);             // will go to /colors/red
+locationManager.trySetPathTokens(0, ["colors", "green"]);
+                                              // will go to /colors/green
+locationManager.tryRemovePathTokens(1);
+                                              // will go to /colors
+locationManager.tryAppendPathTokens("blue");
+                                              // will go to /colors/blue
+locationManager.trySetPathTokens(1, ["red"]);
+                                              // will go to /colors/red
 ```
 
 See [LocationManager.ts](https://github.com/moxb/moxb/blob/master/packages/stellar-router-core/src/location-manager/LocationManager.ts) for more.
