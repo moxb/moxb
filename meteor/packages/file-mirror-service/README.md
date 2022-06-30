@@ -2,6 +2,14 @@
 
 This package provides a simple-to-use file mirror service, on top of `ostrio:files`.
 
+## Overview
+
+ * The files will be stored on a directory on the server.
+ * Information about the files will be stored in a Mongo collection.
+ * New files are introduced by fetching them from a remote URL.
+ * Each stored file be identified by the URL we have originally copied it from.
+ * The stored files are available for lookup and processing on the server side, and they can also be served via HTTP.
+
 ## Quick start guide
 
 In your server boot-up code, do something like this:
@@ -55,6 +63,8 @@ As a shortcut for displaying mirrored images and providing working download link
 you can consider using the `@moxb/file-mirror-service-ui` package, which provides
 those widgets out of the box.
 
+## FAQ
+
 ### Why can't we simply use `FileCollection` for getting the data from the server to the client, as provided by `ostrio:files` ?
 
 In one word: **performance**!
@@ -64,6 +74,6 @@ simply publishing that collection to the client causes a _huge_ slow-down.
 
 Keeping the data on the server, and introducing a method for client access saves the day.
 
-## TypeScript support
+### How can I use this with TypeScript?
 
 You can copy the module declaration [from here](https://github.com/moxb/moxb/blob/master/meteor/global.d.ts#L281).
