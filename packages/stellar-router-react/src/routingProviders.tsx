@@ -48,7 +48,7 @@ export const useLinkGenerator = (): LinkGenerator | undefined => useContext(Link
  */
 export interface RoutingStore {
     readonly locationManager: LocationManager;
-    readonly tokenManager?: TokenManager;
+    readonly tokenManager: TokenManager;
     readonly linkGenerator?: LinkGenerator;
 }
 
@@ -76,7 +76,7 @@ export interface CreateRoutingStoreProps extends BasicLocationManagerProps {
 /**
  * Create a store that will be used for routing.
  */
-export function createRoutingStore(props: CreateRoutingStoreProps): RoutingStore {
+export function createRoutingStore(props: CreateRoutingStoreProps = {}): RoutingStore {
     const { urlSchema, history, communicator, activate = true, stateSpace } = props;
 
     // Create the location manager
