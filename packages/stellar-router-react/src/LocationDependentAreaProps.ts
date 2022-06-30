@@ -18,7 +18,7 @@ export interface LocationDependentAreaProps<DataType> {
     /**
      * The number of tokens on the paths already consumed to get here
      */
-    tokensParsed?: number;
+    parsedTokens?: number;
 
     /**
      * An optional condition to use for filtering which sub-states are available
