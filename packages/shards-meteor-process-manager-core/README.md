@@ -42,6 +42,12 @@ function someProcess(context: ProcessContext<any>) {
 
 See [ProcessContext](https://github.com/moxb/moxb/tree/master/packages/shards-meteor-process-manager-core/src/types/ProcessContext.ts) for more.
 
+### Recursive launching of processes
+
+A process can also request the launching of another process. Multiple modes of interactions are supported.
+
+TODO
+
 ### Process Controller
 
 The process controller is a singleton object, living on the server side.

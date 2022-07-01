@@ -48,7 +48,7 @@ See [ProcessManagerControllerProps](https://github.com/moxb/moxb/tree/master/pac
 
 All nodes should have access to the same MongoDB instance. For best (fastest) result, the OpLog support should be enabled, and it should be part of the MongoURL provided to the meteor nodes.
 
-### Scope, ScopeId, ScopeData, authorization
+### Meteor users, ScopeId, Scope, ScopeData, authorization
 
 TODO
 
