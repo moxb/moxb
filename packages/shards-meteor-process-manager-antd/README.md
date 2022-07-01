@@ -1,8 +1,24 @@
-# Synchronous wrappers around Promises, using fiber Futures
+# Shards - Meteor Process Manager: AntD UI
 
-You can use this library to wrap your Promise-returning functions with (seemingly) fully synchronous functions,
-which can then be called without any extra precaution, without using async/await.
+This family of packages provides a framework for Meteor projects that allows running tasks in the background.
 
-The magic is powered by [fibers](https://www.npmjs.com/package/fibers).
+## Overview
 
-Before using it for new project, **please consider the node of obsolesce at fiber's side**.
+* See [@moxb/shards-meteor-process-manager-core](https://www.npmjs.com/package/@moxb/shards-meteor-process-manager-core)
+for a description of some basic terms.
+* See [@moxb/shards-meteor-process-manager-server](https://www.npmjs.com/package/@moxb/shards-meteor-process-manager-server)
+about the server integration.
+* This packages provides a UI for managing the processes.
+
+## Usage
+
+Just use the React component.
+
+```typescript jsx
+const ProcessPage = () => (
+    <div>
+        <h2>Process Maanger</h2>
+        <ProcessManagerUI scopeId="basic" />
+    </div>
+);
+```
