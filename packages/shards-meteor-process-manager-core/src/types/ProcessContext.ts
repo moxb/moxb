@@ -43,7 +43,7 @@ export type ProgressReporter = (message: string, rate: number) => void;
  *
  * The process can use this API for talking to the rest of the system.
  */
-export interface ProcessContext<ExtraContext> {
+export interface ProcessContext<ScopeData> {
     /**
      * Identify the scope we are supposed to work in.
      */
@@ -64,5 +64,5 @@ export interface ProcessContext<ExtraContext> {
     /**
      * Request the execution of a child process.
      */
-    runProcess: (process: ProcessDefinition<ExtraContext>, params?: RunProcessParams) => ProcessEndState;
+    runProcess: (process: ProcessDefinition<ScopeData>, params?: RunProcessParams) => ProcessEndState;
 }

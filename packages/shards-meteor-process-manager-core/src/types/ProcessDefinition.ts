@@ -5,7 +5,7 @@
  */
 import { ProcessContext } from './ProcessContext';
 
-export interface ProcessDefinition<ExtraContext = void> {
+export interface ProcessDefinition<ScopeData = void> {
     /**
      * An uniq ID for this process.
      *
@@ -44,5 +44,5 @@ export interface ProcessDefinition<ExtraContext = void> {
     /**
      * The actual code to be executed.
      */
-    execute: (context: ProcessContext<ExtraContext> & ExtraContext) => void;
+    execute: (context: ProcessContext<ScopeData> & ScopeData) => void;
 }

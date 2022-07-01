@@ -1,2 +1,2 @@
-export { initProcessManager } from './worker';
-export { initProcessController } from './controller';
+export { initProcessManagerWorker, ProcessManagerWorkerProps } from './worker';
+export { initProcessManagerController, ProcessManagerControllerProps } from './controller';
