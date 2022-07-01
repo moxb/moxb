@@ -20,12 +20,12 @@ class ProcessControllerImpl implements ProcessController {
         injectProcessController(this);
     }
 
-    private _locateProcess(scopeId: string, processId: string) {
+    getProcess(scopeId: string, processId: string) {
         const dbEntry = ProcessCollection.findOne({ scopeId, processId });
         if (!dbEntry) {
             throw new Error(`Process "${processId}" (in scope ${scopeId}) not found!`);
         }
-        return { dbEntry };
+        return dbEntry;
     }
 
     /**
@@ -54,7 +54,7 @@ class ProcessControllerImpl implements ProcessController {
     }
 
     launchProcess(scopeId: string, processId: string) {
-        const { dbEntry } = this._locateProcess(scopeId, processId);
+        const dbEntry = this.getProcess(scopeId, processId);
 
         ProcessCollection.update(dbEntry._id, {
             $unset: {
@@ -78,7 +78,7 @@ class ProcessControllerImpl implements ProcessController {
     }
 
     stopProcess(scopeId: string, processId: string) {
-        const { dbEntry } = this._locateProcess(scopeId, processId);
+        const dbEntry = this.getProcess(scopeId, processId);
         ProcessCollection.update(dbEntry._id, {
             $set: {
                 'status.state': 'stopRequested',
@@ -94,7 +94,7 @@ class ProcessControllerImpl implements ProcessController {
     }
 
     dismissProcessMessages(scopeId: string, processId: string) {
-        const { dbEntry } = this._locateProcess(scopeId, processId);
+        const dbEntry = this.getProcess(scopeId, processId);
         ProcessCollection.update(dbEntry._id, {
             $unset: {
                 'status.error': true,
