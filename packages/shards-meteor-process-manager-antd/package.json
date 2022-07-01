@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-meteor-process-manager-antd",
-  "version": "0.3.47",
+  "version": "0.3.48",
   "description": "Shards: Meteor process manager - antd UI",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -61,7 +61,7 @@
     "@moxb/meteor": "^0.3.33",
     "@moxb/meteor-react": "^0.3.40",
     "@moxb/react-html": "^0.3.34",
-    "@moxb/shards-meteor-process-manager-core": "^0.3.47"
+    "@moxb/shards-meteor-process-manager-core": "^0.3.48"
   },
   "gitHead": "c0ed29fe8703cdd8bd26b1be4dd8c2f42390fea4"
 }
