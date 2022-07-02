@@ -98,4 +98,9 @@ export interface AuthBackend {
      * Trigger user registration
      */
     triggerRegistration(username: string, password1: string, password2: string): void;
+
+    /**
+     * Log out
+     */
+    triggerLogout(): void;
 }

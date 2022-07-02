@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { LoginFormUI, LoginFormUIProps } from '@moxb/shards-account-ui-antd';
 import { getLinks } from '../links';
-import { AuthBackend } from '../AuthBackend';
+import { useAuthBackend } from '../authContext';
 
-type LoginFormProps = Pick<LoginFormUIProps, 'splash'> & { backend: AuthBackend };
+type LoginFormProps = Pick<LoginFormUIProps, 'splash'>;
 
 export function LoginForm(props: LoginFormProps) {
-    const { backend } = props;
+    const backend = useAuthBackend()!;
     const { loginErrorMessage, isLoginPending } = backend.useLoginStatus();
     const links = getLinks();
 

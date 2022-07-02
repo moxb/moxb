@@ -4,7 +4,6 @@ import type { UIFragment } from '@moxb/react-html';
 import {
     LocationDependentArea,
     MyLocation,
-    NavigableUIContent,
     redirect,
     StateSpace,
     UpdateMethod,
@@ -56,18 +55,15 @@ export function WithLoginFlow(props: WithLoginFlowProps) {
         subStates: [
             {
                 key: PATH.login,
-                fragment: (p: NavigableUIContent) =>
-                    isLoggedIn ? redirectToApp() : <LoginForm splash={splash} {...p} backend={backend} />,
+                fragment: () => (isLoggedIn ? redirectToApp() : <LoginForm splash={splash} />),
             },
             {
                 key: PATH.register,
-                fragment: (p: NavigableUIContent) =>
-                    isLoggedIn ? redirectToApp() : <RegistrationForm splash={splash} {...p} backend={backend} />,
+                fragment: () => (isLoggedIn ? redirectToApp() : <RegistrationForm splash={splash} />),
             },
             {
                 key: PATH.forgotPassword,
-                fragment: (p: NavigableUIContent) =>
-                    isLoggedIn ? redirectToApp() : <ForgotPasswordForm splash={splash} {...p} backend={backend} />,
+                fragment: () => (isLoggedIn ? redirectToApp() : <ForgotPasswordForm splash={splash} />),
             },
             {
                 key: PATH.verifyEmail,
@@ -75,8 +71,7 @@ export function WithLoginFlow(props: WithLoginFlowProps) {
             },
             {
                 key: PATH.resetPassword,
-                fragment: (p: NavigableUIContent) =>
-                    isLoggedIn ? redirectToApp() : <PasswordResetForm splash={splash} {...p} backend={backend} />,
+                fragment: () => (isLoggedIn ? redirectToApp() : <PasswordResetForm splash={splash} />),
             },
         ],
         fallback: () => <AuthBackendProvider value={backend}>{children}</AuthBackendProvider>,

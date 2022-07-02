@@ -131,4 +131,8 @@ export class MeteorAuthBackend implements AuthBackend {
             }
         );
     }
+
+    triggerLogout() {
+        Meteor.logout();
+    }
 }

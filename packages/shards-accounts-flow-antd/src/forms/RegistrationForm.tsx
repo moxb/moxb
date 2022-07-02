@@ -2,12 +2,13 @@ import * as React from 'react';
 import { RegistrationFormUI, RegistrationFormUIProps } from '@moxb/shards-account-ui-antd';
 
 import { getLinks } from '../links';
-import { AuthBackend } from '../AuthBackend';
+import { useAuthBackend } from '../authContext';
 
-type RegistrationFormProps = Pick<RegistrationFormUIProps, 'splash'> & { backend: AuthBackend };
+type RegistrationFormProps = Pick<RegistrationFormUIProps, 'splash'>;
 
 export function RegistrationForm(props: RegistrationFormProps) {
-    const { backend, splash } = props;
+    const { splash } = props;
+    const backend = useAuthBackend()!;
     const { isRegistrationPending, registrationErrorMessage } = backend.useRegistrationStatus();
     const links = getLinks();
     return (

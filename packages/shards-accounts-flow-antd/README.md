@@ -21,30 +21,34 @@ This package provides a _very basic_ solution for common user account workflows.
 
 ### Client side:
 
-App integration:
+Basic app integration:
 
 ```typescript jsx
 // This is for routing, not for accounts
-import {WithLoginFlow} from './WithLoginFlow';
+import {SimpleLoginApp} from './WithLoginFlow';
 
 const routingStore = createRoutingStore();
-const authBackedn =
-... // you need to bring your Auth Backend
+
+// you need to bring your Auth Backend
+const authBackedn = new RandomAuthBackend();
 
 // We will use this on the login form
 const Splash = () => <h1>Welcome to my app!</h1>;
 
 export const App = () => (
     <StellarRouterProvider store={routingStore}>
-        <WithLoginFlow splash={<Splash/> backend={authBackend}}>
+        <SingleLoginApp splash={<Splash/> backend={authBackend}}>
             <MainAppLayout/>
-        </With>
+        </SingleLoginApp>
     </StellarRouterProvider>
 );
 ```
 
-This is required to set up the paths that will go into the various account-related emails
-so that it matches with the client-side routing.
+- It's also possible to arrange it so that some part of the app is available
+  without login, but a restricted part is not.
+  In that case, wrap the root of the app with `<WithLoginFlow>`,
+  and the restricted part with `<OnlyUsers>`.
+- There is also `<LogoutButton />` that you can use for logging out.
 
 ## See also
 
