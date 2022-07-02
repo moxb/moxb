@@ -6,4 +6,12 @@ const AuthBackendContext = createGlobalContext<AuthBackend | undefined>('auth ba
 
 export const AuthBackendProvider = AuthBackendContext.Provider;
 
-export const useAuthBackend = () => useContext(AuthBackendContext);
+export const useAuthBackend = () => {
+    const backend = useContext(AuthBackendContext);
+    if (!backend) {
+        throw new Error(
+            "Can't find the Authentication Backend in the context! Are you sure you are under the subtree wrapped by <WithLoginFlow>?"
+        );
+    }
+    return backend;
+};

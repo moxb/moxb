@@ -6,7 +6,7 @@ import { useAuthBackend } from '../authContext';
 type LoginFormProps = Pick<LoginFormUIProps, 'splash'>;
 
 export function LoginForm(props: LoginFormProps) {
-    const backend = useAuthBackend()!;
+    const backend = useAuthBackend();
     const { loginErrorMessage, isLoginPending } = backend.useLoginStatus();
     const links = getLinks();
 

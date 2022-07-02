@@ -74,8 +74,12 @@ export function WithLoginFlow(props: WithLoginFlowProps) {
                 fragment: () => (isLoggedIn ? redirectToApp() : <PasswordResetForm splash={splash} />),
             },
         ],
-        fallback: () => <AuthBackendProvider value={backend}>{children}</AuthBackendProvider>,
+        fallback: () => children,
     };
 
-    return <LocationDependentArea id={'login-menu'} stateSpace={loginMenu} />;
+    return (
+        <AuthBackendProvider value={backend}>
+            <LocationDependentArea id={'login-menu'} stateSpace={loginMenu} />
+        </AuthBackendProvider>
+    );
 }

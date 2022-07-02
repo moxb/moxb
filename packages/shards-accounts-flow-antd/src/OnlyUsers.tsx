@@ -9,7 +9,7 @@ interface OnlyUsersProps {
 export function OnlyUsers(props: OnlyUsersProps): JSX.Element | null {
     const { children } = props;
 
-    const backend = useAuthBackend()!;
+    const backend = useAuthBackend();
     const { isLoginStatusKnown, isLoggedIn } = backend.useAuthStatus();
 
     const locationManager = useLocationManager('login required');

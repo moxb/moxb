@@ -8,7 +8,7 @@ type RegistrationFormProps = Pick<RegistrationFormUIProps, 'splash'>;
 
 export function RegistrationForm(props: RegistrationFormProps) {
     const { splash } = props;
-    const backend = useAuthBackend()!;
+    const backend = useAuthBackend();
     const { isRegistrationPending, registrationErrorMessage } = backend.useRegistrationStatus();
     const links = getLinks();
     return (

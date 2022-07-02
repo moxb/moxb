@@ -10,7 +10,7 @@ type PasswordResetFormProps = Pick<PasswordResetFormUIProps, 'splash'>;
 
 export const PasswordResetForm = observer((props: PasswordResetFormProps) => {
     const { splash } = props;
-    const backend = useAuthBackend()!;
+    const backend = useAuthBackend();
 
     const locationManager = useLocationManager('password reset form');
     const token = locationManager?._query.token;
