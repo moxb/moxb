@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-accounts-meteor",
-  "version": "0.3.52",
+  "version": "0.3.53",
   "description": "Shards: basic meteor user account handling with ant design",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
