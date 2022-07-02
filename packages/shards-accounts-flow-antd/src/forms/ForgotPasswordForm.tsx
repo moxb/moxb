@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { ForgotPasswordFormUI, ForgotPasswordFormUIProps } from '@moxb/shards-account-ui-antd';
+import {ForgotPasswordFormUI, ForgotPasswordFormUIProps} from '@moxb/shards-accounts-ui-antd';
 
-import { getLinks } from '../links';
-import { useAuthBackend } from '../authContext';
+import {getLinks} from '../links';
+import {useAuthBackend} from '../authContext';
 
 type ForgotPasswordFormProps = Pick<ForgotPasswordFormUIProps, 'splash'>;
 
 export function ForgotPasswordForm(props: ForgotPasswordFormProps) {
     const backend = useAuthBackend()!;
 
-    const { forgotMessage, forgotErrorMessage, isForgotPending } = backend.useForgotStatus();
+    const {forgotMessage, forgotErrorMessage, isForgotPending} = backend.useForgotStatus();
 
     const links = getLinks();
     return (
@@ -20,7 +20,7 @@ export function ForgotPasswordForm(props: ForgotPasswordFormProps) {
             resetPending={isForgotPending}
             loginLink={links.login}
             registerLink={links.register}
-            onReset={({ username }) => backend.triggerForgot(username)}
+            onReset={({username}) => backend.triggerForgot(username)}
         />
     );
 }

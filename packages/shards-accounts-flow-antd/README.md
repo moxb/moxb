@@ -53,6 +53,6 @@ export const App = () => (
 ## See also
 
 - The UI used by this package is shipped in
-  [@moxb/shards-accounts-ui-antd](https://www.npmjs.com/package/@moxb/shards-account-ui-antd).
+  [@moxb/shards-accounts-ui-antd](https://www.npmjs.com/package/@moxb/shards-accounts-ui-antd).
 - An example auth backend if provided by
   [@moxb/shards-accounts-meteor](https://www.npmjs.com/package/@moxb/shards-account-meteor).

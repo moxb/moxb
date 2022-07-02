@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@moxb/react-html": "^0.3.34",
-    "@moxb/shards-account-ui-antd": "^0.3.50",
+    "@moxb/shards-accounts-ui-antd": "^0.3.50",
     "@moxb/stellar-router-react": "^0.3.50"
   },
   "peerDependencies": {

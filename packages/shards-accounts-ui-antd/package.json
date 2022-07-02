@@ -1,5 +1,5 @@
 {
-  "name": "@moxb/shards-account-ui-antd",
+  "name": "@moxb/shards-accounts-ui-antd",
   "version": "0.3.50",
   "description": "Shards: basic user account handling UI with ant design",
   "scripts": {
