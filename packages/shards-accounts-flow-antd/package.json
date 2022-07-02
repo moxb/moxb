@@ -1,7 +1,7 @@
 {
-  "name": "@moxb/shards-accounts-flow",
+  "name": "@moxb/shards-accounts-flow-antd",
   "version": "0.3.49",
-  "description": "Shards: basic user login flow with ant design",
+  "description": "Shards: basic user login flow with ant design UI",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "make all"
@@ -75,5 +75,5 @@
     "eslint-plugin-react-hooks": "4.5.0",
     "pretty": "2.0.0"
   },
-  "gitHead": "c0ed29fe8703cdd8bd26b1be4dd8c2f42390fea4"
+  "gitHead": "a1b801c590c71f53d205d388f70c5e1a85c959c8"
 }

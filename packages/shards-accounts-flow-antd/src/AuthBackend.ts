@@ -52,6 +52,9 @@ export interface RegistrationStatus {
 
 /**
  * This interface describes the functionality the auth backend needs to provide for the login workflow to work.
+ *
+ * The Auth Backend should be able to execute all these tasks, track internal state, and return information
+ * in proper React hooks.
  */
 export interface AuthBackend {
     /**
