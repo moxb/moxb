@@ -1,4 +1,4 @@
-export const PATH = {
+export const LOGIN_SYSTEM_PATH = {
     login: 'login',
     register: 'register',
     forgotPassword: 'forgot-password',

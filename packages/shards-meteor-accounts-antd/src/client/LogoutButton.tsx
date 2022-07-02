@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LogoutButtonUI } from '@moxb/shards-account-ui-antd/src';
+import { LogoutButtonUI } from '@moxb/shards-account-ui-antd';
 
 export function userLogout() {
     Meteor.logout();

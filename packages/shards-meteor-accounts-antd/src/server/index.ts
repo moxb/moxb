@@ -1,4 +1,4 @@
-import { PATH } from '../api/paths';
+import { LOGIN_SYSTEM_PATH as PATH } from '../common/paths';
 
 /**
  * Set up paths for verifying email addresses and password resets
