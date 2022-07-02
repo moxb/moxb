@@ -15,6 +15,12 @@ interface RedirectProps {
      */
     to?: string[];
 
+    /**
+     * Which update method should we use to execute the redirect?
+     *
+     * If you want to be able to "back" your way through
+     * this redirect, then you will need to use replace...
+     */
     updateMethod?: UpdateMethod;
 
     /**
@@ -41,7 +47,7 @@ export const Redirect = observer((props: RedirectProps) => {
             return;
         }
         if (pathSaveArg) {
-            pathSaveArg.doSet(locationManager!._location);
+            pathSaveArg.doSet(locationManager!._location, updateMethod);
         }
         if (to !== undefined) {
             // An empty list is a valid input here, so we can't simply test for falsy
