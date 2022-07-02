@@ -1,4 +1,4 @@
-import { LOGIN_SYSTEM_PATH } from '@moxb/shards-accounts-flow-antd';
+import { LOGIN_SYSTEM_PATH } from '@moxb/shards-accounts-flow-antd/dist/paths';
 
 /**
  * Set up paths for verifying email addresses and password resets
