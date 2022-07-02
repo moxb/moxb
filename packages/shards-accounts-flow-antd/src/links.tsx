@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { LOGIN_SYSTEM_PATH as PATH } from '../common/paths';
+import { LOGIN_SYSTEM_PATH as PATH } from './paths';
 
 import { NavLink } from '@moxb/stellar-router-react';
 

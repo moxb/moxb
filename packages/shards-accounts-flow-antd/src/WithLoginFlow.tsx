@@ -15,22 +15,21 @@ import { LoginForm } from './forms/LoginForm';
 import { RegistrationForm } from './forms/RegistrationForm';
 import { ForgotPasswordForm } from './forms/ForgotPasswordForm';
 import { PasswordResetForm } from './forms/PasswordResetForm';
-import { LOGIN_SYSTEM_PATH as PATH } from '../common/paths';
-import { MeteorAuthBackend } from './MeteorAuthBackend';
+import { LOGIN_SYSTEM_PATH as PATH } from './paths';
+import { AuthBackend } from './AuthBackend';
+import { AuthBackendProvider } from './authContext';
 
-interface WithLoginFlowProps {
+export interface WithLoginFlowProps {
     children: JSX.Element;
     splash?: UIFragment;
-    // TODO: get the backend from the outside, too
+    backend: AuthBackend;
 }
 
 /**
  * Wrap this component around your app to provide a login redirection workflow
  */
 export function WithLoginFlow(props: WithLoginFlowProps) {
-    const { splash, children } = props;
-
-    const backend = new MeteorAuthBackend();
+    const { splash, children, backend } = props;
 
     const { isLoggedIn } = backend.useAuthStatus();
 
@@ -80,7 +79,7 @@ export function WithLoginFlow(props: WithLoginFlowProps) {
                     isLoggedIn ? redirectToApp() : <PasswordResetForm splash={splash} {...p} backend={backend} />,
             },
         ],
-        fallback: () => children,
+        fallback: () => <AuthBackendProvider value={backend}>{children}</AuthBackendProvider>,
     };
 
     return <LocationDependentArea id={'login-menu'} stateSpace={loginMenu} />;

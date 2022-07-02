@@ -1,5 +1,5 @@
 import { makeObservable, observable } from 'mobx';
-import { AuthBackend } from './AuthBackend';
+import { AuthBackend } from '@moxb/shards-accounts-flow';
 import { useMeteorLoggingIn, useMeteorUser } from '@moxb/meteor-react';
 
 /**

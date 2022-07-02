@@ -1,6 +1,5 @@
 import { MyLocation, redirect, UpdateMethod, useLocationManager } from '@moxb/stellar-router-react';
-
-import { MeteorAuthBackend } from './MeteorAuthBackend';
+import { useAuthBackend } from './authContext';
 
 interface OnlyUsersProps {
     children: JSX.Element;
@@ -10,8 +9,7 @@ interface OnlyUsersProps {
 export function OnlyUsers(props: OnlyUsersProps): JSX.Element | null {
     const { children } = props;
 
-    const backend = new MeteorAuthBackend();
-
+    const backend = useAuthBackend()!;
     const { isLoginStatusKnown, isLoggedIn } = backend.useAuthStatus();
 
     const locationManager = useLocationManager('login required');
