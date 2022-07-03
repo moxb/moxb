@@ -1,23 +1,26 @@
 import * as React from 'react';
 import { LoginFormUI, LoginFormUIProps } from '@moxb/shards-accounts-ui-antd';
 import { getLinks } from '../links';
-import { useAuthBackend } from '../authContext';
+import { useAuthenticationLogic } from '../authContext';
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 
 type LoginFormProps = Pick<LoginFormUIProps, 'splash'>;
 
-export function LoginForm(props: LoginFormProps) {
-    const backend = useAuthBackend();
-    const { loginErrorMessage, isLoginPending } = backend.useLoginStatus();
+export const LoginForm = observer((props: LoginFormProps) => {
+    const auth = useAuthenticationLogic();
     const links = getLinks();
+
+    useEffect(() => auth.cleanLoginForm(), []);
 
     return (
         <LoginFormUI
             splash={props.splash}
-            error={loginErrorMessage}
-            loginPending={isLoginPending}
-            onLogin={({ username, password }) => backend.triggerLogin(username, password)}
+            error={auth.loginErrorMessage}
+            loginPending={auth.isLoginPending}
+            onLogin={({ username, password }) => auth.triggerLogin(username, password)}
             registerLink={links.register}
             forgotPasswordLink={links.forgotPassword}
         />
     );
-}
+});

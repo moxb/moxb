@@ -1,17 +1,17 @@
 import { createGlobalContext } from '@moxb/react-html';
-import { AuthBackend } from './AuthBackend';
 import { useContext } from 'react';
+import { AuthenticationLogic } from './AuthenticationLogic';
 
-const AuthBackendContext = createGlobalContext<AuthBackend | undefined>('auth backend', undefined);
+const AuthenticationLogicContext = createGlobalContext<AuthenticationLogic | undefined>('auth backend', undefined);
 
-export const AuthBackendProvider = AuthBackendContext.Provider;
+export const AuthenticationLogicProvider = AuthenticationLogicContext.Provider;
 
-export const useAuthBackend = () => {
-    const backend = useContext(AuthBackendContext);
-    if (!backend) {
+export const useAuthenticationLogic = () => {
+    const logic = useContext(AuthenticationLogicContext);
+    if (!logic) {
         throw new Error(
-            "Can't find the Authentication Backend in the context! Are you sure you are under the subtree wrapped by <WithLoginFlow>?"
+            "Can't find the Authentication Logic in the context! Are you sure you are under the subtree wrapped by <WithLoginFlow>?"
         );
     }
-    return backend;
+    return logic;
 };

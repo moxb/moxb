@@ -2,23 +2,25 @@ import * as React from 'react';
 import { RegistrationFormUI, RegistrationFormUIProps } from '@moxb/shards-accounts-ui-antd';
 
 import { getLinks } from '../links';
-import { useAuthBackend } from '../authContext';
+import { useAuthenticationLogic } from '../authContext';
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 
 type RegistrationFormProps = Pick<RegistrationFormUIProps, 'splash'>;
 
-export function RegistrationForm(props: RegistrationFormProps) {
+export const RegistrationForm = observer((props: RegistrationFormProps) => {
     const { splash } = props;
-    const backend = useAuthBackend();
-    const { isRegistrationPending, registrationErrorMessage } = backend.useRegistrationStatus();
+    const auth = useAuthenticationLogic();
+    useEffect(() => auth.cleanRegistrationForm(), []);
     const links = getLinks();
     return (
         <RegistrationFormUI
             splash={splash}
-            registrationPending={isRegistrationPending}
-            error={registrationErrorMessage}
-            onRegister={({ email, password1, password2 }) => backend.triggerRegistration(email, password1, password2)}
+            registrationPending={auth.isRegistrationPending}
+            error={auth.registrationErrorMessage}
+            onRegister={({ email, password1, password2 }) => auth.triggerRegistration(email, password1, password2)}
             loginLink={links.login}
             forgotPasswordLink={links.forgotPassword}
         />
     );
-}
+});

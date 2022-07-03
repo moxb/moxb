@@ -3,25 +3,25 @@ import { ForgotPasswordFormUI, ForgotPasswordFormUIProps } from '@moxb/shards-ac
 import { observer } from 'mobx-react-lite';
 
 import { getLinks } from '../links';
-import { useAuthBackend } from '../authContext';
+import { useAuthenticationLogic } from '../authContext';
+import { useEffect } from 'react';
 
 type ForgotPasswordFormProps = Pick<ForgotPasswordFormUIProps, 'splash'>;
 
 export const ForgotPasswordForm = observer((props: ForgotPasswordFormProps) => {
-    const backend = useAuthBackend();
-
-    const { forgotMessage, forgotErrorMessage, isForgotPending } = backend.useForgotStatus();
+    const auth = useAuthenticationLogic();
+    useEffect(() => auth.cleanForgotForm(), []);
 
     const links = getLinks();
     return (
         <ForgotPasswordFormUI
             splash={props.splash}
-            error={forgotErrorMessage}
-            message={forgotMessage}
-            resetPending={isForgotPending}
+            error={auth.forgotErrorMessage}
+            message={auth.forgotMessage}
+            resetPending={auth.isForgotPending}
             loginLink={links.login}
             registerLink={links.register}
-            onReset={({ username }) => backend.triggerForgot(username)}
+            onReset={({ username }) => auth.triggerForgot(username)}
         />
     );
 });

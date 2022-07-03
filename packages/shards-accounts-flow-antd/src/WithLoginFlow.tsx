@@ -15,13 +15,15 @@ import { RegistrationForm } from './forms/RegistrationForm';
 import { ForgotPasswordForm } from './forms/ForgotPasswordForm';
 import { PasswordResetForm } from './forms/PasswordResetForm';
 import { LOGIN_SYSTEM_PATH as PATH } from './paths';
-import { AuthBackend } from './AuthBackend';
-import { AuthBackendProvider } from './authContext';
+import { AuthenticationLogicProvider } from './authContext';
+import { AuthenticationBackend } from './AuthenticationBackend';
+import { AuthenticationLogicImpl } from './AuthenticationLogicImpl';
+import { AuthenticationLogic } from './AuthenticationLogic';
 
 export interface WithLoginFlowProps {
     children: JSX.Element;
     splash?: UIFragment;
-    backend: AuthBackend;
+    backend: AuthenticationBackend;
 }
 
 /**
@@ -29,8 +31,6 @@ export interface WithLoginFlowProps {
  */
 export function WithLoginFlow(props: WithLoginFlowProps) {
     const { splash, children, backend } = props;
-
-    const { isLoggedIn } = backend.useAuthStatus();
 
     const locationManager = useLocationManager('login required');
     const redirectArg = locationManager.defineObjectArg<MyLocation>('redirectTo', null, true);
@@ -49,6 +49,10 @@ export function WithLoginFlow(props: WithLoginFlowProps) {
                   }
         );
     };
+
+    const logic: AuthenticationLogic = new AuthenticationLogicImpl(backend);
+
+    const isLoggedIn = logic.isLoggedIn;
 
     const loginMenu: StateSpace<string, UIFragment, void> = {
         metaData: 'login menu',
@@ -78,8 +82,8 @@ export function WithLoginFlow(props: WithLoginFlowProps) {
     };
 
     return (
-        <AuthBackendProvider value={backend}>
+        <AuthenticationLogicProvider value={logic}>
             <LocationDependentArea id={'login-menu'} stateSpace={loginMenu} />
-        </AuthBackendProvider>
+        </AuthenticationLogicProvider>
     );
 }

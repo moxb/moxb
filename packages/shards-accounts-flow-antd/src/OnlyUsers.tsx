@@ -1,5 +1,5 @@
 import { MyLocation, redirect, UpdateMethod, useLocationManager } from '@moxb/stellar-router-react';
-import { useAuthBackend } from './authContext';
+import { useAuthenticationLogic } from './authContext';
 
 interface OnlyUsersProps {
     children: JSX.Element;
@@ -9,19 +9,18 @@ interface OnlyUsersProps {
 export function OnlyUsers(props: OnlyUsersProps): JSX.Element | null {
     const { children } = props;
 
-    const backend = useAuthBackend();
-    const { isLoginStatusKnown, isLoggedIn } = backend.useAuthStatus();
+    const auth = useAuthenticationLogic();
 
     const locationManager = useLocationManager('login required');
     const redirectArg = locationManager.defineObjectArg<MyLocation>('redirectTo', null, true);
 
     // If the login state is not yet known, we will just wait
-    if (!isLoginStatusKnown) {
+    if (!auth.isLoginStatusKnown) {
         return null;
     }
 
     // If we are logged in, then we can simply display the normal content.
-    if (isLoggedIn) {
+    if (auth.isLoggedIn) {
         return children;
     }
 
