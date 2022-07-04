@@ -1,6 +1,6 @@
-import { observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { meteorCall, MeteorCallback } from './MeteorCall';
-import { getDebugLogger } from '@moxb/moxb';
+import { getDebugLogger, Logger } from '@moxb/moxb';
 
 import MethodThisType = Meteor.MethodThisType;
 
@@ -52,7 +52,7 @@ export interface MeteorMethodDefinition<Input, Output> {
 }
 
 /**
- * This is the control object that the app code will get back, after registering the method
+ * A control object for using the registered method
  */
 export interface MeteorMethodControl<Input, Output> {
     /**
@@ -80,7 +80,7 @@ export interface MeteorMethodControl<Input, Output> {
      *
      * This field is mobx-reactive.
      */
-    pending: boolean;
+    readonly pending: boolean;
 }
 
 /**
@@ -112,6 +112,101 @@ export function wrapException<A extends (...data: any[]) => unknown>(f: A): A {
 }
 
 /**
+ * Wrapper object to manage the method.
+ *
+ * This is a technical implementation detail.
+ */
+class MeteorMethodControlImpl<Input, Output> implements MeteorMethodControl<Input, Output> {
+    private readonly _myMeteor: typeof Meteor;
+
+    private readonly _logger: Logger;
+
+    constructor(private readonly _definition: MeteorMethodDefinition<Input, Output>, meteorInstance?: typeof Meteor) {
+        makeObservable(this);
+        const { name, debug, execute, serverOnly, unblock, auth } = _definition;
+
+        // Try to use the supplied Meteor instance,
+        // without even looking at the global Meteor object first,
+        // in order to avoid the "Meteor is undefined" JS error.
+        let myMeteor = meteorInstance;
+        if (!myMeteor) {
+            // Only use the global Meteor object if no instance was provided
+            myMeteor = Meteor;
+        }
+        this._myMeteor = myMeteor;
+        const logger = (this._logger = getDebugLogger('Method ' + name, debug));
+
+        if (myMeteor.isServer || !serverOnly) {
+            this._logger.log('Publishing Meteor method', name);
+            myMeteor.methods({
+                [name]: function (this, input: Input) {
+                    // console.log('***Gonna check out if', name, 'is running in a simulation', this);
+                    // if (!this || this.isSimulation) {
+                    //     return;
+                    // }
+
+                    if (auth) {
+                        auth(input, this.userId);
+                    }
+
+                    logger.log('with data', input);
+
+                    if (unblock) {
+                        this.unblock();
+                    }
+
+                    const result = wrapException(execute)(input, this.userId, this);
+                    logger.log('returns', result);
+
+                    return result;
+                },
+            });
+        }
+    }
+
+    get name() {
+        return this._definition.name;
+    }
+
+    @observable
+    _pending = false;
+
+    get pending() {
+        return this._pending;
+    }
+
+    @action
+    setPending(value: boolean) {
+        this._pending = value;
+    }
+
+    call(data: Input, callback?: MeteorCallback<Output>) {
+        this.setPending(true);
+        meteorCall(this.name, data, (error?: any, result?: any) => {
+            this.setPending(false);
+            if (callback) {
+                callback(error, result);
+            }
+        });
+    }
+
+    callPromise(data: Input): Promise<Output> {
+        return new Promise<Output>((resolve, reject) => {
+            this.setPending(true);
+
+            meteorCall(this.name, data, (error: any, result: Output) => {
+                this.setPending(false);
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    }
+}
+
+/**
  * This function registers a Meteor method, based on the provided definition, and provides a control object for it.
  */
 export function registerMeteorMethod<Input, Output>(
@@ -129,69 +224,5 @@ export function registerMeteorMethod<Input, Output>(
      */
     meteorInstance?: typeof Meteor
 ): MeteorMethodControl<Input, Output> {
-    const { name, debug, execute, serverOnly, unblock, auth } = method;
-
-    // Try to use the supplied Meteor instance,
-    // without even looking at the global Meteor object first,
-    // in order to avoid the "Meteor is undefined" JS error.
-    let myMeteor = meteorInstance;
-    if (!myMeteor) {
-        // Only use the global Meteor object if no instance was provided
-        myMeteor = Meteor;
-    }
-    const logger = getDebugLogger('Method ' + name, debug);
-    if (myMeteor.isServer || !serverOnly) {
-        logger.log('Publishing Meteor method', name);
-        myMeteor.methods({
-            [name]: function (this, input: Input) {
-                // console.log('***Gonna check out if', name, 'is running in a simulation', this);
-                // if (!this || this.isSimulation) {
-                //     return;
-                // }
-
-                if (auth) {
-                    auth(input, this.userId);
-                }
-
-                logger.log('with data', input);
-
-                if (unblock) {
-                    this.unblock();
-                }
-
-                const result = wrapException(execute)(input, this.userId, this);
-                logger.log('returns', result);
-
-                return result;
-            },
-        });
-    }
-    const pending = observable.box(false);
-    return {
-        name,
-        get pending(): boolean {
-            return pending.get();
-        },
-        call: (data: Input, callback?: MeteorCallback<Output>) => {
-            pending.set(true);
-            meteorCall(name, data, (error?: any, result?: any) => {
-                pending.set(false);
-                if (callback) {
-                    callback(error, result);
-                }
-            });
-        },
-        callPromise: (data: Input): Promise<Output> =>
-            new Promise<Output>((resolve, reject) => {
-                pending.set(true);
-                meteorCall(name, data, (error: any, result: Output) => {
-                    pending.set(false);
-                    if (error) {
-                        reject(error);
-                    } else {
-                        resolve(result);
-                    }
-                });
-            }),
-    };
+    return new MeteorMethodControlImpl(method, meteorInstance);
 }
