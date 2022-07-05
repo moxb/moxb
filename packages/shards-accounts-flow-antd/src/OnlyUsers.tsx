@@ -3,7 +3,6 @@ import { useAuthenticationLogic } from './authContext';
 
 interface OnlyUsersProps {
     children: JSX.Element;
-    // TODO: get the backend from the outside, too
 }
 
 export function OnlyUsers(props: OnlyUsersProps): JSX.Element | null {

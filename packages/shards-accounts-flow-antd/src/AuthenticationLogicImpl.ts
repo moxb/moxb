@@ -1,6 +1,7 @@
-import { AuthenticationLogic } from './AuthenticationLogic';
 import { makeObservable, observable } from 'mobx';
-import { AuthenticationBackend } from './AuthenticationBackend';
+import { isAnyOf } from '@moxb/moxb';
+import type { AuthenticationLogic } from './AuthenticationLogic';
+import type { AuthenticationBackend } from './AuthenticationBackend';
 
 /**
  * This component implements the Authentication Logic functionality
@@ -8,7 +9,6 @@ import { AuthenticationBackend } from './AuthenticationBackend';
 export class AuthenticationLogicImpl implements AuthenticationLogic {
     constructor(private readonly backend: AuthenticationBackend) {
         makeObservable(this);
-        console.log('Created authentication logic impl');
     }
 
     get isLoginStatusKnown() {
@@ -16,7 +16,10 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
     }
 
     get isLoggedIn() {
-        return this.backend.isLoginSituationKnown() && this.backend.isLoggedIn();
+        return !isAnyOf(
+            () => !this.backend.isLoginSituationKnown(),
+            () => !this.backend.isLoggedIn()
+        );
     }
 
     @observable
