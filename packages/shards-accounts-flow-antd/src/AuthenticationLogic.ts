@@ -1,4 +1,4 @@
-import {LocationManager} from '@moxb/stellar-router-core';
+import { LocationManager } from '@moxb/stellar-router-core';
 
 /**
  * This interface describes the Authentication Logic singleton component
