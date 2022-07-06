@@ -64,33 +64,40 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
         makeObservable(this);
     }
 
+    /**
+     * Reload data
+     */
+    trigger() {
+        this._logger.log('Triggered. Input is:', this.input);
+        this.setValue(undefined);
+        this._setErrorMessage(undefined);
+        if (this.input !== undefined && !this._shouldSkip) {
+            this._logger.log('Will load');
+            this._setLoading(true);
+            this._options.load(this.input).then(
+                (result) => {
+                    this._logger.log('Loaded', result);
+                    this._setLoading(false);
+                    this.setValue(result);
+                },
+                (error) => {
+                    this._logger.log('Failed to load:', error);
+                    this._setLoading(false);
+                    this._setErrorMessage(error.reason || error.error || error + '');
+                }
+            );
+        } else {
+            this._logger.log('Will NOT load');
+        }
+    }
+
+    /**
+     * Start to listen
+     */
     awaken() {
-        const { load } = this._options;
         reaction(
             () => this.input,
-            (input) => {
-                this._logger.log('Reaction triggered for input', input);
-                this._setValue(undefined);
-                this._setErrorMessage(undefined);
-                if (input !== undefined && !this._shouldSkip) {
-                    this._logger.log('Will load');
-                    this._setLoading(true);
-                    load(input).then(
-                        (result) => {
-                            this._logger.log('Loaded', result);
-                            this._setLoading(false);
-                            this._setValue(result);
-                        },
-                        (error) => {
-                            this._logger.log('Failed to load:', error);
-                            this._setLoading(false);
-                            this._setErrorMessage(error.reason || error.error || error + '');
-                        }
-                    );
-                } else {
-                    this._logger.log('Will NOT load');
-                }
-            }
+            () => this.trigger()
         );
     }
 
@@ -156,7 +163,7 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
     }
 
     @action
-    private _setValue(value?: Output) {
+    setValue(value?: Output) {
         this._value = value;
     }
 }
