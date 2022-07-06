@@ -2,6 +2,6 @@
   "packages": [
     "packages/*"
   ],
-  "version": "0.3.61",
+  "version": "0.3.62",
   "useNx": true
 }
