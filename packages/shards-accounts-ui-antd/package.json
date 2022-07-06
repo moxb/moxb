@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-accounts-ui-antd",
-  "version": "0.3.64",
+  "version": "0.3.65",
   "description": "Shards: basic user account handling UI with ant design",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -53,8 +53,8 @@
     ]
   },
   "dependencies": {
-    "@moxb/moxb": "^0.3.64",
-    "@moxb/react-html": "^0.3.64"
+    "@moxb/moxb": "^0.3.65",
+    "@moxb/react-html": "^0.3.65"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.7.0",
