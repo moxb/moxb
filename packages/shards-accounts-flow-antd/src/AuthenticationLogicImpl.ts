@@ -1,4 +1,5 @@
-import { computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
+import { LocationManager } from '@moxb/stellar-router-core';
 import type { AuthenticationLogic } from './AuthenticationLogic';
 import type { AuthenticationBackend } from './AuthenticationBackend';
 
@@ -110,6 +111,11 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
         return this._loginPending;
     }
 
+    @action
+    private _setLoginPending(value: boolean) {
+        this._loginPending = value;
+    }
+
     @observable
     _loginErrorMessage: string | undefined;
 
@@ -117,20 +123,28 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
         return this._loginErrorMessage;
     }
 
-    cleanLoginForm() {
-        this._loginErrorMessage = undefined;
+    @action
+    private _setLoginErrorMessage(message: string | undefined) {
+        this._loginErrorMessage = message;
     }
 
+    @action
+    cleanLoginForm() {
+        this._setLoginErrorMessage(undefined);
+    }
+
+    @action
     triggerLogin(username: string, password: string) {
-        this._loginErrorMessage = undefined;
-        this._loginPending = true;
+        this._setLoginErrorMessage(undefined);
+        this._setLoginPending(true);
         this.backend.login(username, password).then(
             () => {
-                this._loginPending = false;
+                this._setLoginPending(false);
             },
             (error) => {
-                this._loginPending = false;
-                this._loginErrorMessage = error;
+                console.log('Failed to log in:', error);
+                this._setLoginPending(false);
+                this._setLoginErrorMessage(error);
             }
         );
     }
@@ -174,6 +188,15 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
     }
 
     triggerLogout() {
+        if (this._locationManager) {
+            this._locationManager.trySetPathTokens(0, []);
+        }
         this.backend.logout();
+    }
+
+    private _locationManager: LocationManager | undefined;
+
+    _injectLocationManager(locationManager: LocationManager) {
+        this._locationManager = locationManager;
     }
 }

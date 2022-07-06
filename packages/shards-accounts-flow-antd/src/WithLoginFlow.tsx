@@ -19,6 +19,7 @@ import { AuthenticationLogicProvider } from './authContext';
 import { AuthenticationBackend } from './AuthenticationBackend';
 import { AuthenticationLogicImpl } from './AuthenticationLogicImpl';
 import { AuthenticationLogic } from './AuthenticationLogic';
+import { observer } from 'mobx-react-lite';
 
 export interface WithLoginFlowProps {
     children: JSX.Element;
@@ -29,7 +30,7 @@ export interface WithLoginFlowProps {
 /**
  * Wrap this component around your app to provide a login redirection workflow
  */
-export function WithLoginFlow(props: WithLoginFlowProps) {
+export const WithLoginFlow = observer((props: WithLoginFlowProps) => {
     const { splash, children, backend } = props;
 
     const locationManager = useLocationManager('login required');
@@ -51,30 +52,32 @@ export function WithLoginFlow(props: WithLoginFlowProps) {
     };
 
     const logic: AuthenticationLogic = new AuthenticationLogicImpl(backend);
-    (global as any).wtfAuthLogic = logic;
+    logic._injectLocationManager(locationManager);
+
+    (global as any).authLogin = logic;
 
     const loginMenu: StateSpace<string, UIFragment, void> = {
         metaData: 'login menu',
         subStates: [
             {
                 key: PATH.login,
-                fragment: () => (logic.isLoggedIn ? redirectToApp() : <LoginForm splash={splash} />),
+                fragment: observer(() => (logic.isLoggedIn ? redirectToApp() : <LoginForm splash={splash} />)),
             },
             {
                 key: PATH.register,
-                fragment: () => (logic.isLoggedIn ? redirectToApp() : <RegistrationForm splash={splash} />),
+                fragment: observer(() => (logic.isLoggedIn ? redirectToApp() : <RegistrationForm splash={splash} />)),
             },
             {
                 key: PATH.forgotPassword,
-                fragment: () => (logic.isLoggedIn ? redirectToApp() : <ForgotPasswordForm splash={splash} />),
+                fragment: observer(() => (logic.isLoggedIn ? redirectToApp() : <ForgotPasswordForm splash={splash} />)),
             },
             {
                 key: PATH.verifyEmail,
-                fragment: () => (logic.isLoggedIn ? redirectToApp() : <span>Should verify email</span>),
+                fragment: observer(() => (logic.isLoggedIn ? redirectToApp() : <span>Should verify email</span>)),
             },
             {
                 key: PATH.resetPassword,
-                fragment: () => (logic.isLoggedIn ? redirectToApp() : <PasswordResetForm splash={splash} />),
+                fragment: observer(() => (logic.isLoggedIn ? redirectToApp() : <PasswordResetForm splash={splash} />)),
             },
         ],
         fallback: () => children,
@@ -85,4 +88,4 @@ export function WithLoginFlow(props: WithLoginFlowProps) {
             <LocationDependentArea id={'login-menu'} stateSpace={loginMenu} />
         </AuthenticationLogicProvider>
     );
-}
+});

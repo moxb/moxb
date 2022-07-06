@@ -1,3 +1,5 @@
+import {LocationManager} from '@moxb/stellar-router-core';
+
 /**
  * This interface describes the Authentication Logic singleton component
  *
@@ -105,4 +107,11 @@ export interface AuthenticationLogic {
      * Log out (via the auth backend)
      */
     triggerLogout(): void;
+
+    /**
+     * Inject the routing host to the auth logic.
+     *
+     * (This is an implementation detail, shouldn't be used by actual applications)
+     */
+    _injectLocationManager(locationManager: LocationManager): void;
 }
