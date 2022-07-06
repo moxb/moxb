@@ -1,17 +1,42 @@
+import { action, makeObservable, observable } from 'mobx';
+import { Tracker } from 'meteor/tracker';
 import { AuthenticationBackend } from '@moxb/shards-accounts-flow-antd';
-
-import { useMeteorUser } from '@moxb/meteor-react';
 
 /**
  * We implement the Meteor-based login functionality in a background store object
  */
 export class MeteorAuthBackend implements AuthenticationBackend {
-    isLoginSituationKnown() {
-        return useMeteorUser() !== undefined;
+    constructor() {
+        makeObservable(this);
+        Tracker.autorun(() => {
+            const user = Meteor.user();
+            this._setLoginStatusKnown(user !== undefined);
+            this._setLoggedIn(!!user);
+        });
     }
 
-    isLoggedIn() {
-        return !!useMeteorUser();
+    @observable
+    _loginStatusKnown = false;
+
+    @action
+    _setLoginStatusKnown(value: boolean) {
+        this._loginStatusKnown = value;
+    }
+
+    get isLoginSituationKnown() {
+        return this._loginStatusKnown;
+    }
+
+    @observable
+    _loggedIn = false;
+
+    @action
+    _setLoggedIn(value: boolean) {
+        this._loggedIn = value;
+    }
+
+    get isLoggedIn() {
+        return this._loggedIn;
     }
 
     forgotPassword(email: string) {

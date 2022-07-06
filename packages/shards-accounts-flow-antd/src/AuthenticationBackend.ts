@@ -4,13 +4,17 @@
 export interface AuthenticationBackend {
     /**
      * Do we know if this session is logged in?
+     *
+     * Please note that this value should be mobx-observable.
      */
-    isLoginSituationKnown(): boolean;
+    readonly isLoginSituationKnown: boolean;
 
     /**
      * Is this session logged in? (as far as we know)
+     *
+     * Please note that this value should be mobx-observable.
      */
-    isLoggedIn(): boolean;
+    readonly isLoggedIn: boolean;
 
     /**
      * Start the "forgotten password" process.

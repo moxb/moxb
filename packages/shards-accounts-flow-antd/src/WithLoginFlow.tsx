@@ -51,6 +51,7 @@ export function WithLoginFlow(props: WithLoginFlowProps) {
     };
 
     const logic: AuthenticationLogic = new AuthenticationLogicImpl(backend);
+    (global as any).wtfAuthLogic = logic;
 
     const loginMenu: StateSpace<string, UIFragment, void> = {
         metaData: 'login menu',

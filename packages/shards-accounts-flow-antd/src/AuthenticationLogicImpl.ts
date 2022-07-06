@@ -1,5 +1,4 @@
-import { makeObservable, observable } from 'mobx';
-import { isAnyOf } from '@moxb/moxb';
+import { computed, makeObservable, observable } from 'mobx';
 import type { AuthenticationLogic } from './AuthenticationLogic';
 import type { AuthenticationBackend } from './AuthenticationBackend';
 
@@ -11,15 +10,14 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
         makeObservable(this);
     }
 
+    @computed
     get isLoginStatusKnown() {
-        return this.backend.isLoginSituationKnown();
+        return this.backend.isLoginSituationKnown;
     }
 
+    @computed
     get isLoggedIn() {
-        return !isAnyOf(
-            () => !this.backend.isLoginSituationKnown(),
-            () => !this.backend.isLoggedIn()
-        );
+        return this.backend.isLoginSituationKnown && this.backend.isLoggedIn;
     }
 
     @observable

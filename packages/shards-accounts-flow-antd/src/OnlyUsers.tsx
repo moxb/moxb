@@ -1,11 +1,14 @@
+import { observer } from 'mobx-react-lite';
+
 import { MyLocation, redirect, UpdateMethod, useLocationManager } from '@moxb/stellar-router-react';
+
 import { useAuthenticationLogic } from './authContext';
 
 interface OnlyUsersProps {
     children: JSX.Element;
 }
 
-export function OnlyUsers(props: OnlyUsersProps): JSX.Element | null {
+export const OnlyUsers = observer((props: OnlyUsersProps): JSX.Element | null => {
     const { children } = props;
 
     const auth = useAuthenticationLogic();
@@ -29,4 +32,4 @@ export function OnlyUsers(props: OnlyUsersProps): JSX.Element | null {
         updateMethod: UpdateMethod.REPLACE,
         pathSaveArg: redirectArg,
     });
-}
+});
