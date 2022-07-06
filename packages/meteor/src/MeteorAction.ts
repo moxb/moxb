@@ -88,7 +88,7 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
                 debugLog('Calling method', '"' + method.name + '"', 'with', data);
                 const start = Date.now();
                 method
-                    .callPromise(data)
+                    .call(data)
                     .then((result) => {
                         const stop = Date.now();
                         debugLog('Returned in', stop - start, 'ms.', 'result:', result);
