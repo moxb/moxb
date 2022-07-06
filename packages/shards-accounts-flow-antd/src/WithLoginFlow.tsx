@@ -54,7 +54,7 @@ export const WithLoginFlow = observer((props: WithLoginFlowProps) => {
     const logic: AuthenticationLogic = new AuthenticationLogicImpl(backend);
     logic._injectLocationManager(locationManager);
 
-    (global as any).authLogin = logic;
+    (global as any).authLogin = logic; // TODO: for debugging only
 
     const loginMenu: StateSpace<string, UIFragment, void> = {
         metaData: 'login menu',

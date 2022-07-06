@@ -10,3 +10,4 @@ export { createGlobalContext } from './globalContext';
 export { highlightedText, HighlightedText } from './highlighter/HighlightedText';
 
 export * from './util';
+export * from './hooks';
