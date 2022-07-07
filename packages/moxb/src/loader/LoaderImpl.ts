@@ -34,7 +34,7 @@ export interface LoaderOptions<Input, Output> {
     /**
      * Any extra function to call after successful loading
      */
-    onload?: (output: Output) => void;
+    onLoad?: (output: Output) => void;
 
     /**
      * Should we run in debug mode?
@@ -79,6 +79,10 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
                     this._logger.log('Loaded', result);
                     this._setLoading(false);
                     this.setValue(result);
+                    const { onLoad } = this._options;
+                    if (onLoad) {
+                        onLoad(result);
+                    }
                 },
                 (error) => {
                     this._logger.log('Failed to load:', error);
