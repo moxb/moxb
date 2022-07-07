@@ -59,8 +59,10 @@ export class BoundLinkImpl implements BoundLink {
     }
 
     @computed
-    get label() {
-        return typeof this.impl.label === 'function' ? this.impl.label()! : t(this.id + '.label', this.impl.label!);
+    get label(): string {
+        return typeof this.impl.label === 'function'
+            ? this.impl.label() || ''
+            : t(this.id + '.label', this.impl.label || '');
     }
 
     @computed
