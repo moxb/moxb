@@ -1,6 +1,6 @@
 {
   "name": "@moxb/stellar-router-antd",
-  "version": "0.3.66",
+  "version": "0.3.67",
   "description": "stellar-router: ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -56,8 +56,8 @@
     "@moxb/antd": "^0.3.66",
     "@moxb/moxb": "^0.3.65",
     "@moxb/react-html": "^0.3.66",
-    "@moxb/stellar-router-core": "^0.3.65",
-    "@moxb/stellar-router-react": "^0.3.66"
+    "@moxb/stellar-router-core": "^0.3.67",
+    "@moxb/stellar-router-react": "^0.3.67"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.7.0",
