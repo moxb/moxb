@@ -1,6 +1,6 @@
 {
   "name": "@moxb/stellar-router-core",
-  "version": "0.3.67",
+  "version": "0.3.68",
   "description": "Stellar router: core data structures and utilities",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -59,7 +59,7 @@
     "eslint-plugin-import": "2.26.0"
   },
   "dependencies": {
-    "@moxb/moxb": "^0.3.65",
+    "@moxb/moxb": "^0.3.68",
     "atob": "2.1.2",
     "btoa-lite": "1.0.0",
     "history": "5.0.0",
