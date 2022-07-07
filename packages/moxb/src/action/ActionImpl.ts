@@ -1,8 +1,10 @@
 import { action, computed, makeObservable } from 'mobx';
-import { BindImpl, BindOptions } from '../bind/BindImpl';
+import { BindImpl, BindOptions, getValueOrFunction, ValueOrFunction } from '../bind/BindImpl';
 import { Action } from './Action';
 
 export interface ActionOptions extends BindOptions {
+    confirmQuestion?: ValueOrFunction<string>;
+
     fire(): Promise<void> | void;
 
     pending?: () => boolean;
@@ -13,6 +15,10 @@ export class ActionImpl extends BindImpl<ActionOptions> implements Action {
     constructor(impl: ActionOptions) {
         super(impl);
         makeObservable(this);
+    }
+
+    get confirmQuestion() {
+        return getValueOrFunction(this.impl.confirmQuestion);
     }
 
     protected getPending() {

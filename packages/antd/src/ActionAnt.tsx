@@ -1,16 +1,15 @@
 import { Action, Bool } from '@moxb/moxb';
-import { Button, Spin } from 'antd';
+import { Button, Popconfirm, Spin } from 'antd';
 import { ButtonShape, ButtonType } from 'antd/lib/button';
 import { NativeButtonProps } from 'antd/lib/button/button';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import { MouseEvent } from 'react';
+import { useState } from 'react';
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
-export interface ActionAntProps {
-    stopPropagation?: boolean;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ActionAntProps {}
 
 export type BindActionAntProps = BindAntProps<Action> & ActionAntProps & NativeButtonProps;
 
@@ -19,53 +18,80 @@ export const ActionButtonAnt = observer((props: BindActionAntProps) => {
         props,
         props.operation
     );
+    const [confirmationVisible, setConfirmationVisible] = useState(false);
+    const needsConfirmation = !!operation.confirmQuestion;
 
-    function handleClick(event: MouseEvent<any>) {
-        const { stopPropagation } = parseProps(props, props.operation);
-
-        if (stopPropagation) {
-            event.stopPropagation();
+    const handleConfirmationVisibleChange = (newVisible: boolean) => {
+        if (!newVisible) {
+            setConfirmationVisible(newVisible);
+            return;
         }
-
         if (operation.pending) {
-            // console.log('Ignoring click on pending operation');
-        } else {
-            operation.fire();
+            // ignore click on already pending action
+            return;
         }
+        if (needsConfirmation) {
+            setConfirmationVisible(true);
+        } else {
+            handleClick();
+        }
+    };
+
+    function handleClick() {
+        operation.fire();
     }
 
     if (invisible || operation.invisible) {
         return null;
     }
+
     return (
-        <Button
-            id={id}
-            data-testid={id}
-            onClick={handleClick}
-            {...rest}
-            size={size}
-            shape={shape as ButtonShape}
-            type={type as ButtonType}
-            title={reason}
-            htmlType={typeof htmlType === 'undefined' ? 'button' : htmlType}
+        <Popconfirm
+            visible={confirmationVisible}
+            onVisibleChange={handleConfirmationVisibleChange}
+            title={operation.confirmQuestion}
+            onConfirm={handleClick}
         >
-            {children != null ? children : label}
-            {operation.pending && <Spin />}
-        </Button>
+            <Button
+                id={id}
+                data-testid={id}
+                {...rest}
+                size={size}
+                shape={shape as ButtonShape}
+                type={type as ButtonType}
+                title={reason}
+                htmlType={typeof htmlType === 'undefined' ? 'button' : htmlType}
+            >
+                {children != null ? children : label}
+                {operation.pending && <Spin />}
+            </Button>
+        </Popconfirm>
     );
 });
 
 export const ActionSpanAnt = observer((props: BindActionAntProps) => {
-    const { operation, invisible, children, label, id, reason, stopPropagation, ...rest } = parseProps(
-        props,
-        props.operation
-    );
+    const { operation, invisible, children, label, id, reason, ...rest } = parseProps(props, props.operation);
 
-    function handleClick(event: MouseEvent<any>) {
-        if (stopPropagation) {
-            event.stopPropagation();
+    const [confirmationVisible, setConfirmationVisible] = useState(false);
+    const needsConfirmation = !!operation.confirmQuestion;
+
+    const handleConfirmationVisibleChange = (newVisible: boolean) => {
+        if (!newVisible) {
+            setConfirmationVisible(newVisible);
+            return;
         }
+        if (operation.pending) {
+            // ignore click on already pending action
+            return;
+        }
+        if (needsConfirmation) {
+            setConfirmationVisible(true);
+        } else {
+            handleClick();
+        }
+    };
 
+    function handleClick() {
         operation.fire();
     }
 
@@ -73,9 +99,16 @@ export const ActionSpanAnt = observer((props: BindActionAntProps) => {
         return null;
     }
     return (
-        <span id={id} data-testid={id} onClick={handleClick} title={reason} {...(rest as any)}>
-            {children != null ? children : label}
-        </span>
+        <Popconfirm
+            visible={confirmationVisible}
+            onVisibleChange={handleConfirmationVisibleChange}
+            title={operation.confirmQuestion}
+            onConfirm={handleClick}
+        >
+            <span id={id} data-testid={id} title={reason} {...rest}>
+                {children != null ? children : label}
+            </span>
+        </Popconfirm>
     );
 });
 
@@ -87,10 +120,18 @@ export const ActionToggleButtonAnt = observer(
             children?: React.ReactNode;
         } & BindAntProps<Bool>
     ) => {
-        const { operation, invisible, children, label, id, reason, backgroundColor, labelColor, ...rest } = parseProps(
-            props,
-            props.operation
-        );
+        const {
+            operation,
+            invisible,
+            children,
+            label,
+            id,
+            reason,
+            backgroundColor,
+            labelColor,
+            value,
+            ...rest
+        } = parseProps(props, props.operation);
         if (invisible || operation.invisible) {
             return null;
         }
@@ -106,7 +147,7 @@ export const ActionToggleButtonAnt = observer(
                 onClick={() => operation.toggle()}
                 style={operation.disabled ? undefined : style}
                 title={reason}
-                {...(rest as any)}
+                {...rest}
             >
                 {children != null ? children : label}
             </Button>
@@ -120,7 +161,7 @@ export const ActionFormButtonAnt = observer((props: BindActionAntProps & BindFor
         return null;
     }
     return (
-        <FormItemAnt operation={operation} label={null} {...(props as any)}>
+        <FormItemAnt label={undefined} {...props}>
             <ActionButtonAnt htmlType="submit" operation={operation} {...rest} />
         </FormItemAnt>
     );
