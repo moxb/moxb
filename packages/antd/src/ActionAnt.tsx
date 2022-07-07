@@ -46,26 +46,27 @@ export const ActionButtonAnt = observer((props: BindActionAntProps) => {
     }
 
     return (
-        <Popconfirm
-            visible={confirmationVisible}
-            onVisibleChange={handleConfirmationVisibleChange}
-            title={operation.confirmQuestion}
-            onConfirm={handleClick}
-        >
-            <Button
-                id={id}
-                data-testid={id}
-                {...rest}
-                size={size}
-                shape={shape as ButtonShape}
-                type={type as ButtonType}
-                title={reason}
-                htmlType={typeof htmlType === 'undefined' ? 'button' : htmlType}
+        <span title={reason}>
+            <Popconfirm
+                visible={confirmationVisible}
+                onVisibleChange={handleConfirmationVisibleChange}
+                title={operation.confirmQuestion}
+                onConfirm={handleClick}
             >
-                {children != null ? children : label}
-                {operation.pending && <Spin />}
-            </Button>
-        </Popconfirm>
+                <Button
+                    id={id}
+                    data-testid={id}
+                    {...rest}
+                    size={size}
+                    shape={shape as ButtonShape}
+                    type={type as ButtonType}
+                    htmlType={typeof htmlType === 'undefined' ? 'button' : htmlType}
+                >
+                    {children != null ? children : label}
+                    {operation.pending && <Spin />}
+                </Button>
+            </Popconfirm>
+        </span>
     );
 });
 
