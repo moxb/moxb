@@ -27,6 +27,14 @@ export interface AnchorParams {
     label?: UIFragment;
 
     /**
+     * Should we use the href as the label?
+     *
+     * (If set to true, the content of href will be inserted _after_ the separately
+     * specified label (if any)
+     */
+    hrefAsLabel?: boolean;
+
+    /**
      * Clickable? (Default: true)
      */
     disabled?: boolean;
@@ -74,7 +82,7 @@ export const Anchor = (props: AnchorProps) => {
     // Is a native click event pending, that we want to suffice?
     const [nativePending, setNativePending] = useState(false);
 
-    const { label, title, children, className, style, href, target, disabled } = props;
+    const { label, title, children, className, style, href, hrefAsLabel, target, disabled } = props;
 
     function cancelEvent(event: React.SyntheticEvent<HTMLAnchorElement>) {
         if (nativePending) {
@@ -140,6 +148,7 @@ export const Anchor = (props: AnchorProps) => {
     return (
         <a {...anchorProps}>
             {renderUIFragment(label || '')}
+            {hrefAsLabel ? href : null}
             {children}
         </a>
     );
