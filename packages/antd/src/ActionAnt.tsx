@@ -14,10 +14,20 @@ export interface ActionAntProps {}
 export type BindActionAntProps = BindAntProps<Action> & ActionAntProps & NativeButtonProps;
 
 export const ActionButtonAnt = observer((props: BindActionAntProps) => {
-    const { operation, invisible, children, label, id, size, shape, htmlType, type, reason, ...rest } = parseProps(
-        props,
-        props.operation
-    );
+    const {
+        operation,
+        invisible,
+        children,
+        label,
+        id,
+        size,
+        shape,
+        htmlType,
+        type,
+        reason,
+        help,
+        ...rest
+    } = parseProps(props, props.operation);
     const [confirmationVisible, setConfirmationVisible] = useState(false);
     const needsConfirmation = !!operation.confirmQuestion;
 
@@ -26,8 +36,8 @@ export const ActionButtonAnt = observer((props: BindActionAntProps) => {
             setConfirmationVisible(newVisible);
             return;
         }
-        if (operation.pending) {
-            // ignore click on already pending action
+        if (operation.pending || operation.disabled) {
+            // ignore click on already pending or disabled action
             return;
         }
         if (needsConfirmation) {
@@ -46,7 +56,7 @@ export const ActionButtonAnt = observer((props: BindActionAntProps) => {
     }
 
     return (
-        <span title={reason}>
+        <span title={reason || help}>
             <Popconfirm
                 visible={confirmationVisible}
                 onVisibleChange={handleConfirmationVisibleChange}
