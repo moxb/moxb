@@ -31,4 +31,5 @@ export * from './form/FormItem';
 export * from './keyboard-shortcuts/KeyboardShortcutsManager';
 export * from './file-upload';
 export * from './loader/Loader';
+export * from './messenger';
 // export * from './error/Error';

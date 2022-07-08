@@ -24,3 +24,4 @@ export * from './SliderAnt';
 export * from './RateAnt';
 export * from './FileUploadAnt';
 export * from './ProgressAnt';
+export * from './MessengerAnt';
