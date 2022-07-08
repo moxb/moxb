@@ -1,4 +1,4 @@
-import {IncomingMessage} from 'http';
+import type {IncomingMessage} from 'http';
 
 /**
  * Parameterization strategy for an API endpoint
@@ -116,7 +116,7 @@ export function prepareRequest(httpMethod: HttpMethod, path: string, strategy: P
         case 'requestBody':
             return new Request(path, {
                 method: httpMethod,
-                body: JSON.stringify([data]) as any,
+                body: JSON.stringify(((typeof data) === 'object') ? data : [data]) as any,
                 headers: {
                     'content-type': 'application/json',
                     ...extraHeaders,
@@ -149,7 +149,10 @@ export function prepareRequest(httpMethod: HttpMethod, path: string, strategy: P
  */
 function parseQuery(query: string) {
     const result: Record<string, any> = {};
-    (query || '').split('&').forEach((q) => {
+    if (!query) {
+        return result;
+    }
+    query.split('&').forEach((q) => {
         const [key, value] = q.split('=');
         result[key] = decodeURIComponent(value);
     });
@@ -200,11 +203,23 @@ export function getParamsFromRequest(request: IncomingMessage, strategy: Paramet
                 return [request.headers];
             }
         case 'queryString':
-            params = parseQuery(request.url!.substring(endpointPath.length + 2));
-            return ((Object.keys(params).length === 1) && (!!params.data) && (typeof (params.data) !== 'object'))
-                // If we have artificially called the one and only arg "data", remove that wrapping.
-                ? [params.data]
-                : [params];
+            try {
+                const queryString = request.url!.substring(endpointPath.length + 2);
+                // console.log('Query string', queryString);
+                const queries = parseQuery(queryString);
+                // console.log('Queries', queries);
+                params = ((Object.keys(queries).length === 1) && (!!queries.data) && (typeof (queries.data) !== 'object'))
+                    // If we have artificially called the one and only arg "data", remove that wrapping.
+                    ? [queries.data]
+                    : [queries];
+                // console.log('Params', params);
+                return params;
+
+            } catch (error) {
+                console.log('failed to process query string', request.url, error);
+                return [];
+            }
+
         default:
             throw new Error('Requested unknown API parametrization strategy: ' + strategy);
     }

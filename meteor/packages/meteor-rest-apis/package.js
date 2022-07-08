@@ -1,6 +1,6 @@
 Package.describe({
     name: 'moxb:meteor-rest-apis',
-    version: '0.0.3',
+    version: '0.0.4',
     summary: 'Make it easy to define and consume HTTP REST APIs in Meteor apps',
     git: '',
     documentation: 'README.md'
