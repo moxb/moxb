@@ -12,6 +12,7 @@ export class MeteorAuthBackend implements AuthenticationBackend {
             const user = Meteor.user();
             this._setLoginStatusKnown(user !== undefined);
             this._setLoggedIn(!!user);
+            this._setUserName(user?.username);
         });
     }
 
@@ -37,6 +38,18 @@ export class MeteorAuthBackend implements AuthenticationBackend {
 
     get isLoggedIn() {
         return this._loggedIn;
+    }
+
+    @observable
+    _username?: string;
+
+    @action
+    _setUserName(value: string | undefined) {
+        this._username = value;
+    }
+
+    get username() {
+        return this._username;
     }
 
     forgotPassword(email: string) {

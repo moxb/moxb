@@ -16,7 +16,10 @@ export interface AuthenticationLogic {
      */
     readonly isLoggedIn: boolean;
 
-    // Info about the forgotten password process.
+    /**
+     * User-readable user name
+     */
+    readonly username?: string;
 
     /**
      * Any message to display on the forgot password form

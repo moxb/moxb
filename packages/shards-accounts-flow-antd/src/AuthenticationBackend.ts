@@ -17,6 +17,11 @@ export interface AuthenticationBackend {
     readonly isLoggedIn: boolean;
 
     /**
+     * The name of the currently logged in user
+     */
+    readonly username?: string;
+
+    /**
      * Start the "forgotten password" process.
      *
      * It should eventually email a link with a reset token or something like that.

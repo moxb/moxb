@@ -21,6 +21,11 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
         return this.backend.isLoginSituationKnown && this.backend.isLoggedIn;
     }
 
+    @computed
+    get username() {
+        return this.backend.username;
+    }
+
     @observable
     _forgotPending = false;
 
