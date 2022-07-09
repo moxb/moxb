@@ -1,4 +1,4 @@
-import {IncomingMessage} from 'http';
+import type {IncomingMessage} from 'http';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {SimpleRest} from 'meteor/simple:rest';

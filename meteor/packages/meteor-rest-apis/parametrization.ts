@@ -208,13 +208,22 @@ export function getParamsFromRequest(request: IncomingMessage, strategy: Paramet
                 // console.log('Query string', queryString);
                 const queries = parseQuery(queryString);
                 // console.log('Queries', queries);
-                params = ((Object.keys(queries).length === 1) && (!!queries.data) && (typeof (queries.data) !== 'object'))
-                    // If we have artificially called the one and only arg "data", remove that wrapping.
-                    ? [queries.data]
-                    : [queries];
+                switch (Object.keys(queries).length) {
+                    case 0:
+                        params = [];
+                        break;
+                    case 1:
+                        params = ((!!queries.data) && (typeof (queries.data) !== 'object'))
+                            // If we have artificially called the one and only arg "data", remove that wrapping.
+                            ? [queries.data]
+                            : [queries];
+                        break;
+                    default:
+                        params = [queries];
+                        break;
+                }
                 // console.log('Params', params);
                 return params;
-
             } catch (error) {
                 console.log('failed to process query string', request.url, error);
                 return [];
