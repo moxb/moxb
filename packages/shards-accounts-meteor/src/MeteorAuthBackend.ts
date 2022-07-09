@@ -8,12 +8,14 @@ import { AuthenticationBackend } from '@moxb/shards-accounts-flow-antd';
 export class MeteorAuthBackend implements AuthenticationBackend {
     constructor() {
         makeObservable(this);
-        Tracker.autorun(() => {
-            const user = Meteor.user();
-            this._setLoginStatusKnown(user !== undefined);
-            this._setLoggedIn(!!user);
-            this._setUserName(user?.username);
-        });
+        Tracker.autorun(
+            action(() => {
+                const user = Meteor.user();
+                this._setLoginStatusKnown(user !== undefined);
+                this._setLoggedIn(!!user);
+                this._setUserName(user?.username);
+            })
+        );
     }
 
     @observable
