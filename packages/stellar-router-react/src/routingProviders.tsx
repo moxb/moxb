@@ -71,13 +71,18 @@ export interface CreateRoutingStoreProps extends BasicLocationManagerProps {
      * (This is only required if we want to be able to generate links based on NavRefs.)
      */
     stateSpace?: UIStateSpace<any>;
+
+    /**
+     *  Should we run the token manager in debug mode?
+     */
+    tokenDebug?: boolean;
 }
 
 /**
  * Create a store that will be used for routing.
  */
 export function createRoutingStore(props: CreateRoutingStoreProps = {}): RoutingStore {
-    const { urlSchema, history, communicator, activate = true, stateSpace } = props;
+    const { urlSchema, history, communicator, activate = true, stateSpace, tokenDebug } = props;
 
     // Create the location manager
     const locationManager = new BasicLocationManagerImpl({ urlSchema, history, communicator });
@@ -86,7 +91,7 @@ export function createRoutingStore(props: CreateRoutingStoreProps = {}): Routing
     }
 
     // Create the token manager
-    const tokenManager = new TokenManagerImpl(locationManager);
+    const tokenManager = new TokenManagerImpl(locationManager, { debug: tokenDebug });
 
     // Create the link generator
     const linkGenerator = !stateSpace

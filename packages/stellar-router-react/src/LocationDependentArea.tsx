@@ -32,7 +32,7 @@ export const LocationDependentArea = observer((props: LocationDependentAreaProps
         any
     > = new LocationDependentStateSpaceHandlerImpl({
         ...rest,
-        id: 'changing content of ' + id,
+        id: `${stateSpace.metaData} via ${id}`,
         locationManager,
         tokenManager: useTokenMappings ? tokenManager : undefined,
         intercept: true,
@@ -53,7 +53,7 @@ export const LocationDependentArea = observer((props: LocationDependentAreaProps
                 states.unregisterTokenMappings();
             }
         };
-    });
+    }, [stateSpace]);
 
     function renderSubState(
         subState: SubStateInContext<UIFragment, UIFragmentSpec, any> | null,
