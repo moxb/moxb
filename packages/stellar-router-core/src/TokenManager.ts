@@ -53,7 +53,7 @@ export interface TokenManager {
      *
      * Use this when there is no navigation system, only these mappings.
      */
-    addPermanentMappings(tokenMapping: PathTokenMappingList): void;
+    addPermanentMappings(tokenMapping: PathTokenMappingList, id?: string): void;
 
     /**
      * De-register mappings

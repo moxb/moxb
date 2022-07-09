@@ -52,14 +52,7 @@ export function doTokenStringsMatch(
         const nextToken = currentTokens[nextLevel];
         const empty = isTokenEmpty(nextToken);
         logger.log(
-            'Testing if this is an exact match.',
-            'nextLevel is',
-            nextLevel,
-            'nextToken is',
-            nextToken,
-            typeof nextToken,
-            'empty?',
-            empty
+            `Testing if this is an exact match. nextLevel is ${nextLevel}, nextToken is "${nextToken}" (${typeof nextToken}), empty? ${empty}`
         );
         return empty;
     } else {

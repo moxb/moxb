@@ -5,6 +5,7 @@ import { TokenManager, TokenMappings } from './TokenManager';
 import { isTokenEmpty } from './tokens';
 import { Query } from './url-schema/UrlSchema';
 import { UrlArg, URLARG_TYPE_OPTIONAL_STRING, URLARG_TYPE_STRING, UrlTokenImpl } from './url-arg';
+import { getDebugLogger, Logger } from '@moxb/moxb';
 
 interface ComplexPathTokenMappingBase {
     /**
@@ -56,12 +57,29 @@ type ComplexPathTokenMapping = VanishingPathTokenMapping | NonVanishingPathToken
 type AnyPathTokenMapping = SimplePathTokenMapping | ComplexPathTokenMapping;
 export type PathTokenMappingList = AnyPathTokenMapping[];
 
+const describePathTokenMapping = (mapping: AnyPathTokenMapping): string => {
+    if (typeof mapping === 'string') {
+        return `:${mapping}`;
+    } else {
+        const m = mapping as ComplexPathTokenMapping;
+        if (m.vanishing) {
+            return `[:${m.key}]`;
+        } else {
+            return `:${m.key}`;
+        }
+    }
+};
+
+const describePathTokenMappingList = (list: PathTokenMappingList): string =>
+    list.map(describePathTokenMapping).join('/');
+
 /**
  * A path token mapping scheme that doesn't depend on the app's state space
  *
  * I.e. the same tokens are always mapped to the same path positions.
  */
 interface PermanentMapping {
+    id: string;
     type: 'permanent';
     tokenMapping: PathTokenMappingList;
 }
@@ -78,7 +96,7 @@ interface LiveTokenMappings<DataType> extends TokenMappings<DataType> {
 }
 
 interface TokenManagerConfig {
-    debug?: true;
+    debug?: boolean;
 }
 
 export const expandPathTokenMapping = (mapping: AnyPathTokenMapping): ComplexPathTokenMapping =>
@@ -101,8 +119,12 @@ export class TokenManagerImpl implements TokenManager {
         return Array.from(this._mappingRegistry.values());
     }
 
-    constructor(private readonly _locationManager: LocationManager, private readonly _config: TokenManagerConfig = {}) {
+    private readonly _logger: Logger;
+
+    constructor(private readonly _locationManager: LocationManager, config: TokenManagerConfig = {}) {
         makeObservable(this);
+        this._logger = getDebugLogger('Token manager', config.debug);
+        this._logger.log('Created.');
     }
 
     /**
@@ -138,11 +160,11 @@ export class TokenManagerImpl implements TokenManager {
     @action
     addMappings<DataType>(mappings: TokenMappings<DataType>) {
         const { id, stateSpace, parsedTokens = 0, filterCondition } = mappings;
-        const { debug } = this._config;
         let mappingsId = id;
         while (this._mappingRegistry.get(mappingsId)) {
             mappingsId = mappingsId + '_';
         }
+        this._logger.log('Adding mappings source', mappingsId);
         this._mappingRegistry.set(mappingsId, {
             type: 'complex',
             id,
@@ -156,10 +178,8 @@ export class TokenManagerImpl implements TokenManager {
                 stateSpace,
                 filterCondition,
                 parsedTokens,
-                debug,
             }),
         });
-        // console.log('Added path token mappings', mappingsId);
         return mappingsId;
     }
 
@@ -167,8 +187,13 @@ export class TokenManagerImpl implements TokenManager {
      * Register some permanent (ie. state-space independent) token mappings.
      */
     @action
-    addPermanentMappings(tokenMapping: PathTokenMappingList) {
+    addPermanentMappings(tokenMapping: PathTokenMappingList, id?: string) {
+        const original = this._mappingRegistry.get('permanent');
+        if (original) {
+            console.log('Warning: overwriting permanent token mapping', original.id, 'with', id || 'nameless');
+        }
         this._mappingRegistry.set('permanent', {
+            id: id || 'nameless',
             type: 'permanent',
             tokenMapping,
         });
@@ -176,7 +201,7 @@ export class TokenManagerImpl implements TokenManager {
 
     @action
     removeMappings(mappingsId: string) {
-        // console.log('Removing mappings', mappingsId);
+        this._logger.log('Removing mappings source', mappingsId);
         this._mappingRegistry.delete(mappingsId);
     }
 
@@ -187,13 +212,14 @@ export class TokenManagerImpl implements TokenManager {
     get tokens() {
         const result: Query = {};
         const allTokens = this._locationManager.pathTokens;
-
+        this._logger.log(`Calculating tokens for path ${allTokens.map((x) => `"${x}"`).join(' / ')} ...`);
         /**
          * To catch all the tokens, we will have to go through all the registered mapping schemes,
          * because more than one might apply.
          */
         this._mappings.forEach((m) => {
             if (m.type === 'permanent') {
+                this._logger.log('Checking permanent mapping', m.id, describePathTokenMappingList(m.tokenMapping));
                 // This is a state-space independent mapping that should always be considered
                 let tokenIndex = 0; // Let's start to count the tokens
                 m.tokenMapping.forEach((def) => {
@@ -206,9 +232,11 @@ export class TokenManagerImpl implements TokenManager {
                     ) {
                         // We don't accept this value for this mapping, so don't move on with the token counter
                         result[token.key] = token.defaultValue; // since we don't have a value, use the default
+                        this._logger.log(`${token.key} = ${token.defaultValue} (from default)`);
                     } else {
                         // Nothing has vanished here, just move on normally
                         result[token.key] = nextRawValue; // copy the value
+                        this._logger.log(`${token.key} = ${nextRawValue}`);
                         tokenIndex++; // ok we have eaten this path token
                     }
                 });
@@ -221,8 +249,16 @@ export class TokenManagerImpl implements TokenManager {
                     // We have identified the definition sub-state of the app we need to look at
                     const { tokenMapping, totalPathTokens } = state;
                     if (!tokenMapping) {
+                        this._logger.log(
+                            `Live mapping source "${m.id}" is at "${state.menuKey}", which has no mappings.`
+                        );
                         return; // no mappings for this subspace, we can ignore this one
                     }
+                    this._logger.log(
+                        `Live mapping source "${m.id}" is at "${
+                            state.menuKey
+                        }": with active mapping ${describePathTokenMappingList(tokenMapping)}`
+                    );
                     // We have eaten this many tokens. (We have already eaten some just by getting to this sub-state)
                     let totalParsedTokens = parsedTokens + totalPathTokens.length;
                     // Now we can move through the individual mappings
@@ -236,16 +272,21 @@ export class TokenManagerImpl implements TokenManager {
                         ) {
                             // We can refuse to accept this token for this mapping.
                             result[token.key] = token.defaultValue; // we use the default here
+                            this._logger.log(`${token.key} = ${result[token.key]} (from default)`);
                             // we don't increase the token index counter,
                             // so the same token will be used for the next mapping
                         } else {
                             result[token.key] = nextRawValue; // just copy that we found
+                            this._logger.log(`${token.key} = ${result[token.key]}`);
                             totalParsedTokens++; // we move the counter on
                         }
                     });
+                } else {
+                    this._logger.log(`Live mapping source "${m.id}" has no active state.`);
                 }
             }
         });
+        this._logger.log('Finished collecting tokens:', JSON.stringify(result, null, '  '));
         return result;
     }
 

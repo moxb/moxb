@@ -133,7 +133,7 @@ export class LocationDependentStateSpaceHandlerImpl<LabelType, WidgetType, DataT
 
     registerTokenMappings() {
         this._mappingId = this._tokenManager.addMappings({
-            id: 'mappings for ' + this._id,
+            id: this._id,
             stateSpace: this._stateSpace,
             parsedTokens: this._parsedTokens,
             filterCondition: this._filterCondition,

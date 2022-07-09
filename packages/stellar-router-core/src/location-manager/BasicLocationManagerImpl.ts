@@ -153,6 +153,12 @@ export class BasicLocationManagerImpl implements LocationManager {
     // Private field to store the last known location.
     @observable
     protected __location: MyLocation = noLocation;
+
+    /**
+     * Get the last known location.
+     *
+     * (This should not be directly used by applications.)
+     */
     get _location() {
         return this.__location;
     }
