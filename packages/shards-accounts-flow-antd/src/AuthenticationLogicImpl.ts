@@ -47,24 +47,26 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
         return this._forgotMessage;
     }
 
+    @action
     cleanForgotForm() {
         this._forgotMessage = undefined;
         this._forgotErrorMessage = undefined;
     }
 
+    @action
     triggerForgot(email: string) {
         this._forgotMessage = undefined;
         this._forgotErrorMessage = undefined;
         this._forgotPending = true;
         this.backend.forgotPassword(email).then(
-            (result) => {
+            action((result) => {
                 this._forgotPending = false;
                 this._forgotMessage = result || 'Email sent. Please check your email.';
-            },
-            (error) => {
+            }),
+            action((error) => {
                 this._forgotPending = false;
                 this._forgotErrorMessage = error || 'Failed to initiate password reset';
-            }
+            })
         );
     }
 
@@ -82,10 +84,12 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
         return this._resetErrorMessage;
     }
 
+    @action
     cleanResetForm() {
         this._resetErrorMessage = undefined;
     }
 
+    @action
     triggerPasswordReset(token: string, password1: string, password2: string) {
         if (!token) {
             this._resetErrorMessage = 'This link is invalid. Please restart the process.';
@@ -99,13 +103,13 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
         this._resetPending = true;
 
         this.backend.resetPassword(token, password1).then(
-            () => {
+            action(() => {
                 this._resetPending = false;
-            },
-            (error) => {
+            }),
+            action((error) => {
                 this._resetPending = false;
                 this._resetErrorMessage = error || 'Failed to reset password.';
-            }
+            })
         );
     }
 
@@ -165,15 +169,15 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
     _registrationErrorMessage: string | undefined;
 
     get registrationErrorMessage() {
-        return this._resetErrorMessage;
+        return this._registrationErrorMessage;
     }
 
     cleanRegistrationForm() {
         this._registrationErrorMessage = undefined;
     }
 
+    @action
     triggerRegistration(email: string, password1: string, password2: string) {
-        // console.log('Should register with', email, password1, password2);
         if (password1 !== password2) {
             this._registrationErrorMessage = "The two passwords don't match!";
             return;
@@ -182,13 +186,13 @@ export class AuthenticationLogicImpl implements AuthenticationLogic {
         this._registrationPending = true;
 
         this.backend.registerUser(email, password1).then(
-            () => {
+            action(() => {
                 this._registrationPending = false;
-            },
-            (error) => {
+            }),
+            action((error) => {
                 this._registrationPending = false;
                 this._registrationErrorMessage = error;
-            }
+            })
         );
     }
 
