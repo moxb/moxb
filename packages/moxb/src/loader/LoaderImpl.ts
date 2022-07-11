@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, reaction } from 'mobx';
+import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { Loader } from './Loader';
 import { getDebugLogger, Logger } from '../util/debugLog';
 import { ActionImpl } from '../action/ActionImpl';
@@ -124,10 +124,12 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
     /**
      * Are we loading now?
      */
+    @computed
     get loading() {
         return this.fetch.pending;
     }
 
+    @computed
     get errorMessage() {
         return this.fetch.errorMessage;
     }
@@ -138,6 +140,7 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
     /**
      * Return the value
      */
+    @computed
     get value() {
         return this._value;
     }
