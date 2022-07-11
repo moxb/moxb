@@ -4,7 +4,7 @@ import { getDebugLogger } from '@moxb/moxb';
 /**
  * Configuration options for the RPC hook
  */
-export interface UseRPCResultOptions {
+export interface UseAsyncDataOptions {
     /**
      * Can we assume that the same input always produces the same output?
      *
@@ -34,40 +34,50 @@ export interface UseRPCResultOptions {
     polling?: number;
 }
 
-const rpcResultCache: Record<string, Record<string, any>> = {};
-const rpcPromiseCache: Record<string, Record<string, Promise<any>>> = {};
+const resultsCache: Record<string, Record<string, any>> = {};
+const promisesCache: Record<string, Record<string, Promise<any>>> = {};
 
-interface RPCCall<Input, Output> {
-    name: string;
-    call: (input: Input) => Promise<Output>;
-}
-
-export function useRPCResult<Input, Output>(
-    rpc: RPCCall<Input, Output>,
+/**
+ * React Hook for using data produced by an async method based on some input
+ */
+export function useAsyncData<Input, Output>(
+    /**
+     * Name of this async data (for debugging)
+     */
+    name: string,
+    /**
+     * The method to use for generating the output from the input
+     */
+    generate: (input: Input) => Promise<Output>,
+    /**
+     * The current input.
+     */
     args: Input,
-    options: UseRPCResultOptions = {}
+    /**
+     * Extra data
+     */
+    options: UseAsyncDataOptions = {}
 ): [
     boolean, // pending
     string | undefined, // error
     Output | undefined, // result
     () => void // trigger
 ] {
-    const { name } = rpc;
     const { stable, debugMode, swallowErrors } = options;
-    const logger = getDebugLogger(`RPC ${rpc.name}`, debugMode);
+    const logger = getDebugLogger(`RPC ${name}`, debugMode);
     const [pending, setPending] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [result, setResult] = useState<Output | undefined>(undefined);
 
-    if (!rpcResultCache[name]) {
-        rpcResultCache[name] = {};
+    if (!resultsCache[name]) {
+        resultsCache[name] = {};
     }
-    const resultCache = rpcResultCache[name];
+    const resultCache = resultsCache[name];
 
-    if (!rpcPromiseCache[name]) {
-        rpcPromiseCache[name] = {};
+    if (!promisesCache[name]) {
+        promisesCache[name] = {};
     }
-    const promiseCache = rpcPromiseCache[name];
+    const promiseCache = promisesCache[name];
 
     const argsString = JSON.stringify(args);
 
@@ -93,7 +103,7 @@ export function useRPCResult<Input, Output>(
         }
         if (!promise) {
             logger.log('Launching new request with args', args);
-            promise = promiseCache[argsString] = rpc.call(args);
+            promise = promiseCache[argsString] = generate(args);
             promise.catch((callError) => {
                 if (!swallowErrors) {
                     console.log(`Error on ${name}: ${callError.message}`);
