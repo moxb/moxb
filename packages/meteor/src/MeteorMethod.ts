@@ -66,14 +66,14 @@ export interface MeteorMethodControl<Input, Output> {
      * @param data     The data to provide to the method
      * @param callback The callback to call when finished
      */
-    callWithCallback(data: Input, callback?: MeteorCallback<Output>): void;
+    call(data: Input, callback?: MeteorCallback<Output>): void;
 
     /**
      * Call the method, using Promise-style syntax
      *
      * @param data The data to provide to the method.
      */
-    call(data: Input): Promise<Output>;
+    callPromise(data: Input): Promise<Output>;
 
     /**
      * Tells you if the method is currently being executed.
@@ -180,7 +180,7 @@ class MeteorMethodControlImpl<Input, Output> implements MeteorMethodControl<Inpu
         this._pending = value;
     }
 
-    callWithCallback(data: Input, callback?: MeteorCallback<Output>) {
+    call(data: Input, callback?: MeteorCallback<Output>) {
         this.setPending(true);
         meteorCall(this.name, data, (error?: any, result?: any) => {
             this.setPending(false);
@@ -190,7 +190,7 @@ class MeteorMethodControlImpl<Input, Output> implements MeteorMethodControl<Inpu
         });
     }
 
-    call(data: Input): Promise<Output> {
+    callPromise(data: Input): Promise<Output> {
         return new Promise<Output>((resolve, reject) => {
             this.setPending(true);
 
