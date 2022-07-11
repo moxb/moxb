@@ -137,7 +137,7 @@ function ProcessTableRawUI(props: ProcessTableUIProps) {
                         const { state } = status;
                         const { processId, warning, special } = process;
                         const run = () =>
-                            launchProcessMethod.callWithCallback({ scopeId, processId }, (launchError, _result) => {
+                            launchProcessMethod.call({ scopeId, processId }, (launchError, _result) => {
                                 if (launchError) {
                                     console.log('Error:', (launchError as any).error || launchError.message);
                                 }
@@ -296,7 +296,7 @@ export function ProcessManagerUI(props: { scopeId: string }) {
                 danger
                 onClick={() =>
                     purgeProcesses
-                        .call(scopeId)
+                        .callPromise(scopeId)
                         .catch((error) => setLocalError("Can't reset processes: " + error.message))
                 }
             >
