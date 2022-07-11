@@ -1,6 +1,7 @@
 import { action, makeObservable, observable, reaction } from 'mobx';
 import { Loader } from './Loader';
 import { getDebugLogger, Logger } from '../util/debugLog';
+import { ActionImpl } from '../action/ActionImpl';
 
 /**
  * Configuration for a loader
@@ -65,35 +66,35 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
     }
 
     /**
-     * Reload data
+     * Load data
      */
-    trigger() {
-        this._logger.log('Triggered. Input is:', this.input);
-        this.setValue(undefined);
-        this._setErrorMessage(undefined);
-        if (this.input !== undefined && !this._shouldSkip) {
-            this._logger.log('Will load');
-            this._setLoading(true);
-            this._options.load(this.input).then(
-                (result) => {
-                    this._logger.log('Loaded', result);
-                    this._setLoading(false);
-                    this.setValue(result);
-                    const { onLoad } = this._options;
-                    if (onLoad) {
-                        onLoad(result);
+    readonly fetch = new ActionImpl({
+        id: 'loaderAction',
+        fire: (): Promise<any> | undefined => {
+            this._logger.log('Load fired. Input is:', this.input);
+            this.setValue(undefined);
+            if (this.input !== undefined && !this._shouldSkip) {
+                this._logger.log('Will load');
+                const loadPromise = this._options.load(this.input);
+                loadPromise.then(
+                    (result) => {
+                        this._logger.log('Loaded', result);
+                        this.setValue(result);
+                        const { onLoad } = this._options;
+                        if (onLoad) {
+                            onLoad(result);
+                        }
+                    },
+                    (error) => {
+                        this._logger.log('Failed to load:', error);
                     }
-                },
-                (error) => {
-                    this._logger.log('Failed to load:', error);
-                    this._setLoading(false);
-                    this._setErrorMessage(error.reason || error.error || error + '');
-                }
-            );
-        } else {
-            this._logger.log('Will NOT load');
-        }
-    }
+                );
+                return loadPromise;
+            } else {
+                this._logger.log('Will NOT load');
+            }
+        },
+    });
 
     /**
      * Start to listen
@@ -101,7 +102,7 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
     awaken() {
         reaction(
             () => this.input,
-            () => this.trigger()
+            () => this.fetch.fire()
         );
     }
 
@@ -121,39 +122,14 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
     }
 
     /**
-     * Internal data store for the loading flag
-     */
-    @observable
-    _loading = false;
-
-    /**
      * Are we loading now?
      */
     get loading() {
-        return this._loading;
+        return this.fetch.pending;
     }
-
-    /**
-     * Set the loading flag
-     */
-    @action
-    private _setLoading(value: boolean) {
-        this._loading = value;
-    }
-
-    /**
-     * Internal store for the error message
-     */
-    @observable
-    _errorMessage?: string;
 
     get errorMessage() {
-        return this._errorMessage;
-    }
-
-    @action
-    private _setErrorMessage(message?: string) {
-        this._errorMessage = message;
+        return this.fetch.errorMessage;
     }
 
     @observable

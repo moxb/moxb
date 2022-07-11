@@ -11,6 +11,8 @@
  * A Loader can do this for you: watch the input, and maintain the output
  * accordingly.
  */
+import { Action } from '../action/Action';
+
 export interface Loader<Input, Output> {
     /**
      * What is the current input we are looking at?
@@ -44,13 +46,9 @@ export interface Loader<Input, Output> {
     awaken(): void;
 
     /**
-     * Trigger re-loading
-     *
-     * By default, we only reload the data when the input changes.
-     * But there can be case when a manual update might be desired.
-     * In that situation, call this method.
+     * An action to (re)load the data
      */
-    trigger(): void;
+    readonly fetch: Action;
 
     /**
      * Insert data
