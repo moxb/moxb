@@ -194,6 +194,11 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         return this.getErrors();
     }
 
+    @computed
+    get errorMessage(): string | undefined {
+        return this.errors ? this.errors.join(' ') : undefined;
+    }
+
     /** @deprecated since version v0.2.0-beta.7 */
     @computed
     get error() {

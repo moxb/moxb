@@ -15,6 +15,7 @@ export interface Bind<CustomData = undefined> {
     readonly readOnly?: boolean; // if false just display the value
     readonly help?: string;
     readonly errors?: string[] | undefined | null;
+    readonly errorMessage?: string;
     readonly hasErrors?: boolean;
 
     setError(error: string | undefined | null): void;
