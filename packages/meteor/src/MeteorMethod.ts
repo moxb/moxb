@@ -123,6 +123,7 @@ class MeteorMethodControlImpl<Input, Output> implements MeteorMethodControl<Inpu
 
     constructor(private readonly _definition: MeteorMethodDefinition<Input, Output>, meteorInstance?: typeof Meteor) {
         makeObservable(this);
+        this.callPromise = this.callPromise.bind(this);
         const { name, debug, execute, serverOnly, unblock, auth } = _definition;
 
         // Try to use the supplied Meteor instance,
