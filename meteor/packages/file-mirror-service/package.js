@@ -1,6 +1,6 @@
 Package.describe({
     name: 'moxb:file-mirror-service',
-    version: '0.0.12',
+    version: '0.0.13',
     summary: 'Service to maintain and access a mirrored cache of remote files',
     git: 'https://github.com/moxb/moxb/tree/master/meteor/packages/file-mirror-service',
     documentation: 'README.md'
@@ -20,5 +20,5 @@ Npm.depends({
     "mobx": '6.5.0',
     "uuid": '8.3.2', // required by mobx
     "@moxb/moxb": '0.3.72',
-    "@moxb/meteor": '0.3.72'
+    "@moxb/meteor": '0.3.76'
 });
