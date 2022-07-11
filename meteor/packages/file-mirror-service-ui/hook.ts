@@ -1,4 +1,4 @@
-import {useRPCResult} from '@moxb/react-html';
+import {useAsyncData} from '@moxb/react-html';
 import {methodGetMirroredFileInfo} from 'meteor/moxb:file-mirror-service';
 import type {MirroredFileInfo} from 'meteor/moxb:file-mirror-service';
 
@@ -8,5 +8,8 @@ export function useMirroredFile(originalUrl: string): [
         MirroredFileInfo | undefined, // result
     () => void // trigger
 ] {
-    return useRPCResult(methodGetMirroredFileInfo, originalUrl, {stable: true, swallowErrors: true});
+    return useAsyncData('mirror data', methodGetMirroredFileInfo.callPromise, originalUrl, {
+        stable: true,
+        swallowErrors: true
+    });
 }

@@ -44,7 +44,7 @@ export interface ApiEndpointDefinition<Input, Output> extends Omit<MeteorMethodD
 }
 
 
-export interface ApiEndpointHandle<Input, Output> extends Omit<MeteorMethodControl<Input, Output>, 'callWithCallback' | 'callPromise'> {
+export interface ApiEndpointHandle<Input, Output> extends Omit<MeteorMethodControl<Input, Output>, 'call' | 'callPromise'> {
 
     /**
      * Call as a Meteor method, using the callback-style syntax
