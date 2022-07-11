@@ -1,6 +1,6 @@
 Package.describe({
     name: 'moxb:meteor-rest-apis',
-    version: '0.0.5',
+    version: '0.0.7',
     summary: 'Make it easy to define and consume HTTP REST APIs in Meteor apps',
     git: '',
     documentation: 'README.md'
@@ -26,6 +26,6 @@ Npm.depends({
     "tslib": '2.4.0',
     "mobx": '6.5.0',
     "uuid": '8.3.2', // required by mobx
-    "@moxb/moxb": '0.3.69',
-    "@moxb/meteor": '0.3.69'
+    "@moxb/moxb": '0.3.72',
+    "@moxb/meteor": '0.3.72'
 });

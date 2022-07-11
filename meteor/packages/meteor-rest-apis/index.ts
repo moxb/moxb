@@ -104,12 +104,11 @@ class ApiEndpointWrapper<Input, Output> implements ApiEndpointHandle<Input, Outp
     }
 
     callMethodWithCallback(data: Input, callback?: MeteorCallback<Output>) {
-        this._method.callWithCallback(data, callback);
+        this._method.call(data, callback);
     }
 
     callMethodPromise(data: Input): Promise<Output> {
-
-        return this._method.call(data);
+        return this._method.callPromise(data);
     }
 
     get name() {
