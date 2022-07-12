@@ -156,10 +156,15 @@ class MeteorMethodControlImpl<Input, Output> implements MeteorMethodControl<Inpu
                         this.unblock();
                     }
 
-                    const result = wrapException(execute)(input, this.userId, this);
-                    logger.log('returns', result);
+                    try {
+                        const result = wrapException(execute)(input, this.userId, this);
+                        logger.log('returns', result);
 
-                    return result;
+                        return result;
+                    } catch (execError) {
+                        logger.log('Exception', execError);
+                        throw execError;
+                    }
                 },
             });
         }
