@@ -121,8 +121,18 @@ export interface RegisterMeteorPublicationProps<Input, Document> {
 export function registerMeteorPublication<Input, Document>(
     params: RegisterMeteorPublicationProps<Input, Document>
 ): MeteorPublicationHandle<Input, Document> {
-    const { name, collection, prePublish, selector, clientSelector, skipIf, auth, options, clientOptions, debugMode } =
-        params;
+    const {
+        name,
+        collection,
+        prePublish,
+        selector,
+        clientSelector,
+        skipIf,
+        auth,
+        options,
+        clientOptions,
+        debugMode,
+    } = params;
     const logger = getDebugLogger(`publication ${name}`, debugMode);
 
     const getServerCursor = (args: Input, sub: Subscription) => {
