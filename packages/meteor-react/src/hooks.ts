@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 
 import { getDebugLogger } from '@moxb/moxb';
@@ -16,18 +16,43 @@ export function useMeteorLoggingIn() {
     return useTracker(() => Meteor.loggingIn());
 }
 
-export function useMeteorPublication<Input, Output>(
-    publication: MeteorPublicationHandle<Input, Output>,
+/**
+ * The data returned by the `useMeteorPublication()` React hook.
+ */
+export type PublicationHookHandle<Document> = [
+    /**
+     * Are we loading?
+     */
+    () => boolean,
+
+    /**
+     * The loaded data
+     */
+    Document[],
+
+    /**
+     * Was there an error?
+     */
+    string | undefined
+];
+
+/**
+ * A React hook for using data from a Meteor publication
+ *
+ * It will automatically follow the input args; subscribe, unsubscribe, etc.
+ */
+export function useMeteorPublication<Input, Document>(
+    publication: MeteorPublicationHandle<Input, Document>,
     args: Input,
     useCase: string,
     debugMode?: boolean
-): [() => boolean, Output[], string | undefined] {
+): PublicationHookHandle<Document> {
     const { name, willSkip, getClientCursor } = publication;
     const logger = getDebugLogger('Hook for publication ' + name, debugMode);
     logger.log('Creating state hooks for useCase', useCase);
     const [error, setError] = useState<string | undefined>();
     const skip = willSkip(args);
-    const isReady = () =>
+    const isLoading = () =>
         useSubscribe(skip ? undefined : name, args, {
             onReady: () => logger.log('Subscription is ready now'),
             onStop: (stopError: any) => {
@@ -40,7 +65,7 @@ export function useMeteorPublication<Input, Output>(
         })() && !error;
     return [
         () => {
-            const loading = isReady();
+            const loading = isLoading();
             logger.log('Checking if loading?', skip ? 'We are skipping this.' : '', loading);
             return loading;
         },

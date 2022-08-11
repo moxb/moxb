@@ -1,60 +1,17 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import { Loader } from './Loader';
+import { Loader, LoaderOptions } from './Loader';
 import { getDebugLogger, Logger } from '../util/debugLog';
 import { ActionImpl } from '../action/ActionImpl';
 
 /**
- * Configuration for a loader
- */
-export interface LoaderOptions<Input, Output> {
-    /**
-     * ID for debugging
-     */
-    id: string;
-
-    /**
-     * How do I get the input?
-     *
-     * This should use mobx-observable data sources.
-     */
-    getInput: () => Input | undefined;
-
-    /**
-     * How do I know if we need to skip loading for this input?
-     *
-     * Please note that even if not given, we won't load the output
-     * when the input is undefined.
-     */
-    skipIf?: (input?: Input) => boolean;
-
-    /**
-     * How do I load the data?
-     */
-    load: (input: Input) => Promise<Output>;
-
-    /**
-     * Any extra function to call after successful loading
-     */
-    onLoad?: (output: Output) => void;
-
-    /**
-     * Should we run in debug mode?
-     */
-    debug?: boolean;
-}
-
-/**
- * A loader can follow some input, and always load some output accordingly
+ * A `Loader` can follow the changes in some input data, and prepare some output data accordingly.
  *
- * Let's assume that there is a value ("output") that depends on
- * some other value ("input"), and can be derived from it using
- * an asynchronous function.
+ * Let's assume that there is a value ("output") that depends on some other value ("input"),
+ * and can be derived from it using an asynchronous function.
  *
- * One example would be loading some data from an external source,
- * based on some ID or other criteria.
+ * One example would be loading some data from an external source, based on an ID or other criteria.
  *
- * A Loader can do this for you: watch the input, and maintain the output
- * accordingly.
+ * A `Loader` can do this for you: it watches the input, and maintains the output accordingly.
  */
 export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
     private readonly _logger: Logger;

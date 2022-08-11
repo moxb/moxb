@@ -1,7 +1,12 @@
 import { getDebugLogger } from '@moxb/moxb/dist/util/debugLog';
 import type { Mongo } from 'meteor/mongo';
 
-export interface MeteorPublicationHandle<Input, Output> {
+interface SubscribeCallbacks {
+    onReady: () => void;
+    onStop: (error: any) => void;
+}
+
+export interface MeteorPublicationHandle<Input, Document> {
     /**
      * A user-readable identifier (for debugging)
      */
@@ -10,14 +15,14 @@ export interface MeteorPublicationHandle<Input, Output> {
     /**
      * Subscribe to this publication, with a given set of args
      */
-    subscribe(args: Input): Meteor.SubscriptionHandle;
+    subscribe(args: Input, callbacks?: SubscribeCallbacks): Meteor.SubscriptionHandle;
 
     /**
      * Try to read the data from this publication.
      *
      * Please note that in order to access to data, first you need to be subscribed.
      */
-    find(args: Input): Output[];
+    find(args: Input): Document[];
 
     /**
      * Find out if this publication will skip returning any results for a given set if input args
@@ -30,10 +35,10 @@ export interface MeteorPublicationHandle<Input, Output> {
      * (This is a very technical internal feature, you probably don't it, unless
      * you want to build a low-lever library integrating with this code.)
      */
-    getClientCursor(args: Input): Mongo.Cursor<Output, any>;
+    getClientCursor(args: Input): Mongo.Cursor<Document, any>;
 }
 
-export interface RegisterMeteorPublicationProps<Input, Output> {
+export interface RegisterMeteorPublicationProps<Input, Document> {
     /**
      * What should be the name of this publication?
      */
@@ -42,7 +47,7 @@ export interface RegisterMeteorPublicationProps<Input, Output> {
     /**
      * The collection to search
      */
-    collection: Mongo.Collection<Output, Output>;
+    collection: Mongo.Collection<Document, Document>;
 
     /***
      * Code to run inside the Meteor publication method.
@@ -54,14 +59,14 @@ export interface RegisterMeteorPublicationProps<Input, Output> {
     /**
      * How to derive the search query for Collection.find() from the input args?
      */
-    selector: (input: Input, userId?: string | null, sub?: Subscription) => Mongo.Selector<Output>;
+    selector: (input: Input, userId?: string | null, sub?: Subscription) => Mongo.Selector<Document>;
 
     /**
      * Selector for Collection.find() when running on the client side.
      *
      * If not given, the same selector will be used as on the server side.
      */
-    clientSelector?: (input: Input) => Mongo.Selector<Output>;
+    clientSelector?: (input: Input) => Mongo.Selector<Document>;
 
     /**
      * Should we perhaps stop the subscription on some condition of the output?
@@ -81,14 +86,14 @@ export interface RegisterMeteorPublicationProps<Input, Output> {
     /**
      * Options for Collection.find()
      */
-    options?: (input: Input, userId?: string | null, sub?: Subscription) => Mongo.Options<Output>;
+    options?: (input: Input, userId?: string | null, sub?: Subscription) => Mongo.Options<Document>;
 
     /**
      * Options for Collection.find() when running on the client side.
      *
      * If not given, the same options will be used as on the server side.
      */
-    clientOptions?: (input: Input) => Mongo.Options<Output>;
+    clientOptions?: (input: Input) => Mongo.Options<Document>;
 
     /**
      * Should we output debug information about using this publication?
@@ -103,7 +108,7 @@ export interface RegisterMeteorPublicationProps<Input, Output> {
  * The idea is that you register your publication with this function (in common code),
  * and this makes it easier to use it on the client side.
  *
- * There are 4 main advantages compared to upstream tools:
+ * Some advantages compared to upstream tools:
  *  - You don't have to remember (and can't mistype) the name of the publication,
  *    since it's imported as an object
  *  - The input parameters are type-safe. If you forgot to specify a value, you get an error.
@@ -112,23 +117,12 @@ export interface RegisterMeteorPublicationProps<Input, Output> {
  *    and the resulting data sets are automatically merged, but you still want to separate them.
  *    In those situations, you have to set up the filtering again on the client side.
  *    This wrapper takes care of that.
- *  - We also provide a React hook which handles both the subscription and fetching the data.
  */
-export function registerMeteorPublication<Input, Output>(
-    params: RegisterMeteorPublicationProps<Input, Output>
-): MeteorPublicationHandle<Input, Output> {
-    const {
-        name,
-        collection,
-        prePublish,
-        selector,
-        clientSelector,
-        skipIf,
-        auth,
-        options,
-        clientOptions,
-        debugMode,
-    } = params;
+export function registerMeteorPublication<Input, Document>(
+    params: RegisterMeteorPublicationProps<Input, Document>
+): MeteorPublicationHandle<Input, Document> {
+    const { name, collection, prePublish, selector, clientSelector, skipIf, auth, options, clientOptions, debugMode } =
+        params;
     const logger = getDebugLogger(`publication ${name}`, debugMode);
 
     const getServerCursor = (args: Input, sub: Subscription) => {
@@ -178,7 +172,7 @@ export function registerMeteorPublication<Input, Output>(
 
     const shouldSkip = (args: Input) => !!skipIf && skipIf(args);
 
-    const callbacks = {
+    const defaultCallbacks = {
         onReady: () => logger.log('Subscription is ready now'),
         onStop: (error: any) => {
             if (error) {
@@ -189,7 +183,7 @@ export function registerMeteorPublication<Input, Output>(
 
     return {
         name,
-        subscribe: (args): Meteor.SubscriptionHandle => {
+        subscribe: (args, callbacks = defaultCallbacks): Meteor.SubscriptionHandle => {
             const skip = shouldSkip(args);
             if (skip) {
                 logger.log('Skipping subscription');

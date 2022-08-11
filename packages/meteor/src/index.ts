@@ -3,6 +3,8 @@ export * from './MeteorDataFetcher';
 export * from './MeteorSubscription';
 export * from './MeteorDependencies';
 export * from './MeteorPublication';
+export * from './MeteorPublicationLoader';
+export * from './MeteorPublicationLoaderImpl';
 export * from './MeteorSubscriptionImpl';
 export * from './MeteorTableOperations';
 export * from './MeteorTableFetcher';
