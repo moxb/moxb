@@ -148,6 +148,16 @@ interface LocationManagerCore {
      * Define a URL arg for storing a serialized object
      */
     defineObjectArg<T>(key: string, defaultValue?: T | null, permanent?: boolean): UrlArg<T | null>;
+
+    /**
+     * Define an unordered enum array UrlArg
+     */
+    defineUnorderedArrayArg<BaseType>(key: string, defaultValue?: BaseType[], permanent?: boolean): UrlArg<BaseType[]>;
+
+    /**
+     * Define an ordered enum array UrlArg
+     */
+    defineOrderedArrayArg<BaseType>(key: string, defaultValue?: BaseType[], permanent?: boolean): UrlArg<BaseType[]>;
 }
 
 /**

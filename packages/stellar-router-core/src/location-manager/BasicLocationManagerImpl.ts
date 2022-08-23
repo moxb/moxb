@@ -701,4 +701,30 @@ export class BasicLocationManagerImpl implements LocationManager {
             permanent,
         });
     }
+
+    defineUnorderedArrayArg<BaseType>(
+        key: string,
+        defaultValue: BaseType[] = [],
+        permanent?: boolean
+    ): UrlArg<BaseType[]> {
+        return new UrlArgImpl<BaseType[]>(this, {
+            key,
+            valueType: URLARG_TYPE_UNORDERED_STRING_ARRAY as any,
+            defaultValue,
+            permanent,
+        });
+    }
+
+    defineOrderedArrayArg<BaseType>(
+        key: string,
+        defaultValue: BaseType[] = [],
+        permanent?: boolean
+    ): UrlArg<BaseType[]> {
+        return new UrlArgImpl<BaseType[]>(this, {
+            key,
+            valueType: URLARG_TYPE_ORDERED_STRING_ARRAY as any,
+            defaultValue,
+            permanent,
+        });
+    }
 }
