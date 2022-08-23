@@ -1,3 +1,4 @@
+import { Tracker } from 'meteor/tracker';
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { getDebugLogger, Logger } from '@moxb/moxb';
 import { MeteorPublicationLoader, MeteorPublicationLoaderProps } from './MeteorPublicationLoader';
@@ -56,6 +57,7 @@ export class MeteorPublicationLoaderImpl<Input, Document> implements MeteorPubli
     }
 
     private _handle?: Meteor.SubscriptionHandle;
+    private _find?: Tracker.Computation;
 
     private _subCount = 0;
 
@@ -64,6 +66,10 @@ export class MeteorPublicationLoaderImpl<Input, Document> implements MeteorPubli
         this._setInput(this._props.getInput());
         const subCount = this._subCount++;
 
+        if (this._find) {
+            this._logger.log('Stopping previous computation for reading the data');
+            this._find.stop();
+        }
         if (this._handle) {
             this._logger.log('Stopping previous subscription');
             // TODO: do I have to do this?
@@ -83,9 +89,11 @@ export class MeteorPublicationLoaderImpl<Input, Document> implements MeteorPubli
             onReady: action(() => {
                 this._logger.log(`Data is ready for sub #${subCount}`);
                 this._setPending(false);
-                const documents = this._props.publication.find(this.input!);
-                this._logger.log('Loaded', documents.length, 'documents.');
-                this._setDocuments(documents);
+                this._find = Tracker.autorun(() => {
+                    const documents = this._props.publication.find(this.input!);
+                    this._logger.log('Loaded', documents.length, 'documents.');
+                    this._setDocuments(documents);
+                });
             }),
             onStop: action((error) => {
                 this._logger.log(`stopping sub #${subCount}: ${error ? error.toString() : 'no error'}`);
