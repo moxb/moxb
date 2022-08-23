@@ -65,4 +65,11 @@ export interface MeteorPublicationLoaderProps<Input, Document> {
      * Should we run in debug mode?
      */
     debug?: boolean;
+
+    /**
+     * Should we hide previous data while reloading?
+     *
+     * defaults to false
+     */
+    hideWhileLoading?: boolean;
 }
