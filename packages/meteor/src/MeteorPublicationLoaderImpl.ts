@@ -71,7 +71,7 @@ export class MeteorPublicationLoaderImpl<Input, Document> implements MeteorPubli
                 this._setPending(false);
             },
             onStop: (error) => {
-                this._logger.log('stopping:', error.toString());
+                this._logger.log('stopping:', error ? error.toString() : 'no error');
                 this._setPending(false);
                 this._setError(error);
             },
