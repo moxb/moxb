@@ -59,10 +59,16 @@ export class NativeUrlSchema implements UrlSchema {
         // Concatenate the tokens leading to the app, and the new path inside the app
         const newPathTokens = [...keptTokens, ...pathTokens];
 
+        // Calculate the new path string
+        const pathname = `/${newPathTokens.join('/')}`;
+
+        // Calculate the new search string
+        const search = new MyURI().search(query).search().replaceAll('%2C', ',');
+
         return {
             ...location,
-            pathname: '/' + newPathTokens.join('/'),
-            search: new MyURI().search(query).search(),
+            pathname,
+            search,
         };
     }
 }
