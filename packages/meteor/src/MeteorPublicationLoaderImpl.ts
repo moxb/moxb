@@ -1,7 +1,19 @@
-import { Tracker } from 'meteor/tracker';
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { getDebugLogger, Logger } from '@moxb/moxb';
 import { MeteorPublicationLoader, MeteorPublicationLoaderProps } from './MeteorPublicationLoader';
+
+let autorun: typeof Tracker.autorun;
+
+if (Meteor.isClient) {
+    import('meteor/tracker').then(
+        (loaded) => {
+            autorun = loaded.Tracker.autorun;
+        },
+        (error) => {
+            console.log('Failed to import tracker');
+        }
+    );
+}
 
 export class MeteorPublicationLoaderImpl<Input, Document> implements MeteorPublicationLoader<Input, Document> {
     private readonly _logger: Logger;
@@ -89,7 +101,7 @@ export class MeteorPublicationLoaderImpl<Input, Document> implements MeteorPubli
             onReady: action(() => {
                 this._logger.log(`Data is ready for sub #${subCount}`);
                 this._setPending(false);
-                this._find = Tracker.autorun(() => {
+                this._find = autorun(() => {
                     const documents = this._props.publication.find(this.input!);
                     this._logger.log('Loaded', documents.length, 'documents.');
                     this._setDocuments(documents);
