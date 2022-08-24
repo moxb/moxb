@@ -13,6 +13,7 @@ MORE = more
 NPM = npm
 LERNA = lerna
 JEST = jest
+NX = nx
 
 
 PACKAGE_DIRS_ := $(shell ls packages)
@@ -197,12 +198,13 @@ admin/bin-tools:
 	ln -sf ../../node_modules/.bin/tsc admin/bin-tools/
 	ln -sf ../../node_modules/.bin/lerna admin/bin-tools/
 	ln -sf ../../node_modules/.bin/eslint admin/bin-tools/
+	ln -sf ../../node_modules/.bin/nx admin/bin-tools/
 	@touch $@
 
 ###### watch-all ###################################
 .PHONY: build-packages
 build-packages: all-dependencies
-	npx nx run-many --target=build --all
+	$(NX) run-many --target=build --all
 
 # we first build all packages
 .PHONY: watch-all
