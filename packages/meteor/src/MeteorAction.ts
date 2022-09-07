@@ -13,6 +13,11 @@ import { MeteorMethodControl } from './MeteorMethod';
  */
 interface MeteorActionOptions<Input, Output> extends BindOptions {
     /**
+     * Should we ask for confirmation before executing?
+     */
+    confirmQuestion?: ValueOrFunction<string>;
+
+    /**
      * A (control object to a) Meteor method to use
      */
     method: MeteorMethodControl<Input, Output>;
