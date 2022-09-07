@@ -66,7 +66,7 @@ export interface RegisterMeteorPublicationProps<Input, Document> {
      *
      * If not given, the same selector will be used as on the server side.
      */
-    clientSelector?: (input: Input) => Mongo.Selector<Document>;
+    clientSelector?: (input: Input, userId?: string | null) => Mongo.Selector<Document>;
 
     /**
      * Should we perhaps stop the subscription on some condition of the output?
@@ -142,7 +142,8 @@ export function registerMeteorPublication<Input, Document>(
         return collection.find(currentSelector, currentOptions);
     };
     const getClientCursor = (args: Input) => {
-        const selectors = clientSelector ? clientSelector(args) : selector(args);
+        const userId = Meteor.userId();
+        const selectors = clientSelector ? clientSelector(args, userId) : selector(args, userId);
         const cursor = collection.find(
             selectors,
             clientOptions ? clientOptions(args) : options ? options(args) : undefined
