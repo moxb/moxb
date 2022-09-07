@@ -188,7 +188,7 @@ export const NavMenuBarAnt = observer((props: NavMenuProps<any>) => {
                 style={actualStyle}
                 items={menuItems}
             />
-            {extras.length && (
+            {!!extras.length && (
                 <div
                     style={{
                         display: 'flex',
