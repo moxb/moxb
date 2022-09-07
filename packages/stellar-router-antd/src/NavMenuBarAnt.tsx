@@ -1,4 +1,3 @@
-import { idToDomId } from '@moxb/moxb';
 import { renderUIFragment, UIFragment, UIFragmentSpec, Anchor, AnchorProps } from '@moxb/react-html';
 import {
     LocationDependentStateSpaceHandler,
@@ -12,6 +11,7 @@ import { Menu } from 'antd';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { MenuMode, TriggerSubMenuAction } from 'rc-menu/lib/interface';
+import { ItemType as TransformedMenuItem } from 'antd/es/menu/hooks/useItems';
 
 export interface NavMenuProps<DataType>
     extends Omit<
@@ -78,20 +78,16 @@ export const NavMenuBarAnt = observer((props: NavMenuProps<any>) => {
     }
 
     // eslint-disable-next-line complexity
-    function renderSubStateLink(
+    function transformSubStateLink(
         inStates: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, any>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, any>
-    ) {
-        const { label, key, menuKey, newWindow, itemClassName, linkClassName, linkStyle, noLink, title } = state;
-        // use `.` to separate the items and the convert it to a DOM id (which converts all . to -)
-        const itemId = idToDomId('menuItem.' + props.id + '.' + menuKey);
-        const itemProps: any = {};
+    ): TransformedMenuItem {
+        const { label, key, menuKey, newWindow, linkClassName, linkStyle, noLink, title } = state;
         if (noLink) {
-            return (
-                <Menu.Item data-testid={itemId} id={itemId} key={menuKey} {...itemProps}>
-                    {renderUIFragment(label || key || 'item')}
-                </Menu.Item>
-            );
+            return {
+                key: menuKey,
+                label: renderUIFragment(label || key || 'item'),
+            };
         } else {
             const url = inStates.getUrlForSubState(state);
             const anchorProps: AnchorProps = {
@@ -105,53 +101,43 @@ export const NavMenuBarAnt = observer((props: NavMenuProps<any>) => {
             if (linkClassName) {
                 anchorProps.className = linkClassName;
             }
-            if (itemClassName) {
-                itemProps.className = itemClassName;
-            }
-            return (
-                <Menu.Item data-testid={itemId} id={itemId} key={menuKey} {...itemProps}>
-                    <Anchor {...anchorProps} />
-                </Menu.Item>
-            );
+            return {
+                key: menuKey,
+                label: <Anchor {...anchorProps} />,
+            };
         }
     }
 
-    function renderSubStateGroup(
+    function transformSubStateGroup(
         inStates: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, any>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, any>
-    ) {
-        const { label, key, subStates, flat, menuKey, linkStyle, itemClassName } = state;
+    ): TransformedMenuItem {
+        const { label, key, subStates, flat, menuKey } = state;
         if (!flat && !key) {
             throw new Error("Can't create a hierarchical menu group without a key!");
         }
-        const itemId = idToDomId('menuItem.' + props.id + '.' + menuKey);
-        return (
-            <Menu.SubMenu
-                data-testid={itemId}
-                key={menuKey}
-                className={itemClassName}
-                title={renderUIFragment(label || key || '***')}
-                style={linkStyle}
-            >
-                {subStates!.map((s) => renderSubStateElement(inStates, s))}
-            </Menu.SubMenu>
-        );
+        return {
+            key: menuKey,
+            label: renderUIFragment(label || key || '***'),
+            children: subStates!.map((s) => transformSubStateElement(inStates, s)),
+        };
     }
 
-    function renderSeparator(state: SubStateInContext<UIFragment, any, any>) {
-        return <Menu.Divider key={state.menuKey} />;
-    }
+    const transformSeparator = (state: SubStateInContext<UIFragment, UIFragmentSpec, any>): TransformedMenuItem => ({
+        type: 'divider',
+        key: state.menuKey,
+    });
 
-    function renderSubStateElement(
+    function transformSubStateElement(
         inStates: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, any>,
         state: SubStateInContext<UIFragment, UIFragmentSpec, any>
-    ) {
+    ): TransformedMenuItem {
         const { isGroupOnly, separator } = state;
         return separator
-            ? renderSeparator(state)
+            ? transformSeparator(state)
             : isGroupOnly
-            ? renderSubStateGroup(inStates, state)
-            : renderSubStateLink(inStates, state);
+            ? transformSubStateGroup(inStates, state)
+            : transformSubStateLink(inStates, state);
     }
 
     const states = getLocationDependantStateSpaceHandler();
@@ -186,22 +172,35 @@ export const NavMenuBarAnt = observer((props: NavMenuProps<any>) => {
         }
     }
 
+    const subStatesToShow = states.getFilteredSubStates({
+        onlyVisible: true,
+        onlySatisfying: true,
+    });
+    const menuItems: TransformedMenuItem[] = subStatesToShow.map((state) => transformSubStateElement(states, state));
     return (
-        <Menu
-            triggerSubMenuAction={triggerSubMenuAction}
-            selectedKeys={selectedMenuKeys}
-            // defaultOpenKeys={defaultOpenKeys}
-            {...openProps}
-            mode={mode}
-            style={actualStyle}
-        >
-            {states
-                .getFilteredSubStates({
-                    onlyVisible: true,
-                    onlySatisfying: true,
-                })
-                .map((state) => renderSubStateElement(states, state))}
-            {extras.map((f) => renderUIFragment(f))}
-        </Menu>
+        <span style={{ display: 'flex' }}>
+            <Menu
+                triggerSubMenuAction={triggerSubMenuAction}
+                selectedKeys={selectedMenuKeys}
+                // defaultOpenKeys={defaultOpenKeys}
+                {...openProps}
+                mode={mode}
+                style={actualStyle}
+                items={menuItems}
+            />
+            {extras.length && (
+                <div
+                    style={{
+                        display: 'flex',
+                        padding: '0 20px',
+                        alignItems: 'center',
+                    }}
+                >
+                    {extras.map((extra, index) => (
+                        <span key={`extra-${index}`}>{renderUIFragment(extra)}</span>
+                    ))}
+                </div>
+            )}
+        </span>
     );
 });
