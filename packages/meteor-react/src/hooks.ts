@@ -47,7 +47,7 @@ export function useMeteorPublication<Input, Document>(
     useCase: string,
     debugMode?: boolean
 ): PublicationHookHandle<Document> {
-    const { name, willSkip, getClientCursor } = publication;
+    const { name, willSkip } = publication;
     const logger = getDebugLogger('Hook for publication ' + name, debugMode);
     logger.log('Creating state hooks for useCase', useCase);
     const [error, setError] = useState<string | undefined>();
@@ -69,7 +69,7 @@ export function useMeteorPublication<Input, Document>(
             logger.log('Checking if loading?', skip ? 'We are skipping this.' : '', loading);
             return loading;
         },
-        useTracker(() => getClientCursor(args).fetch()),
+        useTracker(() => publication.find(args)),
         // useFind(() => {
         //     logger.log('Asking for cursor for data');
         //     const cursor = getClientCursor(args);
