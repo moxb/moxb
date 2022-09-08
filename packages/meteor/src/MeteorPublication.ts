@@ -111,7 +111,7 @@ export interface RegisterMeteorPublicationProps<Input, Document> {
 }
 
 interface HasId {
-    _id: string;
+    _id: string | number;
 }
 
 interface CacheEntry<Document> {
@@ -216,7 +216,7 @@ export function registerMeteorPublication<Input, Document extends HasId>(
     function shield(input: Document[]): Document[] {
         const output: Document[] = [];
         input.forEach((document) => {
-            const id = document._id;
+            const id = `obj-${document._id}`;
             const flattened = JSON.stringify(document);
             if (reactivityCache.has(id)) {
                 const cached = reactivityCache.get(id)!;
