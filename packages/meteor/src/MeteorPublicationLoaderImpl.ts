@@ -130,7 +130,7 @@ export class MeteorPublicationLoaderImpl<Input, Document> implements MeteorPubli
         );
     }
 
-    @observable
+    @observable.ref
     private _documents: Document[] = [];
 
     @action

@@ -28,14 +28,6 @@ export interface MeteorPublicationHandle<Input, Document> {
      * Find out if this publication will skip returning any results for a given set if input args
      */
     willSkip(args: Input): boolean;
-
-    /**
-     * Get a client cursor for the output of this publication
-     *
-     * (This is a very technical internal feature, you probably don't it, unless
-     * you want to build a low-lever library integrating with this code.)
-     */
-    getClientCursor(args: Input): Mongo.Cursor<Document, any>;
 }
 
 export interface RegisterMeteorPublicationProps<Input, Document> {
@@ -99,6 +91,32 @@ export interface RegisterMeteorPublicationProps<Input, Document> {
      * Should we output debug information about using this publication?
      */
     debugMode?: boolean;
+
+    /**
+     * Should we "shield" this publication from excessive reactivity?
+     *
+     * By default, when you query Meteor / Mongo publications, even if there is no data change,
+     * in each round, you will get new copies of the objects. If you are then using these objects
+     * for driving other reactive computations or renderings, then those computations / renders will run again,
+     * since they will detect a new object each time.
+     *
+     * This optional "reactivity shield" functionality, if activated, will try to prevent this by
+     * always comparing the newly received objects with earlier versions of themselves (identified by id),
+     * and if the new version is the same as the old version, then the old version will be returned.
+     *
+     * The tradeoff here is more computation in this layer, and less computation in other (downstream) layers.
+     * You have to make your own measurements / judgement whether this is beneficial for your app.
+     */
+    reactivityShield?: boolean;
+}
+
+interface HasId {
+    _id: string;
+}
+
+interface CacheEntry<Document> {
+    document: Document;
+    flattened: string;
 }
 
 /**
@@ -118,7 +136,7 @@ export interface RegisterMeteorPublicationProps<Input, Document> {
  *    In those situations, you have to set up the filtering again on the client side.
  *    This wrapper takes care of that.
  */
-export function registerMeteorPublication<Input, Document>(
+export function registerMeteorPublication<Input, Document extends HasId>(
     params: RegisterMeteorPublicationProps<Input, Document>
 ): MeteorPublicationHandle<Input, Document> {
     const {
@@ -131,6 +149,7 @@ export function registerMeteorPublication<Input, Document>(
         auth,
         options,
         clientOptions,
+        reactivityShield,
         debugMode,
     } = params;
     const logger = getDebugLogger(`publication ${name}`, debugMode);
@@ -192,6 +211,38 @@ export function registerMeteorPublication<Input, Document>(
         },
     };
 
+    const reactivityCache: Map<string, CacheEntry<Document>> = new Map<string, CacheEntry<Document>>();
+
+    function shield(input: Document[]): Document[] {
+        const output: Document[] = [];
+        input.forEach((document) => {
+            const id = document._id;
+            const flattened = JSON.stringify(document);
+            if (reactivityCache.has(id)) {
+                const cached = reactivityCache.get(id)!;
+                if (cached.flattened === flattened) {
+                    // console.log('Cache hit on', id);
+                    output.push(cached.document);
+                } else {
+                    // console.log('Got updated version of', id);
+                    reactivityCache.set(id, {
+                        document,
+                        flattened,
+                    });
+                    output.push(document);
+                }
+            } else {
+                // console.log('First time we see', id);
+                reactivityCache.set(id, {
+                    document,
+                    flattened,
+                });
+                output.push(document);
+            }
+        });
+        return output;
+    }
+
     return {
         name,
         subscribe: (args, callbacks = defaultCallbacks): Meteor.SubscriptionHandle => {
@@ -210,10 +261,10 @@ export function registerMeteorPublication<Input, Document>(
                 return Meteor.subscribe(...subscribeParams);
             }
         },
-        getClientCursor,
         find: (args) => {
             logger.log('Returning data');
-            return getClientCursor(args).fetch();
+            const result = getClientCursor(args).fetch();
+            return reactivityShield ? shield(result) : result;
         },
         willSkip: shouldSkip,
     };
