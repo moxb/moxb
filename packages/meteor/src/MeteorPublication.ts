@@ -161,7 +161,7 @@ export function registerMeteorPublication<Input, Document extends HasId>(
         return collection.find(currentSelector, currentOptions);
     };
     const getClientCursor = (args: Input) => {
-        const userId = Meteor.userId();
+        const userId = Meteor.userId ? Meteor.userId() : null;
         const selectors = clientSelector ? clientSelector(args, userId) : selector(args, userId);
         const cursor = collection.find(
             selectors,
