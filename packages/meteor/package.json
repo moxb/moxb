@@ -1,6 +1,6 @@
 {
   "name": "@moxb/meteor",
-  "version": "0.3.86",
+  "version": "0.3.89",
   "description": "MobX meteor binding",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
