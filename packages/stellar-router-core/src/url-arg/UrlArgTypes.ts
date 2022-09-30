@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { UrlArgTypeDef } from './UrlArg';
 
 /**
@@ -55,6 +56,26 @@ export const URLARG_TYPE_OPTIONAL_INTEGER: UrlArgTypeDef<number | undefined> = {
     },
     isEqual: (v1, v2) => v1 === v2,
     format: (v) => String(v),
+};
+
+const myTimeFormat = 'YYYY.MM.DD.HH.mm.ss';
+
+export const URLARG_TYPE_DATE: UrlArgTypeDef<Date> = {
+    format: (v) => moment(v).format(myTimeFormat),
+    getParser: () => (stringDate: string): Date => moment(stringDate, myTimeFormat).toDate(),
+    isEqual: (a, b) => a.getTime() === b.getTime(),
+};
+
+export const URLARG_TYPE_OPTIONAL_DATE: UrlArgTypeDef<Date | undefined> = {
+    format: (v) => moment(v).format(myTimeFormat),
+    getParser: () => (stringDate) => {
+        try {
+            return moment(stringDate, myTimeFormat).toDate();
+        } catch {
+            return undefined;
+        }
+    },
+    isEqual: (a, b) => a?.getTime() === b?.getTime(),
 };
 
 /**

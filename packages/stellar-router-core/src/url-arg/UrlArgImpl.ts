@@ -1,6 +1,7 @@
 import { computed, makeObservable } from 'mobx';
-import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
+import { ValueOrFunction, getValueOrFunction } from '@moxb/moxb';
 
+import { MyLocation, LocationManager, SuccessCallback, UpdateMethod } from '../location-manager';
 import { Query } from '../url-schema/UrlSchema';
 import { ParserFunc, UrlArg, UrlArgDefinition } from './UrlArg';
 import { TestLocation } from '../location-manager/TestLocation';
@@ -18,7 +19,11 @@ export class UrlArgImpl<T> implements UrlArg<T> {
     private readonly _def: UrlArgDefinition<T>;
     private readonly _parser: ParserFunc<T>;
     readonly key: string;
-    readonly _defaultValue: T;
+    readonly _defaultValue: ValueOrFunction<T>;
+
+    private get _currentDefaultValue() {
+        return getValueOrFunction(this._def.defaultValue)!;
+    }
 
     constructor(private readonly _locationManager: LocationManager, definition: UrlArgDefinition<T>) {
         makeObservable(this);
@@ -37,25 +42,25 @@ export class UrlArgImpl<T> implements UrlArg<T> {
     }
 
     // Extract the value from a given query
-    getOnQuery(query: Query) {
-        const { defaultValue } = this._def;
+    getOnQuery(query: Query): T {
+        const defaultValue = this._currentDefaultValue;
         return getFromQuery(query, this.key, this._parser, defaultValue);
     }
 
     @computed
-    get value() {
+    get value(): T {
         return this.getOnQuery(this._locationManager._query);
     }
 
-    _valueOn(location: TestLocation) {
+    _valueOn(location: TestLocation): T {
         return this.getOnQuery(location.query);
     }
 
     private _getRawValue(value: T) {
         const {
             valueType: { isEqual, format },
-            defaultValue,
         } = this._def;
+        const defaultValue = this._currentDefaultValue;
         return isEqual(value, defaultValue) ? undefined : format(value);
     }
 
@@ -70,11 +75,11 @@ export class UrlArgImpl<T> implements UrlArg<T> {
     }
 
     _getResetUrl() {
-        return this._getModifiedUrl(this._def.defaultValue);
+        return this._getModifiedUrl(this._currentDefaultValue);
     }
 
     _getResetLocation(start: MyLocation): MyLocation {
-        return this._getModifiedLocation(start, this._def.defaultValue);
+        return this._getModifiedLocation(start, this._currentDefaultValue);
     }
 
     doSet(value: T, method?: UpdateMethod) {
@@ -88,10 +93,10 @@ export class UrlArgImpl<T> implements UrlArg<T> {
     }
 
     doReset(method?: UpdateMethod) {
-        this.doSet(this._def.defaultValue, method);
+        this.doSet(this._currentDefaultValue, method);
     }
 
     tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
-        this.trySet(this._def.defaultValue, method, callback);
+        this.trySet(this._currentDefaultValue, method, callback);
     }
 }

@@ -1,3 +1,4 @@
+import { getValueOrFunction, ValueOrFunction } from '@moxb/moxb';
 import { MyLocation, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TestLocation } from '../location-manager/TestLocation';
 
@@ -42,7 +43,7 @@ export interface UrlArgTypeDef<T> {
 export interface ArgDefinitionCore<T> {
     valueType: UrlArgTypeDef<T>;
     parser?: ParserFunc<T>;
-    defaultValue: T;
+    defaultValue: ValueOrFunction<T>;
 }
 
 /**
@@ -81,7 +82,7 @@ export interface ReadOnlyArg<T> {
      *
      * (This is a technical detail, only relevant for the navigation system itself.)
      */
-    readonly _defaultValue: T;
+    readonly _defaultValue: ValueOrFunction<T>;
 
     /**
      * Is this argument specified in the current query?
@@ -251,7 +252,7 @@ class DerivedArg<I, O> implements ResettableArg<O> {
     }
 
     get _defaultValue() {
-        return this.sourceToTarget(this.source._defaultValue);
+        return this.sourceToTarget(getValueOrFunction(this.source._defaultValue)!);
     }
 
     _getResetLocation(start: MyLocation) {

@@ -3,6 +3,8 @@ import { Path, To } from 'history';
 export type MyLocation = Path;
 export type LocationDescriptorObject = To;
 
+import { ValueOrFunction } from '@moxb/moxb';
+
 import { UrlArg } from '../url-arg';
 
 import { Query, QueryChange, UrlSchema } from '../url-schema/UrlSchema';
@@ -118,46 +120,74 @@ interface LocationManagerCore {
      *
      * When not present, and no default defined, it will return false.
      */
-    defineBooleanArg(key: string, defaultValue?: boolean, permanent?: boolean): UrlArg<boolean>;
+    defineBooleanArg(key: string, defaultValue?: ValueOrFunction<boolean>, permanent?: boolean): UrlArg<boolean>;
 
     /**
      * Define an integer UrlArg
      *
      * When not present, and no default defined, it will return a zero.
      */
-    defineIntegerArg(key: string, defaultValue?: number, permanent?: boolean): UrlArg<number>;
+    defineIntegerArg(key: string, defaultValue?: ValueOrFunction<number>, permanent?: boolean): UrlArg<number>;
 
     /**
-     * Define an integer UrlArg
+     * Define an optional integer UrlArg
      *
      * When not present, it will return undefined.
      */
     defineOptionalIntegerArg(key: string, permanent?: boolean): UrlArg<number | undefined>;
 
     /**
+     * Define a date UrlArg
+     */
+    defineDateArg(key: string, defaultValue: ValueOrFunction<Date>, permanent?: boolean): UrlArg<Date>;
+
+    /**
+     * Define an optional date UrlArg
+     *
+     * When not present, it will return undefined.
+     */
+    defineOptionalDateArg(key: string, permanent?: boolean): UrlArg<Date | undefined>;
+
+    /**
      * Define an unordered string array UrlArg
      */
-    defineUnorderedStringArrayArg(key: string, defaultValue?: string[], permanent?: boolean): UrlArg<string[]>;
+    defineUnorderedStringArrayArg(
+        key: string,
+        defaultValue?: ValueOrFunction<string[]>,
+        permanent?: boolean
+    ): UrlArg<string[]>;
 
     /**
      * Define an ordered string array UrlArg
      */
-    defineOrderedStringArrayArg(key: string, defaultValue?: string[], permanent?: boolean): UrlArg<string[]>;
+    defineOrderedStringArrayArg(
+        key: string,
+        defaultValue?: ValueOrFunction<string[]>,
+        permanent?: boolean
+    ): UrlArg<string[]>;
 
     /**
      * Define a URL arg for storing a serialized object
      */
-    defineObjectArg<T>(key: string, defaultValue?: T | null, permanent?: boolean): UrlArg<T | null>;
+    defineObjectArg<T>(key: string, defaultValue?: ValueOrFunction<T | null>, permanent?: boolean): UrlArg<T | null>;
 
     /**
      * Define an unordered enum array UrlArg
      */
-    defineUnorderedArrayArg<BaseType>(key: string, defaultValue?: BaseType[], permanent?: boolean): UrlArg<BaseType[]>;
+    defineUnorderedArrayArg<BaseType>(
+        key: string,
+        defaultValue?: ValueOrFunction<BaseType[]>,
+        permanent?: boolean
+    ): UrlArg<BaseType[]>;
 
     /**
      * Define an ordered enum array UrlArg
      */
-    defineOrderedArrayArg<BaseType>(key: string, defaultValue?: BaseType[], permanent?: boolean): UrlArg<BaseType[]>;
+    defineOrderedArrayArg<BaseType>(
+        key: string,
+        defaultValue?: ValueOrFunction<BaseType[]>,
+        permanent?: boolean
+    ): UrlArg<BaseType[]>;
 }
 
 /**

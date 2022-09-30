@@ -1,5 +1,7 @@
 import { computed, makeObservable } from 'mobx';
 
+import { getValueOrFunction, ValueOrFunction } from '@moxb/moxb';
+
 import { ArgDefinitionCore, ParserFunc, UrlArg } from './UrlArg';
 import { MyLocation, SuccessCallback, UpdateMethod } from '../location-manager/LocationManager';
 import { TestLocation } from '../location-manager/TestLocation';
@@ -16,7 +18,11 @@ export interface UrlArgBackend {
 export class AnyUrlArgImpl<T> implements UrlArg<T> {
     private readonly _def: ArgDefinitionCore<T>;
     private readonly _parser: ParserFunc<T>;
-    readonly _defaultValue: T;
+    readonly _defaultValue: ValueOrFunction<T>;
+
+    private get _currentDefaultValue() {
+        return getValueOrFunction(this._def.defaultValue)!;
+    }
 
     constructor(definition: ArgDefinitionCore<T>, protected readonly backend: UrlArgBackend) {
         makeObservable(this);
@@ -31,8 +37,8 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
     }
 
     @computed
-    get value() {
-        return this._defined ? this._parser(this.backend.rawValue!) : this._defaultValue;
+    get value(): T {
+        return this._defined ? this._parser(this.backend.rawValue!) : this._currentDefaultValue;
     }
 
     definedOn(location: TestLocation) {
@@ -40,14 +46,14 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
     }
 
     _valueOn(location: TestLocation) {
-        return this.definedOn(location) ? this._parser(this.backend.rawValueOn(location)!) : this._defaultValue;
+        return this.definedOn(location) ? this._parser(this.backend.rawValueOn(location)!) : this._currentDefaultValue;
     }
 
     getRawValue(value: T): string {
         const {
             valueType: { isEqual, format },
-            defaultValue,
         } = this._def;
+        const defaultValue = this._currentDefaultValue;
         return isEqual(value, defaultValue)
             ? format(defaultValue) // TODO: this might not be the right thing to say here.
             : format(value);
@@ -70,11 +76,11 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
     }
 
     _getResetLocation(start: MyLocation) {
-        return this._getModifiedLocation(start, this._def.defaultValue);
+        return this._getModifiedLocation(start, this._currentDefaultValue);
     }
 
     _getResetUrl() {
-        return this._getModifiedUrl(this._def.defaultValue);
+        return this._getModifiedUrl(this._currentDefaultValue);
     }
 
     doSet(value: T) {
@@ -82,7 +88,7 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
     }
 
     doReset() {
-        this.doSet(this._def.defaultValue);
+        this.doSet(this._currentDefaultValue);
     }
 
     trySet(value: T, _method?: UpdateMethod, callback?: SuccessCallback) {
@@ -90,7 +96,7 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
     }
 
     tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
-        this.trySet(this._def.defaultValue, method, callback);
+        this.trySet(this._currentDefaultValue, method, callback);
     }
 
     @computed

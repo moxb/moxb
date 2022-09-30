@@ -1,6 +1,9 @@
-import { LocationDescriptorObject } from '../location-manager';
-import { createBrowserHistory, History as MyHistory } from 'history';
 import { action, observable, makeObservable } from 'mobx';
+import { createBrowserHistory, History as MyHistory } from 'history';
+// We are renaming these types so that it's not confused with the builtin
+const MyURI = require('urijs');
+import { ValueOrFunction } from '@moxb/moxb';
+import { LocationDescriptorObject } from '../location-manager';
 import { doTokenStringsMatch, updateTokenString } from '../tokens';
 import {
     UrlArg,
@@ -12,6 +15,8 @@ import {
     URLARG_TYPE_UNORDERED_STRING_ARRAY,
     URLARG_TYPE_OPTIONAL_INTEGER,
     URLARG_TYPE_OPTIONAL_STRING,
+    URLARG_TYPE_DATE,
+    URLARG_TYPE_OPTIONAL_DATE,
     UrlArgImpl,
 } from '../url-arg';
 import { NativeUrlSchema } from '../url-schema';
@@ -25,9 +30,6 @@ import { NavRef, NavRefCall } from '../navigation-references';
 import { RedirectDefinition } from './RedirectDefinition';
 import { TestLocation } from './TestLocation';
 import { LocationChangeInterceptor } from './LocationChangeInterceptor';
-
-// We are renaming these types so that it's not confused with the builtin
-const MyURI = require('urijs');
 
 const debug = false;
 
@@ -630,7 +632,11 @@ export class BasicLocationManagerImpl implements LocationManager {
         }
     }
 
-    defineStringArg<T = string>(key: string, defaultValue: T = '' as any, permanent = false): UrlArg<T> {
+    defineStringArg<T = string>(
+        key: string,
+        defaultValue: ValueOrFunction<T> = '' as any,
+        permanent = false
+    ): UrlArg<T> {
         return new UrlArgImpl<T>(this, {
             key,
             valueType: URLARG_TYPE_STRING as any,
@@ -648,7 +654,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         });
     }
 
-    defineBooleanArg(key: string, defaultValue = false, permanent = false): UrlArg<boolean> {
+    defineBooleanArg(key: string, defaultValue: ValueOrFunction<boolean> = false, permanent = false): UrlArg<boolean> {
         return new UrlArgImpl<boolean>(this, {
             key,
             valueType: URLARG_TYPE_BOOLEAN,
@@ -657,7 +663,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         });
     }
 
-    defineIntegerArg(key: string, defaultValue = 0, permanent = false): UrlArg<number> {
+    defineIntegerArg(key: string, defaultValue: ValueOrFunction<number> = 0, permanent = false): UrlArg<number> {
         return new UrlArgImpl<number>(this, {
             key,
             valueType: URLARG_TYPE_INTEGER,
@@ -675,7 +681,29 @@ export class BasicLocationManagerImpl implements LocationManager {
         });
     }
 
-    defineUnorderedStringArrayArg(key: string, defaultValue: string[] = [], permanent?: boolean): UrlArg<string[]> {
+    defineDateArg(key: string, defaultValue: ValueOrFunction<Date>, permanent = false): UrlArg<Date> {
+        return new UrlArgImpl<Date>(this, {
+            key,
+            valueType: URLARG_TYPE_DATE,
+            defaultValue,
+            permanent,
+        });
+    }
+
+    defineOptionalDateArg(key: string, permanent = false): UrlArg<Date | undefined> {
+        return new UrlArgImpl<Date | undefined>(this, {
+            key,
+            valueType: URLARG_TYPE_OPTIONAL_DATE,
+            defaultValue: undefined,
+            permanent,
+        });
+    }
+
+    defineUnorderedStringArrayArg(
+        key: string,
+        defaultValue: ValueOrFunction<string[]> = [],
+        permanent?: boolean
+    ): UrlArg<string[]> {
         return new UrlArgImpl<string[]>(this, {
             key,
             valueType: URLARG_TYPE_UNORDERED_STRING_ARRAY,
@@ -684,7 +712,11 @@ export class BasicLocationManagerImpl implements LocationManager {
         });
     }
 
-    defineOrderedStringArrayArg(key: string, defaultValue: string[] = [], permanent?: boolean): UrlArg<string[]> {
+    defineOrderedStringArrayArg(
+        key: string,
+        defaultValue: ValueOrFunction<string[]> = [],
+        permanent?: boolean
+    ): UrlArg<string[]> {
         return new UrlArgImpl<string[]>(this, {
             key,
             valueType: URLARG_TYPE_ORDERED_STRING_ARRAY,
@@ -693,7 +725,11 @@ export class BasicLocationManagerImpl implements LocationManager {
         });
     }
 
-    defineObjectArg<T>(key: string, defaultValue: T | null = null, permanent?: boolean): UrlArg<T | null> {
+    defineObjectArg<T>(
+        key: string,
+        defaultValue: ValueOrFunction<T | null> = null,
+        permanent?: boolean
+    ): UrlArg<T | null> {
         return new UrlArgImpl<T | null>(this, {
             key,
             valueType: URLARG_TYPE_OBJECT<T>(),
@@ -704,7 +740,7 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     defineUnorderedArrayArg<BaseType>(
         key: string,
-        defaultValue: BaseType[] = [],
+        defaultValue: ValueOrFunction<BaseType[]> = [],
         permanent?: boolean
     ): UrlArg<BaseType[]> {
         return new UrlArgImpl<BaseType[]>(this, {
@@ -717,7 +753,7 @@ export class BasicLocationManagerImpl implements LocationManager {
 
     defineOrderedArrayArg<BaseType>(
         key: string,
-        defaultValue: BaseType[] = [],
+        defaultValue: ValueOrFunction<BaseType[]> = [],
         permanent?: boolean
     ): UrlArg<BaseType[]> {
         return new UrlArgImpl<BaseType[]>(this, {

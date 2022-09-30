@@ -1,4 +1,5 @@
 import { computed, makeObservable } from 'mobx';
+import { ValueOrFunction, getValueOrFunction } from '@moxb/moxb';
 import { MyLocation, locationToUrl, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TokenManager } from '../TokenManager';
 import { Query } from '../url-schema/UrlSchema';
@@ -13,7 +14,11 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     private readonly _def: UrlArgDefinition<T>;
     private readonly _parser: ParserFunc<T>;
     readonly key: string;
-    readonly _defaultValue: T;
+    readonly _defaultValue: ValueOrFunction<T>;
+
+    private get _currentDefaultValue() {
+        return getValueOrFunction(this._def.defaultValue)!;
+    }
 
     constructor(private readonly _tokenManager: TokenManager, definition: UrlArgDefinition<T>) {
         makeObservable(this);
@@ -34,17 +39,17 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     }
 
     // Extract the value from a given query
-    getOnQuery(query: Query) {
-        const { defaultValue } = this._def;
+    getOnQuery(query: Query): T {
+        const defaultValue = this._currentDefaultValue;
         return getFromQuery(query, this.key, this._parser, defaultValue);
     }
 
     @computed
-    get value() {
+    get value(): T {
         return this.getOnQuery(this._currentQuery);
     }
 
-    _valueOn(location: TestLocation) {
+    _valueOn(location: TestLocation): T {
         return this.getOnQuery(location.query);
     }
 
@@ -61,7 +66,7 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     }
 
     _getResetLocation(startLocation: MyLocation) {
-        return this._getModifiedLocation(startLocation, this._def.defaultValue);
+        return this._getModifiedLocation(startLocation, this._currentDefaultValue);
     }
 
     _getModifiedUrl(value: T) {
@@ -69,7 +74,7 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     }
 
     _getResetUrl() {
-        return this._getModifiedUrl(this._def.defaultValue);
+        return this._getModifiedUrl(this._currentDefaultValue);
     }
 
     doSet(value: T, method?: UpdateMethod) {
@@ -78,7 +83,7 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     }
 
     doReset(method?: UpdateMethod) {
-        this.doSet(this._def.defaultValue, method);
+        this.doSet(this._currentDefaultValue, method);
     }
 
     trySet(value: T, method?: UpdateMethod, callback?: SuccessCallback) {
@@ -87,7 +92,7 @@ export class UrlTokenImpl<T> implements UrlArg<T> {
     }
 
     tryReset(method?: UpdateMethod, callback?: SuccessCallback) {
-        this.trySet(this._def.defaultValue, method, callback);
+        this.trySet(this._currentDefaultValue, method, callback);
     }
 
     @computed
