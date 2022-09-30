@@ -7,10 +7,38 @@ import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormIte
 
 export interface SliderAntProps extends BindAntProps<Numeric> {
     showNumber?: boolean;
+    /**
+     * How should we format the number, when displaying it?
+     */
+    formatter?: (value: number | undefined) => string;
+
+    /**
+     * How should we display the number, when displaying it before the slider?
+     *
+     * If provided, will override `formatter`.
+     */
+    labelFormatter?: (value: number | undefined) => string;
+
+    /**
+     * How should we display the number, when displaying it in the tooltip
+     *
+     * If provided, will override `formatter`.
+     */
+    toolTipFormatter?: (value: number | undefined) => string;
 }
 
 export const SliderAnt = observer((props: SliderAntProps) => {
-    const { operation, invisible, showNumber = false, reason } = parseProps(props, props.operation);
+    const allProps = parseProps(props, props.operation);
+    const defaultFormatter = (value?: number | string) => (operation.unit ? `${value}${operation.unit}` : `${value}`);
+    const { formatter = defaultFormatter } = allProps;
+    const {
+        operation,
+        invisible,
+        showNumber = false,
+        reason,
+        labelFormatter = formatter,
+        toolTipFormatter = formatter,
+    } = allProps;
 
     const renderSlider = () => (
         <Slider
@@ -23,6 +51,9 @@ export const SliderAnt = observer((props: SliderAntProps) => {
                 operation.setValue(value);
                 operation.onExitField();
             }}
+            tooltip={{
+                formatter: (_v: number | undefined) => <span>{toolTipFormatter(_v)}</span>,
+            }}
             value={operation.value}
             step={operation.step}
         />
@@ -31,11 +62,11 @@ export const SliderAnt = observer((props: SliderAntProps) => {
     if (invisible) {
         return null;
     }
-    const formatter = (value?: number | string) => (operation.unit ? `${value}${operation.unit}` : `${value}`);
+
     return showNumber ? (
         <Row title={reason}>
             <Col span={2}>
-                <span style={{ marginRight: '1em' }}>{formatter(operation.value)}</span>
+                <span style={{ marginRight: '1em' }}>{labelFormatter(operation.value)}</span>
             </Col>
             <Col span={22}>{renderSlider()}</Col>
         </Row>
