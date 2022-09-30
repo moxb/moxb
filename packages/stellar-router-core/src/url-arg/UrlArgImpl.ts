@@ -47,7 +47,6 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return getFromQuery(query, this.key, this._parser, defaultValue);
     }
 
-    @computed
     get value(): T {
         return this.getOnQuery(this._locationManager._query);
     }

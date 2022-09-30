@@ -36,7 +36,6 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
         return this.backend.rawValue !== undefined;
     }
 
-    @computed
     get value(): T {
         return this._defined ? this._parser(this.backend.rawValue!) : this._currentDefaultValue;
     }
