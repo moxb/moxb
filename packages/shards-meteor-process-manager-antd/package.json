@@ -46,7 +46,7 @@
     ]
   },
   "peerDependencies": {
-    "antd": "^4.20.2",
+    "antd": "^4.23.3",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
