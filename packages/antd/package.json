@@ -53,6 +53,7 @@
     ]
   },
   "dependencies": {
+    "@emotion/css": "11.10.0",
     "@moxb/moxb": "^0.3.95",
     "@moxb/react-html": "^0.3.95"
   },
