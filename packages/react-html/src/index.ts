@@ -11,3 +11,4 @@ export { highlightedText, HighlightedText } from './highlighter/HighlightedText'
 
 export * from './util';
 export * from './hooks';
+export * from './cssBackgrounds';
