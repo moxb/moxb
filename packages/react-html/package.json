@@ -1,6 +1,6 @@
 {
   "name": "@moxb/react-html",
-  "version": "0.3.80",
+  "version": "0.3.94",
   "description": "moxb React bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -52,7 +52,7 @@
     ]
   },
   "dependencies": {
-    "@moxb/moxb": "^0.3.80"
+    "@moxb/moxb": "^0.3.94"
   },
   "peerDependencies": {
     "mobx": "^6.5.0",

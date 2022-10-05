@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-accounts-meteor",
-  "version": "0.3.93",
+  "version": "0.3.94",
   "description": "Shards: basic meteor user account handling with ant design",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -54,8 +54,8 @@
     ]
   },
   "dependencies": {
-    "@moxb/meteor-react": "^0.3.91",
-    "@moxb/shards-accounts-flow-antd": "^0.3.93"
+    "@moxb/meteor-react": "^0.3.94",
+    "@moxb/shards-accounts-flow-antd": "^0.3.94"
   },
   "peerDependencies": {
     "tslib": "^2.4.0"
