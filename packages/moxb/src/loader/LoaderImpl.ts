@@ -57,6 +57,7 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
      * Start to listen
      */
     awaken() {
+        this.fetch.fire();
         reaction(
             () => this.input,
             () => this.fetch.fire()
