@@ -38,7 +38,7 @@ export interface Loader<Input, Output> {
      * This is necessary because in some cases, the dependencies are not there yet.
      *
      * So when everything is ready (most likely, in the constructor of your class using the loader),
-     * you should call this method to wake up the loader.
+     * you should call this method to wake up the loader and load the initial data.
      */
     awaken(): void;
 
