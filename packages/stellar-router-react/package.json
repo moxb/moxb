@@ -1,6 +1,6 @@
 {
   "name": "@moxb/stellar-router-react",
-  "version": "0.3.95",
+  "version": "0.3.96",
   "description": "Stellar router: React widgets",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@moxb/moxb": "^0.3.95",
-    "@moxb/react-html": "^0.3.95",
+    "@moxb/react-html": "^0.3.96",
     "@moxb/stellar-router-core": "^0.3.95"
   },
   "peerDependencies": {
