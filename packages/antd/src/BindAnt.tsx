@@ -18,13 +18,13 @@ export interface BindAntProps<T extends Bind> {
  */
 export function parseProps<T, O>(bindProps: T, _op: O): T & O {
     let { id, operation, invisible, label, help, disabled, reason, readOnly, children, ...props } = bindProps as any;
-    id = typeof id !== 'undefined' ? id : operation.domId;
-    label = typeof label !== 'undefined' ? label : operation.label;
-    help = typeof help !== 'undefined' ? help : operation.help;
-    disabled = typeof disabled !== 'undefined' ? disabled : operation.disabled;
-    reason = typeof reason !== 'undefined' ? reason : operation.reason;
-    readOnly = typeof readOnly !== 'undefined' ? readOnly : operation.readOnly;
-    invisible = typeof invisible !== 'undefined' ? invisible : operation.invisible;
+    id = id ?? operation.domId;
+    label = label ?? operation.label;
+    help = help ?? operation.help;
+    disabled = disabled ?? operation.disabled;
+    reason = reason ?? operation.reason;
+    readOnly = readOnly ?? operation.readOnly;
+    invisible = invisible ?? operation.invisible;
     return {
         id,
         operation,
