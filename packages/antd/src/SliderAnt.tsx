@@ -1,9 +1,13 @@
+import { css } from '@emotion/css';
 import { Numeric } from '@moxb/moxb';
 import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 import { BindAntProps, parseProps } from './BindAnt';
-import { Slider, Row, Col } from 'antd';
+import { Slider, Row, Col, SliderSingleProps } from 'antd';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
+import { getCSSBackgroundForIntervals, IntervalColoringInput } from '@moxb/react-html';
+
+export type SliderIntervalColoring = Omit<IntervalColoringInput, 'min' | 'max'>;
 
 export interface SliderAntProps extends BindAntProps<Numeric> {
     showNumber?: boolean;
@@ -25,9 +29,16 @@ export interface SliderAntProps extends BindAntProps<Numeric> {
      * If provided, will override `formatter`.
      */
     toolTipFormatter?: (value: number | undefined) => string;
+
+    /**
+     * Should we color the slide, according to specific intervals?
+     */
+    intervalColoring?: SliderIntervalColoring;
 }
 
-export const SliderAnt = observer((props: SliderAntProps) => {
+type WidgetProps = Pick<SliderSingleProps, 'handleStyle'>;
+
+export const SliderAnt = observer((props: SliderAntProps & WidgetProps) => {
     const allProps = parseProps(props, props.operation);
     const defaultFormatter = (value?: number | string) => (operation.unit ? `${value}${operation.unit}` : `${value}`);
     const { formatter = defaultFormatter } = allProps;
@@ -38,25 +49,45 @@ export const SliderAnt = observer((props: SliderAntProps) => {
         reason,
         labelFormatter = formatter,
         toolTipFormatter = formatter,
+        handleStyle,
+        intervalColoring,
     } = allProps;
 
+    const extraClassName = intervalColoring
+        ? css({
+              '.ant-slider-rail': {
+                  background: getCSSBackgroundForIntervals({
+                      ...intervalColoring,
+                      min: operation.min ?? 0,
+                      max: operation.max || 1000,
+                  }),
+              },
+              '.ant-slider-track': {
+                  opacity: 0,
+              },
+          })
+        : undefined;
+
     const renderSlider = () => (
-        <Slider
-            min={operation.min}
-            max={operation.max}
-            onChange={(value: number) => {
-                if (isNaN(value)) {
-                    return;
-                }
-                operation.setValue(value);
-                operation.onExitField();
-            }}
-            tooltip={{
-                formatter: (_v: number | undefined) => <span>{toolTipFormatter(_v)}</span>,
-            }}
-            value={operation.value}
-            step={operation.step}
-        />
+        <div className={extraClassName}>
+            <Slider
+                min={operation.min}
+                max={operation.max}
+                onChange={(value: number) => {
+                    if (isNaN(value)) {
+                        return;
+                    }
+                    operation.setValue(value);
+                    operation.onExitField();
+                }}
+                tooltip={{
+                    formatter: (_v: number | undefined) => <span>{toolTipFormatter(_v)}</span>,
+                }}
+                value={operation.value}
+                step={operation.step}
+                handleStyle={handleStyle}
+            />
+        </div>
     );
 
     if (invisible) {
