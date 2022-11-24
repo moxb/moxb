@@ -63,7 +63,7 @@
     "@ant-design/icons": "^4.7.0",
     "antd": "^4.23.3",
     "mobx": "^6.5.0",
-    "react": "^17.0.2",
+    "react": "^18.0.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
