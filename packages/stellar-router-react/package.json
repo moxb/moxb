@@ -1,6 +1,6 @@
 {
   "name": "@moxb/stellar-router-react",
-  "version": "0.4.0-alpha.4",
+  "version": "0.4.0-alpha.5",
   "description": "Stellar router: React widgets",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -53,9 +53,9 @@
     ]
   },
   "dependencies": {
-    "@moxb/moxb": "^0.4.0-alpha.0",
-    "@moxb/react-html": "^0.4.0-alpha.4",
-    "@moxb/stellar-router-core": "^0.4.0-alpha.4"
+    "@moxb/moxb": "^0.4.0-alpha.5",
+    "@moxb/react-html": "^0.4.0-alpha.5",
+    "@moxb/stellar-router-core": "^0.4.0-alpha.5"
   },
   "devDependencies": {
     "@types/jest": "27.5.0",
