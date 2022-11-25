@@ -51,6 +51,8 @@ export interface MeteorPublicationLoaderProps<Input, Document> {
      * How do I get the input for the publication?
      *
      * This should use mobx-observable data sources.
+     * Returning "undefined" from this function means the in the current circumstances,
+     * no data should be loaded, and the loader will be deactivated until the input changes again.
      */
     getInput: () => Input | undefined;
 
