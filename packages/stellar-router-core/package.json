@@ -1,6 +1,6 @@
 {
   "name": "@moxb/stellar-router-core",
-  "version": "0.4.0-alpha.3",
+  "version": "0.4.0-alpha.4",
   "description": "Stellar router: core data structures and utilities",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -43,8 +43,6 @@
     "modulePaths": [
       "<rootDir>/peer-dependencies/node_modules"
     ]
-  },
-  "peerDependencies": {
   },
   "devDependencies": {
     "@types/atob": "2.1.2",
