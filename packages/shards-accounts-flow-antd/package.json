@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-accounts-flow-antd",
-  "version": "0.4.0-alpha.2",
+  "version": "0.4.0-alpha.3",
   "description": "Shards: basic user login flow with ant design UI",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -56,8 +56,8 @@
     "@moxb/moxb": "^0.4.0-alpha.0",
     "@moxb/react-html": "^0.4.0-alpha.0",
     "@moxb/shards-accounts-ui-antd": "^0.4.0-alpha.0",
-    "@moxb/stellar-router-core": "^0.4.0-alpha.0",
-    "@moxb/stellar-router-react": "^0.4.0-alpha.2"
+    "@moxb/stellar-router-core": "^0.4.0-alpha.3",
+    "@moxb/stellar-router-react": "^0.4.0-alpha.3"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.7.0",
