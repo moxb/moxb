@@ -4,7 +4,7 @@
         "target": "ES5",
         "jsx": "react",
         "lib": ["dom","es6","es2015","es2017", "dom.iterable","scripthost"],
-        "inlineSourceMap": true,
+        "inlineSourceMap": false,
         "importHelpers":true,
         "experimentalDecorators": true,
         "noImplicitAny": true,
