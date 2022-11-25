@@ -60,10 +60,6 @@
     "@moxb/stellar-router-react": "^0.4.0-alpha.3"
   },
   "peerDependencies": {
-    "@ant-design/icons": "^4.7.0",
-    "mobx": "^6.5.0",
-    "react": "^18.0.0",
-    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/jest": "27.5.0",

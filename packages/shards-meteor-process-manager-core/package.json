@@ -46,7 +46,6 @@
     ]
   },
   "peerDependencies": {
-    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/jest": "27.5.0",

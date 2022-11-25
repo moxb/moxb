@@ -55,10 +55,8 @@
     "@moxb/moxb": "^0.4.0-alpha.0"
   },
   "peerDependencies": {
-    "mobx": "^6.5.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "tslib": "^2.4.0"
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@types/jest": "27.5.0",

@@ -45,8 +45,6 @@
     ]
   },
   "peerDependencies": {
-    "mobx": "^6.5.0",
-    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/atob": "2.1.2",
