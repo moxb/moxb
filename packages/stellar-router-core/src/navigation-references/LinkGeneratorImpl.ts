@@ -69,7 +69,7 @@ export class LinkGeneratorImpl implements LinkGenerator {
         const linkProps: CoreLinkProps = {
             to: pathTokens,
         };
-        const location = this._schema.getLocation(noLocation, linkProps.to!, {});
+        const location = this._schema.getLocation(noLocation, pathTokens, {});
 
         const urlProps: LocationToUrlProps = {
             protocol: 'http',

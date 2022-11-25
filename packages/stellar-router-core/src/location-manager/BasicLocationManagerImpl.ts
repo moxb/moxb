@@ -422,16 +422,19 @@ export class BasicLocationManagerImpl implements LocationManager {
     _getNewLocationForPathAndQueryChanges(
         baseLocation: MyLocation | undefined,
         position = 0,
-        tokens: string[] | undefined,
+        tokens: string[] | string | undefined,
         queryChanges: QueryChange[] | undefined,
         dropPermanent = false
     ) {
         let location = baseLocation || this.__location;
         if (tokens) {
+            const wantedTokens = Array.isArray(tokens)
+                ? (tokens as string[])
+                : (tokens as string).split('/').filter((token) => !!token);
             location = this.getNewLocationForPathTokens(
                 baseLocation || this.__location,
                 position,
-                tokens,
+                wantedTokens,
                 dropPermanent
             );
         }
