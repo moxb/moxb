@@ -17,5 +17,6 @@ export {
     useLocationManager,
     useTokenManager,
     useLinkGenerator,
+    useNavigate,
 } from './routingProviders';
 export * from '@moxb/stellar-router-core';
