@@ -30,11 +30,11 @@ import { NavRef, NavRefCall } from '../navigation-references';
  */
 export interface CoreLinkProps {
     /**
-     * The path tokens to set.
+     * The path tokens to set as on array (like ["a", "b", "c"]), or alternately concatenated (like "/a/b/c")
      *
      * Required when using method #3 to specify the link target.
      */
-    to?: string[];
+    to?: string[] | string;
 
     /**
      * Set the number of tokens to be preserved. further tokens will be dropped.

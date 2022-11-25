@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ApplicationHTML } from './app/ApplicationHTML';
 
 import { createStore, StoreProvider } from './store/Store';
@@ -16,4 +16,4 @@ const App = () => (
     </>
 );
 
-ReactDOM.render(<App />, document.getElementById('example-app'));
+createRoot(document.getElementById('example-app')!).render(<App />);

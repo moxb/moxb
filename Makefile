@@ -159,12 +159,12 @@ node_modules:
 
 ###### node_module #############################
 
-.PHONY: npm-update
-npm-update:
-	$(ACTIVATE) && npm-check --update
-	$(ACTIVATE) \
-        && $(LERNA)  --concurrency=1 exec -- npm-check --update
-	$(ACTIVATE) && cd examples && npm-check --update
+#.PHONY: npm-update
+#npm-update:
+#	$(ACTIVATE) && npm-check --update
+#	$(ACTIVATE) \
+#        && $(LERNA)  --concurrency=1 exec -- npm-check --update
+#	$(ACTIVATE) && cd examples && npm-check --update
 
 .PHONY: npm-install
 npm-install:
@@ -193,7 +193,7 @@ admin/bin-tools:
 	rm -rf admin/bin-tools
 	mkdir -p admin/bin-tools
 	ln -sf ../../node_modules/.bin/jest admin/bin-tools/
-	ln -sf ../../node_modules/.bin/npm-check admin/bin-tools/
+#	ln -sf ../../node_modules/.bin/npm-check admin/bin-tools/
 	ln -sf ../../node_modules/.bin/prettier admin/bin-tools/
 	ln -sf ../../node_modules/.bin/tsc admin/bin-tools/
 	ln -sf ../../node_modules/.bin/lerna admin/bin-tools/

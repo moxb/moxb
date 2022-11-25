@@ -1,6 +1,6 @@
 {
   "name": "@moxb/moxb",
-  "version": "0.3.95",
+  "version": "0.4.0-alpha.7",
   "description": "MobX data binding",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -46,9 +46,7 @@
     ]
   },
   "peerDependencies": {
-    "mobx": "^6.5.0",
-    "tslib": "^2.4.0",
-    "uuid": "^8.3.2"
+    "mobx": "^6.5.0"
   },
   "devDependencies": {
     "@types/jest": "27.5.0",
@@ -58,7 +56,9 @@
     "eslint-plugin-import": "2.26.0"
   },
   "dependencies": {
-    "moment": "2.29.1"
+    "moment": "2.29.4",
+    "tslib": "2.4.1",
+    "uuid": "9.0.0"
   },
   "gitHead": "6129458688bd0dd050aeaeab2118448ce19a9ebf"
 }

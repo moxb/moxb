@@ -8,6 +8,7 @@ import {
     BasicLocationManagerImpl,
     TokenManagerImpl,
     LinkGeneratorImpl,
+    UpdateMethod,
 } from '@moxb/stellar-router-core';
 import { BasicLocationManagerProps } from '@moxb/stellar-router-core/dist/location-manager/BasicLocationManagerImpl';
 import { UIStateSpace } from './LocationDependentArea';
@@ -16,7 +17,7 @@ const LocationManagerContext = createGlobalContext<LocationManager | undefined>(
 
 export const LocationManagerProvider = LocationManagerContext.Provider;
 
-export const useLocationManager = (reason: string): LocationManager => {
+export const useLocationManager = (reason = 'no reason'): LocationManager => {
     const manager = useContext(LocationManagerContext);
     if (!manager) {
         throw new Error(
@@ -26,6 +27,16 @@ export const useLocationManager = (reason: string): LocationManager => {
         );
     }
     return manager;
+};
+
+export const useNavigate = (reason = 'no reason') => {
+    const locationManager = useLocationManager(reason);
+    return (pathTokens: string[] | string, method?: UpdateMethod) => {
+        const wantedTokens = Array.isArray(pathTokens)
+            ? (pathTokens as string[])
+            : (pathTokens as string).split('/').filter((e) => !!e);
+        locationManager.trySetPathTokens(0, wantedTokens, method);
+    };
 };
 
 const TokenManagerContext = createGlobalContext<TokenManager | undefined>('token manager', undefined);

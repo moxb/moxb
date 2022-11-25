@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { StellarRouterProvider } from '@moxb/stellar-router-react';
 
@@ -18,4 +18,4 @@ const App = () => (
     </StoreProvider>
 );
 
-ReactDOM.render(<App />, document.getElementById('example-app'));
+createRoot(document.getElementById('example-app')!).render(<App />);

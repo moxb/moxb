@@ -1,6 +1,6 @@
 {
   "name": "@moxb/antd",
-  "version": "0.3.96",
+  "version": "0.4.0-alpha.7",
   "description": "moxb ant design bindings",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -54,27 +54,23 @@
   },
   "dependencies": {
     "@emotion/css": "11.10.0",
-    "@moxb/moxb": "^0.3.95",
-    "@moxb/react-html": "^0.3.96"
+    "@moxb/moxb": "^0.4.0-alpha.7",
+    "@moxb/react-html": "^0.4.0-alpha.7"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.7.0",
-    "antd": "^4.23.3",
-    "mobx": "^6.5.0",
-    "react": "^17.0.2",
-    "tslib": "^2.4.0"
+    "antd": "^4.23.3"
   },
   "devDependencies": {
     "@types/jest": "27.5.0",
-    "@types/react": "17.0.2",
-    "@types/react-test-renderer": "17.0.2",
+    "@types/react": "18.0.25",
+    "@types/react-test-renderer": "18.0.0",
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.21.0",
     "@typescript-eslint/parser": "5.21.0",
     "eslint": "8.14.0",
     "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-react-hooks": "4.5.0",
-    "pretty": "2.0.0"
+    "eslint-plugin-react-hooks": "4.5.0"
   },
   "gitHead": "6129458688bd0dd050aeaeab2118448ce19a9ebf"
 }
