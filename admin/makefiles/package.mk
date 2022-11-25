@@ -59,11 +59,11 @@ TS_EXISTING_GENERATED_JS_FILES = $(shell cd dist && find . -type f -name '*.js' 
 
 # the names of the generated ja files
 TS_EXPECTED_GENERATED_JS_FILES = $(shell cd src && find . -type f  \( -name '*.ts' -o -name '*.tsx' \) \
-           	| grep -v '\.d\.ts' \
-           	| sed s/\.ts$$/.js/g \
-           	| sed s/\.tsx$$/.js/g \
-           	| sort \
-           	)
+	| grep -v '\.d\.ts' \
+	| sed s/\.ts$$/.js/g \
+	| sed s/\.tsx$$/.js/g \
+	| sort \
+	)
 
 # we check if the list of generated files is the same as the list of
 # actual files. If not, we remove all generated files. That sould trigger
@@ -107,8 +107,8 @@ TS_OUTPUT_JS_FILES = $(shell find src -type f  \( -name '*.ts' -o -name '*.tsx' 
 $(TS_OUTPUT_JS_FILES:.js=%js): $(TS_CODE_FILES)
 	@echo 'changed files:' $?
 	$(ACTIVATE) \
-    		&& cd src \
-    		&& tsc
+		&& cd src \
+		&& tsc
 
 .PHONY: watch
 watch:  all-dependencies _tsc-clean-generated-js-files-if-needed
@@ -118,7 +118,7 @@ watch:  all-dependencies _tsc-clean-generated-js-files-if-needed
 
 .PHONY: build-all
 build-all: all-dependencies _tsc-clean-generated-js-files-if-needed $(TS_OUTPUT_JS_FILES)
-	@cp src/*.css dist/ || echo No CSS files
+	@cp src/*.css dist/ 2>/dev/null || true
 
 
 # - End typescript compilation -----------------------------------------------------------------------------------------

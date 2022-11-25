@@ -58,7 +58,7 @@
   "dependencies": {
     "moment": "2.29.4",
     "tslib": "2.4.1",
-    "uuid": "^8.3.2"
+    "uuid": "9.0.0"
   },
   "gitHead": "6129458688bd0dd050aeaeab2118448ce19a9ebf"
 }

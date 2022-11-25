@@ -21,6 +21,7 @@ export class BoolImpl extends ValueImpl<BoolImpl, boolean, BoolOptions> implemen
     constructor(impl: BoolOptions) {
         super(impl);
         makeObservable(this);
+        this.toggle = this.toggle.bind(this);
     }
 
     toggle() {
