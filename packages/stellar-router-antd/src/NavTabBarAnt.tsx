@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Tabs } from 'antd';
+import { Tab as TransformedMenuItem } from 'rc-tabs/lib/interface';
 
 import { idToDomId } from '@moxb/moxb';
 import {
@@ -20,8 +21,6 @@ import {
     useLocationManager,
     useTokenManager,
 } from '@moxb/stellar-router-react';
-
-const TabPane = Tabs.TabPane;
 
 const NOT_FOUND = '_not_found_404';
 
@@ -68,17 +67,18 @@ export const NavTabBarAnt = observer((props: NavTabProps<unknown>) => {
         });
     }
 
-    // eslint-disable-next-line complexity
-    function renderStateTabPane(
-        parentId: string,
-        states: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, unknown>,
-        state: SubStateInContext<UIFragment, UIFragmentSpec, unknown>
-    ) {
-        const { navControl } = props;
-        const { fallback } = stateSpace;
+    function transformSubStateElement(
+        _parentId: string,
+        inStates: LocationDependentStateSpaceHandler<UIFragment, UIFragmentSpec, any>,
+        state: SubStateInContext<UIFragment, UIFragmentSpec, any>
+    ): TransformedMenuItem {
         const { label, key, menuKey, itemClassName, newWindow, linkStyle, linkClassName, title } = state;
 
-        const url = states.getUrlForSubState(state);
+        const url = inStates.getUrlForSubState(state);
+        const active = inStates.isSubStateActive(state);
+
+        // const newId = idToDomId(`${parentId}.${menuKey}`);
+
         const anchorProps: AnchorProps = {
             label: label || key,
             href: url,
@@ -95,47 +95,78 @@ export const NavTabBarAnt = observer((props: NavTabProps<unknown>) => {
             itemProps.className = itemClassName;
         }
         const tabLabel = <Anchor {...anchorProps} />;
-        const newId = idToDomId(`${parentId}.${menuKey}`);
+
+        const { navControl } = props;
+
+        const { fallback } = stateSpace;
+
         const parentName = 'NavTabBarAnt:' + props.id + ':' + menuKey;
-        return (
-            <TabPane data-testid={newId} key={menuKey} tab={tabLabel} {...itemProps}>
-                {states.isSubStateActive(state) &&
-                    renderSubStateCore({
-                        state,
-                        fallback,
-                        navigationContext: props,
-                        tokenIncrease: state ? state.totalPathTokens.length : 1,
-                        checkCondition: false,
-                        navControl: {
-                            getParentName: () => parentName,
-                            getAncestorNames: () => [...(navControl ? navControl.getAncestorNames() : []), parentName],
-                            registerStateHooks: (hooks, componentId?) =>
-                                states.registerNavStateHooksForSubState(state, hooks, componentId),
-                            unregisterStateHooks: (componentId?) =>
-                                states.unregisterNavStateHooksForSubState(state, componentId),
-                            isActive: () => (!navControl || navControl.isActive()) && states.isSubStateActive(state),
-                        },
-                    })}
-            </TabPane>
-        );
+
+        const children = active
+            ? renderSubStateCore({
+                  state,
+                  fallback,
+                  navigationContext: props,
+                  tokenIncrease: state ? state.totalPathTokens.length : 1,
+                  checkCondition: false,
+                  navControl: {
+                      getParentName: () => parentName,
+                      getAncestorNames: () => [...(navControl ? navControl.getAncestorNames() : []), parentName],
+                      registerStateHooks: (hooks, componentId?) =>
+                          states.registerNavStateHooksForSubState(state, hooks, componentId),
+                      unregisterStateHooks: (componentId?) =>
+                          states.unregisterNavStateHooksForSubState(state, componentId),
+                      isActive: () => (!navControl || navControl.isActive()) && states.isSubStateActive(state),
+                  },
+              })
+            : null;
+
+        return {
+            // tabKey: newId, // TODO: how do we get this into the DOM?
+            key: menuKey,
+            label: tabLabel,
+            children,
+        };
     }
 
-    function renderErrorPanel(
+    function transformErrorPanel(
         parentId: string,
         myFallback: UIFragmentSpec = 'Content not found',
         wantedPart: string | undefined
-    ) {
+    ): TransformedMenuItem {
         const newId = idToDomId(`${parentId}.${NOT_FOUND}`);
-        return (
-            <TabPane data-testid={newId} key={NOT_FOUND} tab={'???'}>
-                {renderUIFragment(extractUIFragmentFromSpec(undefined, myFallback, wantedPart))}
-            </TabPane>
-        );
+        const children = renderUIFragment(extractUIFragmentFromSpec(undefined, myFallback, wantedPart));
+        return {
+            id: newId,
+            key: NOT_FOUND,
+            label: '???',
+            children,
+        };
     }
 
-    const stateSpaceHandler = getLocationDependantStateSpaceHandler();
+    const states = getLocationDependantStateSpaceHandler();
     const { extras = [], style, mode, id, stateSpace, part } = props;
-    const activeKey = stateSpaceHandler.getActiveSubStateMenuKeys(true)[0];
+    const activeKey = states.getActiveSubStateMenuKeys(true)[0];
+    const subStatesToShow = states.getFilteredSubStates({
+        onlyVisible: true,
+        onlySatisfying: true,
+    });
+    const menuItems: TransformedMenuItem[] = subStatesToShow.map((state) =>
+        transformSubStateElement(id, states, state)
+    );
+    if (!activeKey) {
+        menuItems.push(transformErrorPanel(id, stateSpace.fallback, part));
+    }
+
+    const tabTarExtraContent = extras?.length ? (
+        <>
+            {' '}
+            {extras.map((f, index) => (
+                <span key={`extra-${index}`}> {renderUIFragment(f)} </span>
+            ))}{' '}
+        </>
+    ) : null;
+
     return (
         <Tabs
             data-testid={id}
@@ -149,18 +180,11 @@ export const NavTabBarAnt = observer((props: NavTabProps<unknown>) => {
                  * click on the tab. For those cases, we add this fallback function here.
                  */
                 // console.log('Clicked on tab "' + menuKey + '". This should not be happening.');
-                stateSpaceHandler.trySelectSubState(stateSpaceHandler.findStateForMenuKey(menuKey));
+                states.trySelectSubState(states.findStateForMenuKey(menuKey));
             }}
             style={style}
-        >
-            {stateSpaceHandler
-                .getFilteredSubStates({
-                    onlyVisible: true,
-                    onlySatisfying: true,
-                })
-                .map((state) => renderStateTabPane(id, stateSpaceHandler, state))}
-            {extras.map((f) => renderUIFragment(f))}
-            {!activeKey && renderErrorPanel(id, stateSpace.fallback, part)}
-        </Tabs>
+            items={menuItems}
+            tabBarExtraContent={tabTarExtraContent}
+        />
     );
 });
