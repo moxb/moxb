@@ -1,6 +1,6 @@
 {
   "name": "@moxb/shards-meteor-process-manager-core",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Shards: Meteor process manager core",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -54,7 +54,7 @@
     "eslint-plugin-import": "2.26.0"
   },
   "dependencies": {
-    "@moxb/meteor": "^0.4.0"
+    "@moxb/meteor": "^0.4.1"
   },
   "gitHead": "c0ed29fe8703cdd8bd26b1be4dd8c2f42390fea4"
 }
