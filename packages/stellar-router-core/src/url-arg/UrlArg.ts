@@ -78,6 +78,11 @@ export interface ReadOnlyArg<T> {
     _valueOn(location: TestLocation): T;
 
     /**
+     * Is this arg currently set to its default value?
+     */
+    readonly isDefault: boolean;
+
+    /**
      * Get the default value
      *
      * (This is a technical detail, only relevant for the navigation system itself.)
@@ -233,6 +238,10 @@ class DerivedArg<I, O> implements ResettableArg<O> {
 
     get value() {
         return this.sourceToTarget(this.source.value);
+    }
+
+    get isDefault() {
+        return this.source.isDefault;
     }
 
     doReset(method?: UpdateMethod) {

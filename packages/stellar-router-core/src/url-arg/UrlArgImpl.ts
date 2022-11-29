@@ -51,6 +51,10 @@ export class UrlArgImpl<T> implements UrlArg<T> {
         return this.getOnQuery(this._locationManager._query);
     }
 
+    get isDefault() {
+        return this.value === this._currentDefaultValue;
+    }
+
     _valueOn(location: TestLocation): T {
         return this.getOnQuery(location.query);
     }

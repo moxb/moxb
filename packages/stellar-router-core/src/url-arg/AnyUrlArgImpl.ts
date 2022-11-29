@@ -40,6 +40,10 @@ export class AnyUrlArgImpl<T> implements UrlArg<T> {
         return this._defined ? this._parser(this.backend.rawValue!) : this._currentDefaultValue;
     }
 
+    get isDefault() {
+        return this.value === this._currentDefaultValue;
+    }
+
     definedOn(location: TestLocation) {
         return this.backend.rawValueOn(location) !== undefined;
     }
