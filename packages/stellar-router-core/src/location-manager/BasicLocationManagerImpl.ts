@@ -374,14 +374,18 @@ export class BasicLocationManagerImpl implements LocationManager {
             this.__location = newLocation;
         } else {
             // This change is coming from the browser, thus we need to verify
-            this._trySetLocation(newLocation, UpdateMethod.NONE, (result) => {
-                if (result) {
-                    // Actually update the stored location
-                    this.__location = newLocation;
-                } else {
-                    this._restoreStoredLocation();
-                }
-            });
+            this._trySetLocation(
+                newLocation,
+                UpdateMethod.NONE,
+                action((result) => {
+                    if (result) {
+                        // Actually update the stored location
+                        this.__location = newLocation;
+                    } else {
+                        this._restoreStoredLocation();
+                    }
+                })
+            );
         }
     }
 
