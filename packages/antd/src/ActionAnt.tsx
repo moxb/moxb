@@ -31,7 +31,7 @@ export const ActionButtonAnt = observer((props: BindActionAntProps) => {
     const [confirmationVisible, setConfirmationVisible] = useState(false);
     const needsConfirmation = !!operation.confirmQuestion;
 
-    const handleConfirmationVisibleChange = (newVisible: boolean) => {
+    const handleConfirmationOpenChange = (newVisible: boolean) => {
         if (!newVisible) {
             setConfirmationVisible(newVisible);
             return;
@@ -58,8 +58,8 @@ export const ActionButtonAnt = observer((props: BindActionAntProps) => {
     return (
         <span title={reason || help}>
             <Popconfirm
-                visible={confirmationVisible}
-                onVisibleChange={handleConfirmationVisibleChange}
+                open={confirmationVisible}
+                onOpenChange={handleConfirmationOpenChange}
                 title={operation.confirmQuestion}
                 onConfirm={handleClick}
             >
@@ -86,7 +86,7 @@ export const ActionSpanAnt = observer((props: BindActionAntProps) => {
     const [confirmationVisible, setConfirmationVisible] = useState(false);
     const needsConfirmation = !!operation.confirmQuestion;
 
-    const handleConfirmationVisibleChange = (newVisible: boolean) => {
+    const handleConfirmationOpenChange = (newVisible: boolean) => {
         if (!newVisible) {
             setConfirmationVisible(newVisible);
             return;
@@ -111,8 +111,8 @@ export const ActionSpanAnt = observer((props: BindActionAntProps) => {
     }
     return (
         <Popconfirm
-            visible={confirmationVisible}
-            onVisibleChange={handleConfirmationVisibleChange}
+            open={confirmationVisible}
+            onOpenChange={handleConfirmationOpenChange}
             title={operation.confirmQuestion}
             onConfirm={handleClick}
         >
