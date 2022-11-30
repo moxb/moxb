@@ -10,7 +10,7 @@
     "@ant-design/icons": "4.7.0",
     "@moxb/antd": "0.4.0-alpha.0",
     "@moxb/meteor": "0.4.0-alpha.0",
-    "@moxb/moxb": "0.4.0-alpha.0",
+    "@moxb/moxb": "0.4.2",
     "@moxb/stellar-router-antd": "^0.4.0-alpha.3",
     "@moxb/stellar-router-react": "^0.4.0-alpha.3",
     "antd": "4.24.3",
