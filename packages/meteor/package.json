@@ -1,6 +1,6 @@
 {
   "name": "@moxb/meteor",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "MobX meteor binding",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -43,7 +43,7 @@
     ]
   },
   "dependencies": {
-    "@moxb/moxb": "^0.4.0"
+    "@moxb/moxb": "^0.4.2"
   },
   "devDependencies": {
     "@types/jest": "29.2.3",
