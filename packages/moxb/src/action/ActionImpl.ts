@@ -5,7 +5,7 @@ import { Action } from './Action';
 export interface ActionOptions extends BindOptions {
     confirmQuestion?: ValueOrFunction<string>;
 
-    fire(): Promise<void> | void;
+    fire(): Promise<any> | void;
 
     pending?: () => boolean;
     readonly keyboardShortcuts?: string | string[];
