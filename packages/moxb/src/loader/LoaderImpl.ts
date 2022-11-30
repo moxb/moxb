@@ -90,7 +90,7 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
      */
     private readonly _load: Action = new ActionImpl({
         id: 'internalLoader',
-        fire: () => {
+        fire: (): Promise<void> => {
             const input = this.input;
             this._fetchedForInput = input;
             this._checkedAt = Date.now();
@@ -98,46 +98,51 @@ export class LoaderImpl<Input, Output> implements Loader<Input, Output> {
                 if (!this._options.keepDataWhenSkipping) {
                     this.setValue(undefined);
                 }
-                return Promise.resolve('Based on the input, SKIPPING this.');
+                // Based on the input, SKIPPING this.
+                return Promise.resolve();
             }
             this._logger.log('Loading data for input', input);
             if (!this._options.keepPreviousData) {
                 this.setValue(undefined);
             }
-            const loadPromise = this._options.load(input);
-            loadPromise.then(
-                (result) => {
-                    this._logger.log('Loaded', result);
-                    this.setValue(result);
-                    const { onLoad } = this._options;
-                    if (onLoad) {
-                        onLoad(result);
+            return new Promise((resolve, reject) => {
+                this._options.load(input).then(
+                    (result) => {
+                        this._logger.log('Loaded', result);
+                        this.setValue(result);
+                        const { onLoad } = this._options;
+                        if (onLoad) {
+                            onLoad(result);
+                        }
+                        this._scheduleNext();
+                        resolve();
+                    },
+                    (error) => {
+                        this._logger.log('Failed to load:', error);
+                        this._scheduleNext();
+                        reject(error);
                     }
-                    this._scheduleNext();
-                },
-                (error) => {
-                    this._logger.log('Failed to load:', error);
-                    this._scheduleNext();
-                }
-            );
-            return loadPromise;
+                );
+            });
         },
     });
 
-    private _fetchIfWeHaveTo(): Promise<string | void> {
+    private _fetchIfWeHaveTo(): Promise<void> {
         if (this._sleeping) {
             this._logger.log('Sleeping, not fetching.');
-            return Promise.resolve('Sleeping, not fetching.');
+            return Promise.resolve();
         }
         if (this._relaxing) {
-            return Promise.resolve('Relaxing, not fetching.');
+            // Relaxing, not fetching.
+            return Promise.resolve();
         }
         if (this._areWeUpToDate) {
-            return Promise.resolve('We are up to date already, not fetching.');
+            // We are up-to-date already, not fetching.
+            return Promise.resolve();
         }
         if (this._load.pending) {
             console.log('Oops trying to call fetch while already pending on', this._options.id);
-            return Promise.resolve('Already loading'); // TODO: make sure that we will reload later
+            return Promise.resolve(); // TODO: make sure that we will reload later
         }
         return this._load.firePromise();
     }
