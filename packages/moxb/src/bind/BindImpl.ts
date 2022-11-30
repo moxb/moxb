@@ -214,6 +214,7 @@ export class BindImpl<Options extends BindOptions<CustomData>, CustomData = unde
         return this.errors!.length > 0;
     }
 
+    @action
     setError(error: string | undefined | null) {
         if (this.impl.setError) {
             this.impl.setError(error);
