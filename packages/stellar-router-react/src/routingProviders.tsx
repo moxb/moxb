@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { createGlobalContext } from '@moxb/react-html';
+import { createGlobalContext } from '@moxb/data-hooks';
 import {
     LocationManager,
     TokenManager,

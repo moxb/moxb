@@ -1,8 +1,10 @@
-import { Action, t, Text } from '@moxb/moxb';
+import * as React from 'react';
+import { observer } from 'mobx-react-lite';
+import { t } from '@moxb/util';
+import { Action, Text } from '@moxb/moxb';
 import { Input } from 'antd';
 import { InputProps, SearchProps } from 'antd/lib/input';
-import { observer } from 'mobx-react-lite';
-import * as React from 'react';
+
 import { BindAntProps, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 
@@ -60,6 +62,7 @@ export interface BindSearchStringAntProps extends SearchProps {
     style?: React.CSSProperties;
     btnText?: string;
 }
+
 /**
  * Use `onSearch` for the search function! Then it will work with the "Enter" key, as well as with the search button!
  */

@@ -1,4 +1,4 @@
-import { ValueOrFunction } from '@moxb/moxb';
+import { ValueOrFunction } from '@moxb/util';
 import { StateSpace } from '../location-state-space/state-space/StateSpace';
 import { CoreLinkProps } from '../linking/CoreLinkProps';
 import { UrlSchema } from '../url-schema';

@@ -1,9 +1,6 @@
 import { action as mobxAction, computed, observable, makeObservable } from 'mobx';
-import { StringOrFunction } from '../bind/BindImpl';
-import { t } from '../i18n/i18n';
-
+import { t, AnyDecision, readDecision, StringOrFunction } from '@moxb/util';
 import { KeyboardAction, KeyboardShortcutGroup, KeyboardShortcutsManager } from './KeyboardShortcutsManager';
-import { AnyDecision, readDecision } from '../decision';
 
 export interface KeyboardShortGroupOptions {
     readonly id: string;
@@ -35,10 +32,12 @@ export interface KeyboardShortGroupOptions {
 export class KeyboardShortcutGroupImpl implements KeyboardShortcutGroup {
     readonly id: string;
     readonly shortcuts: KeyboardAction[];
+
     constructor(private readonly impl: KeyboardShortGroupOptions) {
         this.id = impl.id;
         this.shortcuts = impl.shortcuts.slice();
     }
+
     get label() {
         if (typeof this.impl.label === 'function') {
             return this.impl.label();
@@ -48,6 +47,7 @@ export class KeyboardShortcutGroupImpl implements KeyboardShortcutGroup {
         }
         return undefined;
     }
+
     get enabled() {
         if (this.impl.disabled) {
             return !readDecision(this.impl.disabled());
@@ -64,29 +64,37 @@ export class KeyboardShortcutGroupImpl implements KeyboardShortcutGroup {
  */
 export interface ShortcutBinder {
     bind(key: string, action: () => void): void;
+
     unbind(key: string): void;
 }
 
 export class KeyboardActionDecorator implements KeyboardAction {
     constructor(private readonly action: KeyboardAction) {}
+
     get label() {
         return this.getLabel();
     }
+
     protected getLabel() {
         return this.action.label;
     }
+
     get keyboardShortcuts() {
         return this.getKeyboardShortcuts();
     }
+
     protected getKeyboardShortcuts() {
         return this.action.keyboardShortcuts;
     }
+
     get enabled() {
         return this.getEnabled();
     }
+
     protected getEnabled() {
         return this.action.enabled;
     }
+
     fire() {
         this.action.fire();
     }
@@ -94,9 +102,11 @@ export class KeyboardActionDecorator implements KeyboardAction {
 
 class ShortcutAction {
     constructor(private readonly group: KeyboardShortcutGroup, public readonly action: KeyboardAction) {}
+
     get enabled() {
         return this.action.enabled && this.group.enabled;
     }
+
     fire() {
         this.action.fire();
     }
@@ -106,6 +116,7 @@ export class KeyboardShortcutsManagerImpl implements KeyboardShortcutsManager {
     @observable.shallow
     private readonly _shortcuts: KeyboardShortcutGroup[] = [];
     private readonly keyboardMap = new Map<string, ShortcutAction[]>();
+
     /**
      *
      * @param binder
@@ -159,10 +170,12 @@ export class KeyboardShortcutsManagerImpl implements KeyboardShortcutsManager {
             });
         }
     }
+
     @computed
     get shortcuts() {
         return this._shortcuts.slice();
     }
+
     @computed
     get actionMd() {
         return this.shortcuts

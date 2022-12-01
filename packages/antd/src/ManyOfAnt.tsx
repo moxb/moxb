@@ -1,10 +1,13 @@
-import { idToDomId, ManyOf } from '@moxb/moxb';
+import * as React from 'react';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import { idToDomId } from '@moxb/util';
+import { ManyOf } from '@moxb/moxb';
+
 import { Checkbox, Col, Row, Select, Switch } from 'antd';
 import { CheckboxGroupProps } from 'antd/lib/checkbox';
 import { SwitchChangeEventHandler } from 'antd/lib/switch';
-import { toJS } from 'mobx';
-import { observer } from 'mobx-react-lite';
-import * as React from 'react';
+
 import { BindAntProps, labelWithHelpIndicator, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { SelectProps } from 'antd/lib/select';

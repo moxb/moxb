@@ -1,5 +1,6 @@
-import { Action, ActionImpl, ActionOptions, BindOptions, ValueOrFunction } from '@moxb/moxb';
 import { observable } from 'mobx';
+import { ValueOrFunction } from '@moxb/util';
+import { Action, ActionImpl, ActionOptions, BindOptions } from '@moxb/moxb';
 import { MeteorMethodControl } from './MeteorMethod';
 
 /**

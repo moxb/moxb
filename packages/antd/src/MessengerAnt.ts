@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { Messenger } from '@moxb/moxb';
+import { Messenger } from '@moxb/util';
 
 /**
  * This is an implementation of the Messenger service using Ant Design

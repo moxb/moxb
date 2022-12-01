@@ -1,4 +1,4 @@
-import { getValueOrFunction, ValueOrFunction } from '@moxb/moxb';
+import { getValueOrFunction, ValueOrFunction } from '@moxb/util';
 import { MyLocation, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TestLocation } from '../location-manager/TestLocation';
 

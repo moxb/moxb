@@ -1,4 +1,4 @@
-import { getDebugLogger } from '@moxb/moxb';
+import { getDebugLogger } from '@moxb/util';
 
 /**
  * Decide whether a given token is considered to be empty.

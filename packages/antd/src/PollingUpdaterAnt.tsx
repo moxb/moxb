@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Popover, Spin, Alert } from 'antd';
-import { observer } from 'mobx-react-lite';
-import { t } from '@moxb/moxb';
-import { renderUIFragment, UIFragment } from '@moxb/react-html';
 import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { Popover, Spin, Alert } from 'antd';
+import { t } from '@moxb/util';
+import { renderUIFragment, UIFragment } from '@moxb/react-html';
 
 /**
  * A callback type that will be passed to the update function

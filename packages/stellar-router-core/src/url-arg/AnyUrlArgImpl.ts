@@ -1,6 +1,5 @@
 import { computed, makeObservable } from 'mobx';
-
-import { getValueOrFunction, ValueOrFunction } from '@moxb/moxb';
+import { getValueOrFunction, ValueOrFunction } from '@moxb/util';
 
 import { ArgDefinitionCore, ParserFunc, UrlArg } from './UrlArg';
 import { MyLocation, SuccessCallback, UpdateMethod } from '../location-manager/LocationManager';
@@ -8,7 +7,9 @@ import { TestLocation } from '../location-manager/TestLocation';
 
 export interface UrlArgBackend {
     readonly rawValue?: string;
+
     rawValueOn(location: TestLocation | undefined): string | undefined;
+
     doSet: (value: string) => void;
     trySet: (value: string, callback?: SuccessCallback) => void;
     _getModifiedLocation?: (start: MyLocation, value: string) => MyLocation;

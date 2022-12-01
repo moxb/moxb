@@ -1,11 +1,14 @@
-import { t, Value as MoxbValue } from '@moxb/moxb';
-import { Input, Tag } from 'antd';
-import PlusOutlined from '@ant-design/icons/PlusOutlined';
-
-import { TagProps } from 'antd/lib/tag';
+import * as React from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import * as React from 'react';
+
+import { Input, Tag } from 'antd';
+import { TagProps } from 'antd/lib/tag';
+import PlusOutlined from '@ant-design/icons/PlusOutlined';
+
+import { t } from '@moxb/util';
+import { Value as MoxbValue } from '@moxb/moxb';
+
 import { useEffect, useState } from 'react';
 
 export interface TagAntProps extends TagProps {

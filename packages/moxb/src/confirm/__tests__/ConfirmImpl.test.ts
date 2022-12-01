@@ -1,5 +1,5 @@
 import { BindImpl } from '../../bind/BindImpl';
-import { setTFunction, translateKeysOnly } from '../../i18n/i18n';
+import { setTFunction, translateKeysOnly } from '@moxb/util';
 import { Confirm } from '../Confirm';
 import { ConfirmImpl } from '../ConfirmImpl';
 

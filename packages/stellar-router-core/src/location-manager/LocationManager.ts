@@ -3,7 +3,7 @@ import { Path, To } from 'history';
 export type MyLocation = Path;
 export type LocationDescriptorObject = To;
 
-import { ValueOrFunction } from '@moxb/moxb';
+import { ValueOrFunction } from '@moxb/util';
 
 import { UrlArg } from '../url-arg';
 

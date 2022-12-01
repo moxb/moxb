@@ -1,7 +1,8 @@
 import { computed, makeObservable } from 'mobx';
 import { BoundLink } from './BoundLink';
 import { ArgChange } from '../url-arg';
-import { AnyDecision, notDecision, readDecision, readReason, StringOrFunction, t } from '@moxb/moxb';
+import { AnyDecision, notDecision, readDecision, readReason, t } from '@moxb/util';
+import { StringOrFunction } from '@moxb/util';
 import { NavRef, NavRefCall } from '../navigation-references';
 
 export interface BoundLinkOptions {

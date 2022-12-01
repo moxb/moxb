@@ -1,5 +1,6 @@
-import { extractErrorString, SortColumn, t, TableImpl, TableOptions, TablePaginationImpl, toId } from '@moxb/moxb';
 import type { Mongo } from 'meteor/mongo';
+import { t, toId } from '@moxb/util';
+import { extractErrorString, SortColumn, TableImpl, TableOptions, TablePaginationImpl } from '@moxb/moxb';
 import { MeteorDataFetcherDone } from './MeteorDataFetcher';
 import { MeteorTableData, MeteorTableFetcher, MeteorTableQuery } from './MeteorTableFetcher';
 import { MeteorTableFetcherImpl } from './MeteorTableFetcherImpl';
@@ -21,7 +22,9 @@ type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 // we remove a few fields that we implement directly
 export interface MeteorTableOptions<T> extends Omit<TableOptions<T>, 'data' | 'ready' | 'pagination'> {
     fetchData(query: MeteorTableQuery, done: MeteorDataFetcherDone<MeteorTableData<T>>): void;
+
     noPagination?: boolean;
+
     selector?(): Mongo.Selector<T> | undefined;
 }
 
@@ -30,6 +33,7 @@ export interface MeteorTableOptions<T> extends Omit<TableOptions<T>, 'data' | 'r
  */
 export class MeteorTableImpl<T> extends TableImpl<T> implements MeteorTableOperations {
     private readonly meteorImpl: MeteorTableOptions<T>;
+
     constructor(impl: MeteorTableOptions<T>) {
         // here we implement everything that we can implement
         super({
@@ -60,18 +64,22 @@ export class MeteorTableImpl<T> extends TableImpl<T> implements MeteorTableOpera
             this.tableFetcher.callFetchData(query, done);
         });
     }
+
     getData() {
         return this.tableFetcher.data.data;
     }
+
     private getSelector() {
         if (this.meteorImpl.selector) {
             return this.meteorImpl.selector();
         }
         return {};
     }
+
     private readonly tableFetcher: MeteorTableFetcher<T> = new MeteorTableFetcherImpl((query, done) =>
         this.meteorImpl.fetchData(query, done)
     );
+
     getError() {
         if (this.tableFetcher.data.error) {
             const error = extractErrorString(this.tableFetcher.data.error);
@@ -79,6 +87,7 @@ export class MeteorTableImpl<T> extends TableImpl<T> implements MeteorTableOpera
         }
         return super.getErrors();
     }
+
     public invalidateData() {
         this.tableFetcher.invalidateData();
     }

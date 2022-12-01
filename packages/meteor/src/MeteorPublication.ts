@@ -1,4 +1,4 @@
-import { getDebugLogger } from '@moxb/moxb/dist/util/debugLog';
+import { getDebugLogger } from '@moxb/util';
 import type { Mongo } from 'meteor/mongo';
 
 interface SubscribeCallbacks {

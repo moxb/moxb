@@ -1,6 +1,6 @@
 import { action, makeObservable, observable } from 'mobx';
+import { getDebugLogger, Logger } from '@moxb/util';
 import { meteorCall, MeteorCallback } from './MeteorCall';
-import { getDebugLogger, Logger } from '@moxb/moxb';
 
 import MethodThisType = Meteor.MethodThisType;
 

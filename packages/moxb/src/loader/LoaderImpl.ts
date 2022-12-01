@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { getDebugLogger, Logger } from '@moxb/util';
 import { Loader, LoaderOptions } from './Loader';
-import { getDebugLogger, Logger } from '../util/debugLog';
 import { ActionImpl } from '../action/ActionImpl';
 import { isUndefined } from 'lodash';
 import { Action } from '../action/Action';

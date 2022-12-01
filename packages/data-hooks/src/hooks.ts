@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getDebugLogger } from '@moxb/moxb';
+import { getDebugLogger } from '@moxb/util';
 
 /**
  * Configuration options for the RPC hook

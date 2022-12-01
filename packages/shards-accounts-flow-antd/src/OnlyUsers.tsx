@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 
-import { getDebugLogger } from '@moxb/moxb';
+import { getDebugLogger } from '@moxb/util';
 import { MyLocation, redirect, UpdateMethod, useLocationManager } from '@moxb/stellar-router-react';
 
 import { useAuthenticationLogic } from './authContext';

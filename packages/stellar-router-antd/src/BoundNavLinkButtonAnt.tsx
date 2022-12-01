@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react-lite';
-import { readDecision } from '@moxb/moxb';
+import { readDecision } from '@moxb/util';
 import { BoundLink } from '@moxb/stellar-router-core';
 
 import { NavLinkButtonAnt, NavLinkButtonAntParams, NavLinkButtonAntProps } from './NavLinkButtonAnt';

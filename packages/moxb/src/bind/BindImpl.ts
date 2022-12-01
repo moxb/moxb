@@ -1,25 +1,16 @@
 import { action, computed, observable, makeObservable } from 'mobx';
-import { t } from '../i18n/i18n';
-import { bindAllTo } from '../util/bindAllTo';
-import { idToDomId } from '../util/idToDomId';
+import {
+    AnyDecision,
+    readDecision,
+    readReason,
+    t,
+    bindAllTo,
+    idToDomId,
+    StringOrFunction,
+    ValueOrFunction,
+} from '@moxb/util';
+
 import { Bind } from './Bind';
-import { AnyDecision, readDecision, readReason } from '../decision';
-
-export type ValueOrFunction<T> = T | (() => T | undefined) | undefined;
-
-export function getValueOrFunction<T>(value: ValueOrFunction<T>): T | undefined {
-    if (typeof value === 'function') {
-        return (value as any)();
-    } else {
-        return value;
-    }
-}
-
-export type StringOrFunction = ValueOrFunction<string>;
-
-export function getValueFromStringOrFunction(value: StringOrFunction): string | undefined {
-    return getValueOrFunction(value);
-}
 
 /**
  * Used to set up {Bind} objects

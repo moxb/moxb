@@ -1,5 +1,5 @@
 import { computed, makeObservable } from 'mobx';
-import { t } from '../i18n/i18n';
+import { t } from '@moxb/util';
 import { Wizard } from './Wizard';
 import { WizardStep } from './WizardStep';
 

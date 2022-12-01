@@ -1,4 +1,4 @@
-import { setTFunction, t, translateKeysDefault, translateKeysOnly } from '../../i18n/i18n';
+import { setTFunction, t, translateKeysDefault, translateKeysOnly } from '@moxb/util';
 import { Value } from '../Value';
 import { ValueImpl, ValueOptions } from '../ValueImpl';
 

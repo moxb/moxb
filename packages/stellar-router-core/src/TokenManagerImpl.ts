@@ -5,7 +5,7 @@ import { TokenManager, TokenMappings } from './TokenManager';
 import { isTokenEmpty } from './tokens';
 import { Query } from './url-schema/UrlSchema';
 import { UrlArg, URLARG_TYPE_OPTIONAL_STRING, URLARG_TYPE_STRING, UrlTokenImpl } from './url-arg';
-import { getDebugLogger, Logger } from '@moxb/moxb';
+import { getDebugLogger, Logger } from '@moxb/util';
 
 interface ComplexPathTokenMappingBase {
     /**

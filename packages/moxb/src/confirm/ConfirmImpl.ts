@@ -1,17 +1,21 @@
 import { action, observable, makeObservable } from 'mobx';
 import { Bind } from '../bind/Bind';
-import { t } from '../i18n/i18n';
+import { t } from '@moxb/util';
 import { Confirm, ConfirmBase } from './Confirm';
 
 export interface ConfirmBaseOptions<T> {
     cancelButton: Bind;
+
     content?(data: T): string;
+
     header?(data: T): string;
+
     cancel?(): void;
 }
 
 export interface ConfirmOptions<T> extends ConfirmBaseOptions<T> {
     confirmButton: Bind;
+
     confirm?(data: T): void;
 }
 
@@ -22,6 +26,7 @@ export class ConfirmBaseImpl<T, C extends ConfirmBaseOptions<T>> implements Conf
     protected data!: T;
 
     protected readonly impl: C;
+
     constructor(impl: C) {
         makeObservable(this);
         this.impl = impl;

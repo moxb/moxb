@@ -1,6 +1,6 @@
 import { computed, makeObservable } from 'mobx';
-import { t } from '..';
-import { BindImpl, BindOptions, StringOrFunction } from '../bind/BindImpl';
+import { StringOrFunction, t } from '@moxb/util';
+import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Label } from './Label';
 
 export interface LabelOptions extends BindOptions {

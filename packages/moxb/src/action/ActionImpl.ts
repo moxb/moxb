@@ -1,5 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-import { BindImpl, BindOptions, getValueOrFunction, ValueOrFunction } from '../bind/BindImpl';
+import { getValueOrFunction, ValueOrFunction } from '@moxb/util';
+import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Action } from './Action';
 
 export interface ActionOptions extends BindOptions {

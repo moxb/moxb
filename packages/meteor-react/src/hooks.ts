@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 
-import { getDebugLogger } from '@moxb/moxb';
+import { getDebugLogger } from '@moxb/util';
 import { MeteorPublicationHandle } from '@moxb/meteor';
 
 export function useMeteorUserId() {

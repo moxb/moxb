@@ -81,5 +81,3 @@ export { isTokenEmpty } from './tokens';
 
 export { TokenManager } from './TokenManager';
 export { TokenManagerImpl, PathTokenMappingList } from './TokenManagerImpl';
-
-export { MultiStepProcess } from './MultiStepProcess';

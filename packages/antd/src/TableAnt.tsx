@@ -1,11 +1,14 @@
-import { t, Table as MoxTable } from '@moxb/moxb';
+import * as React from 'react';
+import { observer } from 'mobx-react-lite';
+
 import { Alert, Table } from 'antd';
 import { SortOrder } from 'antd/lib/table/interface';
-import { observer } from 'mobx-react-lite';
-import * as React from 'react';
 import { ColumnProps, TableProps } from 'antd/lib/table';
 import { TablePaginationConfig } from 'antd/es/table';
 import { SorterResult } from 'antd/es/table/interface';
+
+import { t } from '@moxb/util';
+import { Table as MoxTable } from '@moxb/moxb';
 
 export interface ColumnAntProps<T> extends ColumnProps<T> {
     dataIndex: string;
