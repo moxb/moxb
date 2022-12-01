@@ -66,8 +66,8 @@ export const TableAnt = observer((props: TableAntProps<any>) => {
                     typeof s.columnKey === 'string'
                         ? s.columnKey
                         : typeof s.columnKey === 'number'
-                            ? s.columnKey.toString(10)
-                            : '';
+                        ? s.columnKey.toString(10)
+                        : '';
                 table.sort.setSort(col, s.order === 'ascend' ? 'ascending' : 'descending');
             }
         }
@@ -107,13 +107,13 @@ export const TableAnt = observer((props: TableAntProps<any>) => {
                 pagination={
                     table.pagination
                         ? {
-                            total: table.pagination.totalAmount,
-                            current: table.pagination.activePage,
-                            showSizeChanger: true,
-                            showQuickJumper: true,
-                            pageSizeOptions: table.pagination.pageSizes.map((p) => '' + p),
-                            pageSize: table.pagination.pageSize,
-                        }
+                              total: table.pagination.totalAmount,
+                              current: table.pagination.activePage,
+                              showSizeChanger: true,
+                              showQuickJumper: true,
+                              pageSizeOptions: table.pagination.pageSizes.map((p) => '' + p),
+                              pageSize: table.pagination.pageSize,
+                          }
                         : undefined
                 }
                 onChange={handleChange}

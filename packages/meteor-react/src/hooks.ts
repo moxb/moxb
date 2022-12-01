@@ -33,7 +33,7 @@ export type PublicationHookHandle<Document> = [
     /**
      * Was there an error?
      */
-        string | undefined
+    string | undefined
 ];
 
 /**
