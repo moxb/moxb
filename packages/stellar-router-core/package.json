@@ -55,8 +55,7 @@
     "eslint-plugin-import": "2.26.0"
   },
   "dependencies": {
-    "@moxb/moxb": "^0.4.3",
-    "@moxb/util": "^0.4.3",
+    "@moxb/util": "*",
     "atob": "2.1.2",
     "btoa-lite": "1.0.0",
     "history": "5.0.0",

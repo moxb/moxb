@@ -54,11 +54,10 @@
   },
   "dependencies": {
     "@moxb/data-hooks": "^0.4.3",
-    "@moxb/moxb": "^0.4.3",
-    "@moxb/react-html": "^0.4.3",
-    "@moxb/shards-accounts-ui-antd": "^0.4.3",
-    "@moxb/stellar-router-core": "^0.4.3",
-    "@moxb/stellar-router-react": "^0.4.3",
+    "@moxb/react-html": "*",
+    "@moxb/shards-accounts-ui-antd": "*",
+    "@moxb/stellar-router-core": "*",
+    "@moxb/stellar-router-react": "*",
     "@moxb/util": "^0.4.3"
   },
   "devDependencies": {

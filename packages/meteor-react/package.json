@@ -43,8 +43,7 @@
     ]
   },
   "dependencies": {
-    "@moxb/meteor": "^0.4.3",
-    "@moxb/moxb": "^0.4.3",
+    "@moxb/meteor": "*",
     "@moxb/util": "^0.4.3"
   },
   "peerDependencies": {
