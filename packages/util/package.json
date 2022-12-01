@@ -54,6 +54,6 @@
   },
   "gitHead": "6129458688bd0dd050aeaeab2118448ce19a9ebf",
   "dependencies": {
-    "tsutil": "6.1.1"
+    "tslib": "2.4.1"
   }
 }
