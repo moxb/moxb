@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Popover, Spin, Alert } from 'antd';
-import { observer } from 'mobx-react-lite';
-import { t } from '@moxb/moxb';
-import { renderUIFragment, UIFragment } from '@moxb/react-html';
 import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { Popover, Spin, Alert } from 'antd';
+import { t } from '@moxb/util';
+import { renderUIFragment, UIFragment } from '@moxb/react-html';
 
 /**
  * A callback type that will be passed to the update function
@@ -89,10 +89,10 @@ export const PollingUpdaterAnt = observer((props: PollingUpdaterProps) => {
             setUpdateText(
                 age !== undefined
                     ? t(
-                          'pollingUpdater.updateAge.text',
-                          'Updated {{age}} seconds ago. Next update in {{left}} seconds.',
-                          { age, left: updateFrequency - age }
-                      )
+                        'pollingUpdater.updateAge.text',
+                        'Updated {{age}} seconds ago. Next update in {{left}} seconds.',
+                        { age, left: updateFrequency - age }
+                    )
                     : t('pollingUpdater.neverLoaded', 'Never loaded.')
             );
         }, 1000);
@@ -120,8 +120,8 @@ export const PollingUpdaterAnt = observer((props: PollingUpdaterProps) => {
     const clickText = noUpdateOnClick
         ? undefined
         : lastUpdate
-        ? t('pollingUpdater.clickToUpdate', 'Click to update now.')
-        : t('pollingUpdater.clickToLoad', 'Click to load.');
+            ? t('pollingUpdater.clickToUpdate', 'Click to update now.')
+            : t('pollingUpdater.clickToLoad', 'Click to load.');
     return noPopup ? (
         coreContent
     ) : (

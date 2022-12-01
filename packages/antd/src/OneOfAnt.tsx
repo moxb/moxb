@@ -1,15 +1,19 @@
-import { BindOneOfChoice, idToDomId, OneOf } from '@moxb/moxb';
+import * as React from 'react';
+import { observer } from 'mobx-react-lite';
+
+import { SelectProps } from 'antd/lib/select';
+import { MenuInfo } from 'rc-menu/lib/interface';
 import { Button, Dropdown, Menu, Radio, Select } from 'antd';
 import { DropDownProps } from 'antd/lib/dropdown';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { RadioGroupProps, RadioProps } from 'antd/lib/radio';
 import DownOutlined from '@ant-design/icons/DownOutlined';
-import { observer } from 'mobx-react-lite';
-import * as React from 'react';
+
+import { idToDomId } from '@moxb/util';
+import { BindOneOfChoice, OneOf } from '@moxb/moxb';
+
 import { BindAntProps, labelWithHelpIndicator, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
-import { SelectProps } from 'antd/lib/select';
-import { MenuInfo } from 'rc-menu/lib/interface';
 
 export interface OneOfAntProps {
     /**

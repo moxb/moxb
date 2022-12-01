@@ -1,10 +1,13 @@
-import { idToDomId, ManyOf } from '@moxb/moxb';
+import * as React from 'react';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import { idToDomId } from '@moxb/util';
+import { ManyOf } from '@moxb/moxb';
+
 import { Checkbox, Col, Row, Select, Switch } from 'antd';
 import { CheckboxGroupProps } from 'antd/lib/checkbox';
 import { SwitchChangeEventHandler } from 'antd/lib/switch';
-import { toJS } from 'mobx';
-import { observer } from 'mobx-react-lite';
-import * as React from 'react';
+
 import { BindAntProps, labelWithHelpIndicator, parseProps } from './BindAnt';
 import { BindFormItemAntProps, FormItemAnt, parsePropsForChild } from './FormItemAnt';
 import { SelectProps } from 'antd/lib/select';
@@ -75,29 +78,29 @@ export const ManyOfCheckboxAnt = observer(
 
         const choices = vertical
             ? operation.choices.map((opt: any) => (
-                  <Row title={reason || opt.reason || opt.help} key={opt.value} style={{ width: '100%' }}>
-                      <Col span={24}>
-                          <Checkbox
-                              data-testid={idToDomId(operation.id + '.' + opt.value)}
-                              value={opt.value}
-                              disabled={opt.disabled}
-                          >
-                              {labelWithHelpIndicator(opt.label, opt.help)}
-                          </Checkbox>
-                      </Col>
-                  </Row>
-              ))
+                <Row title={reason || opt.reason || opt.help} key={opt.value} style={{ width: '100%' }}>
+                    <Col span={24}>
+                        <Checkbox
+                            data-testid={idToDomId(operation.id + '.' + opt.value)}
+                            value={opt.value}
+                            disabled={opt.disabled}
+                        >
+                            {labelWithHelpIndicator(opt.label, opt.help)}
+                        </Checkbox>
+                    </Col>
+                </Row>
+            ))
             : operation.choices.map((opt: any) => (
-                  <Col title={reason || opt.reason || opt.help} key={opt.value}>
-                      <Checkbox
-                          data-testid={idToDomId(operation.id + '.' + opt.value)}
-                          value={opt.value}
-                          disabled={opt.disabled}
-                      >
-                          {labelWithHelpIndicator(opt.label, opt.help)}
-                      </Checkbox>
-                  </Col>
-              ));
+                <Col title={reason || opt.reason || opt.help} key={opt.value}>
+                    <Checkbox
+                        data-testid={idToDomId(operation.id + '.' + opt.value)}
+                        value={opt.value}
+                        disabled={opt.disabled}
+                    >
+                        {labelWithHelpIndicator(opt.label, opt.help)}
+                    </Checkbox>
+                </Col>
+            ));
 
         return (
             <Checkbox.Group
@@ -191,8 +194,8 @@ export const ManyOfSwitchAnt = observer((props: BindAntProps<ManyOf> & AllowedSw
 
     const choices = vertical
         ? operation.choices.map((opt: any) => (
-              <Row key={opt.value} style={{ width: '100%' }}>
-                  <Col span={24}>
+            <Row key={opt.value} style={{ width: '100%' }}>
+                <Col span={24}>
                       <span title={reason || opt.reason || opt.help}>
                           <span className={disabled || opt.disabled ? 'ant-checkbox-disabled' : ''}>
                               <Switch
@@ -212,11 +215,11 @@ export const ManyOfSwitchAnt = observer((props: BindAntProps<ManyOf> & AllowedSw
                               {labelWithHelpIndicator(opt.label, opt.help)}
                           </span>
                       </span>
-                  </Col>
-              </Row>
-          ))
+                </Col>
+            </Row>
+        ))
         : operation.choices.map((opt: any) => (
-              <Col key={opt.value}>
+            <Col key={opt.value}>
                   <span title={reason || opt.reason || opt.help}>
                       <span className={disabled || opt.disabled ? 'ant-checkbox-disabled' : ''}>
                           <Switch
@@ -237,8 +240,8 @@ export const ManyOfSwitchAnt = observer((props: BindAntProps<ManyOf> & AllowedSw
                       </span>
                       &nbsp; &nbsp; &nbsp; &nbsp;
                   </span>
-              </Col>
-          ));
+            </Col>
+        ));
 
     return (
         <Row>

@@ -1,8 +1,11 @@
-import { Form as MoxForm, t } from '@moxb/moxb';
-import { Alert, Form } from 'antd';
-import { FormProps } from 'antd/lib/form/Form';
-import { observer } from 'mobx-react-lite';
 import * as React from 'react';
+import { observer } from 'mobx-react-lite';
+import { Alert, Form } from 'antd';
+import { t } from '@moxb/util';
+import { Form as MoxForm } from '@moxb/moxb';
+
+import { FormProps } from 'antd/lib/form/Form';
+
 import { parseProps } from './BindAnt';
 
 export interface BindFormAntProps extends React.HTMLProps<HTMLFormElement> {

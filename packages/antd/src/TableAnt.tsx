@@ -1,11 +1,14 @@
-import { t, Table as MoxTable } from '@moxb/moxb';
+import * as React from 'react';
+import { observer } from 'mobx-react-lite';
+
 import { Alert, Table } from 'antd';
 import { SortOrder } from 'antd/lib/table/interface';
-import { observer } from 'mobx-react-lite';
-import * as React from 'react';
 import { ColumnProps, TableProps } from 'antd/lib/table';
 import { TablePaginationConfig } from 'antd/es/table';
 import { SorterResult } from 'antd/es/table/interface';
+
+import { t } from '@moxb/util';
+import { Table as MoxTable } from '@moxb/moxb';
 
 export interface ColumnAntProps<T> extends ColumnProps<T> {
     dataIndex: string;
@@ -63,8 +66,8 @@ export const TableAnt = observer((props: TableAntProps<any>) => {
                     typeof s.columnKey === 'string'
                         ? s.columnKey
                         : typeof s.columnKey === 'number'
-                        ? s.columnKey.toString(10)
-                        : '';
+                            ? s.columnKey.toString(10)
+                            : '';
                 table.sort.setSort(col, s.order === 'ascend' ? 'ascending' : 'descending');
             }
         }
@@ -104,13 +107,13 @@ export const TableAnt = observer((props: TableAntProps<any>) => {
                 pagination={
                     table.pagination
                         ? {
-                              total: table.pagination.totalAmount,
-                              current: table.pagination.activePage,
-                              showSizeChanger: true,
-                              showQuickJumper: true,
-                              pageSizeOptions: table.pagination.pageSizes.map((p) => '' + p),
-                              pageSize: table.pagination.pageSize,
-                          }
+                            total: table.pagination.totalAmount,
+                            current: table.pagination.activePage,
+                            showSizeChanger: true,
+                            showQuickJumper: true,
+                            pageSizeOptions: table.pagination.pageSizes.map((p) => '' + p),
+                            pageSize: table.pagination.pageSize,
+                        }
                         : undefined
                 }
                 onChange={handleChange}
