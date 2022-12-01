@@ -1,6 +1,6 @@
 {
   "name": "@moxb/moxb",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "MobX data binding",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -56,7 +56,7 @@
     "eslint-plugin-import": "2.26.0"
   },
   "dependencies": {
-    "@moxb/util": "^0.4.6",
+    "@moxb/util": "^0.4.7",
     "moment": "2.29.4",
     "tslib": "2.4.1",
     "uuid": "9.0.0"
