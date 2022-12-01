@@ -43,6 +43,7 @@
     ]
   },
   "dependencies": {
+    "@moxb/util": "*",
     "@moxb/meteor": "^0.4.2",
     "@moxb/moxb": "^0.4.2"
   },
