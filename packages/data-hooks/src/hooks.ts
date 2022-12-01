@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getDebugLogger } from '@moxb/moxb';
+import { getDebugLogger } from '@moxb/util';
 
 /**
  * Configuration options for the RPC hook
@@ -59,8 +59,8 @@ export function useAsyncData<Input, Output>(
     options: UseAsyncDataOptions = {}
 ): [
     boolean, // pending
-    string | undefined, // error
-    Output | undefined, // result
+        string | undefined, // error
+        Output | undefined, // result
     () => void // trigger
 ] {
     const { stable, debugMode, swallowErrors } = options;

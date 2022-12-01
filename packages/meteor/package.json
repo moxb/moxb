@@ -43,6 +43,7 @@
     ]
   },
   "dependencies": {
+    "@moxb/util": "*",
     "@moxb/moxb": "^0.4.2"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import { getDebugLogger, Logger } from '@moxb/moxb';
+import { getDebugLogger, Logger } from '@moxb/util';
 import { MeteorPublicationLoader, MeteorPublicationLoaderProps } from './MeteorPublicationLoader';
 
 let autorun: typeof Tracker.autorun;

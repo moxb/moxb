@@ -50,7 +50,9 @@
       "**/src/**/__tests__/*.(ts|tsx)"
     ]
   },
-  "dependencies": {},
+  "dependencies": {
+    "@moxb/util": "*"
+  },
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

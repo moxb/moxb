@@ -53,6 +53,7 @@
     ]
   },
   "dependencies": {
+    "@moxb/util": "*",
     "@moxb/moxb": "^0.4.2",
     "@moxb/react-html": "^0.4.2",
     "@moxb/data-hooks": "^0.4.2",
