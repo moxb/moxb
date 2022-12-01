@@ -1,6 +1,6 @@
 import { action, comparer, computed, observable, makeObservable } from 'mobx';
-import { BindImpl, BindOptions, getValueOrFunction, StringOrFunction, ValueOrFunction } from '../bind/BindImpl';
-import { t } from '../i18n/i18n';
+import { getValueOrFunction, StringOrFunction, t, ValueOrFunction } from '@moxb/util';
+import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { extractErrorString } from '../validation/ErrorMessage';
 import { Value } from './Value';
 

@@ -1,11 +1,10 @@
 import { action, computed, observable, makeObservable } from 'mobx';
+import { t, toId } from '@moxb/util';
 import { Action } from '../action/Action';
 import { ActionImpl } from '../action/ActionImpl';
 import { BindImpl } from '../bind/BindImpl';
 import { Confirm } from '../confirm/Confirm';
 import { ConfirmImpl } from '../confirm/ConfirmImpl';
-import { t } from '../i18n/i18n';
-import { toId } from '../util/toId';
 import { Wizard } from './Wizard';
 import { WizardStep } from './WizardStep';
 

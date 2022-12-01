@@ -2,7 +2,7 @@ import { action, observable, makeObservable } from 'mobx';
 import { createBrowserHistory, History as MyHistory } from 'history';
 // We are renaming these types so that it's not confused with the builtin
 const MyURI = require('urijs');
-import { ValueOrFunction } from '@moxb/moxb';
+import { ValueOrFunction } from '@moxb/util';
 import { LocationDescriptorObject } from '../location-manager';
 import { doTokenStringsMatch, updateTokenString } from '../tokens';
 import {

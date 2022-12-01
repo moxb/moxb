@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "@moxb/antd": "^0.4.2",
+    "@moxb/util": "*",
     "@moxb/moxb": "^0.4.2",
     "@moxb/react-html": "^0.4.2",
     "@moxb/stellar-router-core": "^0.4.2",

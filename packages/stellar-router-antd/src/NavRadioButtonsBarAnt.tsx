@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { idToDomId, OneOfImpl } from '@moxb/moxb';
+import { idToDomId } from '@moxb/util';
+import { OneOfImpl } from '@moxb/moxb';
 import { renderUIFragment, UIFragment, UIFragmentSpec } from '@moxb/react-html';
 import { OneOfButtonAnt } from '@moxb/antd';
 

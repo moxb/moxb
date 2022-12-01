@@ -1,7 +1,9 @@
 import { action, computed, makeObservable, override } from 'mobx';
-import { extractErrorString, t, Value, ValueOrFunction } from '..';
+import { t, ValueOrFunction } from '@moxb/util';
 import { BindImpl, BindOptions } from '../bind/BindImpl';
 import { Form } from './Form';
+import { Value } from '../value/Value';
+import { extractErrorString } from '../validation/ErrorMessage';
 
 export interface FormOptions extends BindOptions {
     /**

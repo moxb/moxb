@@ -1,6 +1,6 @@
 import { observable, action, computed, makeObservable } from 'mobx';
+import { getValueFromStringOrFunction, getValueOrFunction, ValueOrFunction } from '@moxb/util';
 import type { FileUpload } from './FileUpload';
-import { getValueFromStringOrFunction, getValueOrFunction, ValueOrFunction } from '../bind/BindImpl';
 import { Label } from '../label/Label';
 import { LabelImpl } from '../label/LabelImpl';
 import { Action } from '../action/Action';

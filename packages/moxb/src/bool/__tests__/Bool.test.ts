@@ -1,4 +1,4 @@
-import { setTFunction, t, translateDefault, translateKeysDefault, translateKeysOnly } from '../../i18n/i18n';
+import { setTFunction, t, translateDefault, translateKeysDefault, translateKeysOnly } from '@moxb/util';
 import { Bool } from '../Bool';
 import { BoolImpl, BoolOptions } from '../BoolImpl';
 
@@ -6,6 +6,7 @@ describe('label', function () {
     function newBind(options: BoolOptions): Bool {
         return new BoolImpl(options);
     }
+
     beforeEach(function () {
         setTFunction(translateKeysDefault);
     });
@@ -71,6 +72,7 @@ describe('labelTrue', function () {
         bind.setValue(true);
         return bind;
     }
+
     beforeEach(function () {
         setTFunction(translateKeysDefault);
     });
@@ -134,6 +136,7 @@ describe('labelFalse', function () {
     function newBind(options: BoolOptions): Bool {
         return new BoolImpl(options);
     }
+
     beforeEach(function () {
         setTFunction(translateKeysDefault);
     });
@@ -196,6 +199,7 @@ describe('labelTue, labelFalse and label combinations', function () {
     function newBind(options: BoolOptions): Bool {
         return new BoolImpl(options);
     }
+
     beforeEach(function () {
         setTFunction(translateDefault);
     });

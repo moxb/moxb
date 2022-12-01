@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Steps } from 'antd';
 import { StepsProps } from 'antd/lib/steps';
 
-import { idToDomId } from '@moxb/moxb';
+import { idToDomId } from '@moxb/util';
 import { UIFragment, UIFragmentSpec } from '@moxb/react-html';
 
 import {

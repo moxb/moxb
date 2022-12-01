@@ -1,7 +1,7 @@
-import { Tree, TreeNode } from './Tree';
-import { ValueOrFunction } from '../bind/BindImpl';
-import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { computed, makeObservable } from 'mobx';
+import { ValueOrFunction } from '@moxb/util';
+import { Tree, TreeNode } from './Tree';
+import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 
 export interface TreeOptions extends ValueOptions<TreeImpl, string[]> {
     nodes?: ValueOrFunction<TreeNode[]>;

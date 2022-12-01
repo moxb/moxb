@@ -1,6 +1,6 @@
+import { setTFunction, translateDefault, translateKeysDefault } from '@moxb/util';
 import { Action } from '../../action/Action';
 import { ActionImpl } from '../../action/ActionImpl';
-import { setTFunction, translateDefault, translateKeysDefault } from '../../i18n/i18n';
 import { KeyboardShortcutGroup, KeyboardShortcutsManager } from '../KeyboardShortcutsManager';
 import {
     KeyboardShortcutGroupImpl,

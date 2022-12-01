@@ -1,5 +1,5 @@
 import { action, computed, observable, makeObservable } from 'mobx';
-import { ValueOrFunction } from '../bind/BindImpl';
+import { ValueOrFunction } from '@moxb/util';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { BindOneOfChoice, OneOf } from './OneOf';
 

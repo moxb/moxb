@@ -1,6 +1,5 @@
 import { computed, makeObservable } from 'mobx';
-import { StringOrFunction } from '../bind/BindImpl';
-import { t } from '../i18n/i18n';
+import { StringOrFunction, t } from '@moxb/util';
 import { ValueImpl, ValueOptions } from '../value/ValueImpl';
 import { Bool } from './Bool';
 

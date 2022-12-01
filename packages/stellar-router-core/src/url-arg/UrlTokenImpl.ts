@@ -1,5 +1,5 @@
 import { computed, makeObservable } from 'mobx';
-import { ValueOrFunction, getValueOrFunction } from '@moxb/moxb';
+import { ValueOrFunction, getValueOrFunction } from '@moxb/util';
 import { MyLocation, locationToUrl, SuccessCallback, UpdateMethod } from '../location-manager';
 import { TokenManager } from '../TokenManager';
 import { Query } from '../url-schema/UrlSchema';

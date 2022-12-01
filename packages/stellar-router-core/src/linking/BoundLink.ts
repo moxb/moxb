@@ -1,5 +1,5 @@
 import { CoreLinkProps } from './CoreLinkProps';
-import { AnyDecision } from '@moxb/moxb';
+import { AnyDecision } from '@moxb/util';
 
 /**
  * This interface describes all the data that is needed to display a navigation link

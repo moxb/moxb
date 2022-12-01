@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { Tabs } from 'antd';
 import { Tab as TransformedMenuItem } from 'rc-tabs/lib/interface';
 
-import { idToDomId } from '@moxb/moxb';
+import { idToDomId } from '@moxb/util';
 import {
     extractUIFragmentFromSpec,
     renderUIFragment,

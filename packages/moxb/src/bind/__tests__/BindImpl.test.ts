@@ -1,12 +1,19 @@
-import { setTFunction, t, translateKeysDefault, translateKeysOnly } from '../../i18n/i18n';
+import {
+    setTFunction,
+    t,
+    translateKeysDefault,
+    translateKeysOnly,
+    decideRefuse,
+    getValueFromStringOrFunction,
+} from '@moxb/util';
 import { Bind } from '../Bind';
-import { BindImpl, BindOptions, getValueFromStringOrFunction } from '../BindImpl';
-import { decideRefuse } from '../../decision';
+import { BindImpl, BindOptions } from '../BindImpl';
 
 describe('interface Bind', function () {
     function newBind(options: BindOptions) {
         return new BindImpl(options);
     }
+
     describe('id', function () {
         it('should throw if empty', function () {
             expect(() => {
@@ -125,6 +132,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.disabled).toBe(true);
             }
+
             testDisabledTrue(true);
             testDisabledTrue('x');
             testDisabledTrue(1);
@@ -138,6 +146,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.disabled).toBe(false);
             }
+
             testDisabledFalse(undefined);
             testDisabledFalse(false);
             testDisabledFalse(null);
@@ -155,6 +164,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.disabled).toBe(false);
             }
+
             function testDisabledTrue(value: any) {
                 const enabled = jest.fn().mockReturnValue(value);
                 const bind: Bind = newBind({
@@ -163,6 +173,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.disabled).toBe(true);
             }
+
             testDisabledFalse(true);
             testDisabledFalse('x');
             testDisabledFalse(1);
@@ -204,6 +215,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.reason).toBe(reason);
             }
+
             testReasonWhenDisabled('Becase we can');
             testReasonWhenDisabled();
         });
@@ -225,6 +237,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.disabled).toBe(expected);
             }
+
             testEnabledToDisabled(undefined, true);
             testEnabledToDisabled(false, true);
             testEnabledToDisabled(null, true);
@@ -244,6 +257,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.enabled).toBe(expected);
             }
+
             testEnabled(undefined, false);
             testEnabled(false, false);
             testEnabled(null, false);
@@ -263,6 +277,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.enabled).toBe(expected);
             }
+
             testDisabledToEnabled(undefined, true);
             testDisabledToEnabled(false, true);
             testDisabledToEnabled(null, true);
@@ -312,6 +327,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.readOnly).toBe(expected);
             }
+
             testReadOnly(undefined, false);
             testReadOnly(false, false);
             testReadOnly(null, false);
@@ -352,6 +368,7 @@ describe('interface Bind', function () {
                 });
                 expect(bind.invisible).toBe(expected);
             }
+
             testInvidible(undefined, false);
             testInvidible(false, false);
             testInvidible(null, false);

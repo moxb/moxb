@@ -1,5 +1,5 @@
 import { computed, makeObservable } from 'mobx';
-import { t } from '../i18n/i18n';
+import { t } from '@moxb/util';
 import { ErrorMessage, extractErrorMessages } from './ErrorMessage';
 import { FieldErrorMessages, SimpleSchemaValidation } from './SimpleSchemaValidation';
 

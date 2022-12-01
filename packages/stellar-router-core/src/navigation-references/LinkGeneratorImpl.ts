@@ -1,10 +1,10 @@
+import { getValueOrFunction } from '@moxb/util';
 import { LinkGenerator, LinkGeneratorProps, LinkResult } from './LinkGenerator';
 import { NativeUrlSchema, UrlSchema } from '../url-schema';
 import { CoreLinkProps } from '../linking/CoreLinkProps';
 import { locationToUrl, SuccessCallback, UpdateMethod } from '../location-manager';
 import { LocationToUrlProps, noLocation } from '../location-manager/BasicLocationManagerImpl';
 import { StateSpaceHandlerImpl } from '../location-state-space/state-space/StateSpaceHandlerImpl';
-import { getValueOrFunction } from '@moxb/moxb';
 import { StateSpaceHandler } from '../location-state-space/state-space/StateSpaceHandler';
 import { NavRefCall } from './NavRef';
 import { expandPathTokenMapping } from '../TokenManagerImpl';
