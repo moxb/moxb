@@ -1,4 +1,4 @@
-import { createGlobalContext } from '@moxb/react-html';
+import { createGlobalContext } from '@moxb/data-hooks';
 import { useContext } from 'react';
 import { AuthenticationLogic } from './AuthenticationLogic';
 

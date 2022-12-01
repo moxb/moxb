@@ -1,7 +1,7 @@
 {
-  "name": "@moxb/shards-accounts-flow-antd",
+  "name": "@moxb/data-hooks",
   "version": "0.4.2",
-  "description": "Shards: basic user login flow with ant design UI",
+  "description": "moxb Read data hooks",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "make all"
@@ -23,9 +23,7 @@
   },
   "homepage": "https://github.com/moxb/moxb#readme",
   "keywords": [
-    "mobx",
-    "antd",
-    "ant-design",
+    "html",
     "react",
     "UI"
   ],
@@ -49,27 +47,23 @@
       "<rootDir>/node_modules"
     ],
     "testMatch": [
-      "**/src/**/__tests__/*.test.(ts|tsx)"
+      "**/src/**/__tests__/*.(ts|tsx)"
     ]
   },
-  "dependencies": {
-    "@moxb/moxb": "^0.4.2",
-    "@moxb/react-html": "^0.4.2",
-    "@moxb/data-hooks": "^0.4.2",
-    "@moxb/shards-accounts-ui-antd": "^0.4.2",
-    "@moxb/stellar-router-core": "^0.4.2",
-    "@moxb/stellar-router-react": "^0.4.2"
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@types/jest": "29.2.3",
     "@types/react": "18.0.25",
     "@types/react-test-renderer": "18.0.0",
-    "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.21.0",
     "@typescript-eslint/parser": "5.21.0",
     "eslint": "8.14.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-react-hooks": "4.5.0"
   },
-  "gitHead": "a1b801c590c71f53d205d388f70c5e1a85c959c8"
+  "gitHead": "6129458688bd0dd050aeaeab2118448ce19a9ebf"
 }
