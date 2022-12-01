@@ -59,8 +59,8 @@ export function useAsyncData<Input, Output>(
     options: UseAsyncDataOptions = {}
 ): [
     boolean, // pending
-        string | undefined, // error
-        Output | undefined, // result
+    string | undefined, // error
+    Output | undefined, // result
     () => void // trigger
 ] {
     const { stable, debugMode, swallowErrors } = options;

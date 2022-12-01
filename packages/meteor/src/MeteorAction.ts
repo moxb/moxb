@@ -75,11 +75,11 @@ export function createMeteorAction<Input, Output>(options: MeteorActionOptions<I
 
     const debugLog = debug
         ? (...stuff: any[]) => {
-            console.log('Meteor method action', '"' + options.id + '"', ':', ...stuff);
-        }
+              console.log('Meteor method action', '"' + options.id + '"', ':', ...stuff);
+          }
         : () => {
-            // Not in debug mode, so no logging
-        };
+              // Not in debug mode, so no logging
+          };
 
     const actionOptions: ActionOptions = {
         ...rest,

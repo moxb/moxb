@@ -43,8 +43,8 @@ export class MeteorTableImpl<T> extends TableImpl<T> implements MeteorTableOpera
             pagination: impl.noPagination // we do not add pagination, if the noPagination option is given
                 ? undefined
                 : new TablePaginationImpl({
-                    totalAmount: () => this.tableFetcher.data.totalCount,
-                }),
+                      totalAmount: () => this.tableFetcher.data.totalCount,
+                  }),
         } as any);
         this.meteorImpl = impl;
         this.tableFetcher.setDataFetcher((done) => {
