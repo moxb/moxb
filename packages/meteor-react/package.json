@@ -1,6 +1,6 @@
 {
   "name": "@moxb/meteor-react",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "MobX meteor React binding",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -43,7 +43,7 @@
     ]
   },
   "dependencies": {
-    "@moxb/meteor": "*",
+    "@moxb/meteor": "^0.4.4",
     "@moxb/util": "^0.4.3"
   },
   "peerDependencies": {
