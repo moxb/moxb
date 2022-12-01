@@ -1,5 +1,5 @@
 import { toJS } from 'mobx';
-import { decycle } from './cycle';
+import { decycle } from '@moxb/util';
 //
 // // helper function to print recursive mobx trees
 // (window as any).js = function(value: any, ignore = /\b(store|storage)\b/) {

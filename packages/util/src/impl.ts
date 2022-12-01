@@ -1,7 +1,6 @@
 export * from './util/bindAllTo';
 export * from './util/cycle';
 export * from './util/toId';
-export * from './util/toJSON';
 export * from './util/idToDomId';
 export * from './i18n/i18n';
 

@@ -27,6 +27,7 @@ export * from './validation/ErrorMessage';
 export * from './wizard/WizardImpl';
 export * from './wizard/WizardStepImpl';
 export * from './util/ShallowStructObservable';
+export * from './util/toJSON';
 export * from './form/FormImpl';
 export * from './keyboard-shortcuts/KeyboardShortcutsManagerImpl';
 export * from './loader/LoaderImpl';
