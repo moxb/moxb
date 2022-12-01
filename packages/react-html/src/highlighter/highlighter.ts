@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { findTextMatch } from '@moxb/moxb';
-import type { NormalizerOptions } from '@moxb/moxb';
+import { findTextMatch } from '@moxb/util';
+import type { NormalizerOptions } from '@moxb/util';
 
 import { styleToString } from '../util';
 
