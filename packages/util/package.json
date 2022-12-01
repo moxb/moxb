@@ -52,5 +52,8 @@
     "eslint": "8.14.0",
     "eslint-plugin-import": "2.26.0"
   },
-  "gitHead": "6129458688bd0dd050aeaeab2118448ce19a9ebf"
+  "gitHead": "6129458688bd0dd050aeaeab2118448ce19a9ebf",
+  "dependencies": {
+    "tsutil": "6.1.1"
+  }
 }
