@@ -1,6 +1,6 @@
 {
   "name": "@moxb/util",
-  "version": "0.0.1",
+  "version": "0.4.3",
   "description": "MobX generic utilities",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -45,7 +45,6 @@
       "<rootDir>/peer-dependencies/node_modules"
     ]
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@types/jest": "29.2.3",
     "@typescript-eslint/eslint-plugin": "5.21.0",
@@ -53,6 +52,5 @@
     "eslint": "8.14.0",
     "eslint-plugin-import": "2.26.0"
   },
-  "dependencies": {},
   "gitHead": "6129458688bd0dd050aeaeab2118448ce19a9ebf"
 }
