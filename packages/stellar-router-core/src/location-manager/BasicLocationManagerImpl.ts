@@ -102,6 +102,9 @@ export const pathAndQueryToUrl = (
     return url;
 };
 
+export const parsePathTokens = (tokens: string[] | string | undefined): string[] =>
+    Array.isArray(tokens) ? (tokens as string[]) : (tokens as string).split('/').filter((token) => !!token);
+
 export class BasicLocationManagerImpl implements LocationManager {
     protected readonly _schema: UrlSchema;
 
@@ -122,6 +125,7 @@ export class BasicLocationManagerImpl implements LocationManager {
         this._schema = props.urlSchema || new NativeUrlSchema();
         this._history = props.history || createBrowserHistory();
         this._communicator = props.communicator || new BasicLocationCommunicator();
+        this.navigate = this.navigate.bind(this);
     }
 
     private _getTestLocation(location: MyLocation): TestLocation {
@@ -432,9 +436,7 @@ export class BasicLocationManagerImpl implements LocationManager {
     ) {
         let location = baseLocation || this.__location;
         if (tokens) {
-            const wantedTokens = Array.isArray(tokens)
-                ? (tokens as string[])
-                : (tokens as string).split('/').filter((token) => !!token);
+            const wantedTokens = parsePathTokens(tokens);
             location = this.getNewLocationForPathTokens(
                 baseLocation || this.__location,
                 position,
@@ -550,6 +552,10 @@ export class BasicLocationManagerImpl implements LocationManager {
     trySetPathTokens(position: number, tokens: string[], method?: UpdateMethod, callback?: SuccessCallback) {
         const location = this.getNewLocationForPathTokens(this.__location, position, tokens);
         this._trySetLocation(location, method, callback);
+    }
+
+    navigate(tokens: string[] | string, method?: UpdateMethod) {
+        this.trySetPathTokens(0, parsePathTokens(tokens), method);
     }
 
     _getNewLocationForAppendedPathTokens(tokens: string[]) {

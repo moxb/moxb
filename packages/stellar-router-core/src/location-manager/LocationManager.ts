@@ -100,6 +100,11 @@ interface LocationManagerCore {
     tryRemovePathTokens: (count: number, method?: UpdateMethod, callback?: SuccessCallback) => void;
 
     /**
+     * A shortcut to trySetPathTokens
+     */
+    navigate: (pathTokens: string[] | string, method?: UpdateMethod) => void;
+
+    /**
      * Define a string UrlArg
      *
      * @param key The key of the underlying query parameter

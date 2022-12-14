@@ -31,12 +31,7 @@ export const useLocationManager = (reason = 'no reason'): LocationManager => {
 
 export const useNavigate = (reason = 'no reason') => {
     const locationManager = useLocationManager(reason);
-    return (pathTokens: string[] | string, method?: UpdateMethod) => {
-        const wantedTokens = Array.isArray(pathTokens)
-            ? (pathTokens as string[])
-            : (pathTokens as string).split('/').filter((e) => !!e);
-        locationManager.trySetPathTokens(0, wantedTokens, method);
-    };
+    return (pathTokens: string[] | string, method?: UpdateMethod) => locationManager.navigate(pathTokens, method);
 };
 
 const TokenManagerContext = createGlobalContext<TokenManager | undefined>('token manager', undefined);
@@ -57,7 +52,7 @@ export const useLinkGenerator = (): LinkGenerator | undefined => useContext(Link
  * This will be maintained as a global store, i.e. a singleton object, which will be made accessible
  * to everyone using the routing provider.
  */
-export interface RoutingStore {
+export interface RoutingStore extends Pick<LocationManager, 'navigate'> {
     readonly locationManager: LocationManager;
     readonly tokenManager: TokenManager;
     readonly linkGenerator?: LinkGenerator;
@@ -116,6 +111,7 @@ export function createRoutingStore(props: CreateRoutingStoreProps = {}): Routing
         locationManager,
         tokenManager,
         linkGenerator,
+        navigate: locationManager.navigate,
     };
 }
 
